@@ -1,0 +1,280 @@
+{
+  "firmware_elf_sha256": "00452e66d6e1d2d6b166e7993f40d2a99e4f64534fd13fde0bef4e1e0fa6920f",
+  "build_report_sha256": "ec7bbdcbd1a1fd47445898c02c61a9ca37bab604a4dcc078b9175816d0971cb4",
+  "script_sha256": "5dd9c80ab63723a544c6639386f0060d1bc5077f529eae8ac89a017cdf053d66",
+  "silent": true,
+  "scope": "Three ~30second simultaneous parameter boundaries with live I2S/UI; health/timing only, no sound-output reference comparison.",
+  "format": "rnbo-drone-live-boundaries",
+  "format_version": 1,
+  "passed": true,
+  "raw_report_sha256": "6a5168e097a08e14a76501d8b704c18513bf344bca7d883af6a7e5a6bbe8e32e",
+  "raw_report": "build/hardware/drone3-tableless-boundaries-v3/report.json",
+  "cases": [
+    {
+      "case": "all-minimum",
+      "parameters": {
+        "lfo-rate": {
+          "index": 0,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "lfo-depth": {
+          "index": 1,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comb-ff": {
+          "index": 2,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comb-fb": {
+          "index": 3,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "delay-time": {
+          "index": 4,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 50
+        },
+        "delay-fb": {
+          "index": 5,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 0.99
+        },
+        "vib-rate": {
+          "index": 6,
+          "actual": 0.1,
+          "minimum": 0.1,
+          "maximum": 20
+        },
+        "vib-depth": {
+          "index": 7,
+          "actual": 0,
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "observations": 31,
+      "duration_seconds": 30.557015,
+      "render_mean_us_per_vector": 3077.449658054711,
+      "fault_counters": {
+        "allocation_fault": false,
+        "module_errors": 0,
+        "nonfinite": 0,
+        "write_errors": 0,
+        "dma_errors": 0,
+        "queue_errors": 0,
+        "render_deadline_overruns": 0,
+        "late_platform_allocations": 0,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0
+      },
+      "arena_used": 99088,
+      "arena_capacity": 131072,
+      "cumulative_device_peak_us": 4327
+    },
+    {
+      "case": "all-maximum",
+      "parameters": {
+        "lfo-rate": {
+          "index": 0,
+          "actual": 1,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "lfo-depth": {
+          "index": 1,
+          "actual": 1,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comb-ff": {
+          "index": 2,
+          "actual": 1,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comb-fb": {
+          "index": 3,
+          "actual": 1,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "delay-time": {
+          "index": 4,
+          "actual": 50,
+          "minimum": 0,
+          "maximum": 50
+        },
+        "delay-fb": {
+          "index": 5,
+          "actual": 0.99,
+          "minimum": 0,
+          "maximum": 0.99
+        },
+        "vib-rate": {
+          "index": 6,
+          "actual": 20,
+          "minimum": 0.1,
+          "maximum": 20
+        },
+        "vib-depth": {
+          "index": 7,
+          "actual": 2,
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "observations": 31,
+      "duration_seconds": 30.499053,
+      "render_mean_us_per_vector": 4029.43052912067,
+      "fault_counters": {
+        "allocation_fault": false,
+        "module_errors": 0,
+        "nonfinite": 0,
+        "write_errors": 0,
+        "dma_errors": 0,
+        "queue_errors": 0,
+        "render_deadline_overruns": 0,
+        "late_platform_allocations": 0,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0
+      },
+      "arena_used": 99088,
+      "arena_capacity": 131072,
+      "cumulative_device_peak_us": 5077
+    },
+    {
+      "case": "all-midpoint",
+      "parameters": {
+        "lfo-rate": {
+          "index": 0,
+          "actual": 0.5,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "lfo-depth": {
+          "index": 1,
+          "actual": 0.5,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comb-ff": {
+          "index": 2,
+          "actual": 0.5,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comb-fb": {
+          "index": 3,
+          "actual": 0.5,
+          "minimum": 0,
+          "maximum": 1
+        },
+        "delay-time": {
+          "index": 4,
+          "actual": 25.0,
+          "minimum": 0,
+          "maximum": 50
+        },
+        "delay-fb": {
+          "index": 5,
+          "actual": 0.495,
+          "minimum": 0,
+          "maximum": 0.99
+        },
+        "vib-rate": {
+          "index": 6,
+          "actual": 10.05,
+          "minimum": 0.1,
+          "maximum": 20
+        },
+        "vib-depth": {
+          "index": 7,
+          "actual": 1.0,
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "observations": 31,
+      "duration_seconds": 30.539126,
+      "render_mean_us_per_vector": 3980.723056453146,
+      "fault_counters": {
+        "allocation_fault": false,
+        "module_errors": 0,
+        "nonfinite": 0,
+        "write_errors": 0,
+        "dma_errors": 0,
+        "queue_errors": 0,
+        "render_deadline_overruns": 0,
+        "late_platform_allocations": 0,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0
+      },
+      "arena_used": 99088,
+      "arena_capacity": 131072,
+      "cumulative_device_peak_us": 5077
+    }
+  ],
+  "final_status": {
+    "runtime": "rnbo-esp32s3-bringup",
+    "board": "Waveshare AMOLED 1.8 V2",
+    "source": "static-rnbo",
+    "firmware_elf_sha256": "00452e66d6e1d2d6b166e7993f40d2a99e4f64534fd13fde0bef4e1e0fa6920f",
+    "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+    "rate": 44100,
+    "block_frames": 256,
+    "channels": 1,
+    "frames": 26573056,
+    "panic": true,
+    "volume": 7,
+    "render_us": 98,
+    "peak_us": 5077,
+    "nonfinite": 0,
+    "clipped": 0,
+    "write_errors": 0,
+    "dma_errors": 0,
+    "queue_errors": 0,
+    "audio_stack_free": 12552,
+    "module_errors": 0,
+    "audio_heap_allocations": 0,
+    "audio_heap_frees": 0,
+    "audio_heap_requested_bytes": 0,
+    "allocation_fault": false,
+    "blocks": 103801,
+    "render_busy_total_us": 84660779,
+    "render_deadline_overruns": 0,
+    "driver_elapsed_total_us": 517146134,
+    "post_write_capture_elapsed_total_us": 111793,
+    "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+    "driver_timing_scope": "wall time including I2S wait",
+    "post_write_capture_timed": true,
+    "visual_nodes": 58,
+    "visual_segments": 70,
+    "visual_source_sha256": "b8b47ad0fa60cde08ea86cef58e851b3fc8431c7f7c391489b2acee5de38f0f5",
+    "internal_free_bytes": 188991,
+    "internal_largest_free_bytes": 114688,
+    "psram_free_bytes": 8128188,
+    "psram_largest_free_bytes": 7995392,
+    "control_stack_free": 2384,
+    "main_stack_free": 3596,
+    "uptime_us": 603442230,
+    "heap_guard": "audio-task-successful-heap-operations",
+    "rebuilding": false,
+    "ready_to_resume": true,
+    "reconstruction_failed": false,
+    "arena_used": 99088,
+    "arena_capacity": 131072,
+    "platform_allocations": 10,
+    "late_platform_allocations": 0
+  },
+  "limit": "Observed boundary health/timing only. Output waveform equivalence not measured. Earlier harness attempts stopped on control-order and Float32 readback validation; no DSP fault observed."
+}

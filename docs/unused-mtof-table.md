@@ -142,3 +142,21 @@ The live firmware ELF SHA256 is
 `00452e66d6e1d2d6b166e7993f40d2a99e4f64534fd13fde0bef4e1e0fa6920f`.
 The omission option remains default-off and retains the opaque ABI1.0 resource
 contract and all native/target scope limits above.
+
+A subsequent silent live test exercised simultaneous minimum, maximum and
+midpoint values of all eight parameters, about30.5seconds per case with I2S/UI
+active. Mean owner-through-PCM vector times were3,077.45,4,029.43 and3,980.72µs
+respectively; the cumulative device peak reached5,077µs. All observed fault,
+late-allocation and deadline-overrun counters remained zero, with the same
+99,088/131,072B arena. This is bounded workload health evidence, not waveform
+equivalence or a worst-case time guarantee. The instrument is restored and
+ready to Resume at volume7. See [live boundary evidence](../evidence/drone-live-boundaries.json).
+
+The boundary trial also fixed a host validation issue: a Float32 endpoint such
+as0.99 reads back as0.99000001 through the device's nine-digit JSON formatter.
+The hardware runner now compares source bounds and readback in the Float32 ABI
+domain, accepting exact endpoints and rejecting adjacent out-of-range Float32
+values without an epsilon. Ten mocked runner tests pass, including both
+endpoints, adjacent values and finite-double overflow. Earlier harness attempts
+stopped on control order and readback validation before completing this trial;
+they did not observe a DSP fault.
