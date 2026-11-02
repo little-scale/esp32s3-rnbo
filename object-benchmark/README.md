@@ -38,11 +38,37 @@ maximum signed-16 PCM difference and relative RMS level difference over both
 channels. Error RMS, sample counts, clipped counts and per-case/profile CPU,
 peak/RMS and arena usage are also printed. PCM uses gain 0.5, saturation and
 symmetric 32767 scaling with `lrintf`, matching the host render comparison. Main
-fixtures run autonomously. This initial target revision admits Main fixtures
-only. The legacy generic FX generator in the source cannot stand in for the
-pitch/frequency contracts declared by the new FX catalog, so the builder rejects
-FX pending explicit generator integration. Analytical response/spectral checks
-and the direct-input FX host tests remain in the host qualification tool.
+fixtures run autonomously. FX fixtures must declare one of `midi-stereo-v1`,
+`frequency-stereo-v1` or `reson-stereo-v1`, with complete settings in the separate
+FX catalog. Unknown fields/kinds, unsafe pitch/frequency bounds and ignored Main
+stimulus declarations fail host admission. Case overrides replace only known
+numeric fields. Absolute rendered time is n/44100 after zero-input warmup;
+generation uses Float64 sine and rounds each final input sample to Float32.
+The target precomputes one complete case into a caller-owned PSRAM cache,
+then copies disjoint planar input buffers before each process callback. Every
+strict/optimized pass uses those same cached bytes. Each `INPUT` line records
+SHA-256 over the interleaved little-endian stereo Float32 bytes; the target
+rehashes before and after passes. The declared pilot/reference output channel
+must also pass through its input exactly. Native and target transcendental
+rounding need not give identical input hashes across platforms, so no such
+identity is assumed. Analytical response/spectral checks remain in the host
+qualification tool.
+
+Build the declared FX inputs in fresh variant directories:
+
+```sh
+python3 tools/build_object_benchmark.py --fixture-id mtof-fx \
+  --catalog tests/fixtures/objects/catalog-fx.json \
+  --qualification-dir build/object-qualification/fx-1 --variant declared-input-v1
+```
+
+Use `saw-fx` and `reson-fx` for the other pairs. The host rejects a conservative
+PSRAM budget exceeding 8 MiB: reference and FX input caches, work buffers, two
+selected arenas, the complete admitted one-MiB opaque context bound per image,
+inspected image spans and 512 KiB of allocator/loader reserve. The runtime still
+requires actual successful PSRAM allocations. A sealed build directory cannot
+be overwritten with another producer/module/config identity; select a fresh
+`--variant`. Existing Main hardware candidates remain historical artifacts.
 
 The loader and admission checks are adapted from the physically qualified
 `rnbo-loader-test`: zero undefined imports, pinned loader, callback/data spans,

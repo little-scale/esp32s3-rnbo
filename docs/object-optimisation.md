@@ -8,22 +8,25 @@ successful whole-fixture admission alone does not establish per-object coverage.
 
 | Family | Current optional coverage | First host evidence and remaining work |
 | --- | --- | --- |
-| cycle~ | v1 scalar-frequency/zero-phase form; v2 reviewed fixed, scalar and signal forms | Fixed and signal fixtures pass. The new scalar form with a phase parameter is rejected by existing catalogues. Review its full kernel before admission. |
+| cycle~ | Cycle v2 reviewed fixed/scalar/signal forms; audio v2 additionally admits the scalar form with an active phase input | All three authored forms pass audio v2 host comparisons. Integer phase/truncation is unchanged. Independent frequency and phase-change checks remain useful. |
 | saw~ | Reviewed signal-frequency polyBLEP kernel | Waveform, phase frequency, DC, harmonics and silence checks pass. The direct-input FX fixture adds varying input coverage. Target cost is a separate measurement. |
 | mtof~ | Reviewed direct exponential pitch helper; float literals select expf | Exposed pitch permits a per-sample analytic check. Three initial cases pass; maximum strict/optional difference is about 5.96e-8 in the scaled output. |
 | scale~ | Four reviewed constant-range kernels in the drone | Independent linear mapping checks pass. New ranges, wired limits or non-unit exponents require their own generated-form review. |
 | reson~ | Reviewed modulated-centre-frequency kernel with the authored resonance | Decay/silence, stability and static transfer checks pass. More resonance values and boundary frequencies remain separate cases. |
-| comb~ | Explicit cap; paired float32 rings; two reviewed drone audio kernels | Fixed/scalar/signal standalone fixtures pass strict and storage-only checks. Their broader audio forms are deliberately rejected by the current audio catalogue. |
-| allpass~ | Explicit cap and paired float32 rings | Standalone forms pass strict and storage-only checks. No allpass audio-arithmetic kernel is currently in the audio catalogue. |
+| comb~ | Explicit cap; paired float32 rings; previous v1 drone form plus new cap40 fixed/scalar/signal forms in audio v2 | New forms pass audio v2 and combined-storage host checks with bit-identical output. Their local double duration conversion is retained after float conversion failed the existing limits. |
+| allpass~ | Explicit cap, paired float32 rings and new cap40 fixed/scalar/signal forms in audio v2 | New suffix-only forms pass audio v2 and combined-storage host checks with bit-identical output; their original double duration conversion is retained. Echo/transfer and gain-boundary checks remain useful. |
 | delay~ | Reviewed ring conversion and crossfade arithmetic | Steady sample lag and strict/optional output checks pass. Ordinary delay capacity remains source-defined; it is separate from the comb/allpass millisecond cap. |
-| Arithmetic | Nine reviewed expression methods in the drone; existing signal adders already use float operands | The new general DC arithmetic form passes strict semantic checks but is rejected by the optional audio catalogue. Preserve zero-division and boundary behaviour when extending it. |
+| Arithmetic | Reviewed drone expressions; audio v2 adds scalar addition and safe-division forms | DC semantic/output checks pass with bit-identical output, including the zero-divisor branch. Non-binary controls and small-divisor cases remain useful. |
 
 The initial twelve forms across eight fixture families are in
 `tests/fixtures/objects/catalog.json`. Reports under
 `build/object-qualification/milestone-2/` and `remaining-2/` distinguish successful
 comparisons from exact unsupported-form rejections. The first direct-input FX
-run is under `build/object-qualification/fx-1/`. These are host results; hardware
-object timing and dynamic-output comparisons are recorded separately.
+run is under `build/object-qualification/fx-1/`. The later
+[`float32-audio-v2` review](float32-audio-v2.md) records all twelve v2 fixtures,
+combined delay-storage cases and the retained double filter conversion. These
+are host results; hardware object timing and dynamic-output comparisons are
+recorded separately.
 
 ## First target measurements
 
@@ -58,7 +61,32 @@ build reports, exact module/firmware identities, raw log hashes and all cases.
 `host/compiler/collect_object_benchmarks.py` rejects changed logs/build reports,
 missing cases, invalid timing coverage and samples outside the declared limits.
 Direct-input FX fixtures remove excitation objects; their separate target
-measurements are the next step before attributing speed changes to an operator.
+measurements below help distinguish that excitation cost.
+
+Three **direct-input FX fixture** pairs subsequently passed on the same board,
+under the same pass/warmup/exclusion settings. Their declared signals were
+generated outside the process timer and cached once per case. The target log
+records the actual input SHA, checked before and after each pass; a reference
+output channel was checked against its input for every rendered sample. Host
+and target sine-library rounding are not assumed to produce identical bytes.
+
+| FX fixture/case | Strict mean µs/vector | Optional mean µs/vector | Maximum output difference |
+| --- | ---: | ---: | ---: |
+| mtof, cached pitch | 96.29 | 95.37 | 0 |
+| mtof, continuously varying pitch | 2372.66 | 332.80 | 2.98e-8 |
+| mtof, fast/deep modulation | 2540.10 | 348.38 | 5.96e-8 |
+| saw, default | 227.67 | 227.33 | 0 |
+| reson, modulated centre | 742.34 | 508.11 | 0 |
+| reson, static centre | 139.74 | 138.21 | 0 |
+
+These are complete authored FX process callbacks, including their mapping and
+reference-channel expressions. They remain separate from the Main observations
+and establish no universal isolated-operation cost. The saw pair again uses
+identical module artifacts; its timing variation is not an optimisation gain.
+The sealed [FX target record](../evidence/object-benchmarks-fx.json) retains all
+twelve cases, input/generator identities, output limits and recovered-memory
+observations. These target comparisons use the existing audio v1 profile;
+they do not qualify execution or timing of the newly admitted v2 kernels.
 
 ## Reusable precision audit
 
@@ -141,20 +169,39 @@ the complete measurements are in
 
 An isolated mtof FX fixture reserves a 65,536-float default lookup table even
 when the reviewed audio helper uses direct expf: its measured arena is 262,224 B.
-Table fill's double exp calls are setup work. Removing unused table construction
-is a possible memory/startup optimisation, subject to a separate resource-API
-and lifecycle review; it is not an audio precision change or an enabled fix.
+Table fill's double exp calls are setup work. The explicit, default-off
+[`--omit-unused-mtof-table`](unused-mtof-table.md) option now admits reviewed
+direct-exponential forms under the opaque module C ABI1.0 contract. It is a
+memory/startup option; it does not change audio arithmetic.
 
 A private zero-size-request experiment now preserves float output bit-for-bit
 over four variants and twelve host workloads. The drone's Platform arena falls
 from 361,240 to 99,088 bytes; isolated mtof FX falls from 262,224 to 72 bytes.
 The probe retains DataRef indices, types and views, but resource size changes
 and the absent size request suppresses its DataRefUpdated notification/event.
-Current refresh handlers only touch unused views and time. These observations
-do not establish generic RNBO resource/event equivalence or enable a profile.
-Any admission must reject extra table aliases/readers and review lifecycle,
-first-event and reconstruction behaviour. Local evidence is under
-`build/research/mtof-table-zero/`.
+Current refresh handlers only touch unused views and time. Separate lifecycle
+tests and an independent event trace checked the four exact reference/omitted
+pairs: after filtering only the removed table events, other observed event
+order, double engine/patcher times and audio bytes matched. This does not
+establish generic RNBO resource/event equivalence. Admission pins the reviewed
+runtime, complete callbacks and time helpers, and rejects extra aliases/readers.
+The generated configuration rejects missing SDK ABI macros or versions other
+than 1.0. ABI1.0 consumers must honor the opaque resource boundary; adding a
+resource API requires a new ABI review/version. Local evidence is under
+`build/research/mtof-table-zero/` and
+`build/research/mtof-event-trace/trace-proof.json`.
+
+The separate strict-arithmetic target FX comparison then observed zero numeric
+float difference and exact PCM over 2,359,296 words with table omission alone.
+Dynamic arena use fell from 262,288 to 128B, including C++ requests. Mean
+create/prepare time including warmup fell from 695.420 to 0.742ms across nine
+contexts per profile; loading/relocation/BIND were outside that timer. Process
+totals were effectively unchanged. A separate 300-poll live drone qualification
+passed with a 128KiB arena, using 99,088B and physically recovering 262,144B of
+reserved PSRAM. These resource/setup observations and the silent live run's
+limits are in [the omission review](unused-mtof-table.md) and
+[sealed evidence](../evidence/mtof-table-omission.json). They do not extend the
+opaque resource/event contract or establish an audio-processing speedup.
 
 Further work should follow measured object costs. Float32 expf/cosf/floorf and
 software float division remain valid audio operations; count or replace them

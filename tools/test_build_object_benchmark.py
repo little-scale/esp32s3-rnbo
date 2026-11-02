@@ -23,7 +23,7 @@ class ConfigurationTests(unittest.TestCase):
         patch=self.directory/"test.rnbopat";patch.write_text("fixture-source")
         manifest={"role":"main","numerical_profile":"float32-strict","editable_source_sha256":hashlib.sha256(patch.read_bytes()).hexdigest(),"parameter_schema_sha256":"schema","source_tree_sha256":"raw",
                   "parameter_count":1,"audio_inputs":0,"audio_outputs":2,"required_host_services":[]}
-        self.modules={k:{"report":{"prepared_export":{"manifest":copy.deepcopy(manifest)}},"export_path":str(self.directory),"artifact_sha256":str(i)*64} for i,k in enumerate(("strict","optimized"))}
+        self.modules={k:{"report":{"prepared_export":{"manifest":copy.deepcopy(manifest)}},"export_path":str(self.directory),"artifact_sha256":str(i)*64,"inspection":{"loaded_bytes_upper_bound":65536}} for i,k in enumerate(("strict","optimized"))}
         self.args=argparse.Namespace(catalog=self.directory/"catalog.json",fixture_id="test",blocks=None,rounds=3,timing_exclude_blocks=32,arena_bytes=1048576)
     def tearDown(self):self.temporary.cleanup()
     def generate(self):
@@ -32,11 +32,42 @@ class ConfigurationTests(unittest.TestCase):
         header,policy=self.generate()
         self.assertIn("#define BENCH_MAX_ABS "+float(2e-6).hex(),header)
         self.assertEqual([(e["block"],e["kind"],e["value"]) for e in policy["events"]],[(0,1,440),(7,2,1)])
-    def test_unimplemented_fx_stimulus_cannot_be_benchmarked_as_generic_input(self):
-        self.catalog['fixtures'][0]['role']='fx'
+    def fx(self):
+        fixture=self.catalog['fixtures'][0];fixture['role']='fx'
+        fixture['stimulus']={'kind':'midi-stereo-v1','base':60,'depth':12,'rate':.5,'pilot_frequency':371,'pilot_amplitude':.125}
+        for m in self.modules.values():
+            manifest=m['report']['prepared_export']['manifest'];manifest['role']='fx';manifest['audio_inputs']=2
+        return fixture
+    def test_partial_fx_stimulus_cannot_be_benchmarked_as_generic_input(self):
+        self.fx()['stimulus']={'kind':'midi-stereo-v1'}
+        with self.assertRaisesRegex(ExportError,'stimulus fields'):self.generate()
+    def test_declared_fx_stimulus_and_case_override(self):
+        fixture=self.fx();fixture['cases'][1]['stimulus']={'depth':24,'rate':20}
+        header,policy=self.generate()
+        self.assertEqual(policy['stimuli'][1]['depth'],24)
+        self.assertEqual(policy['stimuli'][1]['rate'],20)
+        self.assertIn('static const object_stimulus bench_stimuli[]',header)
+    def test_unknown_stimulus_kind(self):
+        self.fx()['stimulus']['kind']='generic'
+        with self.assertRaisesRegex(ExportError,'Unknown FX stimulus kind'):self.generate()
+    def test_unknown_case_stimulus_field(self):
+        self.fx()['cases'][0]['stimulus']={'ignored_field':1}
+        with self.assertRaisesRegex(ExportError,'stimulus fields'):self.generate()
+    def test_case_cannot_change_stimulus_kind(self):
+        self.fx()['cases'][0]['stimulus']={'kind':'frequency-stereo-v1'}
+        with self.assertRaisesRegex(ExportError,'stimulus fields'):self.generate()
+    def test_pitch_domain(self):
+        self.fx()['stimulus']['depth']=100
+        with self.assertRaisesRegex(ExportError,'pitch stimulus'):self.generate()
+    def test_nonfinite_stimulus(self):
+        self.fx()['stimulus']['rate']=float('nan')
+        with self.assertRaises(ExportError):self.generate()
+    def test_main_cannot_ignore_declared_input(self):
         self.catalog['fixtures'][0]['stimulus']={'kind':'midi-stereo-v1'}
-        for m in self.modules.values():m['report']['prepared_export']['manifest']['role']='fx'
-        with self.assertRaisesRegex(ExportError,'Main fixtures only'):self.generate()
+        with self.assertRaisesRegex(ExportError,'Main cannot'):self.generate()
+    def test_fx_memory_budget(self):
+        self.fx();self.args.blocks=1024
+        with self.assertRaisesRegex(ExportError,'PSRAM budget'):self.generate()
     def test_wrong_source(self):
         self.modules["optimized"]["report"]["prepared_export"]["manifest"]["source_tree_sha256"]="other"
         with self.assertRaises(ExportError):self.generate()

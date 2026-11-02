@@ -10,6 +10,7 @@
 #define RNBO_NOTHROW
 #define RNBO_NO_PATCHERFACTORY
 #define RNBO_FIXEDLISTSIZE 16
+#include "rnbo_s3_module.h"
 #include "patch_config.h"
 #include "RNBO_Common.h"
 #include "rnbo_source.h"

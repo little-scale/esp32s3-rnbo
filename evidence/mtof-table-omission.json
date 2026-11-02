@@ -1,0 +1,842 @@
+{
+  "format": "rnbo-unused-mtof-table-observations",
+  "format_version": 1,
+  "default_enabled": false,
+  "contract": "Opaque module C ABI1.0 only. Table payload and initialization DataRefUpdate are omitted; general RNBO resource/event equivalence is not claimed.",
+  "identities": [
+    {
+      "path": "build/research/mtof-table-zero/final-comparison.json",
+      "sha256": "9ddee85299bc27e13dbf26df7e139cf6e44311219115545de0843f4f7e6109ff"
+    },
+    {
+      "path": "build/research/mtof-table-zero/lifecycle.json",
+      "sha256": "839244e938a87a235f14e12e06620468d0452165343e0bb2210928da8514851b"
+    },
+    {
+      "path": "build/research/mtof-table-zero/tight-budget.json",
+      "sha256": "525b68c11923c3f40420011323738d904d0ddb6eb67871eb8d04a7de83893b77"
+    },
+    {
+      "path": "build/research/mtof-event-trace/trace-proof.json",
+      "sha256": "65422d65298e4674aa9e9d17b5725775ad9eae4dcbbc005a31d4d6adb0ae9d52"
+    },
+    {
+      "path": "build/hardware/drone3-tableless-128k-final/qualification.json",
+      "sha256": "7347916e21f4d73d0bfc3b92ab9bcd21c1d246c0efccd4915d1f4711d2cc5aac"
+    },
+    {
+      "path": "build/hardware/drone3-tableless-128k-final/statuses.jsonl",
+      "sha256": "4905cf24486e114055e238c081ebf460a55c788b5132c1e2a8292d527db2a076"
+    },
+    {
+      "path": "build/firmware-amoled-rnbo-drone3-tableless-128k/build-report.json",
+      "sha256": "ec7bbdcbd1a1fd47445898c02c61a9ca37bab604a4dcc078b9175816d0971cb4"
+    },
+    {
+      "path": "build/hardware/finalize_tableless_drone.py",
+      "sha256": "546e44468b0294f9add8d13ec0acbca65debf0f157b8272c673b7be58e326dc8"
+    }
+  ],
+  "native_drone_output": {
+    "candidate_prepared": "/Users/a1106632/Documents/esp32-rnbo/build/user-patches/3sawsDrone3/prepared-cap40-f32audio-no-mtof-table-v2",
+    "source_sha256": "bf357a1741f461624e0d2ba90cd06f8c2b0d8fa7130527d7396afc1248db9a28",
+    "cases": [
+      {
+        "case": "default",
+        "parameters": {},
+        "float_pcm_bit_identical": true,
+        "outputs": {
+          "reference": {
+            "float_sha256": "1a1f8744d4ea1faf78764e45be0ca8b937d15fe081e7f96f8dc41c39c85685f8",
+            "pcm_sha256": "a294684eb473012e75c20857afe8c9a007ccbffbfa0a9d32a0573aa216aa541c"
+          },
+          "candidate-1M": {
+            "float_sha256": "1a1f8744d4ea1faf78764e45be0ca8b937d15fe081e7f96f8dc41c39c85685f8",
+            "pcm_sha256": "a294684eb473012e75c20857afe8c9a007ccbffbfa0a9d32a0573aa216aa541c"
+          },
+          "candidate-128K": {
+            "float_sha256": "1a1f8744d4ea1faf78764e45be0ca8b937d15fe081e7f96f8dc41c39c85685f8",
+            "pcm_sha256": "a294684eb473012e75c20857afe8c9a007ccbffbfa0a9d32a0573aa216aa541c"
+          }
+        },
+        "statistics": {
+          "reference": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 2.26477242,
+            "rms": 0.273235957,
+            "mean_process_us": 13.1644,
+            "max_process_us": 48.375,
+            "platform_allocations": 11,
+            "late_platform_allocations": 0,
+            "arena_used": 361240,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          },
+          "candidate-1M": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 2.26477242,
+            "rms": 0.273235957,
+            "mean_process_us": 13.2303,
+            "max_process_us": 35.834,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0,
+            "arena_used": 99088,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          },
+          "candidate-128K": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 2.26477242,
+            "rms": 0.273235957,
+            "mean_process_us": 11.3588,
+            "max_process_us": 27.084,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0,
+            "arena_used": 99088,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          }
+        }
+      },
+      {
+        "case": "fast-full-modulation",
+        "parameters": {
+          "lfo-rate": 1,
+          "lfo-depth": 1,
+          "vib-rate": 20,
+          "vib-depth": 2
+        },
+        "float_pcm_bit_identical": true,
+        "outputs": {
+          "reference": {
+            "float_sha256": "04af8151e268619902eeac51e06b6a368d9b991ccb4366edbe68e692646044c8",
+            "pcm_sha256": "2147a4504aef10d91f0365b017dbc9e6925a533e754812f2cdc210acf59956eb"
+          },
+          "candidate-1M": {
+            "float_sha256": "04af8151e268619902eeac51e06b6a368d9b991ccb4366edbe68e692646044c8",
+            "pcm_sha256": "2147a4504aef10d91f0365b017dbc9e6925a533e754812f2cdc210acf59956eb"
+          },
+          "candidate-128K": {
+            "float_sha256": "04af8151e268619902eeac51e06b6a368d9b991ccb4366edbe68e692646044c8",
+            "pcm_sha256": "2147a4504aef10d91f0365b017dbc9e6925a533e754812f2cdc210acf59956eb"
+          }
+        },
+        "statistics": {
+          "reference": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 1.19161987,
+            "rms": 0.243240776,
+            "mean_process_us": 11.2492,
+            "max_process_us": 31.875,
+            "platform_allocations": 11,
+            "late_platform_allocations": 0,
+            "arena_used": 361240,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          },
+          "candidate-1M": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 1.19161987,
+            "rms": 0.243240776,
+            "mean_process_us": 11.2964,
+            "max_process_us": 22.625,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0,
+            "arena_used": 99088,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          },
+          "candidate-128K": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 1.19161987,
+            "rms": 0.243240776,
+            "mean_process_us": 11.268,
+            "max_process_us": 29.709,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0,
+            "arena_used": 99088,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          }
+        }
+      },
+      {
+        "case": "high-feedback",
+        "parameters": {
+          "lfo-rate": 0.7,
+          "lfo-depth": 1,
+          "comb-ff": 0.98,
+          "comb-fb": 0.98,
+          "delay-time": 40,
+          "delay-fb": 0.9
+        },
+        "float_pcm_bit_identical": true,
+        "outputs": {
+          "reference": {
+            "float_sha256": "2689b90c4ebe5ada04f88649aece2ce7450b2f106f7a5f862704f5f63ea79f3d",
+            "pcm_sha256": "2c9e6033862a493c06360b39910303c087faa3bf33b3d5df521d80cbd7c1974d"
+          },
+          "candidate-1M": {
+            "float_sha256": "2689b90c4ebe5ada04f88649aece2ce7450b2f106f7a5f862704f5f63ea79f3d",
+            "pcm_sha256": "2c9e6033862a493c06360b39910303c087faa3bf33b3d5df521d80cbd7c1974d"
+          },
+          "candidate-128K": {
+            "float_sha256": "2689b90c4ebe5ada04f88649aece2ce7450b2f106f7a5f862704f5f63ea79f3d",
+            "pcm_sha256": "2c9e6033862a493c06360b39910303c087faa3bf33b3d5df521d80cbd7c1974d"
+          }
+        },
+        "statistics": {
+          "reference": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 7.55460644,
+            "rms": 1.23950815,
+            "mean_process_us": 11.3509,
+            "max_process_us": 30.875,
+            "platform_allocations": 11,
+            "late_platform_allocations": 0,
+            "arena_used": 361240,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          },
+          "candidate-1M": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 7.55460644,
+            "rms": 1.23950815,
+            "mean_process_us": 11.2779,
+            "max_process_us": 30.791,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0,
+            "arena_used": 99088,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          },
+          "candidate-128K": {
+            "evidence_kind": "host_render",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "blocks": 4096,
+            "warmup_blocks": 4,
+            "seed": 305419896,
+            "peak": 7.55460644,
+            "rms": 1.23950815,
+            "mean_process_us": 11.3432,
+            "max_process_us": 31.458,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0,
+            "arena_used": 99088,
+            "errors": 0,
+            "invalid_samples": 0,
+            "allocation_coverage": "RNBO platform hooks only",
+            "target_performance_qualified": false
+          }
+        }
+      }
+    ],
+    "hardware_executed": false
+  },
+  "native_lifecycle": [
+    {
+      "name": "mtof-fx-f32",
+      "variant": "reference",
+      "static_contract": "16lifecycles128blocks PASS",
+      "dynamic_native": {
+        "arena_used": 262320,
+        "cpp_new": 1,
+        "platform_allocations": 2,
+        "late_cpp": 0,
+        "late_platform": 0,
+        "rounds": 16,
+        "blocks_per_round": 128
+      },
+      "elf_lifecycle_tested": false
+    },
+    {
+      "name": "mtof-fx-f32",
+      "variant": "prototype",
+      "static_contract": "16lifecycles128blocks PASS",
+      "dynamic_native": {
+        "arena_used": 160,
+        "cpp_new": 1,
+        "platform_allocations": 1,
+        "late_cpp": 0,
+        "late_platform": 0,
+        "rounds": 16,
+        "blocks_per_round": 128
+      },
+      "elf_lifecycle_tested": false
+    },
+    {
+      "name": "drone-f32",
+      "variant": "reference",
+      "static_contract": "16lifecycles128blocks PASS",
+      "dynamic_native": {
+        "arena_used": 362448,
+        "cpp_new": 14,
+        "platform_allocations": 11,
+        "late_cpp": 0,
+        "late_platform": 0,
+        "rounds": 16,
+        "blocks_per_round": 128
+      },
+      "elf_lifecycle_tested": false
+    },
+    {
+      "name": "drone-f32",
+      "variant": "prototype",
+      "static_contract": "16lifecycles128blocks PASS",
+      "dynamic_native": {
+        "arena_used": 100288,
+        "cpp_new": 14,
+        "platform_allocations": 10,
+        "late_cpp": 0,
+        "late_platform": 0,
+        "rounds": 16,
+        "blocks_per_round": 128
+      },
+      "elf_lifecycle_tested": false
+    }
+  ],
+  "native_128k_dynamic_budget": [
+    {
+      "fixture": "mtof-fx-f32",
+      "arena_capacity": 131072,
+      "bind_state_bytes": "context_bytes+131072",
+      "statistics": {
+        "arena_used": 160,
+        "cpp_new": 1,
+        "platform_allocations": 1,
+        "late_cpp": 0,
+        "late_platform": 0,
+        "rounds": 16,
+        "blocks_per_round": 128
+      },
+      "source_sha256": "dcb2af75d8f7c88ce9ee28313a883fbca8774bd8bd1fe2f672172b5925cb8a66",
+      "binary_sha256": "c54fd86416e39b7ce44e694fc9d571d36a729cd8a9f01eeb94d6c702bd542a11",
+      "hardware_executed": false
+    },
+    {
+      "fixture": "drone-f32",
+      "arena_capacity": 131072,
+      "bind_state_bytes": "context_bytes+131072",
+      "statistics": {
+        "arena_used": 100288,
+        "cpp_new": 14,
+        "platform_allocations": 10,
+        "late_cpp": 0,
+        "late_platform": 0,
+        "rounds": 16,
+        "blocks_per_round": 128
+      },
+      "source_sha256": "dcb2af75d8f7c88ce9ee28313a883fbca8774bd8bd1fe2f672172b5925cb8a66",
+      "binary_sha256": "d40a19af6ee8207262bae37aacfbac1585c6acca7893e132dfa0d8bfba1ab235",
+      "hardware_executed": false
+    }
+  ],
+  "native_event_traces": {
+    "C74_UNIT_TESTS_event_hook": true,
+    "cases": [
+      {
+        "all_other_trace_records_identical": true,
+        "case": "mtof-fx-strict",
+        "float_bit_identical": true,
+        "fractional_event_offset_ms": 0.125,
+        "omitted_dataref_events_prototype": 0,
+        "omitted_dataref_events_reference": 2,
+        "omitted_table_index": 0,
+        "parameter_changes_at_blocks": [
+          7,
+          15,
+          23
+        ],
+        "parameter_changes_before_first_block": true,
+        "proofs": {
+          "prototype": {
+            "binary_sha256": "8016bba464bc9ca09f00bd47f3134f20e552e1e63c8de22fc5e996ad2a15cb2c",
+            "float_sha256": "67764ce1f3c13f6f0aac6d208befb52bdb8579f4052c65130fba41e6a575dabe",
+            "prepared_source_sha256": "3bbf08e68f0ec420afc7abacf2ff820d286a1dc71d4f76298ccb2879313ac387",
+            "raw_trace_sha256": "1ea93f3ffc821ed0a579b60bbadf19b827e8c95721eaff7394a92b054eddef76"
+          },
+          "reference": {
+            "binary_sha256": "4a841a1a9fd63faf14d3674a455fd1bfc309e5985ed4ab81ddecbc4e62227af6",
+            "float_sha256": "67764ce1f3c13f6f0aac6d208befb52bdb8579f4052c65130fba41e6a575dabe",
+            "prepared_source_sha256": "e4fafa555ccd5d821db38771bbdf76e0127d39c8e0392399b764673c8c515c41",
+            "raw_trace_sha256": "add8536e22faa28da3e72d6097439999be904c5891fb4213682b009d6d2160cd"
+          }
+        },
+        "reconstructions": 2,
+        "rendered_blocks_each": 32,
+        "trace_records_without_removed_events": 86,
+        "warmup_blocks": 0
+      },
+      {
+        "all_other_trace_records_identical": true,
+        "case": "mtof-fx-f32",
+        "float_bit_identical": true,
+        "fractional_event_offset_ms": 0.125,
+        "omitted_dataref_events_prototype": 0,
+        "omitted_dataref_events_reference": 2,
+        "omitted_table_index": 0,
+        "parameter_changes_at_blocks": [
+          7,
+          15,
+          23
+        ],
+        "parameter_changes_before_first_block": true,
+        "proofs": {
+          "prototype": {
+            "binary_sha256": "4de7fd52eb3f8df9577ec6b14338fc129d28a83865a6abac1c7e2b8b2e70ae1f",
+            "float_sha256": "73fb7c80bda6c125360fde321219d4735376d550ef89aa899772842611117904",
+            "prepared_source_sha256": "a1ae86f35f2dc767905afe8e95e7b9995e4aeb32536dee3baef70fe2aaa3df82",
+            "raw_trace_sha256": "1ea93f3ffc821ed0a579b60bbadf19b827e8c95721eaff7394a92b054eddef76"
+          },
+          "reference": {
+            "binary_sha256": "8559fd6fd5bfb92c3cb6fddc96de9975dc99e5a9d30b4af128fcf300c72bfee2",
+            "float_sha256": "73fb7c80bda6c125360fde321219d4735376d550ef89aa899772842611117904",
+            "prepared_source_sha256": "d1634863486371763b63850540912dd76decf0ae30873f8b1b60dce9a07b5a0a",
+            "raw_trace_sha256": "add8536e22faa28da3e72d6097439999be904c5891fb4213682b009d6d2160cd"
+          }
+        },
+        "reconstructions": 2,
+        "rendered_blocks_each": 32,
+        "trace_records_without_removed_events": 86,
+        "warmup_blocks": 0
+      },
+      {
+        "all_other_trace_records_identical": true,
+        "case": "mtof-main-f32",
+        "float_bit_identical": true,
+        "fractional_event_offset_ms": 0.125,
+        "omitted_dataref_events_prototype": 0,
+        "omitted_dataref_events_reference": 2,
+        "omitted_table_index": 1,
+        "parameter_changes_at_blocks": [
+          7,
+          15,
+          23
+        ],
+        "parameter_changes_before_first_block": true,
+        "proofs": {
+          "prototype": {
+            "binary_sha256": "89b066ff08e27d3f3bba1f8bf7770cb481e6169db4772ca409218d3d8228d8f9",
+            "float_sha256": "28e55b6855324bb0d8e9ed5fda8a2b8e6a87283c50ad8a88eed29024b006c020",
+            "prepared_source_sha256": "d1010161d7da511fbd1763eb97788946da966b0445c0085ac189bd4e7132286a",
+            "raw_trace_sha256": "e33e80b9f819cb74007f3fe51435eeaee050e71746d16e79fa21e3c04ede2346"
+          },
+          "reference": {
+            "binary_sha256": "126b46d7a4b16ada916258ffd8dd20700115e5a82026c18c5de593929bb9625b",
+            "float_sha256": "28e55b6855324bb0d8e9ed5fda8a2b8e6a87283c50ad8a88eed29024b006c020",
+            "prepared_source_sha256": "133f413338a9e70f0b4321a60b55fc968adbda37043f640480c3bedb6f2f5f72",
+            "raw_trace_sha256": "3f4e1a7229b2752de30748cd3caf1ae8da4944f78b0196fc50a1b2db041492ef"
+          }
+        },
+        "reconstructions": 2,
+        "rendered_blocks_each": 32,
+        "trace_records_without_removed_events": 144,
+        "warmup_blocks": 0
+      },
+      {
+        "all_other_trace_records_identical": true,
+        "case": "drone-f32",
+        "float_bit_identical": true,
+        "fractional_event_offset_ms": 0.125,
+        "omitted_dataref_events_prototype": 0,
+        "omitted_dataref_events_reference": 2,
+        "omitted_table_index": 3,
+        "parameter_changes_at_blocks": [
+          7,
+          15,
+          23
+        ],
+        "parameter_changes_before_first_block": true,
+        "proofs": {
+          "prototype": {
+            "binary_sha256": "fdd71e9c05d11a03f84cc32bd5d08aaf7d673bb13046e56416a8bb6080675142",
+            "float_sha256": "09d56e421b5fc999c4330bfff68a5fb9e441a1f1cefa8d562ac81d64113e2018",
+            "prepared_source_sha256": "bf357a1741f461624e0d2ba90cd06f8c2b0d8fa7130527d7396afc1248db9a28",
+            "raw_trace_sha256": "dfbd96635f1b2f30fad5f80a78e65faded0d880449a46467efdb83cdc051e3a1"
+          },
+          "reference": {
+            "binary_sha256": "581ad2320b71b107c916b6737d51dfaae1e9120e023799a02ae9b059ec30cc31",
+            "float_sha256": "09d56e421b5fc999c4330bfff68a5fb9e441a1f1cefa8d562ac81d64113e2018",
+            "prepared_source_sha256": "84fd64ab3428929c3101d324959cabf09456d053032cfd7600b74da986330f3c",
+            "raw_trace_sha256": "e57941de1256923ff07d2bd2c8b1faab9596b3cd863dc2678c9f73d630d1edd0"
+          }
+        },
+        "reconstructions": 2,
+        "rendered_blocks_each": 32,
+        "trace_records_without_removed_events": 218,
+        "warmup_blocks": 0
+      }
+    ],
+    "compiler": "Apple clang version 17.0.0 (clang-1700.6.3.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+    "evidence_kind": "independent-private-host-event-clock-trace",
+    "hardware_executed": false,
+    "runner_sha256": "78e10117b009c15ed7fdac539199011812e4ed233ac0b60f7ae752f4e4e85d2f",
+    "scope": "Selected exact-source variants under custom event-observing MinimalEngine; source event/time/notification traces are compared after explicitly removing the omitted table DataRefUpdate. Not generic scheduling or resource API equivalence; no timing claim.",
+    "trace_source_sha256": "d6d461d7ca7b902b5d4b0cf0df592dc466126200c956f9b11329a9c1e5c8b7b8"
+  },
+  "live_drone": {
+    "firmware_elf_sha256": "00452e66d6e1d2d6b166e7993f40d2a99e4f64534fd13fde0bef4e1e0fa6920f",
+    "previous_firmware_elf_sha256": "f64cdf654598d72955e9ec5cca6fd9cd3eaa7230def4d95590347826ff9d9ac3",
+    "polls": 300,
+    "duration_seconds": 304.27006,
+    "silent": true,
+    "ui_active": true,
+    "arena_used_before": 361240,
+    "arena_used_after": 99088,
+    "arena_capacity_before": 393216,
+    "arena_capacity_after": 131072,
+    "physical_free_psram_before": 7866044,
+    "physical_free_psram_after": 8128188,
+    "physical_free_psram_delta_bytes": 262144,
+    "render_mean_us_per_vector": 3941.2417246971286,
+    "render_peak_us": 5045,
+    "timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+    "fault_counters": {
+      "allocation_fault": false,
+      "module_errors": 0,
+      "nonfinite": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "queue_errors": 0,
+      "render_deadline_overruns": 0,
+      "late_platform_allocations": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0
+    },
+    "ready_to_resume": true,
+    "limit": "Health/memory qualification with live I2S and UI. Drone output equivalence measured separately on host, not captured from live board."
+  },
+  "target_isolated_mtof_comparison": {
+    "fixture": "mtof-fx",
+    "family": "mtof",
+    "role": "fx",
+    "identical_artifact_control": false,
+    "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+    "stimulus_provenance": {
+      "catalog_path": "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/catalog-fx.json",
+      "catalog_sha256": "a9b40052fd203cc8691710dfce0235ce7ef17edf07330f217f35735718dd0e97",
+      "patch_sha256": "93c524d72cb7aff3a1b62f83326c14717b0d0321ea5bf5c95237f2a8373b60d1",
+      "generator_source_sha256": {
+        "object-benchmark/main/stimulus.c": "aa9bc31b5e0e22eaaa5585c906eb80be9fdaf35392cc1ef1c814d78afeddc2f9",
+        "object-benchmark/main/stimulus.h": "df816769948d80657e0b31c02db13cf2afdfdcd41a9ead9f8e7f0484522dee8b"
+      },
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+      "generation": "Float64 sine and arithmetic; round each completed channel sample once to Float32",
+      "timing": "Generator/cache copy excluded from process callback timers",
+      "rechecks": "Cached INPUT SHA before/after every strict and optimized pass; shared adjacent-pass checkpoint",
+      "pilot": "Every rendered output reference/pilot sample equals its declared input channel",
+      "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed"
+    },
+    "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-mtof-fx-mtof-fx-tableless/build-report.json",
+    "build_report_sha256": "ceae8c2b7453fcd9130d583d4a923d899157e364ac95a4e2d15c7ac91291042d",
+    "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-mtof-tableless-fx/hardware-test.json",
+    "hardware_report_sha256": "88cefae5c061dbd5a40b36a5adfbeb1b15cb7265b30a98aaa3d621b35a6d9d55",
+    "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-mtof-tableless-fx/test-serial.log",
+    "serial_log_sha256": "0f9a57ad027c3a0cc6e9e82308b1db934b17dc6d79b79ba40c6278ad7990035a",
+    "pass": {
+      "fixture": "mtof-fx",
+      "firmware_elf_sha256": "e27be34a5513f934ff06988f38747eb63345df71a9ecee24c8400f1f7e9e3fe3",
+      "strict_module_sha256": "8b48fc57b26c41a2a1bac988a111bbb7d12af6c5f26773682be0b971524782b5",
+      "optimized_module_sha256": "edcb74acd1f0dde5406ca9a07f4ce84f944204d6a1aea4d920c095db2273e433",
+      "cases": 3,
+      "rounds": 3,
+      "blocks_per_pass": 512,
+      "warmup": 4,
+      "seed": 305419896,
+      "timing_exclude": 32,
+      "compared_samples": 2359296,
+      "max_abs": 0,
+      "rms_error": 0,
+      "pcm_different": 0,
+      "max_pcm_lsb": 0,
+      "max_abs_tolerance": 3e-06,
+      "max_pcm_lsb_tolerance": 1,
+      "relative_rms_tolerance": 0.0001,
+      "strict_timed_blocks": 4320,
+      "strict_process_us": 7213192,
+      "strict_peak_us": 2845,
+      "optimized_timed_blocks": 4320,
+      "optimized_process_us": 7212512,
+      "optimized_peak_us": 2846,
+      "psram_before": 6284932,
+      "psram_after": 6284932,
+      "internal_before": 316287,
+      "internal_after": 316287,
+      "host_heap_allocations": 0,
+      "host_heap_frees": 0,
+      "local_late_allocations": 0,
+      "images": 4,
+      "finalized_images": 4,
+      "input_cases": 3,
+      "input_rechecks": 27,
+      "pilot_sample_checks": 2359296,
+      "stack_margin": 20548,
+      "scope": "offline_no_i2s_ui_network"
+    },
+    "cases": [
+      {
+        "case": "dc-cache",
+        "declared_case": {
+          "id": "dc-cache",
+          "parameters": {},
+          "stimulus": {
+            "depth": 0
+          }
+        },
+        "input": {
+          "fixture": "mtof-fx",
+          "case": "dc-cache",
+          "input_sha256": "a22286b3e7309fe0280c535bcda393dc940cbeeb6118a567e74cd2fba64f0a17",
+          "input_bytes": 1048576,
+          "layout": "float32_stereo_interleaved_le",
+          "stimulus_kind": 1,
+          "declared_settings": {
+            "kind": "midi-stereo-v1",
+            "base": 60,
+            "depth": 0,
+            "rate": 0.5,
+            "pilot_frequency": 371,
+            "pilot_amplitude": 0.125
+          }
+        },
+        "output_comparison": {
+          "fixture": "mtof-fx",
+          "case": "dc-cache",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "mtof-fx",
+            "case": "dc-cache",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 138673,
+            "peak_us": 103,
+            "event_us": 0,
+            "prepare_us": 2086259,
+            "rms": 0.109843602,
+            "peak": 0.12774685,
+            "arena_high_water": 262288,
+            "mean_process_us": 96.30069444444445
+          },
+          "optimized": {
+            "fixture": "mtof-fx",
+            "case": "dc-cache",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 138467,
+            "peak_us": 105,
+            "event_us": 0,
+            "prepare_us": 2230,
+            "rms": 0.109843602,
+            "peak": 0.12774685,
+            "arena_high_water": 128,
+            "mean_process_us": 96.15763888888888
+          }
+        },
+        "observed_speed_ratio": 1.0014877190955247,
+        "observed_process_reduction_percent": 0.14855090753067568
+      },
+      {
+        "case": "default",
+        "declared_case": {
+          "id": "default",
+          "parameters": {},
+          "stimulus": {}
+        },
+        "input": {
+          "fixture": "mtof-fx",
+          "case": "default",
+          "input_sha256": "52184b1b1b21b47ce35f21665df317b1e3ebc0d927d1ce1f2ff24619a6727f35",
+          "input_bytes": 1048576,
+          "layout": "float32_stereo_interleaved_le",
+          "stimulus_kind": 1,
+          "declared_settings": {
+            "kind": "midi-stereo-v1",
+            "base": 60,
+            "depth": 12,
+            "rate": 0.5,
+            "pilot_frequency": 371,
+            "pilot_amplitude": 0.125
+          }
+        },
+        "output_comparison": {
+          "fixture": "mtof-fx",
+          "case": "default",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "mtof-fx",
+            "case": "default",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 3416747,
+            "peak_us": 2845,
+            "event_us": 0,
+            "prepare_us": 2086258,
+            "rms": 0.139645683,
+            "peak": 0.255493701,
+            "arena_high_water": 262288,
+            "mean_process_us": 2372.7409722222224
+          },
+          "optimized": {
+            "fixture": "mtof-fx",
+            "case": "default",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 3416412,
+            "peak_us": 2846,
+            "event_us": 0,
+            "prepare_us": 2228,
+            "rms": 0.139645683,
+            "peak": 0.255493701,
+            "arena_high_water": 128,
+            "mean_process_us": 2372.508333333333
+          }
+        },
+        "observed_speed_ratio": 1.000098056089254,
+        "observed_process_reduction_percent": 0.009804647520006426
+      },
+      {
+        "case": "fast-boundary",
+        "declared_case": {
+          "id": "fast-boundary",
+          "parameters": {},
+          "stimulus": {
+            "depth": 24,
+            "rate": 20
+          }
+        },
+        "input": {
+          "fixture": "mtof-fx",
+          "case": "fast-boundary",
+          "input_sha256": "e06706195ea51ffc365cfa55ec1b5656f009ecc6f2dc371de0b8f815a31474f0",
+          "input_bytes": 1048576,
+          "layout": "float32_stereo_interleaved_le",
+          "stimulus_kind": 1,
+          "declared_settings": {
+            "kind": "midi-stereo-v1",
+            "base": 60,
+            "depth": 24,
+            "rate": 20,
+            "pilot_frequency": 371,
+            "pilot_amplitude": 0.125
+          }
+        },
+        "output_comparison": {
+          "fixture": "mtof-fx",
+          "case": "fast-boundary",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "mtof-fx",
+            "case": "fast-boundary",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 3657772,
+            "peak_us": 2825,
+            "event_us": 0,
+            "prepare_us": 2086262,
+            "rms": 0.193336798,
+            "peak": 0.510987222,
+            "arena_high_water": 262288,
+            "mean_process_us": 2540.1194444444445
+          },
+          "optimized": {
+            "fixture": "mtof-fx",
+            "case": "fast-boundary",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 3657633,
+            "peak_us": 2829,
+            "event_us": 0,
+            "prepare_us": 2224,
+            "rms": 0.193336798,
+            "peak": 0.510987222,
+            "arena_high_water": 128,
+            "mean_process_us": 2540.022916666667
+          }
+        },
+        "observed_speed_ratio": 1.0000380027192448,
+        "observed_process_reduction_percent": 0.0038001275093124676
+      }
+    ]
+  },
+  "limits": "Observed pinned forms and workloads only; no generic resource semantics, universal timing or numerical guarantee."
+}

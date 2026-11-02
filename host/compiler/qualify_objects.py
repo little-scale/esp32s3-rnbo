@@ -270,6 +270,8 @@ def qualify(out, names, profiles, blocks_override=None, catalog_path=None):
             subprocess.run(["node",str(ROOT/"host/export/export.mjs"),str(catalog_path.parent/fixture["patch"]),"--out",str(raw)],check=True,stdout=stream,stderr=subprocess.STDOUT)
         variants = [("strict","float32-strict",False)] + [(p,p,False) for p in profiles]
         if fixture["float32_delay_storage"]: variants += [("float32-delays","float32-strict",True),("float32-audio-and-delays","float32-audio-v1",True)]
+        if fixture["float32_delay_storage"] and "float32-audio-v2" in profiles:
+            variants.append(("float32-audio-v2-and-delays","float32-audio-v2",True))
         references = {}; reference_build = None
         for variant,profile,storage in variants:
             prepared = out/"prepared"/name/variant; native = out/"native"/name/variant

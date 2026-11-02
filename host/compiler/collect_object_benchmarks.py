@@ -3,7 +3,8 @@
 """Seal observed per-fixture target results with build/log identities.
 
 Reports whole-fixture process timings. Main fixtures include their excitation
-objects; these numbers must not be presented as isolated operator timings.
+objects; declared FX generators are outside the process timer. Neither scope
+establishes a universal isolated-operator or application deadline bound.
 """
 import argparse
 import hashlib
@@ -32,6 +33,73 @@ def fields(line,prefix):
     return result
 
 
+def digest(value,message):
+    require(isinstance(value,str) and re.fullmatch(r'[0-9a-f]{64}',value),message)
+    return value
+
+
+def declared_stimulus(fixture,case):
+    contracts={
+        'midi-stereo-v1':(1,{'kind','base','depth','rate','pilot_frequency','pilot_amplitude'}),
+        'frequency-stereo-v1':(2,{'kind','frequency','depth','rate','pilot_frequency','pilot_amplitude'}),
+        'reson-stereo-v1':(3,{'kind','excitation','level','center','depth','rate'})}
+    base=fixture.get('stimulus');override=case.get('stimulus',{})
+    require(isinstance(base,dict) and isinstance(override,dict),'FX stimulus declaration missing')
+    require(base.get('kind') in contracts,'Unknown FX stimulus contract')
+    kind,keys=contracts[base['kind']]
+    require(set(base)==keys and set(override)<=keys-{'kind'},'Unknown/missing FX stimulus fields or kind override')
+    settings=base|override
+    for key,value in settings.items():
+        if key!='kind':require(type(value) in (int,float) and math.isfinite(value),'Nonfinite or invalid declared stimulus value')
+    return {'kind':kind,'settings':settings,
+            'base':settings['base' if kind==1 else 'frequency' if kind==2 else 'center'],
+            'depth':settings['depth'],'rate':settings['rate'],
+            'pilot_frequency':settings.get('pilot_frequency',0.0),'pilot_amplitude':settings.get('pilot_amplitude',0.0),
+            'excitation':settings.get('excitation',0.0),'level':settings.get('level',0.0)}
+
+
+def input_evidence(build,fixture,plan,passed,lines,expected_samples):
+    name=fixture['id'];role=fixture['role'];case_count=len(fixture['cases'])
+    prefix='RNBO_OBJECT_BENCHMARK INPUT '
+    records=[fields(line.strip(),prefix) for line in lines if line.strip().startswith(prefix)]
+    evidence={}
+    if role=='main':
+        require(not records,'Main fixture cannot claim external INPUT evidence')
+        require('stimulus' not in fixture and all('stimulus' not in c for c in fixture['cases']),'Main fixture declares ignored stimulus')
+        require('stimuli' not in plan or plan['stimuli']==[None]*case_count,'Main plan declares external stimulus')
+        require(all(passed.get(k,0)==0 for k in ('input_cases','input_rechecks','pilot_sample_checks')),'Main fixture has unexpected FX input counters')
+        return evidence,None
+    require(len(records)==case_count,'Incomplete FX INPUT evidence')
+    for key,expected in (('input_cases',case_count),('input_rechecks',case_count*plan['rounds']*3),
+                         ('pilot_sample_checks',expected_samples*case_count)):
+        require(type(passed.get(key)) is int and passed[key]==expected,'FX input/pilot coverage differs: '+key)
+    require(isinstance(plan.get('stimuli'),list) and len(plan['stimuli'])==case_count,'Compiled stimulus plan missing')
+    for index,case in enumerate(fixture['cases']):
+        expected=declared_stimulus(fixture,case)
+        require(plan['stimuli'][index]==expected,'Compiled stimulus differs from catalog/case declaration')
+        found=[r for r in records if r.get('fixture')==name and r.get('case')==case['id']]
+        require(len(found)==1,'Missing or duplicate FX INPUT case')
+        record=found[0];digest(record.get('input_sha256'),'Malformed target input SHA256')
+        require(type(record.get('input_bytes')) is int and record['input_bytes']==plan['blocks']*256*2*4,'FX input byte coverage differs')
+        require(record.get('layout')=='float32_stereo_interleaved_le','FX input layout differs')
+        require(type(record.get('stimulus_kind')) is int and record['stimulus_kind']==expected['kind'],'FX input stimulus kind differs')
+        evidence[case['id']]={**record,'declared_settings':expected['settings']}
+    source_names=('object-benchmark/main/stimulus.c','object-benchmark/main/stimulus.h')
+    sources=build.get('source_files_sha256',{})
+    generator={key:digest(sources.get(key),'Missing generator source identity') for key in source_names}
+    provenance={'catalog_path':plan.get('catalog_path'),'catalog_sha256':digest(plan.get('catalog_sha256'),'Missing stimulus catalog identity'),
+                'patch_sha256':digest(plan.get('patch_sha256'),'Missing fixture patch identity'),
+                'generator_source_sha256':generator,'sample_rate':44100,'block_frames':256,
+                'sample_time':'Zero-based rendered frame n/44100 after zero-input warmup',
+                'generation':'Float64 sine and arithmetic; round each completed channel sample once to Float32',
+                'timing':'Generator/cache copy excluded from process callback timers',
+                'rechecks':'Cached INPUT SHA before/after every strict and optimized pass; shared adjacent-pass checkpoint',
+                'pilot':'Every rendered output reference/pilot sample equals its declared input channel',
+                'limit':'Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed'}
+    require(isinstance(provenance['catalog_path'],str) and provenance['catalog_path'],'Missing stimulus catalog path')
+    return evidence,provenance
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-test.json';log=run_dir/'test-serial.log'
     build=json.loads(build_path.read_text());run=json.loads(run_path.read_text())
@@ -43,8 +111,11 @@ def collect(build_dir,run_dir):
     require(matches==[run['pass_line']],'Expected exactly the verified complete PASS line')
     passed=fields(matches[0],prefix);plan=build['benchmark'];fixture=plan['fixture'];name=fixture['id']
     require(passed['fixture']==name and passed['firmware_elf_sha256']==run['test_elf_sha256'],'Fixture or firmware identity differs')
+    role=fixture['role'];require(role in ('main','fx'),'Unknown fixture role')
     for profile,field in (('strict','strict_module_sha256'),('optimized','optimized_module_sha256')):
         require(passed[field]==build['modules'][profile]['artifact_sha256'],'Native module identity differs')
+        manifest=build['modules'][profile]['report']['prepared_export']['manifest']
+        require(manifest['role']==role and manifest['audio_inputs']==(2 if role=='fx' else 0) and manifest['audio_outputs']==2,'Module role/channel declaration differs')
     for field in ('host_heap_allocations','host_heap_frees','local_late_allocations'):
         require(passed[field]==0,'Unexpected running allocation')
     require(passed['psram_before']==passed['psram_after'] and passed['internal_after']>=passed['internal_before'],'Module memory did not recover')
@@ -54,6 +125,7 @@ def collect(build_dir,run_dir):
     require(passed['warmup']==fixture['warmup_blocks'] and passed['seed']==fixture['seed'],'Initial state differs')
     expected_blocks=plan['rounds']*(plan['blocks']-plan['timing_exclude_blocks'])
     expected_samples=plan['rounds']*plan['blocks']*512
+    inputs,stimulus_provenance=input_evidence(build,fixture,plan,passed,lines,expected_samples)
     cases=[]
     case_lines=[fields(line.strip(),'RNBO_OBJECT_BENCHMARK CASE ') for line in lines if line.strip().startswith('RNBO_OBJECT_BENCHMARK CASE ')]
     timing_lines=[fields(line.strip(),'RNBO_OBJECT_BENCHMARK CASE_PROFILE ') for line in lines if line.strip().startswith('RNBO_OBJECT_BENCHMARK CASE_PROFILE ')]
@@ -73,12 +145,14 @@ def collect(build_dir,run_dir):
             value=values[0];require(value['timed_blocks']==expected_blocks and value['process_us']>0,'Invalid timing coverage')
             timings[profile]={**value,'mean_process_us':value['process_us']/value['timed_blocks']}
         reference=timings['strict']['mean_process_us'];candidate=timings['optimized']['mean_process_us']
-        cases.append({'case':declared['id'],'output_comparison':case,'profiles':timings,
+        cases.append({'case':declared['id'],'declared_case':declared,'input':inputs.get(declared['id']),'output_comparison':case,'profiles':timings,
                       'observed_speed_ratio':reference/candidate,'observed_process_reduction_percent':100*(1-candidate/reference)})
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {'fixture':name,'family':fixture['family'],'role':fixture['role'],
             'identical_artifact_control':passed['strict_module_sha256']==passed['optimized_module_sha256'],
-            'scope':'Complete authored fixture; process callback only, no I2S/UI/network. Main excitation is included.',
+            'scope':('Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.' if role=='main' else
+                     'Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.'),
+            'stimulus_provenance':stimulus_provenance,
             'build_report':str(build_path),'build_report_sha256':sha(build_path),
             'hardware_report':str(run_path),'hardware_report_sha256':sha(run_path),
             'serial_log':str(log),'serial_log_sha256':sha(log),'pass':passed,'cases':cases}

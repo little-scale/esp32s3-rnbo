@@ -54,7 +54,7 @@ def build(export: Path, build_dir: Path, cmake: str = "cmake") -> Path:
                          root / "tests/native/render.cpp"]
     compiler_tool_files = [root / "host/compiler/build.py", root / "host/compiler/prepare.py",
                            root / "host/compiler/bounded_filters.py", root / "host/compiler/float32_delays.py",
-                           root / "host/compiler/float32_audio.py"]
+                           root / "host/compiler/float32_audio.py", root / "host/compiler/omit_mtof_table.py"]
     integration_hashes = snapshot_files(root, integration_files)
     compiler_tool_hashes = snapshot_files(root, compiler_tool_files)
     build_dir = build_dir.resolve()

@@ -1,0 +1,14 @@
+/* SPDX-License-Identifier: MIT */
+#pragma once
+#include <stdbool.h>
+#include <stdint.h>
+enum { OBJECT_STIMULUS_MIDI=1,OBJECT_STIMULUS_FREQUENCY=2,OBJECT_STIMULUS_RESON=3 };
+/* Fields retain catalog Float64 values during generation. Each final sample
+ * rounds once to Float32, matching the authored host stimulus contract. */
+typedef struct {
+    uint32_t kind;
+    double base,depth,rate,pilot_frequency,pilot_amplitude,excitation,level;
+} object_stimulus;
+/* Output is stereo interleaved Float32, zero-based rendered time n/44100 after
+ * zero-input prepare warmup. No allocation, state or engine callbacks. */
+bool object_stimulus_fill(const object_stimulus *,uint32_t first_frame,uint32_t frames,float *stereo);

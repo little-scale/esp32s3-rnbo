@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 import subprocess
+import struct
 import sys
 import tempfile
 import types
@@ -200,6 +201,31 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.assertEqual(result['restoration']['result'],'not needed; no mutation attempted')
         self.assertFalse(any(k=='flash' or v.startswith('volume ') or v=='panic' for k,v in self.calls))
         self.assertEqual(self.volume,self.original_volume)
+
+
+class LiveParameterBoundsTests(unittest.TestCase):
+    schema={'feedback':{'index':0,'minimum':0.1,'maximum':0.99}}
+
+    def read(self,value):
+        transport=types.SimpleNamespace(request=lambda command:{'parameters':[{'index':0,'actual':value}]})
+        return runner.live_parameters(transport,self.schema)
+
+    def test_decimal_readback_round_trips_both_float32_endpoints(self):
+        for value in (0.1,0.99):
+            actual=struct.unpack('<f',struct.pack('<f',value))[0]
+            serialized=float(f'{actual:.9g}')
+            self.assertEqual(self.read(serialized)['feedback']['actual'],serialized)
+
+    def test_adjacent_float32_values_outside_range_are_rejected(self):
+        for bound,step in ((0.1,-1),(0.99,1)):
+            bits=struct.unpack('<I',struct.pack('<f',bound))[0]
+            outside=struct.unpack('<f',struct.pack('<I',bits+step))[0]
+            with self.assertRaisesRegex(ValueError,'outside'):
+                self.read(float(f'{outside:.9g}'))
+
+    def test_finite_double_overflow_is_rejected(self):
+        with self.assertRaisesRegex(ValueError,'Float32'):
+            self.read(1e300)
 
 
 if __name__ == "__main__":

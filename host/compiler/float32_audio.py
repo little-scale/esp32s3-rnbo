@@ -33,6 +33,24 @@ _CATALOG = {
     "delaytilde": {"4ecf0037625fdf1d4ba7a2b98145776b732933dac0e1754c74b878476f75c0f8"},
     "mtof": {"2f8791609dc4d4cdfaa6553c95b9ce0a1df62b44170a98135b923a863c979d94"},
 }
+# Keep v1's admission contract fixed. V2 adds independently reviewed scalar
+# phase, bounded comb/allpass, and arithmetic forms from the object fixtures.
+_CATALOG_V2 = {kind: set(forms) for kind, forms in _CATALOG.items()}
+_CATALOG_V2["cycle"].add("1dbcc6178f4628491e85c1a2c54289819d118cd5ff26ab44fda7acefe8390cc5")
+_CATALOG_V2["comb"].update({
+    "c4b12e4afc5e96e32aa8f6d95eea1dd1d51aca5eb22e8649c89d3cec84ef4542",
+    "9d75ec01d3f3ab5473e7ef87c4973dc9d899d40b4a7101d83a56758f2fe9e348",
+    "47fd9c5b7b393e5deae3dde5408dac3986502ae5ef20a9a28b26d1e581243166",
+})
+_CATALOG_V2["allpass"] = {
+    "be98f0a867d8027e45f9448b1c1e35abd8ac9193b28f66f4beea1d43ed8388fc",
+    "40937256b1dd5e79b82582326fcae8938839c2d73edc13d2b50098ae931878b0",
+    "07d2fb4ef43c20463acf1c3ebfb6735dd30a2f10756243fa94b17e9df1162ef8",
+}
+_CATALOG_V2["dspexpr"].update({
+    "b49df46a014c8593fbf091762f70754a8849a4e261d3afbcaf7df01a42ce2e73",
+    "c635d90b32a2b751d534a876cffa2598133f384ad0fcb6f8eec2927ba2db9848",
+})
 _PREFIX = r"(?:(?:cycle|saw|scale|reson|comb|allpass|mtof)_tilde_\d+|dspexpr_\d+|delaytilde_\d+)"
 _METHOD_NAME = r"(?:(?:(?:cycle|saw|scale|reson|comb|allpass)_tilde_\d+|dspexpr_\d+|delaytilde_\d+)_perform|mtof_tilde_\d+_innerMtoF_next)"
 # C++ decimal floating tokens, excluding integer, hexadecimal and suffixed
@@ -41,11 +59,12 @@ _DECIMAL = re.compile(r"(?<![\w.])(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?|\d+[eE]
 
 
 def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dict]:
-    if profile not in ("float32-cycle-v2", "float32-audio-v1"):
+    if profile not in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2"):
         raise ValueError("Unsupported float32 audio profile")
+    catalog = _CATALOG_V2 if profile == "float32-audio-v2" else _CATALOG
     text = source.decode(); masked = code_mask(text)
     replacements = []; methods = []
-    pattern = r"\b(?:void|number)\s+(" + (_METHOD_NAME if profile == "float32-audio-v1" else r"cycle_[A-Za-z0-9_]+_perform") + r")\s*\("
+    pattern = r"\b(?:void|number)\s+(" + (_METHOD_NAME if profile.startswith("float32-audio-") else r"cycle_[A-Za-z0-9_]+_perform") + r")\s*\("
     names = re.findall(pattern, masked)
     if not names or len(names) != len(set(names)):
         raise ValueError(f"{profile}: no unique supported audio methods found")
@@ -58,14 +77,18 @@ def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dic
         body = masked[start:end]
         normalized = re.sub(r"\s+", "", body).replace(prefix, "OBJECT")
         fingerprint = hashlib.sha256(normalized.encode()).hexdigest()
-        if fingerprint not in _CATALOG.get(kind, set()):
+        if fingerprint not in catalog.get(kind, set()):
             raise ValueError(f"{profile}: unsupported RNBO1.4.4 audio method {name} ({fingerprint})")
         edits = []
         for token in _DECIMAL.finditer(body):
             edits.append({"literal": token[0], "replacement": token[0] + "f"})
             replacements.append((start + token.end(), start + token.end(), "f"))
         conversions = 0
-        if kind in ("comb", "allpass"):
+        # Newly admitted feedback-filter forms retain the original double
+        # duration conversion: a float intermediate moved fractional echoes
+        # beyond the fixtures' strict output limits. Preserve v1's existing
+        # explicit opt-in behavior for its previously qualified comb form.
+        if kind in ("comb", "allpass") and fingerprint in _CATALOG.get(kind, set()):
             # This is the audio ring's local conversion only. Leave the shared
             # mstosamps(MillisecondTime) helper and all scheduler callers alone.
             for call in re.finditer(r"this->mstosamps\s*\(", body):
@@ -81,7 +104,8 @@ def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dic
             if conversions != 1:
                 raise ValueError(f"{profile}: expected one local audio delay conversion in {name}")
         methods.append({"method": name, "kernel_sha256": fingerprint,
-                        "literal_changes": edits, "local_float32_ms_to_samples": conversions})
+                        "literal_changes": edits, "local_float32_ms_to_samples": conversions,
+                        "retained_double_ms_to_samples": kind in ("comb", "allpass") and not conversions})
     for start, end, replacement in sorted(replacements, reverse=True):
         text = text[:start] + replacement + text[end:]
     prepared = text.encode()

@@ -1,0 +1,1035 @@
+{
+  "format": "rnbo-object-target-observations",
+  "format_version": 1,
+  "collector_sha256": "b977b3aeda58da013c775331af7ee46dc20e00d936be82eea263827bd78efb95",
+  "fixtures": [
+    {
+      "fixture": "mtof-fx",
+      "family": "mtof",
+      "role": "fx",
+      "identical_artifact_control": false,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/catalog-fx.json",
+        "catalog_sha256": "a9b40052fd203cc8691710dfce0235ce7ef17edf07330f217f35735718dd0e97",
+        "patch_sha256": "93c524d72cb7aff3a1b62f83326c14717b0d0321ea5bf5c95237f2a8373b60d1",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "aa9bc31b5e0e22eaaa5585c906eb80be9fdaf35392cc1ef1c814d78afeddc2f9",
+          "object-benchmark/main/stimulus.h": "df816769948d80657e0b31c02db13cf2afdfdcd41a9ead9f8e7f0484522dee8b"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Float64 sine and arithmetic; round each completed channel sample once to Float32",
+        "timing": "Generator/cache copy excluded from process callback timers",
+        "rechecks": "Cached INPUT SHA before/after every strict and optimized pass; shared adjacent-pass checkpoint",
+        "pilot": "Every rendered output reference/pilot sample equals its declared input channel",
+        "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed"
+      },
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-mtof-fx-declared-input-v1/build-report.json",
+      "build_report_sha256": "8abb2932752a4d58e725540569d9e75140e1d6b5e30bcf7568c0fceb9e3828a5",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-mtof-fx/hardware-test.json",
+      "hardware_report_sha256": "b5292ca0a25c89734551cb6d6d23bfdd0d152d73e3513de873b76e4e811bba39",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-mtof-fx/test-serial.log",
+      "serial_log_sha256": "aa153b0fbc2197adcff4111c95b11f631b56338e5d15e5c6711100f6b9203abf",
+      "pass": {
+        "fixture": "mtof-fx",
+        "firmware_elf_sha256": "1c29ca7ef3f35052ac6802359937a8b5ce9a668110e4de343f67aa2959ade8ca",
+        "strict_module_sha256": "8b48fc57b26c41a2a1bac988a111bbb7d12af6c5f26773682be0b971524782b5",
+        "optimized_module_sha256": "cbc10cbd8a66cb548e94d55e15f90120744f0a095bc3e27d545c498f6109a193",
+        "cases": 3,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 2359296,
+        "max_abs": 5.96046448e-08,
+        "rms_error": 4.81180702e-09,
+        "pcm_different": 12,
+        "max_pcm_lsb": 1,
+        "max_abs_tolerance": 3e-06,
+        "max_pcm_lsb_tolerance": 1,
+        "relative_rms_tolerance": 0.0001,
+        "strict_timed_blocks": 4320,
+        "strict_process_us": 7213020,
+        "strict_peak_us": 2844,
+        "optimized_timed_blocks": 4320,
+        "optimized_process_us": 1118220,
+        "optimized_peak_us": 374,
+        "psram_before": 6284932,
+        "psram_after": 6284932,
+        "internal_before": 316287,
+        "internal_after": 316287,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 3,
+        "input_rechecks": 27,
+        "pilot_sample_checks": 2359296,
+        "stack_margin": 20548,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "dc-cache",
+          "declared_case": {
+            "id": "dc-cache",
+            "parameters": {},
+            "stimulus": {
+              "depth": 0
+            }
+          },
+          "input": {
+            "fixture": "mtof-fx",
+            "case": "dc-cache",
+            "input_sha256": "a22286b3e7309fe0280c535bcda393dc940cbeeb6118a567e74cd2fba64f0a17",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 1,
+            "declared_settings": {
+              "kind": "midi-stereo-v1",
+              "base": 60,
+              "depth": 0,
+              "rate": 0.5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "mtof-fx",
+            "case": "dc-cache",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "mtof-fx",
+              "case": "dc-cache",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 138660,
+              "peak_us": 102,
+              "event_us": 0,
+              "prepare_us": 2086221,
+              "rms": 0.109843602,
+              "peak": 0.12774685,
+              "arena_high_water": 262288,
+              "mean_process_us": 96.29166666666667
+            },
+            "optimized": {
+              "fixture": "mtof-fx",
+              "case": "dc-cache",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 137327,
+              "peak_us": 103,
+              "event_us": 0,
+              "prepare_us": 2088078,
+              "rms": 0.109843602,
+              "peak": 0.12774685,
+              "arena_high_water": 262288,
+              "mean_process_us": 95.36597222222223
+            }
+          },
+          "observed_speed_ratio": 1.009706758321379,
+          "observed_process_reduction_percent": 0.9613442953988138
+        },
+        {
+          "case": "default",
+          "declared_case": {
+            "id": "default",
+            "parameters": {},
+            "stimulus": {}
+          },
+          "input": {
+            "fixture": "mtof-fx",
+            "case": "default",
+            "input_sha256": "52184b1b1b21b47ce35f21665df317b1e3ebc0d927d1ce1f2ff24619a6727f35",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 1,
+            "declared_settings": {
+              "kind": "midi-stereo-v1",
+              "base": 60,
+              "depth": 12,
+              "rate": 0.5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "mtof-fx",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 2.98023224e-08,
+            "rms_error": 3.42288763e-09,
+            "relative_rms": 2.5548208e-10,
+            "pcm_different": 12,
+            "max_pcm_lsb": 1
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "mtof-fx",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 3416623,
+              "peak_us": 2844,
+              "event_us": 0,
+              "prepare_us": 2086216,
+              "rms": 0.139645683,
+              "peak": 0.255493701,
+              "arena_high_water": 262288,
+              "mean_process_us": 2372.654861111111
+            },
+            "optimized": {
+              "fixture": "mtof-fx",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 479229,
+              "peak_us": 374,
+              "event_us": 0,
+              "prepare_us": 2088093,
+              "rms": 0.139645683,
+              "peak": 0.255493701,
+              "arena_high_water": 262288,
+              "mean_process_us": 332.79791666666665
+            }
+          },
+          "observed_speed_ratio": 7.129416208117623,
+          "observed_process_reduction_percent": 85.9736061016975
+        },
+        {
+          "case": "fast-boundary",
+          "declared_case": {
+            "id": "fast-boundary",
+            "parameters": {},
+            "stimulus": {
+              "depth": 24,
+              "rate": 20
+            }
+          },
+          "input": {
+            "fixture": "mtof-fx",
+            "case": "fast-boundary",
+            "input_sha256": "e06706195ea51ffc365cfa55ec1b5656f009ecc6f2dc371de0b8f815a31474f0",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 1,
+            "declared_settings": {
+              "kind": "midi-stereo-v1",
+              "base": 60,
+              "depth": 24,
+              "rate": 20,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "mtof-fx",
+            "case": "fast-boundary",
+            "samples": 786432,
+            "max_abs": 5.96046448e-08,
+            "rms_error": 7.59896708e-09,
+            "relative_rms": 2.2151212e-09,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "mtof-fx",
+              "case": "fast-boundary",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 3657737,
+              "peak_us": 2825,
+              "event_us": 0,
+              "prepare_us": 2086228,
+              "rms": 0.193336798,
+              "peak": 0.510987222,
+              "arena_high_water": 262288,
+              "mean_process_us": 2540.095138888889
+            },
+            "optimized": {
+              "fixture": "mtof-fx",
+              "case": "fast-boundary",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 501664,
+              "peak_us": 374,
+              "event_us": 0,
+              "prepare_us": 2088083,
+              "rms": 0.193336798,
+              "peak": 0.510987222,
+              "arena_high_water": 262288,
+              "mean_process_us": 348.3777777777778
+            }
+          },
+          "observed_speed_ratio": 7.291208856924156,
+          "observed_process_reduction_percent": 86.28485317561105
+        }
+      ]
+    },
+    {
+      "fixture": "saw-fx",
+      "family": "saw",
+      "role": "fx",
+      "identical_artifact_control": true,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/catalog-fx.json",
+        "catalog_sha256": "a9b40052fd203cc8691710dfce0235ce7ef17edf07330f217f35735718dd0e97",
+        "patch_sha256": "bba7551120e25ac79a4ba6ba3197deb4a454d235d1d6f96a565dd8b3707982db",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "aa9bc31b5e0e22eaaa5585c906eb80be9fdaf35392cc1ef1c814d78afeddc2f9",
+          "object-benchmark/main/stimulus.h": "df816769948d80657e0b31c02db13cf2afdfdcd41a9ead9f8e7f0484522dee8b"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Float64 sine and arithmetic; round each completed channel sample once to Float32",
+        "timing": "Generator/cache copy excluded from process callback timers",
+        "rechecks": "Cached INPUT SHA before/after every strict and optimized pass; shared adjacent-pass checkpoint",
+        "pilot": "Every rendered output reference/pilot sample equals its declared input channel",
+        "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed"
+      },
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-saw-fx-declared-input-v1/build-report.json",
+      "build_report_sha256": "6c9395fc8a9f743f34a9db199721d79ec42cd98d783236e05d017928d67af93f",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-saw-fx/hardware-test.json",
+      "hardware_report_sha256": "87fa8470e28522a2619aacc2803b0f888dcd833f397280ed166add5e48817751",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-saw-fx/test-serial.log",
+      "serial_log_sha256": "4a85451970e370adee5cfd1421de9152674bbff35bd3b5217bb9c22a2c450bc1",
+      "pass": {
+        "fixture": "saw-fx",
+        "firmware_elf_sha256": "265f2a415054714cf92d5941472ef2ed1bceab8929a9df684a59a94488e00415",
+        "strict_module_sha256": "b0cbab8866b701ea85632604cffbfd713e88f932e074f3eff5f36f6bfdb19424",
+        "optimized_module_sha256": "b0cbab8866b701ea85632604cffbfd713e88f932e074f3eff5f36f6bfdb19424",
+        "cases": 5,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 3932160,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 2e-06,
+        "max_pcm_lsb_tolerance": 1,
+        "relative_rms_tolerance": 0.0001,
+        "strict_timed_blocks": 7200,
+        "strict_process_us": 1675054,
+        "strict_peak_us": 269,
+        "optimized_timed_blocks": 7200,
+        "optimized_process_us": 1672587,
+        "optimized_peak_us": 262,
+        "psram_before": 6284932,
+        "psram_after": 6284932,
+        "internal_before": 316287,
+        "internal_after": 316287,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 5,
+        "input_rechecks": 45,
+        "pilot_sample_checks": 3932160,
+        "stack_margin": 20548,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default",
+          "declared_case": {
+            "id": "default",
+            "parameters": {},
+            "stimulus": {}
+          },
+          "input": {
+            "fixture": "saw-fx",
+            "case": "default",
+            "input_sha256": "bd8f8c576e82cbd433ca1a3285bba889d33ab11f034181c7a7da1d4d7b20046b",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 2,
+            "declared_settings": {
+              "kind": "frequency-stereo-v1",
+              "frequency": 440,
+              "depth": 0,
+              "rate": 5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "saw-fx",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-fx",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 327852,
+              "peak_us": 239,
+              "event_us": 0,
+              "prepare_us": 2742,
+              "rms": 0.0743445393,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 227.675
+            },
+            "optimized": {
+              "fixture": "saw-fx",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 327363,
+              "peak_us": 235,
+              "event_us": 0,
+              "prepare_us": 2757,
+              "rms": 0.0743445393,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 227.33541666666667
+            }
+          },
+          "observed_speed_ratio": 1.0014937546393454,
+          "observed_process_reduction_percent": 0.14915266644706104
+        },
+        {
+          "case": "low",
+          "declared_case": {
+            "id": "low",
+            "parameters": {},
+            "stimulus": {
+              "frequency": 20
+            }
+          },
+          "input": {
+            "fixture": "saw-fx",
+            "case": "low",
+            "input_sha256": "8f29dd4a25446fc02bb912b77886671995046840f2644763a16deb7d119c4e1c",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 2,
+            "declared_settings": {
+              "kind": "frequency-stereo-v1",
+              "frequency": 20,
+              "depth": 0,
+              "rate": 5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "saw-fx",
+            "case": "low",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-fx",
+              "case": "low",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 325978,
+              "peak_us": 238,
+              "event_us": 0,
+              "prepare_us": 2726,
+              "rms": 0.0745348272,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 226.3736111111111
+            },
+            "optimized": {
+              "fixture": "saw-fx",
+              "case": "low",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 325582,
+              "peak_us": 233,
+              "event_us": 0,
+              "prepare_us": 2739,
+              "rms": 0.0745348272,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 226.0986111111111
+            }
+          },
+          "observed_speed_ratio": 1.0012162834554736,
+          "observed_process_reduction_percent": 0.12148059071471762
+        },
+        {
+          "case": "high",
+          "declared_case": {
+            "id": "high",
+            "parameters": {},
+            "stimulus": {
+              "frequency": 10000
+            }
+          },
+          "input": {
+            "fixture": "saw-fx",
+            "case": "high",
+            "input_sha256": "aa97d6de1c4cf714f87914728384bfd95f72b79db6268f5332cc1ce225bee96c",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 2,
+            "declared_settings": {
+              "kind": "frequency-stereo-v1",
+              "frequency": 10000,
+              "depth": 0,
+              "rate": 5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "saw-fx",
+            "case": "high",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-fx",
+              "case": "high",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 365372,
+              "peak_us": 269,
+              "event_us": 0,
+              "prepare_us": 2728,
+              "rms": 0.0684549865,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 253.73055555555555
+            },
+            "optimized": {
+              "fixture": "saw-fx",
+              "case": "high",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 364824,
+              "peak_us": 262,
+              "event_us": 0,
+              "prepare_us": 2735,
+              "rms": 0.0684549865,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 253.35
+            }
+          },
+          "observed_speed_ratio": 1.001502094160472,
+          "observed_process_reduction_percent": 0.14998412576771036
+        },
+        {
+          "case": "modulated",
+          "declared_case": {
+            "id": "modulated",
+            "parameters": {},
+            "stimulus": {
+              "depth": 100
+            }
+          },
+          "input": {
+            "fixture": "saw-fx",
+            "case": "modulated",
+            "input_sha256": "2b599bc9e9704c60b2315f35618dc7c0e72fb6fad5634e03d1e4959c7bfe3827",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 2,
+            "declared_settings": {
+              "kind": "frequency-stereo-v1",
+              "frequency": 440,
+              "depth": 100,
+              "rate": 5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "saw-fx",
+            "case": "modulated",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-fx",
+              "case": "modulated",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 327855,
+              "peak_us": 239,
+              "event_us": 0,
+              "prepare_us": 2726,
+              "rms": 0.0743435333,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 227.67708333333334
+            },
+            "optimized": {
+              "fixture": "saw-fx",
+              "case": "modulated",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 327395,
+              "peak_us": 235,
+              "event_us": 0,
+              "prepare_us": 2736,
+              "rms": 0.0743435333,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 227.35763888888889
+            }
+          },
+          "observed_speed_ratio": 1.0014050306205042,
+          "observed_process_reduction_percent": 0.14030592792546592
+        },
+        {
+          "case": "silent",
+          "declared_case": {
+            "id": "silent",
+            "parameters": {
+              "level": 0
+            },
+            "stimulus": {}
+          },
+          "input": {
+            "fixture": "saw-fx",
+            "case": "silent",
+            "input_sha256": "bd8f8c576e82cbd433ca1a3285bba889d33ab11f034181c7a7da1d4d7b20046b",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 2,
+            "declared_settings": {
+              "kind": "frequency-stereo-v1",
+              "frequency": 440,
+              "depth": 0,
+              "rate": 5,
+              "pilot_frequency": 371,
+              "pilot_amplitude": 0.125
+            }
+          },
+          "output_comparison": {
+            "fixture": "saw-fx",
+            "case": "silent",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-fx",
+              "case": "silent",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 327997,
+              "peak_us": 243,
+              "event_us": 39,
+              "prepare_us": 2737,
+              "rms": 0.0624979036,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 227.77569444444444
+            },
+            "optimized": {
+              "fixture": "saw-fx",
+              "case": "silent",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 327423,
+              "peak_us": 236,
+              "event_us": 33,
+              "prepare_us": 2747,
+              "rms": 0.0624979036,
+              "peak": 0.125,
+              "arena_high_water": 0,
+              "mean_process_us": 227.37708333333333
+            }
+          },
+          "observed_speed_ratio": 1.001753083931184,
+          "observed_process_reduction_percent": 0.17500160062439152
+        }
+      ]
+    },
+    {
+      "fixture": "reson-fx",
+      "family": "reson",
+      "role": "fx",
+      "identical_artifact_control": false,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/catalog-fx.json",
+        "catalog_sha256": "a9b40052fd203cc8691710dfce0235ce7ef17edf07330f217f35735718dd0e97",
+        "patch_sha256": "5c79453311359eb29a90aab7c634527da345339f605b3d8ebb57df61cc350120",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "aa9bc31b5e0e22eaaa5585c906eb80be9fdaf35392cc1ef1c814d78afeddc2f9",
+          "object-benchmark/main/stimulus.h": "df816769948d80657e0b31c02db13cf2afdfdcd41a9ead9f8e7f0484522dee8b"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Float64 sine and arithmetic; round each completed channel sample once to Float32",
+        "timing": "Generator/cache copy excluded from process callback timers",
+        "rechecks": "Cached INPUT SHA before/after every strict and optimized pass; shared adjacent-pass checkpoint",
+        "pilot": "Every rendered output reference/pilot sample equals its declared input channel",
+        "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed"
+      },
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-reson-fx-declared-input-v1/build-report.json",
+      "build_report_sha256": "7eeb8d6e79a6ee8ca6e01235d7390e6e63e2593987b4a1d346be50ce35d830b8",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-reson-fx/hardware-test.json",
+      "hardware_report_sha256": "13491599329a58eeb6ad560a685986cd8a0ed06c82b4ac63a6d7646f284a0d68",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-reson-fx/test-serial.log",
+      "serial_log_sha256": "64116516ccdfb7e370b856dc20177b295b251e2b828a78cec55af900a518915d",
+      "pass": {
+        "fixture": "reson-fx",
+        "firmware_elf_sha256": "19df04ddd9bc0114b07acec7029cba1a9c285f309bfa129fa2d6421b109be62e",
+        "strict_module_sha256": "5ab654f08cb02c7a385834998a293760b6560e382c64183659d729d8b819dcb4",
+        "optimized_module_sha256": "fde2a6e0048b3336d9b7070e8c8077d7ad383dae422f39941f9481f1ed0bd10c",
+        "cases": 4,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 3145728,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 2e-05,
+        "max_pcm_lsb_tolerance": 1,
+        "relative_rms_tolerance": 0.0001,
+        "strict_timed_blocks": 5760,
+        "strict_process_us": 3398312,
+        "strict_peak_us": 767,
+        "optimized_timed_blocks": 5760,
+        "optimized_process_us": 2384947,
+        "optimized_peak_us": 536,
+        "psram_before": 6284932,
+        "psram_after": 6284932,
+        "internal_before": 316287,
+        "internal_after": 316287,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 4,
+        "input_rechecks": 36,
+        "pilot_sample_checks": 3145728,
+        "stack_margin": 20548,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default",
+          "declared_case": {
+            "id": "default",
+            "parameters": {},
+            "stimulus": {}
+          },
+          "input": {
+            "fixture": "reson-fx",
+            "case": "default",
+            "input_sha256": "451c5ab69aa7b35facad0be072bd027d469d5ad94dcb53c4aa8715dba243f494",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 3,
+            "declared_settings": {
+              "kind": "reson-stereo-v1",
+              "excitation": 100,
+              "level": 0.2,
+              "center": 2000,
+              "depth": 1800,
+              "rate": 0.5
+            }
+          },
+          "output_comparison": {
+            "fixture": "reson-fx",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-fx",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 1068971,
+              "peak_us": 767,
+              "event_us": 0,
+              "prepare_us": 2143,
+              "rms": 0.114139862,
+              "peak": 0.199998736,
+              "arena_high_water": 0,
+              "mean_process_us": 742.3409722222223
+            },
+            "optimized": {
+              "fixture": "reson-fx",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 731676,
+              "peak_us": 536,
+              "event_us": 0,
+              "prepare_us": 2114,
+              "rms": 0.114139862,
+              "peak": 0.199998736,
+              "arena_high_water": 0,
+              "mean_process_us": 508.10833333333335
+            }
+          },
+          "observed_speed_ratio": 1.4609895636866592,
+          "observed_process_reduction_percent": 31.553241388213525
+        },
+        {
+          "case": "static-center",
+          "declared_case": {
+            "id": "static-center",
+            "parameters": {},
+            "stimulus": {
+              "depth": 0
+            }
+          },
+          "input": {
+            "fixture": "reson-fx",
+            "case": "static-center",
+            "input_sha256": "8c280e88f6eb43f1a70aaa4acf5e05ba4f16ebe7e17073398278449c74ea081e",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 3,
+            "declared_settings": {
+              "kind": "reson-stereo-v1",
+              "excitation": 100,
+              "level": 0.2,
+              "center": 2000,
+              "depth": 0,
+              "rate": 0.5
+            }
+          },
+          "output_comparison": {
+            "fixture": "reson-fx",
+            "case": "static-center",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-fx",
+              "case": "static-center",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 201220,
+              "peak_us": 149,
+              "event_us": 0,
+              "prepare_us": 2117,
+              "rms": 0.113241891,
+              "peak": 0.199998736,
+              "arena_high_water": 0,
+              "mean_process_us": 139.73611111111111
+            },
+            "optimized": {
+              "fixture": "reson-fx",
+              "case": "static-center",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 199027,
+              "peak_us": 146,
+              "event_us": 0,
+              "prepare_us": 2089,
+              "rms": 0.113241891,
+              "peak": 0.199998736,
+              "arena_high_water": 0,
+              "mean_process_us": 138.21319444444444
+            }
+          },
+          "observed_speed_ratio": 1.0110186055158346,
+          "observed_process_reduction_percent": 1.0898519033893272
+        },
+        {
+          "case": "fast-modulation",
+          "declared_case": {
+            "id": "fast-modulation",
+            "parameters": {},
+            "stimulus": {
+              "rate": 20
+            }
+          },
+          "input": {
+            "fixture": "reson-fx",
+            "case": "fast-modulation",
+            "input_sha256": "bc500399a69d5d2cc01553226a678660dc2c49b844af6cbf902cc0898c1bbd14",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 3,
+            "declared_settings": {
+              "kind": "reson-stereo-v1",
+              "excitation": 100,
+              "level": 0.2,
+              "center": 2000,
+              "depth": 1800,
+              "rate": 20
+            }
+          },
+          "output_comparison": {
+            "fixture": "reson-fx",
+            "case": "fast-modulation",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-fx",
+              "case": "fast-modulation",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 1059281,
+              "peak_us": 767,
+              "event_us": 0,
+              "prepare_us": 2116,
+              "rms": 0.114471081,
+              "peak": 0.199998736,
+              "arena_high_water": 0,
+              "mean_process_us": 735.6118055555555
+            },
+            "optimized": {
+              "fixture": "reson-fx",
+              "case": "fast-modulation",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 722241,
+              "peak_us": 535,
+              "event_us": 0,
+              "prepare_us": 2088,
+              "rms": 0.114471081,
+              "peak": 0.199998736,
+              "arena_high_water": 0,
+              "mean_process_us": 501.55625
+            }
+          },
+          "observed_speed_ratio": 1.4666586361062304,
+          "observed_process_reduction_percent": 31.81780849462985
+        },
+        {
+          "case": "silent",
+          "declared_case": {
+            "id": "silent",
+            "parameters": {},
+            "stimulus": {
+              "level": 0
+            }
+          },
+          "input": {
+            "fixture": "reson-fx",
+            "case": "silent",
+            "input_sha256": "5a8b5e49f8f6b5a299aa4560100fb5b8b85b1d739733afe673d56e4f6cbed9d8",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 3,
+            "declared_settings": {
+              "kind": "reson-stereo-v1",
+              "excitation": 100,
+              "level": 0,
+              "center": 2000,
+              "depth": 1800,
+              "rate": 0.5
+            }
+          },
+          "output_comparison": {
+            "fixture": "reson-fx",
+            "case": "silent",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-fx",
+              "case": "silent",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 1068840,
+              "peak_us": 767,
+              "event_us": 0,
+              "prepare_us": 2111,
+              "rms": 0,
+              "peak": 0,
+              "arena_high_water": 0,
+              "mean_process_us": 742.25
+            },
+            "optimized": {
+              "fixture": "reson-fx",
+              "case": "silent",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 732003,
+              "peak_us": 536,
+              "event_us": 0,
+              "prepare_us": 2087,
+              "rms": 0,
+              "peak": 0,
+              "arena_high_water": 0,
+              "mean_process_us": 508.3354166666667
+            }
+          },
+          "observed_speed_ratio": 1.4601579501723354,
+          "observed_process_reduction_percent": 31.514258448411358
+        }
+      ]
+    }
+  ],
+  "claim": "Observed workload comparisons; no universal numerical or worst-case timing bound"
+}

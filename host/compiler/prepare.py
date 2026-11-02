@@ -23,7 +23,7 @@ SUPPORTED_VERSION = "1.4.4"
 MAX_SOURCE_BYTES = 16 * 1024 * 1024
 MAX_COMMON_BYTES = 16 * 1024 * 1024
 MAX_PARAMETERS = 128
-NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1")
+NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2")
 
 
 class ExportError(ValueError):
@@ -291,7 +291,7 @@ def float32_cycle(source: bytes) -> tuple[bytes, dict]:
 def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             *, apply_fixes: bool = True, midi_output_policy: str = "reject",
             numerical_profile: str = "float32-strict", filter_delay_max_ms: float | None = None,
-            float32_delay_storage: bool = False) -> dict:
+            float32_delay_storage: bool = False, omit_unused_mtof_table: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -302,6 +302,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError(f"numerical-profile must be one of {NUMERICAL_PROFILES}")
     if type(float32_delay_storage) is not bool:
         raise ExportError("float32 delay storage must be a boolean")
+    if type(omit_unused_mtof_table) is not bool:
+        raise ExportError("omit unused mtof table must be a boolean")
     if filter_delay_max_ms is not None and (type(filter_delay_max_ms) not in (int, float) or
             not math.isfinite(filter_delay_max_ms) or not 0 < filter_delay_max_ms <= 1000):
         raise ExportError("filter-delay-max-ms must be positive, finite, and at most1000")
@@ -393,13 +395,24 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(delay_change)
-    if numerical_profile in ("float32-cycle-v2", "float32-audio-v1"):
+    if numerical_profile in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2"):
         from float32_audio import float32_audio
         try:
             files["rnbo_source.h"], audio_change = float32_audio(files["rnbo_source.h"], code_mask=cpp_code_mask, profile=numerical_profile)
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(audio_change)
+    if omit_unused_mtof_table:
+        from omit_mtof_table import omit_mtof_table
+        if "common/RNBO_DataRef.h" not in files:
+            raise ExportError("Omitting the mtof table requires common/RNBO_DataRef.h")
+        try:
+            files["rnbo_source.h"], table_change = omit_mtof_table(
+                files["rnbo_source.h"], files["common/RNBO_DataRef.h"],
+                files["common/RNBO_MinimalEngine.h"], code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        changes.append(table_change)
     schema = [{key: p.get(key) for key in ("paramId", "index", "name", "displayName", "unit", "minimum", "maximum", "initialValue", "exponent", "steps")}
               for p in params]
     manifest = {"format": "rnbo-esp32s3-prepared-export", "format_version": 1,
@@ -418,17 +431,28 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["filter_delay_max_ms"] = filter_delay_max_ms
     if float32_delay_storage:
         manifest["float32_delay_storage"] = True
+    if omit_unused_mtof_table:
+        manifest["omit_unused_mtof_table"] = True
+        manifest["requires_opaque_dataref_abi"] = True
+        manifest["modified_internal_resource_semantics"] = {
+            "RNBODefaultMtofLookupTable256": "zero samples; no allocation/fill/initialization DataRefUpdate notification"}
     config = ("// Generated from a validated Minimal Export.\n#pragma once\n"
               f"#define RNBO_S3_PATCH_CLASS {class_name}\n"
               f"#define RNBO_S3_PATCH_ROLE {1 if role == 'main' else 2}\n"
               f"#define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT {1 if midi_output_policy == 'discard' else 0}\n"
               "#define RNBO_S3_PATCH_RATE 44100\n#define RNBO_S3_PATCH_BLOCK 256\n")
+    if omit_unused_mtof_table:
+        config += ("#if !defined(RNBO_S3_ABI_MAJOR) || !defined(RNBO_S3_ABI_MINOR)\n"
+                   '#error "Omitted internal mtof table requires the SDK ABI header before patch_config.h"\n'
+                   "#elif RNBO_S3_ABI_MAJOR != 1u || RNBO_S3_ABI_MINOR != 0u\n"
+                   '#error "Omitted internal mtof table is reviewed only for opaque module C ABI 1.0"\n'
+                   "#endif\n")
     files["patch_config.h"] = config.encode()
     prepared_hashes = {name: digest(data) for name, data in sorted(files.items())}
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -470,12 +494,14 @@ def main() -> None:
     parser.add_argument("--filter-delay-max-ms",type=float,
                         help="Explicit comb/allpass delay input maximum0..1000ms; retains Float64 storage and original conversion")
     parser.add_argument("--float32-delays", action="store_true", help="Explicitly convert reviewed internal comb/allpass/delay rings to float32 storage")
+    parser.add_argument("--omit-unused-mtof-table", action="store_true",
+                        help="Omit reviewed unread mtof lookup payload; requires opaque C ABI, changes internal resource/notification semantics")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
                            apply_fixes=not args.no_runtime_fixes, midi_output_policy=args.midi_output,
                            numerical_profile=args.numerical_profile,filter_delay_max_ms=args.filter_delay_max_ms,
-                           float32_delay_storage=args.float32_delays)
+                           float32_delay_storage=args.float32_delays,omit_unused_mtof_table=args.omit_unused_mtof_table)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

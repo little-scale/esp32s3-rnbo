@@ -98,7 +98,18 @@ def live_parameters(transport, schema):
     result={}
     for identity,param in schema.items():
         value=by_index.get(param['index'])
-        if value is None or not param['minimum']<=value<=param['maximum']:
+        if value is None:
+            raise ValueError('Live parameter value is outside its admitted range')
+        # The ABI and %.9g readback represent Float32, while the source JSON
+        # bounds are decimal doubles. Compare their actual ABI values: e.g.
+        # the valid upper endpoint 0.99 reads as 0.99000001. No epsilon admits
+        # an adjacent out-of-range Float32 value.
+        try:
+            lower,actual,upper=(struct.unpack('<f',struct.pack('<f',v))[0]
+                                for v in (param['minimum'],value,param['maximum']))
+        except (OverflowError,struct.error) as exc:
+            raise ValueError('Live parameter value does not fit Float32') from exc
+        if not all(math.isfinite(v) for v in (lower,actual,upper)) or not lower<=actual<=upper:
             raise ValueError('Live parameter value is outside its admitted range')
         result[identity]={**param,'actual':value}
     return result

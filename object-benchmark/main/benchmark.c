@@ -5,6 +5,7 @@
 #include "module_host.h"
 #include "bench_check.h"
 #include "allocation_probe.h"
+#include "stimulus.h"
 #include "esp_app_desc.h"
 #include "esp_heap_caps.h"
 #include "esp_timer.h"
@@ -38,7 +39,10 @@ typedef struct { uint64_t samples,pcm_different;uint32_t max_pcm_lsb;double max_
 static profile_metrics profiles[2];
 static int64_t benchmark_started;
 static compare_metrics aggregate;
-static float *reference,*work;
+static float *reference,*work,*stimulus_cache;
+static const object_stimulus *active_stimulus;
+static uint32_t input_rechecks;
+static uint64_t pilot_sample_checks;
 static float *inputs[2],*outputs[2];
 
 static void digest_hex(const uint8_t *bytes,size_t count,char result[65])
@@ -56,6 +60,8 @@ static int16_t pcm(float value)
 static void verify_parameters(object_image *image)
 {
     CHECK(image->module.parameter_count(image->context)==BENCH_PARAMETER_COUNT);
+    (void)bench_parameters;
+#if BENCH_PARAMETER_COUNT > 0
     for (uint32_t i=0;i<BENCH_PARAMETER_COUNT;++i) {
         rnbo_s3_parameter_info info={.struct_bytes=sizeof info};
         CHECK(image->module.parameter_info(image->context,i,&info)==RNBO_S3_OK);
@@ -63,24 +69,30 @@ static void verify_parameters(object_image *image)
         CHECK(info.minimum==bench_parameters[i].minimum && info.maximum==bench_parameters[i].maximum);
         CHECK(info.initial==bench_parameters[i].initial && info.exponent==bench_parameters[i].exponent && info.steps==bench_parameters[i].steps);
     }
+#endif
 }
-/* Future FX fixtures can select a declared custom generator in the build
- * configuration. Generic excitation is deterministic with disjoint channels. */
+static void prepare_stimulus(unsigned test,char fingerprint[65])
+{
+    if(BENCH_ROLE!=RNBO_S3_FX){strcpy(fingerprint,"none");return;}
+    active_stimulus=&bench_stimuli[test];
+    for(unsigned block=0;block<BENCH_BLOCKS;++block) {
+        CHECK(object_stimulus_fill(active_stimulus,block*RNBO_S3_BLOCK_FRAMES,RNBO_S3_BLOCK_FRAMES,stimulus_cache+(size_t)block*2u*RNBO_S3_BLOCK_FRAMES));
+        if((block&31u)==31u){CHECK(esp_timer_get_time()-benchmark_started<550000000);vTaskDelay(1);}
+    }
+    digest_hex((const uint8_t*)stimulus_cache,(size_t)BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*sizeof(float),fingerprint);
+}
 static void excitation(uint32_t block)
 {
-    for (uint32_t i=0;i<RNBO_S3_BLOCK_FRAMES;++i) {
-        uint32_t n=block*RNBO_S3_BLOCK_FRAMES+i;
-        uint32_t hash=(n+BENCH_SEED)*1664525u+1013904223u;hash^=hash>>16;
-        float noise=((float)(hash&65535u)/32768.0f-1.0f)*0.125f;
-        switch ((n/4096u)%6u) {
-        case 0:inputs[0][i]=n==0?0.5f:0;inputs[1][i]=(n%4096u)==37u?-0.25f:0;break;
-        case 1:inputs[0][i]=0.125f;inputs[1][i]= -0.0625f;break;
-        case 2:inputs[0][i]=0.2f*sinf((float)n*(6.2831853071795864769f*100.0f/44100.0f));inputs[1][i]=0.13f*sinf((float)n*(6.2831853071795864769f*733.0f/44100.0f));break;
-        case 3:inputs[0][i]=(n&1u)?0.125f:-0.125f;inputs[1][i]=(n&4u)?0.0625f:-0.0625f;break;
-        case 4:inputs[0][i]=noise;inputs[1][i]= -noise*0.73f+0.03125f;break;
-        default:inputs[0][i]=((float)(n%256u)/255.0f-0.5f)*0.5f;inputs[1][i]=0.15f*sinf((float)(n%4096u)*(float)(n%4096u)*0.0002f);break;
-        }
+    for(uint32_t i=0;i<RNBO_S3_BLOCK_FRAMES;++i) {
+        size_t offset=((size_t)block*RNBO_S3_BLOCK_FRAMES+i)*2u;
+        inputs[0][i]=stimulus_cache[offset];inputs[1][i]=stimulus_cache[offset+1u];
     }
+}
+static void verify_stimulus(const char *expected)
+{
+    if(BENCH_ROLE!=RNBO_S3_FX)return;
+    char actual[65];digest_hex((const uint8_t*)stimulus_cache,(size_t)BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*sizeof(float),actual);
+    CHECK(!strcmp(actual,expected));++input_rechecks;
 }
 static void dispatch(object_image *image,const bench_case *test,uint32_t block,profile_metrics *metrics)
 {
@@ -138,6 +150,11 @@ static void run_pass(object_image *image,unsigned profile,const bench_case *test
     verify_parameters(image);
     for(uint32_t b=0;b<BENCH_BLOCKS;++b) {
         dispatch(image,test,b,metrics);step(image,b,metrics,true);
+        if(BENCH_ROLE==RNBO_S3_FX) {
+            unsigned observed=active_stimulus->kind==OBJECT_STIMULUS_FREQUENCY?1u:0u;
+            unsigned source=active_stimulus->kind==OBJECT_STIMULUS_RESON?0u:1u;
+            for(unsigned i=0;i<RNBO_S3_BLOCK_FRAMES;++i){CHECK(outputs[observed][i]==inputs[source][i]);++pilot_sample_checks;}
+        }
         for(unsigned c=0;c<2;++c)for(unsigned i=0;i<RNBO_S3_BLOCK_FRAMES;++i) {
             size_t offset=((size_t)b*2u+c)*RNBO_S3_BLOCK_FRAMES+i;
             float actual=outputs[c][i];double value=actual;
@@ -177,15 +194,27 @@ static void worker(void *unused)
     reference=heap_caps_malloc((size_t)BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*sizeof(float),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
     work=heap_caps_malloc(4u*RNBO_S3_BLOCK_FRAMES*sizeof(float),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);CHECK(reference&&work);
     inputs[0]=work;inputs[1]=work+RNBO_S3_BLOCK_FRAMES;outputs[0]=work+2u*RNBO_S3_BLOCK_FRAMES;outputs[1]=work+3u*RNBO_S3_BLOCK_FRAMES;
+    if(BENCH_ROLE==RNBO_S3_FX) {
+        stimulus_cache=heap_caps_malloc((size_t)BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*sizeof(float),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
+        CHECK(stimulus_cache);
+    }
+    char initial_input_sha[65];prepare_stimulus(0,initial_input_sha);
     prewarm();CHECK(!allocation_probe_allocations()&&!allocation_probe_frees());CHECK(heap_caps_check_integrity_all(true));
     size_t psram_before=heap_caps_get_free_size(MALLOC_CAP_SPIRAM),internal_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
     object_image images[2];load_pair(images);
     for(unsigned c=0;c<BENCH_CASE_COUNT;++c) {
         compare_metrics comparison={0};double squares[2]={0};profile_metrics current[2]={{0}};
+        char input_sha[65];prepare_stimulus(c,input_sha);
+        if(BENCH_ROLE==RNBO_S3_FX) {
+            printf("RNBO_OBJECT_BENCHMARK INPUT fixture=%s case=%s input_sha256=%s input_bytes=%u layout=float32_stereo_interleaved_le stimulus_kind=%"PRIu32"\n",BENCH_FIXTURE,bench_cases[c].name,input_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_stimulus->kind);fflush(stdout);
+        }
         for(unsigned round=0;round<BENCH_ROUNDS;++round) {
             unsigned first=round&1u;
+            verify_stimulus(input_sha);
             run_pass(&images[first],first,&bench_cases[c],true,&comparison,squares,&current[first]);
+            verify_stimulus(input_sha);
             run_pass(&images[first^1u],first^1u,&bench_cases[c],false,&comparison,squares,&current[first^1u]);
+            verify_stimulus(input_sha);
         }
         double relative=squares[0]>0?fabs(sqrt(squares[1]/squares[0])-1.0):(squares[1]==0?0:INFINITY);
         printf("RNBO_OBJECT_BENCHMARK CASE fixture=%s case=%s samples=%"PRIu64" max_abs=%.9g rms_error=%.9g relative_rms=%.9g pcm_different=%"PRIu64" max_pcm_lsb=%"PRIu32"\n",BENCH_FIXTURE,bench_cases[c].name,comparison.samples,comparison.max_abs,sqrt(comparison.error_square_sum/(double)comparison.samples),relative,comparison.pcm_different,comparison.max_pcm_lsb);fflush(stdout);
@@ -213,8 +242,8 @@ static void worker(void *unused)
         profile_metrics *m=&profiles[p];
         printf("RNBO_OBJECT_BENCHMARK PROFILE fixture=%s profile=%s blocks=%"PRIu64" timed_blocks=%"PRIu64" process_us=%"PRIu64" peak_us=%"PRIu32" event_us=%"PRIu64" events=%"PRIu64" prepare_us=%"PRIu64" rms=%.9g peak=%.9g clipped=%"PRIu64" context_bytes=%"PRIu32" arena_capacity=%u arena_high_water=%"PRIu32" code_bytes=%"PRIu32" max_cpp_new_calls=%"PRIu32" max_arena_requests=%"PRIu32"\n",BENCH_FIXTURE,p?"optimized":"strict",m->blocks,m->timed_blocks,m->process_us,m->peak_us,m->event_us,m->events,m->prepare_us,sqrt(m->square_sum/(double)m->samples),m->peak,m->clipped,m->context_bytes,BENCH_ARENA_BYTES,m->arena_high_water,m->code_bytes,m->cpp_new_calls,m->total_arena_allocations);
     }
-    printf("RNBO_OBJECT_BENCHMARK PASS fixture=%s firmware_elf_sha256=%s strict_module_sha256=%s optimized_module_sha256=%s cases=%u rounds=%u blocks_per_pass=%u warmup=%u seed=%u timing_exclude=%u compared_samples=%"PRIu64" max_abs=%.9g rms_error=%.9g pcm_different=%"PRIu64" max_pcm_lsb=%"PRIu32" max_abs_tolerance=%.9g max_pcm_lsb_tolerance=%u relative_rms_tolerance=%.9g strict_timed_blocks=%"PRIu64" strict_process_us=%"PRIu64" strict_peak_us=%"PRIu32" optimized_timed_blocks=%"PRIu64" optimized_process_us=%"PRIu64" optimized_peak_us=%"PRIu32" psram_before=%u psram_after=%u internal_before=%u internal_after=%u host_heap_allocations=%"PRIu32" host_heap_frees=%"PRIu32" local_late_allocations=0 images=4 finalized_images=4 stack_margin=%u scope=offline_no_i2s_ui_network\n",BENCH_FIXTURE,firmware_sha,strict_sha,optimized_sha,BENCH_CASE_COUNT,BENCH_ROUNDS,BENCH_BLOCKS,BENCH_WARMUP,BENCH_SEED,BENCH_TIMING_EXCLUDE,aggregate.samples,aggregate.max_abs,sqrt(aggregate.error_square_sum/(double)aggregate.samples),aggregate.pcm_different,aggregate.max_pcm_lsb,(double)BENCH_MAX_ABS,BENCH_MAX_PCM_LSB,(double)BENCH_MAX_RELATIVE_RMS,profiles[0].timed_blocks,profiles[0].process_us,profiles[0].peak_us,profiles[1].timed_blocks,profiles[1].process_us,profiles[1].peak_us,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after,allocation_probe_allocations(),allocation_probe_frees(),(unsigned)uxTaskGetStackHighWaterMark(NULL));fflush(stdout);
-    heap_caps_free(reference);heap_caps_free(work);vTaskDelete(NULL);
+    printf("RNBO_OBJECT_BENCHMARK PASS fixture=%s firmware_elf_sha256=%s strict_module_sha256=%s optimized_module_sha256=%s cases=%u rounds=%u blocks_per_pass=%u warmup=%u seed=%u timing_exclude=%u compared_samples=%"PRIu64" max_abs=%.9g rms_error=%.9g pcm_different=%"PRIu64" max_pcm_lsb=%"PRIu32" max_abs_tolerance=%.9g max_pcm_lsb_tolerance=%u relative_rms_tolerance=%.9g strict_timed_blocks=%"PRIu64" strict_process_us=%"PRIu64" strict_peak_us=%"PRIu32" optimized_timed_blocks=%"PRIu64" optimized_process_us=%"PRIu64" optimized_peak_us=%"PRIu32" psram_before=%u psram_after=%u internal_before=%u internal_after=%u host_heap_allocations=%"PRIu32" host_heap_frees=%"PRIu32" local_late_allocations=0 images=4 finalized_images=4 input_cases=%u input_rechecks=%"PRIu32" pilot_sample_checks=%"PRIu64" stack_margin=%u scope=offline_no_i2s_ui_network\n",BENCH_FIXTURE,firmware_sha,strict_sha,optimized_sha,BENCH_CASE_COUNT,BENCH_ROUNDS,BENCH_BLOCKS,BENCH_WARMUP,BENCH_SEED,BENCH_TIMING_EXCLUDE,aggregate.samples,aggregate.max_abs,sqrt(aggregate.error_square_sum/(double)aggregate.samples),aggregate.pcm_different,aggregate.max_pcm_lsb,(double)BENCH_MAX_ABS,BENCH_MAX_PCM_LSB,(double)BENCH_MAX_RELATIVE_RMS,profiles[0].timed_blocks,profiles[0].process_us,profiles[0].peak_us,profiles[1].timed_blocks,profiles[1].process_us,profiles[1].peak_us,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after,allocation_probe_allocations(),allocation_probe_frees(),BENCH_ROLE==RNBO_S3_FX?BENCH_CASE_COUNT:0u,input_rechecks,pilot_sample_checks,(unsigned)uxTaskGetStackHighWaterMark(NULL));fflush(stdout);
+    heap_caps_free(stimulus_cache);heap_caps_free(reference);heap_caps_free(work);vTaskDelete(NULL);
 }
 void app_main(void)
 {

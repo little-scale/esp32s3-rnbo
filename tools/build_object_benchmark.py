@@ -60,6 +60,33 @@ def integer(value, minimum, maximum, name):
     return value
 
 
+def stimulus_contract(fixture, case):
+    if fixture["role"]=="main":
+        require("stimulus" not in fixture and "stimulus" not in case, "Main cannot declare ignored external stimulus")
+        return None
+    base=fixture.get("stimulus");override=case.get("stimulus",{})
+    require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
+    kinds={"midi-stereo-v1":(1,{"kind","base","depth","rate","pilot_frequency","pilot_amplitude"}),
+           "frequency-stereo-v1":(2,{"kind","frequency","depth","rate","pilot_frequency","pilot_amplitude"}),
+           "reson-stereo-v1":(3,{"kind","excitation","level","center","depth","rate"})}
+    require(base.get("kind") in kinds, "Unknown FX stimulus kind")
+    kind,keys=kinds[base["kind"]]
+    require(set(base)==keys and set(override)<=keys-{"kind"}, "Unknown/missing FX stimulus fields or kind override")
+    settings=base|override
+    numbers={key:finite(value) for key,value in settings.items() if key!="kind"}
+    require(0<=numbers["rate"]<=22050 and numbers["depth"]>=0, "Invalid modulation rate/depth")
+    center=numbers["base" if kind==1 else "frequency" if kind==2 else "center"]
+    if kind==1:require(0<=center-numbers["depth"]<=center+numbers["depth"]<=127, "MIDI pitch stimulus outside 0..127")
+    else:require(0<=(center-numbers["depth"]) and center+numbers["depth"]<=22050, "Frequency stimulus outside 0..Nyquist")
+    if kind==3:
+        require(center-numbers["depth"]>0 and center+numbers["depth"]<22050, "Reson center must remain inside 0..Nyquist")
+        require(0<=numbers["excitation"]<=22050 and 0<=numbers["level"]<=1, "Invalid reson excitation/level")
+    else:require(0<numbers["pilot_frequency"]<=22050 and 0<numbers["pilot_amplitude"]<=1, "Invalid pilot frequency/amplitude")
+    return {"kind":kind,"settings":settings,"base":center,"depth":numbers["depth"],"rate":numbers["rate"],
+            "pilot_frequency":numbers.get("pilot_frequency",0.0),"pilot_amplitude":numbers.get("pilot_amplitude",0.0),
+            "excitation":numbers.get("excitation",0.0),"level":numbers.get("level",0.0)}
+
+
 def configuration(args, modules):
     data = read_regular(args.catalog, 4*1024*1024)
     catalog = read_json(data, "object fixture catalog")
@@ -72,7 +99,7 @@ def configuration(args, modules):
     candidate = modules["optimized"]["report"]["prepared_export"]["manifest"]
     role = fixture.get("role")
     require(role in ("main","fx") and manifest["role"]==candidate["role"]==role, "Catalog/module role differs")
-    require(role=="main", "This benchmark revision admits Main fixtures only; declared FX stimulus generators are not implemented")
+    require(manifest["audio_inputs"]==(0 if role=="main" else 2) and manifest["audio_outputs"]==2, "Unexpected audio channel shape")
     for key in ("parameter_schema_sha256", "source_tree_sha256", "editable_source_sha256", "parameter_count", "audio_inputs", "audio_outputs"):
         require(manifest[key]==candidate[key], "Strict/optimized source or schema identity differs: " + key)
     require(manifest["numerical_profile"]=="float32-strict", "Reference must use float32-strict")
@@ -99,8 +126,9 @@ def configuration(args, modules):
     require(args.timing_exclude_blocks<blocks, "Timing exclusion consumes entire pass")
     cases = fixture["cases"]
     require(isinstance(cases,list) and 1<=len(cases)<=16, "Expected 1..16 cases")
-    events=[]; case_rows=[]; case_ids=set()
+    events=[]; case_rows=[]; case_ids=set();stimuli=[]
     for case in cases:
+        stimuli.append(stimulus_contract(fixture,case))
         name=case["id"];require(isinstance(name,str) and name not in case_ids,"Invalid/duplicate case ID");case_ids.add(name)
         current=[]
         require(isinstance(case.get("parameters",{}),dict), "Parameters must be a map")
@@ -122,6 +150,14 @@ def configuration(args, modules):
     maximum=finite(tolerance["maximum_absolute_error"]);relative=finite(tolerance["relative_rms_level_difference"])
     require(maximum>=0 and relative>=0,"Negative comparison tolerance")
     pcm=integer(tolerance["maximum_pcm_lsb_error"],0,65535,"PCM tolerance")
+    buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
+    loaded=sum(m["inspection"]["loaded_bytes_upper_bound"] for m in modules.values())
+    # Admission permits <=1MiB opaque context/image. Budget that full bound,
+    # not an unverified guess of the current wrapper's smaller sizeof(Context).
+    budget={"workspace_bytes":buffers,"arena_bytes":2*args.arena_bytes,"opaque_context_upper_bound_bytes":2*1048576,
+            "loaded_images_upper_bound_bytes":loaded,"loader_heap_alignment_reserve_bytes":524288,"physical_psram_bytes":8*1048576}
+    budget["required_upper_bound_bytes"]=sum(budget[k] for k in ("workspace_bytes","arena_bytes","opaque_context_upper_bound_bytes","loaded_images_upper_bound_bytes","loader_heap_alignment_reserve_bytes"))
+    require(budget["required_upper_bound_bytes"]<=budget["physical_psram_bytes"],"Conservative benchmark PSRAM budget exceeds 8MiB; reduce blocks/arena")
     lines=["/* Generated by tools/build_object_benchmark.py; do not edit. */", "#pragma once",
            f"#define BENCH_FIXTURE {c_string(args.fixture_id)}",f"#define BENCH_ROLE {1 if role=='main' else 2}u",
            f"#define BENCH_BLOCKS {blocks}u", f"#define BENCH_WARMUP {warmup}u",f"#define BENCH_SEED {seed}u",
@@ -139,12 +175,17 @@ def configuration(args, modules):
     if not events:lines.append("{0,0,0,0},")
     lines += ["};", "static const bench_case bench_cases[]={"]
     for name,start,count in case_rows:lines.append("{%s,%su,%su},"%(c_string(name),start,count))
+    lines += ["};", "static const object_stimulus bench_stimuli[]={"]
+    for stimulus in stimuli:
+        if stimulus is None:lines.append("{0,0,0,0,0,0,0,0},")
+        else:lines.append("{%su,%s},"%(stimulus["kind"],",".join(float(stimulus[k]).hex() for k in ("base","depth","rate","pilot_frequency","pilot_amplitude","excitation","level"))))
     lines += ["};", ""]
     return "\n".join(lines), {"catalog_path":str(args.catalog),"catalog_sha256":hashlib.sha256(data).hexdigest(),
         "fixture":fixture,"patch_sha256":sha(patch),"blocks":blocks,"rounds":args.rounds,"timing_exclude_blocks":args.timing_exclude_blocks,
-        "arena_bytes":args.arena_bytes,"events":events,"description_sha256":sha(description_path),
+        "arena_bytes":args.arena_bytes,"events":events,"stimuli":stimuli,"psram_budget":budget,"description_sha256":sha(description_path),
         "comparison_policy":{"pcm_gain":0.5,"pcm_scale":32767,"pcm_rounding":"lrintf; symmetric saturation",
         "case_gate":"all declared tolerances per independently reset case, combined channels and rounds",
+        "fx_input":"per-case declared generator, Float64 sin then Float32 samples; interleaved little-endian input SHA before/after every pass; native/target transcendental rounding not assumed identical",
         "timing":"process callback only; excludes first N rendered blocks of each pass; events/preparation separate"}}
 
 
@@ -208,6 +249,10 @@ def main():
         require(candidates,"Set IDF_PYTHON_ENV_PATH for IDF5.5");environment["IDF_PYTHON_ENV_PATH"]=str(candidates[-1])
     project=ROOT/"object-benchmark"
     directory=ROOT/f"build/object-benchmark-{args.board}-{args.fixture_id}{'-'+args.variant if args.variant else ''}"
+    if (directory/"build-report.json").exists():
+        previous=read_json(read_regular(directory/"build-report.json",16*1024*1024),"existing benchmark report")
+        require(previous.get("source_files_sha256")==sources() and previous.get("benchmark")==policy and previous.get("modules")==modules,
+                "Existing benchmark artifacts have another identity; select a fresh --variant to preserve them")
     directory.mkdir(parents=True,exist_ok=True);config_dir=directory/"fixture-config";config_dir.mkdir(exist_ok=True)
     header_path=config_dir/"bench_config.h";header_path.write_text(header)
     definitions=["IDF_TARGET=esp32s3",f"SDKCONFIG={directory/'sdkconfig'}",
