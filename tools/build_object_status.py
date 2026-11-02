@@ -23,6 +23,7 @@ PRIMARY_GROUPS={
     'patcher:pink~':'pink-float32-output',
     'patcher:average~':'average-compact-history',
     'patcher:pow~':'scalar-powers-composed-original',
+    'patcher:train~':'train-scalar-reciprocal-private',
     'patcher:wrap~':'finite-wrap-correction-bounded'}
 WORKING_LABELS={'board':'Board verified','in_patch':'In a verified patch','native':'Native tests only',
                 'partial':'Partial / known gaps','unverified':'Not yet verified','not_applicable':'Host / editor context'}
@@ -175,7 +176,9 @@ def make_status(inventory,coverage,root=ROOT):
             require(m['optimization_state'] in ('available','experimental'),'Unadmitted measurement state')
             percent=100*(1-m['candidate_process_us']/m['reference_process_us'])
             cases=[c for c in measurements.values() if c['group_id']==group and c['case']!='aggregate']
-            case_text='; '.join(f"{c['case']}: {c['cpu_time_saved_percent']:.1f}%" for c in cases)
+            case_text='; '.join(f"{c['case']}: {c['cpu_time_saved_percent']:.1f}%"
+                               if c['cpu_time_saved_percent'] is not None else f"{c['case']}: control (no gain claimed)"
+                               for c in cases)
             row['performance']={'percent':percent,'label':f'{percent:.1f}%',
                 'phase':m['optimization_state'],'scope':'Combined filter fixture' if identity in ('patcher:comb~','patcher:allpass~') else 'Scalar cycle fixture' if identity=='patcher:cycle~' else 'Whole test patch',
                 'measurement_id':m['id'],'detail':f"{m['attribution']} Reference: {m['reference_profile']}; candidate: {m['candidate_profile']}. Aggregate matched process times: {m['reference_process_us']:,}→{m['candidate_process_us']:,}µs over {m['reference_timed_vectors']:,} vectors per profile. Cases: {case_text}.",
@@ -195,7 +198,7 @@ def make_status(inventory,coverage,root=ROOT):
                       'initial_coverage_public_revision':coverage['verified_public_revision']['sha'],
                       'later_evidence_policy':'Later additions are included with this snapshot and individually bound to public evidence content hashes; the initial revision identifies the original audited source set.',
                       'measurement_count':len(measurements),'exact_coverage_entries':len(seen),
-                      'primary_policy':'Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence.'}}
+                      'primary_policy':'Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, all12 private train workloads including bypass controls, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence.'}}
 
 
 def main():

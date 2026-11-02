@@ -107,6 +107,14 @@ double work automatically.
    The separate [private exact 44.1 kHz signal-delay conversion](exact-delay44100.md)
    preserves the tested signal-rate outputs with 12.7% less callback time across
    four target cases; guarded production admission remains pending.
+   The subsequent [train reciprocal experiment](train-reciprocal-hoist.md)
+   removes repeated scalar Float32 division while retaining Double floor/state
+   semantics. Its saved 12-case target comparison observes 39.06% less complete
+   callback time with unchanged numerical output; public admission is pending.
+   Phasor wrapping already compiles to Float32 instructions, so its source
+   literals alone establish no Double-removal benefit. Current implementation
+   work is computer-only and can reuse saved measurements only after exact
+   source/image binding.
 4. **Expand a mode-aware support inventory.** Derive the wider candidate set
    from the pinned generator/builtin surface and its service constraints, then
    add original fixtures for missing families and modes. For each record source

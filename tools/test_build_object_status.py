@@ -35,7 +35,7 @@ class ObjectStatusTests(unittest.TestCase):
 
     def test_all_percentages_recompute_from_exact_raw_evidence_and_vectors(self):
         checked=checked_measurements(self.coverage,ROOT)
-        self.assertEqual(len(checked),141)
+        self.assertEqual(len(checked),154)
         for measurement in checked.values():
             if measurement.get('cpu_time_change_measured',measurement['CPU_savings_claimed']):
                 expected=100*(1-measurement['candidate_process_us']/measurement['reference_process_us'])
@@ -53,6 +53,22 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertTrue(all(m['cpu_time_saved_percent'] is None and not m['CPU_savings_claimed'] for m in fallback))
         forged=copy.deepcopy(self.coverage)
         control=next(m for m in forged['measurements'] if m['id']==fallback[0]['id'])
+        control['CPU_savings_claimed']=True
+        with self.assertRaisesRegex(ValueError,'Controls must have no savings claim'):checked_measurements(forged,ROOT)
+
+    def test_train_controls_and_limitations_are_not_transferred_to_phasor(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        row=rows['patcher:train~']
+        self.assertEqual(row['working']['status'],'partial')
+        self.assertEqual(row['optimisation']['status'],'experimental')
+        self.assertEqual(row['performance']['measurement_id'],'train-scalar-reciprocal-private:aggregate')
+        self.assertAlmostEqual(row['performance']['percent'],39.05835132291203)
+        self.assertIn('zero-width: control (no gain claimed)',row['performance']['detail'])
+        self.assertIn('full-width: control (no gain claimed)',row['performance']['detail'])
+        self.assertIsNone(rows['patcher:phasor~']['performance'])
+        self.assertEqual(rows['patcher:phasor~']['optimisation']['status'],'none')
+        forged=copy.deepcopy(self.coverage)
+        control=next(m for m in forged['measurements'] if m['id']=='train-scalar-reciprocal-private:zero-width')
         control['CPU_savings_claimed']=True
         with self.assertRaisesRegex(ValueError,'Controls must have no savings claim'):checked_measurements(forged,ROOT)
 

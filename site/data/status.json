@@ -26452,7 +26452,7 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "phasor~",
       "category": "Generators",
       "id": "patcher:phasor~",
@@ -26460,10 +26460,10 @@
       "is_alias": false,
       "name": "phasor~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
+        "detail": "Linked wrap already uses single-precision add/sub instructions; no phasor transformation or speed gain is claimed.",
+        "label": "No measured change",
         "short": "",
-        "status": "unassessed"
+        "status": "none"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/phasor~?v=1.4.4",
@@ -26471,14 +26471,22 @@
         {
           "label": "objects wave2 — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/objects-wave2.json"
+        },
+        {
+          "label": "train reciprocal hoist — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/train-reciprocal-hoist.json"
+        },
+        {
+          "label": "train reciprocal hoist — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/train-reciprocal-hoist.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Declared signed-phase/pulse cases pass native rate/range/duty checks. Phasor±440/0; train period441/17 samples and width0/.25/1. Remaining scope: No target timing or absolute-phase/reset oracle. Do not inherit cycle~ conversion gains; source literals/callsites are not measured costs.",
-        "label": "Native tests only",
-        "short": "Not a board qualification",
-        "status": "native"
+        "detail": "Unchanged phasor executes in the target-verified phase/pulse comparison; native signed rate/range checks remain separate. Phasor±440/0; train period441/17 samples and width0/.25/1. Unchanged left-channel phasor in12 target-verified Main pair workloads; only train is transformed. Remaining scope: No isolated target phasor cost or independent target absolute-phase/reset oracle. Train reciprocal savings are not attributed to phasor.",
+        "label": "In a verified patch",
+        "short": "Composition coverage",
+        "status": "in_patch"
       }
     },
     {
@@ -34025,7 +34033,7 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "train~",
       "category": "Generators",
       "id": "patcher:train~",
@@ -34033,25 +34041,41 @@
       "is_alias": false,
       "name": "train~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
+        "detail": "Original Float32 reciprocal cached once per active-width vector; original Double floor/state/clock arithmetic retained. Saved12-case callback time reduced39.06%; division-free endpoint timings are controls. No public compiler option.",
+        "label": "Experimental",
         "short": "",
-        "status": "unassessed"
+        "status": "experimental"
       },
-      "performance": null,
+      "performance": {
+        "detail": "Only the scalar train reciprocal is hoisted; phasor, Double floor, state and clock arithmetic are unchanged. All12 warm Main workloads including bypass controls; no isolated train or full-player deadline claim. Reference: float32-strict; candidate: PRIVATE-train-scalar-reciprocal-hoist-v1. Aggregate matched process times: 2,304,575→1,404,446µs over 17,280 vectors per profile. Cases: default: 45.9%; negative: 45.9%; zero: 45.9%; short-period: 40.8%; zero-width: control (no gain claimed); full-width: control (no gain claimed); minimum-period-high-frequency: 40.2%; maximum-period-near-full: 45.3%; tiny-width-negative-zero: 40.7%; fractional-period-adjacent-width: 45.9%; warm-freeze-and-release: 33.8%; warm-sparse-switches: 37.9%.",
+        "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/train-reciprocal-hoist.json",
+        "label": "39.1%",
+        "measurement_id": "train-scalar-reciprocal-private:aggregate",
+        "percent": 39.05835132291203,
+        "phase": "experimental",
+        "scope": "Whole test patch"
+      },
       "reference_url": "https://rnbo.cycling74.com/objects/ref/train~?v=1.4.4",
       "sources": [
         {
           "label": "objects wave2 — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/objects-wave2.json"
+        },
+        {
+          "label": "train reciprocal hoist — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/train-reciprocal-hoist.json"
+        },
+        {
+          "label": "train reciprocal hoist — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/train-reciprocal-hoist.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Declared signed-phase/pulse cases pass native rate/range/duty checks. Phasor±440/0; train period441/17 samples and width0/.25/1. Remaining scope: No target timing or absolute-phase/reset oracle. Do not inherit cycle~ conversion gains; source literals/callsites are not measured costs.",
-        "label": "Native tests only",
-        "short": "Not a board qualification",
-        "status": "native"
+        "detail": "Saved target12-case callback comparison preserves numerical Float32 output and exact PCM; native raw-bit/event proof is separate. Warm-start duty and reset/oracle scope remain open. Phasor±440/0; train period441/17 samples and width0/.25/1. SavedS3:12 warm4 Main workloads,512blocks×3rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle. Remaining scope: The inherited maximum-period near-full-width full-window duty check fails after warmup; a separate source-derived stationary suffix passes without dropping startup samples from pair comparisons. No independent target duty/absolute-phase/reset oracle or target IEEE-bit equality gate. Only finite scalar period16..2048/width0..1 with exclusive callbacks is reviewed; no signal-rate or full fenv/transport claim. Private experiment only; no preparer flag available.",
+        "label": "Partial / known gaps",
+        "short": "Open scope / accuracy checks",
+        "status": "partial"
       }
     },
     {
@@ -36119,16 +36143,16 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "ba670fcf484c59040e2c41f6b8d6415025c183453a574bfa5a10c1693bbf3731",
-    "coverage_source_sha256": "1e3cbc66462aa12f55ae56b7662603c5a13b5f31d42322e5d547aaed07e9ccd3",
+    "coverage_canonical_sha256": "f3fa9b6eb8b0dfc301dfef346db2316af1dc5dfc9dabf59ae552af10c4d43cfe",
+    "coverage_source_sha256": "348aa67db48a1ba8d38186b149cba8a6864cd4210da1bd2cbafd3210fecd42b6",
     "exact_coverage_entries": 39,
-    "generator_sha256": "d48b1fee1bedeb42f4cfcccc3b05f9e07fa3c4974d5543c9fb4bb1f43b1ccf41",
+    "generator_sha256": "35df3dc36aea3c3c8a5dafe606572b4fee89d97d6c7521de0649d01c0d399f59",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
     "later_evidence_policy": "Later additions are included with this snapshot and individually bound to public evidence content hashes; the initial revision identifies the original audited source set.",
-    "measurement_count": 141,
-    "primary_policy": "Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence."
+    "measurement_count": 154,
+    "primary_policy": "Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, all12 private train workloads including bypass controls, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence."
   },
   "rnbo_version": "1.4.4",
   "schema_version": 1,
