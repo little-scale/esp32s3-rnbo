@@ -1,0 +1,1992 @@
+{
+  "format": "rnbo-object-target-observations",
+  "format_version": 1,
+  "evidence_group": "wave2-target-oracles-v1",
+  "collector_sha256": "580b201608f513c1f8afda341b703a1da52b141dd17b48e120299fecb5c607d5",
+  "fixtures": [
+    {
+      "fixture": "biquad-response",
+      "family": "biquad",
+      "role": "fx",
+      "numerical_profiles": {
+        "strict": "float32-strict",
+        "optimized": "float32-strict"
+      },
+      "identical_artifact_control": true,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "build/object-optimisation/wave2-target-v1/catalog.json",
+        "catalog_sha256": "338cbfd6bf84313f229a72bd0659d6a6354f9f77a9b6c615ac81a46e54562581",
+        "patch_sha256": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "69a735d6b025a756e425d4375316f56522698a153fe72a8769129882d29f046b",
+          "object-benchmark/main/stimulus.h": "6cdcb4b95d62a8c45fef7d1d268081a951090aab0bca176b14bd3800f762416e"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Float64 sine/arithmetic; round each completed channel sample once to Float32",
+        "timing": "Generator/oracle precomputation and cache copy excluded from process timers",
+        "rechecks": "Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint",
+        "pilot": "No pilot samples; both output channels use the declared mathematical oracle",
+        "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed",
+        "oracle_source_sha256": {
+          "object-benchmark/main/wave2_oracle.c": "c4a24be5a5d808f23c6b3c06171f7a1dbccf5989139f0afb47bd89564939b95d",
+          "object-benchmark/main/wave2_oracle.h": "5a731b97b95c70920d016818124b5db4d10e86925e51af84ab2581527a8b03e1"
+        },
+        "verification_contract": {
+          "kind": "biquad-response-v1",
+          "maximum_absolute_error": 3e-06
+        },
+        "psram_budget": {
+          "workspace_bytes": 2101248,
+          "oracle_cache_bytes": 1048576,
+          "arena_bytes": 8192,
+          "opaque_context_upper_bound_bytes": 2097152,
+          "loaded_images_upper_bound_bytes": 72164,
+          "loader_heap_alignment_reserve_bytes": 524288,
+          "physical_psram_bytes": 8388608,
+          "required_upper_bound_bytes": 5851620
+        },
+        "oracle": "Original catalog Float64 model over actual Float32 input; once Float32 cache rounding. Native/target libm byte identity is not assumed.",
+        "semantic_gate": "Maximum output/cache error plus maximum cache/model rounding error must stay within the unchanged declared semantic limit.",
+        "parameter_schema": [
+          {
+            "paramId": "a0",
+            "index": 0,
+            "minimum": 0,
+            "maximum": 1,
+            "initialValue": 0.5,
+            "exponent": 1,
+            "steps": 0
+          },
+          {
+            "paramId": "b2",
+            "index": 1,
+            "minimum": 0,
+            "maximum": 0.8,
+            "initialValue": 0.2,
+            "exponent": 1,
+            "steps": 0
+          },
+          {
+            "paramId": "a1",
+            "index": 2,
+            "minimum": -1,
+            "maximum": 1,
+            "initialValue": 0.25,
+            "exponent": 1,
+            "steps": 0
+          },
+          {
+            "paramId": "a2",
+            "index": 3,
+            "minimum": -1,
+            "maximum": 1,
+            "initialValue": 0.125,
+            "exponent": 1,
+            "steps": 0
+          },
+          {
+            "paramId": "b1",
+            "index": 4,
+            "minimum": -0.95,
+            "maximum": 0.95,
+            "initialValue": -0.4,
+            "exponent": 1,
+            "steps": 0
+          }
+        ],
+        "events": [
+          {
+            "block": 0,
+            "index": 0,
+            "kind": 1,
+            "value": 1.0,
+            "id": "a0"
+          },
+          {
+            "block": 0,
+            "index": 2,
+            "kind": 1,
+            "value": 0.0,
+            "id": "a1"
+          },
+          {
+            "block": 0,
+            "index": 3,
+            "kind": 1,
+            "value": 0.0,
+            "id": "a2"
+          },
+          {
+            "block": 0,
+            "index": 4,
+            "kind": 1,
+            "value": 0.0,
+            "id": "b1"
+          },
+          {
+            "block": 0,
+            "index": 1,
+            "kind": 1,
+            "value": 0.0,
+            "id": "b2"
+          },
+          {
+            "block": 0,
+            "index": 0,
+            "kind": 1,
+            "value": 0.05000000074505806,
+            "id": "a0"
+          },
+          {
+            "block": 0,
+            "index": 2,
+            "kind": 1,
+            "value": 0.0,
+            "id": "a1"
+          },
+          {
+            "block": 0,
+            "index": 3,
+            "kind": 1,
+            "value": 0.0,
+            "id": "a2"
+          },
+          {
+            "block": 0,
+            "index": 4,
+            "kind": 1,
+            "value": -0.949999988079071,
+            "id": "b1"
+          },
+          {
+            "block": 0,
+            "index": 1,
+            "kind": 1,
+            "value": 0.0,
+            "id": "b2"
+          }
+        ]
+      },
+      "build_report": "build/object-benchmark-amoled-biquad-response-wave2-oracles-v1/build-report.json",
+      "build_report_sha256": "a7507614363641dbbcbc1acea0bb5dceefea3f375e8d74776ecf4f0df076df0d",
+      "hardware_report": "build/object-optimisation/hardware-biquad-oracles-v1/hardware-test.json",
+      "hardware_report_sha256": "1fa9d37971af8640b25393b1926f89020c36b1c177668897255fd31274f5ae8d",
+      "serial_log": "build/object-optimisation/hardware-biquad-oracles-v1/test-serial.log",
+      "serial_log_sha256": "774cf49ce11436c31ab21bce4060b4ff0e1e813eedc711da6010921ba78f07e3",
+      "pass": {
+        "fixture": "biquad-response",
+        "firmware_elf_sha256": "c79749b1d3564f87ae4f16a62bcd7095a564f3dc5d53daf5bce67a2d3fc7e4d9",
+        "strict_module_sha256": "fed044d8ecc6346dff84dc684ce460b5a80d8c8dad1f8e05eb65220d39c32e2f",
+        "optimized_module_sha256": "fed044d8ecc6346dff84dc684ce460b5a80d8c8dad1f8e05eb65220d39c32e2f",
+        "cases": 3,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 2359296,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 0,
+        "max_pcm_lsb_tolerance": 0,
+        "relative_rms_tolerance": 0,
+        "strict_timed_blocks": 4320,
+        "strict_process_us": 364362,
+        "strict_peak_us": 96,
+        "optimized_timed_blocks": 4320,
+        "optimized_process_us": 364663,
+        "optimized_peak_us": 94,
+        "psram_before": 5236352,
+        "psram_after": 5236352,
+        "internal_before": 315751,
+        "internal_after": 315751,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 3,
+        "input_rechecks": 27,
+        "pilot_sample_checks": 0,
+        "oracle_cases": 3,
+        "oracle_rechecks": 27,
+        "semantic_sample_checks": 4718592,
+        "dc_sample_checks": 18,
+        "stack_margin": 20324,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default",
+          "declared_case": {
+            "id": "default",
+            "parameters": {},
+            "events": []
+          },
+          "input": {
+            "fixture": "biquad-response",
+            "case": "default",
+            "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 4,
+            "declared_settings": {
+              "kind": "impulse-step-v1"
+            },
+            "oracle": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "oracle_sha256": "811eb5868f928f78e994a218ba3485d99b23271e18de7aa61004f9eeaf55a277",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "biquad-response-v1",
+              "max_abs_tolerance": 3e-06,
+              "max_cache_rounding_error": 1.4747749021992718e-08,
+              "model": "fresh-float64-difference-equation",
+              "rounding": "once-float32",
+              "a0": 0.5,
+              "a1": 0.25,
+              "a2": 0.125,
+              "b1": -0.4,
+              "b2": 0.2,
+              "verification": {
+                "kind": "biquad-response-v1",
+                "maximum_absolute_error": 3e-06,
+                "model": "fresh-float64-difference-equation",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "coefficients": {
+                  "a0": 0.5,
+                  "a1": 0.25,
+                  "a2": 0.125,
+                  "b1": -0.4,
+                  "b2": 0.2
+                },
+                "dc_expected": -0.13671875
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "profile": "strict",
+              "semantic_kind": "biquad-response-v1",
+              "samples": 786432,
+              "max_abs": 2.9802322387695312e-08,
+              "max_model_error_bound": 4.455007140968803e-08,
+              "max_abs_tolerance": 3e-06,
+              "oracle_sha256": "811eb5868f928f78e994a218ba3485d99b23271e18de7aa61004f9eeaf55a277"
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "profile": "optimized",
+              "semantic_kind": "biquad-response-v1",
+              "samples": 786432,
+              "max_abs": 2.9802322387695312e-08,
+              "max_model_error_bound": 4.455007140968803e-08,
+              "max_abs_tolerance": 3e-06,
+              "oracle_sha256": "811eb5868f928f78e994a218ba3485d99b23271e18de7aa61004f9eeaf55a277"
+            }
+          },
+          "output_comparison": {
+            "fixture": "biquad-response",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 121402,
+              "peak_us": 94,
+              "event_us": 0,
+              "prepare_us": 1931,
+              "rms": 0.105358805,
+              "peak": 0.5,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 84.30694444444444
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 121359,
+              "peak_us": 94,
+              "event_us": 0,
+              "prepare_us": 2018,
+              "rms": 0.105358805,
+              "peak": 0.5,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 84.27708333333334
+            }
+          },
+          "dc_comparison": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "profile": "strict",
+              "oracle_sha256": "811eb5868f928f78e994a218ba3485d99b23271e18de7aa61004f9eeaf55a277",
+              "expected": -0.13671875,
+              "max_abs": 0,
+              "samples": 3,
+              "mean_frames": 1024,
+              "max_abs_tolerance": 3e-06
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "default",
+              "profile": "optimized",
+              "oracle_sha256": "811eb5868f928f78e994a218ba3485d99b23271e18de7aa61004f9eeaf55a277",
+              "expected": -0.13671875,
+              "max_abs": 0,
+              "samples": 3,
+              "mean_frames": 1024,
+              "max_abs_tolerance": 3e-06
+            }
+          }
+        },
+        {
+          "case": "identity",
+          "declared_case": {
+            "id": "identity",
+            "parameters": {
+              "a0": 1,
+              "a1": 0,
+              "a2": 0,
+              "b1": 0,
+              "b2": 0
+            },
+            "events": []
+          },
+          "input": {
+            "fixture": "biquad-response",
+            "case": "identity",
+            "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 4,
+            "declared_settings": {
+              "kind": "impulse-step-v1"
+            },
+            "oracle": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "oracle_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "biquad-response-v1",
+              "max_abs_tolerance": 3e-06,
+              "max_cache_rounding_error": 0,
+              "model": "fresh-float64-difference-equation",
+              "rounding": "once-float32",
+              "a0": 1,
+              "a1": 0,
+              "a2": 0,
+              "b1": 0,
+              "b2": 0,
+              "verification": {
+                "kind": "biquad-response-v1",
+                "maximum_absolute_error": 3e-06,
+                "model": "fresh-float64-difference-equation",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "coefficients": {
+                  "a0": 1,
+                  "a1": 0,
+                  "a2": 0,
+                  "b1": 0,
+                  "b2": 0
+                },
+                "dc_expected": -0.125
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "profile": "strict",
+              "semantic_kind": "biquad-response-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 3e-06,
+              "oracle_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc"
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "profile": "optimized",
+              "semantic_kind": "biquad-response-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 3e-06,
+              "oracle_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc"
+            }
+          },
+          "output_comparison": {
+            "fixture": "biquad-response",
+            "case": "identity",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 121201,
+              "peak_us": 96,
+              "event_us": 114,
+              "prepare_us": 1942,
+              "rms": 0.0963437186,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 84.1673611111111
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 121376,
+              "peak_us": 94,
+              "event_us": 112,
+              "prepare_us": 2031,
+              "rms": 0.0963437186,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 84.28888888888889
+            }
+          },
+          "dc_comparison": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "profile": "strict",
+              "oracle_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "expected": -0.125,
+              "max_abs": 0,
+              "samples": 3,
+              "mean_frames": 1024,
+              "max_abs_tolerance": 3e-06
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "identity",
+              "profile": "optimized",
+              "oracle_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "expected": -0.125,
+              "max_abs": 0,
+              "samples": 3,
+              "mean_frames": 1024,
+              "max_abs_tolerance": 3e-06
+            }
+          }
+        },
+        {
+          "case": "slow-pole",
+          "declared_case": {
+            "id": "slow-pole",
+            "parameters": {
+              "a0": 0.05,
+              "a1": 0,
+              "a2": 0,
+              "b1": -0.95,
+              "b2": 0
+            },
+            "events": []
+          },
+          "input": {
+            "fixture": "biquad-response",
+            "case": "slow-pole",
+            "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 4,
+            "declared_settings": {
+              "kind": "impulse-step-v1"
+            },
+            "oracle": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "oracle_sha256": "7a66c786786d0d4779270022a68269d047b71d6d7322828824b9b39e8fd67aaa",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "biquad-response-v1",
+              "max_abs_tolerance": 3e-06,
+              "max_cache_rounding_error": 7.447071848076803e-09,
+              "model": "fresh-float64-difference-equation",
+              "rounding": "once-float32",
+              "a0": 0.05,
+              "a1": 0,
+              "a2": 0,
+              "b1": -0.95,
+              "b2": 0,
+              "verification": {
+                "kind": "biquad-response-v1",
+                "maximum_absolute_error": 3e-06,
+                "model": "fresh-float64-difference-equation",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "coefficients": {
+                  "a0": 0.05,
+                  "a1": 0,
+                  "a2": 0,
+                  "b1": -0.95,
+                  "b2": 0
+                },
+                "dc_expected": -0.1249999999999999
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "profile": "strict",
+              "semantic_kind": "biquad-response-v1",
+              "samples": 786432,
+              "max_abs": 1.341104507446289e-07,
+              "max_model_error_bound": 1.415575225927057e-07,
+              "max_abs_tolerance": 3e-06,
+              "oracle_sha256": "7a66c786786d0d4779270022a68269d047b71d6d7322828824b9b39e8fd67aaa"
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "profile": "optimized",
+              "semantic_kind": "biquad-response-v1",
+              "samples": 786432,
+              "max_abs": 1.341104507446289e-07,
+              "max_model_error_bound": 1.415575225927057e-07,
+              "max_abs_tolerance": 3e-06,
+              "oracle_sha256": "7a66c786786d0d4779270022a68269d047b71d6d7322828824b9b39e8fd67aaa"
+            }
+          },
+          "output_comparison": {
+            "fixture": "biquad-response",
+            "case": "slow-pole",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 121759,
+              "peak_us": 92,
+              "event_us": 114,
+              "prepare_us": 1953,
+              "rms": 0.0962744709,
+              "peak": 0.249999866,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 84.55486111111111
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 121928,
+              "peak_us": 94,
+              "event_us": 112,
+              "prepare_us": 2030,
+              "rms": 0.0962744709,
+              "peak": 0.249999866,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 84.67222222222222
+            }
+          },
+          "dc_comparison": {
+            "strict": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "profile": "strict",
+              "oracle_sha256": "7a66c786786d0d4779270022a68269d047b71d6d7322828824b9b39e8fd67aaa",
+              "expected": -0.1249999999999999,
+              "max_abs": 6.705522527516994e-08,
+              "samples": 3,
+              "mean_frames": 1024,
+              "max_abs_tolerance": 3e-06
+            },
+            "optimized": {
+              "fixture": "biquad-response",
+              "case": "slow-pole",
+              "profile": "optimized",
+              "oracle_sha256": "7a66c786786d0d4779270022a68269d047b71d6d7322828824b9b39e8fd67aaa",
+              "expected": -0.1249999999999999,
+              "max_abs": 6.705522527516994e-08,
+              "samples": 3,
+              "mean_frames": 1024,
+              "max_abs_tolerance": 3e-06
+            }
+          }
+        }
+      ],
+      "status": "target_oracle_control_passed",
+      "optimization_gain_claimed": false,
+      "restoration_verified": true,
+      "profile_totals": {
+        "strict": {
+          "fixture": "biquad-response",
+          "profile": "strict",
+          "blocks": 4608,
+          "timed_blocks": 4320,
+          "process_us": 364362,
+          "peak_us": 96,
+          "event_us": 228,
+          "events": 30,
+          "prepare_us": 5826,
+          "rms": 0.0994172415,
+          "peak": 1,
+          "clipped": 0,
+          "context_bytes": 12848,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 34004,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0,
+          "text_mapping_span_upper_bound": 34584
+        },
+        "optimized": {
+          "fixture": "biquad-response",
+          "profile": "optimized",
+          "blocks": 4608,
+          "timed_blocks": 4320,
+          "process_us": 364663,
+          "peak_us": 94,
+          "event_us": 224,
+          "events": 30,
+          "prepare_us": 6079,
+          "rms": 0.0994172415,
+          "peak": 1,
+          "clipped": 0,
+          "context_bytes": 12848,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 34004,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0,
+          "text_mapping_span_upper_bound": 34584
+        }
+      },
+      "maximum_model_error_bound": 1.415575225927057e-07,
+      "semantic_tolerance": 3e-06,
+      "memory_scope": "4096-byte reserved arena with zero requests, plus separately measured context/text and persistent host caches; this is not zero total RAM."
+    },
+    {
+      "fixture": "nonlinear-domains",
+      "family": "nonlinear",
+      "role": "fx",
+      "numerical_profiles": {
+        "strict": "float32-strict",
+        "optimized": "float32-strict"
+      },
+      "identical_artifact_control": true,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "build/object-optimisation/wave2-target-v1/catalog.json",
+        "catalog_sha256": "338cbfd6bf84313f229a72bd0659d6a6354f9f77a9b6c615ac81a46e54562581",
+        "patch_sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "69a735d6b025a756e425d4375316f56522698a153fe72a8769129882d29f046b",
+          "object-benchmark/main/stimulus.h": "6cdcb4b95d62a8c45fef7d1d268081a951090aab0bca176b14bd3800f762416e"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Float64 sine/arithmetic; round each completed channel sample once to Float32",
+        "timing": "Generator/oracle precomputation and cache copy excluded from process timers",
+        "rechecks": "Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint",
+        "pilot": "No pilot samples; both output channels use the declared mathematical oracle",
+        "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed",
+        "oracle_source_sha256": {
+          "object-benchmark/main/wave2_oracle.c": "c4a24be5a5d808f23c6b3c06171f7a1dbccf5989139f0afb47bd89564939b95d",
+          "object-benchmark/main/wave2_oracle.h": "5a731b97b95c70920d016818124b5db4d10e86925e51af84ab2581527a8b03e1"
+        },
+        "verification_contract": {
+          "kind": "nonlinear-chain-v1",
+          "maximum_absolute_error": 2e-06
+        },
+        "psram_budget": {
+          "workspace_bytes": 2101248,
+          "oracle_cache_bytes": 1048576,
+          "arena_bytes": 8192,
+          "opaque_context_upper_bound_bytes": 2097152,
+          "loaded_images_upper_bound_bytes": 71268,
+          "loader_heap_alignment_reserve_bytes": 524288,
+          "physical_psram_bytes": 8388608,
+          "required_upper_bound_bytes": 5850724
+        },
+        "oracle": "Original catalog Float64 model over actual Float32 input; once Float32 cache rounding. Native/target libm byte identity is not assumed.",
+        "semantic_gate": "Maximum output/cache error plus maximum cache/model rounding error must stay within the unchanged declared semantic limit.",
+        "parameter_schema": [
+          {
+            "paramId": "exponent",
+            "index": 0,
+            "minimum": 0.25,
+            "maximum": 4,
+            "initialValue": 2,
+            "exponent": 1,
+            "steps": 0
+          }
+        ],
+        "events": [
+          {
+            "block": 0,
+            "index": 0,
+            "kind": 1,
+            "value": 0.25,
+            "id": "exponent"
+          },
+          {
+            "block": 0,
+            "index": 0,
+            "kind": 1,
+            "value": 4.0,
+            "id": "exponent"
+          }
+        ]
+      },
+      "build_report": "build/object-benchmark-amoled-nonlinear-domains-wave2-oracles-v1/build-report.json",
+      "build_report_sha256": "13b9a066204965ff7a3c0998fcdef469a6c65c2887a34813a31b510008ad4cfb",
+      "hardware_report": "build/object-optimisation/hardware-nonlinear-oracles-v1/hardware-test.json",
+      "hardware_report_sha256": "30dbde005a5d4080d5c72b37025db985a0ab02163ea68ec06eaee46e9f413251",
+      "serial_log": "build/object-optimisation/hardware-nonlinear-oracles-v1/test-serial.log",
+      "serial_log_sha256": "fa9eb903f1811f359e6682ffccd8cf829a49b14f3467e07f5dc3ef76c2da43d4",
+      "pass": {
+        "fixture": "nonlinear-domains",
+        "firmware_elf_sha256": "6a9e17caf0795ee495447b0621498e972799a20428f416959633e5e6021cb406",
+        "strict_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+        "optimized_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+        "cases": 3,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 2359296,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 0,
+        "max_pcm_lsb_tolerance": 0,
+        "relative_rms_tolerance": 0,
+        "strict_timed_blocks": 4320,
+        "strict_process_us": 2717216,
+        "strict_peak_us": 900,
+        "optimized_timed_blocks": 4320,
+        "optimized_process_us": 2715502,
+        "optimized_peak_us": 901,
+        "psram_before": 5236352,
+        "psram_after": 5236352,
+        "internal_before": 315751,
+        "internal_after": 315751,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 3,
+        "input_rechecks": 27,
+        "pilot_sample_checks": 0,
+        "oracle_cases": 3,
+        "oracle_rechecks": 27,
+        "semantic_sample_checks": 4718592,
+        "dc_sample_checks": 0,
+        "stack_margin": 20324,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "square",
+          "declared_case": {
+            "id": "square",
+            "parameters": {},
+            "events": []
+          },
+          "input": {
+            "fixture": "nonlinear-domains",
+            "case": "square",
+            "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 6,
+            "declared_settings": {
+              "kind": "nonlinear-grid-v1"
+            },
+            "oracle": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "oracle_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "nonlinear-chain-v1",
+              "max_abs_tolerance": 2e-06,
+              "max_cache_rounding_error": 2.8797920270662303e-08,
+              "model": "float64-tanh-wrap-clip-pow",
+              "rounding": "once-float32",
+              "exponent": 2,
+              "verification": {
+                "kind": "nonlinear-chain-v1",
+                "maximum_absolute_error": 2e-06,
+                "model": "float64-tanh-wrap-clip-pow",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "exponent": 2
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "strict",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "optimized",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+            }
+          },
+          "output_comparison": {
+            "fixture": "nonlinear-domains",
+            "case": "square",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 780182,
+              "peak_us": 614,
+              "event_us": 0,
+              "prepare_us": 3584,
+              "rms": 0.552575934,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 541.7930555555556
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 779525,
+              "peak_us": 611,
+              "event_us": 0,
+              "prepare_us": 3679,
+              "rms": 0.552575934,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 541.3368055555555
+            }
+          }
+        },
+        {
+          "case": "fractional",
+          "declared_case": {
+            "id": "fractional",
+            "parameters": {
+              "exponent": 0.25
+            },
+            "events": []
+          },
+          "input": {
+            "fixture": "nonlinear-domains",
+            "case": "fractional",
+            "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 6,
+            "declared_settings": {
+              "kind": "nonlinear-grid-v1"
+            },
+            "oracle": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "oracle_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "nonlinear-chain-v1",
+              "max_abs_tolerance": 2e-06,
+              "max_cache_rounding_error": 2.8797920270662303e-08,
+              "model": "float64-tanh-wrap-clip-pow",
+              "rounding": "once-float32",
+              "exponent": 0.25,
+              "verification": {
+                "kind": "nonlinear-chain-v1",
+                "maximum_absolute_error": 2e-06,
+                "model": "float64-tanh-wrap-clip-pow",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "exponent": 0.25
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "strict",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "optimized",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+            }
+          },
+          "output_comparison": {
+            "fixture": "nonlinear-domains",
+            "case": "fractional",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 964127,
+              "peak_us": 883,
+              "event_us": 49,
+              "prepare_us": 3615,
+              "rms": 0.59761154,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 669.5326388888889
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 963611,
+              "peak_us": 884,
+              "event_us": 48,
+              "prepare_us": 3708,
+              "rms": 0.59761154,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 669.1743055555555
+            }
+          }
+        },
+        {
+          "case": "fourth",
+          "declared_case": {
+            "id": "fourth",
+            "parameters": {
+              "exponent": 4
+            },
+            "events": []
+          },
+          "input": {
+            "fixture": "nonlinear-domains",
+            "case": "fourth",
+            "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 6,
+            "declared_settings": {
+              "kind": "nonlinear-grid-v1"
+            },
+            "oracle": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "oracle_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "nonlinear-chain-v1",
+              "max_abs_tolerance": 2e-06,
+              "max_cache_rounding_error": 2.8797920270662303e-08,
+              "model": "float64-tanh-wrap-clip-pow",
+              "rounding": "once-float32",
+              "exponent": 4,
+              "verification": {
+                "kind": "nonlinear-chain-v1",
+                "maximum_absolute_error": 2e-06,
+                "model": "float64-tanh-wrap-clip-pow",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "exponent": 4
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "strict",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "optimized",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+            }
+          },
+          "output_comparison": {
+            "fixture": "nonlinear-domains",
+            "case": "fourth",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 972907,
+              "peak_us": 900,
+              "event_us": 48,
+              "prepare_us": 3624,
+              "rms": 0.550002474,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 675.6298611111112
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 972366,
+              "peak_us": 901,
+              "event_us": 47,
+              "prepare_us": 3712,
+              "rms": 0.550002474,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 675.2541666666667
+            }
+          }
+        }
+      ],
+      "status": "target_oracle_control_passed",
+      "optimization_gain_claimed": false,
+      "restoration_verified": true,
+      "profile_totals": {
+        "strict": {
+          "fixture": "nonlinear-domains",
+          "profile": "strict",
+          "blocks": 4608,
+          "timed_blocks": 4320,
+          "process_us": 2717216,
+          "peak_us": 900,
+          "event_us": 97,
+          "events": 6,
+          "prepare_us": 10823,
+          "rms": 0.56715149,
+          "peak": 0.999329329,
+          "clipped": 0,
+          "context_bytes": 14800,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 33540,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0,
+          "text_mapping_span_upper_bound": 34136
+        },
+        "optimized": {
+          "fixture": "nonlinear-domains",
+          "profile": "optimized",
+          "blocks": 4608,
+          "timed_blocks": 4320,
+          "process_us": 2715502,
+          "peak_us": 901,
+          "event_us": 95,
+          "events": 6,
+          "prepare_us": 11099,
+          "rms": 0.56715149,
+          "peak": 0.999329329,
+          "clipped": 0,
+          "context_bytes": 14800,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 33540,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0,
+          "text_mapping_span_upper_bound": 34136
+        }
+      },
+      "maximum_model_error_bound": 2.8797920270662303e-08,
+      "semantic_tolerance": 2e-06,
+      "memory_scope": "4096-byte reserved arena with zero requests, plus separately measured context/text and persistent host caches; this is not zero total RAM."
+    }
+  ],
+  "catalogues": {
+    "public": {
+      "path": "tests/fixtures/objects/wave2/target-oracles.json",
+      "bytes": 2722,
+      "sha256": "3024d04561a74b0877311b1e977ec5a61d0a9e0046a0e6ebf5f47a995a43441d"
+    },
+    "sealed_control": {
+      "path": "build/object-optimisation/wave2-target-v1/catalog.json",
+      "bytes": 2691,
+      "sha256": "338cbfd6bf84313f229a72bd0659d6a6354f9f77a9b6c615ac81a46e54562581"
+    }
+  },
+  "validation": {
+    "compiler": {
+      "tests": 201,
+      "passed": true,
+      "recorded_log": {
+        "path": "build/research/publish-wave2-evidence/validation-logs/compiler.log",
+        "bytes": 30452,
+        "sha256": "958d5a624c4ff43fccd5c31085c1519487af0633a1ef41771eaa0e26bfcce94e"
+      },
+      "original_log": "/tmp/rnbo-wave2-all-compiler-v1.log"
+    },
+    "tools": {
+      "tests": 62,
+      "passed": true,
+      "recorded_log": {
+        "path": "build/research/publish-wave2-evidence/validation-logs/tools.log",
+        "bytes": 9127,
+        "sha256": "091dc507137eb22e8e9a4a7712ff9a83a542bf79e13c97b5ce82813a69ac301e"
+      },
+      "original_log": "/tmp/rnbo-wave2-all-tools-v1.log"
+    }
+  },
+  "aggregate": {
+    "pairwise_float_words": 4718592,
+    "maximum_pairwise_absolute_error": 0,
+    "pcm_exact": true,
+    "independent_model_scalar_checks": 9437184,
+    "dc_means_checked": 18,
+    "dc_mean_frames": 1024,
+    "identical_artifact_controls": 2,
+    "optimization_gain_claimed": false
+  },
+  "nonlinear_library_precision": {
+    "evidence": {
+      "path": "build/audit/nonlinear-library-closure/report.json",
+      "bytes": 45537,
+      "sha256": "566d1528b7a896c0521b947164f1bcf020573938d134cf9258d41edb04e9bbbb"
+    },
+    "module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+    "roots": [
+      "tanhf",
+      "powf"
+    ],
+    "resolved_functions": 14,
+    "static_callsites": 32,
+    "float64_calls_in_resolved_closure": 0,
+    "unresolved_in_library_closure": 0,
+    "unresolved_parent_audio_calls": 2,
+    "scope": "Exact linked tanhf/powf possible-call closure; complete module still contains Double clock/config/event work. Static analysis is not timing or full-program precision proof."
+  },
+  "claim": "Measured authored FX oracle controls, with exact self-comparison and unchanged independent mathematical limits; no optimisation gain or worst-case application deadline claim.",
+  "artifacts": {
+    "build/research/publish-wave2-evidence/seal.py": {
+      "bytes": 16144,
+      "sha256": "ccf483d1ad0962ebf5526fd0a13cd80486459d7c6564266ba2ca5415b67477b7"
+    },
+    "host/compiler/collect_object_benchmarks.py": {
+      "bytes": 33074,
+      "sha256": "580b201608f513c1f8afda341b703a1da52b141dd17b48e120299fecb5c607d5"
+    },
+    "build/research/publish-wave2-evidence/validation-logs/compiler.log": {
+      "bytes": 30452,
+      "sha256": "958d5a624c4ff43fccd5c31085c1519487af0633a1ef41771eaa0e26bfcce94e"
+    },
+    "build/research/publish-wave2-evidence/validation-logs/tools.log": {
+      "bytes": 9127,
+      "sha256": "091dc507137eb22e8e9a4a7712ff9a83a542bf79e13c97b5ce82813a69ac301e"
+    },
+    "tests/fixtures/objects/wave2/target-oracles.json": {
+      "bytes": 2722,
+      "sha256": "3024d04561a74b0877311b1e977ec5a61d0a9e0046a0e6ebf5f47a995a43441d"
+    },
+    "build/object-optimisation/wave2-target-v1/catalog.json": {
+      "bytes": 2691,
+      "sha256": "338cbfd6bf84313f229a72bd0659d6a6354f9f77a9b6c615ac81a46e54562581"
+    },
+    "tests/fixtures/objects/wave2/biquad-response.rnbopat": {
+      "bytes": 6058,
+      "sha256": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d"
+    },
+    "build/object-optimisation/wave2-target-v1/fixtures/biquad-response.rnbopat": {
+      "bytes": 6058,
+      "sha256": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d"
+    },
+    "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/object-optimisation/wave2-target-v1/fixtures/nonlinear-domains.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/object-optimisation/hardware-biquad-oracles-v1/collected.json": {
+      "bytes": 24043,
+      "sha256": "7985b0a0dfddc9c5247d67de21d48816da13e0dec8874625c73c71de32992e80"
+    },
+    "build/object-benchmark-amoled-biquad-response-wave2-oracles-v1/build-report.json": {
+      "bytes": 95614,
+      "sha256": "a7507614363641dbbcbc1acea0bb5dceefea3f375e8d74776ecf4f0df076df0d"
+    },
+    "build/object-benchmark-amoled-biquad-response-wave2-oracles-v1/rnbo_object_benchmark.elf": {
+      "bytes": 4383436,
+      "sha256": "c79749b1d3564f87ae4f16a62bcd7095a564f3dc5d53daf5bce67a2d3fc7e4d9"
+    },
+    "build/object-benchmark-amoled-biquad-response-wave2-oracles-v1/rnbo_object_benchmark.bin": {
+      "bytes": 342048,
+      "sha256": "beac97da36ae3bf5f18b6f475cdd3c2ad6daae54fccb2a38801fbf9eb3cb90af"
+    },
+    "build/object-benchmark-amoled-biquad-response-wave2-oracles-v1/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+    },
+    "tools/build_object_benchmark.py": {
+      "bytes": 32239,
+      "sha256": "deb1601172931680bde66ebb848f87a87ee60ec8f9c2a7643faae1a893c11c46"
+    },
+    "tools/build_rnbo_loader_test.py": {
+      "bytes": 11994,
+      "sha256": "ec52acbddd14b6cfed6115a2f310fa42ba50ec2597d1415d1e684d89ac3c2852"
+    },
+    "tools/build_loader_spike.py": {
+      "bytes": 10062,
+      "sha256": "4651e07a6d8ed93471bb2e6326702d75e083ce9bc04d327aa1695e372c499a15"
+    },
+    "loader-spike/dependencies.json": {
+      "bytes": 13632,
+      "sha256": "4ee1562c3172768a71eba14046398ec61c64e28d74289c91a2d8ea556ce9e98b"
+    },
+    "host/compiler/build.py": {
+      "bytes": 7585,
+      "sha256": "d4c610f9a53136fd199a3f97b22db9aec8d58a558efc9223099347578d194c48"
+    },
+    "host/compiler/prepare.py": {
+      "bytes": 33638,
+      "sha256": "821c961f6065ad1642468d5bf5272747bc25ba488c8d7245f69ec151e1884e0e"
+    },
+    "host/compiler/inspect_module.py": {
+      "bytes": 14553,
+      "sha256": "1eecc31d6b3ef0f0faee15317d3d9c3486582d8f45c25331fe7cbd1283b828a8"
+    },
+    "object-benchmark/CMakeLists.txt": {
+      "bytes": 616,
+      "sha256": "6dc6ea01359a539ecf28dac51c9315524c55e14f3448610d62775b5ee0d4b88f"
+    },
+    "object-benchmark/README.md": {
+      "bytes": 8394,
+      "sha256": "94acbb88540b7b938ac308248edc72d5525878a926141a738123ab389faa2156"
+    },
+    "object-benchmark/main/CMakeLists.txt": {
+      "bytes": 930,
+      "sha256": "f8fdcc7ed76c9555f443a54bca25ae10cc6693a6374ef38b01db3aa321975d30"
+    },
+    "object-benchmark/main/allocation_probe.c": {
+      "bytes": 1219,
+      "sha256": "bba318d215a737617295d248e66d3c5c3c2f05b05111a5d0618241a5b95d42ac"
+    },
+    "object-benchmark/main/allocation_probe.h": {
+      "bytes": 220,
+      "sha256": "cecfb85cde7f2b6c4d5ebdf916332a50c8f966053d3768194f36b8bbf7366f59"
+    },
+    "object-benchmark/main/average_oracle.c": {
+      "bytes": 1192,
+      "sha256": "2df0d20763f99f4d4a70aca7392fa9b3530f7476db88e10bc05c0a53ad1ef58a"
+    },
+    "object-benchmark/main/average_oracle.h": {
+      "bytes": 547,
+      "sha256": "c2237267cc0e03899575a37982e16cc0321d123d1fe4e148e8ab9cd2a8bafdab"
+    },
+    "object-benchmark/main/bench_check.h": {
+      "bytes": 289,
+      "sha256": "f7fd0154159e293837b18a631783d0e2a93ed64d2c0779a309cf22b57ff514bc"
+    },
+    "object-benchmark/main/benchmark.c": {
+      "bytes": 26641,
+      "sha256": "3b89f92ba911c881331e7673fa4935db9f40bea63e3f96763b832cb8fe8b543e"
+    },
+    "object-benchmark/main/mapped_range.h": {
+      "bytes": 460,
+      "sha256": "7ae99af3b7de7a4e7910c0a06ced5099d820a9fddc5c46404b8f26d380cad64f"
+    },
+    "object-benchmark/main/module_host.c": {
+      "bytes": 7825,
+      "sha256": "588554dafddd07ee36bab1f02a24586da30eff7b2e168dbb8d9169d517b585f4"
+    },
+    "object-benchmark/main/module_host.h": {
+      "bytes": 729,
+      "sha256": "be8bd2a94dc3962a4fb72112c6f24a65263c065c89e85f0100a521938658c16e"
+    },
+    "object-benchmark/main/stimulus.c": {
+      "bytes": 1739,
+      "sha256": "69a735d6b025a756e425d4375316f56522698a153fe72a8769129882d29f046b"
+    },
+    "object-benchmark/main/stimulus.h": {
+      "bytes": 810,
+      "sha256": "6cdcb4b95d62a8c45fef7d1d268081a951090aab0bca176b14bd3800f762416e"
+    },
+    "object-benchmark/main/wave2_oracle.c": {
+      "bytes": 4745,
+      "sha256": "c4a24be5a5d808f23c6b3c06171f7a1dbccf5989139f0afb47bd89564939b95d"
+    },
+    "object-benchmark/main/wave2_oracle.h": {
+      "bytes": 1789,
+      "sha256": "5a731b97b95c70920d016818124b5db4d10e86925e51af84ab2581527a8b03e1"
+    },
+    "object-benchmark/partitions-amoled.csv": {
+      "bytes": 176,
+      "sha256": "bab235d2ced37d4aaf671badaf4c78518719de25eeb60bbfead09242ba4ae147"
+    },
+    "object-benchmark/partitions-xiao.csv": {
+      "bytes": 176,
+      "sha256": "516cd514d279411eb4347aeef7fccaaa08ce6d4d841f646628a4c380bf8ca1f0"
+    },
+    "object-benchmark/sdkconfig.amoled.defaults": {
+      "bytes": 97,
+      "sha256": "305aa5965eaedcae61a506f85d1ed70ef874154f6f010c21abdc78295c011e70"
+    },
+    "object-benchmark/sdkconfig.defaults": {
+      "bytes": 801,
+      "sha256": "2cdf62c62033a782c5a8d3da4ff0978f45b52d2775e36bc7d5afde866a0b70eb"
+    },
+    "object-benchmark/sdkconfig.xiao.defaults": {
+      "bytes": 94,
+      "sha256": "d9d48346d9ad07dde52b1d9257c0a37f49d3cac7dfdd9f079041d2cd0050c28c"
+    },
+    "module-sdk/cmake/dynamic/CMakeLists.txt": {
+      "bytes": 1535,
+      "sha256": "05594b22ceb0e0ed2e7b8f80ff4be881163cf838c2fa220ce252945e3a2d9fe7"
+    },
+    "module-sdk/cmake/dynamic/main/CMakeLists.txt": {
+      "bytes": 1104,
+      "sha256": "99c3b0316c1ccffb89bf957065cea1fd55cbd49b9b50572355bb59b57eaecd79"
+    },
+    "module-sdk/cmake/dynamic/sdkconfig.defaults": {
+      "bytes": 116,
+      "sha256": "6183137b61986eb89be01ebbd42da1e9565c59ae5d34ec0993036daea684d199"
+    },
+    "module-sdk/dynamic/README.md": {
+      "bytes": 3781,
+      "sha256": "229880bb4acfaab9f5b505e933d5012a83b100a0369bf243c77dde79a53fb487"
+    },
+    "module-sdk/dynamic/arena.cpp": {
+      "bytes": 4916,
+      "sha256": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3"
+    },
+    "module-sdk/dynamic/arena.hpp": {
+      "bytes": 770,
+      "sha256": "d5cefdf593c534ead4f910231a5f57c2bd5b180938eb59e6877fb63d8f80dbe2"
+    },
+    "module-sdk/dynamic/lifecycle.cpp": {
+      "bytes": 1507,
+      "sha256": "3fabb00f4caf698c11b503de11f889623d30e32da2b633c37b6991b7eaa39911"
+    },
+    "module-sdk/dynamic/lifecycle.hpp": {
+      "bytes": 223,
+      "sha256": "72e2552ff411e833d52997cae3f71be14b2af67e05db61447fa0d1659b77d062"
+    },
+    "module-sdk/dynamic/rnbo_s3_dynamic.cpp": {
+      "bytes": 17029,
+      "sha256": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e"
+    },
+    "module-sdk/dynamic/support.cpp": {
+      "bytes": 2785,
+      "sha256": "f937333a547e6a19504a5e6b70c90c4fa6de683f08d19877cdcec4479160bb6b"
+    },
+    "module-sdk/include/rnbo_s3_dynamic.h": {
+      "bytes": 3552,
+      "sha256": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4"
+    },
+    "module-sdk/include/rnbo_s3_module.h": {
+      "bytes": 3759,
+      "sha256": "e70447b3b5337fa533434b1bf1ece4a1efbb8ff1342c0e466b55e70cbce50604"
+    },
+    "module-sdk/wrapper/rnbo_s3_static.cpp": {
+      "bytes": 15243,
+      "sha256": "1178b37dcd255bedd50c3c01c55c77a590e07cee9d9ff4a2d6530c63ba7f99ed"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/biquad-response/rnbo_s3_dynamic.app.elf": {
+      "bytes": 40508,
+      "sha256": "fed044d8ecc6346dff84dc684ce460b5a80d8c8dad1f8e05eb65220d39c32e2f"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/biquad-response/build-report.json": {
+      "bytes": 28509,
+      "sha256": "99d7e68f3b48f7c46b52a57638219857257b001b51eccf37336d9f0ace6d589b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/description.json": {
+      "bytes": 6083,
+      "sha256": "7c3a1746353f5697fdbfb3977ab346ce363f015465faaefcb9e1206870265bba"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/generator.json": {
+      "bytes": 980,
+      "sha256": "f690d1297f0018145c4442d74fbda2bd03f96d616bbc3aaaa2a2e43c233fd602"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/patch_config.h": {
+      "bytes": 237,
+      "sha256": "a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/rnbo_source.h": {
+      "bytes": 32600,
+      "sha256": "3bf669da7e420a82f5c2370a4449c9ec791cdbef655b227fbb2057ab295015b5"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/source.rnbopat": {
+      "bytes": 6058,
+      "sha256": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/manifest.json": {
+      "bytes": 1060,
+      "sha256": "6aaeba645e98d3a3998ed3ed8cc36240c0fe5eb93a1d2f61227989fe230c8cf5"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/biquad-response/provenance.json": {
+      "bytes": 12622,
+      "sha256": "26fa61668d16ddd3eb44c5b1ed9f771b3892a9e201537ff31df9bb4b234a849f"
+    },
+    "build/object-optimisation/hardware-biquad-oracles-v1/hardware-test.json": {
+      "bytes": 4896,
+      "sha256": "1fa9d37971af8640b25393b1926f89020c36b1c177668897255fd31274f5ae8d"
+    },
+    "build/object-optimisation/hardware-biquad-oracles-v1/test-serial.log": {
+      "bytes": 9709,
+      "sha256": "774cf49ce11436c31ab21bce4060b4ff0e1e813eedc711da6010921ba78f07e3"
+    },
+    "build/object-optimisation/hardware-nonlinear-oracles-v1/collected.json": {
+      "bytes": 18234,
+      "sha256": "367b8614bba79274ff76cbd75412a46da2d8132e517a21a6bb4e4da577db9e69"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-wave2-oracles-v1/build-report.json": {
+      "bytes": 93242,
+      "sha256": "13b9a066204965ff7a3c0998fcdef469a6c65c2887a34813a31b510008ad4cfb"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-wave2-oracles-v1/rnbo_object_benchmark.elf": {
+      "bytes": 4383356,
+      "sha256": "6a9e17caf0795ee495447b0621498e972799a20428f416959633e5e6021cb406"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-wave2-oracles-v1/rnbo_object_benchmark.bin": {
+      "bytes": 340896,
+      "sha256": "c697208ac0737dab49e21cfe46d6969386df40963021c45ff9a0e4bdda10a294"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-wave2-oracles-v1/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf": {
+      "bytes": 40048,
+      "sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json": {
+      "bytes": 28513,
+      "sha256": "7f874a349a75357a261798d0f3474e67c5628ec16706757640b752ad652c65ab"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/description.json": {
+      "bytes": 2839,
+      "sha256": "20f3ba4d3a8e8a19967fa566c59a04021d35f2bdeb49fa5095b70bed6fa24cec"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/generator.json": {
+      "bytes": 980,
+      "sha256": "cfdcfaa04983904bbf74b46622ac086bac86a53ea2847cc3497283bd1228d26d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/patch_config.h": {
+      "bytes": 237,
+      "sha256": "a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/rnbo_source.h": {
+      "bytes": 21068,
+      "sha256": "b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/source.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/manifest.json": {
+      "bytes": 1060,
+      "sha256": "8b464dc31e57320cf0c980966898b4312e36c4ae06425deceae5bc857de0107f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/provenance.json": {
+      "bytes": 12622,
+      "sha256": "e09fedee253429af2f0b8387899f0cbad75114cdce5f36d563b6ed561908da11"
+    },
+    "build/object-optimisation/hardware-nonlinear-oracles-v1/hardware-test.json": {
+      "bytes": 4901,
+      "sha256": "30dbde005a5d4080d5c72b37025db985a0ab02163ea68ec06eaee46e9f413251"
+    },
+    "build/object-optimisation/hardware-nonlinear-oracles-v1/test-serial.log": {
+      "bytes": 8008,
+      "sha256": "fa9eb903f1811f359e6682ffccd8cf829a49b14f3467e07f5dc3ef76c2da43d4"
+    },
+    "build/audit/nonlinear-library-closure/report.json": {
+      "bytes": 45537,
+      "sha256": "566d1528b7a896c0521b947164f1bcf020573938d134cf9258d41edb04e9bbbb"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf.debug": {
+      "bytes": 489212,
+      "sha256": "3134d5e1ff5c2b0dcedee8c12c4a8dd025484c9f118216b300c95012a73a2edb"
+    },
+    "build/object-optimisation/wave2-target-v1/audit/nonlinear-domains/audit.json": {
+      "bytes": 260025,
+      "sha256": "cc191dde3ac31f6faa5b29ce49b5ee92529d2ae16a157bad90fdc37a619e8c5a"
+    },
+    "build/audit/nonlinear-library-closure/symbols.txt": {
+      "bytes": 21346,
+      "sha256": "9d516793b5664b4c8878d009cb35a9caa157df6e12a40f42209fe4c4e5e9fdf4"
+    },
+    "build/audit/nonlinear-library-closure/disassembly.txt": {
+      "bytes": 1438131,
+      "sha256": "1e44368378b92714590abcbf6d5483a78e7274849e1c79b22371691767f90523"
+    },
+    "build/audit/nonlinear-library-closure/expm1f.txt": {
+      "bytes": 11981,
+      "sha256": "a3950d26b67f6bff6af129f65e5cc25a63b56d3b146231adba26ac087877e2aa"
+    },
+    "build/audit/nonlinear-library-closure/xflowf.txt": {
+      "bytes": 428,
+      "sha256": "23d26ad53327cc4c4c32ec8eed82c272b7f2a7ae63aac205ef2c065f672391b3"
+    },
+    "build/audit/nonlinear-library-closure/__math_oflowf.txt": {
+      "bytes": 259,
+      "sha256": "a4924731e81f7d65ae960b42ddc237cca5d66e6630269833bef120318dbe5648"
+    },
+    "build/audit/nonlinear-library-closure/scalbnf.txt": {
+      "bytes": 3814,
+      "sha256": "9f646e629d3b46346ccb06a3f12b75e778c0cb7c6a485cefe601202aff68a667"
+    },
+    "build/audit/nonlinear-library-closure/fabsf.txt": {
+      "bytes": 144,
+      "sha256": "71859cadd473eee42ae2d905cb0b9b5558700a5c7fd0452633e2a526647187b2"
+    },
+    "build/audit/nonlinear-library-closure/__ieee754_powf.txt": {
+      "bytes": 25885,
+      "sha256": "00d2c6ef17fbcea35e2093df481b91ed72a0f4877e3b40d55c129abe94e4534e"
+    },
+    "build/audit/nonlinear-library-closure/with_errnof.txt": {
+      "bytes": 190,
+      "sha256": "19216ead58d500ca139e03112159f5ce6fe082167b389532adf431c36b39c89c"
+    },
+    "build/audit/nonlinear-library-closure/__ieee754_sqrtf.txt": {
+      "bytes": 1341,
+      "sha256": "f3825c6d1fd9e4b843edb64e630ff8aa0f8d7b8bd705ed345e29ddaf6f11efc3"
+    },
+    "build/audit/nonlinear-library-closure/__divsf3.txt": {
+      "bytes": 1210,
+      "sha256": "fc24049a540ee5e55210dbea94e3da108aa4a34fe63e6dedcf4d472af89aa743"
+    },
+    "build/audit/nonlinear-library-closure/finitef.txt": {
+      "bytes": 373,
+      "sha256": "516c293a9805a9df84691abd69fc5016da3e3e1b1b1f2a61e707fafeff16903a"
+    },
+    "build/audit/nonlinear-library-closure/__errno.txt": {
+      "bytes": 170,
+      "sha256": "bf201776c69b4832b37edb833bf333c655cdcf4efb4bd675ce4e8ecca002493c"
+    },
+    "build/audit/nonlinear-library-closure/powf.txt": {
+      "bytes": 2996,
+      "sha256": "4e5bcf9ce6766ab702e2d468b11e8aff90f82748ca0ea7b23f5985697ce7732f"
+    },
+    "build/audit/nonlinear-library-closure/tanhf.txt": {
+      "bytes": 4899,
+      "sha256": "35dc7f2e9d7556a400963cd1f5894d90780d0f8f1962221b026c133b815749b9"
+    },
+    "build/audit/nonlinear-library-closure/__math_uflowf.txt": {
+      "bytes": 259,
+      "sha256": "93f717cf2e7556b6850236454dc2428dd3e30c675fd7967cdbbc7b55c904affe"
+    },
+    "build/audit/nonlinear-library-closure/analyse.py": {
+      "bytes": 10224,
+      "sha256": "448356207911a9f696e18e1852a3ef8f489f3b929ae8d30c7ab6b1ac55ea1714"
+    },
+    "host/compiler/audit_precision.py": {
+      "bytes": 33307,
+      "sha256": "1e4ee26b0df95aa80142ef37e9d112f43b81e434ffc08b9f0d47b2a9ff900352"
+    },
+    "build/object-optimisation/wave2-target-v1/audit/biquad-response/audit.json": {
+      "bytes": 296515,
+      "sha256": "dce4eb60e11f7b8d45cd8adfd02277566b2a9d3463bb1f62d3c0cdda19d27946"
+    }
+  }
+}

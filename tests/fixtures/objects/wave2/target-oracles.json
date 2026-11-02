@@ -1,0 +1,118 @@
+{
+  "format_version": 1,
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "fixtures": [
+    {
+      "id": "biquad-response",
+      "family": "biquad",
+      "patch": "biquad-response.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "arena_bytes": 1048576,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {},
+          "events": []
+        },
+        {
+          "id": "identity",
+          "parameters": {
+            "a0": 1,
+            "a1": 0,
+            "a2": 0,
+            "b1": 0,
+            "b2": 0
+          },
+          "events": []
+        },
+        {
+          "id": "slow-pole",
+          "parameters": {
+            "a0": 0.05,
+            "a1": 0,
+            "a2": 0,
+            "b1": -0.95,
+            "b2": 0
+          },
+          "events": []
+        }
+      ],
+      "semantic": {
+        "kind": "biquad",
+        "defaults": {
+          "a0": 0.5,
+          "a1": 0.25,
+          "a2": 0.125,
+          "b1": -0.4,
+          "b2": 0.2
+        },
+        "maximum_absolute_error": 3e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "stimulus": {
+        "kind": "impulse-step-v1"
+      },
+      "verification": {
+        "kind": "biquad-response-v1",
+        "maximum_absolute_error": 3e-06
+      }
+    },
+    {
+      "id": "nonlinear-domains",
+      "family": "nonlinear",
+      "patch": "nonlinear-domains.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "arena_bytes": 1048576,
+      "cases": [
+        {
+          "id": "square",
+          "parameters": {},
+          "events": []
+        },
+        {
+          "id": "fractional",
+          "parameters": {
+            "exponent": 0.25
+          },
+          "events": []
+        },
+        {
+          "id": "fourth",
+          "parameters": {
+            "exponent": 4
+          },
+          "events": []
+        }
+      ],
+      "semantic": {
+        "kind": "nonlinear",
+        "exponent_default": 2,
+        "maximum_absolute_error": 2e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "stimulus": {
+        "kind": "nonlinear-grid-v1"
+      },
+      "verification": {
+        "kind": "nonlinear-chain-v1",
+        "maximum_absolute_error": 2e-06
+      }
+    }
+  ],
+  "scope": "Reviewed original authored FX cases with independent target oracles; compile/test admission is separate from hardware qualification."
+}

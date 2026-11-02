@@ -55,18 +55,30 @@ class StimulusTests(unittest.TestCase):
         self.assertEqual(bytes(full),bytes(chunked))
     def test_wave2_inputs_match_independent_host_formula(self):
         frames=512*256
-        for kind in (4,5):
+        for kind in (4,5,6):
             with self.subTest(kind=kind):
                 state=Stimulus(kind=kind);output=(ctypes.c_float*(2*frames))()
                 self.assertTrue(self.lib.object_stimulus_fill(ctypes.byref(state),0,frames,output))
                 expected=array.array('f')
                 for i in range(frames):
                     if kind==4:left=1.0 if i==0 else -.5 if i==4096 else 0.;right=.25 if i<8192 else -.125
-                    else:
+                    elif kind==5:
                         left=.2*math.sin(2*math.pi*440*i/44100)+.19*math.sin(2*math.pi*441*i/44100)
                         right=.2*math.sin(2*math.pi*660*i/44100)-.2*math.sin(2*math.pi*661*i/44100)+1e-5
+                    else:
+                        left=(-4,-2,-1,-.5,0,.5,1,2,4)[(i//64)%9]
+                        right=(-3,-2,-1,-.5,0,.25,.5,1,1.5,2,3)[(i//64)%11]
                     expected.extend((left,right))
                 self.assertEqual(bytes(output),expected.tobytes())
+    def test_nonlinear_grid_chunk_boundaries_preserve_absolute_frame(self):
+        frames=8193;state=Stimulus(kind=6)
+        full=(ctypes.c_float*(frames*2))();chunked=(ctypes.c_float*(frames*2))()
+        self.assertTrue(self.lib.object_stimulus_fill(ctypes.byref(state),0,frames,full))
+        first=0
+        for count in (63,1,64,127,1,256,257,4096,3328):
+            pointer=ctypes.cast(ctypes.byref(chunked,first*8),ctypes.POINTER(ctypes.c_float))
+            self.assertTrue(self.lib.object_stimulus_fill(ctypes.byref(state),first,count,pointer));first+=count
+        self.assertEqual(first,frames);self.assertEqual(bytes(full),bytes(chunked))
     def test_average_fresh_float64_oracle_against_fsum_bound(self):
         frames=9000
         for kind in (4,5):

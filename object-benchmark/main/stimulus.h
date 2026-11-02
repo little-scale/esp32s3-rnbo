@@ -2,7 +2,7 @@
 #pragma once
 #include <stdbool.h>
 #include <stdint.h>
-enum { OBJECT_STIMULUS_MIDI=1,OBJECT_STIMULUS_FREQUENCY=2,OBJECT_STIMULUS_RESON=3,OBJECT_STIMULUS_IMPULSE_STEP=4,OBJECT_STIMULUS_MIXED_TONE=5 };
+enum { OBJECT_STIMULUS_MIDI=1,OBJECT_STIMULUS_FREQUENCY=2,OBJECT_STIMULUS_RESON=3,OBJECT_STIMULUS_IMPULSE_STEP=4,OBJECT_STIMULUS_MIXED_TONE=5,OBJECT_STIMULUS_NONLINEAR_GRID=6 };
 /* Fields retain catalog Float64 values during generation. Each final sample
  * rounds once to Float32, matching the authored host stimulus contract. */
 typedef struct {

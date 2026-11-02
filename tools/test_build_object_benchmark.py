@@ -6,6 +6,9 @@ import copy
 import json
 import hashlib
 from pathlib import Path
+import re
+import shutil
+import subprocess
 import tempfile
 import unittest
 from build_object_benchmark import configuration, c_string, c_float, ExportError
@@ -111,11 +114,88 @@ class ConfigurationTests(unittest.TestCase):
     def test_wave2_input_cannot_ignore_missing_verification(self):
         fixture=self.fx();fixture['stimulus']={'kind':'impulse-step-v1'}
         with self.assertRaisesRegex(ExportError,'explicit verification'):self.generate()
+    def wave2(self,name='biquad-response'):
+        root=Path(__file__).resolve().parents[1]/'tests/fixtures/objects/wave2'
+        catalog=json.loads((root/'catalog.json').read_text())
+        fixture=copy.deepcopy(next(f for f in catalog['fixtures'] if f['id']==name))
+        fixture['verification']={'kind':'biquad-response-v1' if name=='biquad-response' else 'nonlinear-chain-v1',
+                                 'maximum_absolute_error':3e-6 if name=='biquad-response' else 2e-6}
+        self.catalog['fixtures']=[fixture];self.args.fixture_id=name;self.args.arena_bytes=4096
+        shutil.copyfile(root/fixture['patch'],self.directory/fixture['patch'])
+        rows=([('a0',0,0,1,.5),('b2',1,0,.8,.2),('a1',2,-1,1,.25),('a2',3,-1,1,.125),('b1',4,-.95,.95,-.4)]
+              if name=='biquad-response' else [('exponent',0,.25,4,2)])
+        parameters=[dict(paramId=p,index=i,minimum=lo,maximum=hi,initialValue=v,exponent=1,steps=0) for p,i,lo,hi,v in rows]
+        (self.directory/'description.json').write_text(json.dumps({'parameters':parameters}))
+        schema=('5ee44b4347d4f1d490c0ecb696d9fca49b9ece2d69635b837422dbf98ad9ea30' if name=='biquad-response' else
+                '754c55e5f56bd5c2731847a19ed276e1ad4045849e3bcc2909acd4ec76b73ef1')
+        raw=('3bf669da7e420a82f5c2370a4449c9ec791cdbef655b227fbb2057ab295015b5' if name=='biquad-response' else
+             'b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b')
+        for module in self.modules.values():
+            exported=module['report']['prepared_export'];manifest=exported['manifest']
+            manifest.update(role='fx',audio_inputs=2,parameter_count=len(rows),parameter_schema_sha256=schema,
+                            editable_source_sha256=hashlib.sha256((self.directory/fixture['patch']).read_bytes()).hexdigest())
+            exported['provenance']={'raw_files_sha256':{'rnbo_source.h':raw}}
+        return fixture
+    def test_biquad_keeps_double_catalog_coefficients_and_native_dc_order(self):
+        self.wave2();header,policy=self.generate();slow=policy['verifications'][2]
+        self.assertEqual(slow['coefficients']['a0'],.05)
+        self.assertNotEqual(slow['coefficients']['a0'],float.fromhex('0x1.99999a0000000p-5'))
+        self.assertEqual(slow['dc_expected'],-.125*(.05/(1-.95)))
+        self.assertIn(float(.05).hex(),header)
+        self.assertEqual([p['paramId'] for p in policy['parameter_schema']],['a0','b2','a1','a2','b1'])
+        self.assertEqual(policy['verifications'][0]['maximum_absolute_error'],3e-6)
+        self.assertEqual(policy['psram_budget']['oracle_cache_bytes'],1048576)
+    def test_nonlinear_grid_and_positive_exponent_contract(self):
+        self.wave2('nonlinear-domains');header,policy=self.generate()
+        self.assertEqual([s['kind'] for s in policy['stimuli']],[6,6,6])
+        self.assertEqual([v['exponent'] for v in policy['verifications']],[2,.25,4])
+        self.assertTrue(all(v['maximum_absolute_error']==2e-6 for v in policy['verifications']))
+        self.assertIn('{3u,0,0,',header)
+    def test_wave2_metadata_identity_cannot_be_spoofed(self):
+        for field in ('editable_source_sha256','parameter_schema_sha256','raw'):
+            self.wave2()
+            exported=self.modules['optimized']['report']['prepared_export']
+            if field=='raw':exported['provenance']['raw_files_sha256']['rnbo_source.h']='0'*64
+            else:
+                for module in self.modules.values():module['report']['prepared_export']['manifest'][field]='0'*64
+            with self.assertRaises(ExportError):self.generate()
+    def test_wave2_models_reject_unknown_cases_events_and_coefficients(self):
+        mutations=[lambda f:f['cases'].pop(),
+                   lambda f:f['cases'].reverse(),
+                   lambda f:f['cases'][0].update(id='other'),
+                   lambda f:f['cases'][1]['parameters'].update(a0=.9),
+                   lambda f:f['cases'][1]['parameters'].update(a0=True),
+                   lambda f:f['cases'][0]['events'].append({'block':1,'id':'a0','value':1}),
+                   lambda f:f['semantic']['defaults'].update(b1=-.5),
+                   lambda f:f['cases'][0].update(stimulus={'kind':'mixed-tone-v1'}),
+                   lambda f:f['verification'].update(maximum_absolute_error=4e-6),
+                   lambda f:f.update(warmup_blocks=0)]
+        for change in mutations:
+            with self.subTest(change=change):
+                fixture=self.wave2();change(fixture)
+                with self.assertRaises(ExportError):self.generate()
+    def test_wave2_blocks_pair_tolerance_and_schema_reject(self):
+        self.wave2();self.args.blocks=256
+        with self.assertRaises(ExportError):self.generate()
+        self.args.blocks=None
+        fixture=self.wave2();fixture['comparison_tolerance']['maximum_absolute_error']=3e-6
+        with self.assertRaises(ExportError):self.generate()
+        self.wave2();description=json.loads((self.directory/'description.json').read_text())
+        description['parameters'][0]['exponent']=2
+        (self.directory/'description.json').write_text(json.dumps(description))
+        with self.assertRaises(ExportError):self.generate()
     def test_average_cancellation_case_retains_same_gate(self):
         fixture=self.average();fixture['cases'].append({'id':'cancellation','parameters':{},'events':[],'stimulus':{'kind':'mixed-tone-v1'}})
         policy=self.generate()[1]
         self.assertEqual(policy['stimuli'][-1]['kind'],5)
         self.assertEqual(policy['verifications'][-1]['maximum_absolute_error'],2e-6)
+    def test_average_cannot_admit_the_unreviewed_nonlinear_grid(self):
+        for override in (False,True):
+            with self.subTest(override=override):
+                fixture=self.average()
+                if override:fixture['cases'][0]['stimulus']={'kind':'nonlinear-grid-v1'}
+                else:fixture['stimulus']={'kind':'nonlinear-grid-v1'}
+                with self.assertRaisesRegex(ExportError,'average verification contract/input'):self.generate()
     def test_average_extra_oracle_cache_budget_rejects_oversize(self):
         self.average();self.args.blocks=1024
         with self.assertRaisesRegex(ExportError,'PSRAM budget'):self.generate()
@@ -134,6 +214,72 @@ class ConfigurationTests(unittest.TestCase):
     def test_duplicate_block_parameter(self):
         self.catalog["fixtures"][0]["cases"][0]["events"]=[{"block":0,"id":"frequency","value":20}]
         with self.assertRaises(ExportError):self.generate()
+    def ordered_parameters(self):
+        description={"parameters":[
+            {"index":0,"paramId":"target","minimum":-1,"maximum":1,"initialValue":0,"exponent":1,"steps":0},
+            {"index":1,"paramId":"milliseconds","minimum":0,"maximum":1000,"initialValue":10,"exponent":1,"steps":0},
+            {"index":2,"paramId":"extra","minimum":0,"maximum":1,"initialValue":0,"exponent":1,"steps":0}]}
+        (self.directory/"description.json").write_text(json.dumps(description))
+        for module in self.modules.values():module['report']['prepared_export']['manifest']['parameter_count']=3
+        self.catalog['fixtures'][0]['cases']=[{'id':'ordered','parameters':{},'events':[]}]
+        return self.catalog['fixtures'][0]['cases'][0]
+    def test_same_block_setters_preserve_authored_order_including_reverse(self):
+        case=self.ordered_parameters()
+        duration={'block':1,'id':'milliseconds','value':5};target={'block':1,'id':'target','value':-.5}
+        for source,expected in [([duration,target],[1,0]),([target,duration],[0,1])]:
+            case['events']=source
+            header,policy=self.generate()
+            self.assertEqual([e['index'] for e in policy['events']],expected)
+            self.assertEqual(policy['event_order'],'stable-block-source-order-v1')
+            indices=re.findall(r'\{1u,(\d+)u,1u,',header)
+            self.assertEqual(list(map(int,indices)),expected)
+    def test_stable_chronological_order_does_not_sort_parameter_indices(self):
+        case=self.ordered_parameters();case['events']=[
+            {'block':2,'id':'milliseconds','value':9},
+            {'block':1,'id':'milliseconds','value':5},
+            {'block':0,'id':'extra','value':1},
+            {'block':2,'id':'target','value':1},
+            {'block':1,'id':'target','value':-.5}]
+        events=self.generate()[1]['events']
+        self.assertEqual([(e['block'],e['index']) for e in events],[(0,2),(1,1),(1,0),(2,1),(2,0)])
+    def test_initial_map_precedes_explicit_events_without_reordering_keys(self):
+        case=self.ordered_parameters();case['parameters']={'milliseconds':0,'target':1}
+        case['events']=[{'block':0,'id':'extra','form':'normalized','value':.5}]
+        self.assertEqual([(e['index'],e['kind']) for e in self.generate()[1]['events']],[(1,1),(0,1),(2,2)])
+    def test_map_list_duplicate_remains_rejected_across_forms(self):
+        case=self.ordered_parameters();case['parameters']={'milliseconds':0}
+        case['events']=[{'block':0,'id':'milliseconds','form':'normalized','value':.5}]
+        with self.assertRaisesRegex(ExportError,'duplicate parameter event'):self.generate()
+    def test_real_backend_dispatch_consumes_the_generated_table_in_order(self):
+        compiler=shutil.which('cc')
+        if not compiler:self.skipTest('C compiler required for dispatch check')
+        case=self.ordered_parameters();case['parameters']={'milliseconds':0,'target':1}
+        case['events']=[{'block':1,'id':'milliseconds','value':5},{'block':1,'id':'target','value':-.5}]
+        header,policy=self.generate()
+        events=re.search(r'static const bench_event bench_events\[\]=\{[\s\S]*?\n\};',header)[0]
+        backend=(Path(__file__).resolve().parents[1]/'object-benchmark/main/benchmark.c').read_text()
+        dispatch=backend[backend.index('static void dispatch('):backend.index('\nstatic void step(')]
+        source='''#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define CHECK(x) do { if(!(x)) abort(); } while(0)
+#define RNBO_S3_OK 0
+typedef struct { uint32_t block,index,kind;float value; } bench_event;
+typedef struct { const char *name;uint32_t event_begin,event_count; } bench_case;
+typedef struct { uint32_t struct_bytes,kind,parameter_index;float value; } rnbo_s3_event;
+typedef struct { struct { int(*event)(void*,const rnbo_s3_event*); } module;void *context; } object_image;
+typedef struct { uint64_t event_us,events; } profile_metrics;
+static void allocation_probe_begin(void){} static void allocation_probe_end(void){}
+static int64_t esp_timer_get_time(void){return 0;}
+static int record(void *unused,const rnbo_s3_event *event){(void)unused;printf("%u %u %.9g\\n",event->parameter_index,event->kind,(double)event->value);return 0;}
+'''+events+'\n'+dispatch+'''
+int main(void){object_image image={{record},0};bench_case test={"ordered",0,4};profile_metrics metrics={0};
+dispatch(&image,&test,0,&metrics);dispatch(&image,&test,1,&metrics);return metrics.events==4?0:1;}
+'''
+        path=self.directory/'dispatch.c';path.write_text(source);executable=self.directory/'dispatch'
+        subprocess.run([compiler,'-std=c11','-Wall','-Wextra','-Werror',str(path),'-o',str(executable)],check=True,capture_output=True)
+        result=subprocess.run([str(executable)],check=True,capture_output=True,text=True)
+        self.assertEqual(result.stdout.splitlines(),['1 1 0','0 1 1','1 1 5','0 1 -0.5'])
     def test_event_after_pass(self):
         self.catalog["fixtures"][0]["cases"][1]["events"][0]["block"]=512
         with self.assertRaises(ExportError):self.generate()

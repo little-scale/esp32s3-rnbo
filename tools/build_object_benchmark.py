@@ -24,6 +24,17 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "host/compiler"))
 from prepare import ExportError, NUMERICAL_PROFILES, read_json, read_regular
 
+_WAVE2_IDENTITIES = {
+    "biquad-response-v1": {
+        "patch": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d",
+        "schema": "5ee44b4347d4f1d490c0ecb696d9fca49b9ece2d69635b837422dbf98ad9ea30",
+        "raw_source": "3bf669da7e420a82f5c2370a4449c9ec791cdbef655b227fbb2057ab295015b5"},
+    "nonlinear-chain-v1": {
+        "patch": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180",
+        "schema": "754c55e5f56bd5c2731847a19ed276e1ad4045849e3bcc2909acd4ec76b73ef1",
+        "raw_source": "b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b"}}
+_BIQUAD_DEFAULTS = {"a0":.5,"a1":.25,"a2":.125,"b1":-.4,"b2":.2}
+
 
 def require(condition, message):
     if not condition: raise ExportError(message)
@@ -66,7 +77,7 @@ def stimulus_contract(fixture, case):
         return None
     base=fixture.get("stimulus");override=case.get("stimulus",{})
     require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
-    wave2={"impulse-step-v1":4,"mixed-tone-v1":5}
+    wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6}
     if base.get("kind") in wave2:
         require(set(base)=={"kind"} and set(override)<={"kind"},"Unknown wave2 stimulus settings")
         settings=base|override;require(settings.get("kind") in wave2,"Unknown wave2 stimulus kind")
@@ -92,15 +103,56 @@ def stimulus_contract(fixture, case):
             "excitation":numbers.get("excitation",0.0),"level":numbers.get("level",0.0)}
 
 
-def verification_contract(fixture,case,by_id,warmup):
+def wave2_verification(fixture,case,by_id,warmup,blocks):
+    declaration=fixture['verification'];kind=declaration['kind']
+    require(warmup==4 and blocks==512,"Reviewed wave2 models require four warmup blocks and512 rendered blocks")
+    require(fixture.get('seed')==305419896,"Reviewed wave2 model seed differs")
+    biquad=kind=='biquad-response-v1';limit=3e-6 if biquad else 2e-6
+    require(declaration=={'kind':kind,'maximum_absolute_error':limit},"Unsupported wave2 verification declaration")
+    require(fixture['role']=='fx' and fixture.get('family')==('biquad' if biquad else 'nonlinear'),"Unsupported wave2 verification fixture")
+    semantic=({'kind':'biquad','defaults':_BIQUAD_DEFAULTS,'maximum_absolute_error':3e-6} if biquad else
+              {'kind':'nonlinear','exponent_default':2,'maximum_absolute_error':2e-6})
+    require(fixture.get('semantic')==semantic,"Reviewed wave2 semantic model differs")
+    expected_stimulus={'kind':'impulse-step-v1' if biquad else 'nonlinear-grid-v1'}
+    require(fixture.get('stimulus')==expected_stimulus and not case.get('stimulus'),"Reviewed wave2 input differs")
+    require(set(case)=={'id','parameters','events'} and case['events']==[],"Reviewed wave2 cases require no events or extra settings")
+    cases=({'default':{},'identity':{'a0':1,'a1':0,'a2':0,'b1':0,'b2':0},
+            'slow-pole':{'a0':.05,'a1':0,'a2':0,'b1':-.95,'b2':0}} if biquad else
+           {'square':{},'fractional':{'exponent':.25},'fourth':{'exponent':4}})
+    require(case['id'] in cases and case['parameters']==cases[case['id']],"Unreviewed wave2 parameter case")
+    # Parameter values reach the module as Float32, while these original
+    # catalog coefficients deliberately remain Float64 in the truth model.
+    for value in case['parameters'].values():finite(value)
+    expected_schema=({'a0':(0,0,1,.5),'b2':(1,0,.8,.2),'a1':(2,-1,1,.25),
+                      'a2':(3,-1,1,.125),'b1':(4,-.95,.95,-.4)} if biquad else
+                     {'exponent':(0,.25,4,2)})
+    require(set(by_id)==set(expected_schema),"Reviewed wave2 parameter IDs differ")
+    for identity,(index,lo,hi,initial) in expected_schema.items():
+        p=by_id[identity]
+        require((p['index'],p['minimum'],p['maximum'],p['initialValue'],p['exponent'],p['steps'])==
+                (index,lo,hi,initial,1,0),"Reviewed wave2 parameter schema differs")
+    result={'kind':kind,'maximum_absolute_error':limit,'model':'fresh-float64-difference-equation' if biquad else 'float64-tanh-wrap-clip-pow',
+            'rounding':'once-float32','gate':'cache-error-plus-maximum-cache-rounding-error'}
+    if biquad:
+        coefficients=_BIQUAD_DEFAULTS|case['parameters'];result['coefficients']=coefficients
+        gain=(coefficients['a0']+coefficients['a1']+coefficients['a2'])/(1+coefficients['b1']+coefficients['b2'])
+        result['dc_expected']=-.125*gain
+    else:result['exponent']=finite(case['parameters'].get('exponent',2))
+    return result
+
+
+def verification_contract(fixture,case,by_id,warmup,blocks=512):
     declaration=fixture.get("verification")
-    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1")
+    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1")
     if declaration is None:
         require(not new_input,"Wave2 stimulus requires an explicit verification contract")
         return None
+    if isinstance(declaration,dict) and declaration.get('kind') in _WAVE2_IDENTITIES:
+        return wave2_verification(fixture,case,by_id,warmup,blocks)
     require(fixture["role"]=="fx" and fixture.get("family")=="average" and isinstance(declaration,dict),"Unsupported verification fixture")
     expected={"kind":"average-window-v1","parameter_id":"window","default_window":16,"maximum_window":64,"maximum_absolute_error":2e-6}
-    require(declaration==expected and new_input,"Unsupported average verification contract/input")
+    average_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1")
+    require(declaration==expected and average_input,"Unsupported average verification contract/input")
     semantic=fixture.get("semantic",{})
     require(semantic.get("kind")=="average" and semantic.get("default_window")==16 and semantic.get("maximum_absolute_error")==2e-6,"Average semantic declaration differs")
     require(set(by_id)=={"window"},"Average verification requires one window parameter")
@@ -159,10 +211,19 @@ def configuration(args, modules):
     require(args.timing_exclude_blocks<blocks, "Timing exclusion consumes entire pass")
     cases = fixture["cases"]
     require(isinstance(cases,list) and 1<=len(cases)<=16, "Expected 1..16 cases")
+    declaration=fixture.get('verification',{})
+    reviewed=_WAVE2_IDENTITIES.get(declaration.get('kind')) if isinstance(declaration,dict) else None
+    if reviewed:
+        expected_cases=['default','identity','slow-pole'] if declaration['kind']=='biquad-response-v1' else ['square','fractional','fourth']
+        require([case.get('id') for case in cases]==expected_cases,"Reviewed wave2 model requires all three authored cases in their original order")
+        for module in modules.values():
+            exported=module['report']['prepared_export'];identity=exported['manifest']
+            require(identity['editable_source_sha256']==reviewed['patch'] and identity['parameter_schema_sha256']==reviewed['schema'],"Reviewed wave2 patch/schema identity differs")
+            require(exported.get('provenance',{}).get('raw_files_sha256',{}).get('rnbo_source.h')==reviewed['raw_source'],"Reviewed wave2 raw source identity differs")
     events=[]; case_rows=[]; case_ids=set();stimuli=[];verifications=[]
     for case in cases:
         stimuli.append(stimulus_contract(fixture,case))
-        verifications.append(verification_contract(fixture,case,by_id,warmup))
+        verifications.append(verification_contract(fixture,case,by_id,warmup,blocks))
         name=case["id"];require(isinstance(name,str) and name not in case_ids,"Invalid/duplicate case ID");case_ids.add(name)
         current=[]
         require(isinstance(case.get("parameters",{}),dict), "Parameters must be a map")
@@ -178,12 +239,16 @@ def configuration(args, modules):
             require((f32(p["minimum"])<=value<=f32(p["maximum"])) if form=="actual" else 0<=value<=1,"Event exceeds declared bounds")
             current.append({"block":block,"index":p["index"],"kind":1 if form=="actual" else 2,"value":value,"id":identity})
         require(len(current)<=256, "Too many events per case")
-        current.sort(key=lambda e:(e["block"],e["index"]))
+        # A setter may trigger work using another parameter's current value
+        # (e.g. line target reads duration). Keep authored order within a block:
+        # initial map iteration first, then explicit event-array order.
+        current.sort(key=lambda e:e["block"])
         case_rows.append((name,len(events),len(current)));events.extend(current)
     tolerance=fixture["comparison_tolerance"]
     maximum=finite(tolerance["maximum_absolute_error"]);relative=finite(tolerance["relative_rms_level_difference"])
     require(maximum>=0 and relative>=0,"Negative comparison tolerance")
     pcm=integer(tolerance["maximum_pcm_lsb_error"],0,65535,"PCM tolerance")
+    if reviewed:require(maximum<=2e-6 and pcm<=1 and relative<=1e-4,"Reviewed wave2 pair limits cannot be widened")
     oracle_bytes=blocks*256*2*4 if any(verifications) else 0
     buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
     loaded=sum(m["inspection"]["loaded_bytes_upper_bound"] for m in modules.values())
@@ -218,16 +283,23 @@ def configuration(args, modules):
         else:lines.append("{%su,%s},"%(stimulus["kind"],",".join(float(stimulus[k]).hex() for k in ("base","depth","rate","pilot_frequency","pilot_amplitude","excitation","level"))))
     lines += ["};", "static const bench_verification bench_verifications[]={"]
     for verification in verifications:
-        if verification is None:lines.append("{0,0,0,0},")
-        else:lines.append("{1u,%su,%su,%s},"%(verification["window"],verification["initial_available"],float(verification["maximum_absolute_error"]).hex()))
+        if verification is None:lines.append("{0,0,0,0,{0,0,0,0,0},0},")
+        elif verification['kind']=='average-window-v1':
+            lines.append("{1u,%su,%su,%s,{0,0,0,0,0},0},"%(verification["window"],verification["initial_available"],float(verification["maximum_absolute_error"]).hex()))
+        else:
+            coefficients=verification.get('coefficients',dict.fromkeys(('a0','a1','a2','b1','b2'),0))
+            fields=','.join(float(coefficients[k]).hex() for k in ('a0','a1','a2','b1','b2'))
+            lines.append('{%su,0,0,%s,{%s},%s},'%(2 if verification['kind']=='biquad-response-v1' else 3,
+                         float(verification['maximum_absolute_error']).hex(),fields,float(verification.get('exponent',0)).hex()))
     lines += ["};", ""]
     return "\n".join(lines), {"catalog_path":str(args.catalog),"catalog_sha256":hashlib.sha256(data).hexdigest(),
         "fixture":fixture,"patch_sha256":sha(patch),"blocks":blocks,"rounds":args.rounds,"timing_exclude_blocks":args.timing_exclude_blocks,
         "arena_bytes":args.arena_bytes,"events":events,"stimuli":stimuli,"verifications":verifications,"psram_budget":budget,"description_sha256":sha(description_path),
-        "numerical_profiles":numerical_profiles,
+        "numerical_profiles":numerical_profiles,"event_order":"stable-block-source-order-v1",
+        "parameter_schema":[{k:p[k] for k in ('paramId','index','minimum','maximum','initialValue','exponent','steps')} for p in parameters],
         "comparison_policy":{"pcm_gain":0.5,"pcm_scale":32767,"pcm_rounding":"lrintf; symmetric saturation",
         "case_gate":"all declared tolerances per independently reset case, combined channels and rounds",
-        "fx_input":"per-case declared generator, Float64 sin then Float32 samples; interleaved little-endian input SHA before/after every pass; native/target transcendental rounding not assumed identical",
+        "fx_input":"per-case declared generator; completed channel samples rounded once to Float32; interleaved little-endian input SHA before/after every pass; native/target transcendental rounding not assumed identical",
         "timing":"process callback only; excludes first N rendered blocks of each pass; events/preparation separate"}}
 
 
