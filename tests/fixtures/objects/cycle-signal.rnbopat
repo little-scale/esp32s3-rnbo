@@ -1,0 +1,186 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1140,
+      750
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "phase",
+          "maxclass": "newobj",
+          "text": "param phase 0 @min 0 @max 1",
+          "rnbo_uniqueid": "phase",
+          "patching_rect": [
+            30,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "frequency",
+          "maxclass": "newobj",
+          "text": "param frequency 440 @min 20 @max 10000",
+          "rnbo_uniqueid": "frequency",
+          "patching_rect": [
+            290,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "osc",
+          "maxclass": "newobj",
+          "text": "cycle~",
+          "rnbo_uniqueid": "osc",
+          "patching_rect": [
+            550,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "freqsig",
+          "maxclass": "newobj",
+          "text": "sig~",
+          "rnbo_uniqueid": "freqsig",
+          "patching_rect": [
+            810,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "phasesig",
+          "maxclass": "newobj",
+          "text": "sig~",
+          "rnbo_uniqueid": "phasesig",
+          "patching_rect": [
+            30,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            290,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            550,
+            105,
+            240,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "frequency",
+            0
+          ],
+          "destination": [
+            "freqsig",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "phase",
+            0
+          ],
+          "destination": [
+            "phasesig",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "freqsig",
+            0
+          ],
+          "destination": [
+            "osc",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "phasesig",
+            0
+          ],
+          "destination": [
+            "osc",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "osc",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "osc",
+            1
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

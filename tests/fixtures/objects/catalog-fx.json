@@ -1,0 +1,183 @@
+{
+  "format": "rnbo-s3-original-object-fixtures",
+  "format_version": 1,
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "license": "MIT",
+  "fixtures": [
+    {
+      "id": "mtof-fx",
+      "family": "mtof",
+      "patch": "mtof-fx.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "dc-cache",
+          "parameters": {},
+          "stimulus": {
+            "depth": 0
+          }
+        },
+        {
+          "id": "default",
+          "parameters": {},
+          "stimulus": {}
+        },
+        {
+          "id": "fast-boundary",
+          "parameters": {},
+          "stimulus": {
+            "depth": 24,
+            "rate": 20
+          }
+        }
+      ],
+      "stimulus": {
+        "kind": "midi-stereo-v1",
+        "base": 60,
+        "depth": 12,
+        "rate": 0.5,
+        "pilot_frequency": 371,
+        "pilot_amplitude": 0.125
+      },
+      "semantic": {
+        "kind": "mtof-fx",
+        "pilot_output_channel": 0,
+        "frequency_channel": 1,
+        "frequency_scale": 0.00048828125,
+        "tuning": 440,
+        "analytic_maximum_absolute_error": 3e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 3e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "saw-fx",
+      "family": "saw",
+      "patch": "saw-fx.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {},
+          "stimulus": {}
+        },
+        {
+          "id": "low",
+          "parameters": {},
+          "stimulus": {
+            "frequency": 20
+          }
+        },
+        {
+          "id": "high",
+          "parameters": {},
+          "stimulus": {
+            "frequency": 10000
+          }
+        },
+        {
+          "id": "modulated",
+          "parameters": {},
+          "stimulus": {
+            "depth": 100
+          }
+        },
+        {
+          "id": "silent",
+          "parameters": {
+            "level": 0
+          },
+          "stimulus": {}
+        }
+      ],
+      "stimulus": {
+        "kind": "frequency-stereo-v1",
+        "frequency": 440,
+        "depth": 0,
+        "rate": 5,
+        "pilot_frequency": 371,
+        "pilot_amplitude": 0.125
+      },
+      "semantic": {
+        "kind": "saw-fx",
+        "audio_channel": 0,
+        "pilot_output_channel": 1,
+        "level_default": 0.2
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "reson-fx",
+      "family": "reson",
+      "patch": "reson-fx.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {},
+          "stimulus": {}
+        },
+        {
+          "id": "static-center",
+          "parameters": {},
+          "stimulus": {
+            "depth": 0
+          }
+        },
+        {
+          "id": "fast-modulation",
+          "parameters": {},
+          "stimulus": {
+            "rate": 20
+          }
+        },
+        {
+          "id": "silent",
+          "parameters": {},
+          "stimulus": {
+            "level": 0
+          }
+        }
+      ],
+      "stimulus": {
+        "kind": "reson-stereo-v1",
+        "excitation": 100,
+        "level": 0.2,
+        "center": 2000,
+        "depth": 1800,
+        "rate": 0.5
+      },
+      "semantic": {
+        "kind": "reson-fx",
+        "input_channel": 0,
+        "output_channel": 1,
+        "maximum_peak": 4
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-05,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    }
+  ]
+}

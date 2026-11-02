@@ -1,0 +1,354 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1140,
+      750
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "rate",
+          "maxclass": "newobj",
+          "text": "param rate 0.5 @min 0 @max 20",
+          "rnbo_uniqueid": "rate",
+          "patching_rect": [
+            30,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "depth",
+          "maxclass": "newobj",
+          "text": "param depth 12 @min 0 @max 24",
+          "rnbo_uniqueid": "depth",
+          "patching_rect": [
+            290,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pitchscale",
+          "maxclass": "newobj",
+          "text": "param pitchscale 0.0078125 @min 0.0078125 @max 0.015625",
+          "rnbo_uniqueid": "pitchscale",
+          "patching_rect": [
+            550,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "freqscale",
+          "maxclass": "newobj",
+          "text": "param freqscale 0.00048828125 @min 0.00048828125 @max 0.0009765625",
+          "rnbo_uniqueid": "freqscale",
+          "patching_rect": [
+            810,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "mod",
+          "maxclass": "newobj",
+          "text": "cycle~",
+          "rnbo_uniqueid": "mod",
+          "patching_rect": [
+            30,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pitch",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "pitch",
+          "patching_rect": [
+            290,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pitchview",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "pitchview",
+          "patching_rect": [
+            550,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "convert",
+          "maxclass": "newobj",
+          "text": "mtof~",
+          "rnbo_uniqueid": "convert",
+          "patching_rect": [
+            810,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "frequencyview",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "frequencyview",
+          "patching_rect": [
+            30,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            290,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            550,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "base",
+          "maxclass": "newobj",
+          "text": "param base 60 @min 36 @max 96",
+          "rnbo_uniqueid": "base",
+          "patching_rect": [
+            30,
+            330,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "base-signal",
+          "maxclass": "newobj",
+          "text": "sig~",
+          "rnbo_uniqueid": "base-signal",
+          "patching_rect": [
+            300,
+            330,
+            240,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "rate",
+            0
+          ],
+          "destination": [
+            "mod",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "mod",
+            0
+          ],
+          "destination": [
+            "pitch",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "depth",
+            0
+          ],
+          "destination": [
+            "pitch",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pitch",
+            0
+          ],
+          "destination": [
+            "pitchview",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pitchscale",
+            0
+          ],
+          "destination": [
+            "pitchview",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pitch",
+            0
+          ],
+          "destination": [
+            "convert",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "convert",
+            0
+          ],
+          "destination": [
+            "frequencyview",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "freqscale",
+            0
+          ],
+          "destination": [
+            "frequencyview",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pitchview",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "frequencyview",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "base",
+            0
+          ],
+          "destination": [
+            "base-signal",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "base-signal",
+            0
+          ],
+          "destination": [
+            "pitchview",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "base-signal",
+            0
+          ],
+          "destination": [
+            "convert",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

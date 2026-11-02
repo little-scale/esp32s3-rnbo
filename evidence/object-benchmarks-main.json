@@ -1,0 +1,659 @@
+{
+  "format": "rnbo-object-target-observations",
+  "format_version": 1,
+  "collector_sha256": "5603ef42ad9c75175eeb48a177614341743df2fdfdb929ddbb4181ddd0f252ae",
+  "fixtures": [
+    {
+      "fixture": "mtof-varying",
+      "family": "mtof",
+      "role": "main",
+      "identical_artifact_control": false,
+      "scope": "Complete authored fixture; process callback only, no I2S/UI/network. Main excitation is included.",
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-mtof-varying/build-report.json",
+      "build_report_sha256": "15f75478b24ec066bf4c25b668c16d47efe3b04ef5632ea5f422bec81b3f47ff",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-mtof-main/hardware-test.json",
+      "hardware_report_sha256": "cdaccf5af9a23274f5fc321fa56a6abd39e405c178ed1cc6792bec1e44324b04",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-mtof-main/test-serial.log",
+      "serial_log_sha256": "97dcc95297ad0f1fbc396c7b1b27283a977a995d204bf01b67b09844929a5627",
+      "pass": {
+        "fixture": "mtof-varying",
+        "firmware_elf_sha256": "ee0ff4d3d67b13178cf162d287e8c52fa68bcad179cd5825f38d6ac766e1b75b",
+        "strict_module_sha256": "1c5b510a96f9c9934f20c689e3571be0a92858dd9f172cf1d90da1c4f3639fe2",
+        "optimized_module_sha256": "e04797640f81cb98f25a1f94a5d63e2607cefdd559b94dd3c9327edadc1d4750",
+        "cases": 3,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 2359296,
+        "max_abs": 5.96046448e-08,
+        "rms_error": 4.51682869e-09,
+        "pcm_different": 12,
+        "max_pcm_lsb": 1,
+        "max_abs_tolerance": 3e-06,
+        "max_pcm_lsb_tolerance": 1,
+        "relative_rms_tolerance": 0.0001,
+        "strict_timed_blocks": 4320,
+        "strict_process_us": 8870212,
+        "strict_peak_us": 3233,
+        "optimized_timed_blocks": 4320,
+        "optimized_process_us": 1438078,
+        "optimized_peak_us": 547,
+        "psram_before": 7333512,
+        "psram_after": 7333512,
+        "internal_before": 316607,
+        "internal_after": 316607,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "stack_margin": 20708,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "dc-cache",
+          "output_comparison": {
+            "fixture": "mtof-varying",
+            "case": "dc-cache",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "mtof-varying",
+              "case": "dc-cache",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 635116,
+              "peak_us": 462,
+              "event_us": 49,
+              "prepare_us": 2688721,
+              "rms": 0.343544626,
+              "peak": 0.46875,
+              "arena_high_water": 327888,
+              "mean_process_us": 441.0527777777778
+            },
+            "optimized": {
+              "fixture": "mtof-varying",
+              "case": "dc-cache",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 201706,
+              "peak_us": 169,
+              "event_us": 45,
+              "prepare_us": 2667370,
+              "rms": 0.343544626,
+              "peak": 0.46875,
+              "arena_high_water": 327888,
+              "mean_process_us": 140.07361111111112
+            }
+          },
+          "observed_speed_ratio": 3.148721406403379,
+          "observed_process_reduction_percent": 68.24107722053925
+        },
+        {
+          "case": "default",
+          "output_comparison": {
+            "fixture": "mtof-varying",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 2.98023224e-08,
+            "rms_error": 3.28718714e-09,
+            "relative_rms": 5.90134608e-11,
+            "pcm_different": 6,
+            "max_pcm_lsb": 1
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "mtof-varying",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 4011294,
+              "peak_us": 3190,
+              "event_us": 0,
+              "prepare_us": 2688764,
+              "rms": 0.352425035,
+              "peak": 0.5625,
+              "arena_high_water": 327888,
+              "mean_process_us": 2785.6208333333334
+            },
+            "optimized": {
+              "fixture": "mtof-varying",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 557656,
+              "peak_us": 433,
+              "event_us": 0,
+              "prepare_us": 2667352,
+              "rms": 0.352425035,
+              "peak": 0.5625,
+              "arena_high_water": 327888,
+              "mean_process_us": 387.2611111111111
+            }
+          },
+          "observed_speed_ratio": 7.193133401236604,
+          "observed_process_reduction_percent": 86.09785271286523
+        },
+        {
+          "case": "fast-boundary",
+          "output_comparison": {
+            "fixture": "mtof-varying",
+            "case": "fast-boundary",
+            "samples": 786432,
+            "max_abs": 5.96046448e-08,
+            "rms_error": 7.09926933e-09,
+            "relative_rms": 5.25553157e-10,
+            "pcm_different": 6,
+            "max_pcm_lsb": 1
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "mtof-varying",
+              "case": "fast-boundary",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 4223802,
+              "peak_us": 3233,
+              "event_us": 66,
+              "prepare_us": 2688361,
+              "rms": 0.389734593,
+              "peak": 0.656249881,
+              "arena_high_water": 327888,
+              "mean_process_us": 2933.195833333333
+            },
+            "optimized": {
+              "fixture": "mtof-varying",
+              "case": "fast-boundary",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 678716,
+              "peak_us": 547,
+              "event_us": 66,
+              "prepare_us": 2666673,
+              "rms": 0.389734593,
+              "peak": 0.656249881,
+              "arena_high_water": 327888,
+              "mean_process_us": 471.3305555555556
+            }
+          },
+          "observed_speed_ratio": 6.223224441445317,
+          "observed_process_reduction_percent": 83.93115965189656
+        }
+      ]
+    },
+    {
+      "fixture": "saw-signal",
+      "family": "saw",
+      "role": "main",
+      "identical_artifact_control": true,
+      "scope": "Complete authored fixture; process callback only, no I2S/UI/network. Main excitation is included.",
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-saw-signal/build-report.json",
+      "build_report_sha256": "76459bd4740f96b1c84d1b569ed6ab2c79b3d32d3f591620fe10269658d966de",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-saw-main/hardware-test.json",
+      "hardware_report_sha256": "862428ab9dbab507aca9c81d839524d4ae7be6056284f675d3c59a8ac53750d2",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-saw-main/test-serial.log",
+      "serial_log_sha256": "bae5da73bd22de93412e31604bfd755c95f8595a90282eda7e06c342d6338249",
+      "pass": {
+        "fixture": "saw-signal",
+        "firmware_elf_sha256": "bb5f6e3586ad29427d01678e31b2e2e87ec3da87e6dd331270b1063450e63a56",
+        "strict_module_sha256": "23d78d6cb28e52e4478777116f3f820a56c3c4ed95908f07bc211f4d473d8d1e",
+        "optimized_module_sha256": "23d78d6cb28e52e4478777116f3f820a56c3c4ed95908f07bc211f4d473d8d1e",
+        "cases": 4,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 3145728,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 2e-06,
+        "max_pcm_lsb_tolerance": 1,
+        "relative_rms_tolerance": 0.0001,
+        "strict_timed_blocks": 5760,
+        "strict_process_us": 1200175,
+        "strict_peak_us": 238,
+        "optimized_timed_blocks": 5760,
+        "optimized_process_us": 1199401,
+        "optimized_peak_us": 241,
+        "psram_before": 7333512,
+        "psram_after": 7333512,
+        "internal_before": 316607,
+        "internal_after": 316607,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "stack_margin": 20676,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default",
+          "output_comparison": {
+            "fixture": "saw-signal",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-signal",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 291283,
+              "peak_us": 212,
+              "event_us": 0,
+              "prepare_us": 3241,
+              "rms": 0.410229102,
+              "peak": 0.999991238,
+              "arena_high_water": 0,
+              "mean_process_us": 202.2798611111111
+            },
+            "optimized": {
+              "fixture": "saw-signal",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 291117,
+              "peak_us": 216,
+              "event_us": 0,
+              "prepare_us": 3388,
+              "rms": 0.410229102,
+              "peak": 0.999991238,
+              "arena_high_water": 0,
+              "mean_process_us": 202.16458333333333
+            }
+          },
+          "observed_speed_ratio": 1.0005702174727,
+          "observed_process_reduction_percent": 0.05698925100331431
+        },
+        {
+          "case": "low",
+          "output_comparison": {
+            "fixture": "saw-signal",
+            "case": "low",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-signal",
+              "case": "low",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 289683,
+              "peak_us": 211,
+              "event_us": 33,
+              "prepare_us": 3199,
+              "rms": 0.409693997,
+              "peak": 0.999996901,
+              "arena_high_water": 0,
+              "mean_process_us": 201.16875
+            },
+            "optimized": {
+              "fixture": "saw-signal",
+              "case": "low",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 289472,
+              "peak_us": 215,
+              "event_us": 32,
+              "prepare_us": 3349,
+              "rms": 0.409693997,
+              "peak": 0.999996901,
+              "arena_high_water": 0,
+              "mean_process_us": 201.0222222222222
+            }
+          },
+          "observed_speed_ratio": 1.0007289133318593,
+          "observed_process_reduction_percent": 0.0728382404214245
+        },
+        {
+          "case": "high",
+          "output_comparison": {
+            "fixture": "saw-signal",
+            "case": "high",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-signal",
+              "case": "high",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 327979,
+              "peak_us": 238,
+              "event_us": 25,
+              "prepare_us": 3217,
+              "rms": 0.409196169,
+              "peak": 0.99999845,
+              "arena_high_water": 0,
+              "mean_process_us": 227.76319444444445
+            },
+            "optimized": {
+              "fixture": "saw-signal",
+              "case": "high",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 327635,
+              "peak_us": 241,
+              "event_us": 26,
+              "prepare_us": 3352,
+              "rms": 0.409196169,
+              "peak": 0.99999845,
+              "arena_high_water": 0,
+              "mean_process_us": 227.52430555555554
+            }
+          },
+          "observed_speed_ratio": 1.0010499488760358,
+          "observed_process_reduction_percent": 0.10488476396355306
+        },
+        {
+          "case": "silent",
+          "output_comparison": {
+            "fixture": "saw-signal",
+            "case": "silent",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "saw-signal",
+              "case": "silent",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 291230,
+              "peak_us": 216,
+              "event_us": 26,
+              "prepare_us": 3201,
+              "rms": 0.408248397,
+              "peak": 0.999991238,
+              "arena_high_water": 0,
+              "mean_process_us": 202.24305555555554
+            },
+            "optimized": {
+              "fixture": "saw-signal",
+              "case": "silent",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 291177,
+              "peak_us": 216,
+              "event_us": 28,
+              "prepare_us": 3349,
+              "rms": 0.408248397,
+              "peak": 0.999991238,
+              "arena_high_water": 0,
+              "mean_process_us": 202.20625
+            }
+          },
+          "observed_speed_ratio": 1.000182019871075,
+          "observed_process_reduction_percent": 0.018198674587088792
+        }
+      ]
+    },
+    {
+      "fixture": "reson-modulated",
+      "family": "reson",
+      "role": "main",
+      "identical_artifact_control": false,
+      "scope": "Complete authored fixture; process callback only, no I2S/UI/network. Main excitation is included.",
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-reson-modulated/build-report.json",
+      "build_report_sha256": "db9f914d28a056ec640bcf72ee49b0a5d496e6501f68a9a09198d3cfff86543f",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-reson-main/hardware-test.json",
+      "hardware_report_sha256": "024cca41f69b4e149431f37a41f2d06d727b370deb20eec61efba8e02dcb50c7",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-reson-main/test-serial.log",
+      "serial_log_sha256": "f8fd73f7477b74d9b187c49f34e67b9f0584fb5dc7f8e82df5dd0bb58e0c8194",
+      "pass": {
+        "fixture": "reson-modulated",
+        "firmware_elf_sha256": "000cb2aab6d45e07983ec061b4baadecace20d5cb6cd1af4c44106b9526beb0e",
+        "strict_module_sha256": "654d088ce0e098db8937c199960c8919e6d1640186d64cc7908db06ed7be3112",
+        "optimized_module_sha256": "9682293ba19ba8541a8149c3b4eaa2aa4654dbce2ebd0a357dd4ff2ef321c0b9",
+        "cases": 4,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 3145728,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 2e-05,
+        "max_pcm_lsb_tolerance": 1,
+        "relative_rms_tolerance": 0.0001,
+        "strict_timed_blocks": 5760,
+        "strict_process_us": 7660440,
+        "strict_peak_us": 1567,
+        "optimized_timed_blocks": 5760,
+        "optimized_process_us": 3257200,
+        "optimized_peak_us": 774,
+        "psram_before": 7333512,
+        "psram_after": 7333512,
+        "internal_before": 316607,
+        "internal_after": 316607,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "stack_margin": 20676,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default",
+          "output_comparison": {
+            "fixture": "reson-modulated",
+            "case": "default",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-modulated",
+              "case": "default",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 2129988,
+              "peak_us": 1555,
+              "event_us": 0,
+              "prepare_us": 594931,
+              "rms": 0.113784627,
+              "peak": 0.200000003,
+              "arena_high_water": 65648,
+              "mean_process_us": 1479.1583333333333
+            },
+            "optimized": {
+              "fixture": "reson-modulated",
+              "case": "default",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 944945,
+              "peak_us": 739,
+              "event_us": 0,
+              "prepare_us": 585605,
+              "rms": 0.113784627,
+              "peak": 0.200000003,
+              "arena_high_water": 65648,
+              "mean_process_us": 656.2118055555555
+            }
+          },
+          "observed_speed_ratio": 2.2540867457894374,
+          "observed_process_reduction_percent": 55.63613503925844
+        },
+        {
+          "case": "static-center",
+          "output_comparison": {
+            "fixture": "reson-modulated",
+            "case": "static-center",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-modulated",
+              "case": "static-center",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 1236466,
+              "peak_us": 886,
+              "event_us": 36,
+              "prepare_us": 594992,
+              "rms": 0.113687008,
+              "peak": 0.200000003,
+              "arena_high_water": 65648,
+              "mean_process_us": 858.6569444444444
+            },
+            "optimized": {
+              "fixture": "reson-modulated",
+              "case": "static-center",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 371106,
+              "peak_us": 291,
+              "event_us": 38,
+              "prepare_us": 585623,
+              "rms": 0.113687008,
+              "peak": 0.200000003,
+              "arena_high_water": 65648,
+              "mean_process_us": 257.7125
+            }
+          },
+          "observed_speed_ratio": 3.331840498402074,
+          "observed_process_reduction_percent": 69.98655846582113
+        },
+        {
+          "case": "fast-boundary",
+          "output_comparison": {
+            "fixture": "reson-modulated",
+            "case": "fast-boundary",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-modulated",
+              "case": "fast-boundary",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 2163514,
+              "peak_us": 1567,
+              "event_us": 72,
+              "prepare_us": 594798,
+              "rms": 0.114270221,
+              "peak": 0.200000003,
+              "arena_high_water": 65648,
+              "mean_process_us": 1502.4402777777777
+            },
+            "optimized": {
+              "fixture": "reson-modulated",
+              "case": "fast-boundary",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 996616,
+              "peak_us": 774,
+              "event_us": 72,
+              "prepare_us": 585286,
+              "rms": 0.114270221,
+              "peak": 0.200000003,
+              "arena_high_water": 65648,
+              "mean_process_us": 692.0944444444444
+            }
+          },
+          "observed_speed_ratio": 2.170860190885958,
+          "observed_process_reduction_percent": 53.935310795308
+        },
+        {
+          "case": "silent",
+          "output_comparison": {
+            "fixture": "reson-modulated",
+            "case": "silent",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "reson-modulated",
+              "case": "silent",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 2130472,
+              "peak_us": 1555,
+              "event_us": 33,
+              "prepare_us": 594985,
+              "rms": 6.53692973e-05,
+              "peak": 0.0294166952,
+              "arena_high_water": 65648,
+              "mean_process_us": 1479.4944444444445
+            },
+            "optimized": {
+              "fixture": "reson-modulated",
+              "case": "silent",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 944533,
+              "peak_us": 742,
+              "event_us": 38,
+              "prepare_us": 585630,
+              "rms": 6.53692973e-05,
+              "peak": 0.0294166952,
+              "arena_high_water": 65648,
+              "mean_process_us": 655.9256944444444
+            }
+          },
+          "observed_speed_ratio": 2.255582388333706,
+          "observed_process_reduction_percent": 55.66555204668262
+        }
+      ]
+    }
+  ],
+  "claim": "Observed workload comparisons; no universal numerical or worst-case timing bound"
+}

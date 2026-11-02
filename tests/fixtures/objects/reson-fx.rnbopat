@@ -1,0 +1,134 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      900,
+      500
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "input",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "input",
+          "patching_rect": [
+            30,
+            30,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "frequency",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "frequency",
+          "patching_rect": [
+            310,
+            30,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "filter",
+          "maxclass": "newobj",
+          "text": "reson~ 1000 0.95",
+          "rnbo_uniqueid": "filter",
+          "patching_rect": [
+            590,
+            30,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            30,
+            105,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            310,
+            105,
+            250,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "input",
+            0
+          ],
+          "destination": [
+            "filter",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "frequency",
+            0
+          ],
+          "destination": [
+            "filter",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "input",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "filter",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

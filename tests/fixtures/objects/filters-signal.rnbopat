@@ -1,0 +1,340 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1140,
+      750
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "trigger",
+          "maxclass": "newobj",
+          "text": "param trigger 0 @min 0 @max 1",
+          "rnbo_uniqueid": "trigger",
+          "patching_rect": [
+            30,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "impulse",
+          "maxclass": "newobj",
+          "text": "click~",
+          "rnbo_uniqueid": "impulse",
+          "patching_rect": [
+            290,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "delay",
+          "maxclass": "newobj",
+          "text": "param delay 16 @min 0 @max 40",
+          "rnbo_uniqueid": "delay",
+          "patching_rect": [
+            550,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "rate",
+          "maxclass": "newobj",
+          "text": "param rate 0.5 @min 0 @max 20",
+          "rnbo_uniqueid": "rate",
+          "patching_rect": [
+            810,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "depth",
+          "maxclass": "newobj",
+          "text": "param depth 8 @min 0 @max 20",
+          "rnbo_uniqueid": "depth",
+          "patching_rect": [
+            30,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "mod",
+          "maxclass": "newobj",
+          "text": "cycle~",
+          "rnbo_uniqueid": "mod",
+          "patching_rect": [
+            290,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "moddepth",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "moddepth",
+          "patching_rect": [
+            550,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "offset",
+          "maxclass": "newobj",
+          "text": "sig~",
+          "rnbo_uniqueid": "offset",
+          "patching_rect": [
+            810,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "comb",
+          "maxclass": "newobj",
+          "text": "comb~ 16 0.5 0.7 0.7",
+          "rnbo_uniqueid": "comb",
+          "patching_rect": [
+            30,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "allpass",
+          "maxclass": "newobj",
+          "text": "allpass~ 16 0.5 0.7 0.7",
+          "rnbo_uniqueid": "allpass",
+          "patching_rect": [
+            290,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            550,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            810,
+            180,
+            240,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "trigger",
+            0
+          ],
+          "destination": [
+            "impulse",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "rate",
+            0
+          ],
+          "destination": [
+            "mod",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "mod",
+            0
+          ],
+          "destination": [
+            "moddepth",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "depth",
+            0
+          ],
+          "destination": [
+            "moddepth",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "delay",
+            0
+          ],
+          "destination": [
+            "offset",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "impulse",
+            0
+          ],
+          "destination": [
+            "comb",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "offset",
+            0
+          ],
+          "destination": [
+            "comb",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "moddepth",
+            0
+          ],
+          "destination": [
+            "comb",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "impulse",
+            0
+          ],
+          "destination": [
+            "allpass",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "offset",
+            0
+          ],
+          "destination": [
+            "allpass",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "moddepth",
+            0
+          ],
+          "destination": [
+            "allpass",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "comb",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "allpass",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

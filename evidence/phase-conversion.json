@@ -1,0 +1,74 @@
+{
+  "format": "rnbo-experimental-phase-conversion-observation",
+  "format_version": 1,
+  "candidate_enabled_in_dsp": false,
+  "scope": "Native firmware indirect-function microbenchmark, no RNBO rendering; not a whole-object speed claim",
+  "host_math_checks": 16879131,
+  "target_input_checks_including_repetitions": 798,
+  "cases": [
+    {
+      "case": "positive-phase",
+      "reference_us": 121825,
+      "candidate_us": 76846,
+      "calls_each": 524288,
+      "process_reduction_percent": 36.92099322799097
+    },
+    {
+      "case": "positive-increment",
+      "reference_us": 114135,
+      "candidate_us": 76844,
+      "calls_each": 524288,
+      "process_reduction_percent": 32.67271213913349
+    },
+    {
+      "case": "mixed-fallback",
+      "reference_us": 124516,
+      "candidate_us": 132577,
+      "calls_each": 524288,
+      "process_reduction_percent": -6.473866812297224
+    }
+  ],
+  "decision": "Remain disabled: positive cases improve, mixed/fallback case regresses; most scalar increments are already hoisted. Require whole-cycle and domain qualification.",
+  "build_report": "build/phase-benchmark-amoled/build-report.json",
+  "build_report_sha256": "7d487a2563d37a47f4648c8c055a5f7c181fd565f079a0dd881f1993676236c3",
+  "sources_sha256": {
+    "tools/build_phase_benchmark.py": "1f33dffe58b242dc1a81fa13d17b0254c9e0303ea5fb7131cb9c403604eae699",
+    "runtime/phase_trunc.h": "54f2023c11249d5c20efbbd5f1a031b20fa83337e440d717f7b177bb9d9aef52",
+    "phase-benchmark/CMakeLists.txt": "f800ca317f15df57a41610caabefcf94cc3854293c1e7ce310abfc4490575d6b",
+    "phase-benchmark/partitions.csv": "69d6bfc49c56e07bb957c128fccf5c3710bc2e0d7b276b0c69acd17359096ea8",
+    "phase-benchmark/sdkconfig.defaults": "f4d3c1c833f96aa2788583a3c755372527e0796ac4c2fce10939c1c081f72283",
+    "phase-benchmark/main/CMakeLists.txt": "7bac4a82f92a8817444d69344b1145a70c23b429610350233f1ecb6131db7a24",
+    "phase-benchmark/main/phase.c": "eeacbeb5a9b67077866f3f065392957c3a5c4ca714e2b3b5f040e1f73aab585d"
+  },
+  "hardware_report": "build/object-optimisation/phase-hardware-v2/hardware-test.json",
+  "hardware_report_sha256": "7f359f7be54aefdf7154b3ee6bb6122b55465c4957092f02f936784fce701f32",
+  "serial_log_sha256": "a7692c9757c50ff3c076be6c9521aece5e78db3ba1da6619f61982804e089094",
+  "observed_pass": {
+    "firmware_elf_sha256": "d933a9259e57ea09c903be3bcd14f01f3ae9c93d06887dfcd65a8a3583b70feb",
+    "cases": 3,
+    "exact_input_checks": 798,
+    "timed_calls_each": 1572864,
+    "positive_reference_us": 121825,
+    "positive_candidate_us": 76846,
+    "increment_reference_us": 114135,
+    "increment_candidate_us": 76844,
+    "mixed_reference_us": 124516,
+    "mixed_candidate_us": 132577,
+    "scope": "native-firmware-indirect-function-microbenchmark",
+    "integration_enabled": 0
+  },
+  "artifacts": {
+    "build/phase-benchmark-amoled/rnbo_phase_benchmark.elf": {
+      "bytes": 3321012,
+      "sha256": "d933a9259e57ea09c903be3bcd14f01f3ae9c93d06887dfcd65a8a3583b70feb"
+    },
+    "build/phase-benchmark-amoled/rnbo_phase_benchmark.bin": {
+      "bytes": 186432,
+      "sha256": "00243daac318de8b50963c1ad614f5e3b47f5246cf09f26ebaa7ac2599829b11"
+    },
+    "build/phase-benchmark-amoled/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+    }
+  }
+}

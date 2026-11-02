@@ -1,0 +1,174 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      900,
+      500
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "pitch",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "pitch",
+          "patching_rect": [
+            30,
+            30,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pilot",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "pilot",
+          "patching_rect": [
+            310,
+            30,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "convert",
+          "maxclass": "newobj",
+          "text": "mtof~",
+          "rnbo_uniqueid": "convert",
+          "patching_rect": [
+            590,
+            30,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "gain",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "gain",
+          "patching_rect": [
+            30,
+            105,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "scale",
+          "maxclass": "newobj",
+          "text": "param scale 0.00048828125 @min 0.00048828125 @max 0.0009765625",
+          "rnbo_uniqueid": "scale",
+          "patching_rect": [
+            310,
+            105,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            590,
+            105,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            30,
+            180,
+            250,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "pitch",
+            0
+          ],
+          "destination": [
+            "convert",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "convert",
+            0
+          ],
+          "destination": [
+            "gain",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "scale",
+            0
+          ],
+          "destination": [
+            "gain",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pilot",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "gain",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

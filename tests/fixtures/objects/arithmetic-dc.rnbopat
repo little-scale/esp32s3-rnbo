@@ -1,0 +1,264 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1140,
+      750
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "a",
+          "maxclass": "newobj",
+          "text": "param a 0.25 @min -1 @max 1",
+          "rnbo_uniqueid": "a",
+          "patching_rect": [
+            30,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "b",
+          "maxclass": "newobj",
+          "text": "param b 0.5 @min -1 @max 1",
+          "rnbo_uniqueid": "b",
+          "patching_rect": [
+            290,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "c",
+          "maxclass": "newobj",
+          "text": "param c 0.125 @min -1 @max 1",
+          "rnbo_uniqueid": "c",
+          "patching_rect": [
+            550,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "divisor",
+          "maxclass": "newobj",
+          "text": "param divisor 2 @min 0 @max 4",
+          "rnbo_uniqueid": "divisor",
+          "patching_rect": [
+            810,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "input",
+          "maxclass": "newobj",
+          "text": "sig~",
+          "rnbo_uniqueid": "input",
+          "patching_rect": [
+            30,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "mul",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "mul",
+          "patching_rect": [
+            290,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "add",
+          "maxclass": "newobj",
+          "text": "+~",
+          "rnbo_uniqueid": "add",
+          "patching_rect": [
+            550,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "divide",
+          "maxclass": "newobj",
+          "text": "/~",
+          "rnbo_uniqueid": "divide",
+          "patching_rect": [
+            810,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            30,
+            180,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            290,
+            180,
+            240,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "a",
+            0
+          ],
+          "destination": [
+            "input",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "input",
+            0
+          ],
+          "destination": [
+            "mul",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "b",
+            0
+          ],
+          "destination": [
+            "mul",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "mul",
+            0
+          ],
+          "destination": [
+            "add",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "c",
+            0
+          ],
+          "destination": [
+            "add",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "add",
+            0
+          ],
+          "destination": [
+            "divide",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "divisor",
+            0
+          ],
+          "destination": [
+            "divide",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "input",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "divide",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

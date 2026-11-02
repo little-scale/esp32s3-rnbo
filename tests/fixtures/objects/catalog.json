@@ -1,0 +1,546 @@
+{
+  "format": "rnbo-s3-original-object-fixtures",
+  "format_version": 1,
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "license": "MIT",
+  "fixtures": [
+    {
+      "id": "mtof-varying",
+      "family": "mtof",
+      "patch": "mtof-varying.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "dc-cache",
+          "parameters": {
+            "depth": 0
+          }
+        },
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "fast-boundary",
+          "parameters": {
+            "rate": 20,
+            "depth": 24
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "mtof",
+        "pitch_channel": 0,
+        "pitch_scale": 0.0078125,
+        "frequency_channel": 1,
+        "frequency_scale": 0.00048828125,
+        "tuning": 440,
+        "analytic_maximum_absolute_error": 3e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 3e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "saw-signal",
+      "family": "saw",
+      "patch": "saw-signal.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "low",
+          "parameters": {
+            "frequency": 20
+          }
+        },
+        {
+          "id": "high",
+          "parameters": {
+            "frequency": 10000
+          }
+        },
+        {
+          "id": "silent",
+          "parameters": {
+            "level": 0
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "saw",
+        "audio_channel": 0,
+        "phase_channel": 1,
+        "frequency_default": 440,
+        "level_default": 0.2,
+        "phase_frequency_relative_tolerance": 0.0001
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "reson-modulated",
+      "family": "reson",
+      "patch": "reson-modulated.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "static-center",
+          "parameters": {
+            "depth": 0
+          }
+        },
+        {
+          "id": "fast-boundary",
+          "parameters": {
+            "center": 1000,
+            "depth": 3000,
+            "rate": 20
+          }
+        },
+        {
+          "id": "silent",
+          "parameters": {
+            "level": 0
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "reson",
+        "input_channel": 0,
+        "output_channel": 1,
+        "maximum_peak": 4,
+        "static_impulse_response": "separate filters fixtures cover impulse tests"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-05,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "cycle-fixed",
+      "family": "cycle",
+      "patch": "cycle-fixed.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "phase-boundary",
+          "parameters": {
+            "phase": 0.99
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "cycle",
+        "phase_channel": 1,
+        "frequency_default": 0.009,
+        "analytic_maximum_absolute_error": 2e-06,
+        "wave_channel": 0,
+        "phase_waveform": "cosine"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "cycle-scalar",
+      "family": "cycle",
+      "patch": "cycle-scalar.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "phase-boundary",
+          "parameters": {
+            "phase": 0.99
+          }
+        },
+        {
+          "id": "low",
+          "parameters": {
+            "frequency": 20
+          }
+        },
+        {
+          "id": "high",
+          "parameters": {
+            "frequency": 10000
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "cycle",
+        "phase_channel": 1,
+        "frequency_default": 440,
+        "analytic_maximum_absolute_error": 2e-06,
+        "wave_channel": 0,
+        "phase_waveform": "cosine"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "cycle-signal",
+      "family": "cycle",
+      "patch": "cycle-signal.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "phase-boundary",
+          "parameters": {
+            "phase": 0.99
+          }
+        },
+        {
+          "id": "low",
+          "parameters": {
+            "frequency": 20
+          }
+        },
+        {
+          "id": "high",
+          "parameters": {
+            "frequency": 10000
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "cycle",
+        "phase_channel": 1,
+        "frequency_default": 440,
+        "analytic_maximum_absolute_error": 2e-06,
+        "wave_channel": 0,
+        "phase_waveform": "cosine"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "scale-linear",
+      "family": "scale",
+      "patch": "scale-linear.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "dc",
+          "parameters": {
+            "rate": 0
+          }
+        },
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "fast-boundary",
+          "parameters": {
+            "rate": 20
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "scale",
+        "input_channel": 0,
+        "output_channel": 1,
+        "low_in": -1,
+        "high_in": 1,
+        "low_out": 800,
+        "high_out": 11000,
+        "output_scale": 6.103515625e-05,
+        "analytic_maximum_absolute_error": 2e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    },
+    {
+      "id": "filters-fixed",
+      "family": "filters",
+      "patch": "filters-fixed.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "impulse",
+          "parameters": {
+            "trigger": 1
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "filters",
+        "comb_channel": 0,
+        "allpass_channel": 1,
+        "maximum_peak": 4,
+        "excitation": "single unit impulse from trigger1 event after warmup"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": true,
+      "filter_delay_max_ms": 40
+    },
+    {
+      "id": "filters-scalar",
+      "family": "filters",
+      "patch": "filters-scalar.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "impulse",
+          "parameters": {
+            "trigger": 1
+          }
+        },
+        {
+          "id": "minimum-delay",
+          "parameters": {
+            "trigger": 1,
+            "delay": 0
+          }
+        },
+        {
+          "id": "maximum-delay",
+          "parameters": {
+            "trigger": 1,
+            "delay": 40
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "filters",
+        "comb_channel": 0,
+        "allpass_channel": 1,
+        "maximum_peak": 4,
+        "excitation": "single unit impulse from trigger1 event after warmup"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": true,
+      "filter_delay_max_ms": 40
+    },
+    {
+      "id": "filters-signal",
+      "family": "filters",
+      "patch": "filters-signal.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "impulse",
+          "parameters": {
+            "trigger": 1
+          }
+        },
+        {
+          "id": "minimum-delay",
+          "parameters": {
+            "trigger": 1,
+            "delay": 0
+          }
+        },
+        {
+          "id": "maximum-delay",
+          "parameters": {
+            "trigger": 1,
+            "delay": 40
+          }
+        },
+        {
+          "id": "fast-modulation",
+          "parameters": {
+            "trigger": 1,
+            "delay": 20,
+            "depth": 20,
+            "rate": 20
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "filters",
+        "comb_channel": 0,
+        "allpass_channel": 1,
+        "maximum_peak": 4,
+        "excitation": "single unit impulse from trigger1 event after warmup"
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": true,
+      "filter_delay_max_ms": 40
+    },
+    {
+      "id": "delay-crossfade",
+      "family": "delay",
+      "patch": "delay-crossfade.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "minimum",
+          "parameters": {
+            "delay": 1
+          }
+        },
+        {
+          "id": "maximum",
+          "parameters": {
+            "delay": 64
+          }
+        },
+        {
+          "id": "silent",
+          "parameters": {
+            "level": 0
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "delay",
+        "input_channel": 0,
+        "output_channel": 1,
+        "delay_default": 16,
+        "settle_samples": 4096,
+        "maximum_lag": 64,
+        "analytic_maximum_absolute_error": 2e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": true
+    },
+    {
+      "id": "arithmetic-dc",
+      "family": "arithmetic",
+      "patch": "arithmetic-dc.rnbopat",
+      "role": "main",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "cases": [
+        {
+          "id": "default",
+          "parameters": {}
+        },
+        {
+          "id": "zero-divisor",
+          "parameters": {
+            "divisor": 0
+          }
+        },
+        {
+          "id": "negative-boundary",
+          "parameters": {
+            "a": -1,
+            "b": 1,
+            "c": -1,
+            "divisor": 4
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "arithmetic",
+        "input_channel": 0,
+        "output_channel": 1,
+        "defaults": {
+          "a": 0.25,
+          "b": 0.5,
+          "c": 0.125,
+          "divisor": 2
+        },
+        "analytic_maximum_absolute_error": 1e-07
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "float32_delay_storage": false
+    }
+  ]
+}

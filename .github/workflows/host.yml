@@ -18,5 +18,6 @@ jobs:
           python -m unittest discover -s tests/visual -v
           python -m unittest discover -s tests/dynamic -v
           python -m unittest discover -s host/compiler -v
+          python -m unittest discover -s tools -p 'test_*.py' -v
       # Real exports require the user's local licensed RNBO installation.
       # These checks do not claim an ESP32 build or hardware qualification.

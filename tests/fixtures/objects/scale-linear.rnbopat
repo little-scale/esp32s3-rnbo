@@ -1,0 +1,186 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1140,
+      750
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "rate",
+          "maxclass": "newobj",
+          "text": "param rate 0.5 @min 0 @max 20",
+          "rnbo_uniqueid": "rate",
+          "patching_rect": [
+            30,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "level",
+          "maxclass": "newobj",
+          "text": "param level 6.103515625e-05 @min 6.103515625e-05 @max 0.0001220703125",
+          "rnbo_uniqueid": "level",
+          "patching_rect": [
+            290,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "input",
+          "maxclass": "newobj",
+          "text": "cycle~",
+          "rnbo_uniqueid": "input",
+          "patching_rect": [
+            550,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "scale",
+          "maxclass": "newobj",
+          "text": "scale~ -1 1 800 11000",
+          "rnbo_uniqueid": "scale",
+          "patching_rect": [
+            810,
+            30,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "view",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "view",
+          "patching_rect": [
+            30,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            290,
+            105,
+            240,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            550,
+            105,
+            240,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "rate",
+            0
+          ],
+          "destination": [
+            "input",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "input",
+            0
+          ],
+          "destination": [
+            "scale",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "scale",
+            0
+          ],
+          "destination": [
+            "view",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "level",
+            0
+          ],
+          "destination": [
+            "view",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "input",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "view",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}
