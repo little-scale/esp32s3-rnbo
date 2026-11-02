@@ -65,7 +65,7 @@ function rowNode(row) {
   if (row.optimisation.short) optimisation.append(element('div', row.optimisation.short, 'subtext'));
   const performance = element('td');
   if (row.performance) {
-    performance.append(element('div', row.performance.label, `percentage ${row.performance.phase === 'experimental' ? 'experimental' : ''}`));
+    performance.append(element('div', row.performance.label, `percentage ${row.performance.percent < 0 ? 'regression' : row.performance.phase === 'experimental' ? 'experimental' : ''}`));
     performance.append(element('div', row.performance.scope || 'Whole test patch', 'subtext'));
   } else performance.append(element('div', '—', 'percentage unmeasured'));
   tr.append(name, working, optimisation, performance); return tr;

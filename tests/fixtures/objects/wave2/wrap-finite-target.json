@@ -1,0 +1,74 @@
+{
+  "format_version": 1,
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "fixtures": [
+    {
+      "id": "wrap-finite-stereo",
+      "family": "wrap",
+      "patch": "wrap-finite-stereo.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "arena_bytes": 4096,
+      "cases": [
+        {
+          "id": "boundaries",
+          "parameters": {},
+          "events": [],
+          "stimulus": {
+            "kind": "wrap-finite-boundaries-v1"
+          }
+        },
+        {
+          "id": "safe-strata",
+          "parameters": {},
+          "events": [],
+          "stimulus": {
+            "kind": "wrap-finite-safe-v1"
+          }
+        },
+        {
+          "id": "finite-strata",
+          "parameters": {},
+          "events": [],
+          "stimulus": {
+            "kind": "wrap-finite-strata-v1"
+          }
+        },
+        {
+          "id": "zero-endpoints",
+          "parameters": {},
+          "events": [],
+          "stimulus": {
+            "kind": "wrap-finite-zero-endpoints-v1"
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "wrap-finite",
+        "range": [
+          -1,
+          1
+        ],
+        "upper_exclusive": true,
+        "maximum_absolute_error": 0,
+        "bit_exact": true
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0
+      },
+      "verification": {
+        "kind": "wrap-finite-v1",
+        "maximum_absolute_error": 0,
+        "bit_exact": true
+      },
+      "stimulus": {
+        "kind": "wrap-finite-boundaries-v1"
+      }
+    }
+  ]
+}

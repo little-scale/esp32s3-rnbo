@@ -506,6 +506,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
+  "later_publication_notes": "Initial verified revision applies to the original audited mapping. Finite-wrap target additions are bound to their own evidence content hash and included with this status snapshot.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -1547,6 +1548,112 @@
       "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-private-v1/build-report.json",
       "source_log": "build/object-optimisation/hardware-nonlinear-powers-v1/test-serial.log",
       "source_selector": "/target",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "aggregate_cpu_time_saved_percent": -0.2761246568682818,
+      "attribution": "Only the finite wrap guard is added; tanh, clip and pow remain unchanged. The signed timing change is measured for the complete bounded nonlinear FX callback. Negative means extra CPU; this correctness repair has no speed-gain claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "candidate_profile": "float32-strict",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "firmware_elf_sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "id": "finite-wrap-correction-bounded",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "per_case_cpu_time_saved_percent_range": [
+        -0.3307240177906623,
+        -0.24908789420496902
+      ],
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "reference_profile": "float32-strict",
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log",
+      "source_selector": "/target/bounded",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "aggregate_cpu_time_saved_percent": null,
+      "attribution": "Identical corrected direct stereo wrap module loaded twice; exact raw-bit correctness control, no CPU-saving claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "candidate_profile": "float32-strict",
+      "case_ids": [
+        "boundaries",
+        "safe-strata",
+        "finite-strata",
+        "zero-endpoints"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/wrap-finite-target.json",
+      "cpu_time_change_measured": false,
+      "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+      "fixture": "wrap-finite-stereo",
+      "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+      "id": "finite-wrap-direct-control",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "per_case_cpu_time_saved_percent_range": null,
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "reference_profile": "float32-strict",
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": true,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "source_selector": "/target/direct",
       "timing_exclusion_vectors": 32,
       "warmup_vectors": 4
     }
@@ -10058,6 +10165,596 @@
       "source_selector": "/target",
       "timing_exclusion_vectors": 32,
       "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Only the finite wrap guard is added; tanh, clip and pow remain unchanged. The signed timing change is measured for the complete bounded nonlinear FX callback. Negative means extra CPU; this correctness repair has no speed-gain claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 630.7300925925925,
+      "candidate_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "candidate_process_us": 2724754,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 4320,
+      "case": "aggregate",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": -0.2761246568682818,
+      "firmware_elf_sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "finite-wrap-correction-bounded",
+      "id": "finite-wrap-correction-bounded:aggregate",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 628.993287037037,
+      "reference_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "reference_process_us": 2717251,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 4320,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/bounded/pass/optimized_process_us",
+        "candidate_timed_vectors": "/target/bounded/pass/optimized_timed_blocks",
+        "reference_process_us": "/target/bounded/pass/strict_process_us",
+        "reference_timed_vectors": "/target/bounded/pass/strict_timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log",
+      "source_selector": "/target/bounded",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Only the finite wrap guard is added; tanh, clip and pow remain unchanged. The signed timing change is measured for the complete bounded nonlinear FX callback. Negative means extra CPU; this correctness repair has no speed-gain claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 543.7430555555555,
+      "candidate_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "candidate_process_us": 782990,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "square",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": -0.3307240177906623,
+      "firmware_elf_sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "finite-wrap-correction-bounded",
+      "id": "finite-wrap-correction-bounded:square",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 541.9506944444445,
+      "reference_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "reference_process_us": 780409,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/bounded/cases/0/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/bounded/cases/0/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/bounded/cases/0/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/bounded/cases/0/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log",
+      "source_selector": "/target/bounded",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Only the finite wrap guard is added; tanh, clip and pow remain unchanged. The signed timing change is measured for the complete bounded nonlinear FX callback. Negative means extra CPU; this correctness repair has no speed-gain claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 671.2444444444444,
+      "candidate_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "candidate_process_us": 966592,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "fractional",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": -0.25920735862619004,
+      "firmware_elf_sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "finite-wrap-correction-bounded",
+      "id": "finite-wrap-correction-bounded:fractional",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 669.5090277777778,
+      "reference_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "reference_process_us": 964093,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/bounded/cases/1/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/bounded/cases/1/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/bounded/cases/1/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/bounded/cases/1/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log",
+      "source_selector": "/target/bounded",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Only the finite wrap guard is added; tanh, clip and pow remain unchanged. The signed timing change is measured for the complete bounded nonlinear FX callback. Negative means extra CPU; this correctness repair has no speed-gain claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 677.2027777777778,
+      "candidate_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "candidate_process_us": 975172,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "fourth",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": -0.24908789420496902,
+      "firmware_elf_sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "finite-wrap-correction-bounded",
+      "id": "finite-wrap-correction-bounded:fourth",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 675.5201388888889,
+      "reference_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "reference_process_us": 972749,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/bounded/cases/2/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/bounded/cases/2/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/bounded/cases/2/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/bounded/cases/2/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log",
+      "source_selector": "/target/bounded",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Identical corrected direct stereo wrap module loaded twice; exact raw-bit correctness control, no CPU-saving claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 83.60503472222223,
+      "candidate_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "candidate_process_us": 481565,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 5760,
+      "case": "aggregate",
+      "case_ids": [
+        "boundaries",
+        "safe-strata",
+        "finite-strata",
+        "zero-endpoints"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/wrap-finite-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+      "fixture": "wrap-finite-stereo",
+      "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+      "group_id": "finite-wrap-direct-control",
+      "id": "finite-wrap-direct-control:aggregate",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "same-artifact-S3-control",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 83.86788194444445,
+      "reference_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "reference_process_us": 483079,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 5760,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": true,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/direct/pass/optimized_process_us",
+        "candidate_timed_vectors": "/target/direct/pass/optimized_timed_blocks",
+        "reference_process_us": "/target/direct/pass/strict_process_us",
+        "reference_timed_vectors": "/target/direct/pass/strict_timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "source_selector": "/target/direct",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Identical corrected direct stereo wrap module loaded twice; exact raw-bit correctness control, no CPU-saving claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 87.2625,
+      "candidate_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "candidate_process_us": 125658,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "boundaries",
+      "case_ids": [
+        "boundaries",
+        "safe-strata",
+        "finite-strata",
+        "zero-endpoints"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/wrap-finite-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+      "fixture": "wrap-finite-stereo",
+      "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+      "group_id": "finite-wrap-direct-control",
+      "id": "finite-wrap-direct-control:boundaries",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "same-artifact-S3-control",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 87.32291666666667,
+      "reference_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "reference_process_us": 125745,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": true,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/direct/cases/0/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/direct/cases/0/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/direct/cases/0/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/direct/cases/0/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "source_selector": "/target/direct",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Identical corrected direct stereo wrap module loaded twice; exact raw-bit correctness control, no CPU-saving claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 76.44652777777777,
+      "candidate_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "candidate_process_us": 110083,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "safe-strata",
+      "case_ids": [
+        "boundaries",
+        "safe-strata",
+        "finite-strata",
+        "zero-endpoints"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/wrap-finite-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+      "fixture": "wrap-finite-stereo",
+      "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+      "group_id": "finite-wrap-direct-control",
+      "id": "finite-wrap-direct-control:safe-strata",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "same-artifact-S3-control",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 76.64444444444445,
+      "reference_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "reference_process_us": 110368,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": true,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/direct/cases/1/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/direct/cases/1/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/direct/cases/1/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/direct/cases/1/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "source_selector": "/target/direct",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Identical corrected direct stereo wrap module loaded twice; exact raw-bit correctness control, no CPU-saving claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 77.31805555555556,
+      "candidate_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "candidate_process_us": 111338,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "finite-strata",
+      "case_ids": [
+        "boundaries",
+        "safe-strata",
+        "finite-strata",
+        "zero-endpoints"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/wrap-finite-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+      "fixture": "wrap-finite-stereo",
+      "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+      "group_id": "finite-wrap-direct-control",
+      "id": "finite-wrap-direct-control:finite-strata",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "same-artifact-S3-control",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 77.64791666666666,
+      "reference_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "reference_process_us": 111813,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": true,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/direct/cases/2/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/direct/cases/2/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/direct/cases/2/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/direct/cases/2/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "source_selector": "/target/direct",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Identical corrected direct stereo wrap module loaded twice; exact raw-bit correctness control, no CPU-saving claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 93.39305555555555,
+      "candidate_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "candidate_process_us": 134486,
+      "candidate_profile": "float32-strict",
+      "candidate_timed_vectors": 1440,
+      "case": "zero-endpoints",
+      "case_ids": [
+        "boundaries",
+        "safe-strata",
+        "finite-strata",
+        "zero-endpoints"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/wrap-finite-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+      "fixture": "wrap-finite-stereo",
+      "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+      "group_id": "finite-wrap-direct-control",
+      "id": "finite-wrap-direct-control:zero-endpoints",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "same-artifact-S3-control",
+      "optimization_id": "correct-finite-wrap",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:wrap~"
+      ],
+      "reference_mean_us_per_vector": 93.85625,
+      "reference_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "reference_process_us": 135153,
+      "reference_profile": "float32-strict",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": true,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/direct/cases/3/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/direct/cases/3/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/direct/cases/3/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/direct/cases/3/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/wrap-finite-target.json",
+      "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "source_selector": "/target/direct",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
     }
   ],
   "merge_policy": {
@@ -14126,13 +14823,22 @@
         "nonlinear-oracle-control:aggregate",
         "nonlinear-oracle-control:fourth",
         "nonlinear-oracle-control:fractional",
-        "nonlinear-oracle-control:square"
+        "nonlinear-oracle-control:square",
+        "finite-wrap-correction-bounded:aggregate",
+        "finite-wrap-correction-bounded:square",
+        "finite-wrap-correction-bounded:fractional",
+        "finite-wrap-correction-bounded:fourth",
+        "finite-wrap-direct-control:aggregate",
+        "finite-wrap-direct-control:boundaries",
+        "finite-wrap-direct-control:safe-strata",
+        "finite-wrap-direct-control:finite-strata",
+        "finite-wrap-direct-control:zero-endpoints"
       ],
       "id": "patcher:wrap~",
       "known_gaps": [
-        "Upper clip saturation is unreachable after correct wrapping.",
-        "Negative-base fractional power/NaN repair and arbitrary finite wrap input are not established by this chain.",
-        "Separate private target-Int32-source/native tests confirm defined wrong large-finite results and cast/INT_MIN overflow gaps. Original bounded S3 grid remains valid; finite alone is not a safe input contract."
+        "The compiler option accepts only the authored nonlinear chain and direct stereo fixture; arbitrary patches and other wrap ranges reject.",
+        "NaN/Infinity retain the upstream unqualified route. Other rounding modes and floating exception flags are not qualified.",
+        "Without the correction, the original large-finite wrong-range results and target Int32 conversion/overflow gaps remain. The original bounded grid still passes."
       ],
       "observed_in": [
         {
@@ -14158,40 +14864,52 @@
           "node_ids": [
             "wrap"
           ]
-        }
-      ],
-      "optimisation_state": "experimental",
-      "optimisations": [
-        {
-          "flag": null,
-          "id": "existing-float32-kernel",
-          "note": "No gain from the strict identical-artifact control; no transformation to this object unless separately listed.",
-          "source": "evidence/wave2-target-oracles.json",
-          "state": "none"
         },
         {
-          "flag": null,
-          "id": "finite-wrap-correctness-guard",
-          "note": "Private correctness proposal/exhaustive finite proof, no target module or measured CPU saving; nonfinite route unqualified.",
-          "source": "evidence/wrap-finite.json",
-          "state": "experimental"
+          "audio_ancestor_ids": [
+            "wrap-left",
+            "wrap-right"
+          ],
+          "forms": [
+            "wrap~ -1 1"
+          ],
+          "graph_source": "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat",
+          "node_ids": [
+            "wrap-left",
+            "wrap-right"
+          ]
+        }
+      ],
+      "optimisation_state": "available",
+      "optimisations": [
+        {
+          "flag": "--correct-finite-wrap",
+          "id": "correct-finite-wrap",
+          "note": "Default-off correctness correction, only two pinned strict FX contexts. Exact finite Float32 wrap[-1,1) including large values and signed zero; nonfinite route unchanged/unqualified. Observed extra whole-chain CPU is reported as a negative time-saved percentage, not a speed gain.",
+          "source": "evidence/wrap-finite-target.json",
+          "state": "available"
         }
       ],
       "qualification": [
+        {
+          "conditions": "Direct outputs: 6,291,456 exact-bit checks over 4,080 distinct finite values, covering all finite exponent bands and both signs; same corrected module control. A separate original bounded three-case pair preserves numerical outputs and PCM.",
+          "level": "S3-qualified-finite-correction",
+          "source": "docs/wrap-finite-target.md"
+        },
+        {
+          "conditions": "The complete bounded nonlinear callback observed 0.276% extra CPU; context and arena costs are unchanged. The direct identical-artifact run claims no CPU saving.",
+          "level": "S3-sealed-raw-bit-and-bounded-pair",
+          "source": "evidence/wrap-finite-target.json"
+        },
         {
           "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
         {
-          "conditions": "Int32-source reproduction: +16777218 maps-2, -33554436 maps+2; ±2^32 exposes cast/subtraction undefined behavior. Not an observed target crash.",
+          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; ±2^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
           "level": "private-native-known-failure",
           "source": "evidence/wrap-finite.json"
-        },
-        {
-          "conditions": "Private fixed-range correction matches an independent modulo oracle over all finite binary32 encodings in Release and sanitizer builds. Static Xtensa checks only; correction has no target execution, timing or production admission.",
-          "level": "native-exhaustive-finite-correction-private",
-          "source": "docs/wrap-finite.md"
         }
       ],
       "registry_context": {
@@ -14202,7 +14920,7 @@
       },
       "spelling": "wrap~",
       "surface": "patcher",
-      "working_note": "Qualified within the authored nonlinear chain and original bounded grid, not the complete primitive domain.",
+      "working_note": "The optional finite-input correction is S3-qualified in two pinned fixed[-1,1) Float32 FX contexts. The general object remains partially qualified.",
       "working_state": "partial"
     },
     {
@@ -15265,6 +15983,13 @@
       "sha256": "f59805c5637896d074dca7a5585ec0cf3a8818e944e86d203f9ad75366f5bb16",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/unused-mtof-table.md"
     },
+    "docs/wrap-finite-target.md": {
+      "bytes": 4201,
+      "path": "docs/wrap-finite-target.md",
+      "publication": "included-with-status-snapshot",
+      "sha256": "dc02e91ca5e344b2524a08271603cbb5367db792d75c93c022d8fbed96fc22cb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/wrap-finite-target.md"
+    },
     "docs/wrap-finite.md": {
       "bytes": 4168,
       "path": "docs/wrap-finite.md",
@@ -15439,6 +16164,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "4942c083109f7cc14c8c9839c1da9f5d8d7fdcf94591ed373e7a5fa0eda55edf",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/evidence/wave2-target-oracles.json"
+    },
+    "evidence/wrap-finite-target.json": {
+      "bytes": 137242,
+      "path": "evidence/wrap-finite-target.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "766b23212cfed6096ba51b6f570032b445ece48da42fe075730350cbcb867589",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wrap-finite-target.json"
     },
     "evidence/wrap-finite.json": {
       "bytes": 44459,

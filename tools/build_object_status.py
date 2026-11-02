@@ -22,7 +22,8 @@ PRIMARY_GROUPS={
     'patcher:allpass~':'filters-scalar-v2-storage',
     'patcher:pink~':'pink-float32-output',
     'patcher:average~':'average-compact-history',
-    'patcher:pow~':'scalar-powers-private'}
+    'patcher:pow~':'scalar-powers-private',
+    'patcher:wrap~':'finite-wrap-correction-bounded'}
 WORKING_LABELS={'board':'Board verified','in_patch':'In a verified patch','native':'Native tests only',
                 'partial':'Partial / known gaps','unverified':'Not yet verified','not_applicable':'Host / editor context'}
 OPT_LABELS={'available':'Yes — available','experimental':'Experimental','none':'No measured change','unassessed':'Not assessed'}
@@ -73,11 +74,15 @@ def checked_measurements(coverage,root):
         require(measure['reference_timed_vectors']==measure['candidate_timed_vectors'] and measure['reference_timed_vectors']>0,'Unmatched timing coverage')
         same=measure['reference_module_sha256']==measure['candidate_module_sha256']
         require(same==measure['same_artifact_control'],'Artifact-control declaration differs')
-        if measure['CPU_savings_claimed']:
+        compared=measure.get('cpu_time_change_measured',measure['CPU_savings_claimed'])
+        require(type(compared) is bool,'Expected explicit timing comparison status')
+        if compared:
             require(not same,'An identical-artifact control cannot claim a gain')
             expected=100*(1-b/a)
             require(abs(number(measure['cpu_time_saved_percent'])-expected)<1e-10,'Incorrect saved-time percentage')
-        else:require(measure['cpu_time_saved_percent'] is None,'Controls must have no saved-time percentage')
+            if 'cpu_time_change_measured' in measure:
+                require(type(measure['CPU_savings_claimed']) is bool and measure['CPU_savings_claimed']==(expected>0),'Saving claim differs from the signed measured change')
+        else:require(measure['CPU_savings_claimed'] is False and measure['cpu_time_saved_percent'] is None,'Controls must have no savings claim or saved-time percentage')
         result[measure['id']]=measure
     return result
 
@@ -131,6 +136,7 @@ def public_sources(record,coverage,root):
         source=item.get('source')
         if not source or not source.startswith(('docs/','evidence/')) or not (root/source).is_file():continue
         label=Path(source).stem.replace('-',' ')
+        label+=' — documentation' if source.startswith('docs/') else ' — evidence'
         result[source]={'label':label,'url':PUBLIC_BASE+source}
     return list(result.values())
 
@@ -165,7 +171,7 @@ def make_status(inventory,coverage,root=ROOT):
             require(len(selected)==1,'Missing primary aggregate: '+identity)
             m=selected[0]
             require(m['id'] in record['cpu_measurement_ids'] and identity in m['primary_objects'],'Incorrect optimisation attribution')
-            require(m['CPU_savings_claimed'] and not m['same_artifact_control'],'A primary result must be a paired optimisation')
+            require(m.get('cpu_time_change_measured',m['CPU_savings_claimed']) and not m['same_artifact_control'],'A primary result must be a paired change')
             require(m['optimization_state'] in ('available','experimental'),'Unadmitted measurement state')
             percent=100*(1-m['candidate_process_us']/m['reference_process_us'])
             cases=[c for c in measurements.values() if c['group_id']==group and c['case']!='aggregate']
@@ -186,9 +192,10 @@ def make_status(inventory,coverage,root=ROOT):
         'objects':sorted(rows.values(),key=lambda r:(r['name'].lower(),r['surface'],r['id'])),
         'provenance':{'inventory_canonical_sha256':hashlib.sha256(canonical(inventory)).hexdigest(),
                       'coverage_canonical_sha256':hashlib.sha256(canonical(coverage)).hexdigest(),
-                      'coverage_public_revision':coverage['verified_public_revision']['sha'],
+                      'initial_coverage_public_revision':coverage['verified_public_revision']['sha'],
+                      'later_evidence_policy':'Later additions are included with this snapshot and individually bound to public evidence content hashes; the initial revision identifies the original audited source set.',
                       'measurement_count':len(measurements),'exact_coverage_entries':len(seen),
-                      'primary_policy':'Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, private scalar-powers fixture. Other results remain linked in source evidence.'}}
+                      'primary_policy':'Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, private scalar-powers fixture, and the bounded nonlinear callback for the finite-wrap correction. Negative percentages record extra CPU time. Other results remain linked in source evidence.'}}
 
 
 def main():

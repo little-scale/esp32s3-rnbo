@@ -101,3 +101,40 @@ bool object_wave2_biquad_dc_gain(const object_wave2_oracle *s,double *gain)
     if(!isfinite(value))return false;
     *gain=value;return true;
 }
+
+bool object_wrap_finite_oracle_word(uint32_t input,uint32_t *output)
+{
+    uint32_t magnitude=input&0x7fffffffu,sign=input>>31;
+    if(!output||magnitude>=0x7f800000u)return false;
+    if(magnitude<0x3f800000u){*output=input;return true;}
+    unsigned exponent=magnitude>>23;
+    if(exponent>=151u){*output=0;return true;}
+    uint32_t significand=(magnitude&0x7fffffu)|0x800000u;
+    unsigned fractional=150u-exponent;
+    uint32_t denominator=1u<<fractional,period=denominator*2u;
+    uint32_t remainder=significand&(period-1u);
+    int32_t numerator=sign?(remainder>denominator?(int32_t)(period-remainder):-(int32_t)remainder):
+        (remainder>=denominator?(int32_t)remainder-(int32_t)period:(int32_t)remainder);
+    if(!numerator){*output=0;return true;}
+    uint32_t negative=numerator<0,absolute=(uint32_t)(negative?-numerator:numerator);
+    unsigned leading=31u-(unsigned)__builtin_clz(absolute);
+    uint32_t packed=(absolute<<(23u-leading))&0x7fffffu;
+    *output=(negative<<31)|((127u+leading-fractional)<<23)|packed;return true;
+}
+
+bool object_wrap_finite_oracle_fill(const float *input,uint32_t total,uint32_t first,
+    uint32_t frames,float *output,uint32_t capacity)
+{
+    if(!input||!output||!total||total>OBJECT_WAVE2_MAX_FRAMES||!frames||first>total||
+       frames>total-first||capacity/2u<frames)return false;
+    for(uint32_t n=first;n<first+frames;++n)for(unsigned c=0;c<2;++c){
+        uint32_t word;__builtin_memcpy(&word,input+2u*n+c,sizeof word);
+        if((word&0x7fffffffu)>=0x7f800000u)return false;
+    }
+    for(uint32_t n=0;n<frames;++n)for(unsigned c=0;c<2;++c){
+        uint32_t word,expected;__builtin_memcpy(&word,input+2u*(first+n)+c,sizeof word);
+        if(!object_wrap_finite_oracle_word(word,&expected))return false;
+        __builtin_memcpy(output+2u*n+c,&expected,sizeof expected);
+    }
+    return true;
+}

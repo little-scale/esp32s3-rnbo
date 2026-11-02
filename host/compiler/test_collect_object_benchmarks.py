@@ -1,13 +1,15 @@
 # SPDX-License-Identifier: MIT
 """Reject incomplete or internally inconsistent target evidence."""
 import copy
+from fractions import Fraction
 import hashlib
 import json
 from pathlib import Path
 import tempfile
 import struct
 import unittest
-from collect_object_benchmarks import collect,fields,sha
+from collect_object_benchmarks import (collect,fields,sha,WRAP_ORACLE,WRAP_STIMULI,
+    wrap_cache_hashes,wrap_input_coverage,exact_wrap_word)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -425,6 +427,180 @@ class Wave2ObservationTests(unittest.TestCase):
     def test_nonlinear_cannot_claim_dc_or_repurpose_pilot(self):
         self.fixture('nonlinear');self.lines[-1]=self.lines[-1].replace('dc_sample_checks=0','dc_sample_checks=18');self.rejected()
         self.fixture('nonlinear');self.report['benchmark']['fixture'].pop('verification');self.rejected()
+
+
+class FiniteWrapObservationTests(unittest.TestCase):
+    """Synthetic admission records only; these never claim device execution."""
+    @classmethod
+    def setUpClass(cls):
+        # Publicly sealed filename/hash metadata only, never runtime bodies or
+        # an installed RNBO dependency. Same normal fixed runtime as wrap.
+        root=Path(__file__).resolve().parents[2]
+        table=json.loads((root/'evidence/pink-output-compiler.json').read_text())['prepared_snapshot']['prepared_files_sha256']
+        cls.runtime_hashes={name:value for name,value in table.items() if name.startswith('common/')}
+
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.build=self.root/'build';self.run=self.root/'run'
+        self.build.mkdir();self.run.mkdir();self.fixture()
+
+    def fixture(self,rounds=3):
+        fixture={'id':'wrap-finite-stereo','family':'wrap','role':'fx','blocks':512,
+            'warmup_blocks':4,'seed':305419896,'cases':copy.deepcopy(WRAP_ORACLE['cases']),
+            'stimulus':{'kind':'wrap-finite-boundaries-v1'},
+            'semantic':{'kind':'wrap-finite','range':[-1,1],'upper_exclusive':True,'maximum_absolute_error':0,'bit_exact':True},
+            'verification':{'kind':'wrap-finite-v1','maximum_absolute_error':0,'bit_exact':True},
+            'comparison_tolerance':{'maximum_absolute_error':0,'maximum_pcm_lsb_error':0,'relative_rms_level_difference':0}}
+        plan={'fixture':fixture,'rounds':rounds,'blocks':512,'timing_exclude_blocks':32,'arena_bytes':4096,
+              'catalog_path':'/synthetic/catalog.json','catalog_sha256':'d'*64,
+              'patch_sha256':WRAP_ORACLE['patch'],'description_sha256':WRAP_ORACLE['description'],
+              'parameter_schema':[],'events':[],'numerical_profiles':{'strict':'float32-strict','optimized':'float32-strict'},
+              'stimuli':[],'verifications':[]}
+        manifest={'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
+                  'numerical_profile':'float32-strict','editable_source_sha256':WRAP_ORACLE['patch'],
+                  'parameter_schema_sha256':WRAP_ORACLE['schema'],'parameter_count':0,
+                  'correct_finite_wrap':True,'finite_wrap_contract':copy.deepcopy(WRAP_ORACLE['contract'])}
+        provenance={'raw_files_sha256':{'rnbo_source.h':WRAP_ORACLE['raw_source']},
+            'prepared_files_sha256':{**self.runtime_hashes,'rnbo_source.h':WRAP_ORACLE['prepared_source'],'description.json':WRAP_ORACLE['description'],
+                'private_finite_wrap.h':WRAP_ORACLE['helper'],'rnbo_s3_finite_wrap_source.h':WRAP_ORACLE['compile_contract']},
+            'adaptations':[{'name':'rnbo-1.4.4-finite-wrap-even24-v1','context':'wrap-finite-stereo','guard_count':2,
+                'input_sha256':WRAP_ORACLE['raw_source'],'prepared_sha256':WRAP_ORACLE['prepared_source'],
+                'runtime_tree_sha256':WRAP_ORACLE['runtime']}]}
+        self.report={'benchmark':plan,'modules':{p:{'artifact_sha256':'a'*64,'inspection':{'loaded_bytes_upper_bound':65536},
+            'report':{'prepared_export':{'manifest':copy.deepcopy(manifest),'provenance':copy.deepcopy(provenance)}}} for p in ('strict','optimized')},
+            'source_files_sha256':{f'object-benchmark/main/{name}':str(i)*64 for i,name in enumerate(('stimulus.c','stimulus.h','wave2_oracle.c','wave2_oracle.h'),1)}}
+        budget={'workspace_bytes':2101248,'oracle_cache_bytes':1048576,'arena_bytes':8192,'opaque_context_upper_bound_bytes':2097152,
+                'loaded_images_upper_bound_bytes':131072,'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
+        budget['required_upper_bound_bytes']=sum(v for k,v in budget.items() if k!='physical_psram_bytes');plan['psram_budget']=budget
+        samples=rounds*512*512
+        self.lines=['RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture=wrap-finite-stereo reference=float32-strict candidate=float32-strict']
+        for case in fixture['cases']:
+            cid=case['id'];kind=WRAP_STIMULI[case['stimulus']['kind']];ih,oh=wrap_cache_hashes(kind)
+            plan['stimuli'].append({'kind':kind,'settings':copy.deepcopy(case['stimulus']),**{k:0. for k in ('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level')}})
+            plan['verifications'].append({'kind':'wrap-finite-v1','maximum_absolute_error':0,'model':'exact-binary32-modulo2',
+                'rounding':'exact-binary32','gate':'raw-binary32-equality','bit_exact':True})
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK INPUT fixture=wrap-finite-stereo case={cid} input_sha256={ih} input_bytes=1048576 layout=float32_stereo_interleaved_le stimulus_kind={kind}')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK ORACLE fixture=wrap-finite-stereo case={cid} oracle_sha256={oh} oracle_bytes=1048576 layout=float32_stereo_interleaved_le oracle_kind=wrap-finite-v1 max_abs_tolerance=0 max_cache_rounding_error=0 model=exact-binary32-modulo2 rounding=exact-binary32')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE fixture=wrap-finite-stereo case={cid} samples={samples} max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0')
+            for profile in ('strict','optimized'):
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=wrap-finite-stereo case={cid} profile={profile} timed_blocks={rounds*480} process_us=12000 peak_us=25')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC fixture=wrap-finite-stereo case={cid} profile={profile} semantic_kind=wrap-finite-v1 samples={samples} max_abs=0 max_model_error_bound=0 max_abs_tolerance=0 oracle_sha256={oh}')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_BITS fixture=wrap-finite-stereo case={cid} profile={profile} oracle_sha256={oh} samples={samples} bit_different=0')
+        self.lines.append(f'RNBO_OBJECT_BENCHMARK PASS fixture=wrap-finite-stereo firmware_elf_sha256={"c"*64} strict_module_sha256={"a"*64} optimized_module_sha256={"a"*64} host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 psram_before=123 psram_after=123 internal_before=42 internal_after=42 images=4 finalized_images=4 cases=4 rounds={rounds} blocks_per_pass=512 timing_exclude=32 warmup=4 seed=305419896 compared_samples={samples*4} input_cases=4 input_rechecks={rounds*12} pilot_sample_checks=0 oracle_cases=4 oracle_rechecks={rounds*12} semantic_sample_checks={samples*8} dc_sample_checks=0 oracle_bit_sample_checks={samples*8} oracle_bit_differences=0')
+        self.seal()
+
+    def seal(self):
+        (self.build/'build-report.json').write_text(json.dumps(self.report));log=self.run/'test-serial.log';log.write_text('\n'.join(self.lines)+'\n')
+        (self.run/'hardware-test.json').write_text(json.dumps({'result':'passed','restoration':{'result':'restored'},
+            'test_build_report_sha256':sha(self.build/'build-report.json'),'serial_log_sha256':sha(log),
+            'pass_line':self.lines[-1],'test_elf_sha256':'c'*64}))
+
+    def change_line(self,prefix,before,after):
+        i=next(i for i,line in enumerate(self.lines) if line.startswith('RNBO_OBJECT_BENCHMARK '+prefix+' '))
+        self.lines[i]=self.lines[i].replace(before,after)
+
+    def rejected(self):
+        self.seal()
+        with self.assertRaises(ValueError):collect(self.build,self.run)
+
+    def test_complete_raw_control_counts_distinct_values_and_zero_rounding(self):
+        result=collect(self.build,self.run)
+        self.assertTrue(result['identical_artifact_control']);self.assertEqual(result['pass']['oracle_bit_sample_checks'],6291456)
+        self.assertEqual(result['stimulus_provenance']['distinct_input_coverage']['all_cases_union_words'],4080)
+        self.assertEqual([c['input']['distinct_input_coverage']['distinct_input_words'] for c in result['cases']],[44,2416,4080,18])
+        self.assertEqual(len(result['cases'][0]['bit_comparison']),2)
+        self.fixture(rounds=1);self.assertEqual(collect(self.build,self.run)['pass']['oracle_bit_sample_checks'],2097152)
+
+    def test_unrepaired_original_and_different_artifacts_are_rejected(self):
+        for field,value in [('correct_finite_wrap',False),('parameter_count',1),('numerical_profile','float32-audio-v2')]:
+            with self.subTest(field=field):
+                self.fixture();self.report['modules']['strict']['report']['prepared_export']['manifest'][field]=value;self.rejected()
+        self.fixture();self.report['modules']['optimized']['artifact_sha256']='b'*64
+        self.lines[-1]=self.lines[-1].replace('optimized_module_sha256='+'a'*64,'optimized_module_sha256='+'b'*64);self.rejected()
+
+    def test_closed_graph_raw_prepared_helper_runtime_and_guard_contracts(self):
+        mutations=[('manifest','editable_source_sha256','0'*64),('manifest','parameter_schema_sha256','0'*64),
+                   ('raw_files_sha256','rnbo_source.h','0'*64),('prepared_files_sha256','rnbo_source.h','0'*64),
+                   ('prepared_files_sha256','private_finite_wrap.h','0'*64),('prepared_files_sha256','rnbo_s3_finite_wrap_source.h','0'*64)]
+        mutations.append(('prepared_files_sha256','common/RNBO_Types.h','0'*64))
+        for section,key,value in mutations:
+            with self.subTest(section=section,key=key):
+                self.fixture();e=self.report['modules']['strict']['report']['prepared_export'];(e['manifest'] if section=='manifest' else e['provenance'][section])[key]=value;self.rejected()
+        self.fixture();self.report['modules']['strict']['report']['prepared_export']['manifest']['finite_wrap_contract']['guard_count']=1;self.rejected()
+        self.fixture();self.report['modules']['strict']['report']['prepared_export']['provenance']['adaptations'][0]['runtime_tree_sha256']='0'*64;self.rejected()
+
+    def test_fixed_case_order_semantics_events_and_settings_cannot_change(self):
+        for mutation in ('order','events','seed','range','tolerance','override'):
+            with self.subTest(mutation=mutation):
+                self.fixture();f=self.report['benchmark']['fixture']
+                if mutation=='order':f['cases'].reverse()
+                elif mutation=='events':f['cases'][0]['events']=[{'block':0,'id':'foreign','value':0}]
+                elif mutation=='seed':f['seed']=1
+                elif mutation=='range':f['semantic']['range']=[0,1]
+                elif mutation=='tolerance':f['comparison_tolerance']['maximum_absolute_error']=1e-9
+                else:f['cases'][0]['stimulus']['amplitude']=1
+                self.rejected()
+
+    def test_input_or_oracle_sha_must_match_complete_independent_bytes(self):
+        for prefix,key in [('INPUT','input_sha256'),('ORACLE','oracle_sha256')]:
+            with self.subTest(prefix=prefix):
+                self.fixture();i=next(i for i,l in enumerate(self.lines) if ' '+prefix+' ' in l)
+                value=fields(self.lines[i],'RNBO_OBJECT_BENCHMARK '+prefix+' ')[key]
+                self.lines[i]=self.lines[i].replace(value,'0'*64);self.rejected()
+        self.fixture();self.change_line('INPUT','stimulus_kind=7','stimulus_kind=7 ignored=0');self.rejected()
+
+    def test_numeric_zero_does_not_replace_raw_bit_identity(self):
+        self.change_line('CASE_BITS','bit_different=0','bit_different=1');self.rejected()
+        self.fixture();self.change_line('CASE_BITS','samples=786432','samples=786431');self.rejected()
+        self.fixture();self.lines=[l for l in self.lines if ' CASE_BITS ' not in l];self.rejected()
+        self.fixture();i=next(i for i,l in enumerate(self.lines) if ' CASE_BITS ' in l);self.lines.insert(i,self.lines[i]);self.rejected()
+        self.fixture();self.change_line('CASE_BITS','bit_different=0','bit_different=0 ignored=0');self.rejected()
+
+    def test_both_pass_bit_fields_are_mandatory(self):
+        for field,value in [('oracle_bit_sample_checks','6291456'),('oracle_bit_differences','0')]:
+            with self.subTest(field=field):
+                self.fixture();self.lines[-1]=self.lines[-1].replace(' '+field+'='+value,'');self.rejected()
+        self.fixture();self.lines[-1]=self.lines[-1].replace(' oracle_bit_sample_checks=6291456 oracle_bit_differences=0','');self.rejected()
+        self.fixture();self.lines[-1]=self.lines[-1].replace('oracle_bit_differences=0','oracle_bit_differences=1');self.rejected()
+
+    def test_wrong_precision_metadata_counter_or_source_identity_rejected(self):
+        for before,after in [('rounding=exact-binary32','rounding=once-float32'),('max_cache_rounding_error=0','max_cache_rounding_error=1e-9'),
+                             ('max_abs_tolerance=0','max_abs_tolerance=1e-9'),('model=exact-binary32-modulo2','model=observed-output')]:
+            with self.subTest(before=before):
+                self.fixture();self.change_line('ORACLE',before,after);self.rejected()
+        self.fixture();self.lines[-1]=self.lines[-1].replace('oracle_bit_sample_checks=6291456','oracle_bit_sample_checks=6291455');self.rejected()
+        self.fixture();del self.report['source_files_sha256']['object-benchmark/main/wave2_oracle.c'];self.rejected()
+
+    def test_python_oracle_matches_independent_fraction_at_corners_and_strata(self):
+        words=[0,0x80000000,1,0x80000001,0x7fffff,0x800000,0x3f7fffff,0x3f800000,0xbf800000,
+               0x4b7fffff,0x4b800001,0xcc000001,0x4f800000,0xcf800000,0x7f7fffff,0xff7fffff]
+        for exponent in range(255):
+            for mantissa in (0,1,0x3fffff,0x400000,0x7ffffe,0x7fffff):
+                words.extend((exponent<<23|mantissa,0x80000000|exponent<<23|mantissa))
+        for word in words:
+            value=struct.unpack('<f',struct.pack('<I',word))[0]
+            exact=Fraction.from_float(value);wrapped=exact-2*((exact+1)//2)
+            expected=word if word&0x7fffffff==0 else struct.unpack('<I',struct.pack('<f',float(wrapped)))[0]
+            self.assertEqual(exact_wrap_word(word),expected)
+        for word in (0x7f800000,0xff800000,0x7fc12345):
+            with self.assertRaises(ValueError):exact_wrap_word(word)
+
+    def test_legacy_bit_counters_are_atomic_optional_zero_and_never_claim_bits(self):
+        # Reuse a real historical-protocol synthetic Main control.
+        legacy=ObservationTests('test_observed_case_cost_and_identity');legacy.setUp()
+        self.addCleanup(legacy.doCleanups)
+        collect(legacy.build,legacy.run)
+        original=list(legacy.lines)
+        for addition in (' oracle_bit_sample_checks=0',' oracle_bit_differences=0',
+                         ' oracle_bit_sample_checks=1 oracle_bit_differences=0',
+                         ' oracle_bit_sample_checks=0 oracle_bit_differences=1'):
+            legacy.lines=list(original);legacy.lines[-1]+=addition;legacy.seal()
+            with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+        legacy.lines=list(original);legacy.lines[-1]+=' oracle_bit_sample_checks=0 oracle_bit_differences=0';legacy.seal()
+        collect(legacy.build,legacy.run)
+        legacy.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_BITS fixture=unit case=default profile=strict oracle_sha256='+('a'*64)+' samples=3072 bit_different=0')
+        legacy.seal()
+        with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
 
 
 if __name__=='__main__':unittest.main()

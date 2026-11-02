@@ -35,12 +35,27 @@ class ObjectStatusTests(unittest.TestCase):
 
     def test_all_percentages_recompute_from_exact_raw_evidence_and_vectors(self):
         checked=checked_measurements(self.coverage,ROOT)
-        self.assertEqual(len(checked),112)
+        self.assertEqual(len(checked),121)
         for measurement in checked.values():
-            if measurement['CPU_savings_claimed']:
+            if measurement.get('cpu_time_change_measured',measurement['CPU_savings_claimed']):
                 expected=100*(1-measurement['candidate_process_us']/measurement['reference_process_us'])
                 self.assertAlmostEqual(measurement['cpu_time_saved_percent'],expected,places=10)
             else:self.assertIsNone(measurement['cpu_time_saved_percent'])
+
+    def test_correction_cost_is_shown_without_claiming_cpu_saving(self):
+        measurement=next(m for m in self.coverage['measurements'] if m['id']=='finite-wrap-correction-bounded:aggregate')
+        self.assertTrue(measurement['cpu_time_change_measured'])
+        self.assertFalse(measurement['CPU_savings_claimed'])
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertLess(rows['patcher:wrap~']['performance']['percent'],0)
+        self.assertEqual(rows['patcher:wrap~']['optimisation']['status'],'available')
+        forged=copy.deepcopy(self.coverage)
+        next(m for m in forged['measurements'] if m['id']==measurement['id'])['CPU_savings_claimed']=True
+        with self.assertRaisesRegex(ValueError,'Saving claim differs'):checked_measurements(forged,ROOT)
+        forged=copy.deepcopy(self.coverage)
+        control=next(m for m in forged['measurements'] if m['id']=='finite-wrap-direct-control:aggregate')
+        control['CPU_savings_claimed']=True
+        with self.assertRaisesRegex(ValueError,'Controls must have no savings claim'):checked_measurements(forged,ROOT)
 
     def test_identical_artifact_timing_noise_cannot_be_presented_as_gain(self):
         data=copy.deepcopy(self.coverage)

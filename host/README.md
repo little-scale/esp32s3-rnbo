@@ -79,7 +79,8 @@ Preparation preserves source and runtime bytes under `originals/`, records every
 raw/prepared file hash and parameter-schema identity, and emits `patch_config.h`.
 It applies independently recorded, exact-pattern RNBO 1.4.4 correctness fixes:
 bounded list copies, inline-storage move ownership, cross-capacity assignment
-return types, and nested clock target dispatch. A changed upstream pattern
+return types, nested clock target dispatch, and defined 32-bit multiply/pink RNG
+arithmetic. A changed upstream pattern
 stops preparation. `--no-runtime-fixes` creates an explicitly unmodified-runtime
 reference build. The default `float32-strict` profile does not perform float-literal rewriting, buffer narrowing,
 approximate math, FM1 processor changes, or broad source substitutions. Signal
@@ -114,3 +115,49 @@ check also found 192 differing intermediate fraction values out of 262,144,
 with a maximum difference of `5.96e-8`; this is not a universal bit-identity
 promise, particularly for arbitrary feedback graphs. Keep the strict profile as
 the comparison reference and qualify each supported target form.
+
+## Optional finite wrap correction
+
+`--correct-finite-wrap` is a default-off correctness option for two exact
+RNBO 1.4.4 exports: the authored `nonlinear-domains` fixture and
+`wrap-finite-stereo`. Both use fixed `wrap~ -1 1` kernels, Float32 samples,
+44100 Hz and 256-frame blocks. Complete source, description, kernel and corrected
+runtime hashes are pinned. Other intervals, source layouts, widths and versions
+are rejected. This first admission does not support arbitrary patches containing
+`wrap~`.
+
+For finite binary32 values with magnitude at least `2^24`, every representable input
+is an even integer. The inserted guard returns the exact wrapped result `+0`
+before the original integer conversion. This corrects known large-finite wrong
+results and out-of-range conversion/overflow paths. Every original branch below
+that threshold, including the input `-0` branch, remains byte-identical.
+NaN/Infinity bypass the guard: their inherited route remains unqualified and can
+contain undefined conversions. The option requires finite audio input; it is
+not a nonfinite-safety or generic modulo API.
+
+```sh
+python3 host/compiler/prepare.py \
+  --export build/object-optimisation/wrap-target-v1/raw/wrap-finite-stereo \
+  --class-name rnbos3patch --role fx --correct-finite-wrap \
+  --out build/prepared/wrap-finite-stereo-corrected
+```
+
+The option requires normal runtime fixes, the `float32-strict` base profile and
+FX role. Combination with other optional adapters is explicitly rejected until
+reviewed. It does not change the numerical-profile label or enable fast-math.
+The manifest records the finite-input contract and guard count; provenance
+records all original/prepared hashes, exact methods, helper/transformer hashes
+and inverse checks. A generated thin source include rejects Float64 compilation.
+The corrected nonlinear header and internal `private_finite_wrap.h` support file
+are byte-identical to the independently proved private even24 candidate. Its
+historical filename preserves that comparison and denotes no public API.
+
+The independent private proof covers all 4,278,190,080 finite binary32 encodings;
+new adapter tests also check the actual generated Int32-width kernel against a
+raw-bit oracle under undefined-behavior instrumentation, rejection guards and
+Float32/Float64 compilation. Original protected exports stay in ignored build
+directories. The [subsequent S3 qualification](../docs/wrap-finite-target.md)
+checks the admitted contexts on the board: bounded output preservation and
+6,291,456 direct raw-bit checks over 4,080 distinct finite values. The bounded
+whole-chain measurement observes 0.276% extra CPU, with unchanged context and
+arena costs. This is a correctness repair; it establishes no CPU saving.

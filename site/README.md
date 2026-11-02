@@ -26,6 +26,9 @@ module controls cannot claim a speed gain. `PRIMARY_GROUPS` in the generator
 selects representative aggregate results; it does not choose the fastest case.
 Percentages are processing time saved for the stated fixture and reference,
 not additive or universally applicable object speedups.
+Negative values mean extra processing time. New signed-change records distinguish
+`cpu_time_change_measured` from a positive `CPU_savings_claimed` result;
+identical-artifact controls have neither and show no percentage.
 
 ```sh
 python3 tools/build_object_status.py

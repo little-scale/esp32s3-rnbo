@@ -293,7 +293,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             numerical_profile: str = "float32-strict", filter_delay_max_ms: float | None = None,
             float32_delay_storage: bool = False, omit_unused_mtof_table: bool = False,
             hoist_cycle_conversions: bool = False, compact_average_history: bool = False,
-            float32_pink_output: bool = False) -> dict:
+            float32_pink_output: bool = False, correct_finite_wrap: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -312,6 +312,13 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("Float32 pink output must be a boolean")
     if float32_pink_output and (not apply_fixes or role != "main" or numerical_profile != "float32-strict"):
         raise ExportError("Float32 pink output requires normal runtime fixes, Main role and the strict base profile")
+    if type(correct_finite_wrap) is not bool:
+        raise ExportError("finite wrap correction must be a boolean")
+    if correct_finite_wrap and (not apply_fixes or role != "fx" or
+            numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output):
+        raise ExportError("Finite wrap correction requires the reviewed strict FX context, normal fixes and no other optional adapters")
     if filter_delay_max_ms is not None and (type(filter_delay_max_ms) not in (int, float) or
             not math.isfinite(filter_delay_max_ms) or not 0 < filter_delay_max_ms <= 1000):
         raise ExportError("filter-delay-max-ms must be positive, finite, and at most1000")
@@ -401,6 +408,13 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.extend(integer_changes)
+    if correct_finite_wrap:
+        from wrap_finite import correct_finite_wrap as adapt_finite_wrap
+        try:
+            files, wrap_change = adapt_finite_wrap(files, description, code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        changes.append(wrap_change)
     if float32_pink_output:
         from pink_output import float32_pink_output as adapt_pink_output
         try:
@@ -479,6 +493,12 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["hoist_cycle_conversions"] = True
     if float32_pink_output:
         manifest["float32_pink_output"] = True
+    if correct_finite_wrap:
+        manifest["correct_finite_wrap"] = True
+        manifest["finite_wrap_contract"] = {
+            "context": wrap_change["context"], "input": "finite binary32 audio samples",
+            "range": [-1, 1], "upper_endpoint_exclusive": True,
+            "nonfinite": "upstream route unchanged and unqualified", "guard_count": wrap_change["guard_count"]}
     if compact_average_history:
         manifest["compact_average_history"] = True
         manifest["requires_opaque_dataref_abi"] = True
@@ -493,6 +513,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               f"#define RNBO_S3_PATCH_ROLE {1 if role == 'main' else 2}\n"
               f"#define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT {1 if midi_output_policy == 'discard' else 0}\n"
               "#define RNBO_S3_PATCH_RATE 44100\n#define RNBO_S3_PATCH_BLOCK 256\n")
+    if correct_finite_wrap:
+        config += '#define RNBO_S3_PATCH_SOURCE "rnbo_s3_finite_wrap_source.h"\n'
     if omit_unused_mtof_table or compact_average_history:
         config += ("#if !defined(RNBO_S3_ABI_MAJOR) || !defined(RNBO_S3_ABI_MINOR)\n"
                    '#error "Internal resource optimisation requires the SDK ABI header before patch_config.h"\n'
@@ -504,7 +526,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -554,6 +576,8 @@ def main() -> None:
                         help="Compact the reviewed authored1..64-window average history; requires opaque C ABI1.0")
     parser.add_argument("--float32-pink-output", action="store_true",
                         help="Keep output scaling Float32 in the reviewed authored16-row pink graph; requires strict Main and normal fixes")
+    parser.add_argument("--correct-finite-wrap", action="store_true",
+                        help="Correct large finite binary32 wrap[-1,1) inputs in two exact reviewed strict FX graphs; other forms reject")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -561,7 +585,7 @@ def main() -> None:
                            numerical_profile=args.numerical_profile,filter_delay_max_ms=args.filter_delay_max_ms,
                            float32_delay_storage=args.float32_delays,omit_unused_mtof_table=args.omit_unused_mtof_table,
                            hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
-                           float32_pink_output=args.float32_pink_output)
+                           float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

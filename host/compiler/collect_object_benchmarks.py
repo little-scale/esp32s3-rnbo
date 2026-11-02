@@ -7,6 +7,7 @@ objects; declared FX generators are outside the process timer. Neither scope
 establishes a universal isolated-operator or application deadline bound.
 """
 import argparse
+from functools import lru_cache
 import hashlib
 import json
 import math
@@ -47,6 +48,145 @@ WAVE2_ORACLES = {
             {'id':'fourth','parameters':{'exponent':4},'events':[]}],
         'model':'float64-tanh-wrap-clip-pow'}
 }
+
+# Direct outputs make both wrap primitives observable. This new verification is
+# only for an identical corrected-module control; the unsafe original is never
+# admitted to these unrestricted finite input grids.
+WRAP_ORACLE = {
+    'kind':'wrap-finite-v1', 'fixture':'wrap-finite-stereo',
+    'patch':'d42b66e894b6368856e3c3ef42cf402defc4103da300b2aa8bab559120393980',
+    'schema':'37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570',
+    'raw_source':'1c00c62a40e1c950b66f3b1c887533feb1ce7525dc384a5eb2bee87ef006a4da',
+    'prepared_source':'50e01c6d9b2a854ff872b6ccbaf1c9e5077975ae36cc959d0bd1d20c69516110',
+    'description':'85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314',
+    'helper':'5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd',
+    'compile_contract':'863a960afe421dd3fe9e45485750046ba3d613410647d838853e79f4eb24efe0',
+    'runtime':'fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d',
+    'cases':[
+        {'id':name,'parameters':{},'events':[],'stimulus':{'kind':stimulus}}
+        for name,stimulus in (
+            ('boundaries','wrap-finite-boundaries-v1'),
+            ('safe-strata','wrap-finite-safe-v1'),
+            ('finite-strata','wrap-finite-strata-v1'),
+            ('zero-endpoints','wrap-finite-zero-endpoints-v1'))],
+    'contract':{'context':'wrap-finite-stereo','input':'finite binary32 audio samples',
+                'range':[-1,1],'upper_endpoint_exclusive':True,
+                'nonfinite':'upstream route unchanged and unqualified','guard_count':2}}
+WRAP_STIMULI = {case['stimulus']['kind']:7+i for i,case in enumerate(WRAP_ORACLE['cases'])}
+
+
+def wrap_verification(fixture,case):
+    require(fixture.get('id')==WRAP_ORACLE['fixture'] and fixture.get('family')=='wrap' and fixture.get('role')=='fx',
+            'Finite wrap fixture identity/family/role differs')
+    require(same_declaration(fixture.get('verification'),{'kind':'wrap-finite-v1','maximum_absolute_error':0,'bit_exact':True}),
+            'Finite wrap verification declaration differs')
+    require(same_declaration(fixture.get('semantic'),{'kind':'wrap-finite','range':[-1,1],
+            'upper_exclusive':True,'maximum_absolute_error':0,'bit_exact':True}), 'Finite wrap semantic declaration differs')
+    require(same_declaration(fixture.get('cases'),WRAP_ORACLE['cases']), 'Finite wrap requires four authored ordered cases without events')
+    require(same_declaration(fixture.get('stimulus'),{'kind':'wrap-finite-boundaries-v1'}), 'Finite wrap base stimulus differs')
+    require(type(fixture.get('blocks')) is int and fixture['blocks']==512 and
+            type(fixture.get('warmup_blocks')) is int and fixture['warmup_blocks']==4 and
+            type(fixture.get('seed')) is int and fixture['seed']==305419896, 'Finite wrap blocks/warmup/seed differ')
+    require(any(same_declaration(case,c) for c in WRAP_ORACLE['cases']), 'Unknown finite wrap case')
+    return {'kind':'wrap-finite-v1','maximum_absolute_error':0,'model':'exact-binary32-modulo2',
+            'rounding':'exact-binary32','gate':'raw-binary32-equality','bit_exact':True}
+
+
+def wrap_identity(build,fixture,plan):
+    require(type(plan.get('blocks')) is int and plan['blocks']==512 and
+            type(plan.get('rounds')) is int and 1<=plan['rounds']<=5, 'Finite wrap block/round coverage differs')
+    require(plan.get('patch_sha256')==WRAP_ORACLE['patch'] and plan.get('description_sha256')==WRAP_ORACLE['description'],
+            'Finite wrap patch/description identity differs')
+    require(plan.get('parameter_schema')==[] and plan.get('events')==[], 'Finite wrap has unexpected parameters/events')
+    require(same_declaration(fixture['comparison_tolerance'],{'maximum_absolute_error':0,
+            'maximum_pcm_lsb_error':0,'relative_rms_level_difference':0}), 'Finite wrap pair tolerances must be zero')
+    require(build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256'],
+            'Finite wrap unrestricted grids require the same corrected ELF control')
+    for module in build['modules'].values():
+        export=module['report']['prepared_export'];manifest=export['manifest'];provenance=export.get('provenance',{})
+        require(manifest.get('correct_finite_wrap') is True and
+                same_declaration(manifest.get('finite_wrap_contract'),WRAP_ORACLE['contract']),
+                'Finite wrap requires the exact corrected two-guard module contract')
+        require(manifest.get('editable_source_sha256')==WRAP_ORACLE['patch'] and
+                manifest.get('parameter_schema_sha256')==WRAP_ORACLE['schema'] and
+                type(manifest.get('parameter_count')) is int and manifest['parameter_count']==0,
+                'Finite wrap source/schema/parameter identity differs')
+        require(manifest.get('numerical_profile')=='float32-strict' and manifest.get('sample_rate')==44100 and
+                manifest.get('block_frames')==256, 'Finite wrap strict audio profile differs')
+        require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==WRAP_ORACLE['raw_source'],
+                'Finite wrap raw source identity differs')
+        expected_files={'rnbo_source.h':WRAP_ORACLE['prepared_source'],'description.json':WRAP_ORACLE['description'],
+                        'private_finite_wrap.h':WRAP_ORACLE['helper'],'rnbo_s3_finite_wrap_source.h':WRAP_ORACLE['compile_contract']}
+        files=provenance.get('prepared_files_sha256',{})
+        require(all(files.get(name)==value for name,value in expected_files.items()), 'Finite wrap prepared source/helper/type contract differs')
+        runtime={name:value for name,value in sorted(files.items()) if name.startswith('common/')}
+        runtime_hash=hashlib.sha256((json.dumps(runtime,indent=2,sort_keys=True,ensure_ascii=True,allow_nan=False)+'\n').encode()).hexdigest()
+        require(runtime_hash==WRAP_ORACLE['runtime'],'Finite wrap actual runtime/types inventory differs')
+        adaptations=[a for a in provenance.get('adaptations',[]) if a.get('name')=='rnbo-1.4.4-finite-wrap-even24-v1']
+        require(len(adaptations)==1,'Missing or duplicate finite wrap adaptation provenance')
+        adaptation=adaptations[0]
+        require(adaptation.get('context')=='wrap-finite-stereo' and adaptation.get('guard_count')==2 and
+                adaptation.get('input_sha256')==WRAP_ORACLE['raw_source'] and
+                adaptation.get('prepared_sha256')==WRAP_ORACLE['prepared_source'] and
+                adaptation.get('runtime_tree_sha256')==WRAP_ORACLE['runtime'], 'Finite wrap adaptation provenance differs')
+
+
+def wrap_stimulus_word(kind,frame,channel):
+    """Declared integer generator; no host/target transcendental assumptions."""
+    magnitudes=(0,1,0x7fffff,0x800000,0x3f7fffff,0x3f800000,0x3f800001,
+                0x40000000,0x40400000,0x4b7fffff,0x4b800000,0x4b800001,
+                0x4bffffff,0x4c000000,0x4c000001,0x4effffff,0x4f000000,
+                0x4f000001,0x4f7fffff,0x4f800000,0x4f800001,0x7f7fffff)
+    if kind in (7,10):
+        i=frame+(13 if kind==7 else 7)*channel
+        values=magnitudes if kind==7 else magnitudes[:9]
+        return ((i&1)<<31)|values[(i//2)%len(values)]
+    require(kind in (8,9),'Unknown finite wrap stimulus kind')
+    i=frame+2039*channel;lane=i%16;exponent=(i//16)%(151 if kind==8 else 255)
+    mantissa=(0,1,2,0x3fffff,0x400000,0x7ffffd,0x7ffffe,0x7fffff)[lane%8]
+    return ((lane//8)<<31)|(exponent<<23)|mantissa
+
+
+def exact_wrap_word(bits):
+    """Independent host arithmetic oracle, distinct from the C integer packer.
+
+    For1<=|x|<2^24 the binary32 value, x+1, division by2 and modulo result
+    are exactly representable in binary64. Larger finite values are even;
+    smaller magnitudes return original raw bits, including subnormals and-0.
+    """
+    magnitude=bits&0x7fffffff
+    require(magnitude<0x7f800000,'Finite wrap oracle does not accept nonfinite input')
+    if magnitude<0x3f800000:return bits
+    if magnitude>=0x4b800000:return 0
+    value=struct.unpack('<f',struct.pack('<I',bits))[0]
+    wrapped=value-2*math.floor((value+1)/2)
+    return struct.unpack('<I',struct.pack('<f',wrapped))[0]
+
+
+@lru_cache(maxsize=8)
+def wrap_cache_data(kind,blocks=512):
+    require(type(blocks) is int and blocks==512 and kind in (7,8,9,10),'Unreviewed finite wrap cache scope')
+    inputs=hashlib.sha256();oracle=hashlib.sha256();distinct=[set(),set()]
+    for frame in range(blocks*256):
+        words=[wrap_stimulus_word(kind,frame,c) for c in (0,1)]
+        for c,word in enumerate(words):distinct[c].add(word)
+        inputs.update(struct.pack('<II',*words));oracle.update(struct.pack('<II',*(exact_wrap_word(w) for w in words)))
+    return inputs.hexdigest(),oracle.hexdigest(),tuple(frozenset(s) for s in distinct)
+
+
+def wrap_cache_hashes(kind,blocks=512):
+    return wrap_cache_data(kind,blocks)[:2]
+
+
+def wrap_input_coverage(kind,blocks=512):
+    sets=wrap_cache_data(kind,blocks)[2];words=sets[0]|sets[1]
+    expected={7:44,8:2416,9:4080,10:18}[kind]
+    require(len(words)==expected and all(len(s)==expected for s in sets),'Finite wrap distinct input coverage differs')
+    return {'distinct_input_words':len(words),'per_channel_distinct_input_words':[len(s) for s in sets],
+            'finite_exponent_fields':len({(w>>23)&255 for w in words}),'signs':len({w>>31 for w in words}),
+            'mantissa_patterns':len({w&0x7fffff for w in words}),
+            'sorted_distinct_words_sha256':hashlib.sha256(struct.pack('<%dI'%len(words),*sorted(words))).hexdigest(),
+            'scope':'Repeated checks over this exact finite input set, not an exhaustive target Float32 domain.'}
 
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -138,7 +278,7 @@ def wave2_identity(build,fixture,plan):
 
 
 def declared_stimulus(fixture,case):
-    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6}
+    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,**WRAP_STIMULI}
     base=fixture.get('stimulus');override=case.get('stimulus',{})
     require(isinstance(base,dict) and isinstance(override,dict),'FX stimulus declaration missing')
     if base.get('kind') in wave2:
@@ -168,8 +308,10 @@ def declared_verification(fixture,case):
     declaration=fixture.get('verification')
     kind=(fixture.get('stimulus',{})|case.get('stimulus',{})).get('kind')
     if declaration is None:
-        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1'),'Missing explicit verification contract')
+        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',*WRAP_STIMULI),'Missing explicit verification contract')
         return None
+    if isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1':
+        return wrap_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind') in WAVE2_ORACLES:
         return wave2_verification(fixture,case)
     expected={'kind':'average-window-v1','parameter_id':'window','default_window':16,'maximum_window':64,'maximum_absolute_error':2e-6}
@@ -191,7 +333,8 @@ def declared_verification(fixture,case):
 def oracle_memory_budget(build,plan):
     budget=plan.get('psram_budget');require(isinstance(budget,dict),'Missing oracle PSRAM budget')
     blocks=plan['blocks'];arena=plan.get('arena_bytes');require(type(arena) is int and 4096<=arena<=1048576,'Invalid selected arena budget')
-    expected_count=5 if plan['fixture'].get('verification',{}).get('kind')=='biquad-response-v1' else 1
+    kind=plan['fixture'].get('verification',{}).get('kind')
+    expected_count=5 if kind=='biquad-response-v1' else 0 if kind=='wrap-finite-v1' else 1
     require(all(build['modules'][p]['report']['prepared_export']['manifest'].get('parameter_count')==expected_count for p in ('strict','optimized')),'Oracle module parameter count differs')
     loaded=sum(build['modules'][p]['inspection']['loaded_bytes_upper_bound'] for p in ('strict','optimized'))
     expected={'workspace_bytes':blocks*256*2*4*2+4*256*4,'oracle_cache_bytes':blocks*256*2*4,
@@ -213,12 +356,14 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         require('stimulus' not in fixture and 'verification' not in fixture and all('stimulus' not in c for c in fixture['cases']),'Main fixture declares ignored stimulus')
         require('stimuli' not in plan or plan['stimuli']==[None]*case_count,'Main plan declares external stimulus')
         require('verifications' not in plan or plan['verifications']==[None]*case_count,'Main plan declares oracle')
-        require(all(passed.get(k,0)==0 for k in ('input_cases','input_rechecks','pilot_sample_checks','oracle_cases','oracle_rechecks','semantic_sample_checks','dc_sample_checks')),'Main fixture has unexpected FX input counters')
+        require(all(passed.get(k,0)==0 for k in ('input_cases','input_rechecks','pilot_sample_checks','oracle_cases','oracle_rechecks','semantic_sample_checks','dc_sample_checks','oracle_bit_sample_checks','oracle_bit_differences')),'Main fixture has unexpected FX input counters')
         return evidence,None
     require(len(records)==case_count,'Incomplete FX INPUT evidence')
     verifications=[declared_verification(fixture,c) for c in fixture['cases']]
     new_model=fixture.get('verification',{}).get('kind') in WAVE2_ORACLES
+    exact_wrap=fixture.get('verification',{}).get('kind')=='wrap-finite-v1'
     if new_model:wave2_identity(build,fixture,plan)
+    if exact_wrap:wrap_identity(build,fixture,plan)
     oracle_count=sum(v is not None for v in verifications);pilot_count=case_count-oracle_count
     expected_counts={'input_cases':case_count,'input_rechecks':case_count*plan['rounds']*3,'pilot_sample_checks':expected_samples*pilot_count,
                      'oracle_cases':oracle_count,'oracle_rechecks':oracle_count*plan['rounds']*3,'semantic_sample_checks':expected_samples*oracle_count*2}
@@ -234,22 +379,31 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         found=[r for r in records if r.get('fixture')==name and r.get('case')==case['id']]
         require(len(found)==1,'Missing or duplicate FX INPUT case')
         record=found[0];digest(record.get('input_sha256'),'Malformed target input SHA256')
+        if exact_wrap:
+            require(set(record)=={'fixture','case','input_sha256','input_bytes','layout','stimulus_kind'},
+                    'Unknown or missing finite wrap input metadata')
         require(type(record.get('input_bytes')) is int and record['input_bytes']==plan['blocks']*256*2*4,'FX input byte coverage differs')
         require(record.get('layout')=='float32_stereo_interleaved_le','FX input layout differs')
         require(type(record.get('stimulus_kind')) is int and record['stimulus_kind']==expected['kind'],'FX input stimulus kind differs')
+        if exact_wrap:
+            expected_input,expected_oracle=wrap_cache_hashes(expected['kind'],plan['blocks'])
+            require(record['input_sha256']==expected_input,'Finite wrap deterministic input SHA differs')
         evidence[case['id']]={**record,'declared_settings':expected['settings']}
+        if exact_wrap:evidence[case['id']]['distinct_input_coverage']=wrap_input_coverage(expected['kind'],plan['blocks'])
         if verification:
             candidates=[r for r in oracle_records if r.get('fixture')==name and r.get('case')==case['id']]
             require(len(candidates)==1,'Missing or duplicate ORACLE case');oracle=candidates[0]
-            if verification['kind'] in WAVE2_ORACLES:
+            if verification['kind'] in WAVE2_ORACLES or exact_wrap:
                 keys={'fixture','case','oracle_sha256','oracle_bytes','layout','oracle_kind','max_abs_tolerance','max_cache_rounding_error','model','rounding'}
-                keys.update(verification['coefficients'] if verification['kind']=='biquad-response-v1' else ('exponent',))
+                if not exact_wrap:keys.update(verification['coefficients'] if verification['kind']=='biquad-response-v1' else ('exponent',))
                 require(set(oracle)==keys,'Unknown or missing oracle metadata')
             digest(oracle.get('oracle_sha256'),'Malformed oracle SHA256')
             require(type(oracle.get('oracle_bytes')) is int and oracle['oracle_bytes']==plan['blocks']*256*2*4,'Oracle byte coverage differs')
             require(oracle.get('layout')=='float32_stereo_interleaved_le' and oracle.get('oracle_kind')==verification['kind'],'Oracle layout/model kind differs')
             if verification['kind']=='average-window-v1':
                 require(oracle.get('window')==verification['window'] and oracle.get('initial_available')==verification['initial_available'],'Oracle history/window differs')
+            elif exact_wrap:
+                require(oracle['oracle_sha256']==expected_oracle,'Finite wrap independent oracle SHA differs')
             elif verification['kind']=='biquad-response-v1':
                 require(same_declaration({key:oracle.get(key) for key in verification['coefficients']},verification['coefficients']),'Oracle Float64 coefficients differ')
             else:
@@ -257,6 +411,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             require(oracle.get('max_abs_tolerance')==verification['maximum_absolute_error'],'Oracle tolerance differs')
             require(oracle.get('model')==verification['model'] and oracle.get('rounding')==verification['rounding'],'Oracle precision/model differs')
             error=oracle.get('max_cache_rounding_error');require(type(error) in (int,float) and 0<=error<=2**-24,'Invalid oracle cache rounding error')
+            if exact_wrap:require(error==0,'Finite wrap oracle must have zero cache rounding error')
             evidence[case['id']]['oracle']={**oracle,'verification':verification}
     source_names=('object-benchmark/main/stimulus.c','object-benchmark/main/stimulus.h');sources=build.get('source_files_sha256',{})
     generator={key:digest(sources.get(key),'Missing generator source identity') for key in source_names}
@@ -273,10 +428,25 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 'limit':'Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed'}
     require(isinstance(provenance['catalog_path'],str) and provenance['catalog_path'],'Missing stimulus catalog path')
     if oracle_count:
-        stem='wave2_oracle' if new_model else 'average_oracle'
+        stem='wave2_oracle' if new_model or exact_wrap else 'average_oracle'
         provenance['oracle_source_sha256']={key:digest(sources.get(key),'Missing oracle source identity') for key in (f'object-benchmark/main/{stem}.c',f'object-benchmark/main/{stem}.h')}
         provenance['verification_contract']=fixture['verification'];provenance['psram_budget']=oracle_memory_budget(build,plan)
-        if new_model:
+        if exact_wrap:
+            provenance['generation']='Deterministic raw IEEEbinary32 finite words; exact little-endian bit copy, no transcendental or numeric input rounding.'
+            provenance['oracle']='Independent host binary64 floor arithmetic over the exact below2^24 domain, raw signed-zero identity and even-integer large-value proof; target integer-bit modulo packer is separate.'
+            provenance['semantic_gate']='Every output raw binary32 word equals the independently hashed oracle; numeric/cache-rounding errors and bit differences must all be zero.'
+            provenance['limit']='Both cached INPUT and ORACLE SHA must equal independently regenerated complete host bytes. Finite fixed[-1,1) only; no nonfinite/fenv/general-range claim.'
+            provenance['pilot']='No pilot; both direct wrap output channels are checked against the exact oracle.'
+            provenance['parameter_schema']=plan['parameter_schema'];provenance['events']=plan['events']
+            union=frozenset().union(*(s for stimulus in plan['stimuli'] for s in wrap_cache_data(stimulus['kind'],plan['blocks'])[2]))
+            exponents={(w>>23)&255 for w in union};signs={w>>31 for w in union};mantissas={w&0x7fffff for w in union}
+            require(len(union)==4080 and exponents==set(range(255)) and signs=={0,1} and len(mantissas)==8,
+                    'Finite wrap total distinct input coverage differs')
+            provenance['distinct_input_coverage']={'all_cases_union_words':len(union),'finite_exponent_fields':len(exponents),
+                'signs':len(signs),'mantissa_patterns':len(mantissas),
+                'sorted_distinct_words_sha256':hashlib.sha256(struct.pack('<%dI'%len(union),*sorted(union))).hexdigest(),
+                'scope':'4080 distinct finite input words across four cases; repeated oracle check totals count executions, not distinct encodings.'}
+        elif new_model:
             provenance['oracle']='Original catalog Float64 model over actual Float32 input; once Float32 cache rounding. Native/target libm byte identity is not assumed.'
             provenance['semantic_gate']='Maximum output/cache error plus maximum cache/model rounding error must stay within the unchanged declared semantic limit.'
             provenance['parameter_schema']=plan['parameter_schema']
@@ -336,6 +506,16 @@ def collect(build_dir,run_dir):
     require(len(dc_records)==2*dc_cases,'Incomplete or unexpected DC measurements')
     dc_count=passed.get('dc_sample_checks',0)
     require(type(dc_count) is int and dc_count==dc_cases*plan['rounds']*2,'DC sample coverage differs')
+    bits_prefix='RNBO_OBJECT_BENCHMARK CASE_BITS '
+    bit_records=[fields(line.strip(),bits_prefix) for line in lines if line.strip().startswith(bits_prefix)]
+    bit_cases=sum(value.get('oracle',{}).get('verification',{}).get('kind')=='wrap-finite-v1' for value in inputs.values())
+    require(len(bit_records)==2*bit_cases,'Incomplete or unexpected exact-bit measurements')
+    bit_fields={'oracle_bit_sample_checks','oracle_bit_differences'}&passed.keys()
+    require(len(bit_fields)==2 if bit_cases else len(bit_fields) in (0,2), 'Missing or incomplete PASS exact-bit counter schema')
+    bit_count=passed.get('oracle_bit_sample_checks',0)
+    bit_differences=passed.get('oracle_bit_differences',0)
+    require(type(bit_count) is int and bit_count==expected_samples*bit_cases*2,'Exact-bit sample coverage differs')
+    require(type(bit_differences) is int and bit_differences==0,'Exact-bit oracle differences are not zero')
     tolerance=fixture['comparison_tolerance']
     for declared in fixture['cases']:
         records=[c for c in case_lines if c['case']==declared['id'] and c['fixture']==name]
@@ -350,7 +530,7 @@ def collect(build_dir,run_dir):
             require(len(values)==1,'Missing or duplicate profile timing')
             value=values[0];require(value['timed_blocks']==expected_blocks and value['process_us']>0,'Invalid timing coverage')
             timings[profile]={**value,'numerical_profile':numerical_profiles[profile],'mean_process_us':value['process_us']/value['timed_blocks']}
-        semantics={};dc={}
+        semantics={};dc={};bit_comparison={}
         if inputs.get(declared['id'],{}).get('oracle'):
             oracle=inputs[declared['id']]['oracle'];limit=oracle['max_abs_tolerance']
             for profile in ('strict','optimized'):
@@ -362,6 +542,16 @@ def collect(build_dir,run_dir):
                 bound=error+oracle['max_cache_rounding_error']
                 require(value.get('max_model_error_bound')==bound and bound<=limit,'Semantic average exceeds unchanged model limit')
                 semantics[profile]=value
+                if oracle['verification']['kind']=='wrap-finite-v1':
+                    require(set(value)=={'fixture','case','profile','semantic_kind','samples','max_abs',
+                            'max_model_error_bound','max_abs_tolerance','oracle_sha256'}, 'Unknown or missing finite wrap semantic metadata')
+                    matches=[r for r in bit_records if r.get('fixture')==name and r.get('case')==declared['id'] and r.get('profile')==profile]
+                    require(len(matches)==1,'Missing or duplicate exact-bit profile');record=matches[0]
+                    require(set(record)=={'fixture','case','profile','oracle_sha256','samples','bit_different'}, 'Unknown or missing exact-bit metadata')
+                    require(record.get('oracle_sha256')==oracle['oracle_sha256'],'Exact-bit oracle identity differs')
+                    require(type(record.get('samples')) is int and record['samples']==expected_samples,'Exact-bit profile sample coverage differs')
+                    require(type(record.get('bit_different')) is int and record['bit_different']==0,'Exact-bit profile has different output words')
+                    bit_comparison[profile]=record
                 if oracle['verification']['kind']=='biquad-response-v1':
                     found=[r for r in dc_records if r.get('fixture')==name and r.get('case')==declared['id'] and r.get('profile')==profile]
                     require(len(found)==1,'Missing or duplicate DC profile');record=found[0]
@@ -377,6 +567,7 @@ def collect(build_dir,run_dir):
         cases.append({'case':declared['id'],'declared_case':declared,'input':inputs.get(declared['id']),'semantic_comparison':semantics,'output_comparison':case,'profiles':timings,
                       'observed_speed_ratio':reference/candidate,'observed_process_reduction_percent':100*(1-candidate/reference)})
         if dc:cases[-1]['dc_comparison']=dc
+        if bit_comparison:cases[-1]['bit_comparison']=bit_comparison
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {'fixture':name,'family':fixture['family'],'role':fixture['role'],
             'numerical_profiles':numerical_profiles,

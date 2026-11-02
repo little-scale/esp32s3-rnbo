@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-enum { OBJECT_WAVE2_BIQUAD=2, OBJECT_WAVE2_NONLINEAR=3 };
+enum { OBJECT_WAVE2_BIQUAD=2, OBJECT_WAVE2_NONLINEAR=3, OBJECT_WAVE2_WRAP_FINITE=4 };
 enum { OBJECT_WAVE2_MAX_FRAMES=1024*256 };
 typedef struct {
     uint32_t magic,kind,case_index,next_frame;
@@ -29,4 +29,10 @@ bool object_wave2_oracle_fill(object_wave2_oracle *state,const float *input,uint
                        uint32_t first_frame,uint32_t frames,float *output,
                        uint32_t output_values,double *maximum_cache_rounding);
 bool object_wave2_biquad_dc_gain(const object_wave2_oracle *state,double *gain);
+/* Independent integer/IEEE modulo2 oracle, including signed input zero.
+ * No floating arithmetic or generated wrap kernel is used. Nonfinite inputs
+ * reject without writing. The cache is bit-exact with zero rounding charge. */
+bool object_wrap_finite_oracle_word(uint32_t input,uint32_t *output);
+bool object_wrap_finite_oracle_fill(const float *input,uint32_t total_frames,
+    uint32_t first_frame,uint32_t frames,float *output,uint32_t output_values);
 #endif

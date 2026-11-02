@@ -1,0 +1,3091 @@
+{
+  "format": "rnbo-finite-wrap-target-evidence-v1",
+  "format_version": 1,
+  "object": "wrap~",
+  "status": "partial",
+  "claim": "Optional finite binary32 fixed-range correction admitted for two pinned RNBO1.4.4 strict FX contexts; exhaustive native proof plus bounded and direct S3 execution. General wrap semantics remain unqualified.",
+  "admission": {
+    "flag": "--correct-finite-wrap",
+    "default_enabled": false,
+    "numerical_profile": "float32-strict",
+    "contexts": [
+      "nonlinear-domains",
+      "wrap-finite-stereo"
+    ],
+    "domain": "finite binary32; fixed[-1,1);44100Hz;256frames",
+    "threshold": 16777216,
+    "source_inverse_byte_identity": true,
+    "unknown_sources_and_option_compositions_reject": true,
+    "nonfinite": "Upstream NaN/Inf route unchanged and unqualified; may retain undefined conversions.",
+    "signed_zero": "Input-0 retained; nonzero even integers return canonical+0."
+  },
+  "proofs": {
+    "adapter": {
+      "path": "build/compiler-wrap-finite-v1/adapter-proof.json",
+      "bytes": 17502,
+      "sha256": "dbd452c7c5657673ee36ed582cfcea6dcdc9f43359815e3e231f17e6eb30062b"
+    },
+    "exhaustive": {
+      "path": "build/research/wrap-finite-v1/report.json",
+      "bytes": 44502,
+      "sha256": "df6c93a73fdec01fec49a34c3739df5f82a37bf6da943a5c4e962d8e7c3db769"
+    },
+    "exhaustive_artifacts_preserved": 96,
+    "finite_encodings_per_native_build": 4278190080,
+    "safe_original_encodings_per_native_build": 2533359616,
+    "native_builds": [
+      "Release",
+      "UBSan+float-cast-overflow"
+    ],
+    "native_direct": {
+      "path": "build/research/wrap-admission-v1/native-direct-report.json",
+      "bytes": 8981,
+      "sha256": "2c26a6ab74900a7388cef201dc2766d631b9b246d5abb125715c60af6b3f9b9f"
+    },
+    "native_direct_float_words": 262144,
+    "target_backend": {
+      "path": "build/research/wrap-target-backend/report.json",
+      "bytes": 4558,
+      "sha256": "a4f0f790277c8043b4002e34190f18f0e13c9c19676b9b8c91980920fa3ba96e"
+    },
+    "collector_freeze": {
+      "path": "build/audit/wrap-collector-freeze-v1/report.json",
+      "bytes": 1155,
+      "sha256": "7a018db0db1263bebd3a459198468b5b65891a8bb64cf3e808ae173bb72e3823"
+    },
+    "independent_c_cache_crosscheck": {
+      "path": "build/audit/wrap-collector-c-crosscheck-p_vhaule/report.json",
+      "bytes": 3569,
+      "sha256": "fa669448165fdf1238e548a53ef967dd2e176d9fa654ce48dc0382bc684aefa1"
+    }
+  },
+  "validation": {
+    "compiler": {
+      "tests": 221,
+      "passed": true,
+      "archived_log": {
+        "path": "build/research/wrap-admission-v1/validation-logs/compiler.log",
+        "bytes": 34009,
+        "sha256": "dbed17262c06f6004588ac32f8a139bae9eca9d91c1788842810a30af0318c0b"
+      },
+      "original_log": "/tmp/rnbo-wrap-all-compiler-final-v1.log"
+    },
+    "tools": {
+      "tests": 80,
+      "passed": true,
+      "archived_log": {
+        "path": "build/research/wrap-admission-v1/validation-logs/tools.log",
+        "bytes": 12353,
+        "sha256": "bcfcda8dcb1c56f11cf1574928162d16c9ce1a8dfe2725fe4a6a3e4c540cdb17"
+      },
+      "original_log": "/tmp/rnbo-wrap-all-tools-v1.log"
+    }
+  },
+  "target": {
+    "bounded": {
+      "fixture": "nonlinear-domains",
+      "family": "nonlinear",
+      "role": "fx",
+      "numerical_profiles": {
+        "strict": "float32-strict",
+        "optimized": "float32-strict"
+      },
+      "identical_artifact_control": false,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+        "catalog_sha256": "dcb7249778cc3e7f7c046b00133ca440e9049af541e0debf514014f59f9b2555",
+        "patch_sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "3d48a8f11877317e74c738f2f4048e938ec494e20b712b6f647bfa6bddb232b4",
+          "object-benchmark/main/stimulus.h": "40efdbdc23d5ad69b0f806ad5eae2e7d82f583c22b51a7b17e38a1ee2319f6bf"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Float64 sine/arithmetic; round each completed channel sample once to Float32",
+        "timing": "Generator/oracle precomputation and cache copy excluded from process timers",
+        "rechecks": "Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint",
+        "pilot": "No pilot samples; both output channels use the declared mathematical oracle",
+        "limit": "Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed",
+        "oracle_source_sha256": {
+          "object-benchmark/main/wave2_oracle.c": "04024e90b47674f5a6a3ad59a96d8278607f4d9a19fedaf5f302715842bb9217",
+          "object-benchmark/main/wave2_oracle.h": "43f452d13ac383dee0a3186fd6a2aa878dfa701b35cdfa4e1ee8769a8f639d8b"
+        },
+        "verification_contract": {
+          "kind": "nonlinear-chain-v1",
+          "maximum_absolute_error": 2e-06
+        },
+        "psram_budget": {
+          "workspace_bytes": 2101248,
+          "oracle_cache_bytes": 1048576,
+          "arena_bytes": 8192,
+          "opaque_context_upper_bound_bytes": 2097152,
+          "loaded_images_upper_bound_bytes": 71388,
+          "loader_heap_alignment_reserve_bytes": 524288,
+          "physical_psram_bytes": 8388608,
+          "required_upper_bound_bytes": 5850844
+        },
+        "oracle": "Original catalog Float64 model over actual Float32 input; once Float32 cache rounding. Native/target libm byte identity is not assumed.",
+        "semantic_gate": "Maximum output/cache error plus maximum cache/model rounding error must stay within the unchanged declared semantic limit.",
+        "parameter_schema": [
+          {
+            "paramId": "exponent",
+            "index": 0,
+            "minimum": 0.25,
+            "maximum": 4,
+            "initialValue": 2,
+            "exponent": 1,
+            "steps": 0
+          }
+        ],
+        "events": [
+          {
+            "block": 0,
+            "index": 0,
+            "kind": 1,
+            "value": 0.25,
+            "id": "exponent"
+          },
+          {
+            "block": 0,
+            "index": 0,
+            "kind": 1,
+            "value": 4.0,
+            "id": "exponent"
+          }
+        ]
+      },
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json",
+      "build_report_sha256": "a65a2b45c08adc930b36f90f83dcaa1468cc2d22e1e5e7c5655dd4975c850b7f",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-wrap-bounded-v1/hardware-test.json",
+      "hardware_report_sha256": "52cb8aa4d9a19b274755bd3df1f074dd018756f040721319b96c406a887c80e5",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log",
+      "serial_log_sha256": "e585072856d6830413349ed94bbd9de4d6c8b8222797d0f4d3b54415e3d6e3e8",
+      "pass": {
+        "fixture": "nonlinear-domains",
+        "firmware_elf_sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79",
+        "strict_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+        "optimized_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+        "cases": 3,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 2359296,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 0,
+        "max_pcm_lsb_tolerance": 0,
+        "relative_rms_tolerance": 0,
+        "strict_timed_blocks": 4320,
+        "strict_process_us": 2717251,
+        "strict_peak_us": 898,
+        "optimized_timed_blocks": 4320,
+        "optimized_process_us": 2724754,
+        "optimized_peak_us": 901,
+        "psram_before": 5236352,
+        "psram_after": 5236352,
+        "internal_before": 315735,
+        "internal_after": 315735,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 3,
+        "input_rechecks": 27,
+        "pilot_sample_checks": 0,
+        "oracle_cases": 3,
+        "oracle_rechecks": 27,
+        "semantic_sample_checks": 4718592,
+        "dc_sample_checks": 0,
+        "oracle_bit_sample_checks": 0,
+        "oracle_bit_differences": 0,
+        "stack_margin": 20276,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "square",
+          "declared_case": {
+            "id": "square",
+            "parameters": {},
+            "events": []
+          },
+          "input": {
+            "fixture": "nonlinear-domains",
+            "case": "square",
+            "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 6,
+            "declared_settings": {
+              "kind": "nonlinear-grid-v1"
+            },
+            "oracle": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "oracle_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "nonlinear-chain-v1",
+              "max_abs_tolerance": 2e-06,
+              "max_cache_rounding_error": 2.8797920270662303e-08,
+              "model": "float64-tanh-wrap-clip-pow",
+              "rounding": "once-float32",
+              "exponent": 2,
+              "verification": {
+                "kind": "nonlinear-chain-v1",
+                "maximum_absolute_error": 2e-06,
+                "model": "float64-tanh-wrap-clip-pow",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "exponent": 2
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "strict",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "optimized",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+            }
+          },
+          "output_comparison": {
+            "fixture": "nonlinear-domains",
+            "case": "square",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 780409,
+              "peak_us": 616,
+              "event_us": 0,
+              "prepare_us": 3587,
+              "rms": 0.552575934,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 541.9506944444445
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "square",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 782990,
+              "peak_us": 621,
+              "event_us": 0,
+              "prepare_us": 3638,
+              "rms": 0.552575934,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 543.7430555555555
+            }
+          },
+          "observed_speed_ratio": 0.9967036616048737,
+          "observed_process_reduction_percent": -0.3307240177906623
+        },
+        {
+          "case": "fractional",
+          "declared_case": {
+            "id": "fractional",
+            "parameters": {
+              "exponent": 0.25
+            },
+            "events": []
+          },
+          "input": {
+            "fixture": "nonlinear-domains",
+            "case": "fractional",
+            "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 6,
+            "declared_settings": {
+              "kind": "nonlinear-grid-v1"
+            },
+            "oracle": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "oracle_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "nonlinear-chain-v1",
+              "max_abs_tolerance": 2e-06,
+              "max_cache_rounding_error": 2.8797920270662303e-08,
+              "model": "float64-tanh-wrap-clip-pow",
+              "rounding": "once-float32",
+              "exponent": 0.25,
+              "verification": {
+                "kind": "nonlinear-chain-v1",
+                "maximum_absolute_error": 2e-06,
+                "model": "float64-tanh-wrap-clip-pow",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "exponent": 0.25
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "strict",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "optimized",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+            }
+          },
+          "output_comparison": {
+            "fixture": "nonlinear-domains",
+            "case": "fractional",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 964093,
+              "peak_us": 884,
+              "event_us": 45,
+              "prepare_us": 3620,
+              "rms": 0.59761154,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 669.5090277777778
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fractional",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 966592,
+              "peak_us": 884,
+              "event_us": 39,
+              "prepare_us": 3668,
+              "rms": 0.59761154,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 671.2444444444444
+            }
+          },
+          "observed_speed_ratio": 0.997414627888499,
+          "observed_process_reduction_percent": -0.25920735862619004
+        },
+        {
+          "case": "fourth",
+          "declared_case": {
+            "id": "fourth",
+            "parameters": {
+              "exponent": 4
+            },
+            "events": []
+          },
+          "input": {
+            "fixture": "nonlinear-domains",
+            "case": "fourth",
+            "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 6,
+            "declared_settings": {
+              "kind": "nonlinear-grid-v1"
+            },
+            "oracle": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "oracle_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "nonlinear-chain-v1",
+              "max_abs_tolerance": 2e-06,
+              "max_cache_rounding_error": 2.8797920270662303e-08,
+              "model": "float64-tanh-wrap-clip-pow",
+              "rounding": "once-float32",
+              "exponent": 4,
+              "verification": {
+                "kind": "nonlinear-chain-v1",
+                "maximum_absolute_error": 2e-06,
+                "model": "float64-tanh-wrap-clip-pow",
+                "rounding": "once-float32",
+                "gate": "cache-error-plus-maximum-cache-rounding-error",
+                "exponent": 4
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "strict",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "optimized",
+              "semantic_kind": "nonlinear-chain-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 2.8797920270662303e-08,
+              "max_abs_tolerance": 2e-06,
+              "oracle_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+            }
+          },
+          "output_comparison": {
+            "fixture": "nonlinear-domains",
+            "case": "fourth",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 972749,
+              "peak_us": 898,
+              "event_us": 42,
+              "prepare_us": 3623,
+              "rms": 0.550002474,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 675.5201388888889
+            },
+            "optimized": {
+              "fixture": "nonlinear-domains",
+              "case": "fourth",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 975172,
+              "peak_us": 901,
+              "event_us": 38,
+              "prepare_us": 3669,
+              "rms": 0.550002474,
+              "peak": 0.999329329,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 677.2027777777778
+            }
+          },
+          "observed_speed_ratio": 0.9975153101196508,
+          "observed_process_reduction_percent": -0.24908789420496902
+        }
+      ]
+    },
+    "direct": {
+      "fixture": "wrap-finite-stereo",
+      "family": "wrap",
+      "role": "fx",
+      "numerical_profiles": {
+        "strict": "float32-strict",
+        "optimized": "float32-strict"
+      },
+      "identical_artifact_control": true,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "stimulus_provenance": {
+        "catalog_path": "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/wrap-finite-target.json",
+        "catalog_sha256": "22ad4dec181b303df3dd6a0ef6b019f103fbc8a0c03b3e9b710c00b2f27bdaa9",
+        "patch_sha256": "d42b66e894b6368856e3c3ef42cf402defc4103da300b2aa8bab559120393980",
+        "generator_source_sha256": {
+          "object-benchmark/main/stimulus.c": "3d48a8f11877317e74c738f2f4048e938ec494e20b712b6f647bfa6bddb232b4",
+          "object-benchmark/main/stimulus.h": "40efdbdc23d5ad69b0f806ad5eae2e7d82f583c22b51a7b17e38a1ee2319f6bf"
+        },
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+        "generation": "Deterministic raw IEEEbinary32 finite words; exact little-endian bit copy, no transcendental or numeric input rounding.",
+        "timing": "Generator/oracle precomputation and cache copy excluded from process timers",
+        "rechecks": "Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint",
+        "pilot": "No pilot; both direct wrap output channels are checked against the exact oracle.",
+        "limit": "Both cached INPUT and ORACLE SHA must equal independently regenerated complete host bytes. Finite fixed[-1,1) only; no nonfinite/fenv/general-range claim.",
+        "oracle_source_sha256": {
+          "object-benchmark/main/wave2_oracle.c": "04024e90b47674f5a6a3ad59a96d8278607f4d9a19fedaf5f302715842bb9217",
+          "object-benchmark/main/wave2_oracle.h": "43f452d13ac383dee0a3186fd6a2aa878dfa701b35cdfa4e1ee8769a8f639d8b"
+        },
+        "verification_contract": {
+          "kind": "wrap-finite-v1",
+          "maximum_absolute_error": 0,
+          "bit_exact": true
+        },
+        "psram_budget": {
+          "workspace_bytes": 2101248,
+          "oracle_cache_bytes": 1048576,
+          "arena_bytes": 8192,
+          "opaque_context_upper_bound_bytes": 2097152,
+          "loaded_images_upper_bound_bytes": 57380,
+          "loader_heap_alignment_reserve_bytes": 524288,
+          "physical_psram_bytes": 8388608,
+          "required_upper_bound_bytes": 5836836
+        },
+        "oracle": "Independent host binary64 floor arithmetic over the exact below2^24 domain, raw signed-zero identity and even-integer large-value proof; target integer-bit modulo packer is separate.",
+        "semantic_gate": "Every output raw binary32 word equals the independently hashed oracle; numeric/cache-rounding errors and bit differences must all be zero.",
+        "parameter_schema": [],
+        "events": [],
+        "distinct_input_coverage": {
+          "all_cases_union_words": 4080,
+          "finite_exponent_fields": 255,
+          "signs": 2,
+          "mantissa_patterns": 8,
+          "sorted_distinct_words_sha256": "4884355c646e57dbf5451604b50fe2282687cc5e82399f724c601e8ad258db14",
+          "scope": "4080 distinct finite input words across four cases; repeated oracle check totals count executions, not distinct encodings."
+        }
+      },
+      "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
+      "build_report_sha256": "7ecc186d01e7665d24667bea0059a02e33cd2158ce31c65fb3ee8d2d56598cff",
+      "hardware_report": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-wrap-direct-v1/hardware-test.json",
+      "hardware_report_sha256": "33058b994504a4e0b88610f37bb49c39ffd24f7c8594d459e767e0b5abbfaa47",
+      "serial_log": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
+      "serial_log_sha256": "98e483388937ddd4deb064669547933e69fd9372234ccd14325d67227c8318a6",
+      "pass": {
+        "fixture": "wrap-finite-stereo",
+        "firmware_elf_sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c",
+        "strict_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+        "optimized_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+        "cases": 4,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 3145728,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 0,
+        "max_pcm_lsb_tolerance": 0,
+        "relative_rms_tolerance": 0,
+        "strict_timed_blocks": 5760,
+        "strict_process_us": 483079,
+        "strict_peak_us": 111,
+        "optimized_timed_blocks": 5760,
+        "optimized_process_us": 481565,
+        "optimized_peak_us": 109,
+        "psram_before": 5236352,
+        "psram_after": 5236352,
+        "internal_before": 315735,
+        "internal_after": 315735,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 4,
+        "input_rechecks": 36,
+        "pilot_sample_checks": 0,
+        "oracle_cases": 4,
+        "oracle_rechecks": 36,
+        "semantic_sample_checks": 6291456,
+        "dc_sample_checks": 0,
+        "oracle_bit_sample_checks": 6291456,
+        "oracle_bit_differences": 0,
+        "stack_margin": 20292,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "boundaries",
+          "declared_case": {
+            "id": "boundaries",
+            "parameters": {},
+            "events": [],
+            "stimulus": {
+              "kind": "wrap-finite-boundaries-v1"
+            }
+          },
+          "input": {
+            "fixture": "wrap-finite-stereo",
+            "case": "boundaries",
+            "input_sha256": "7b738a7c584e0eec4c7202ca84882505d75425fd6dd363a6c22b3483be2d72bf",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 7,
+            "declared_settings": {
+              "kind": "wrap-finite-boundaries-v1"
+            },
+            "distinct_input_coverage": {
+              "distinct_input_words": 44,
+              "per_channel_distinct_input_words": [
+                44,
+                44
+              ],
+              "finite_exponent_fields": 12,
+              "signs": 2,
+              "mantissa_patterns": 4,
+              "sorted_distinct_words_sha256": "c6a7e4ebc41fe676145d38666c194dccfdfcbdf4ed28e0be71cac8f6762b23ae",
+              "scope": "Repeated checks over this exact finite input set, not an exhaustive target Float32 domain."
+            },
+            "oracle": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "oracle_sha256": "5b93505122ed3d7aa14fe4d1392008504a9448bab86c4ee4a9f962f70762f12e",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "wrap-finite-v1",
+              "max_abs_tolerance": 0,
+              "max_cache_rounding_error": 0,
+              "model": "exact-binary32-modulo2",
+              "rounding": "exact-binary32",
+              "verification": {
+                "kind": "wrap-finite-v1",
+                "maximum_absolute_error": 0,
+                "model": "exact-binary32-modulo2",
+                "rounding": "exact-binary32",
+                "gate": "raw-binary32-equality",
+                "bit_exact": true
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "profile": "strict",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "5b93505122ed3d7aa14fe4d1392008504a9448bab86c4ee4a9f962f70762f12e"
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "profile": "optimized",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "5b93505122ed3d7aa14fe4d1392008504a9448bab86c4ee4a9f962f70762f12e"
+            }
+          },
+          "output_comparison": {
+            "fixture": "wrap-finite-stereo",
+            "case": "boundaries",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 125745,
+              "peak_us": 94,
+              "event_us": 0,
+              "prepare_us": 1352,
+              "rms": 0.476722548,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 87.32291666666667
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 125658,
+              "peak_us": 95,
+              "event_us": 0,
+              "prepare_us": 1425,
+              "rms": 0.476722548,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 87.2625
+            }
+          },
+          "observed_speed_ratio": 1.0006923554409588,
+          "observed_process_reduction_percent": 0.06918764165573243,
+          "bit_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "profile": "strict",
+              "oracle_sha256": "5b93505122ed3d7aa14fe4d1392008504a9448bab86c4ee4a9f962f70762f12e",
+              "samples": 786432,
+              "bit_different": 0
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "boundaries",
+              "profile": "optimized",
+              "oracle_sha256": "5b93505122ed3d7aa14fe4d1392008504a9448bab86c4ee4a9f962f70762f12e",
+              "samples": 786432,
+              "bit_different": 0
+            }
+          }
+        },
+        {
+          "case": "safe-strata",
+          "declared_case": {
+            "id": "safe-strata",
+            "parameters": {},
+            "events": [],
+            "stimulus": {
+              "kind": "wrap-finite-safe-v1"
+            }
+          },
+          "input": {
+            "fixture": "wrap-finite-stereo",
+            "case": "safe-strata",
+            "input_sha256": "c68538c6ed2dacb048641c257740b1f3e5fc634f6299f6048b02cf75d1d27e72",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 8,
+            "declared_settings": {
+              "kind": "wrap-finite-safe-v1"
+            },
+            "distinct_input_coverage": {
+              "distinct_input_words": 2416,
+              "per_channel_distinct_input_words": [
+                2416,
+                2416
+              ],
+              "finite_exponent_fields": 151,
+              "signs": 2,
+              "mantissa_patterns": 8,
+              "sorted_distinct_words_sha256": "79d9d09cfd030de6ffe9e38d0fcb12525ace6047d05bc1420fc0fedc56101685",
+              "scope": "Repeated checks over this exact finite input set, not an exhaustive target Float32 domain."
+            },
+            "oracle": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "oracle_sha256": "b5d0f1529918f8aa5390ff3daa314de37f1c5fea3bc035b0a2b36ddeab35da75",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "wrap-finite-v1",
+              "max_abs_tolerance": 0,
+              "max_cache_rounding_error": 0,
+              "model": "exact-binary32-modulo2",
+              "rounding": "exact-binary32",
+              "verification": {
+                "kind": "wrap-finite-v1",
+                "maximum_absolute_error": 0,
+                "model": "exact-binary32-modulo2",
+                "rounding": "exact-binary32",
+                "gate": "raw-binary32-equality",
+                "bit_exact": true
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "profile": "strict",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "b5d0f1529918f8aa5390ff3daa314de37f1c5fea3bc035b0a2b36ddeab35da75"
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "profile": "optimized",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "b5d0f1529918f8aa5390ff3daa314de37f1c5fea3bc035b0a2b36ddeab35da75"
+            }
+          },
+          "output_comparison": {
+            "fixture": "wrap-finite-stereo",
+            "case": "safe-strata",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 110368,
+              "peak_us": 109,
+              "event_us": 0,
+              "prepare_us": 1332,
+              "rms": 0.13085694,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 76.64444444444445
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 110083,
+              "peak_us": 109,
+              "event_us": 0,
+              "prepare_us": 1404,
+              "rms": 0.13085694,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 76.44652777777777
+            }
+          },
+          "observed_speed_ratio": 1.0025889556062244,
+          "observed_process_reduction_percent": 0.25822702232531913,
+          "bit_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "profile": "strict",
+              "oracle_sha256": "b5d0f1529918f8aa5390ff3daa314de37f1c5fea3bc035b0a2b36ddeab35da75",
+              "samples": 786432,
+              "bit_different": 0
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "safe-strata",
+              "profile": "optimized",
+              "oracle_sha256": "b5d0f1529918f8aa5390ff3daa314de37f1c5fea3bc035b0a2b36ddeab35da75",
+              "samples": 786432,
+              "bit_different": 0
+            }
+          }
+        },
+        {
+          "case": "finite-strata",
+          "declared_case": {
+            "id": "finite-strata",
+            "parameters": {},
+            "events": [],
+            "stimulus": {
+              "kind": "wrap-finite-strata-v1"
+            }
+          },
+          "input": {
+            "fixture": "wrap-finite-stereo",
+            "case": "finite-strata",
+            "input_sha256": "c1f3b7d6f5920b6070e6e80ebfc7db0a7c53ae956a71dac48a6032d255a559db",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 9,
+            "declared_settings": {
+              "kind": "wrap-finite-strata-v1"
+            },
+            "distinct_input_coverage": {
+              "distinct_input_words": 4080,
+              "per_channel_distinct_input_words": [
+                4080,
+                4080
+              ],
+              "finite_exponent_fields": 255,
+              "signs": 2,
+              "mantissa_patterns": 8,
+              "sorted_distinct_words_sha256": "4884355c646e57dbf5451604b50fe2282687cc5e82399f724c601e8ad258db14",
+              "scope": "Repeated checks over this exact finite input set, not an exhaustive target Float32 domain."
+            },
+            "oracle": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "oracle_sha256": "5436529da1dcbfe261ca8ecf2969f4e6756295c6f67d33fecaf3193a1ae61a8f",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "wrap-finite-v1",
+              "max_abs_tolerance": 0,
+              "max_cache_rounding_error": 0,
+              "model": "exact-binary32-modulo2",
+              "rounding": "exact-binary32",
+              "verification": {
+                "kind": "wrap-finite-v1",
+                "maximum_absolute_error": 0,
+                "model": "exact-binary32-modulo2",
+                "rounding": "exact-binary32",
+                "gate": "raw-binary32-equality",
+                "bit_exact": true
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "profile": "strict",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "5436529da1dcbfe261ca8ecf2969f4e6756295c6f67d33fecaf3193a1ae61a8f"
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "profile": "optimized",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "5436529da1dcbfe261ca8ecf2969f4e6756295c6f67d33fecaf3193a1ae61a8f"
+            }
+          },
+          "output_comparison": {
+            "fixture": "wrap-finite-stereo",
+            "case": "finite-strata",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 111813,
+              "peak_us": 111,
+              "event_us": 0,
+              "prepare_us": 1333,
+              "rms": 0.100925104,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 77.64791666666666
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 111338,
+              "peak_us": 108,
+              "event_us": 0,
+              "prepare_us": 1403,
+              "rms": 0.100925104,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 77.31805555555556
+            }
+          },
+          "observed_speed_ratio": 1.0042662882394149,
+          "observed_process_reduction_percent": 0.424816434582731,
+          "bit_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "profile": "strict",
+              "oracle_sha256": "5436529da1dcbfe261ca8ecf2969f4e6756295c6f67d33fecaf3193a1ae61a8f",
+              "samples": 786432,
+              "bit_different": 0
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "finite-strata",
+              "profile": "optimized",
+              "oracle_sha256": "5436529da1dcbfe261ca8ecf2969f4e6756295c6f67d33fecaf3193a1ae61a8f",
+              "samples": 786432,
+              "bit_different": 0
+            }
+          }
+        },
+        {
+          "case": "zero-endpoints",
+          "declared_case": {
+            "id": "zero-endpoints",
+            "parameters": {},
+            "events": [],
+            "stimulus": {
+              "kind": "wrap-finite-zero-endpoints-v1"
+            }
+          },
+          "input": {
+            "fixture": "wrap-finite-stereo",
+            "case": "zero-endpoints",
+            "input_sha256": "dec154823cffa5148a4bffea3376dc3e715d0353ee1aa1348fba119536541147",
+            "input_bytes": 1048576,
+            "layout": "float32_stereo_interleaved_le",
+            "stimulus_kind": 10,
+            "declared_settings": {
+              "kind": "wrap-finite-zero-endpoints-v1"
+            },
+            "distinct_input_coverage": {
+              "distinct_input_words": 18,
+              "per_channel_distinct_input_words": [
+                18,
+                18
+              ],
+              "finite_exponent_fields": 5,
+              "signs": 2,
+              "mantissa_patterns": 4,
+              "sorted_distinct_words_sha256": "675fefbd86ac1b795cf8ff8c1200586134aba09d8baf07288af99b85c87c2357",
+              "scope": "Repeated checks over this exact finite input set, not an exhaustive target Float32 domain."
+            },
+            "oracle": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "oracle_sha256": "23349461b5722242048f19d50e76bd659bb2c63cc3a62b54281a07dad9cba535",
+              "oracle_bytes": 1048576,
+              "layout": "float32_stereo_interleaved_le",
+              "oracle_kind": "wrap-finite-v1",
+              "max_abs_tolerance": 0,
+              "max_cache_rounding_error": 0,
+              "model": "exact-binary32-modulo2",
+              "rounding": "exact-binary32",
+              "verification": {
+                "kind": "wrap-finite-v1",
+                "maximum_absolute_error": 0,
+                "model": "exact-binary32-modulo2",
+                "rounding": "exact-binary32",
+                "gate": "raw-binary32-equality",
+                "bit_exact": true
+              }
+            }
+          },
+          "semantic_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "profile": "strict",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "23349461b5722242048f19d50e76bd659bb2c63cc3a62b54281a07dad9cba535"
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "profile": "optimized",
+              "semantic_kind": "wrap-finite-v1",
+              "samples": 786432,
+              "max_abs": 0,
+              "max_model_error_bound": 0,
+              "max_abs_tolerance": 0,
+              "oracle_sha256": "23349461b5722242048f19d50e76bd659bb2c63cc3a62b54281a07dad9cba535"
+            }
+          },
+          "output_comparison": {
+            "fixture": "wrap-finite-stereo",
+            "case": "zero-endpoints",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 135153,
+              "peak_us": 102,
+              "event_us": 0,
+              "prepare_us": 1331,
+              "rms": 0.666671087,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 93.85625
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 134486,
+              "peak_us": 101,
+              "event_us": 0,
+              "prepare_us": 1402,
+              "rms": 0.666671087,
+              "peak": 1,
+              "arena_high_water": 0,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 93.39305555555555
+            }
+          },
+          "observed_speed_ratio": 1.004959624050087,
+          "observed_process_reduction_percent": 0.49351475734908945,
+          "bit_comparison": {
+            "strict": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "profile": "strict",
+              "oracle_sha256": "23349461b5722242048f19d50e76bd659bb2c63cc3a62b54281a07dad9cba535",
+              "samples": 786432,
+              "bit_different": 0
+            },
+            "optimized": {
+              "fixture": "wrap-finite-stereo",
+              "case": "zero-endpoints",
+              "profile": "optimized",
+              "oracle_sha256": "23349461b5722242048f19d50e76bd659bb2c63cc3a62b54281a07dad9cba535",
+              "samples": 786432,
+              "bit_different": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "target_summary": {
+    "bounded": {
+      "pairwise_float_words": 2359296,
+      "independent_model_checks": 4718592,
+      "strict_process_us": 2717251,
+      "corrected_process_us": 2724754,
+      "timed_vectors_per_profile": 4320,
+      "observed_extra_cpu_percent": 0.2761246568682818,
+      "scope": "Whole tanh/wrap/clip/pow graph on authored bounded3cases; no isolated-wrap speed claim."
+    },
+    "direct": {
+      "pairwise_float_words": 3145728,
+      "raw_bit_oracle_checks": 6291456,
+      "raw_bit_differences": 0,
+      "distinct_input_values": 4080,
+      "per_case_distinct_values": {
+        "boundaries": 44,
+        "safe-strata": 2416,
+        "finite-strata": 4080,
+        "zero-endpoints": 18
+      },
+      "coverage": "Finite exponent fields0..254; both signs; eight mantissa strata; endpoints and safe values; independent right-channel offset.",
+      "identical_artifact_control": true,
+      "cpu_gain_claimed": false,
+      "original_unsafe_module_executed": false
+    }
+  },
+  "resource_summary": {
+    "bounded": {
+      "serial_log_sha256": "e585072856d6830413349ed94bbd9de4d6c8b8222797d0f4d3b54415e3d6e3e8",
+      "profiles": {
+        "strict": {
+          "fixture": "nonlinear-domains",
+          "profile": "strict",
+          "blocks": 4608,
+          "timed_blocks": 4320,
+          "process_us": 2717251,
+          "peak_us": 898,
+          "event_us": 87,
+          "events": 6,
+          "prepare_us": 10830,
+          "rms": 0.56715149,
+          "peak": 0.999329329,
+          "clipped": 0,
+          "context_bytes": 14800,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 33540,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0
+        },
+        "optimized": {
+          "fixture": "nonlinear-domains",
+          "profile": "optimized",
+          "blocks": 4608,
+          "timed_blocks": 4320,
+          "process_us": 2724754,
+          "peak_us": 901,
+          "event_us": 77,
+          "events": 6,
+          "prepare_us": 10975,
+          "rms": 0.56715149,
+          "peak": 0.999329329,
+          "clipped": 0,
+          "context_bytes": 14800,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 33660,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0
+        }
+      },
+      "interpretation": "Serial PROFILE measurements: context bytes are separate from reserved4096-byte module arena; highwater is arena usage, not whole-board peak memory; code_bytes is mapped.text rounded to4bytes. Process totals/timed vectors reconcile to PASS and summed case records."
+    },
+    "direct": {
+      "serial_log_sha256": "98e483388937ddd4deb064669547933e69fd9372234ccd14325d67227c8318a6",
+      "profiles": {
+        "strict": {
+          "fixture": "wrap-finite-stereo",
+          "profile": "strict",
+          "blocks": 6144,
+          "timed_blocks": 5760,
+          "process_us": 483079,
+          "peak_us": 111,
+          "event_us": 0,
+          "events": 0,
+          "prepare_us": 5348,
+          "rms": 0.418038318,
+          "peak": 1,
+          "clipped": 0,
+          "context_bytes": 12736,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 26692,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0
+        },
+        "optimized": {
+          "fixture": "wrap-finite-stereo",
+          "profile": "optimized",
+          "blocks": 6144,
+          "timed_blocks": 5760,
+          "process_us": 481565,
+          "peak_us": 109,
+          "event_us": 0,
+          "events": 0,
+          "prepare_us": 5634,
+          "rms": 0.418038318,
+          "peak": 1,
+          "clipped": 0,
+          "context_bytes": 12736,
+          "arena_capacity": 4096,
+          "arena_high_water": 0,
+          "code_bytes": 26692,
+          "max_cpp_new_calls": 0,
+          "max_arena_requests": 0
+        }
+      },
+      "interpretation": "Serial PROFILE measurements: context bytes are separate from reserved4096-byte module arena; highwater is arena usage, not whole-board peak memory; code_bytes is mapped.text rounded to4bytes. Process totals/timed vectors reconcile to PASS and summed case records."
+    }
+  },
+  "module_size_comparison": [
+    {
+      "context": "nonlinear-domains",
+      "original_module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "corrected_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "original_direct_executed_on_unrestricted_inputs": false,
+      "sections": {
+        ".text": {
+          "original_bytes": 33539,
+          "corrected_bytes": 33659,
+          "delta_bytes": 120
+        },
+        ".data": {
+          "original_bytes": 76,
+          "corrected_bytes": 76,
+          "delta_bytes": 0
+        },
+        ".bss": {
+          "original_bytes": 456,
+          "corrected_bytes": 456,
+          "delta_bytes": 0
+        },
+        ".rodata": {
+          "original_bytes": 92,
+          "corrected_bytes": 92,
+          "delta_bytes": 0
+        },
+        ".data.rel.ro": {
+          "original_bytes": 840,
+          "corrected_bytes": 840,
+          "delta_bytes": 0
+        }
+      }
+    },
+    {
+      "context": "wrap-finite-stereo",
+      "original_module_sha256": "3c7fd8694d93525f355eaacc063e579b0cebf6789e2efe24359b04f9730f3d1f",
+      "corrected_module_sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2",
+      "original_direct_executed_on_unrestricted_inputs": false,
+      "sections": {
+        ".text": {
+          "original_bytes": 26391,
+          "corrected_bytes": 26691,
+          "delta_bytes": 300
+        },
+        ".data": {
+          "original_bytes": 76,
+          "corrected_bytes": 76,
+          "delta_bytes": 0
+        },
+        ".bss": {
+          "original_bytes": 456,
+          "corrected_bytes": 456,
+          "delta_bytes": 0
+        },
+        ".rodata": {
+          "original_bytes": 72,
+          "corrected_bytes": 72,
+          "delta_bytes": 0
+        },
+        ".data.rel.ro": {
+          "original_bytes": 840,
+          "corrected_bytes": 840,
+          "delta_bytes": 0
+        }
+      }
+    }
+  ],
+  "historical_original_module_source_identities": {
+    "host/compiler/build.py": {
+      "recorded_source_sha256": "d4c610f9a53136fd199a3f97b22db9aec8d58a558efc9223099347578d194c48",
+      "module_build_report": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json",
+      "module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "binding": "Immutable original wave2 evidence and embedded historical module build report; live workspace source has since changed."
+    },
+    "host/compiler/build_module.py": {
+      "recorded_source_sha256": "99865c67831b27dadef4921f0cbe394e3a991e077c2508dc2d7eb0f77fa70645",
+      "module_build_report": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json",
+      "module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "binding": "Immutable original wave2 evidence and embedded historical module build report; live workspace source has since changed."
+    },
+    "host/compiler/prepare.py": {
+      "recorded_source_sha256": "821c961f6065ad1642468d5bf5272747bc25ba488c8d7245f69ec151e1884e0e",
+      "module_build_report": "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json",
+      "module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+      "binding": "Immutable original wave2 evidence and embedded historical module build report; live workspace source has since changed."
+    }
+  },
+  "limits": [
+    "Partial object coverage: only two exact source/type/runtime contexts; no general range or Float64-input admission.",
+    "Target4080distinct inputs are repeated6291456times across copies/rounds; exhaustiveall-finite coverage is native, not target.",
+    "Offline process callbacks only; generators/oracles/cache checks outside timers. No I2S/UI/network or application deadline qualification.",
+    "NaN/Inf, floating exception flags and non-default rounding modes remain unqualified.",
+    "No CPU saving is claimed; bounded measured change is whole-chain overhead, direct run is same-artifact correctness control.",
+    "Metadata/hashes only; generated RNBO bodies and binaries remain in ignored local build directories."
+  ],
+  "artifacts": {
+    "build/research/wrap-admission-v1/seal-target.py": {
+      "bytes": 21335,
+      "sha256": "be28664ba14f157f29f363a60f0ad72658c858781fc7ab581e8a980b6772234e"
+    },
+    "build/compiler-wrap-finite-v1/adapter-proof.json": {
+      "bytes": 17502,
+      "sha256": "dbd452c7c5657673ee36ed582cfcea6dcdc9f43359815e3e231f17e6eb30062b"
+    },
+    "host/compiler/build.py": {
+      "bytes": 7689,
+      "sha256": "55ca085692b60bd92cd688d7acb3b1dad9eca3644fb45dee4847374bcfd9aa7b"
+    },
+    "host/compiler/build_module.py": {
+      "bytes": 12891,
+      "sha256": "82fc26ab052a0f6536bfe2bc7f3a426798a0886325f740a925aace7d930f1f52"
+    },
+    "host/compiler/prepare.py": {
+      "bytes": 35379,
+      "sha256": "af483fb35cadd7b54242c06bbe3edcdfbdf0efb9b89d98311cc0687acc3a0769"
+    },
+    "host/compiler/test_wrap_finite.py": {
+      "bytes": 15096,
+      "sha256": "1cbd084e7898fcd3fe238103562ccb65c5ff1176240197ff85a497f6b20fcd06"
+    },
+    "host/compiler/wrap_finite.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "host/compiler/wrap_finite.py": {
+      "bytes": 8076,
+      "sha256": "13d5db260c49211de938812e591886b727bc442cefd31b826943bef5833892de"
+    },
+    "build/compiler-wrap-finite-v1/unit-tests.log": {
+      "bytes": 32093,
+      "sha256": "20d3d2ca94a751e5023b99285fce9f5ef838d0436413b49b158aa35b7161b360"
+    },
+    "build/research/wrap-finite-v1/report.json": {
+      "bytes": 44502,
+      "sha256": "df6c93a73fdec01fec49a34c3739df5f82a37bf6da943a5c4e962d8e7c3db769"
+    },
+    "build/research/wrap-finite-v1/source-proof.json": {
+      "bytes": 17120,
+      "sha256": "351650d867f528e76ba4a3d24011745c0c91d2cd91d6ca296304c30c08913286"
+    },
+    "evidence/wrap-finite.json": {
+      "bytes": 44459,
+      "sha256": "9d4d24617678a02109cd14980d799ecf935581485e195994c0c7bd4ffc138a81"
+    },
+    "build/compiler-wrap-finite-v1/seal_adapter.py": {
+      "bytes": 4722,
+      "sha256": "b6342bb6685c76a8452985ab5df436fcaf51e3afd39bb610dd9249ac4d23f5c8"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/description.json": {
+      "bytes": 2839,
+      "sha256": "20f3ba4d3a8e8a19967fa566c59a04021d35f2bdeb49fa5095b70bed6fa24cec"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/generator.json": {
+      "bytes": 980,
+      "sha256": "cfdcfaa04983904bbf74b46622ac086bac86a53ea2847cc3497283bd1228d26d"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/patch_config.h": {
+      "bytes": 297,
+      "sha256": "4ffea810999ee268c04679793f8f05a89935580bb44db330f218e641aae11618"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/private_finite_wrap.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/rnbo_s3_finite_wrap_source.h": {
+      "bytes": 358,
+      "sha256": "863a960afe421dd3fe9e45485750046ba3d613410647d838853e79f4eb24efe0"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/rnbo_source.h": {
+      "bytes": 21260,
+      "sha256": "cb3034efc572a29b2d3e9cc82e733035a12b6907b6213c9c3af9ee01ab64cbfd"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/source.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/manifest.json": {
+      "bytes": 1406,
+      "sha256": "92fa9b1807b05b4ae0c3b94e2e77d0d24fec517eec399ad69b00a7beb5e13700"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/nonlinear-domains-corrected/provenance.json": {
+      "bytes": 14991,
+      "sha256": "7c4b79a11060d261ab2ccd4f6580d28ff7550d2c0815fe2dce21e12a91542c2b"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/description.json": {
+      "bytes": 1932,
+      "sha256": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/generator.json": {
+      "bytes": 980,
+      "sha256": "c29c53396a2876c8773b86ceccf4ee2d1e90eef5c9cff9029cb6a498cf40b509"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/patch_config.h": {
+      "bytes": 297,
+      "sha256": "4ffea810999ee268c04679793f8f05a89935580bb44db330f218e641aae11618"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/private_finite_wrap.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/rnbo_s3_finite_wrap_source.h": {
+      "bytes": 358,
+      "sha256": "863a960afe421dd3fe9e45485750046ba3d613410647d838853e79f4eb24efe0"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/rnbo_source.h": {
+      "bytes": 18630,
+      "sha256": "50e01c6d9b2a854ff872b6ccbaf1c9e5077975ae36cc959d0bd1d20c69516110"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/source.rnbopat": {
+      "bytes": 2633,
+      "sha256": "d42b66e894b6368856e3c3ef42cf402defc4103da300b2aa8bab559120393980"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/manifest.json": {
+      "bytes": 1407,
+      "sha256": "4ddb61ee25716da5b838196bedccd28224d6c5f9a3138196e4ffcb18cb578b00"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-corrected/provenance.json": {
+      "bytes": 15385,
+      "sha256": "788ad9aae069ec02b5036fad82d995022813087e338538f0f8a195d5fe489b8e"
+    },
+    "build/research/wrap-finite-v1/seal.py": {
+      "bytes": 5826,
+      "sha256": "b29246f4e71e3952c9ebf8fefa9277d792ee196e02385f83311c42ec848e410d"
+    },
+    "build/research/wrap-finite-v1/PROOF.md": {
+      "bytes": 7077,
+      "sha256": "4b4857548ccd47ad32d25435d965396daaf60f7e529c3ca5f610d4c9511b25dc"
+    },
+    "build/research/wrap-finite-v1/finite_wrap.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "build/research/wrap-finite-v1/prepare_research.py": {
+      "bytes": 6590,
+      "sha256": "a316cda41520b6ef14c29a48d634f8ee6d6af17af02ff526313beb62dd397fe8"
+    },
+    "build/research/wrap-finite-v1/kernel.h": {
+      "bytes": 11588,
+      "sha256": "065d98250ba80e272ef4b3d6363a5fb0bfe6b4aa2db32f1bcebf8f4f55ac0583"
+    },
+    "build/research/wrap-finite-v1/proof.cpp": {
+      "bytes": 6472,
+      "sha256": "d21a1112496c8d85f6fa4bf8f48d0430ebcb3333c9baf499344a0855bd5db093"
+    },
+    "build/research/wrap-finite-v1/run_proof.py": {
+      "bytes": 3154,
+      "sha256": "3f85211d9ac58532698eb8b782a3bbe4daada043e515b3413e2e5a6fe2f0be55"
+    },
+    "build/research/wrap-finite-v1/release-report.json": {
+      "bytes": 2653,
+      "sha256": "f50bc39b8dc139e065fb9dd81b360c91c3350d6f6bb5b9a2dd0c50f3970c24ca"
+    },
+    "build/research/wrap-finite-v1/ubsan-report.json": {
+      "bytes": 5270,
+      "sha256": "8ac1f96d954275698249083608e3ea99c72cb0bfe21def1c8498d412a7f07d10"
+    },
+    "build/research/wrap-finite-v1/run_graph.py": {
+      "bytes": 5728,
+      "sha256": "d0acfc34f8eeee16c2584ad648510a30d492ed90a8bd2002542bb46377ed37e4"
+    },
+    "build/research/wrap-finite-v1/graph-report.json": {
+      "bytes": 46538,
+      "sha256": "6927920a18809fe4392ad321754b9d356a76c0c03d37f346ba422198e09f6a00"
+    },
+    "build/research/wrap-finite-v1/lowering.cpp": {
+      "bytes": 286,
+      "sha256": "727d55b3e4f9a1c94eda9b0c6cb360ce1040a7ad912901d58a4aa60c852b79d7"
+    },
+    "build/research/wrap-finite-v1/audit_lowering.py": {
+      "bytes": 4260,
+      "sha256": "d7b7812d468738ea3471898f08460dece68ea4e8ae329dbc81727eee800a74a3"
+    },
+    "build/research/wrap-finite-v1/lowering-report.json": {
+      "bytes": 5267,
+      "sha256": "994c2700b60d6cf5fc8bf92998eea097b96486d87d7e49565631a3d0898337b7"
+    },
+    "module-sdk/wrapper/rnbo_s3_static.cpp": {
+      "bytes": 15243,
+      "sha256": "1178b37dcd255bedd50c3c01c55c77a590e07cee9d9ff4a2d6530c63ba7f99ed"
+    },
+    "module-sdk/dynamic/rnbo_s3_dynamic.cpp": {
+      "bytes": 17029,
+      "sha256": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/rnbo_source.h": {
+      "bytes": 21068,
+      "sha256": "b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/research/wrap-finite-v1/proof-release": {
+      "bytes": 34640,
+      "sha256": "a13bce40ebc88cccf3fe48ccbaf038c2ef7eb3ff88a80815a3569023c4a31ff4"
+    },
+    "build/research/wrap-finite-v1/release-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build/research/wrap-finite-v1/release-edges.log": {
+      "bytes": 5906,
+      "sha256": "806d3ad09dfa3129deda2ef6b2edee0976e4567123c9d23d9ec32af1f6619a2e"
+    },
+    "build/research/wrap-finite-v1/release-fmod-strata.log": {
+      "bytes": 171,
+      "sha256": "aa835c08dd4d0ae3c57c93dd5a0b5a2aa15a7d906eabc4ffd8b757a10e8c25fc"
+    },
+    "build/research/wrap-finite-v1/release-exhaustive-even24.log": {
+      "bytes": 175,
+      "sha256": "64bd88ac87b39faef8caa0fb604616d4229d4c4c9958b9f693f4dfeee52a6a5c"
+    },
+    "build/research/wrap-finite-v1/proof-ubsan": {
+      "bytes": 52392,
+      "sha256": "3af54e0d1e096cbfdefa916922b6d120c9c1fb1dde2819ad4b3cff8852f5e75e"
+    },
+    "build/research/wrap-finite-v1/ubsan-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build/research/wrap-finite-v1/ubsan-edges.log": {
+      "bytes": 5906,
+      "sha256": "806d3ad09dfa3129deda2ef6b2edee0976e4567123c9d23d9ec32af1f6619a2e"
+    },
+    "build/research/wrap-finite-v1/ubsan-fmod-strata.log": {
+      "bytes": 171,
+      "sha256": "4eb12a60853f89af287883d475c720231a98dc6250914fd2a802dccaf754ce99"
+    },
+    "build/research/wrap-finite-v1/ubsan-exhaustive-even24.log": {
+      "bytes": 175,
+      "sha256": "f139372b7dbe8908ed151790822713f4dbf1363db0d852848c98a650f75ae122"
+    },
+    "build/research/wrap-finite-v1/original32-4f800000-ubsan.log": {
+      "bytes": 310,
+      "sha256": "3d628f775324d7109cb57a710dd35faed2f2e3ca625247c301f54ddf6242eec9"
+    },
+    "build/research/wrap-finite-v1/original32-cf800000-ubsan.log": {
+      "bytes": 316,
+      "sha256": "6c1e20f5fa29e945c72244f49211153ae845841112df9610da3cdbfb57423b1d"
+    },
+    "build/research/wrap-finite-v1/original32-7f7fffff-ubsan.log": {
+      "bytes": 310,
+      "sha256": "f28c810e945246fb0ce89cb3027898aa40fbc36ec4e07af1997528e4ed1133cb"
+    },
+    "build/research/wrap-finite-v1/original32-ff7fffff-ubsan.log": {
+      "bytes": 311,
+      "sha256": "3e21652f4dd62cc97b9a0cdc4b0e684949bb53c0c38feca413b806a6708b14fa"
+    },
+    "build/research/wrap-finite-v1/original32-7f800000-ubsan.log": {
+      "bytes": 302,
+      "sha256": "e360a2d6b8f3b206ab701ee4833b7dd7fe02240cda7f9c58bf28ae1fcf29f2e5"
+    },
+    "build/research/wrap-finite-v1/original32-7fc12345-ubsan.log": {
+      "bytes": 302,
+      "sha256": "54c942e68ea185313991ba336bc0c14ea50d00221c9212284f3ef862c1f54353"
+    },
+    "build/research/wrap-finite-v1/original-native-4f800000.log": {
+      "bytes": 89,
+      "sha256": "7685a00269b33b6184f8cdd3ac0acb33bf0c868a2a7074881831ac9342761949"
+    },
+    "build/research/wrap-finite-v1/original-native-cf800000.log": {
+      "bytes": 89,
+      "sha256": "300ebbedc298ed16827c70ac633fb0c8c1398729874c21d806340a6236728bd7"
+    },
+    "build/research/wrap-finite-v1/lowering-O2.o": {
+      "bytes": 52208,
+      "sha256": "c2452c4ce5ec40cd9c9fc0665fd75b172987c5abf26d6aff998089f25c85d53d"
+    },
+    "build/research/wrap-finite-v1/lowering-O2.s": {
+      "bytes": 168510,
+      "sha256": "2bbcba2cee973a5f583b69fa11f6f6bd7e2d12873ad07872b9cdac38fde25958"
+    },
+    "build/research/wrap-finite-v1/lowering-O2-disassembly.txt": {
+      "bytes": 13538,
+      "sha256": "6aa3e8c524549b7a583c6402bbdeb712b48fb5f531a5abc99c115d0750dd6a47"
+    },
+    "build/research/wrap-finite-v1/lowering-O2-symbols.txt": {
+      "bytes": 251,
+      "sha256": "e61bcfec7debcdf7624d3d7b71259563f2822ad35631b3af38b365e8d0132c26"
+    },
+    "build/research/wrap-finite-v1/lowering-O3.o": {
+      "bytes": 52140,
+      "sha256": "1c6ad21619fe6ba9d8c345f17402644ce8a6fc390b18de4e2ade3ca64d6de018"
+    },
+    "build/research/wrap-finite-v1/lowering-O3.s": {
+      "bytes": 168392,
+      "sha256": "4ae35a10c8cbc78bab713b6229cb35afcba493599353c8ad197073947613cc7e"
+    },
+    "build/research/wrap-finite-v1/lowering-O3-disassembly.txt": {
+      "bytes": 13762,
+      "sha256": "029af7bd433b9c17f0086fd45107d682ee35b22e1e6c0affdaaafcf6e6e6187c"
+    },
+    "build/research/wrap-finite-v1/lowering-O3-symbols.txt": {
+      "bytes": 251,
+      "sha256": "bc9a448be12ee4edd823039a2cad70575c69825ebfbd0d80e0b736f5edc5d23d"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-ef_fmod.o": {
+      "bytes": 10168,
+      "sha256": "fc4693abd66da26d8de4dccc48ff50f6033c0004f66de432f41c2b2c0739606c"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-fmodl.o.disassembly.txt": {
+      "bytes": 671,
+      "sha256": "26d4bfbe10907a9b0f164b0be18bca6aff859fc9c7df7bf3ec0e83ee4286aa2d"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-w_fmod.o.disassembly.txt": {
+      "bytes": 2163,
+      "sha256": "40225fc99a466bea3a31bf9c2a41f8f663730ef97023bb7ddecadc4e029a275d"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-wf_fmod.o.disassembly.txt": {
+      "bytes": 1600,
+      "sha256": "81ef49cd59b06f929e933d2b4c9c6e07773a893409abf55a189eeba93bc08da3"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-w_fmod.o": {
+      "bytes": 5316,
+      "sha256": "27ef568071ccf6d08aa09c256f8f5cf92ae07b4db77992e2e999ed813e836c43"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-wf_fmod.o": {
+      "bytes": 5088,
+      "sha256": "7e92700f94ba1e05a44c1da117af37a0b60dccebef5436facab7765faf59846c"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-fmodl.o": {
+      "bytes": 4060,
+      "sha256": "16c599e1b1f2a7fd1cb62ab51a05683db2d9307ac47a3cb69d55c70e768c165a"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-e_fmod.o": {
+      "bytes": 13728,
+      "sha256": "b55109fd9e166c7c54b57d22c5ac179f8d799930d073d227d9713fba48d787e3"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-ef_fmod.o.disassembly.txt": {
+      "bytes": 6011,
+      "sha256": "022854035281e4a13c6cd11142c9cbab0ee1950cef873aa4796c24be6263cac1"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-e_fmod.o.disassembly.txt": {
+      "bytes": 11307,
+      "sha256": "4ac964faabb520a62003567bd068b95de4d7652b4585ef552c22cd3be0863c93"
+    },
+    "build/research/wrap-finite-v1/native/reference/host-build.json": {
+      "bytes": 10330,
+      "sha256": "76a00f2ade796bdad504b7431105fb6b709bd001795f80d8244bae343f6fadb8"
+    },
+    "build/research/wrap-finite-v1/native/reference/probe-build.json": {
+      "bytes": 1433,
+      "sha256": "944b3182e9af891e98d1cd54716579905c39715069c4bcd052acb9cd4eba9974"
+    },
+    "build/research/wrap-finite-v1/native/reference/wave2_probe": {
+      "bytes": 87384,
+      "sha256": "0f7519abc381beb5a047ab1300a52c1ac58d5d8ed4fe9de1720127ce90a91324"
+    },
+    "build/research/wrap-finite-v1/native/fmod24/host-build.json": {
+      "bytes": 10514,
+      "sha256": "c8b61d6179afb6d96b74bcde6b3be78f24e3610236c5ced4496f49e7bb5a37bb"
+    },
+    "build/research/wrap-finite-v1/native/fmod24/probe-build.json": {
+      "bytes": 1418,
+      "sha256": "a14e1e12e487b8fe30680e567d578ce38aca7a89f1c8098a389b7fbd8f165312"
+    },
+    "build/research/wrap-finite-v1/native/fmod24/wave2_probe": {
+      "bytes": 87384,
+      "sha256": "7ae5226875f942371c8ecb32e3379be0b728b843963a18f5f822be361214dcc3"
+    },
+    "build/research/wrap-finite-v1/native/even24/host-build.json": {
+      "bytes": 10514,
+      "sha256": "cb663ab32fae67961f689b82225025e28d0d04ce4ee4cf33d4f70a0b0a6e4ae3"
+    },
+    "build/research/wrap-finite-v1/native/even24/probe-build.json": {
+      "bytes": 1418,
+      "sha256": "55b8eeb42339212ca1623bd29bca55120ca359a8e1881cc5c98c51b3b50a1103"
+    },
+    "build/research/wrap-finite-v1/native/even24/wave2_probe": {
+      "bytes": 87384,
+      "sha256": "c51441c2445c14de9139a313eb7e4c7fd0c1cdc2bc29ab1d7bcf948e7e4359a4"
+    },
+    "build/research/wrap-finite-v1/original-grid.f32": {
+      "bytes": 1048576,
+      "sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d"
+    },
+    "build/research/wrap-finite-v1/large-finite-grid.f32": {
+      "bytes": 1048576,
+      "sha256": "b318362a2381c546fb700e0ee83a6579c14ff3ced951dd2054f0a838b021a43f"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fourth.wav": {
+      "bytes": 524332,
+      "sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-square.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/square.wav": {
+      "bytes": 524332,
+      "sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fourth.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-square.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/square.f32": {
+      "bytes": 1048576,
+      "sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fourth.wav": {
+      "bytes": 524332,
+      "sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-square.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778"
+    },
+    "build/research/wrap-finite-v1/renders/even24/square.wav": {
+      "bytes": 524332,
+      "sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fourth.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-square.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/even24/square.f32": {
+      "bytes": 1048576,
+      "sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fourth.wav": {
+      "bytes": 524332,
+      "sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778"
+    },
+    "build/research/wrap-finite-v1/renders/reference/square.wav": {
+      "bytes": 524332,
+      "sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+    },
+    "build/research/wrap-finite-v1/renders/reference/square.f32": {
+      "bytes": 1048576,
+      "sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+    },
+    "evidence/wave2-target-oracles.json": {
+      "bytes": 80991,
+      "sha256": "4942c083109f7cc14c8c9839c1da9f5d8d7fdcf94591ed373e7a5fa0eda55edf"
+    },
+    "build/research/wrap-admission-v1/native-direct-report.json": {
+      "bytes": 8981,
+      "sha256": "2c26a6ab74900a7388cef201dc2766d631b9b246d5abb125715c60af6b3f9b9f"
+    },
+    "build/research/wrap-admission-v1/native_direct.py": {
+      "bytes": 4356,
+      "sha256": "92d28f338ca0987968b060661f22b943a676db606091a03de8edfc2d295d3a52"
+    },
+    "build/research/wrap-admission-v1/native-direct-input.f32": {
+      "bytes": 1048576,
+      "sha256": "762c177ff22b01503fe78fd33382157f78f85368f4b7c286826fff36c6fc566a"
+    },
+    "build/research/wrap-admission-v1/native-direct-truth.f32": {
+      "bytes": 1048576,
+      "sha256": "a2b026362a9c69d98e1eb960ea71cf286c79c04a776d4a91734ed9324a5978bf"
+    },
+    "build/research/wrap-admission-v1/native-direct-output.f32": {
+      "bytes": 1048576,
+      "sha256": "a2b026362a9c69d98e1eb960ea71cf286c79c04a776d4a91734ed9324a5978bf"
+    },
+    "build/research/wrap-admission-v1/native-direct-output.wav": {
+      "bytes": 524332,
+      "sha256": "14ffbaa6182577683de0cc8f67d001c780732d9ed50552ae29da91560b534f97"
+    },
+    "build/research/wrap-admission-v1/native-direct/host-build.json": {
+      "bytes": 11135,
+      "sha256": "6d4eabe5cd7babe5a39146518d2bcc6f3fc6b90d6fe6069e742dfcaffdb455d2"
+    },
+    "host/compiler/bounded_filters.py": {
+      "bytes": 7792,
+      "sha256": "f254dc13a3d9da5280bfedd68427a381bf7a47eb6a81ee71b0155e0200bde299"
+    },
+    "host/compiler/compact_average.py": {
+      "bytes": 10601,
+      "sha256": "363476f0eff901efd86bc2d38f6bef273efa4499ac8ec05aee22398446d82f57"
+    },
+    "host/compiler/float32_audio.py": {
+      "bytes": 7422,
+      "sha256": "f968ac63014532e82e67bb880765e70c2fefe80ed24b3a54e8c0cf89c88211c3"
+    },
+    "host/compiler/float32_delays.py": {
+      "bytes": 4328,
+      "sha256": "8e3d8472355a03ec85956ae844ee36054902ac8e88ddd364b6c75d5b915d2f5d"
+    },
+    "host/compiler/hoist_cycles.py": {
+      "bytes": 10487,
+      "sha256": "163f0bd7de60ed846735eda4bea5dbdabe7c65249a33c1aa7f2b163257300392"
+    },
+    "host/compiler/int32_wrap.py": {
+      "bytes": 9008,
+      "sha256": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8"
+    },
+    "host/compiler/omit_mtof_table.py": {
+      "bytes": 9339,
+      "sha256": "5a58206370afa0baf43ae3ef46f60a3b56a3575f19376b6d18d4797562b068c6"
+    },
+    "host/compiler/pink_output.py": {
+      "bytes": 4151,
+      "sha256": "3fcb1e7b9215812d5705850d106ac8f21afe7ce97af0fdd13e85ba1a064c0ec4"
+    },
+    "CMakeLists.txt": {
+      "bytes": 4498,
+      "sha256": "d7798efbbe7188390a752c975e5dd909fa228e94e8d4e2cf9396eb882c0637e4"
+    },
+    "firmware/components/pcm_output/include/pcm_output.h": {
+      "bytes": 1084,
+      "sha256": "eb668435cfcf00deb9d949bc0b56798d1baa91b306272bb5edfc917868cb522d"
+    },
+    "firmware/components/pcm_output/pcm_output.c": {
+      "bytes": 2105,
+      "sha256": "e3660f3d2e44f4b00eafa2208de175bdec532ee8975b9210530181b53ff93afb"
+    },
+    "module-sdk/include/rnbo_s3_module.h": {
+      "bytes": 3759,
+      "sha256": "e70447b3b5337fa533434b1bf1ece4a1efbb8ff1342c0e466b55e70cbce50604"
+    },
+    "tests/native/render.cpp": {
+      "bytes": 6696,
+      "sha256": "a2aa5351f8137774075a0110e08f6830d58eab779e28c790798a3b2cbc1aee95"
+    },
+    "build/research/wrap-admission-v1/native-direct/rnbo_render": {
+      "bytes": 87064,
+      "sha256": "7d8516fe2e38274f1f79e29c5241241caaaf37e4b33369eb4504a57b7ea4cbdc"
+    },
+    "build/research/wrap-admission-v1/native-direct/wave2_probe": {
+      "bytes": 87192,
+      "sha256": "fc8680387a9d41bdd1af577d5d8d8d91c0cef7b22a5dc459909edb268c9552e1"
+    },
+    "build/research/wrap-admission-v1/native-direct/libpcm_output.a": {
+      "bytes": 2176,
+      "sha256": "e342ec6dfa61809d5af3028cb0b61632d66b3d67f358a352a1e57f55041af14c"
+    },
+    "build/research/wrap-admission-v1/native-direct/librnbo_static.a": {
+      "bytes": 56032,
+      "sha256": "8fe36cb2a6e6be574698bd742ee7638fcf6743fa151f7c2d6af3edc104860007"
+    },
+    "tests/fixtures/objects/wave2/probe.cpp": {
+      "bytes": 8169,
+      "sha256": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3"
+    },
+    "build/research/wrap-admission-v1/native-direct/compile_commands.json": {
+      "bytes": 6703,
+      "sha256": "b0d5026fd71632314619cf7a6b57062948bcb4a75a9aa00bbc9a05652b106b1a"
+    },
+    "build/research/wrap-admission-v1/native-direct/CMakeCache.txt": {
+      "bytes": 16561,
+      "sha256": "8ca0b95b8866ef9bae5ac300d4e1e025e9b2a236dce3714daebb760a9344f12f"
+    },
+    "build/research/wrap-admission-v1/native-direct/build.log": {
+      "bytes": 1509,
+      "sha256": "9f1610af378850751ad94daf3edcfd7390776ea1fdb8ff67bdd9029cf854ba77"
+    },
+    "build/research/wrap-admission-v1/unsafe-original-rejected.json": {
+      "bytes": 955,
+      "sha256": "0573deebc4fcce021c00ccc0d0643ff8a38e72751290f8d4d02a90949bb1f9b2"
+    },
+    "build/research/wrap-target-backend/report.json": {
+      "bytes": 4558,
+      "sha256": "a4f0f790277c8043b4002e34190f18f0e13c9c19676b9b8c91980920fa3ba96e"
+    },
+    "object-benchmark/main/benchmark.c": {
+      "bytes": 29399,
+      "sha256": "42f2598fc9c66cab228f0df82a73a50577d90209518642004f8da39390abb4c1"
+    },
+    "object-benchmark/main/stimulus.c": {
+      "bytes": 3065,
+      "sha256": "3d48a8f11877317e74c738f2f4048e938ec494e20b712b6f647bfa6bddb232b4"
+    },
+    "object-benchmark/main/stimulus.h": {
+      "bytes": 949,
+      "sha256": "40efdbdc23d5ad69b0f806ad5eae2e7d82f583c22b51a7b17e38a1ee2319f6bf"
+    },
+    "object-benchmark/main/wave2_oracle.c": {
+      "bytes": 6601,
+      "sha256": "04024e90b47674f5a6a3ad59a96d8278607f4d9a19fedaf5f302715842bb9217"
+    },
+    "object-benchmark/main/wave2_oracle.h": {
+      "bytes": 2275,
+      "sha256": "43f452d13ac383dee0a3186fd6a2aa878dfa701b35cdfa4e1ee8769a8f639d8b"
+    },
+    "tools/build_object_benchmark.py": {
+      "bytes": 36312,
+      "sha256": "54564aae0b3abe4dcec7b9c5c71b5b4bffe2f55e5bff73e6e4ea970318f48859"
+    },
+    "tools/test_build_object_benchmark.py": {
+      "bytes": 25746,
+      "sha256": "c890c87d482458833ff78f081c163c09b68054f048d20a28316f65c9c0ebcec0"
+    },
+    "tools/test_wave2_oracle.py": {
+      "bytes": 15856,
+      "sha256": "dc02d917be749d894291bb19ac2fe7a5d1f78b221f0de68e5b37d314aef36797"
+    },
+    "tools/test_object_stimulus.py": {
+      "bytes": 9537,
+      "sha256": "094f9239d3a675da0d6da09b3148c75e939662e102c6454c58a2d9bb93d561a1"
+    },
+    "tools/test_wrap_finite_oracle.py": {
+      "bytes": 12451,
+      "sha256": "a4a0f30a4d0f061274f965e15c6b1807b341ea589828e84726efbef73f3a180b"
+    },
+    "tests/fixtures/objects/wave2/wrap-finite-target.json": {
+      "bytes": 1674,
+      "sha256": "22ad4dec181b303df3dd6a0ef6b019f103fbc8a0c03b3e9b710c00b2f27bdaa9"
+    },
+    "build/research/wrap-target-backend/wrap-tests.log": {
+      "bytes": 104,
+      "sha256": "202315fa13d8a4d158564c1114bf2c4db349ec828c91ca5242c9bdb91d07bd30"
+    },
+    "build/research/wrap-target-backend/config-tests.log": {
+      "bytes": 148,
+      "sha256": "36bacbaff93be8f13a832e86df0c82710c06f8d0668414e3adf6e6436a8a6583"
+    },
+    "build/research/wrap-target-backend/wave2-tests.log": {
+      "bytes": 106,
+      "sha256": "5ff6ad08b4d32dc1da90ec466d49e89de31bec30ecf00309d566f2da2095996e"
+    },
+    "build/research/wrap-target-backend/stimulus-tests.log": {
+      "bytes": 107,
+      "sha256": "93eb9f824ab8f859d21dd8f7a89621be32ed9f55be84884d0704e9fe3c11bef7"
+    },
+    "build/audit/wrap-collector-freeze-v1/report.json": {
+      "bytes": 1155,
+      "sha256": "7a018db0db1263bebd3a459198468b5b65891a8bb64cf3e808ae173bb72e3823"
+    },
+    "host/compiler/collect_object_benchmarks.py": {
+      "bytes": 48070,
+      "sha256": "f5ad3e5c0abccfd4b5b37766b6afdd93aad33a9361c1a95858770924146abae1"
+    },
+    "host/compiler/test_collect_object_benchmarks.py": {
+      "bytes": 52316,
+      "sha256": "f7aacc646a86b6ab688f558822f33ce4555d8bd7d27151af6a96c42c76838213"
+    },
+    "build/audit/wrap-collector-freeze-v1/collector-tests-final.log": {
+      "bytes": 174,
+      "sha256": "7f6b165b420fc3c0b3f1c86aaf290cca722be38405c5091b0a8306928f037d82"
+    },
+    "build/audit/wrap-collector-c-crosscheck-p_vhaule/report.json": {
+      "bytes": 3569,
+      "sha256": "fa669448165fdf1238e548a53ef967dd2e176d9fa654ce48dc0382bc684aefa1"
+    },
+    "build/research/wrap-admission-v1/validation-logs/compiler.log": {
+      "bytes": 34009,
+      "sha256": "dbed17262c06f6004588ac32f8a139bae9eca9d91c1788842810a30af0318c0b"
+    },
+    "build/research/wrap-admission-v1/validation-logs/tools.log": {
+      "bytes": 12353,
+      "sha256": "bcfcda8dcb1c56f11cf1574928162d16c9ce1a8dfe2725fe4a6a3e4c540cdb17"
+    },
+    "build/object-optimisation/hardware-wrap-bounded-v1/collected.json": {
+      "bytes": 18324,
+      "sha256": "92874f608d85ce15c241460039bfbc7df43acd8431b00f71504eacba6f76aa07"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build-report.json": {
+      "bytes": 97166,
+      "sha256": "a65a2b45c08adc930b36f90f83dcaa1468cc2d22e1e5e7c5655dd4975c850b7f"
+    },
+    "tools/build_rnbo_loader_test.py": {
+      "bytes": 11994,
+      "sha256": "ec52acbddd14b6cfed6115a2f310fa42ba50ec2597d1415d1e684d89ac3c2852"
+    },
+    "tools/build_loader_spike.py": {
+      "bytes": 10062,
+      "sha256": "4651e07a6d8ed93471bb2e6326702d75e083ce9bc04d327aa1695e372c499a15"
+    },
+    "loader-spike/dependencies.json": {
+      "bytes": 13632,
+      "sha256": "4ee1562c3172768a71eba14046398ec61c64e28d74289c91a2d8ea556ce9e98b"
+    },
+    "host/compiler/inspect_module.py": {
+      "bytes": 14553,
+      "sha256": "1eecc31d6b3ef0f0faee15317d3d9c3486582d8f45c25331fe7cbd1283b828a8"
+    },
+    "object-benchmark/CMakeLists.txt": {
+      "bytes": 616,
+      "sha256": "6dc6ea01359a539ecf28dac51c9315524c55e14f3448610d62775b5ee0d4b88f"
+    },
+    "object-benchmark/README.md": {
+      "bytes": 8394,
+      "sha256": "94acbb88540b7b938ac308248edc72d5525878a926141a738123ab389faa2156"
+    },
+    "object-benchmark/main/CMakeLists.txt": {
+      "bytes": 930,
+      "sha256": "f8fdcc7ed76c9555f443a54bca25ae10cc6693a6374ef38b01db3aa321975d30"
+    },
+    "object-benchmark/main/allocation_probe.c": {
+      "bytes": 1219,
+      "sha256": "bba318d215a737617295d248e66d3c5c3c2f05b05111a5d0618241a5b95d42ac"
+    },
+    "object-benchmark/main/allocation_probe.h": {
+      "bytes": 220,
+      "sha256": "cecfb85cde7f2b6c4d5ebdf916332a50c8f966053d3768194f36b8bbf7366f59"
+    },
+    "object-benchmark/main/average_oracle.c": {
+      "bytes": 1192,
+      "sha256": "2df0d20763f99f4d4a70aca7392fa9b3530f7476db88e10bc05c0a53ad1ef58a"
+    },
+    "object-benchmark/main/average_oracle.h": {
+      "bytes": 547,
+      "sha256": "c2237267cc0e03899575a37982e16cc0321d123d1fe4e148e8ab9cd2a8bafdab"
+    },
+    "object-benchmark/main/bench_check.h": {
+      "bytes": 289,
+      "sha256": "f7fd0154159e293837b18a631783d0e2a93ed64d2c0779a309cf22b57ff514bc"
+    },
+    "object-benchmark/main/mapped_range.h": {
+      "bytes": 460,
+      "sha256": "7ae99af3b7de7a4e7910c0a06ced5099d820a9fddc5c46404b8f26d380cad64f"
+    },
+    "object-benchmark/main/module_host.c": {
+      "bytes": 7825,
+      "sha256": "588554dafddd07ee36bab1f02a24586da30eff7b2e168dbb8d9169d517b585f4"
+    },
+    "object-benchmark/main/module_host.h": {
+      "bytes": 729,
+      "sha256": "be8bd2a94dc3962a4fb72112c6f24a65263c065c89e85f0100a521938658c16e"
+    },
+    "object-benchmark/partitions-amoled.csv": {
+      "bytes": 176,
+      "sha256": "bab235d2ced37d4aaf671badaf4c78518719de25eeb60bbfead09242ba4ae147"
+    },
+    "object-benchmark/partitions-xiao.csv": {
+      "bytes": 176,
+      "sha256": "516cd514d279411eb4347aeef7fccaaa08ce6d4d841f646628a4c380bf8ca1f0"
+    },
+    "object-benchmark/sdkconfig.amoled.defaults": {
+      "bytes": 97,
+      "sha256": "305aa5965eaedcae61a506f85d1ed70ef874154f6f010c21abdc78295c011e70"
+    },
+    "object-benchmark/sdkconfig.defaults": {
+      "bytes": 801,
+      "sha256": "2cdf62c62033a782c5a8d3da4ff0978f45b52d2775e36bc7d5afde866a0b70eb"
+    },
+    "object-benchmark/sdkconfig.xiao.defaults": {
+      "bytes": 94,
+      "sha256": "d9d48346d9ad07dde52b1d9257c0a37f49d3cac7dfdd9f079041d2cd0050c28c"
+    },
+    "module-sdk/cmake/dynamic/CMakeLists.txt": {
+      "bytes": 1535,
+      "sha256": "05594b22ceb0e0ed2e7b8f80ff4be881163cf838c2fa220ce252945e3a2d9fe7"
+    },
+    "module-sdk/cmake/dynamic/main/CMakeLists.txt": {
+      "bytes": 1104,
+      "sha256": "99c3b0316c1ccffb89bf957065cea1fd55cbd49b9b50572355bb59b57eaecd79"
+    },
+    "module-sdk/cmake/dynamic/sdkconfig.defaults": {
+      "bytes": 116,
+      "sha256": "6183137b61986eb89be01ebbd42da1e9565c59ae5d34ec0993036daea684d199"
+    },
+    "module-sdk/dynamic/README.md": {
+      "bytes": 3781,
+      "sha256": "229880bb4acfaab9f5b505e933d5012a83b100a0369bf243c77dde79a53fb487"
+    },
+    "module-sdk/dynamic/arena.cpp": {
+      "bytes": 4916,
+      "sha256": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3"
+    },
+    "module-sdk/dynamic/arena.hpp": {
+      "bytes": 770,
+      "sha256": "d5cefdf593c534ead4f910231a5f57c2bd5b180938eb59e6877fb63d8f80dbe2"
+    },
+    "module-sdk/dynamic/lifecycle.cpp": {
+      "bytes": 1507,
+      "sha256": "3fabb00f4caf698c11b503de11f889623d30e32da2b633c37b6991b7eaa39911"
+    },
+    "module-sdk/dynamic/lifecycle.hpp": {
+      "bytes": 223,
+      "sha256": "72e2552ff411e833d52997cae3f71be14b2af67e05db61447fa0d1659b77d062"
+    },
+    "module-sdk/dynamic/support.cpp": {
+      "bytes": 2785,
+      "sha256": "f937333a547e6a19504a5e6b70c90c4fa6de683f08d19877cdcec4479160bb6b"
+    },
+    "module-sdk/include/rnbo_s3_dynamic.h": {
+      "bytes": 3552,
+      "sha256": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/rnbo_object_benchmark.elf": {
+      "bytes": 4391560,
+      "sha256": "6269939c5f9c61074e806094080d919af8cc1e5776961b11bbcbc9d4dcfead79"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/rnbo_object_benchmark.bin": {
+      "bytes": 343280,
+      "sha256": "de75e31429885c32f2af6f377643311797b16ec0b76d14d08c3043954c842294"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/sdkconfig": {
+      "bytes": 54420,
+      "sha256": "0781857822acb993658db83aa6e4fd8a9ec6a2917f4b87992a5159726bb7a62e"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/compile_commands.json": {
+      "bytes": 3405479,
+      "sha256": "8b5b31272165c7f0169a4793f628b49bda3f897b70f9dcc8e1ac4452c510d61e"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/fixture-config/bench_config.h": {
+      "bytes": 2776,
+      "sha256": "ea706d2246b3c140cfa7e1aecf709f5006c9d43b06803e271b8e3de84868f105"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-finite-wrap-bounded-v1/build.log": {
+      "bytes": 92009,
+      "sha256": "fcdb332f9e3f67bb3b54eb69428e126df2751d8adf21115d7ab0c8edcfec4722"
+    },
+    "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json": {
+      "bytes": 1352,
+      "sha256": "dcb7249778cc3e7f7c046b00133ca440e9049af541e0debf514014f59f9b2555"
+    },
+    "build/object-optimisation/wrap-target-v1/fixtures/nonlinear-domains.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/build-report.json": {
+      "bytes": 28513,
+      "sha256": "7f874a349a75357a261798d0f3474e67c5628ec16706757640b752ad652c65ab"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/rnbo_s3_dynamic.app.elf": {
+      "bytes": 40048,
+      "sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/description.json": {
+      "bytes": 2839,
+      "sha256": "20f3ba4d3a8e8a19967fa566c59a04021d35f2bdeb49fa5095b70bed6fa24cec"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/generator.json": {
+      "bytes": 980,
+      "sha256": "cfdcfaa04983904bbf74b46622ac086bac86a53ea2847cc3497283bd1228d26d"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/patch_config.h": {
+      "bytes": 237,
+      "sha256": "a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/source.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/manifest.json": {
+      "bytes": 1060,
+      "sha256": "8b464dc31e57320cf0c980966898b4312e36c4ae06425deceae5bc857de0107f"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/provenance.json": {
+      "bytes": 12622,
+      "sha256": "e09fedee253429af2f0b8387899f0cbad75114cdce5f36d563b6ed561908da11"
+    },
+    "build/object-optimisation/wave2-target-v1/modules/nonlinear-domains/compile_commands.json": {
+      "bytes": 2505814,
+      "sha256": "4548f37819c75577b114313b43e557c9083ad2c6f65d742f0abf9125f3c85266"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json": {
+      "bytes": 31858,
+      "sha256": "04293fc32becd9465c2a681e7799fd6fecba4f29a297d907eacc5acd4d666c23"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf": {
+      "bytes": 40168,
+      "sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/compile_commands.json": {
+      "bytes": 2519890,
+      "sha256": "36c95cef1a7446e7dfd92c6ee7c395f22f1f032b4193ccb48a0e8c8f63734e2e"
+    },
+    "build/object-optimisation/hardware-wrap-bounded-v1/hardware-test.json": {
+      "bytes": 4954,
+      "sha256": "52cb8aa4d9a19b274755bd3df1f074dd018756f040721319b96c406a887c80e5"
+    },
+    "build/object-optimisation/hardware-wrap-bounded-v1/test-serial.log": {
+      "bytes": 8060,
+      "sha256": "e585072856d6830413349ed94bbd9de4d6c8b8222797d0f4d3b54415e3d6e3e8"
+    },
+    "build/object-optimisation/hardware-wrap-bounded-v1/before.json": {
+      "bytes": 2704,
+      "sha256": "c66111520a2100dc8ebdd077a8c3414d9fd08784510b3befc9383354d3b464cd"
+    },
+    "build/object-optimisation/hardware-wrap-bounded-v1/flash-test.log": {
+      "bytes": 980,
+      "sha256": "1553d99f58a520132a44724aaf37ed639d7560bcb1f4a8b688099d0f559f2a9a"
+    },
+    "build/object-optimisation/hardware-wrap-bounded-v1/restore-instrument.log": {
+      "bytes": 1427,
+      "sha256": "fbff93166a98a34ec58a8c41fe2eaddfef7da612cb612c1c7596916b39bda64c"
+    },
+    "tools/run_hardware_test.py": {
+      "bytes": 17451,
+      "sha256": "c6bd510f633615a23923ad3e13449ebbe873b8fe82521b7f8399649455bb700b"
+    },
+    "build/object-optimisation/hardware-wrap-direct-v1/collected.json": {
+      "bytes": 27204,
+      "sha256": "e36cbb08982cf907eedea79dfd6a91b4e0f9c9250db1c798492cad7531fdc304"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json": {
+      "bytes": 102476,
+      "sha256": "7ecc186d01e7665d24667bea0059a02e33cd2158ce31c65fb3ee8d2d56598cff"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/rnbo_object_benchmark.elf": {
+      "bytes": 4378004,
+      "sha256": "1c2c13c561c8fd55ad368b0f264e9c7cb70916aadf4c57f7160a945f7c4b6b6c"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/rnbo_object_benchmark.bin": {
+      "bytes": 327264,
+      "sha256": "5b3b746b383360dd7f77426d866894f0f20cd1ec3779b6e99334c44f30d65486"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/sdkconfig": {
+      "bytes": 54420,
+      "sha256": "0781857822acb993658db83aa6e4fd8a9ec6a2917f4b87992a5159726bb7a62e"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/compile_commands.json": {
+      "bytes": 3405479,
+      "sha256": "8a3d45398bbe8791fc72c6c04d6811af3c0c51d97506268a587a6562ca13e88f"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/fixture-config/bench_config.h": {
+      "bytes": 2834,
+      "sha256": "84b9763ca8d06b27548d170f7a187a7074e74df2e5b37952f5eee0c6b10479b1"
+    },
+    "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build.log": {
+      "bytes": 92020,
+      "sha256": "51dee0f5d3ac0535d8cf71e07cb5078fd63f8dd5001e4cadc4d1970b91b56067"
+    },
+    "tests/fixtures/objects/wave2/wrap-finite-stereo.rnbopat": {
+      "bytes": 2633,
+      "sha256": "d42b66e894b6368856e3c3ef42cf402defc4103da300b2aa8bab559120393980"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/build-report.json": {
+      "bytes": 32283,
+      "sha256": "59e03e06d6f1cdadacbabe70e5b4d94519a5421ab339e555b2695f50ad793207"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/rnbo_s3_dynamic.app.elf": {
+      "bytes": 32980,
+      "sha256": "bcec8e8660651c1ee0e783beaf59f8a17504e3b98dbda6801132353837f073e2"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-corrected/compile_commands.json": {
+      "bytes": 2521454,
+      "sha256": "abb9b627089076a86e183268553703de2f74b4dd030e8e56491ae916998dd9c7"
+    },
+    "build/object-optimisation/hardware-wrap-direct-v1/hardware-test.json": {
+      "bytes": 4959,
+      "sha256": "33058b994504a4e0b88610f37bb49c39ffd24f7c8594d459e767e0b5abbfaa47"
+    },
+    "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log": {
+      "bytes": 10978,
+      "sha256": "98e483388937ddd4deb064669547933e69fd9372234ccd14325d67227c8318a6"
+    },
+    "build/object-optimisation/hardware-wrap-direct-v1/before.json": {
+      "bytes": 2695,
+      "sha256": "f08242c7b0f741fd2d47cee5041611380d0fabb33f6d8f17267f92f4bad8629e"
+    },
+    "build/object-optimisation/hardware-wrap-direct-v1/flash-test.log": {
+      "bytes": 980,
+      "sha256": "68f692aba684dd6762ee2771c982e7abca01edac913a49ac87ebb68604ad1b03"
+    },
+    "build/object-optimisation/hardware-wrap-direct-v1/restore-instrument.log": {
+      "bytes": 1427,
+      "sha256": "f7b5f5d17b4cccd0c14ea8fee5af48a794ae9e8aeb8778b7d48152a2e08661c6"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-strict/build-report.json": {
+      "bytes": 28734,
+      "sha256": "9b41f1ed861def4ac09a58af255f1d6e77e960a875d3af94fbdd2d389e192bf1"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-strict/rnbo_s3_dynamic.app.elf": {
+      "bytes": 32680,
+      "sha256": "3c7fd8694d93525f355eaacc063e579b0cebf6789e2efe24359b04f9730f3d1f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/description.json": {
+      "bytes": 1932,
+      "sha256": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/generator.json": {
+      "bytes": 980,
+      "sha256": "c29c53396a2876c8773b86ceccf4ee2d1e90eef5c9cff9029cb6a498cf40b509"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/patch_config.h": {
+      "bytes": 237,
+      "sha256": "a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/rnbo_source.h": {
+      "bytes": 18279,
+      "sha256": "1c00c62a40e1c950b66f3b1c887533feb1ce7525dc384a5eb2bee87ef006a4da"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/source.rnbopat": {
+      "bytes": 2633,
+      "sha256": "d42b66e894b6368856e3c3ef42cf402defc4103da300b2aa8bab559120393980"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/manifest.json": {
+      "bytes": 1060,
+      "sha256": "1fbbb674d1f90495f167e86a7659e0ce003e7ed902abfcbdea179f34bc9fa92c"
+    },
+    "build/object-optimisation/wrap-target-v1/prepared/wrap-finite-stereo-strict/provenance.json": {
+      "bytes": 12622,
+      "sha256": "905efe2bb35ae32c4e2d6734c2d6d0037c4b303a4f4d07915477c654a8bf3ff4"
+    },
+    "build/object-optimisation/wrap-target-v1/modules/wrap-finite-stereo-strict/compile_commands.json": {
+      "bytes": 2516762,
+      "sha256": "4f7f03a37d1724b93f85fe8de21f71f468d4033e4e4ae0b237ded155f6cb06a2"
+    },
+    "docs/wrap-finite-target.md": {
+      "bytes": 4201,
+      "sha256": "dc02e91ca5e344b2524a08271603cbb5367db792d75c93c022d8fbed96fc22cb"
+    }
+  }
+}

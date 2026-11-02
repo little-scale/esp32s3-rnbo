@@ -159,6 +159,48 @@ class ConfigurationTests(unittest.TestCase):
             else:
                 for module in self.modules.values():module['report']['prepared_export']['manifest'][field]='0'*64
             with self.assertRaises(ExportError):self.generate()
+    def wrap_finite(self):
+        from build_object_benchmark import _WRAP_IDENTITY,_WRAP_CONTRACT
+        root=Path(__file__).resolve().parents[1]/'tests/fixtures/objects/wave2'
+        fixture=copy.deepcopy(json.loads((root/'wrap-finite-target.json').read_text())['fixtures'][0])
+        self.catalog['fixtures']=[fixture];self.args.fixture_id=fixture['id'];self.args.arena_bytes=4096
+        shutil.copyfile(root/fixture['patch'],self.directory/fixture['patch'])
+        (self.directory/'description.json').write_text(json.dumps({'parameters':[]}))
+        for module in self.modules.values():
+            module['artifact_sha256']='a'*64
+            exported=module['report']['prepared_export'];m=exported['manifest']
+            m.update(role='fx',audio_inputs=2,parameter_count=0,editable_source_sha256=_WRAP_IDENTITY['patch'],
+                parameter_schema_sha256=_WRAP_IDENTITY['schema'],correct_finite_wrap=True,finite_wrap_contract=copy.deepcopy(_WRAP_CONTRACT))
+            exported['provenance']={'raw_files_sha256':{'rnbo_source.h':_WRAP_IDENTITY['raw_source']}}
+            module['report']['prepared_snapshot']={'prepared_files_sha256':{'rnbo_source.h':_WRAP_IDENTITY['corrected_source'],'private_finite_wrap.h':_WRAP_IDENTITY['helper']}}
+        return fixture
+    def test_wrap_exact_same_corrected_image_contract(self):
+        self.wrap_finite();header,policy=self.generate()
+        self.assertEqual([s['kind'] for s in policy['stimuli']],[7,8,9,10])
+        self.assertTrue(all(v=={'kind':'wrap-finite-v1','maximum_absolute_error':0,'model':'exact-binary32-modulo2',
+            'rounding':'exact-binary32','gate':'raw-binary32-equality','bit_exact':True} for v in policy['verifications']))
+        self.assertEqual(policy['parameter_schema'],[]);self.assertIn('{4u,0,0,',header)
+        self.assertEqual(policy['events'],[])
+    def test_wrap_rejects_original_and_different_image_before_unsafe_build(self):
+        self.wrap_finite();self.modules['strict']['report']['prepared_export']['manifest']['correct_finite_wrap']=False
+        with self.assertRaisesRegex(ExportError,'corrected module'):self.generate()
+        self.wrap_finite();self.modules['optimized']['artifact_sha256']='b'*64
+        with self.assertRaisesRegex(ExportError,'same corrected module'):self.generate()
+    def test_wrap_source_helper_contract_and_guard_count_fail_closed(self):
+        for change in ('source','helper','raw','contract'):
+            self.wrap_finite();module=self.modules['optimized']
+            if change=='contract':module['report']['prepared_export']['manifest']['finite_wrap_contract']['guard_count']=1
+            elif change=='raw':module['report']['prepared_export']['provenance']['raw_files_sha256']['rnbo_source.h']='0'*64
+            else:module['report']['prepared_snapshot']['prepared_files_sha256']['rnbo_source.h' if change=='source' else 'private_finite_wrap.h']='0'*64
+            with self.subTest(change=change),self.assertRaises(ExportError):self.generate()
+    def test_wrap_cases_stimulus_events_and_tolerances_cannot_change(self):
+        changes=[lambda f:f['cases'].reverse(),lambda f:f['cases'][0]['events'].append({'block':1,'id':'x','value':0}),
+            lambda f:f['cases'][0].update(stimulus={'kind':'mixed-tone-v1'}),
+            lambda f:f['verification'].update(bit_exact=False),lambda f:f['comparison_tolerance'].update(maximum_absolute_error=1e-8),
+            lambda f:f.update(warmup_blocks=0)]
+        for change in changes:
+            f=self.wrap_finite();change(f)
+            with self.subTest(change=change),self.assertRaises(ExportError):self.generate()
     def test_wave2_models_reject_unknown_cases_events_and_coefficients(self):
         mutations=[lambda f:f['cases'].pop(),
                    lambda f:f['cases'].reverse(),

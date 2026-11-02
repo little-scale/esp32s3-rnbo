@@ -34,6 +34,16 @@ _WAVE2_IDENTITIES = {
         "schema": "754c55e5f56bd5c2731847a19ed276e1ad4045849e3bcc2909acd4ec76b73ef1",
         "raw_source": "b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b"}}
 _BIQUAD_DEFAULTS = {"a0":.5,"a1":.25,"a2":.125,"b1":-.4,"b2":.2}
+_WRAP_CASES = [('boundaries','wrap-finite-boundaries-v1'),('safe-strata','wrap-finite-safe-v1'),
+               ('finite-strata','wrap-finite-strata-v1'),('zero-endpoints','wrap-finite-zero-endpoints-v1')]
+_WRAP_IDENTITY = {
+    'patch':'d42b66e894b6368856e3c3ef42cf402defc4103da300b2aa8bab559120393980',
+    'schema':'37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570',
+    'raw_source':'1c00c62a40e1c950b66f3b1c887533feb1ce7525dc384a5eb2bee87ef006a4da',
+    'corrected_source':'50e01c6d9b2a854ff872b6ccbaf1c9e5077975ae36cc959d0bd1d20c69516110',
+    'helper':'5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd'}
+_WRAP_CONTRACT = {'context':'wrap-finite-stereo','input':'finite binary32 audio samples','range':[-1,1],
+                  'upper_endpoint_exclusive':True,'nonfinite':'upstream route unchanged and unqualified','guard_count':2}
 
 
 def require(condition, message):
@@ -77,7 +87,8 @@ def stimulus_contract(fixture, case):
         return None
     base=fixture.get("stimulus");override=case.get("stimulus",{})
     require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
-    wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6}
+    wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6,
+           **{name:7+i for i,(_,name) in enumerate(_WRAP_CASES)}}
     if base.get("kind") in wave2:
         require(set(base)=={"kind"} and set(override)<={"kind"},"Unknown wave2 stimulus settings")
         settings=base|override;require(settings.get("kind") in wave2,"Unknown wave2 stimulus kind")
@@ -141,12 +152,29 @@ def wave2_verification(fixture,case,by_id,warmup,blocks):
     return result
 
 
+def wrap_finite_verification(fixture,case,by_id,warmup,blocks):
+    require(fixture.get('id')=='wrap-finite-stereo' and fixture.get('family')=='wrap' and fixture.get('role')=='fx',"Unsupported raw wrap fixture")
+    require(warmup==4 and blocks==512 and fixture.get('seed')==305419896,"Raw wrap requires reviewed rate/block/initial state")
+    declaration=fixture['verification']
+    require(declaration=={'kind':'wrap-finite-v1','maximum_absolute_error':0,'bit_exact':True} and
+            declaration.get('bit_exact') is True and finite(declaration['maximum_absolute_error'])==0,"Unsupported raw wrap verification")
+    require(fixture.get('semantic')=={'kind':'wrap-finite','range':[-1,1],'upper_exclusive':True,'maximum_absolute_error':0,'bit_exact':True},"Raw wrap semantic declaration differs")
+    require(not by_id and fixture.get('stimulus')=={'kind':_WRAP_CASES[0][1]},"Raw wrap schema/base stimulus differs")
+    expected=dict(_WRAP_CASES)
+    require(set(case)=={'id','parameters','events','stimulus'} and case.get('id') in expected and
+            case['parameters']=={} and case['events']==[] and case['stimulus']=={'kind':expected[case['id']]},"Unreviewed raw wrap case/stimulus")
+    return {'kind':'wrap-finite-v1','maximum_absolute_error':0,'model':'exact-binary32-modulo2',
+            'rounding':'exact-binary32','gate':'raw-binary32-equality','bit_exact':True}
+
+
 def verification_contract(fixture,case,by_id,warmup,blocks=512):
     declaration=fixture.get("verification")
-    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1")
+    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1",*(name for _,name in _WRAP_CASES))
     if declaration is None:
         require(not new_input,"Wave2 stimulus requires an explicit verification contract")
         return None
+    if isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1':
+        return wrap_finite_verification(fixture,case,by_id,warmup,blocks)
     if isinstance(declaration,dict) and declaration.get('kind') in _WAVE2_IDENTITIES:
         return wave2_verification(fixture,case,by_id,warmup,blocks)
     require(fixture["role"]=="fx" and fixture.get("family")=="average" and isinstance(declaration,dict),"Unsupported verification fixture")
@@ -212,6 +240,18 @@ def configuration(args, modules):
     cases = fixture["cases"]
     require(isinstance(cases,list) and 1<=len(cases)<=16, "Expected 1..16 cases")
     declaration=fixture.get('verification',{})
+    raw_wrap=isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1'
+    if raw_wrap:
+        require([case.get('id') for case in cases]==[name for name,_ in _WRAP_CASES],"Raw wrap requires all four reviewed cases in order")
+        require(modules['strict']['artifact_sha256']==modules['optimized']['artifact_sha256'],"Raw wrap unsafe inputs require same corrected module control")
+        for module in modules.values():
+            exported=module['report']['prepared_export'];identity=exported['manifest']
+            require(identity['numerical_profile']=='float32-strict' and identity.get('correct_finite_wrap') is True and
+                    identity.get('finite_wrap_contract')==_WRAP_CONTRACT and identity['parameter_count']==0,"Raw wrap corrected module contract differs")
+            require(identity['editable_source_sha256']==_WRAP_IDENTITY['patch'] and identity['parameter_schema_sha256']==_WRAP_IDENTITY['schema'],"Raw wrap patch/schema differs")
+            require(exported.get('provenance',{}).get('raw_files_sha256',{}).get('rnbo_source.h')==_WRAP_IDENTITY['raw_source'],"Raw wrap source differs")
+            hashes=module['report'].get('prepared_snapshot',{}).get('prepared_files_sha256',{})
+            require(hashes.get('rnbo_source.h')==_WRAP_IDENTITY['corrected_source'] and hashes.get('private_finite_wrap.h')==_WRAP_IDENTITY['helper'],"Raw wrap corrected source/helper differs")
     reviewed=_WAVE2_IDENTITIES.get(declaration.get('kind')) if isinstance(declaration,dict) else None
     if reviewed:
         expected_cases=['default','identity','slow-pole'] if declaration['kind']=='biquad-response-v1' else ['square','fractional','fourth']
@@ -249,6 +289,7 @@ def configuration(args, modules):
     require(maximum>=0 and relative>=0,"Negative comparison tolerance")
     pcm=integer(tolerance["maximum_pcm_lsb_error"],0,65535,"PCM tolerance")
     if reviewed:require(maximum<=2e-6 and pcm<=1 and relative<=1e-4,"Reviewed wave2 pair limits cannot be widened")
+    if raw_wrap:require(maximum==pcm==relative==0,"Raw wrap control requires exact pair tolerances")
     oracle_bytes=blocks*256*2*4 if any(verifications) else 0
     buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
     loaded=sum(m["inspection"]["loaded_bytes_upper_bound"] for m in modules.values())
@@ -289,7 +330,7 @@ def configuration(args, modules):
         else:
             coefficients=verification.get('coefficients',dict.fromkeys(('a0','a1','a2','b1','b2'),0))
             fields=','.join(float(coefficients[k]).hex() for k in ('a0','a1','a2','b1','b2'))
-            lines.append('{%su,0,0,%s,{%s},%s},'%(2 if verification['kind']=='biquad-response-v1' else 3,
+            lines.append('{%su,0,0,%s,{%s},%s},'%({'biquad-response-v1':2,'nonlinear-chain-v1':3,'wrap-finite-v1':4}[verification['kind']],
                          float(verification['maximum_absolute_error']).hex(),fields,float(verification.get('exponent',0)).hex()))
     lines += ["};", ""]
     return "\n".join(lines), {"catalog_path":str(args.catalog),"catalog_sha256":hashlib.sha256(data).hexdigest(),

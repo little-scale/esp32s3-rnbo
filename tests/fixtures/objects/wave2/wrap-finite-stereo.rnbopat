@@ -1,0 +1,148 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      700,
+      400
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "in-left",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "in-left",
+          "patching_rect": [
+            30,
+            30,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-right",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "in-right",
+          "patching_rect": [
+            330,
+            30,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "wrap-left",
+          "maxclass": "newobj",
+          "text": "wrap~ -1 1",
+          "rnbo_uniqueid": "wrap-left",
+          "patching_rect": [
+            30,
+            120,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "wrap-right",
+          "maxclass": "newobj",
+          "text": "wrap~ -1 1",
+          "rnbo_uniqueid": "wrap-right",
+          "patching_rect": [
+            330,
+            120,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            30,
+            210,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            330,
+            210,
+            230,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "in-left",
+            0
+          ],
+          "destination": [
+            "wrap-left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "wrap-left",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "in-right",
+            0
+          ],
+          "destination": [
+            "wrap-right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "wrap-right",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

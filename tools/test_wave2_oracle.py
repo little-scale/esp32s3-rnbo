@@ -194,6 +194,7 @@ static float planar[4][256],*outputs[2]={planar[0],planar[1]},*inputs[2]={planar
 static struct { unsigned kind; } verification={OBJECT_WAVE2_BIQUAD},*active_verification=&verification;
 static object_stimulus stimulus,*active_stimulus=&stimulus;
 static uint64_t dc_sample_checks,semantic_sample_checks,pilot_sample_checks;
+static uint64_t oracle_bit_sample_checks,oracle_bit_differences;
 static int64_t benchmark_started;
 static double dc_expected=-.125;
 static int64_t esp_timer_get_time(void){return 1;}

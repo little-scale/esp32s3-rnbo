@@ -1,5 +1,11 @@
 # RNBO object optimisation matrix
 
+The optional [finite Float32 wrap correction](wrap-finite-target.md) is now
+qualified in two reviewed FX contexts. Direct target outputs match the exact
+modulo oracle, including signed zero and large finite values. The bounded
+whole-chain comparison observes 0.276% extra CPU with unchanged context/arena
+costs; this is a correctness repair, with no speed gain claimed.
+
 The [independent biquad/nonlinear target models](object-oracles.md) now qualify
 the original six bounded cases on the board. Their identical-artifact controls
 establish accuracy and cost observations, not an optimisation gain. The
