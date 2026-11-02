@@ -104,14 +104,16 @@ Build helpers do not flash the board.
 
 `--patch-title` names the graph, `--initial-volume 0` starts quietly, and
 `--arena-bytes` sets an explicit 4 KiB–4 MiB arena budget (default 1 MiB).
-The tested compact drone uses 393,216 reserved bytes with 361,240 bytes used.
+The original compact drone uses 393,216 reserved bytes with 361,240 bytes used.
+The later [table-omitted build](docs/unused-mtof-table.md) reserves 131,072 bytes
+with 99,088 bytes used.
 The arena budget must cover the admitted patch; exhaustion intentionally stops
 unchecked native allocation instead of falling back to the firmware heap.
 
 The AMOLED shell includes an [FM1-style patch view](docs/patch-view.md): black,
 blue RNBO objects, white wires and Barlow text. Tap a parameter box to edit it;
-volume, Panic, Resume and battery indication remain available. It reuses the
-pinned board power/display/touch initialization.
+volume, a single Pause/Resume button, Params and battery indication remain
+available. It reuses the pinned board power/display/touch initialization.
 Post-volume PCM capture works on both profiles. See
 [the hardware bring-up procedure](docs/bringup.md) and
 [the capture client](host/clients/README.md).

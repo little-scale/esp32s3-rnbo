@@ -1,11 +1,11 @@
 # Implementation status — 3 November 2026
 
-The **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** now runs the supplied
+The **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** has been qualified running the supplied
 `3sawsDrone3` patch with an FM1-style graph, a 40 ms comb limit and optional
 float32 delay storage/audio arithmetic. The user confirmed audio and touch
 parameter control. The current
-[AMOLED interface](amoled-controls.md) provides Resume/Pause, a Patch/Params
-page switch, eight wide vertical parameter bars with continuous cross-bar
+[AMOLED interface](amoled-controls.md) provides a single Pause/Resume button,
+a Patch/Params page switch, eight wide vertical parameter bars with continuous cross-bar
 dragging, a thicker volume slider and a post-volume output meter. The user
 confirmed the continuous gesture works well. See [patch qualification](drone3-qualification.md)
 and [the numerical choices](float32-audio.md). The original firmware has a
@@ -27,18 +27,23 @@ That earlier measurement used firmware ELF
 It is historical evidence for that build, rather than a timing qualification
 of the newer interface.
 
-The latest verified installation is the wide-bar GUI build, ELF
-`0e988a813a11e96106fd83898031260921a6808a611c7e3b44f33ebae460c9ec`.
+The latest verified installation is the wide-bar GUI with a single playback
+button, ELF
+`722047477ce7dd2d46c1531e1c3de1ab70f0b4c2b7bf20f35fede45467fef78c`.
 It retains the qualified optimised drone export, including unused-table
 omission: the arena uses 99,088 of 131,072 reserved bytes. The installation
 check captured silence → signal → silence at volume 0 → 5 → 0, restored all
 eight parameter values, volume and Pause state, and observed no render
 deadline overruns or allocation/module/DMA/write faults. The subsequent user
-trial left it playing at 2% volume with adjusted parameters and no observed
-faults. This is the last verified snapshot, not a guarantee of current live
-settings. Later device tests must snapshot controls afresh and restore this
-GUI build. Cold startup uses zero speaker volume; controls remain RAM state.
-See [the GUI installation evidence](../evidence/amoled-gui-v3.json) and
+trial of the preceding wide-bar build confirmed easier continuous dragging.
+The newer single-button installation restored the freshly saved 25% volume,
+paused state and all eight parameter values, with no observed faults. This is
+the last verified RNBO snapshot, not a guarantee of current live settings.
+Work is now computer-only; the board may run other firmware. Future hardware
+work needs fresh identification and recovery evidence for the then-current
+image. Cold startup uses zero speaker volume; controls remain RAM state. The preceding
+GUIv3 image and its recovery observations remain historical evidence.
+See [the current GUI installation evidence](../evidence/amoled-gui-v4.json) and
 [the table-omission review](unused-mtof-table.md).
 
 ## Hardware qualification

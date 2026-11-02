@@ -11,10 +11,11 @@
 enum { MAX_PARAMETER_ROWS=128, PARAMETERS_PER_BANK=8, METER_SEGMENTS=28, PARAMETER_BAR_BOTTOM=188 };
 static board_display_actions actions;
 static lv_obj_t *status_label,*volume_label,*volume_slider,*render_label,*battery_label;
-static lv_obj_t *patch_panel,*params_panel,*params_caption,*page_label,*meter,*meter_label;
+static lv_obj_t *patch_panel,*params_panel,*params_caption,*page_label,*meter,*meter_label,*transport_caption;
 static float parameter_values[MAX_PARAMETER_ROWS],parameter_normalized[MAX_PARAMETER_ROWS];
 static bool parameter_available[MAX_PARAMETER_ROWS];
 static bool ready,params_visible,parameter_editing;
+static bool transport_paused=true;
 static unsigned parameter_bank;
 static int last_column=-1,last_parameter_value;
 static unsigned current_volume=100,selected=PATCH_NO_PARAMETER;
@@ -71,11 +72,12 @@ static void select_parameter(unsigned index)
     selected=index;parameter_bank=index/PARAMETERS_PER_BANK;patch_view_select(index);show_page(true);
 }
 static void toggle_page(lv_event_t *event){(void)event;show_page(!params_visible);}
-static void pause_pressed(lv_event_t *event)
+static void transport_pressed(lv_event_t *event)
 {
-    (void)event;actions.panic();set_text(status_label,"Paused");
+    (void)event;
+    if (transport_paused) actions.resume();
+    else {actions.panic();set_text(status_label,"Paused");}
 }
-static void resume_pressed(lv_event_t *event){(void)event;actions.resume();}
 static void volume_changed(lv_event_t *event)
 {
     (void)event;unsigned value=(unsigned)lv_slider_get_value(volume_slider);
@@ -236,7 +238,8 @@ esp_err_t board_display_start(const board_display_actions *callbacks)
     slider_style(volume_slider);lv_obj_set_style_bg_color(volume_slider,lv_color_white(),LV_PART_INDICATOR);
     lv_slider_set_range(volume_slider,0,100);lv_slider_set_value(volume_slider,(int)current_volume,LV_ANIM_OFF);
     lv_obj_add_event_cb(volume_slider,volume_changed,LV_EVENT_VALUE_CHANGED,NULL);
-    button(screen,"Resume",16,405,104,31,resume_pressed);button(screen,"Pause",132,405,104,31,pause_pressed);
+    lv_obj_t *transport_button=button(screen,"Resume",16,405,216,31,transport_pressed);
+    transport_caption=lv_obj_get_child(transport_button,0);
     lv_obj_t *params_button=button(screen,"Params",248,405,104,31,toggle_page);
     params_caption=lv_obj_get_child(params_button,0);
     if (!actions.parameter || !actions.parameter_value || !rnbo_patch_layout.parameter_count) lv_obj_add_state(params_button,LV_STATE_DISABLED);
@@ -250,6 +253,8 @@ void board_display_update(bool muted,bool fault,unsigned volume,uint32_t render_
     esp_err_t battery_result=ESP_OK;
     if (refresh_battery) {battery_result=touch_display_battery(&battery);battery_tick=lv_tick_get();}
     if (!bsp_display_lock(20)) return;
+    transport_paused=muted || fault;
+    set_text(transport_caption,transport_paused?"Resume":"Pause");
     set_text(status_label,fault?"Audio fault / paused":muted?"Paused":"Playing");
     lv_obj_set_style_text_color(status_label,lv_color_hex(fault?0xff6060:0xffffff),0);
     char text[112];current_volume=volume;

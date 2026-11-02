@@ -1,8 +1,11 @@
 # AMOLED controls
 
 The 368×448 AMOLED interface keeps the FM1-style patch drawing and adds a
-dedicated parameter page. The bottom row is **Resume**, **Pause**, **Params**.
-On the parameter page, the third button becomes **Patch** to return.
+dedicated parameter page. The bottom row has one wide playback button and
+**Params**. The playback button shows **Pause** while playing and **Resume**
+while paused; its action follows the audio owner's reported state. A pending
+Resume request does not change the caption until playback actually starts.
+On the parameter page, **Params** becomes **Patch** to return.
 Tapping a blue parameter box in the drawing also opens its parameter page.
 
 All eight drone parameters have wide, filled vertical bars and live values,
@@ -29,15 +32,17 @@ publishes the maximum since the last display update. Battery polling and the
 CPU caption retain their one-second cadence.
 
 These are software-rendered previews using the actual LVGL implementation and
-fonts, with example meter input; they are not photographs of the board.
+fonts, with example telemetry; they are not photographs of the board.
 
 | Patch page | Parameter page |
 |---|---|
-| ![Patch page](images/amoled-main-v3.png) | ![Eight wide parameter bars](images/amoled-params-v3.png) |
+| ![Patch page](images/amoled-main-v4.png) | ![Eight wide parameter bars](images/amoled-params-v4.png) |
 
 ## Verification
 
-The native LVGL test uses real pointer hit testing for the bottom buttons and
+The native LVGL test uses real pointer hit testing for the single playback
+button and page button, verifies caption/action agreement through normal,
+pending and fault states, and checks
 one uninterrupted press across all eight bars, with display updates interleaved
 while the finger stays down. It also verifies fast-sweep interpolation, vertical
 motion, stationary deduplication, separate volume control, navigation, disabled controls while paused, meter segmentation and
@@ -51,8 +56,10 @@ nonzero at five percent. The eight parameter values, volume and Pause state
 were restored after installation. No audio-task heap allocations, render
 deadline overruns, module, DMA or write errors were observed in this check.
 This short check does not replace the longer instrument stress tests.
-The user also confirmed on the board that a continuous cross-bar drag works
-and is easier to control; this physical check is separate from the native tests.
+On the preceding wide-bar build, the user confirmed on the board that a
+continuous cross-bar drag works and is easier to control. That gesture code
+is retained; this earlier physical check is separate from the new native
+button tests and installation checks.
 
-See the [GUI evidence](../evidence/amoled-gui-v3.json) for source/build identities,
+See the [GUI evidence](../evidence/amoled-gui-v4.json) for source/build identities,
 native test records, captures and the verified installation result.

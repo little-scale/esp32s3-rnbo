@@ -68,6 +68,7 @@ int main(int argc,char **argv)
     assert(board_display_start(&actions)==ESP_OK);
     lv_tick_inc(1000);board_display_update(false,false,volume,250,521,16384);
     image(argv[1],"patch");assert(has_text(lv_scr_act(),"OUT -6.0 dBFS"));
+    assert(has_text(lv_scr_act(),"Pause") && !has_text(lv_scr_act(),"Resume"));
     if(rnbo_patch_layout.parameter_count) {
         click(300,419);assert(has_text(lv_scr_act(),"RNBO / PARAMS"));
         image(argv[1],"params");image(argv[1],"parameter"); /* Legacy filename. */
@@ -78,12 +79,14 @@ int main(int argc,char **argv)
         click(300,419);assert(has_text(lv_scr_act(),"RNBO / MAIN"));
     }
     click(180,382);assert(volume>40 && volume<60); /* Always the volume slider. */
-    click(184,419);assert(panic_count==1);
+    click(124,419);assert(panic_count==1 && resume_count==0);
     board_display_update(true,false,volume,250,521,0);
     image(argv[1],"paused");image(argv[1],"panic");assert(has_text(lv_scr_act(),"OUT -inf dBFS"));
-    click(68,419);assert(resume_count==1);
+    assert(has_text(lv_scr_act(),"Resume") && !has_text(lv_scr_act(),"Pause"));
+    click(124,419);assert(resume_count==1 && panic_count==1);
     board_display_update(false,false,volume,250,521,32767);
     image(argv[1],"resumed");assert(has_text(lv_scr_act(),"OUT 0.0 dBFS"));
+    assert(has_text(lv_scr_act(),"Pause") && !has_text(lv_scr_act(),"Resume"));
     lv_mem_monitor_t mem;lv_mem_monitor(&mem);assert(lv_mem_test()==LV_RES_OK);
     printf("{\"panic\":%u,\"resume\":%u,\"parameter_slider_events\":%u,\"lvgl_free\":%u,\"lvgl_largest\":%u}\n",panic_count,resume_count,parameter_calls,(unsigned)mem.free_size,(unsigned)mem.free_biggest_size);
     return 0;

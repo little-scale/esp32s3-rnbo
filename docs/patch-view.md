@@ -23,7 +23,7 @@ Tap a parameter box to highlight it and open the dedicated parameter page,
 or use **Params**. The eight drone parameters have wide multislider bars that
 can be edited with one continuous drag; current
 values and units come from RNBO's exported schema. **Patch** returns to the
-graph. Volume, **Pause** and **Resume** remain available on both pages, with a
+graph. Volume and a single **Pause/Resume** button remain available on both pages, with a
 post-volume output meter. See [AMOLED controls](amoled-controls.md).
 Touch and USB send bounded owner events; the display
 never calls a running patch. The audio owner publishes parameter readbacks with
@@ -51,7 +51,7 @@ python3 tools/render_patch_view.py --prepared build/prepared/my-patch \
 
 This uses the locked LVGL source staged under `build/vendor-amoled/`, a native
 C compiler and mocked board functions. It produces PNGs for the graph,
-parameter page and paused state, simulates the navigation and Pause/Resume buttons, and checks LVGL
+parameter page and paused state, simulates navigation and the Pause/Resume toggle, and checks LVGL
 heap integrity. It is a renderer preview; physical touch/display checks are
 separate. The font generator needs Pillow 13.0.0 only for regeneration; normal
 builds use the checked-in C font data.
