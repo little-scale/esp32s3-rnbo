@@ -56,3 +56,10 @@ admits only the whole-source/runtime-pinned nonlinear FX fixture. It deliberatel
 changes power rounding, supports the reviewed finite-wrap composition, and has
 its own native and board evidence. Its results do not extend cycle or audio
 profile admission.
+
+The separate [`--exact-audio-delay44100` option](../../docs/exact-delay44100-compiler.md)
+keeps `float32-strict` and records an explicit manifest flag and versioned
+conversion contract. It reproduces the reviewed Double conversion's Float32
+return in one pinned signal-delay graph; strict profile name or raw source hash
+alone does not identify whether this optional implementation was selected.
+Retain the complete manifest, prepared source and ELF identities.

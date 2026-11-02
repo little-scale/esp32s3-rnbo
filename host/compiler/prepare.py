@@ -293,7 +293,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             numerical_profile: str = "float32-strict", filter_delay_max_ms: float | None = None,
             float32_delay_storage: bool = False, omit_unused_mtof_table: bool = False,
             hoist_cycle_conversions: bool = False, compact_average_history: bool = False,
-            float32_pink_output: bool = False, correct_finite_wrap: bool = False) -> dict:
+            float32_pink_output: bool = False, correct_finite_wrap: bool = False,
+            exact_audio_delay44100: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -314,6 +315,14 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("Float32 pink output requires normal runtime fixes, Main role and the strict base profile")
     if type(correct_finite_wrap) is not bool:
         raise ExportError("finite wrap correction must be a boolean")
+    if type(exact_audio_delay44100) is not bool:
+        raise ExportError("exact audio delay44100 must be a boolean")
+    if exact_audio_delay44100 and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
+            numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            type(filter_delay_max_ms) not in (int, float) or filter_delay_max_ms != 40 or
+            float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or
+            compact_average_history or float32_pink_output or correct_finite_wrap):
+        raise ExportError("Exact audio delay44100 requires normal fixes, strict Main, cap40, no storage change and no other optional adapters")
     scalar_power_profile = numerical_profile == "float32-scalar-powers-v1"
     if scalar_power_profile and (not apply_fixes or role != "fx" or midi_output_policy != "reject" or
             filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
@@ -371,6 +380,12 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     for name in ("generator.json", "source.rnbopat"):
         if (export_dir / name).exists():
             files[name] = read_regular(export_dir / name, 1024 * 1024)
+    if exact_audio_delay44100:
+        # This closed optional route admits the reviewed raw file set too,
+        # rather than silently ignoring extra export files or linked aliases.
+        for path in export_dir.rglob("*"):
+            if path.is_symlink() or (path.is_file() and path.relative_to(export_dir).as_posix() not in files):
+                raise ExportError("Exact audio delay44100 rejects unknown files or symbolic links in the export")
     if "generator.json" in files:
         generated = read_json(files["generator.json"], "generator.json")
         if generated.get("rnbo_version") != SUPPORTED_VERSION or generated.get("generated_sha256") != digest(files["rnbo_source.h"]):
@@ -544,11 +559,37 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                    '#error "Internal resource optimisation is reviewed only for opaque module C ABI 1.0"\n'
                    "#endif\n")
     files["patch_config.h"] = config.encode()
+    # The closed42-file admission map includes this exact baseline config.
+    # Run after creating it, without adding config macros or changing clocks.
+    if exact_audio_delay44100:
+        from exact_delay44100 import transform as exact_delay_transform
+        options = {"rnbo_version": SUPPORTED_VERSION, "apply_fixes": apply_fixes, "role": role,
+                   "sample_rate": manifest["sample_rate"], "block_frames": manifest["block_frames"],
+                   "audio_inputs": manifest["audio_inputs"], "audio_outputs": manifest["audio_outputs"],
+                   "numerical_profile": numerical_profile, "filter_delay_max_ms": filter_delay_max_ms,
+                   "float32_delay_storage": float32_delay_storage,
+                   "required_host_services": manifest["required_host_services"], "other_optimizations": []}
+        try:
+            files, exact_delay_change = exact_delay_transform(
+                files, description, options, read_regular(Path(__file__).with_name("exact_delay44100.h"), 1024 * 1024),
+                code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        exact_delay_change["transformer_sha256"] = digest(Path(__file__).with_name("exact_delay44100.py").read_bytes())
+        changes.append(exact_delay_change)
+        manifest["adaptations"].append(exact_delay_change["name"])
+        manifest["exact_audio_delay44100"] = True
+        manifest["exact_audio_delay44100_contract"] = {
+            "version": 1, "context": "filters-signal", "fast_path_duration_ms": [0, 40], "sample_rate": 44100,
+            "input_type": "binary32", "rounding": "nearest-even", "per_sample": True,
+            "fallback": "original-capped-binary64", "scheduler_time": "binary64",
+            "ownership": "exclusive opaque callbacks and internal Float64 rings",
+            "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
     prepared_hashes = {name: digest(data) for name, data in sorted(files.items())}
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -600,6 +641,8 @@ def main() -> None:
                         help="Keep output scaling Float32 in the reviewed authored16-row pink graph; requires strict Main and normal fixes")
     parser.add_argument("--correct-finite-wrap", action="store_true",
                         help="Correct large finite binary32 wrap[-1,1) inputs in two exact reviewed strict FX graphs; other forms reject")
+    parser.add_argument("--exact-audio-delay44100", action="store_true",
+                        help="Exact fixed44100 signal-delay conversion in the reviewed cap40 strict Main graph; preserves Double fallback/rings/clocks")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -607,7 +650,8 @@ def main() -> None:
                            numerical_profile=args.numerical_profile,filter_delay_max_ms=args.filter_delay_max_ms,
                            float32_delay_storage=args.float32_delays,omit_unused_mtof_table=args.omit_unused_mtof_table,
                            hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
-                           float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap)
+                           float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
+                           exact_audio_delay44100=args.exact_audio_delay44100)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

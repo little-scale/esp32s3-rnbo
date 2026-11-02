@@ -72,6 +72,23 @@ class ObjectStatusTests(unittest.TestCase):
         control['CPU_savings_claimed']=True
         with self.assertRaisesRegex(ValueError,'Controls must have no savings claim'):checked_measurements(forged,ROOT)
 
+    def test_exact_delay_availability_requires_the_measured_image_and_option(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        for name in ('patcher:comb~','patcher:allpass~'):
+            record=next(r for r in self.coverage['objects'] if r['id']==name)
+            option=next(o for o in record['optimisations'] if o['id']=='exact-signal-delay44100')
+            self.assertEqual(option['state'],'available')
+            self.assertIn('--exact-audio-delay44100',option['flag'])
+            self.assertIn('Public build reproduces the entire previously measured image',rows[name]['optimisation']['detail'])
+            self.assertEqual(rows[name]['performance']['measurement_id'],'filters-scalar-v2-storage:aggregate')
+        for kind in ('option','source_hash','historical_only'):
+            forged=copy.deepcopy(self.coverage)
+            group=next(g for g in forged['measurement_groups'] if g['id']=='filters-signal-exact44100-private')
+            if kind=='option':group['equivalent_public_option']='--unqualified-option'
+            elif kind=='source_hash':forged['sources'][group['compiler_admission_source']]['sha256']='0'*64
+            else:group['compiler_admission_source']='evidence/exact-delay44100.json'
+            with self.assertRaisesRegex(ValueError,'Compiler admission'):checked_measurements(forged,ROOT)
+
     def test_correction_cost_is_shown_without_claiming_cpu_saving(self):
         measurement=next(m for m in self.coverage['measurements'] if m['id']=='finite-wrap-correction-bounded:aggregate')
         self.assertTrue(measurement['cpu_time_change_measured'])

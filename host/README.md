@@ -164,6 +164,23 @@ checks the admitted contexts on the board: bounded output preservation and
 whole-chain measurement observes 0.276% extra CPU, with unchanged context and
 arena costs. This is a correctness repair; it establishes no CPU saving.
 
+## Optional exact 44.1 kHz audio-delay conversion
+
+`--exact-audio-delay44100` requires the exact reviewed `filters-signal` Main
+graph, normal fixes, `float32-strict` and `--filter-delay-max-ms 40`. It consumes
+Float32 duration signals each sample and reproduces the original Double
+conversion's Float32 result using integer arithmetic on the reviewed fast path.
+The original capped Double fallback, Float64 rings and precise clocks remain.
+Other options, source edits, rates and caps reject preparation. The new flag
+and versioned manifest contract distinguish this default-off selection from
+ordinary strict preparation.
+
+The [admission review](../docs/exact-delay44100-compiler.md) binds the actual
+public compiler output to the exact entire module already measured on target.
+Its historical four-case comparison observed 12.70% less complete callback
+time with zero numerical output difference and exact PCM. No new hardware run,
+general filter/rate claim or current-drone change is implied.
+
 ## Optional scalar-power numerical profile
 
 `--numerical-profile float32-scalar-powers-v1` admits only the exact authored

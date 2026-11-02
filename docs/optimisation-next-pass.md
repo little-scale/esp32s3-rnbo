@@ -104,9 +104,10 @@ double work automatically.
    a guarded production context: its private target cases already show material
    benefit, but its SR/ownership proof must not be replaced by an object-name
    rule. Keep signal conversions per sample and preserve rounding.
-   The separate [private exact 44.1 kHz signal-delay conversion](exact-delay44100.md)
-   preserves the tested signal-rate outputs with 12.7% less callback time across
-   four target cases; guarded production admission remains pending.
+   The [exact 44.1 kHz signal-delay compiler option](exact-delay44100-compiler.md)
+   now admits the strict cap40 signal fixture and reproduces its complete
+   previously measured ELF. Its four saved target cases show 12.70% less
+   callback time; new rates, graphs and option compositions need their own proof.
    The subsequent [train reciprocal experiment](train-reciprocal-hoist.md)
    removes repeated scalar Float32 division while retaining Double floor/state
    semantics. Its saved 12-case target comparison observes 39.06% less complete

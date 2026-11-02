@@ -506,7 +506,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "The initial verified revision applies to the original audited mapping. Later finite-wrap, scalar-power and private train additions are bound to their own evidence hashes and included with this snapshot.",
+  "later_publication_notes": "The initial revision applies to the original audited mapping. Later results are content-hash bound. Exact-delay compiler admission upgrades the existing historical measurement via full ELF identity; it adds no physical measurements or invented timing records.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -1196,10 +1196,13 @@
         "fast-modulation"
       ],
       "catalog_source": "tests/fixtures/objects/catalog.json",
+      "compiler_admission_source": "evidence/exact-delay44100-compiler.json",
+      "equivalent_public_option": "--exact-audio-delay44100",
       "firmware_elf_sha256": "ac018028cd2aeed5dfc449f5047af2427b3e00b81627698a5acd8a88f0a5e012",
       "fixture": "filters-signal",
       "graph_source": "tests/fixtures/objects/filters-signal.rnbopat",
       "id": "filters-signal-exact44100-private",
+      "measurement_origin": "historical-target-observation-with-new-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/research/exact-delay44100/modules/candidate/rnbo_s3_dynamic.app.elf",
@@ -1212,7 +1215,7 @@
       },
       "not_isolated_operator_cost": true,
       "optimization_id": "exact-signal-delay44100",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "per_case_cpu_time_saved_percent_range": [
         7.176512453948409,
         17.842578892021926
@@ -8327,12 +8330,15 @@
         "fast-modulation"
       ],
       "catalog_source": "tests/fixtures/objects/catalog.json",
+      "compiler_admission_source": "evidence/exact-delay44100-compiler.json",
       "cpu_time_saved_percent": 12.698284543048207,
+      "equivalent_public_option": "--exact-audio-delay44100",
       "firmware_elf_sha256": "ac018028cd2aeed5dfc449f5047af2427b3e00b81627698a5acd8a88f0a5e012",
       "fixture": "filters-signal",
       "graph_source": "tests/fixtures/objects/filters-signal.rnbopat",
       "group_id": "filters-signal-exact44100-private",
       "id": "filters-signal-exact44100-private:aggregate",
+      "measurement_origin": "historical-target-observation-with-new-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/research/exact-delay44100/modules/candidate/rnbo_s3_dynamic.app.elf",
@@ -8346,7 +8352,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "exact-signal-delay44100",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:comb~",
         "patcher:allpass~"
@@ -8393,6 +8399,7 @@
         "fast-modulation"
       ],
       "catalog_source": "tests/fixtures/objects/catalog.json",
+      "compiler_admission_source": "evidence/exact-delay44100-compiler.json",
       "conditions": {
         "id": "impulse",
         "parameters": {
@@ -8400,11 +8407,13 @@
         }
       },
       "cpu_time_saved_percent": 17.842578892021926,
+      "equivalent_public_option": "--exact-audio-delay44100",
       "firmware_elf_sha256": "ac018028cd2aeed5dfc449f5047af2427b3e00b81627698a5acd8a88f0a5e012",
       "fixture": "filters-signal",
       "graph_source": "tests/fixtures/objects/filters-signal.rnbopat",
       "group_id": "filters-signal-exact44100-private",
       "id": "filters-signal-exact44100-private:impulse",
+      "measurement_origin": "historical-target-observation-with-new-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/research/exact-delay44100/modules/candidate/rnbo_s3_dynamic.app.elf",
@@ -8418,7 +8427,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "exact-signal-delay44100",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:comb~",
         "patcher:allpass~"
@@ -8465,6 +8474,7 @@
         "fast-modulation"
       ],
       "catalog_source": "tests/fixtures/objects/catalog.json",
+      "compiler_admission_source": "evidence/exact-delay44100-compiler.json",
       "conditions": {
         "id": "minimum-delay",
         "parameters": {
@@ -8473,11 +8483,13 @@
         }
       },
       "cpu_time_saved_percent": 7.176512453948409,
+      "equivalent_public_option": "--exact-audio-delay44100",
       "firmware_elf_sha256": "ac018028cd2aeed5dfc449f5047af2427b3e00b81627698a5acd8a88f0a5e012",
       "fixture": "filters-signal",
       "graph_source": "tests/fixtures/objects/filters-signal.rnbopat",
       "group_id": "filters-signal-exact44100-private",
       "id": "filters-signal-exact44100-private:minimum-delay",
+      "measurement_origin": "historical-target-observation-with-new-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/research/exact-delay44100/modules/candidate/rnbo_s3_dynamic.app.elf",
@@ -8491,7 +8503,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "exact-signal-delay44100",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:comb~",
         "patcher:allpass~"
@@ -8538,6 +8550,7 @@
         "fast-modulation"
       ],
       "catalog_source": "tests/fixtures/objects/catalog.json",
+      "compiler_admission_source": "evidence/exact-delay44100-compiler.json",
       "conditions": {
         "id": "maximum-delay",
         "parameters": {
@@ -8546,11 +8559,13 @@
         }
       },
       "cpu_time_saved_percent": 8.93798179452173,
+      "equivalent_public_option": "--exact-audio-delay44100",
       "firmware_elf_sha256": "ac018028cd2aeed5dfc449f5047af2427b3e00b81627698a5acd8a88f0a5e012",
       "fixture": "filters-signal",
       "graph_source": "tests/fixtures/objects/filters-signal.rnbopat",
       "group_id": "filters-signal-exact44100-private",
       "id": "filters-signal-exact44100-private:maximum-delay",
+      "measurement_origin": "historical-target-observation-with-new-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/research/exact-delay44100/modules/candidate/rnbo_s3_dynamic.app.elf",
@@ -8564,7 +8579,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "exact-signal-delay44100",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:comb~",
         "patcher:allpass~"
@@ -8611,6 +8626,7 @@
         "fast-modulation"
       ],
       "catalog_source": "tests/fixtures/objects/catalog.json",
+      "compiler_admission_source": "evidence/exact-delay44100-compiler.json",
       "conditions": {
         "id": "fast-modulation",
         "parameters": {
@@ -8621,11 +8637,13 @@
         }
       },
       "cpu_time_saved_percent": 16.360104607163503,
+      "equivalent_public_option": "--exact-audio-delay44100",
       "firmware_elf_sha256": "ac018028cd2aeed5dfc449f5047af2427b3e00b81627698a5acd8a88f0a5e012",
       "fixture": "filters-signal",
       "graph_source": "tests/fixtures/objects/filters-signal.rnbopat",
       "group_id": "filters-signal-exact44100-private",
       "id": "filters-signal-exact44100-private:fast-modulation",
+      "measurement_origin": "historical-target-observation-with-new-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/research/exact-delay44100/modules/candidate/rnbo_s3_dynamic.app.elf",
@@ -8639,7 +8657,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "exact-signal-delay44100",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:comb~",
         "patcher:allpass~"
@@ -14083,11 +14101,11 @@
           "state": "experimental"
         },
         {
-          "flag": null,
+          "flag": "--exact-audio-delay44100 --filter-delay-max-ms 40",
           "id": "exact-signal-delay44100",
-          "note": "Private exact-context experiment; no production admission.",
-          "source": "evidence/exact-delay44100.json",
-          "state": "experimental"
+          "note": "Exact strict Main cap40 signal fixture only, with original Float64 rings and clocks; cannot combine with storage/numerical options. Public build reproduces the entire previously measured image (12.70% callback time saved); no new board run or family-wide gain claim.",
+          "source": "docs/exact-delay44100-compiler.md",
+          "state": "available"
         }
       ],
       "qualification": [
@@ -14095,6 +14113,11 @@
           "conditions": "Comb/allpass pair, cap40ms, authored gain0.5, impulse/min/max; separate signal-delay exact-conversion fixture adds bounded modulation.",
           "level": "S3-declared-pair",
           "source": "evidence/filters-scalar-v2-storage.json"
+        },
+        {
+          "conditions": "Computer-only public admission reproduces the complete previously measured64,376-byte modulee026c4f9...; strict Main44100/256/cap40, per-sample Float32 durations, RNE, faithful Double fallback, no other options. Four historical target cases reused; no new device execution.",
+          "level": "public-compiler-exact-image-binding-to-saved-S3",
+          "source": "evidence/exact-delay44100-compiler.json"
         }
       ],
       "registry_context": {
@@ -14532,11 +14555,11 @@
           "state": "experimental"
         },
         {
-          "flag": null,
+          "flag": "--exact-audio-delay44100 --filter-delay-max-ms 40",
           "id": "exact-signal-delay44100",
-          "note": "Private exact-context experiment; no production admission.",
-          "source": "evidence/exact-delay44100.json",
-          "state": "experimental"
+          "note": "Exact strict Main cap40 signal fixture only, with original Float64 rings and clocks; cannot combine with storage/numerical options. Public build reproduces the entire previously measured image (12.70% callback time saved); no new board run or family-wide gain claim.",
+          "source": "docs/exact-delay44100-compiler.md",
+          "state": "available"
         }
       ],
       "qualification": [
@@ -14544,6 +14567,11 @@
           "conditions": "Comb/allpass pair, cap40ms, authored gain0.5, impulse/min/max; separate signal-delay exact-conversion fixture adds bounded modulation.",
           "level": "S3-declared-pair",
           "source": "evidence/filters-scalar-v2-storage.json"
+        },
+        {
+          "conditions": "Computer-only public admission reproduces the complete previously measured64,376-byte modulee026c4f9...; strict Main44100/256/cap40, per-sample Float32 durations, RNE, faithful Double fallback, no other options. Four historical target cases reused; no new device execution.",
+          "level": "public-compiler-exact-image-binding-to-saved-S3",
+          "source": "evidence/exact-delay44100-compiler.json"
         }
       ],
       "registry_context": {
@@ -18614,6 +18642,13 @@
       "sha256": "54da8b419dc863bc69ff62da096cd13366b336eedd4234a9dbd04f3df3f1434c",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/dynamic-loader.md"
     },
+    "docs/exact-delay44100-compiler.md": {
+      "bytes": 5163,
+      "path": "docs/exact-delay44100-compiler.md",
+      "publication": "included-with-status-snapshot",
+      "sha256": "cf22958821cc8048fdfaa459cfb44c752ce9383757655e5d19559bfc3904ac0c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/exact-delay44100-compiler.md"
+    },
     "docs/exact-delay44100.md": {
       "bytes": 2779,
       "path": "docs/exact-delay44100.md",
@@ -18781,6 +18816,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "84c9fd0b9d6f3c5e0affbe8460225fb40a8279861d1e5173037c27e9e3f187b3",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/evidence/dynamic-loader.json"
+    },
+    "evidence/exact-delay44100-compiler.json": {
+      "bytes": 208054,
+      "path": "evidence/exact-delay44100-compiler.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "ddb68230f24065a7503d721fcd793eb86461a01e0b26bc6886fc93322e5480c7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/exact-delay44100-compiler.json"
     },
     "evidence/exact-delay44100.json": {
       "bytes": 32182,

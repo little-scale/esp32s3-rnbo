@@ -64,6 +64,21 @@ def checked_measurements(coverage,root):
         if source not in cache:cache[source]=load(path)
         group=groups[measure['group_id']]
         require(source==group['source'] and measure['fixture']==group['fixture'],'Measurement group differs')
+        admission_source=group.get('compiler_admission_source')
+        if admission_source:
+            admission_path=(root/admission_source).resolve()
+            require(admission_source.startswith('evidence/') and '..' not in Path(admission_source).parts and
+                    admission_path.is_relative_to(root.resolve()) and admission_path.is_file() and
+                    not (root/admission_source).is_symlink(),'Compiler admission must reference public evidence')
+            entry=coverage['sources'].get(admission_source)
+            require(entry is not None and digest(admission_path)==entry['sha256'],'Compiler admission evidence changed')
+            if admission_source not in cache:cache[admission_source]=load(admission_path)
+            admission=cache[admission_source];identity=admission.get('module_identity',{})
+            require(admission.get('compiler_admission') is True and admission.get('default_enabled') is False and
+                    admission.get('option')==group.get('equivalent_public_option') and
+                    identity.get('sha256')==measure['candidate_module_sha256'] and
+                    identity.get('complete_ELF_bytes_equal_public_guarded_prototype_and_physical_original') is True,
+                    'Compiler admission does not reproduce the measured image/option')
         fixture=pointer(cache[source],group['source_selector']);passed=fixture['pass']
         require(passed['strict_module_sha256']==measure['reference_module_sha256'] and
                 passed['optimized_module_sha256']==measure['candidate_module_sha256'],'Module identity differs from measured evidence')

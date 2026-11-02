@@ -17,6 +17,13 @@ changes rounding for exponents 2, 4 and 0.25 and retains the original fallback
 for every other scalar exponent. Fresh native and target comparisons preserve
 the declared accuracy gates; the strict default remains unchanged.
 
+The [exact signal-delay conversion option](exact-delay44100-compiler.md) retains
+strict arithmetic identity in the reviewed 44.1 kHz/cap40 Main graph, replacing
+only the two per-sample duration conversions with their exact integer route.
+The public build reproduces the entire previously measured module; the older
+12.70% callback observation is reused for that exact image, with no new device
+execution claimed.
+
 | Selection | Default | Effect and admission scope |
 | --- | --- | --- |
 | Defined integer wrap | On with normal runtime fixes | Replaces the reviewed `rnbo_imul` signed product with defined modulo 2^32 arithmetic and a safe signed mapping. Matching pink-noise generators also receive a defined unsigned affine multiply/add. Other signed arithmetic is outside this fix's claim. |

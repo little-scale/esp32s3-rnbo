@@ -29,8 +29,11 @@ The separate [pink-noise Float32 output review](noise-float32-normalisation.md)
 records its measured target improvement and exact-context compiler option.
 The [private compensated-average review](average-neumaier.md) records improved
 tested accuracy with 28.85% more callback CPU time; it remains unadmitted.
-The [private exact 44.1 kHz signal-delay experiment](exact-delay44100.md) preserves
-the tested output with 12.7% less callback time; production admission is pending.
+The [exact 44.1 kHz signal-delay compiler option](exact-delay44100-compiler.md)
+now reproduces the complete module from the earlier private experiment. Its
+saved four-case measurement preserves output with 12.70% less callback time;
+the public source/type guards and exact-image binding were checked on the
+computer without a new board run.
 
 See [compiler options and integrated evidence](compiler-optimisations.md) for the
 current correctness fixes and opt-in transformations, and
