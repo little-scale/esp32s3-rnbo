@@ -6,6 +6,11 @@ conversion hoisting and compact average history are separate, default-off
 flags. All three adapters require reviewed RNBO 1.4.4 forms and record their
 source/runtime guards and changes in provenance.
 
+The subsequent [pink output option](noise-float32-normalisation.md) adds an
+independently qualified default-off Float32 scaling change for the exact
+authored 16-row noise graph. It retains the strict base profile and seed/time
+behavior; its manifest flag records the selected transformation.
+
 | Selection | Default | Effect and admission scope |
 | --- | --- | --- |
 | Defined integer wrap | On with normal runtime fixes | Replaces the reviewed `rnbo_imul` signed product with defined modulo 2^32 arithmetic and a safe signed mapping. Matching pink-noise generators also receive a defined unsigned affine multiply/add. Other signed arithmetic is outside this fix's claim. |
@@ -136,6 +141,7 @@ Preparation applies the existing runtime fixes, then exact-context average
 compaction, then the integer fix. Delay/storage and numerical adaptations
 precede cycle hoisting; optional mtof omission follows it. Manifest resource
 semantics are merged, and source/provenance plus native/module build reports
-capture all seven compiler-helper hashes. Failed admission publishes no prepared
+capture compiler-helper hashes (eight with the subsequent pink-output adapter).
+Failed admission publishes no prepared
 output. Five end-to-end integration tests cover the golden drone/average source,
 default integer fix versus raw reference, ABI negatives and failure atomicity.

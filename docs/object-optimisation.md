@@ -1,5 +1,8 @@
 # RNBO object optimisation matrix
 
+The separate [pink-noise Float32 output review](noise-float32-normalisation.md)
+records its measured target improvement and exact-context compiler option.
+
 See [compiler options and integrated evidence](compiler-optimisations.md) for the
 current correctness fixes and opt-in transformations, and
 [the next optimisation pass](optimisation-next-pass.md) for remaining coverage,

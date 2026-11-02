@@ -60,7 +60,7 @@ target results need their own later sealed records.
 | Envelope, MIDI and time | Authored MIDI envelope at 1/2/4 voices, target four-voice routing/release/sustain/stealing and stress; line's five native timing cases | Full envelope curves/retrigger modes, clock/cancellation/queue-pressure behavior, long uptime and event jitter. Current public C ABI deliberately delivers boundary events; it has no qualified external within-block event API. |
 | Average | Integrated native identity, target four-window output/model checks, 4KiB reservation control and resource/lifecycle proof; target cancellation diagnostic retains the known oracle failure | Compaction does not repair mathematical accuracy. Broader windows/caller graphs remain unadmitted by the compact option; accurate accumulation needs a distinct numerical decision, reset proof and target cost. History type changes the intermediate subtraction type; target corner-domain/floating-environment observation is pending. |
 | Biquad, phasor/train and nonlinear math | Declared native difference-equation/domain/timing checks | Target CPU, active helper calls, state/initialisation peaks, coefficient/phase/domain boundaries and a justified optional precision profile. Existing audio-v2 attempts for these wave2 methods are rejected. |
-| Noise | Bounded native statistics and explicit white-seed observations; defined-integer adapter oracle/UBSan plus target stream preservation and memory recovery | The separate private Float32 pink-normalisation experiment has a target CPU observation pending production admission. Per-object seed and clock policy must be described; create seed alone does not prove control of pink's systemticks-seeded state. |
+| Noise | Bounded native statistics and explicit white-seed observations; defined-integer adapter oracle/UBSan plus target stream preservation and memory recovery; exact-context Float32 pink output option reproduces the measured module | Broader generated forms and row counts remain outside the output option. Per-object seed and clock policy must be described; create seed alone does not prove control of pink's systemticks-seeded state. |
 | Utility/control/plumbing | Stereo pass-through, selected parameter conversions and importer/initialisation tests; utility nodes participate in successful graphs | Incidental execution is not independent semantic coverage. Add positive stepped/exponent/large-parameter cases and message/list/loadbang ordering under relevant event loads. |
 
 The precision catalogues illustrate the scope difference: audio-v1 has 16 unique
@@ -78,10 +78,11 @@ double work automatically.
    comparison and 4KiB reservation control are now sealed in
    [the compiler optimisation record](../evidence/compiler-optimisations.json).
    It retains the target average cancellation failure rather than treating
-   baseline-compatible output as corrected accuracy. Separately, the private
+   baseline-compatible output as corrected accuracy. Separately, the
    two-literal Float32 pink-normalisation experiment observed about50.6% lower
-   callback time in its target workload. Production integration/admission remains
-   pending, and that observation is not a universal speed bound. Complete the
+   callback time in its target workload. Its [compiler option](noise-float32-normalisation.md)
+   now admits the exact authored context and reproduces the tested ELF;
+   that observation is not a universal speed bound. Complete the
    independent target corner-domain/floating-environment diagnostic before
    extending precision-equivalence claims beyond tested normal workloads.
 2. **Resolve numerical stability as a separate profile decision.** The private

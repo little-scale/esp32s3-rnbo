@@ -1,0 +1,1157 @@
+{
+  "admitted_context": "Exact authored noise-colour graph, Main, float32-strict, corrected RNBO1.4.4 runtime and defined integer wrap",
+  "bound_reports": {
+    "build/object-optimisation/pink-output-v1/module/build-report.json": "4115d0ed9406366fbd082efc85f2677893e9166eb391ea4c29270a49dbf7621f",
+    "build/object-optimisation/pink-output-v1/native-proof.json": "1f1b236bc299f17bdfa2431c19c1e717428d8679f6411b35b9a74ecfa72f2bf1",
+    "evidence/noise-float32-normalisation.json": "4480c1fc27c130611341c1591634b6694f74d02186c4ee8350e7c12e853323a1"
+  },
+  "compiler_tests": {
+    "count": 180,
+    "log_sha256": "b34f37280fcfbfd839ba59c198effd9e8bb737b8d45adb7d69ad73ecd85e020d"
+  },
+  "default_enabled": false,
+  "format": "rnbo-pink-output-compiler-integration-v1",
+  "limitations": [
+    "Exact graph admission only, no general pink or changed-row-count claim.",
+    "Base strict label retained with explicit manifest flag; optional output expression precision differs.",
+    "Native clock/seed stream proof does not replace target loading evidence; the latter is bound by complete ELF identity.",
+    "Scheduler, sample clock, seed policy, integer random state and rows unchanged."
+  ],
+  "module_build": {
+    "allocation_accounting": {
+      "allocator": "module-private monotonic lifetime arena",
+      "cpp_and_total": "dynamic statistics extension",
+      "out_of_memory": "native trap; no firmware allocator fallback",
+      "rnbo_platform": "base statistics hook counters"
+    },
+    "artifact": {
+      "bytes": 36172,
+      "path": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/pink-output-v1/module/rnbo_s3_dynamic.app.elf",
+      "sha256": "469037d31acd5e822615df0f08e75b42ce63f0dd13c339143e034e8770b02626"
+    },
+    "block_frames": 256,
+    "compile_commands_sha256": "42a934b8f120e993267154a6f468f269382720e8482d81567f938395c1eced11",
+    "compiler": {
+      "path": "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc",
+      "version": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    "dependencies": {
+      "cmake_utilities": {
+        "source": "https://components.espressif.com/components/espressif/cmake_utilities/versions/0.5.3",
+        "source_tree_sha256": "4debf79f417db7c25083c3a4d565183b7b4b5e98ca207e958ed7da76551d6ee6",
+        "version": "0.5.3"
+      },
+      "elf_loader": {
+        "source": "https://github.com/espressif/esp-iot-solution/tree/d2d935d0ee3e78deffa3981cc8c39ac8f534932b/components/elf_loader",
+        "source_tree_sha256": "62d0bc75890842f243f7835a49279cb951daaca61768116d370b5040226f5910",
+        "version": "2.0.0"
+      }
+    },
+    "dynamic_abi": {
+      "entry": "app_main argc1 request pointer in argv[0]",
+      "explicit_result": true,
+      "major": 1,
+      "minor": 0
+    },
+    "dynamic_rnbo_qualified": false,
+    "elf_compatibility_normalization": {
+      "code_data_and_remaining_relocations_unchanged": true,
+      "name": "xtensa-zero-relocation-tombstones-v1",
+      "normalized_sha256": "469037d31acd5e822615df0f08e75b42ce63f0dd13c339143e034e8770b02626",
+      "raw_sha256": "c9ae0c4dcffd7f15bec9f9cc73a868f72c434ab738ea20f3758efc04a91b0cd7",
+      "removed": [
+        {
+          "normalized_bytes": 3780,
+          "original_bytes": 3804,
+          "records": 2,
+          "section": ".rela.dyn"
+        }
+      ],
+      "removed_records": 2
+    },
+    "format": "rnbo-esp32s3-dynamic-module-build",
+    "format_version": 1,
+    "hardware_executed": false,
+    "imports": [],
+    "inspection": {
+      "architecture": "xtensa-esp32s3",
+      "elf_bytes": 36172,
+      "elf_type": 3,
+      "entry": 25404,
+      "hardware_qualified": false,
+      "imports": [],
+      "lifecycle_callbacks": {
+        ".ctors": 2,
+        ".dtors": 1
+      },
+      "loaded_bytes_upper_bound": 31706,
+      "loaded_data_bytes_upper_bound": 1566,
+      "loaded_text_bytes": 30140,
+      "machine": 94,
+      "profile": "pinned-xtensa-section-loader-entry-module",
+      "relocation_counts": {
+        "5": 315
+      },
+      "sections": {
+        ".bss": {
+          "address": 39512,
+          "alignment": 8,
+          "bytes": 464,
+          "flags": 3,
+          "offset": 35412,
+          "type": 8
+        },
+        ".ctors": {
+          "address": 38384,
+          "alignment": 4,
+          "bytes": 8,
+          "flags": 3,
+          "offset": 34288,
+          "type": 1
+        },
+        ".data": {
+          "address": 39432,
+          "alignment": 4,
+          "bytes": 76,
+          "flags": 3,
+          "offset": 35336,
+          "type": 1
+        },
+        ".data.rel.ro": {
+          "address": 38396,
+          "alignment": 4,
+          "bytes": 888,
+          "flags": 3,
+          "offset": 34300,
+          "type": 1
+        },
+        ".dtors": {
+          "address": 38392,
+          "alignment": 4,
+          "bytes": 4,
+          "flags": 3,
+          "offset": 34296,
+          "type": 1
+        },
+        ".dynstr": {
+          "address": 248,
+          "alignment": 1,
+          "bytes": 25,
+          "flags": 2,
+          "offset": 248,
+          "type": 3
+        },
+        ".dynsym": {
+          "address": 184,
+          "alignment": 4,
+          "bytes": 64,
+          "flags": 2,
+          "offset": 184,
+          "type": 11
+        },
+        ".eh_frame": {
+          "address": 34220,
+          "alignment": 4,
+          "bytes": 68,
+          "flags": 2,
+          "offset": 34220,
+          "type": 1
+        },
+        ".got": {
+          "address": 39428,
+          "alignment": 4,
+          "bytes": 4,
+          "flags": 3,
+          "offset": 35332,
+          "type": 1
+        },
+        ".got.loc": {
+          "address": 33732,
+          "alignment": 4,
+          "bytes": 488,
+          "flags": 2,
+          "offset": 33732,
+          "type": 1
+        },
+        ".hash": {
+          "address": 148,
+          "alignment": 4,
+          "bytes": 36,
+          "flags": 2,
+          "offset": 148,
+          "type": 5
+        },
+        ".rela.dyn": {
+          "address": 276,
+          "alignment": 4,
+          "bytes": 3780,
+          "flags": 2,
+          "offset": 276,
+          "type": 4
+        },
+        ".rodata": {
+          "address": 33628,
+          "alignment": 4,
+          "bytes": 104,
+          "flags": 2,
+          "offset": 33628,
+          "type": 1
+        },
+        ".shstrtab": {
+          "address": 0,
+          "alignment": 1,
+          "bytes": 119,
+          "flags": 0,
+          "offset": 35412,
+          "type": 3
+        },
+        ".text": {
+          "address": 4080,
+          "alignment": 4,
+          "bytes": 29547,
+          "flags": 6,
+          "offset": 4080,
+          "type": 1
+        }
+      },
+      "sha256": "469037d31acd5e822615df0f08e75b42ce63f0dd13c339143e034e8770b02626",
+      "text_vaddr": 4080
+    },
+    "prepared_export": {
+      "manifest": {
+        "adaptations": [
+          "rnbo-1.4.4-list-copy-bounds-v1",
+          "rnbo-1.4.4-list-move-inline-storage-v1",
+          "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+          "rnbo-1.4.4-nested-clock-target-v1",
+          "rnbo-1.4.4-defined-imul-v1",
+          "rnbo-1.4.4-defined-pink-affine-v1",
+          "rnbo-1.4.4-float32-pink-output-authored16-v1"
+        ],
+        "audio_inputs": 0,
+        "audio_outputs": 2,
+        "block_frames": 256,
+        "class_name": "rnbos3patch",
+        "defined_int32_wrap": true,
+        "editable_source_sha256": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f",
+        "execution": "static-development",
+        "float32_pink_output": true,
+        "format": "rnbo-esp32s3-prepared-export",
+        "format_version": 1,
+        "midi_output_policy": "reject",
+        "midi_output_ports": 0,
+        "numerical_profile": "float32-strict",
+        "parameter_count": 0,
+        "parameter_schema_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+        "required_host_services": [],
+        "rnbo_version": "1.4.4",
+        "role": "main",
+        "sample_rate": 44100,
+        "scheduler_time": "float64",
+        "source_tree_sha256": "8d90f2d14a565cae275e555e2fd931aeeeabe2f59197feda2006de3030170bd3",
+        "voice_topology": "single-export",
+        "voices": 1
+      },
+      "provenance": {
+        "adaptations": [
+          {
+            "file": "common/RNBO_List.h",
+            "name": "rnbo-1.4.4-list-copy-bounds-v1",
+            "prepared_sha256": "0a2b4d09f0c94c4abd7965dc9cd40b123dd3489934f6d4313424a85c1ae08a69",
+            "purpose": "Bound inline copies and use checked indexing for overflow storage",
+            "raw_sha256": "ec9b91c1855f609157743821cbb319734c3bb5083b0da7c8ee128293054fa7a6"
+          },
+          {
+            "file": "common/RNBO_List.h",
+            "input_sha256": "0a2b4d09f0c94c4abd7965dc9cd40b123dd3489934f6d4313424a85c1ae08a69",
+            "name": "rnbo-1.4.4-list-move-inline-storage-v1",
+            "prepared_sha256": "b9239800d0504044357553f0cc93f3c3a733bf59922ca1f4376dc2bea3d3b0d5",
+            "purpose": "Copy moved inline elements, transfer overflow storage, and reset moved-from ownership"
+          },
+          {
+            "file": "common/RNBO_List.h",
+            "input_sha256": "b9239800d0504044357553f0cc93f3c3a733bf59922ca1f4376dc2bea3d3b0d5",
+            "name": "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+            "prepared_sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+            "purpose": "Return the actual destination list specialization from cross-capacity assignment"
+          },
+          {
+            "file": "common/RNBO_MinimalEngine.h",
+            "name": "rnbo-1.4.4-nested-clock-target-v1",
+            "prepared_sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+            "purpose": "Dispatch nested clocks to the recorded event target",
+            "raw_sha256": "cd714121e628806ae7e6cdc82d1e3229d1704820b24839767c6bdd9ad3ea2b27"
+          },
+          {
+            "edits": [
+              {
+                "input_span_bytes": [
+                  1364,
+                  1428
+                ],
+                "input_span_sha256": "481a263b03a575638345238bea187a9bd7dca4e9df840aa36c2fa68c97eb31ce",
+                "prepared_span_bytes": [
+                  1364,
+                  1903
+                ],
+                "prepared_span_sha256": "8bba43beebb48f352ac189d5769e01655f75a3c8e1aebd4e78df98423646b8c0"
+              }
+            ],
+            "file": "common/RNBO_Math.h",
+            "input_sha256": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+            "inverse_byte_identity": true,
+            "kernel_sha256": "c529727b0da0708504f7f57a95cc794b19ee1c88189a448f89fec3aa69d6a657",
+            "name": "rnbo-1.4.4-defined-imul-v1",
+            "prepared_sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+            "purpose": "Defined modulo2^32 product, then signed mapping without an out-of-range signed cast",
+            "runtime_guards_sha256": {
+              "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+              "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+              "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+              "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+            },
+            "scope": "Only reviewed rnbo_imul and pink paths; no claim that all other generated signed arithmetic is defined",
+            "transformer_sha256": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+            "unchanged_outside_spans": true
+          },
+          {
+            "domain": "Compile-time guarded Float32 audio and uint32 Index; signed result represents exact int32 wrap",
+            "edits": [
+              {
+                "input_span_bytes": [
+                  17107,
+                  17345
+                ],
+                "input_span_sha256": "ff6604bd28d6eb939dd88fbc1bed26962a54335fe0e99b5648200d39110f1d66",
+                "prepared_span_bytes": [
+                  17107,
+                  17607
+                ],
+                "prepared_span_sha256": "24409a28de07048ae8a7c540844b93cf4c08d71eade1a04657a7ded41625fae7"
+              }
+            ],
+            "file": "rnbo_source.h",
+            "input_sha256": "83777d35f432ced20b7b52db226ba138179b07c65334e44514520a0cec33c940",
+            "inverse_byte_identity": true,
+            "methods": [
+              {
+                "kernel_sha256": "c7536cf8d1fcae858a589092b65f3704f04a5447837f6a66083f0b0b455db6af",
+                "method": "pink_tilde_01_generateRandomNumber"
+              }
+            ],
+            "name": "rnbo-1.4.4-defined-pink-affine-v1",
+            "prepared_sha256": "45b50dab69cedcd4d732ed2fab28178021cb7e6adf0ddd718754a2dce70f6f3d",
+            "purpose": "Defined uint32 affine multiply+add and signed-to-Index mapping; preserve all32 state bits",
+            "transformer_sha256": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+            "unchanged": "systemticks seed policy, row update/output arithmetic, buffers and scheduler",
+            "unchanged_outside_spans": true
+          },
+          {
+            "admission": "Exact authored noise-colour graph and corrected RNBO1.4.4 runtime; fixed16-row state and all callers pinned",
+            "description_file_sha256": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+            "evidence": "evidence/noise-float32-normalisation.json",
+            "file": "rnbo_source.h",
+            "input_sha256": "45b50dab69cedcd4d732ed2fab28178021cb7e6adf0ddd718754a2dce70f6f3d",
+            "inverse_byte_identity": true,
+            "literal_suffix_count": 2,
+            "name": "rnbo-1.4.4-float32-pink-output-authored16-v1",
+            "normalization_sum_domain": {
+              "exhaustive_native_words": 142606320,
+              "maximum": 142606319,
+              "minimum": 0
+            },
+            "numerical_scope": "Bit preservation in the reviewed bounded algorithm and tested target workload; no arbitrary Float32-expression equivalence claim",
+            "prepared_sha256": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+            "runtime_tree_sha256": "fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d",
+            "transformer_sha256": "3fcb1e7b9215812d5705850d106ac8f21afe7ce97af0fdd13e85ba1a064c0ec4",
+            "unchanged": "Float32 division; all integer RNG, white noise, row history, seeding, clocks and class layout"
+          }
+        ],
+        "adapter": "rnbo-s3-minimal-static-v1",
+        "claims": {
+          "dynamic_loader_qualified": false,
+          "hardware_qualified": false,
+          "host_prepared": true,
+          "xtensa_compiled": false
+        },
+        "compiler_helpers_sha256": {
+          "bounded_filters.py": "f254dc13a3d9da5280bfedd68427a381bf7a47eb6a81ee71b0155e0200bde299",
+          "compact_average.py": "363476f0eff901efd86bc2d38f6bef273efa4499ac8ec05aee22398446d82f57",
+          "float32_audio.py": "f968ac63014532e82e67bb880765e70c2fefe80ed24b3a54e8c0cf89c88211c3",
+          "float32_delays.py": "8e3d8472355a03ec85956ae844ee36054902ac8e88ddd364b6c75d5b915d2f5d",
+          "hoist_cycles.py": "163f0bd7de60ed846735eda4bea5dbdabe7c65249a33c1aa7f2b163257300392",
+          "int32_wrap.py": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+          "omit_mtof_table.py": "5a58206370afa0baf43ae3ef46f60a3b56a3575f19376b6d18d4797562b068c6",
+          "pink_output.py": "3fcb1e7b9215812d5705850d106ac8f21afe7ce97af0fdd13e85ba1a064c0ec4"
+        },
+        "format_version": 1,
+        "manifest_sha256": "15b8a44542480b7c5320045efc79ce7acf4e3cc2757b914a3da86c3beb4d5597",
+        "prepared_files_sha256": {
+          "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+          "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+          "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+          "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+          "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+          "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+          "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+          "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+          "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+          "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+          "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+          "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+          "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+          "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+          "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+          "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+          "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+          "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+          "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+          "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+          "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+          "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+          "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+          "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+          "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+          "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+          "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+          "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+          "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+          "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+          "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+          "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+          "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+          "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+          "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+          "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+          "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+          "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+          "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+          "patch_config.h": "b688c9ff05fb82c52c46248821337c536cda9487cb8d73887231aa28c4e1496e",
+          "rnbo_source.h": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+          "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+        },
+        "preparer_sha256": "821c961f6065ad1642468d5bf5272747bc25ba488c8d7245f69ec151e1884e0e",
+        "raw_files_sha256": {
+          "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+          "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+          "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+          "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+          "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+          "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+          "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+          "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+          "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+          "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+          "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+          "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+          "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+          "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+          "common/RNBO_List.h": "ec9b91c1855f609157743821cbb319734c3bb5083b0da7c8ee128293054fa7a6",
+          "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+          "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+          "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+          "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+          "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+          "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+          "common/RNBO_MinimalEngine.h": "cd714121e628806ae7e6cdc82d1e3229d1704820b24839767c6bdd9ad3ea2b27",
+          "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+          "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+          "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+          "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+          "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+          "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+          "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+          "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+          "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+          "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+          "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+          "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+          "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+          "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+          "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+          "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+          "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+          "rnbo_source.h": "83777d35f432ced20b7b52db226ba138179b07c65334e44514520a0cec33c940",
+          "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+        }
+      }
+    },
+    "prepared_snapshot": {
+      "manifest_file_sha256": "15b8a44542480b7c5320045efc79ce7acf4e3cc2757b914a3da86c3beb4d5597",
+      "prepared_files_sha256": {
+        "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+        "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+        "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+        "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+        "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+        "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+        "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+        "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+        "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+        "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+        "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+        "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+        "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+        "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+        "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+        "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+        "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+        "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+        "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+        "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+        "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+        "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+        "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+        "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+        "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+        "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+        "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+        "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+        "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+        "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+        "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+        "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+        "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+        "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+        "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+        "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+        "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+        "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+        "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+        "patch_config.h": "b688c9ff05fb82c52c46248821337c536cda9487cb8d73887231aa28c4e1496e",
+        "rnbo_source.h": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+        "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+      },
+      "provenance_file_sha256": "fba7ca592318fb00cde8331c41d3a1d06a9fcf3f8ba497d8978a8692e5d69ab0"
+    },
+    "private_support_archives": {
+      "libgcc": {
+        "path": "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/esp32s3/libgcc.a",
+        "sha256": "184d25dcdb88604a0c07018c3cbb83e1ca8e75688208f4676d25739854d4fdd5"
+      },
+      "libm": {
+        "path": "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/lib/esp32s3/libm.a",
+        "sha256": "76b047e36932414b54e39549d4c09c3c845f1c754794c5ab1e1a3d43d29721c6"
+      }
+    },
+    "raw_artifact": {
+      "bytes": 36172,
+      "path": "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/pink-output-v1/module/rnbo_s3_dynamic.app.raw.elf",
+      "sha256": "c9ae0c4dcffd7f15bec9f9cc73a868f72c434ab738ea20f3758efc04a91b0cd7"
+    },
+    "role": "main",
+    "sample_rate": 44100,
+    "source_files_sha256": {
+      "host/compiler/bounded_filters.py": "f254dc13a3d9da5280bfedd68427a381bf7a47eb6a81ee71b0155e0200bde299",
+      "host/compiler/build.py": "d4c610f9a53136fd199a3f97b22db9aec8d58a558efc9223099347578d194c48",
+      "host/compiler/build_module.py": "99865c67831b27dadef4921f0cbe394e3a991e077c2508dc2d7eb0f77fa70645",
+      "host/compiler/compact_average.py": "363476f0eff901efd86bc2d38f6bef273efa4499ac8ec05aee22398446d82f57",
+      "host/compiler/float32_audio.py": "f968ac63014532e82e67bb880765e70c2fefe80ed24b3a54e8c0cf89c88211c3",
+      "host/compiler/float32_delays.py": "8e3d8472355a03ec85956ae844ee36054902ac8e88ddd364b6c75d5b915d2f5d",
+      "host/compiler/hoist_cycles.py": "163f0bd7de60ed846735eda4bea5dbdabe7c65249a33c1aa7f2b163257300392",
+      "host/compiler/inspect_module.py": "1eecc31d6b3ef0f0faee15317d3d9c3486582d8f45c25331fe7cbd1283b828a8",
+      "host/compiler/int32_wrap.py": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+      "host/compiler/omit_mtof_table.py": "5a58206370afa0baf43ae3ef46f60a3b56a3575f19376b6d18d4797562b068c6",
+      "host/compiler/pink_output.py": "3fcb1e7b9215812d5705850d106ac8f21afe7ce97af0fdd13e85ba1a064c0ec4",
+      "host/compiler/prepare.py": "821c961f6065ad1642468d5bf5272747bc25ba488c8d7245f69ec151e1884e0e",
+      "loader-spike/dependencies.json": "4ee1562c3172768a71eba14046398ec61c64e28d74289c91a2d8ea556ce9e98b",
+      "module-sdk/cmake/dynamic/CMakeLists.txt": "05594b22ceb0e0ed2e7b8f80ff4be881163cf838c2fa220ce252945e3a2d9fe7",
+      "module-sdk/cmake/dynamic/main/CMakeLists.txt": "99c3b0316c1ccffb89bf957065cea1fd55cbd49b9b50572355bb59b57eaecd79",
+      "module-sdk/cmake/dynamic/sdkconfig.defaults": "6183137b61986eb89be01ebbd42da1e9565c59ae5d34ec0993036daea684d199",
+      "module-sdk/dynamic/README.md": "229880bb4acfaab9f5b505e933d5012a83b100a0369bf243c77dde79a53fb487",
+      "module-sdk/dynamic/arena.cpp": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3",
+      "module-sdk/dynamic/arena.hpp": "d5cefdf593c534ead4f910231a5f57c2bd5b180938eb59e6877fb63d8f80dbe2",
+      "module-sdk/dynamic/lifecycle.cpp": "3fabb00f4caf698c11b503de11f889623d30e32da2b633c37b6991b7eaa39911",
+      "module-sdk/dynamic/lifecycle.hpp": "72e2552ff411e833d52997cae3f71be14b2af67e05db61447fa0d1659b77d062",
+      "module-sdk/dynamic/rnbo_s3_dynamic.cpp": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e",
+      "module-sdk/dynamic/support.cpp": "f937333a547e6a19504a5e6b70c90c4fa6de683f08d19877cdcec4479160bb6b",
+      "module-sdk/include/rnbo_s3_dynamic.h": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4",
+      "module-sdk/include/rnbo_s3_module.h": "e70447b3b5337fa533434b1bf1ece4a1efbb8ff1342c0e466b55e70cbce50604"
+    },
+    "state_policy": {
+      "alignment": 16,
+      "caller_owned": true,
+      "context_bytes": "reported by allocation-free DESCRIBE",
+      "maximum_arena_bytes": 1048576,
+      "minimum_arena_bytes": 4096,
+      "minimum_arena_is_structural_not_measured": true
+    },
+    "symbols_sha256": "69b45e2f08474ef959acc6e043bfcfe8b8cade5293efd68bf6fcdb3542e1ca7a"
+  },
+  "module_byte_identical_to_observed_target": true,
+  "native_proof": {
+    "cases": [
+      {
+        "captures": {
+          ".f32": {
+            "bytes": 8388608,
+            "reference_sha256": "07a6559d409c2427dfc85806ef0b69bc55341bd77c6a46ede8efe8d13a4a7387",
+            "sha256": "07a6559d409c2427dfc85806ef0b69bc55341bd77c6a46ede8efe8d13a4a7387"
+          },
+          ".pcm": {
+            "bytes": 4194304,
+            "reference_sha256": "83c7ad3a5f84978798c23f620cdaa7ccbed5c4838a2c9c879d164d6cb39640e4",
+            "sha256": "83c7ad3a5f84978798c23f620cdaa7ccbed5c4838a2c9c879d164d6cb39640e4"
+          },
+          ".state": {
+            "bytes": 639132,
+            "reference_sha256": "20731ad05bd333ea63a0f882f98c34e369b85155623c5e9c5343b4cb0568cc26",
+            "sha256": "20731ad05bd333ea63a0f882f98c34e369b85155623c5e9c5343b4cb0568cc26"
+          }
+        },
+        "case": "warm4",
+        "statistics": {
+          "arena_used": 192,
+          "blocks": 4096,
+          "cpp_new": 1,
+          "errors": 0,
+          "frames": 1048576,
+          "invalid_samples": 0,
+          "late": 0,
+          "pink_mean": 0.07001672527150049,
+          "pink_peak": 0.7514851093292236,
+          "pink_rms": 0.16095802248176294,
+          "platform_allocations": 1,
+          "seed": 305419896,
+          "state_records": 4097,
+          "state_words": 39,
+          "warmup": 4,
+          "white_mean": 0.0009404188986081863,
+          "white_peak": 0.9999995231628418,
+          "white_rms": 0.5769593244854304
+        }
+      },
+      {
+        "captures": {
+          ".f32": {
+            "bytes": 8388608,
+            "reference_sha256": "07a6559d409c2427dfc85806ef0b69bc55341bd77c6a46ede8efe8d13a4a7387",
+            "sha256": "07a6559d409c2427dfc85806ef0b69bc55341bd77c6a46ede8efe8d13a4a7387"
+          },
+          ".pcm": {
+            "bytes": 4194304,
+            "reference_sha256": "83c7ad3a5f84978798c23f620cdaa7ccbed5c4838a2c9c879d164d6cb39640e4",
+            "sha256": "83c7ad3a5f84978798c23f620cdaa7ccbed5c4838a2c9c879d164d6cb39640e4"
+          },
+          ".state": {
+            "bytes": 639132,
+            "reference_sha256": "80a271142a2e7df59f5c0a0cfca0da2c7ef52f7f88d41a6395ec33498a770c4e",
+            "sha256": "80a271142a2e7df59f5c0a0cfca0da2c7ef52f7f88d41a6395ec33498a770c4e"
+          }
+        },
+        "case": "warm4-other-seed",
+        "statistics": {
+          "arena_used": 192,
+          "blocks": 4096,
+          "cpp_new": 1,
+          "errors": 0,
+          "frames": 1048576,
+          "invalid_samples": 0,
+          "late": 0,
+          "pink_mean": 0.07001672527150049,
+          "pink_peak": 0.7514851093292236,
+          "pink_rms": 0.16095802248176294,
+          "platform_allocations": 1,
+          "seed": 305419897,
+          "state_records": 4097,
+          "state_words": 39,
+          "warmup": 4,
+          "white_mean": 0.0009404188986081863,
+          "white_peak": 0.9999995231628418,
+          "white_rms": 0.5769593244854304
+        }
+      },
+      {
+        "captures": {
+          ".f32": {
+            "bytes": 8388608,
+            "reference_sha256": "f9801e1b687f69c2c43963c8cf22fb58c47c1f091c5e77b59220e5054d17bcc4",
+            "sha256": "f9801e1b687f69c2c43963c8cf22fb58c47c1f091c5e77b59220e5054d17bcc4"
+          },
+          ".pcm": {
+            "bytes": 4194304,
+            "reference_sha256": "38ee14679e430a308b626f45cd675e64b19b8987353676ad00e70cb31ca21650",
+            "sha256": "38ee14679e430a308b626f45cd675e64b19b8987353676ad00e70cb31ca21650"
+          },
+          ".state": {
+            "bytes": 639132,
+            "reference_sha256": "fb07c02920864beedf00bc389255aed375c08f748be14b2534d2b882aa19c9cf",
+            "sha256": "fb07c02920864beedf00bc389255aed375c08f748be14b2534d2b882aa19c9cf"
+          }
+        },
+        "case": "cold",
+        "statistics": {
+          "arena_used": 192,
+          "blocks": 4096,
+          "cpp_new": 1,
+          "errors": 0,
+          "frames": 1048576,
+          "invalid_samples": 0,
+          "late": 0,
+          "pink_mean": 0.06955289627711636,
+          "pink_peak": 0.8983450531959534,
+          "pink_rms": 0.161545501021739,
+          "platform_allocations": 1,
+          "seed": 305419896,
+          "state_records": 4097,
+          "state_words": 39,
+          "warmup": 0,
+          "white_mean": 0.0009570651412786901,
+          "white_peak": 0.9999995231628418,
+          "white_rms": 0.5769684391634764
+        }
+      }
+    ],
+    "compared_float_channel_words": 6291456,
+    "compile_command": [
+      "c++",
+      "-std=c++17",
+      "-O3",
+      "-fsanitize=undefined",
+      "-fno-sanitize-recover=all",
+      "-fno-builtin",
+      "-fno-exceptions",
+      "-fno-rtti",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-strict-aliasing",
+      "-UNDEBUG",
+      "-I",
+      "/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+      "-I",
+      "/Users/a1106632/Documents/esp32-rnbo/module-sdk/dynamic",
+      "-I",
+      "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/pink-output-v1/prepared/noise",
+      "-I",
+      "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/pink-output-v1/prepared/noise/common",
+      "/Users/a1106632/Documents/esp32-rnbo/build/research/noise-float32/stream_probe.cpp",
+      "/Users/a1106632/Documents/esp32-rnbo/module-sdk/dynamic/arena.cpp",
+      "/Users/a1106632/Documents/esp32-rnbo/build/research/noise-float32/support-host.cpp",
+      "-o",
+      "/Users/a1106632/Documents/esp32-rnbo/build/object-optimisation/pink-output-v1/native/probe"
+    ],
+    "compile_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "elf_lifecycle_exercised": false,
+    "executable_sha256": "191cefa5fbe79d8345a838ba32f57d02576116b07029d8d31b17df6960a74dee",
+    "format": "integrated-pink-output-native-proof-v1",
+    "hardware_executed": false,
+    "limits": [
+      "Native lifecycle stubs exclude actual ELF mapping, constructors and unload.",
+      "Comparison preserves authored white seed and sample-clock pink seed; not a new seed policy.",
+      "Clock body identical; only noexcept removed from frozen Darwin-compatible support copy."
+    ],
+    "passed": true,
+    "pcm_bit_identical": true,
+    "prepared_files_sha256": {
+      "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+      "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+      "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+      "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+      "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+      "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+      "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+      "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+      "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+      "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+      "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+      "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+      "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+      "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+      "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+      "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+      "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+      "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+      "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+      "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+      "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+      "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+      "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+      "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+      "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+      "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+      "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+      "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+      "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+      "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+      "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+      "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+      "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+      "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+      "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+      "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+      "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+      "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+      "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+      "patch_config.h": "b688c9ff05fb82c52c46248821337c536cda9487cb8d73887231aa28c4e1496e",
+      "rnbo_source.h": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+      "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+    },
+    "prepared_snapshot": {
+      "manifest_file_sha256": "15b8a44542480b7c5320045efc79ce7acf4e3cc2757b914a3da86c3beb4d5597",
+      "prepared_files_sha256": {
+        "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+        "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+        "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+        "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+        "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+        "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+        "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+        "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+        "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+        "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+        "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+        "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+        "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+        "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+        "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+        "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+        "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+        "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+        "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+        "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+        "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+        "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+        "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+        "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+        "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+        "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+        "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+        "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+        "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+        "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+        "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+        "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+        "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+        "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+        "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+        "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+        "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+        "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+        "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+        "patch_config.h": "b688c9ff05fb82c52c46248821337c536cda9487cb8d73887231aa28c4e1496e",
+        "rnbo_source.h": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+        "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+      },
+      "provenance_file_sha256": "fba7ca592318fb00cde8331c41d3a1d06a9fcf3f8ba497d8978a8692e5d69ab0"
+    },
+    "reference_stream_report_sha256": "5943af8965b765d372a40cd3f50a31bec46ca9c17d7458a7c6f0fcc863647426",
+    "source_files_sha256": {
+      "build/object-optimisation/pink-output-v1/prove.py": "da7f112a883bd6888d0f165e2cf926d47bce84a0db0edca8ee9a419c8933e5f0",
+      "build/research/noise-float32/stream_probe.cpp": "bae430e1c1aa1f54e526c27fd8ce25a03d4373d0adab4538f323d57a47676c6d",
+      "build/research/noise-float32/support-host.cpp": "7ffb9cc99e8731ebe72b311e3ecaaca85c34adc3ab73e9837cbc916a0c379cae",
+      "module-sdk/dynamic/arena.cpp": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3",
+      "module-sdk/dynamic/rnbo_s3_dynamic.cpp": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e"
+    },
+    "state_snapshots_bit_identical": true
+  },
+  "prepared_manifest": {
+    "adaptations": [
+      "rnbo-1.4.4-list-copy-bounds-v1",
+      "rnbo-1.4.4-list-move-inline-storage-v1",
+      "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+      "rnbo-1.4.4-nested-clock-target-v1",
+      "rnbo-1.4.4-defined-imul-v1",
+      "rnbo-1.4.4-defined-pink-affine-v1",
+      "rnbo-1.4.4-float32-pink-output-authored16-v1"
+    ],
+    "audio_inputs": 0,
+    "audio_outputs": 2,
+    "block_frames": 256,
+    "class_name": "rnbos3patch",
+    "defined_int32_wrap": true,
+    "editable_source_sha256": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f",
+    "execution": "static-development",
+    "float32_pink_output": true,
+    "format": "rnbo-esp32s3-prepared-export",
+    "format_version": 1,
+    "midi_output_policy": "reject",
+    "midi_output_ports": 0,
+    "numerical_profile": "float32-strict",
+    "parameter_count": 0,
+    "parameter_schema_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "required_host_services": [],
+    "rnbo_version": "1.4.4",
+    "role": "main",
+    "sample_rate": 44100,
+    "scheduler_time": "float64",
+    "source_tree_sha256": "8d90f2d14a565cae275e555e2fd931aeeeabe2f59197feda2006de3030170bd3",
+    "voice_topology": "single-export",
+    "voices": 1
+  },
+  "prepared_provenance": {
+    "adaptations": [
+      {
+        "file": "common/RNBO_List.h",
+        "name": "rnbo-1.4.4-list-copy-bounds-v1",
+        "prepared_sha256": "0a2b4d09f0c94c4abd7965dc9cd40b123dd3489934f6d4313424a85c1ae08a69",
+        "purpose": "Bound inline copies and use checked indexing for overflow storage",
+        "raw_sha256": "ec9b91c1855f609157743821cbb319734c3bb5083b0da7c8ee128293054fa7a6"
+      },
+      {
+        "file": "common/RNBO_List.h",
+        "input_sha256": "0a2b4d09f0c94c4abd7965dc9cd40b123dd3489934f6d4313424a85c1ae08a69",
+        "name": "rnbo-1.4.4-list-move-inline-storage-v1",
+        "prepared_sha256": "b9239800d0504044357553f0cc93f3c3a733bf59922ca1f4376dc2bea3d3b0d5",
+        "purpose": "Copy moved inline elements, transfer overflow storage, and reset moved-from ownership"
+      },
+      {
+        "file": "common/RNBO_List.h",
+        "input_sha256": "b9239800d0504044357553f0cc93f3c3a733bf59922ca1f4376dc2bea3d3b0d5",
+        "name": "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+        "prepared_sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+        "purpose": "Return the actual destination list specialization from cross-capacity assignment"
+      },
+      {
+        "file": "common/RNBO_MinimalEngine.h",
+        "name": "rnbo-1.4.4-nested-clock-target-v1",
+        "prepared_sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+        "purpose": "Dispatch nested clocks to the recorded event target",
+        "raw_sha256": "cd714121e628806ae7e6cdc82d1e3229d1704820b24839767c6bdd9ad3ea2b27"
+      },
+      {
+        "edits": [
+          {
+            "input_span_bytes": [
+              1364,
+              1428
+            ],
+            "input_span_sha256": "481a263b03a575638345238bea187a9bd7dca4e9df840aa36c2fa68c97eb31ce",
+            "prepared_span_bytes": [
+              1364,
+              1903
+            ],
+            "prepared_span_sha256": "8bba43beebb48f352ac189d5769e01655f75a3c8e1aebd4e78df98423646b8c0"
+          }
+        ],
+        "file": "common/RNBO_Math.h",
+        "input_sha256": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+        "inverse_byte_identity": true,
+        "kernel_sha256": "c529727b0da0708504f7f57a95cc794b19ee1c88189a448f89fec3aa69d6a657",
+        "name": "rnbo-1.4.4-defined-imul-v1",
+        "prepared_sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+        "purpose": "Defined modulo2^32 product, then signed mapping without an out-of-range signed cast",
+        "runtime_guards_sha256": {
+          "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+          "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+          "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+          "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+        },
+        "scope": "Only reviewed rnbo_imul and pink paths; no claim that all other generated signed arithmetic is defined",
+        "transformer_sha256": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+        "unchanged_outside_spans": true
+      },
+      {
+        "domain": "Compile-time guarded Float32 audio and uint32 Index; signed result represents exact int32 wrap",
+        "edits": [
+          {
+            "input_span_bytes": [
+              17107,
+              17345
+            ],
+            "input_span_sha256": "ff6604bd28d6eb939dd88fbc1bed26962a54335fe0e99b5648200d39110f1d66",
+            "prepared_span_bytes": [
+              17107,
+              17607
+            ],
+            "prepared_span_sha256": "24409a28de07048ae8a7c540844b93cf4c08d71eade1a04657a7ded41625fae7"
+          }
+        ],
+        "file": "rnbo_source.h",
+        "input_sha256": "83777d35f432ced20b7b52db226ba138179b07c65334e44514520a0cec33c940",
+        "inverse_byte_identity": true,
+        "methods": [
+          {
+            "kernel_sha256": "c7536cf8d1fcae858a589092b65f3704f04a5447837f6a66083f0b0b455db6af",
+            "method": "pink_tilde_01_generateRandomNumber"
+          }
+        ],
+        "name": "rnbo-1.4.4-defined-pink-affine-v1",
+        "prepared_sha256": "45b50dab69cedcd4d732ed2fab28178021cb7e6adf0ddd718754a2dce70f6f3d",
+        "purpose": "Defined uint32 affine multiply+add and signed-to-Index mapping; preserve all32 state bits",
+        "transformer_sha256": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+        "unchanged": "systemticks seed policy, row update/output arithmetic, buffers and scheduler",
+        "unchanged_outside_spans": true
+      },
+      {
+        "admission": "Exact authored noise-colour graph and corrected RNBO1.4.4 runtime; fixed16-row state and all callers pinned",
+        "description_file_sha256": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+        "evidence": "evidence/noise-float32-normalisation.json",
+        "file": "rnbo_source.h",
+        "input_sha256": "45b50dab69cedcd4d732ed2fab28178021cb7e6adf0ddd718754a2dce70f6f3d",
+        "inverse_byte_identity": true,
+        "literal_suffix_count": 2,
+        "name": "rnbo-1.4.4-float32-pink-output-authored16-v1",
+        "normalization_sum_domain": {
+          "exhaustive_native_words": 142606320,
+          "maximum": 142606319,
+          "minimum": 0
+        },
+        "numerical_scope": "Bit preservation in the reviewed bounded algorithm and tested target workload; no arbitrary Float32-expression equivalence claim",
+        "prepared_sha256": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+        "runtime_tree_sha256": "fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d",
+        "transformer_sha256": "3fcb1e7b9215812d5705850d106ac8f21afe7ce97af0fdd13e85ba1a064c0ec4",
+        "unchanged": "Float32 division; all integer RNG, white noise, row history, seeding, clocks and class layout"
+      }
+    ],
+    "adapter": "rnbo-s3-minimal-static-v1",
+    "claims": {
+      "dynamic_loader_qualified": false,
+      "hardware_qualified": false,
+      "host_prepared": true,
+      "xtensa_compiled": false
+    },
+    "compiler_helpers_sha256": {
+      "bounded_filters.py": "f254dc13a3d9da5280bfedd68427a381bf7a47eb6a81ee71b0155e0200bde299",
+      "compact_average.py": "363476f0eff901efd86bc2d38f6bef273efa4499ac8ec05aee22398446d82f57",
+      "float32_audio.py": "f968ac63014532e82e67bb880765e70c2fefe80ed24b3a54e8c0cf89c88211c3",
+      "float32_delays.py": "8e3d8472355a03ec85956ae844ee36054902ac8e88ddd364b6c75d5b915d2f5d",
+      "hoist_cycles.py": "163f0bd7de60ed846735eda4bea5dbdabe7c65249a33c1aa7f2b163257300392",
+      "int32_wrap.py": "2a3a149ef2a14bbdfc038e796736fce06b853048d81d7c41d46525c2008e41b8",
+      "omit_mtof_table.py": "5a58206370afa0baf43ae3ef46f60a3b56a3575f19376b6d18d4797562b068c6",
+      "pink_output.py": "3fcb1e7b9215812d5705850d106ac8f21afe7ce97af0fdd13e85ba1a064c0ec4"
+    },
+    "format_version": 1,
+    "manifest_sha256": "15b8a44542480b7c5320045efc79ce7acf4e3cc2757b914a3da86c3beb4d5597",
+    "prepared_files_sha256": {
+      "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+      "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+      "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+      "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+      "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+      "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+      "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+      "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+      "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+      "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+      "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+      "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+      "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+      "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+      "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+      "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+      "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+      "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+      "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+      "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+      "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+      "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+      "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+      "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+      "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+      "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+      "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+      "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+      "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+      "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+      "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+      "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+      "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+      "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+      "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+      "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+      "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+      "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+      "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+      "patch_config.h": "b688c9ff05fb82c52c46248821337c536cda9487cb8d73887231aa28c4e1496e",
+      "rnbo_source.h": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+      "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+    },
+    "preparer_sha256": "821c961f6065ad1642468d5bf5272747bc25ba488c8d7245f69ec151e1884e0e",
+    "raw_files_sha256": {
+      "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+      "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+      "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+      "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+      "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+      "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+      "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+      "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+      "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+      "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+      "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+      "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+      "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+      "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+      "common/RNBO_List.h": "ec9b91c1855f609157743821cbb319734c3bb5083b0da7c8ee128293054fa7a6",
+      "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+      "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+      "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+      "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+      "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+      "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+      "common/RNBO_MinimalEngine.h": "cd714121e628806ae7e6cdc82d1e3229d1704820b24839767c6bdd9ad3ea2b27",
+      "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+      "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+      "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+      "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+      "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+      "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+      "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+      "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+      "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+      "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+      "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+      "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+      "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+      "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+      "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+      "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+      "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+      "rnbo_source.h": "83777d35f432ced20b7b52db226ba138179b07c65334e44514520a0cec33c940",
+      "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+    }
+  },
+  "prepared_snapshot": {
+    "manifest_file_sha256": "15b8a44542480b7c5320045efc79ce7acf4e3cc2757b914a3da86c3beb4d5597",
+    "prepared_files_sha256": {
+      "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+      "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+      "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+      "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+      "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+      "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+      "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+      "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+      "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+      "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+      "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+      "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+      "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+      "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+      "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+      "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+      "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+      "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+      "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+      "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+      "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+      "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+      "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+      "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+      "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+      "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+      "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+      "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+      "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+      "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+      "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+      "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+      "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+      "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+      "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+      "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+      "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+      "description.json": "a6f6553e8e39b9b69adb2662fc3eb6be28ea1961ffe905733f555da43aa1d256",
+      "generator.json": "b6a807f2199cbaa001098db91e174a20077a3f3fa48be04d575b94a550ddbaeb",
+      "patch_config.h": "b688c9ff05fb82c52c46248821337c536cda9487cb8d73887231aa28c4e1496e",
+      "rnbo_source.h": "7372566a3620815d7c7db0e3cf5f8acfd27bdb62ab903f19c828379784eb9758",
+      "source.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f"
+    },
+    "provenance_file_sha256": "fba7ca592318fb00cde8331c41d3a1d06a9fcf3f8ba497d8978a8692e5d69ab0"
+  },
+  "production_option": "--float32-pink-output",
+  "sealer_sha256": "a338213d5602a760876e39c16e6374958c0dad34798e79b533f7c1fe9335572a",
+  "target_observation_file": "evidence/noise-float32-normalisation.json",
+  "target_observation_sha256": "4480c1fc27c130611341c1591634b6694f74d02186c4ee8350e7c12e853323a1",
+  "target_qualification_scope": "Identical complete ELF to the independently executed private candidate; existing workload accuracy/timing/lifecycle observations apply to these bytes. No new whole-player qualification."
+}

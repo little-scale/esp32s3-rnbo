@@ -292,7 +292,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             *, apply_fixes: bool = True, midi_output_policy: str = "reject",
             numerical_profile: str = "float32-strict", filter_delay_max_ms: float | None = None,
             float32_delay_storage: bool = False, omit_unused_mtof_table: bool = False,
-            hoist_cycle_conversions: bool = False, compact_average_history: bool = False) -> dict:
+            hoist_cycle_conversions: bool = False, compact_average_history: bool = False,
+            float32_pink_output: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -307,6 +308,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("omit unused mtof table must be a boolean")
     if type(hoist_cycle_conversions) is not bool or type(compact_average_history) is not bool:
         raise ExportError("cycle hoisting and compact average history must be booleans")
+    if type(float32_pink_output) is not bool:
+        raise ExportError("Float32 pink output must be a boolean")
+    if float32_pink_output and (not apply_fixes or role != "main" or numerical_profile != "float32-strict"):
+        raise ExportError("Float32 pink output requires normal runtime fixes, Main role and the strict base profile")
     if filter_delay_max_ms is not None and (type(filter_delay_max_ms) not in (int, float) or
             not math.isfinite(filter_delay_max_ms) or not 0 < filter_delay_max_ms <= 1000):
         raise ExportError("filter-delay-max-ms must be positive, finite, and at most1000")
@@ -396,6 +401,13 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.extend(integer_changes)
+    if float32_pink_output:
+        from pink_output import float32_pink_output as adapt_pink_output
+        try:
+            files, pink_change = adapt_pink_output(files, description)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        changes.append(pink_change)
     if numerical_profile=="float32-cycle-v1":
         files["rnbo_source.h"],cycle_change=float32_cycle(files["rnbo_source.h"])
         changes.append(cycle_change)
@@ -465,6 +477,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["defined_int32_wrap"] = True
     if hoist_cycle_conversions:
         manifest["hoist_cycle_conversions"] = True
+    if float32_pink_output:
+        manifest["float32_pink_output"] = True
     if compact_average_history:
         manifest["compact_average_history"] = True
         manifest["requires_opaque_dataref_abi"] = True
@@ -490,7 +504,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -538,13 +552,16 @@ def main() -> None:
                         help="Move reviewed scalar cycle conversions outside sample loops without changing arithmetic")
     parser.add_argument("--compact-average-history", action="store_true",
                         help="Compact the reviewed authored1..64-window average history; requires opaque C ABI1.0")
+    parser.add_argument("--float32-pink-output", action="store_true",
+                        help="Keep output scaling Float32 in the reviewed authored16-row pink graph; requires strict Main and normal fixes")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
                            apply_fixes=not args.no_runtime_fixes, midi_output_policy=args.midi_output,
                            numerical_profile=args.numerical_profile,filter_delay_max_ms=args.filter_delay_max_ms,
                            float32_delay_storage=args.float32_delays,omit_unused_mtof_table=args.omit_unused_mtof_table,
-                           hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history)
+                           hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
+                           float32_pink_output=args.float32_pink_output)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))
