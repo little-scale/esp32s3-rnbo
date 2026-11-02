@@ -26,6 +26,16 @@ in [loader-spike.md](loader-spike.md).
 
 ## First connected session
 
+For isolated benchmark firmware, `tools/run_hardware_test.py` verifies the
+identified instrument, original backup and matching partition tables, writes
+only the application, then attempts restoration in the same operation's
+`finally` block. `--restore-live-controls` snapshots current numeric parameters
+and accepts a healthy Panic-muted instrument. It requires an instrument built
+with startup volume zero, verifies parameter readbacks after restoration, and
+restores the original volume and Panic state. This mode replaces the explicit
+`--restore-param` arguments. Control restoration is available for reproducible
+tests; it does not restore oscillator phase or effect tails.
+
 1. Confirm the board is the V2 and identify its current USB Serial/JTAG port.
    Close any existing Studio/serial reader before opening another connection.
 2. Preserve any existing firmware/settings needed for recovery. The reviewed

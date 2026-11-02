@@ -14,6 +14,7 @@ import json
 import math
 from pathlib import Path
 import subprocess
+import struct
 import sys
 import time
 
@@ -72,15 +73,39 @@ def restore_schema(build, prepared, supplied):
         identity = param["paramId"]
         if identity in result:
             raise ValueError("Duplicate restore parameter identity")
-        if identity not in supplied:
+        if supplied is not None and identity not in supplied:
             raise ValueError(f"Supply known original --restore-param {identity}=VALUE")
-        value = supplied[identity]
+        value = supplied[identity] if supplied is not None else param.get('initialValue',param['minimum'])
         if not math.isfinite(value) or not param["minimum"] <= value <= param["maximum"]:
             raise ValueError(f"Invalid original parameter value: {identity}")
-        result[identity] = {"index": param["index"], "actual": value}
-    if set(result) != set(supplied):
+        result[identity] = {"index": param["index"], "actual": value,
+                            'minimum':param['minimum'],'maximum':param['maximum']}
+    if supplied is not None and set(result) != set(supplied):
         raise ValueError("Unknown restore parameter identity")
     return result
+
+
+def live_parameters(transport, schema):
+    values=transport.request('parameter-values').get('parameters')
+    if not isinstance(values,list) or len(values)!=len(schema):
+        raise ValueError('Live parameter readback does not match the admitted schema')
+    by_index={}
+    for item in values:
+        index=item.get('index');value=item.get('actual')
+        if type(index) is not int or index in by_index or type(value) not in (int,float) or not math.isfinite(value):
+            raise ValueError('Invalid live parameter readback')
+        by_index[index]=value
+    result={}
+    for identity,param in schema.items():
+        value=by_index.get(param['index'])
+        if value is None or not param['minimum']<=value<=param['maximum']:
+            raise ValueError('Live parameter value is outside its admitted range')
+        result[identity]={**param,'actual':value}
+    return result
+
+
+def same_parameter_values(expected, actual):
+    return all(struct.pack('<f',p['actual'])==struct.pack('<f',actual[k]['actual']) for k,p in expected.items())
 
 
 def main():
@@ -92,6 +117,8 @@ def main():
     parser.add_argument("--restore-build", type=Path, required=True)
     parser.add_argument("--restore-prepared", type=Path, required=True)
     parser.add_argument("--restore-param", action="append", default=[])
+    parser.add_argument('--restore-live-controls',action='store_true',
+                        help='Snapshot and verify current parameter values and Panic state; requires quiet startup')
     parser.add_argument("--backup", type=Path, required=True)
     parser.add_argument("--pass-token", required=True, help="Exact test PASS marker on one complete log line")
     parser.add_argument("--timeout", type=float, default=120)
@@ -109,7 +136,11 @@ def main():
         if not separator or identity in supplied:
             parser.error("Restore parameters must be unique ID=ACTUAL_VALUE entries")
         supplied[identity] = float(value)
-    schema = restore_schema(restore, args.restore_prepared.resolve(), supplied)
+    if args.restore_live_controls and supplied:
+        parser.error('Choose live controls or explicit restore parameters')
+    if args.restore_live_controls and restore['report'].get('initial_volume_percent')!=0:
+        raise ValueError('Live-control recovery requires an instrument built with startup volume zero')
+    schema = restore_schema(restore, args.restore_prepared.resolve(), None if args.restore_live_controls else supplied)
     backup = args.backup.resolve()
     backup_info = read_json(backup.parent / "backup.json")
     if (backup.stat().st_size != 0x1000000 or sha(backup) != backup_info["backup_sha256"] or
@@ -162,7 +193,7 @@ def main():
     try:
         transport = JsonLineTransport(connection, 5)
         before = status(transport)
-        if before["frames"] < 512 or before["panic"] or before["allocation_fault"]:
+        if before["frames"] < 512 or (before["panic"] and not args.restore_live_controls) or before["allocation_fault"]:
             raise RuntimeError("Expected a settled, running, healthy instrument before the test")
     finally:
         connection.close()
@@ -176,10 +207,14 @@ def main():
         try:
             transport = JsonLineTransport(connection, 5)
             current = status(transport)
-            if current["panic"] or current["allocation_fault"]:
+            if (current["panic"] and not args.restore_live_controls) or current["allocation_fault"] or current.get('reconstruction_failed'):
                 raise RuntimeError("Instrument state changed before testing; no mutation attempted")
+            if args.restore_live_controls:
+                if current['panic'] and not current.get('ready_to_resume'):
+                    raise RuntimeError('Wait for the muted instrument to finish reconstruction')
+                schema=live_parameters(transport,schema)
             before = current
-            (output / "before.json").write_text(json.dumps(before, indent=2) + "\n")
+            (output / "before.json").write_text(json.dumps({'status':before,'parameters':schema}, indent=2) + "\n")
             restore_required = True
             transport.request("volume 0")
             transport.request("panic")
@@ -229,13 +264,27 @@ def main():
                     acknowledgement = transport.request(f"param {parameter['index']} {parameter['actual']:.9g}")
                     if acknowledgement.get("queued") is not True:
                         raise RuntimeError(f"Restore parameter was rejected: {identity}")
+                time.sleep(.15)
+                if args.restore_live_controls:
+                    if not same_parameter_values(schema,live_parameters(transport,schema)):
+                        raise RuntimeError('Restored parameter readback differs from snapshot')
+                    if before['panic']:
+                        transport.request('panic')
+                        deadline=time.monotonic()+15
+                        while True:
+                            after=status(transport)
+                            if after['panic'] and after.get('ready_to_resume'):break
+                            if time.monotonic()>=deadline:raise RuntimeError('Restored Panic reconstruction did not finish')
+                            time.sleep(.1)
+                        if not same_parameter_values(schema,live_parameters(transport,schema)):
+                            raise RuntimeError('Parameter state changed during Panic reconstruction')
                 transport.request(f"volume {before['volume']}")
                 time.sleep(0.15)
                 after = status(transport)
-                if after["volume"] != before["volume"] or after["panic"] or after["allocation_fault"]:
+                if after["volume"] != before["volume"] or after["panic"] != before['panic'] or after["allocation_fault"]:
                     raise RuntimeError("Restored controls/fault state do not match")
                 restored = {"result": "restored", "status": after, "parameters": schema,
-                            "parameter_readback_available": False, "instance_phase_restored": False}
+                            "parameter_readback_available": args.restore_live_controls, "instance_phase_restored": False}
             finally:
                 connection.close()
         except StopIteration:
@@ -264,5 +313,5 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except (OSError, ValueError, CaptureError, subprocess.CalledProcessError) as failure:
+    except (OSError, ValueError, RuntimeError, CaptureError, subprocess.CalledProcessError) as failure:
         raise SystemExit(f"Hardware test failed: {failure}")

@@ -31,6 +31,9 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.original_volume = 37
         self.volume = self.original_volume
         self.panic = False
+        self.live=False
+        self.values={0:440.0,1:0.2}
+        self.bad_readback=False
         self.test = self.make_build("test")
         self.restore = self.make_build("restore")
         self.prepared = self.root / "prepared"
@@ -65,7 +68,7 @@ class HardwareRecoveryTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(bytes(3072) if "partition-table" in path.name else label.encode())
         artifacts = {str(p.relative_to(self.root)): {"bytes": p.stat().st_size, "sha256": runner.sha(p)} for p in paths}
-        (directory / "build-report.json").write_text(json.dumps({"board": "amoled", "artifacts": artifacts}))
+        (directory / "build-report.json").write_text(json.dumps({"board": "amoled", 'initial_volume_percent':0,"artifacts": artifacts}))
         return directory
 
     def status(self):
@@ -73,12 +76,16 @@ class HardwareRecoveryTests(unittest.TestCase):
                 "source": "static-rnbo", "rate": 44100, "block_frames": 256,
                 "channels": 1, "frames": 1024, "firmware_elf_sha256": self.restore_elf,
                 "module_source_sha256": "a" * 64, "volume": self.volume,
-                "panic": self.panic, "allocation_fault": False}
+                "panic": self.panic, "allocation_fault": False,'ready_to_resume':self.panic}
 
     def request(self, command):
         self.calls.append(("command", command))
         if command == "status":
             return self.status()
+        if command=='parameter-values':
+            values=dict(self.values)
+            if self.bad_readback and any(k=='flash' for k,v in self.calls):values[1]=0.9
+            return {'parameters':[{'index':i,'actual':v} for i,v in values.items()]}
         if command.startswith("volume "):
             self.volume = int(command.split()[1])
             if self.control_failure and self.volume == 0:
@@ -88,6 +95,7 @@ class HardwareRecoveryTests(unittest.TestCase):
             self.panic = True
             return {"panic": True}
         if command.startswith("param "):
+            _,i,value=command.split();self.values[int(i)]=float(value)
             return {"queued": True}
         raise AssertionError(command)
 
@@ -98,6 +106,7 @@ class HardwareRecoveryTests(unittest.TestCase):
             raise subprocess.CalledProcessError(2, arguments)
         self.volume = 100
         self.panic = False
+        self.values={0:440.0,1:0.2}
         return subprocess.CompletedProcess(arguments, 0)
 
     def run_case(self):
@@ -122,6 +131,9 @@ class HardwareRecoveryTests(unittest.TestCase):
                      "--restore-prepared", str(self.prepared), "--restore-param", "frequency=440",
                      "--restore-param", "level=0.2", "--backup", str(self.backup),
                      "--pass-token", "TEST PASS ", "--out", str(self.out)]
+        if self.live:
+            at=arguments.index('--restore-param');del arguments[at:at+4]
+            arguments.append('--restore-live-controls')
         with patch.dict(sys.modules, {"serial": serial_module, "serial.tools": tools_module}), \
              patch.object(runner, "ROOT", self.root), patch.object(sys, "argv", arguments), \
              patch.object(runner, "open_serial", side_effect=lambda *args: Connection()), \
@@ -163,6 +175,31 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.assertEqual(result["result"], "failed")
         self.assertIn("firmware actually tested", result["error"])
         self.assertEqual(result["restoration"]["result"], "restored")
+
+    def test_live_snapshot_restores_muted_instrument_and_changed_parameters(self):
+        self.live=True;self.panic=True;self.values={0:333.0,1:0.432000011}
+        result=self.run_case()
+        self.assertEqual(result['result'],'passed')
+        self.assertTrue(self.panic)
+        self.assertEqual(self.volume,self.original_volume)
+        self.assertEqual(self.values[0],333.0)
+        self.assertTrue(result['restoration']['parameter_readback_available'])
+        self.assertEqual(result['restoration']['parameters']['level']['actual'],0.432000011)
+
+    def test_live_restoration_mismatch_cannot_claim_success(self):
+        self.live=True;self.bad_readback=True
+        result=self.run_case()
+        self.assertEqual(result['result'],'failed')
+        self.assertEqual(result['restoration']['result'],'failed')
+        self.assertIn('readback differs',result['restoration']['error'])
+
+    def test_invalid_live_snapshot_leaves_instrument_untouched(self):
+        self.live=True;self.values[1]=2.0
+        result=self.run_case()
+        self.assertEqual(result['result'],'failed')
+        self.assertEqual(result['restoration']['result'],'not needed; no mutation attempted')
+        self.assertFalse(any(k=='flash' or v.startswith('volume ') or v=='panic' for k,v in self.calls))
+        self.assertEqual(self.volume,self.original_volume)
 
 
 if __name__ == "__main__":
