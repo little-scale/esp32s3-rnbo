@@ -58,7 +58,7 @@ target results need their own later sealed records.
 | Cycle, saw, mtof, mapping/arithmetic | Selected native semantic/profile comparisons; selected Main/FX target timings; exact pure-hoist comparisons; actual-drone qualification | Other constants, mixed scalar/signal inlets and meaningful parameter domains; independent phase/frequency changes; new modes need new admission/proof. Static callsites are not per-sample counts. |
 | Comb/allpass/delay/feedback | Reviewed caps/storage, tight profile comparisons and selected target fixtures; private scalar-duration hoist preserves output | Arbitrary allpass gain with fractional input, long feedback tails, fractional delay boundaries, all admitted interpolation/reset modes, and isolated feedback~ latency/state. The new filter double duration conversion remains justified by observed error when removed. |
 | Envelope, MIDI and time | Authored MIDI envelope at 1/2/4 voices, target four-voice routing/release/sustain/stealing and stress; line's five native timing cases | Full envelope curves/retrigger modes, clock/cancellation/queue-pressure behavior, long uptime and event jitter. Current public C ABI deliberately delivers boundary events; it has no qualified external within-block event API. |
-| Average | Integrated native identity, target four-window output/model checks, 4KiB reservation control and resource/lifecycle proof; target cancellation diagnostic retains the known oracle failure | Compaction does not repair mathematical accuracy. Broader windows/caller graphs remain unadmitted by the compact option; accurate accumulation needs a distinct numerical decision, reset proof and target cost. History type changes the intermediate subtraction type; target corner-domain/floating-environment observation is pending. |
+| Average | Compact-history native identity/resource proof; strict cancellation failure retained. The [private Neumaier experiment](average-neumaier.md) passes 17 native cases and eight frozen-window target oracle cases, with measured extra CPU cost and reviewed reset policy | Neumaier remains PRIVATE/unadmitted: its dyadic target workload uses 28.85% more callback time. Target long runs/window events and broader inputs/caller graphs remain open. Compaction alone does not repair accuracy. History subtraction has a separate [bounded corner-domain observation](float32-corners.md), not universal floating-environment equivalence. |
 | Biquad, phasor/train and nonlinear math | Declared native difference-equation/domain/timing checks | Target CPU, active helper calls, state/initialisation peaks, coefficient/phase/domain boundaries and a justified optional precision profile. Existing audio-v2 attempts for these wave2 methods are rejected. |
 | Noise | Bounded native statistics and explicit white-seed observations; defined-integer adapter oracle/UBSan plus target stream preservation and memory recovery; exact-context Float32 pink output option reproduces the measured module | Broader generated forms and row counts remain outside the output option. Per-object seed and clock policy must be described; create seed alone does not prove control of pink's systemticks-seeded state. |
 | Utility/control/plumbing | Stereo pass-through, selected parameter conversions and importer/initialisation tests; utility nodes participate in successful graphs | Incidental execution is not independent semantic coverage. Add positive stepped/exponent/large-parameter cases and message/list/loadbang ordering under relevant event loads. |
@@ -82,17 +82,21 @@ double work automatically.
    two-literal Float32 pink-normalisation experiment observed about50.6% lower
    callback time in its target workload. Its [compiler option](noise-float32-normalisation.md)
    now admits the exact authored context and reproduces the tested ELF;
-   that observation is not a universal speed bound. Complete the
-   independent target corner-domain/floating-environment diagnostic before
-   extending precision-equivalence claims beyond tested normal workloads.
-2. **Resolve numerical stability as a separate profile decision.** The private
-   compensated-average report has 17 native cases, including longer cancellation
-   runs: Neumaier's reported worst mathematical error is 2.98e-8, while Kahan
-   still exceeds 2e-6 in one case. Both change the old waveform by up to two PCM
-   LSB. The candidate also has a native dynamic-wrapper lifecycle/UBSan proof;
-   source/reset review, wider domains and target cost remain before admission.
-   This is promising Float32 research, not
-   proof that doubles are never needed or a silent strict-profile correction.
+   that observation is not a universal speed bound. The
+   [independent target corner-domain observation](float32-corners.md) now binds
+   both ROM and private-module arithmetic closures. It found no tested finite
+   output differences, while retaining NaN sign and exception-status differences;
+   broader precision-equivalence claims still need their own domain proof.
+2. **Decide whether to admit a separate accurate-average profile.** The
+   [private compensated-average record](average-neumaier.md) retains 17 native
+   cases: Neumaier's worst mathematical error is 2.98e-8, while Kahan exceeds
+   2e-6 in one long case. Both change strict output by up to two PCM LSB.
+   Reviewed source/reset scope and eight frozen-window target oracle cases now
+   pass; the maximum conservative target error is 4.43e-8. The separate four-case
+   dyadic cost comparison observes 28.85% more callback CPU time. The profile
+   remains PRIVATE/unadmitted. Target long runs/window events and wider domains
+   remain before admission; this is an accuracy/cost choice, not a silent
+   strict-profile correction or proof that doubles are never needed.
 3. **Profile the uncovered generated hot paths.** Build/audit representative
    wave2 and additional admitted operators on Xtensa. Resolve active callers,
    classify setup/control/audio/time operations, retain unresolved calls and
@@ -100,6 +104,9 @@ double work automatically.
    a guarded production context: its private target cases already show material
    benefit, but its SR/ownership proof must not be replaced by an object-name
    rule. Keep signal conversions per sample and preserve rounding.
+   The separate [private exact 44.1 kHz signal-delay conversion](exact-delay44100.md)
+   preserves the tested signal-rate outputs with 12.7% less callback time across
+   four target cases; guarded production admission remains pending.
 4. **Expand a mode-aware support inventory.** Derive the wider candidate set
    from the pinned generator/builtin surface and its service constraints, then
    add original fixtures for missing families and modes. For each record source
@@ -126,8 +133,10 @@ double work automatically.
 The private compensated report is
 `build/research/average-compensated/report.json`, snapshot SHA256
 `001fe746ec48aaf6f95cb082ce2a5cfb46d94e1434f3467c121f5950a65707d4`.
-Its native results and preserved compatibility failures are a research input to
-item 2, not a completed target accuracy/performance qualification.
+Its native results and preserved compatibility failures remain separate from
+the [sealed target accuracy/cost observations](../evidence/average-neumaier.json).
+Target qualification covers the declared frozen-window workloads, not the
+native long-run or window-event cases.
 
 ## Broader handover gates that remain separate
 
