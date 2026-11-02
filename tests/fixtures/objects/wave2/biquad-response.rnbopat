@@ -1,0 +1,338 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1100,
+      700
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "a0",
+          "maxclass": "newobj",
+          "text": "param a0 0.5 @min 0 @max 1",
+          "rnbo_uniqueid": "a0",
+          "patching_rect": [
+            20,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "a1",
+          "maxclass": "newobj",
+          "text": "param a1 0.25 @min -1 @max 1",
+          "rnbo_uniqueid": "a1",
+          "patching_rect": [
+            270,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "a2",
+          "maxclass": "newobj",
+          "text": "param a2 0.125 @min -1 @max 1",
+          "rnbo_uniqueid": "a2",
+          "patching_rect": [
+            520,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "b1",
+          "maxclass": "newobj",
+          "text": "param b1 -0.4 @min -0.95 @max 0.95",
+          "rnbo_uniqueid": "b1",
+          "patching_rect": [
+            770,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "b2",
+          "maxclass": "newobj",
+          "text": "param b2 0.2 @min 0 @max 0.8",
+          "rnbo_uniqueid": "b2",
+          "patching_rect": [
+            20,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-left",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "in-left",
+          "patching_rect": [
+            270,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-right",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "in-right",
+          "patching_rect": [
+            520,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "filter-left",
+          "maxclass": "newobj",
+          "text": "biquad~",
+          "rnbo_uniqueid": "filter-left",
+          "patching_rect": [
+            770,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "filter-right",
+          "maxclass": "newobj",
+          "text": "biquad~",
+          "rnbo_uniqueid": "filter-right",
+          "patching_rect": [
+            20,
+            170,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            270,
+            170,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            520,
+            170,
+            230,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "in-left",
+            0
+          ],
+          "destination": [
+            "filter-left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "a0",
+            0
+          ],
+          "destination": [
+            "filter-left",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "a1",
+            0
+          ],
+          "destination": [
+            "filter-left",
+            2
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "a2",
+            0
+          ],
+          "destination": [
+            "filter-left",
+            3
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "b1",
+            0
+          ],
+          "destination": [
+            "filter-left",
+            4
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "b2",
+            0
+          ],
+          "destination": [
+            "filter-left",
+            5
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "in-right",
+            0
+          ],
+          "destination": [
+            "filter-right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "a0",
+            0
+          ],
+          "destination": [
+            "filter-right",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "a1",
+            0
+          ],
+          "destination": [
+            "filter-right",
+            2
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "a2",
+            0
+          ],
+          "destination": [
+            "filter-right",
+            3
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "b1",
+            0
+          ],
+          "destination": [
+            "filter-right",
+            4
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "b2",
+            0
+          ],
+          "destination": [
+            "filter-right",
+            5
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "filter-left",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "filter-right",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

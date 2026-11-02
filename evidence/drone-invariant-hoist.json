@@ -1,0 +1,1562 @@
+{
+  "format": "rnbo-private-drone-invariant-observations",
+  "format_version": 1,
+  "production_enabled": false,
+  "target": {
+    "fixture": "drone3-invariants",
+    "family": "whole-drone",
+    "role": "main",
+    "numerical_profiles": {
+      "strict": "float32-audio-v1",
+      "optimized": "private-drone-original-cycle-conversion-hoist-v1"
+    },
+    "identical_artifact_control": false,
+    "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+    "stimulus_provenance": null,
+    "build_report": "build/object-benchmark-amoled-drone3-invariants-private-cycle-hoist/build-report.json",
+    "build_report_sha256": "91a49c816b564a231e0b6d75fbd157c9658b82ae8672737075d660b947daa5b9",
+    "hardware_report": "build/object-optimisation/hardware-drone-invariants-private/hardware-test.json",
+    "hardware_report_sha256": "453733d0b3d4003f8db7a3cd513b3afe5abb5fa69ce70e6e5b65bbce7e98ffd9",
+    "serial_log": "build/object-optimisation/hardware-drone-invariants-private/test-serial.log",
+    "serial_log_sha256": "76c4984ce2897251c25b45799c898e36f320c6c97e9edd3278d78e0f3406a409",
+    "pass": {
+      "fixture": "drone3-invariants",
+      "firmware_elf_sha256": "aae9877e782f16cdeba2ab60ebef87f9a3d5527b25addbd15dc3aff79c227e08",
+      "strict_module_sha256": "51d42f3e8d9d316f5eb8ce688804ddc04ac639b96dc4df561a68e2a53809571c",
+      "optimized_module_sha256": "59c7b32c4e4dfa56fcf1868c709176e26b8d0cd77919f1d1df54b982d4e49119",
+      "cases": 6,
+      "rounds": 3,
+      "blocks_per_pass": 512,
+      "warmup": 4,
+      "seed": 305419896,
+      "timing_exclude": 32,
+      "compared_samples": 4718592,
+      "max_abs": 0,
+      "rms_error": 0,
+      "pcm_different": 0,
+      "max_pcm_lsb": 0,
+      "max_abs_tolerance": 0,
+      "max_pcm_lsb_tolerance": 0,
+      "relative_rms_tolerance": 0,
+      "strict_timed_blocks": 8640,
+      "strict_process_us": 28777061,
+      "strict_peak_us": 3941,
+      "optimized_timed_blocks": 8640,
+      "optimized_process_us": 28365606,
+      "optimized_peak_us": 3898,
+      "psram_before": 7333512,
+      "psram_after": 7333512,
+      "internal_before": 316607,
+      "internal_after": 316607,
+      "host_heap_allocations": 0,
+      "host_heap_frees": 0,
+      "local_late_allocations": 0,
+      "images": 4,
+      "finalized_images": 4,
+      "input_cases": 0,
+      "input_rechecks": 0,
+      "pilot_sample_checks": 0,
+      "stack_margin": 20564,
+      "scope": "offline_no_i2s_ui_network"
+    },
+    "cases": [
+      {
+        "case": "default",
+        "declared_case": {
+          "id": "default",
+          "parameters": {},
+          "events": []
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "drone3-invariants",
+          "case": "default",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "drone3-invariants",
+            "case": "default",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 5010671,
+            "peak_us": 3793,
+            "event_us": 0,
+            "prepare_us": 613921,
+            "rms": 0.242078196,
+            "peak": 1.112216,
+            "arena_high_water": 99840,
+            "numerical_profile": "float32-audio-v1",
+            "mean_process_us": 3479.632638888889
+          },
+          "optimized": {
+            "fixture": "drone3-invariants",
+            "case": "default",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 4944580,
+            "peak_us": 3751,
+            "event_us": 0,
+            "prepare_us": 613756,
+            "rms": 0.242078196,
+            "peak": 1.112216,
+            "arena_high_water": 99840,
+            "numerical_profile": "private-drone-original-cycle-conversion-hoist-v1",
+            "mean_process_us": 3433.7361111111113
+          }
+        },
+        "observed_speed_ratio": 1.0133663526528036,
+        "observed_process_reduction_percent": 1.319004979572591
+      },
+      {
+        "case": "fast-full-modulation",
+        "declared_case": {
+          "id": "fast-full-modulation",
+          "parameters": {},
+          "events": [
+            {
+              "block": 0,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "lfo-depth",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 20
+            },
+            {
+              "block": 0,
+              "id": "vib-depth",
+              "form": "actual",
+              "value": 2
+            }
+          ]
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "drone3-invariants",
+          "case": "fast-full-modulation",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "drone3-invariants",
+            "case": "fast-full-modulation",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 5314448,
+            "peak_us": 3941,
+            "event_us": 128,
+            "prepare_us": 613889,
+            "rms": 0.255630597,
+            "peak": 1.14618957,
+            "arena_high_water": 99840,
+            "numerical_profile": "float32-audio-v1",
+            "mean_process_us": 3690.588888888889
+          },
+          "optimized": {
+            "fixture": "drone3-invariants",
+            "case": "fast-full-modulation",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 5243535,
+            "peak_us": 3898,
+            "event_us": 128,
+            "prepare_us": 613282,
+            "rms": 0.255630597,
+            "peak": 1.14618957,
+            "arena_high_water": 99840,
+            "numerical_profile": "private-drone-original-cycle-conversion-hoist-v1",
+            "mean_process_us": 3641.34375
+          }
+        },
+        "observed_speed_ratio": 1.013523891802,
+        "observed_process_reduction_percent": 1.3343436609032588
+      },
+      {
+        "case": "high-feedback",
+        "declared_case": {
+          "id": "high-feedback",
+          "parameters": {},
+          "events": [
+            {
+              "block": 0,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 0.7
+            },
+            {
+              "block": 0,
+              "id": "lfo-depth",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "comb-ff",
+              "form": "actual",
+              "value": 0.98
+            },
+            {
+              "block": 0,
+              "id": "comb-fb",
+              "form": "actual",
+              "value": 0.98
+            },
+            {
+              "block": 0,
+              "id": "delay-time",
+              "form": "actual",
+              "value": 40
+            },
+            {
+              "block": 0,
+              "id": "delay-fb",
+              "form": "actual",
+              "value": 0.9
+            }
+          ]
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "drone3-invariants",
+          "case": "high-feedback",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "drone3-invariants",
+            "case": "high-feedback",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 4991299,
+            "peak_us": 3778,
+            "event_us": 169,
+            "prepare_us": 614081,
+            "rms": 1.09156874,
+            "peak": 5.28513336,
+            "arena_high_water": 99840,
+            "numerical_profile": "float32-audio-v1",
+            "mean_process_us": 3466.179861111111
+          },
+          "optimized": {
+            "fixture": "drone3-invariants",
+            "case": "high-feedback",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 4923016,
+            "peak_us": 3740,
+            "event_us": 158,
+            "prepare_us": 613684,
+            "rms": 1.09156874,
+            "peak": 5.28513336,
+            "arena_high_water": 99840,
+            "numerical_profile": "private-drone-original-cycle-conversion-hoist-v1",
+            "mean_process_us": 3418.761111111111
+          }
+        },
+        "observed_speed_ratio": 1.0138701560181809,
+        "observed_process_reduction_percent": 1.368040664364134
+      },
+      {
+        "case": "all-minimum",
+        "declared_case": {
+          "id": "all-minimum",
+          "parameters": {},
+          "events": [
+            {
+              "block": 0,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 0,
+              "id": "lfo-depth",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 0,
+              "id": "comb-ff",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 0,
+              "id": "comb-fb",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 0,
+              "id": "delay-time",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 0,
+              "id": "delay-fb",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 0,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 0.1
+            },
+            {
+              "block": 0,
+              "id": "vib-depth",
+              "form": "actual",
+              "value": 0
+            }
+          ]
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "drone3-invariants",
+          "case": "all-minimum",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "drone3-invariants",
+            "case": "all-minimum",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 3973016,
+            "peak_us": 2988,
+            "event_us": 208,
+            "prepare_us": 614223,
+            "rms": 0.0444036281,
+            "peak": 0.189685076,
+            "arena_high_water": 99840,
+            "numerical_profile": "float32-audio-v1",
+            "mean_process_us": 2759.038888888889
+          },
+          "optimized": {
+            "fixture": "drone3-invariants",
+            "case": "all-minimum",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 3904341,
+            "peak_us": 2952,
+            "event_us": 203,
+            "prepare_us": 613771,
+            "rms": 0.0444036281,
+            "peak": 0.189685076,
+            "arena_high_water": 99840,
+            "numerical_profile": "private-drone-original-cycle-conversion-hoist-v1",
+            "mean_process_us": 2711.3479166666666
+          }
+        },
+        "observed_speed_ratio": 1.0175893960081868,
+        "observed_process_reduction_percent": 1.7285357018446468
+      },
+      {
+        "case": "all-maximum",
+        "declared_case": {
+          "id": "all-maximum",
+          "parameters": {},
+          "events": [
+            {
+              "block": 0,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "lfo-depth",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "comb-ff",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "comb-fb",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "delay-time",
+              "form": "actual",
+              "value": 50
+            },
+            {
+              "block": 0,
+              "id": "delay-fb",
+              "form": "actual",
+              "value": 0.99
+            },
+            {
+              "block": 0,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 20
+            },
+            {
+              "block": 0,
+              "id": "vib-depth",
+              "form": "actual",
+              "value": 2
+            }
+          ]
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "drone3-invariants",
+          "case": "all-maximum",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "drone3-invariants",
+            "case": "all-maximum",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 5282567,
+            "peak_us": 3917,
+            "event_us": 207,
+            "prepare_us": 613889,
+            "rms": 3.46469816,
+            "peak": 14.8658543,
+            "arena_high_water": 99840,
+            "numerical_profile": "float32-audio-v1",
+            "mean_process_us": 3668.4493055555554
+          },
+          "optimized": {
+            "fixture": "drone3-invariants",
+            "case": "all-maximum",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 5211382,
+            "peak_us": 3875,
+            "event_us": 204,
+            "prepare_us": 613290,
+            "rms": 3.46469816,
+            "peak": 14.8658543,
+            "arena_high_water": 99840,
+            "numerical_profile": "private-drone-original-cycle-conversion-hoist-v1",
+            "mean_process_us": 3619.0152777777776
+          }
+        },
+        "observed_speed_ratio": 1.0136595244793032,
+        "observed_process_reduction_percent": 1.3475456156069598
+      },
+      {
+        "case": "boundary-parameter-events",
+        "declared_case": {
+          "id": "boundary-parameter-events",
+          "parameters": {},
+          "events": [
+            {
+              "block": 0,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 0.1
+            },
+            {
+              "block": 0,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 0,
+              "id": "vib-depth",
+              "form": "actual",
+              "value": 0.1
+            },
+            {
+              "block": 1,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 1,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 20
+            },
+            {
+              "block": 2,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 2,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 0.1
+            },
+            {
+              "block": 31,
+              "id": "lfo-depth",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 31,
+              "id": "comb-fb",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 32,
+              "id": "lfo-depth",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 32,
+              "id": "comb-fb",
+              "form": "actual",
+              "value": 0.99
+            },
+            {
+              "block": 127,
+              "id": "delay-time",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 127,
+              "id": "delay-fb",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 128,
+              "id": "delay-time",
+              "form": "actual",
+              "value": 50
+            },
+            {
+              "block": 128,
+              "id": "delay-fb",
+              "form": "actual",
+              "value": 0.99
+            },
+            {
+              "block": 255,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 0.7
+            },
+            {
+              "block": 255,
+              "id": "vib-depth",
+              "form": "actual",
+              "value": 2
+            },
+            {
+              "block": 256,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 256,
+              "id": "vib-depth",
+              "form": "actual",
+              "value": 0
+            },
+            {
+              "block": 511,
+              "id": "lfo-rate",
+              "form": "actual",
+              "value": 1
+            },
+            {
+              "block": 511,
+              "id": "vib-rate",
+              "form": "actual",
+              "value": 20
+            }
+          ]
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "drone3-invariants",
+          "case": "boundary-parameter-events",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "drone3-invariants",
+            "case": "boundary-parameter-events",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 4205060,
+            "peak_us": 3556,
+            "event_us": 541,
+            "prepare_us": 614055,
+            "rms": 1.85406899,
+            "peak": 11.538146,
+            "arena_high_water": 99840,
+            "numerical_profile": "float32-audio-v1",
+            "mean_process_us": 2920.1805555555557
+          },
+          "optimized": {
+            "fixture": "drone3-invariants",
+            "case": "boundary-parameter-events",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 4138752,
+            "peak_us": 3499,
+            "event_us": 554,
+            "prepare_us": 613642,
+            "rms": 1.85406899,
+            "peak": 11.538146,
+            "arena_high_water": 99840,
+            "numerical_profile": "private-drone-original-cycle-conversion-hoist-v1",
+            "mean_process_us": 2874.133333333333
+          }
+        },
+        "observed_speed_ratio": 1.0160212547163976,
+        "observed_process_reduction_percent": 1.5768621613009182
+      }
+    ]
+  },
+  "native_proof": {
+    "arena_bytes": 131072,
+    "base_profile": "float32-audio-v1",
+    "builds": {
+      "candidate": {
+        "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/host-build.json",
+        "build_report_sha256": "c0b7b71226d4f3c16e25001ce35887cf007857f6c6a29df22f87eceffaaef329",
+        "probe_command": [
+          "/usr/bin/c++",
+          "-std=c++17",
+          "-O3",
+          "-UNDEBUG",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fno-strict-aliasing",
+          "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+          "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+          "-I/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/prepared/candidate/common",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/probe.cpp",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/librnbo_static.a",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/libpcm_output.a",
+          "-o",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe"
+        ],
+        "probe_sha256": "c6f07baa540214c226b55cffaff514da110cb73492711c88ab8f11acd3ace679"
+      },
+      "reference": {
+        "build_report": "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/host-build.json",
+        "build_report_sha256": "64eea72a7ef737c858bc664f52c78d8bfd8113905cf72e16ae79e58b2faceca3",
+        "probe_command": [
+          "/usr/bin/c++",
+          "-std=c++17",
+          "-O3",
+          "-UNDEBUG",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-fno-strict-aliasing",
+          "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+          "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+          "-I/Users/a1106632/Documents/esp32-rnbo/build/user-patches/3sawsDrone3/prepared-cap40-f32audio-no-mtof-table-v2/common",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/probe.cpp",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/librnbo_static.a",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/libpcm_output.a",
+          "-o",
+          "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe"
+        ],
+        "probe_sha256": "662d55b3c572091066c16e02c52bb42da1490430112164a6ece8c0d384391be9"
+      }
+    },
+    "candidate": "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/prepared/candidate",
+    "candidate_profile": "private-drone-original-cycle-conversion-hoist-v1",
+    "compared_channel_sample_words": 12582912,
+    "format": "private-actual-drone-original-cycle-hoist",
+    "hardware_executed": false,
+    "passed": true,
+    "probe_sha256": "a0701272a36d01e38cf7062c611cb142deba1ce83c69898d3f73ca600783ed22",
+    "production_admission_changed": false,
+    "proof": {
+      "changes": "Only6original conversion expressions are cached before their ownvectorloop; cycle01 original conditionalphasebranch retained bothbeforeloop andinside. No numerichelper or literal changes.",
+      "common_files_sha256": {
+        "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+        "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+        "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+        "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+        "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+        "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+        "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+        "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+        "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+        "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+        "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+        "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+        "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+        "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+        "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+        "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+        "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+        "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+        "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+        "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+        "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+        "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+        "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+        "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+        "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+        "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+        "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+        "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+        "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+        "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+        "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+        "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+        "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+        "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+        "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+        "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+      },
+      "cycles": [
+        {
+          "frequency_domain": "Fixed0.009f",
+          "frequency_expression": "uint32_trunc(0.009f * __cycle_tilde_01_f2i)",
+          "method": "cycle_tilde_01_perform",
+          "original_inloop_phase_condition_retained": true,
+          "phase_domain": "Exact startup message0.5; no module CABI number-message input",
+          "phase_expression": "uint32_trunc(phase_offset * 4294967296.0f)",
+          "whole_kernel_sha256": "c095e1677b68b1f5b50ed0f6ad90aa0a81d04a9c83842d97283a4c6ccbf135e2"
+        },
+        {
+          "frequency_domain": "Scalar Float32 member passed byvalue and existinglocalf2i captured beforeloop",
+          "frequency_expression": "uint32_trunc(frequency * __cycle_tilde_02_f2i)",
+          "method": "cycle_tilde_02_perform",
+          "original_inloop_phase_condition_retained": false,
+          "phase_domain": "Generated constantzero phase",
+          "phase_expression": null,
+          "whole_kernel_sha256": "a4530a21b2391d6b6ddef71fefa449352f5b5a8d0437c379a9e4465b9b456e47"
+        },
+        {
+          "frequency_domain": "Scalar Float32 member passed byvalue and existinglocalf2i captured beforeloop",
+          "frequency_expression": "uint32_trunc(frequency * __cycle_tilde_03_f2i)",
+          "method": "cycle_tilde_03_perform",
+          "original_inloop_phase_condition_retained": false,
+          "phase_domain": "Generated constantzero phase",
+          "phase_expression": null,
+          "whole_kernel_sha256": "a4530a21b2391d6b6ddef71fefa449352f5b5a8d0437c379a9e4465b9b456e47"
+        },
+        {
+          "frequency_domain": "Scalar Float32 member passed byvalue and existinglocalf2i captured beforeloop",
+          "frequency_expression": "uint32_trunc(frequency * __cycle_tilde_04_f2i)",
+          "method": "cycle_tilde_04_perform",
+          "original_inloop_phase_condition_retained": false,
+          "phase_domain": "Generated constantzero phase",
+          "phase_expression": null,
+          "whole_kernel_sha256": "a4530a21b2391d6b6ddef71fefa449352f5b5a8d0437c379a9e4465b9b456e47"
+        },
+        {
+          "frequency_domain": "Fixed0.01f",
+          "frequency_expression": "uint32_trunc(0.01f * __cycle_tilde_05_f2i)",
+          "method": "cycle_tilde_05_perform",
+          "original_inloop_phase_condition_retained": false,
+          "phase_domain": "Generated constantzero phase",
+          "phase_expression": null,
+          "whole_kernel_sha256": "58bbccd64b184272ad1cf673a5c694264ac67892e3d6c9a11b52a0aaa67f67e9"
+        }
+      ],
+      "excluded_combs": [
+        {
+          "classification": "Per-sample signal delay from LFO/scale buffer; float ms conversion is NOT invariant and stays untouched",
+          "method": "comb_tilde_01_perform",
+          "whole_method_sha256": "eb6ebf3529fff76f386dcf453b949e6aebf499cb87e3f59b732345be564e72f3"
+        },
+        {
+          "classification": "Per-sample signal delay from LFO/scale buffer; float ms conversion is NOT invariant and stays untouched",
+          "method": "comb_tilde_02_perform",
+          "whole_method_sha256": "529cc5c489aa46a7d76c18d15714ac287270153f1ccb0f91e9d9d179f79a95ba"
+        }
+      ],
+      "input_source_sha256": "bf357a1741f461624e0d2ba90cd06f8c2b0d8fa7130527d7396afc1248db9a28",
+      "prepared_source_sha256": "6eef8b7c2333914d41f7bef5134ccc6863754755b4002a7201f4f66a0fa42b2d",
+      "scheduler_process_sha256": {
+        "getPatcherTime": "1ae500def59a5c7e79204af39b6b7bb659644b83621551e5be72154c73e5cb08",
+        "msToSamps": "655ce4561aa87454ddf76f63284c5a9a9041539d73e543027e288d9ee62c2b59",
+        "process": "2deb1c23318afb5076f147785fd0cc99071eeb1fffc7a3e173d211686a28a44e",
+        "processInternalEvents": "e320b279749df7bdd1835fe65c3622751d15fb7ea16deeadcc85421ae5b58d16",
+        "sampsToMs": "7fb63319238622418921312b4a96a70a130e5bec926436236718740f6972c363"
+      },
+      "unchanged": "Every source byte outside5cyclemethods; scheduler/process graph; lookup/interpolation; signalcombms math; all commonruntime, resources, controls, precision and ABI"
+    },
+    "prototype_sha256": "672e955677ed57a2575c834624d47c16f3d6864f685b445da7b969d62e544a56",
+    "reference": "/Users/a1106632/Documents/esp32-rnbo/build/user-patches/3sawsDrone3/prepared-cap40-f32audio-no-mtof-table-v2",
+    "target_performance_qualified": false,
+    "workloads": [
+      {
+        "blocks": 4096,
+        "compared_channel_sample_words": 2097152,
+        "events": [],
+        "float_bit_identical": true,
+        "id": "default",
+        "pcm_bit_identical": true,
+        "plan_sha256": "7e181c619d78433a8065faecb808d11af2d24e50f6a7d92147de22cf37978f71",
+        "variants": {
+          "candidate": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/candidate.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/candidate.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/candidate.json"
+            ],
+            "float_sha256": "1a1f8744d4ea1faf78764e45be0ca8b937d15fe081e7f96f8dc41c39c85685f8",
+            "pcm_sha256": "c42cf2cb880a0940532a8e7e95811f5f49771f32cb9813ac611f875154b2d8eb",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 0,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          },
+          "reference": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/reference.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/reference.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/default/reference.json"
+            ],
+            "float_sha256": "1a1f8744d4ea1faf78764e45be0ca8b937d15fe081e7f96f8dc41c39c85685f8",
+            "pcm_sha256": "c42cf2cb880a0940532a8e7e95811f5f49771f32cb9813ac611f875154b2d8eb",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 0,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          }
+        }
+      },
+      {
+        "blocks": 4096,
+        "compared_channel_sample_words": 2097152,
+        "events": [
+          [
+            0,
+            "lfo-rate",
+            1
+          ],
+          [
+            0,
+            "lfo-depth",
+            1
+          ],
+          [
+            0,
+            "vib-rate",
+            20
+          ],
+          [
+            0,
+            "vib-depth",
+            2
+          ]
+        ],
+        "float_bit_identical": true,
+        "id": "fast-full-modulation",
+        "pcm_bit_identical": true,
+        "plan_sha256": "9383bf5d2f94d61c1f88d1656cf2cea5dda4e2503bbbe70776a8aa625b9348b5",
+        "variants": {
+          "candidate": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/candidate.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/candidate.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/candidate.json"
+            ],
+            "float_sha256": "04af8151e268619902eeac51e06b6a368d9b991ccb4366edbe68e692646044c8",
+            "pcm_sha256": "cb64ba3a7877a89333fc07e91d6e3e131ec8dcc684fe53cabcedc457a990f97f",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 4,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          },
+          "reference": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/reference.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/reference.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/fast-full-modulation/reference.json"
+            ],
+            "float_sha256": "04af8151e268619902eeac51e06b6a368d9b991ccb4366edbe68e692646044c8",
+            "pcm_sha256": "cb64ba3a7877a89333fc07e91d6e3e131ec8dcc684fe53cabcedc457a990f97f",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 4,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          }
+        }
+      },
+      {
+        "blocks": 4096,
+        "compared_channel_sample_words": 2097152,
+        "events": [
+          [
+            0,
+            "lfo-rate",
+            0.7
+          ],
+          [
+            0,
+            "lfo-depth",
+            1
+          ],
+          [
+            0,
+            "comb-ff",
+            0.98
+          ],
+          [
+            0,
+            "comb-fb",
+            0.98
+          ],
+          [
+            0,
+            "delay-time",
+            40
+          ],
+          [
+            0,
+            "delay-fb",
+            0.9
+          ]
+        ],
+        "float_bit_identical": true,
+        "id": "high-feedback",
+        "pcm_bit_identical": true,
+        "plan_sha256": "d9f4cbb3ecc92471afd5f33cb066f77bcc8ded0d58f4780c9aeb3faef93902c2",
+        "variants": {
+          "candidate": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/candidate.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/candidate.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/candidate.json"
+            ],
+            "float_sha256": "2689b90c4ebe5ada04f88649aece2ce7450b2f106f7a5f862704f5f63ea79f3d",
+            "pcm_sha256": "478498ef65c126f9606d8f9b14e8efb951de6e7eec832a8b613a531d5dd98db7",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 6,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          },
+          "reference": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/reference.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/reference.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/high-feedback/reference.json"
+            ],
+            "float_sha256": "2689b90c4ebe5ada04f88649aece2ce7450b2f106f7a5f862704f5f63ea79f3d",
+            "pcm_sha256": "478498ef65c126f9606d8f9b14e8efb951de6e7eec832a8b613a531d5dd98db7",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 6,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          }
+        }
+      },
+      {
+        "blocks": 4096,
+        "compared_channel_sample_words": 2097152,
+        "events": [
+          [
+            0,
+            "lfo-rate",
+            0
+          ],
+          [
+            0,
+            "lfo-depth",
+            0
+          ],
+          [
+            0,
+            "comb-ff",
+            0
+          ],
+          [
+            0,
+            "comb-fb",
+            0
+          ],
+          [
+            0,
+            "delay-time",
+            0
+          ],
+          [
+            0,
+            "delay-fb",
+            0
+          ],
+          [
+            0,
+            "vib-rate",
+            0.1
+          ],
+          [
+            0,
+            "vib-depth",
+            0
+          ]
+        ],
+        "float_bit_identical": true,
+        "id": "all-minimum",
+        "pcm_bit_identical": true,
+        "plan_sha256": "8155a27c0eb464f78722ddf250011ac6a6ae8712cd65709988953cd2766e1765",
+        "variants": {
+          "candidate": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/candidate.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/candidate.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/candidate.json"
+            ],
+            "float_sha256": "6b0895ccf9509fdba2ee312db376d01adbdabeb2801f2fda7b807348c51f0e8e",
+            "pcm_sha256": "874ff20b502485a86eedfc6e11a451b7911f2dd12c031a65e91f4b49f35131ad",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 8,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          },
+          "reference": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/reference.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/reference.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-minimum/reference.json"
+            ],
+            "float_sha256": "6b0895ccf9509fdba2ee312db376d01adbdabeb2801f2fda7b807348c51f0e8e",
+            "pcm_sha256": "874ff20b502485a86eedfc6e11a451b7911f2dd12c031a65e91f4b49f35131ad",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 8,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          }
+        }
+      },
+      {
+        "blocks": 4096,
+        "compared_channel_sample_words": 2097152,
+        "events": [
+          [
+            0,
+            "lfo-rate",
+            1
+          ],
+          [
+            0,
+            "lfo-depth",
+            1
+          ],
+          [
+            0,
+            "comb-ff",
+            1
+          ],
+          [
+            0,
+            "comb-fb",
+            1
+          ],
+          [
+            0,
+            "delay-time",
+            50
+          ],
+          [
+            0,
+            "delay-fb",
+            0.99
+          ],
+          [
+            0,
+            "vib-rate",
+            20
+          ],
+          [
+            0,
+            "vib-depth",
+            2
+          ]
+        ],
+        "float_bit_identical": true,
+        "id": "all-maximum",
+        "pcm_bit_identical": true,
+        "plan_sha256": "a88cd6f2bd7b29a818c3120a11e8583e6759023cdfa5732671bbb44649cc525e",
+        "variants": {
+          "candidate": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/candidate.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/candidate.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/candidate.json"
+            ],
+            "float_sha256": "9eed5db25c5ef262d79d508279b4b1b2334e19abbf743e9122029d6fc10d3296",
+            "pcm_sha256": "5894c6f910b9c475d122122ba5b29b66c16a5440c3bd66d301e3c19ea3650730",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 8,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          },
+          "reference": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/reference.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/reference.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/all-maximum/reference.json"
+            ],
+            "float_sha256": "9eed5db25c5ef262d79d508279b4b1b2334e19abbf743e9122029d6fc10d3296",
+            "pcm_sha256": "5894c6f910b9c475d122122ba5b29b66c16a5440c3bd66d301e3c19ea3650730",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 8,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          }
+        }
+      },
+      {
+        "blocks": 4096,
+        "compared_channel_sample_words": 2097152,
+        "events": [
+          [
+            0,
+            "lfo-rate",
+            0.1
+          ],
+          [
+            0,
+            "vib-rate",
+            1
+          ],
+          [
+            0,
+            "vib-depth",
+            0.1
+          ],
+          [
+            1,
+            "lfo-rate",
+            0
+          ],
+          [
+            1,
+            "vib-rate",
+            20
+          ],
+          [
+            2,
+            "lfo-rate",
+            1
+          ],
+          [
+            2,
+            "vib-rate",
+            0.1
+          ],
+          [
+            31,
+            "lfo-depth",
+            0
+          ],
+          [
+            31,
+            "comb-fb",
+            0
+          ],
+          [
+            32,
+            "lfo-depth",
+            1
+          ],
+          [
+            32,
+            "comb-fb",
+            0.99
+          ],
+          [
+            127,
+            "delay-time",
+            0
+          ],
+          [
+            127,
+            "delay-fb",
+            0
+          ],
+          [
+            128,
+            "delay-time",
+            50
+          ],
+          [
+            128,
+            "delay-fb",
+            0.99
+          ],
+          [
+            255,
+            "lfo-rate",
+            0.7
+          ],
+          [
+            255,
+            "vib-depth",
+            2
+          ],
+          [
+            256,
+            "lfo-rate",
+            0
+          ],
+          [
+            256,
+            "vib-depth",
+            0
+          ],
+          [
+            511,
+            "lfo-rate",
+            1
+          ],
+          [
+            511,
+            "vib-rate",
+            20
+          ],
+          [
+            1023,
+            "comb-ff",
+            1
+          ],
+          [
+            1023,
+            "comb-fb",
+            1
+          ],
+          [
+            1024,
+            "comb-ff",
+            0
+          ],
+          [
+            1024,
+            "comb-fb",
+            0
+          ],
+          [
+            2047,
+            "lfo-rate",
+            0.1
+          ],
+          [
+            2047,
+            "vib-rate",
+            1
+          ],
+          [
+            2048,
+            "comb-ff",
+            0.9
+          ],
+          [
+            2048,
+            "comb-fb",
+            0.9
+          ],
+          [
+            2048,
+            "delay-time",
+            25
+          ],
+          [
+            2048,
+            "delay-fb",
+            0.5
+          ]
+        ],
+        "float_bit_identical": true,
+        "id": "boundary-parameter-events",
+        "pcm_bit_identical": true,
+        "plan_sha256": "61899b438ff8a82b77f41bee1cb7de14a869d8efe754308602b983d3b35650e9",
+        "variants": {
+          "candidate": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/candidate/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/candidate.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/candidate.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/candidate.json"
+            ],
+            "float_sha256": "492b6626d9d25f5c5deed35397dfc4c1f39af2b50e263d3908720e0edf605f61",
+            "pcm_sha256": "283afc337e0045f61d6910cfcd38dcf77bba728dd3f626dc3f6b2105a6f151ec",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 31,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          },
+          "reference": {
+            "command": [
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/native/reference/drone_probe",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/events.txt",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/reference.f32",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/reference.pcm16",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/drone-invariant-hoist/renders/boundary-parameter-events/reference.json"
+            ],
+            "float_sha256": "492b6626d9d25f5c5deed35397dfc4c1f39af2b50e263d3908720e0edf605f61",
+            "pcm_sha256": "283afc337e0045f61d6910cfcd38dcf77bba728dd3f626dc3f6b2105a6f151ec",
+            "statistics": {
+              "arena_used": 99088,
+              "blocks": 4096,
+              "errors": 0,
+              "events": 31,
+              "invalid_samples": 0,
+              "late_platform_allocations": 0,
+              "platform_allocations": 10,
+              "sample_words": 2097152,
+              "seed": 305419896,
+              "warmup": 4
+            }
+          }
+        }
+      }
+    ]
+  },
+  "target_event_scope": {
+    "blocks": 512,
+    "excluded_late_native_events": [
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          1023,
+          "comb-ff",
+          1
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          1023,
+          "comb-fb",
+          1
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          1024,
+          "comb-ff",
+          0
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          1024,
+          "comb-fb",
+          0
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          2047,
+          "lfo-rate",
+          0.1
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          2047,
+          "vib-rate",
+          1
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          2048,
+          "comb-ff",
+          0.9
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          2048,
+          "comb-fb",
+          0.9
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          2048,
+          "delay-time",
+          25
+        ]
+      },
+      {
+        "case": "boundary-parameter-events",
+        "event": [
+          2048,
+          "delay-fb",
+          0.5
+        ]
+      }
+    ],
+    "reason": "Target memory budget limits each pass; native4096block cases retain the complete event plan."
+  },
+  "limit": "Unchanged arithmetic in five reviewed cyclemethods. Signal-rate combdelayconversions preserved. Observedwhole-drone callback comparison excludesI2S/UI/network and doesnotestablishuniversalreal-timebound."
+}

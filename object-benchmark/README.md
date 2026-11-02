@@ -89,3 +89,14 @@ both module hashes, comparison/timing counts and restored-heap evidence.
 `CASE`, `CASE_PROFILE` and `PROFILE` lines carry detailed measurements. Any failed
 gate logs `FAIL` and aborts. A 550-second execution budget fails closed before the
 hardware runner's 600-second limit. No target success is claimed by a build.
+
+An existing optional profile can be used as the reference with an explicit
+`--reference-profile float32-audio-v2` (or another admitted profile). The request
+must match the actual reference module manifest. Every new build prints one
+`NUMERICAL_PROFILES` record, bound to its firmware identity, and the collector
+checks it against both manifests and the compiled plan. The established CLI and
+serial roles `strict` and `optimized` remain stable identifiers; their actual
+numerical profiles are recorded separately, including in each collected timing
+row. An optional reference therefore cannot silently be reported as strict.
+Historical records without the new declaration require a `float32-strict`
+reference. Use a fresh variant name after changing benchmark sources.

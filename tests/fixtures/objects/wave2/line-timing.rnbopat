@@ -1,0 +1,186 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1100,
+      700
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "target",
+          "maxclass": "newobj",
+          "text": "param target 0 @min -1 @max 1",
+          "rnbo_uniqueid": "target",
+          "patching_rect": [
+            20,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "milliseconds",
+          "maxclass": "newobj",
+          "text": "param milliseconds 10 @min 0 @max 100",
+          "rnbo_uniqueid": "milliseconds",
+          "patching_rect": [
+            270,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pair",
+          "maxclass": "newobj",
+          "text": "pack 0 10",
+          "rnbo_uniqueid": "pair",
+          "patching_rect": [
+            520,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "ramp",
+          "maxclass": "newobj",
+          "text": "line~",
+          "rnbo_uniqueid": "ramp",
+          "patching_rect": [
+            770,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "target-signal",
+          "maxclass": "newobj",
+          "text": "sig~",
+          "rnbo_uniqueid": "target-signal",
+          "patching_rect": [
+            20,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            270,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            520,
+            95,
+            230,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "target",
+            0
+          ],
+          "destination": [
+            "pair",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "milliseconds",
+            0
+          ],
+          "destination": [
+            "pair",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pair",
+            0
+          ],
+          "destination": [
+            "ramp",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "target",
+            0
+          ],
+          "destination": [
+            "target-signal",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "ramp",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "target-signal",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

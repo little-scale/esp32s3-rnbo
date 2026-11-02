@@ -1,0 +1,226 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1100,
+      700
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "exponent",
+          "maxclass": "newobj",
+          "text": "param exponent 2 @min 0.25 @max 4",
+          "rnbo_uniqueid": "exponent",
+          "patching_rect": [
+            20,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-left",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "in-left",
+          "patching_rect": [
+            270,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-right",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "in-right",
+          "patching_rect": [
+            520,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "softclip",
+          "maxclass": "newobj",
+          "text": "tanh~",
+          "rnbo_uniqueid": "softclip",
+          "patching_rect": [
+            770,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "wrap",
+          "maxclass": "newobj",
+          "text": "wrap~ -1 1",
+          "rnbo_uniqueid": "wrap",
+          "patching_rect": [
+            20,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "clip",
+          "maxclass": "newobj",
+          "text": "clip~ 0 1",
+          "rnbo_uniqueid": "clip",
+          "patching_rect": [
+            270,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "power",
+          "maxclass": "newobj",
+          "text": "pow~",
+          "rnbo_uniqueid": "power",
+          "patching_rect": [
+            520,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            770,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            20,
+            170,
+            230,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "in-left",
+            0
+          ],
+          "destination": [
+            "softclip",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "in-right",
+            0
+          ],
+          "destination": [
+            "wrap",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "wrap",
+            0
+          ],
+          "destination": [
+            "clip",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "clip",
+            0
+          ],
+          "destination": [
+            "power",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "exponent",
+            0
+          ],
+          "destination": [
+            "power",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "softclip",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "power",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

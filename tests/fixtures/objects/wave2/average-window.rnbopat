@@ -1,0 +1,186 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1100,
+      700
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "window",
+          "maxclass": "newobj",
+          "text": "param window 16 @min 1 @max 64",
+          "rnbo_uniqueid": "window",
+          "patching_rect": [
+            20,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-left",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "in-left",
+          "patching_rect": [
+            270,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "in-right",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "in-right",
+          "patching_rect": [
+            520,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "avg-left",
+          "maxclass": "newobj",
+          "text": "average~ 64",
+          "rnbo_uniqueid": "avg-left",
+          "patching_rect": [
+            770,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "avg-right",
+          "maxclass": "newobj",
+          "text": "average~ 64",
+          "rnbo_uniqueid": "avg-right",
+          "patching_rect": [
+            20,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            270,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            520,
+            95,
+            230,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "in-left",
+            0
+          ],
+          "destination": [
+            "avg-left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "in-right",
+            0
+          ],
+          "destination": [
+            "avg-right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "window",
+            0
+          ],
+          "destination": [
+            "avg-left",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "window",
+            0
+          ],
+          "destination": [
+            "avg-right",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "avg-left",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "avg-right",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

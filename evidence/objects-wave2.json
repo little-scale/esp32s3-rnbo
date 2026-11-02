@@ -1,0 +1,2673 @@
+{
+  "format": "rnbo-second-wave-host-qualification-v1",
+  "identity_sha256": {
+    "/Users/a1106632/Documents/esp32-rnbo/host/compiler/qualify_wave2.py": "f2826435801d3a547c49075b7bca1a1d9d7800a744f16254f6bf06876a04a29c",
+    "/Users/a1106632/Documents/esp32-rnbo/host/compiler/qualify_objects.py": "f9d19b04a8709b194b42ee60d39302fdf58d8616a5aa78c0cade920313813831",
+    "/Users/a1106632/Documents/esp32-rnbo/host/compiler/bounded_filters.py": "f254dc13a3d9da5280bfedd68427a381bf7a47eb6a81ee71b0155e0200bde299",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/catalog.json": "14767e122198c7509ca9479852e3417e81796dd8d72adc585449f011381976cd",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/line-timing.rnbopat": "178812e9bf55cb23c342cc4fe369f88be190ef431a50c80f86d33264e5dd1a34",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/average-window.rnbopat": "c56717e588ff6473db7a9cf9702bb6fdf63efb88b55e806a6b9af383fc63a6c6",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/biquad-response.rnbopat": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/phase-pulse.rnbopat": "b1ffdf24e21d4d725950100c999a4adfb3bf59d05369c8c7a05e1b65e9f60142",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/noise-colour.rnbopat": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f",
+    "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/nonlinear-domains.rnbopat": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+  },
+  "hardware_executed": false,
+  "target_performance_qualified": false,
+  "completed": true,
+  "passed": false,
+  "fixtures": [
+    {
+      "fixture": {
+        "id": "line-timing",
+        "family": "line",
+        "patch": "line-timing.rnbopat",
+        "role": "main",
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "blocks": 512,
+        "arena_bytes": 1048576,
+        "cases": [
+          {
+            "id": "ramp-up",
+            "parameters": {
+              "milliseconds": 10,
+              "target": 1
+            },
+            "events": []
+          },
+          {
+            "id": "ramp-down",
+            "parameters": {
+              "milliseconds": 10,
+              "target": -1
+            },
+            "events": []
+          },
+          {
+            "id": "zero-time",
+            "parameters": {
+              "milliseconds": 0,
+              "target": 1
+            },
+            "events": []
+          },
+          {
+            "id": "interrupt",
+            "parameters": {
+              "milliseconds": 10,
+              "target": 1
+            },
+            "events": [
+              {
+                "block": 1,
+                "id": "target",
+                "value": -0.5
+              }
+            ]
+          },
+          {
+            "id": "change-duration",
+            "parameters": {
+              "milliseconds": 10,
+              "target": 1
+            },
+            "events": [
+              {
+                "block": 1,
+                "id": "milliseconds",
+                "value": 5
+              },
+              {
+                "block": 1,
+                "id": "target",
+                "value": -0.5
+              }
+            ]
+          }
+        ],
+        "semantic": {
+          "kind": "line",
+          "ramp_channel": 0,
+          "target_channel": 1,
+          "initial": 0,
+          "timing_tolerance_samples": 1,
+          "linear_residual_tolerance": 2e-05
+        },
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        }
+      },
+      "variants": [
+        {
+          "profile": "float32-strict",
+          "cases": [
+            {
+              "case": {
+                "id": "ramp-up",
+                "parameters": {
+                  "milliseconds": 10,
+                  "target": 1
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/ramp-up.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/ramp-up.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "milliseconds",
+                "10",
+                "--parameter",
+                "target",
+                "1"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.99943813,
+                "mean_process_us": 0.5079,
+                "max_process_us": 2.041,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "30091e0a3f210b0fc75b80a24d574aa1fcabf919d6564f338cd1b0aa9c4f726d",
+              "pcm_sha256": "f1053a04fd3c052be398835c955c4b6918e110c7c82d1dfb30c429f598c4b8ac",
+              "semantics": {
+                "kind": "line",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.9988759442889574,
+                    "mean": 0.9983139070485709
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 1.0,
+                    "mean": 1.0
+                  }
+                ],
+                "segments": [
+                  {
+                    "start": 0,
+                    "milliseconds": 10,
+                    "expected_frames": 441.0,
+                    "observed_slope": 0.0022675848170502547,
+                    "maximum_linear_residual": 3.100666281286024e-06,
+                    "settled_frame": 441
+                  }
+                ]
+              }
+            },
+            {
+              "case": {
+                "id": "ramp-down",
+                "parameters": {
+                  "milliseconds": 10,
+                  "target": -1
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/ramp-down.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/ramp-down.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "milliseconds",
+                "10",
+                "--parameter",
+                "target",
+                "-1"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.99943813,
+                "mean_process_us": 0.2765,
+                "max_process_us": 0.916,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "f12d0460eb6e3632de4e5099a76c9323fcdb5191b18378962f45ba530d8cc116",
+              "pcm_sha256": "415ae6b5b070e43aa3264a049aa6176f3702d0638b806f640c02e21665ac6e3b",
+              "semantics": {
+                "kind": "line",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.9988759442889574,
+                    "mean": -0.9983139070485709
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 1.0,
+                    "mean": -1.0
+                  }
+                ],
+                "segments": [
+                  {
+                    "start": 0,
+                    "milliseconds": 10,
+                    "expected_frames": 441.0,
+                    "observed_slope": -0.0022675848170502547,
+                    "maximum_linear_residual": 3.100666281286024e-06,
+                    "settled_frame": 441
+                  }
+                ]
+              }
+            },
+            {
+              "case": {
+                "id": "zero-time",
+                "parameters": {
+                  "milliseconds": 0,
+                  "target": 1
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/zero-time.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/zero-time.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "milliseconds",
+                "0",
+                "--parameter",
+                "target",
+                "1"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.999998093,
+                "mean_process_us": 0.2368,
+                "max_process_us": 0.5,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "2ddfee5004e3b556bffed4951f60f1646bc6d2b81bed51e85a5fe6881490b871",
+              "pcm_sha256": "705bd2be647bfd81db156803e2b40251539e4ac35eed08841a2e6b7c1bfabb06",
+              "semantics": {
+                "kind": "line",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.9999961852954584,
+                    "mean": 0.9999923706054688
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 1.0,
+                    "mean": 1.0
+                  }
+                ],
+                "segments": [
+                  {
+                    "start": 0,
+                    "milliseconds": 0,
+                    "settled": true
+                  }
+                ]
+              }
+            },
+            {
+              "case": {
+                "id": "interrupt",
+                "parameters": {
+                  "milliseconds": 10,
+                  "target": 1
+                },
+                "events": [
+                  {
+                    "block": 1,
+                    "id": "target",
+                    "value": -0.5
+                  }
+                ]
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/interrupt.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/interrupt.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "milliseconds",
+                "10",
+                "--parameter",
+                "target",
+                "1",
+                "--at-parameter",
+                "1",
+                "target",
+                "-0.5"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.500343206,
+                "mean_process_us": 0.2343,
+                "max_process_us": 0.708,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "30abf1bb88a203f327a25965ccc0ec8cf241d63f67adcb483e5365815168ddb5",
+              "pcm_sha256": "1a9644f91a1804d13b868a5a236964bf953860d2acf9d7237133dc370e38aa22",
+              "semantics": {
+                "kind": "line",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.5804988741874695,
+                    "rms": 0.499221197840388,
+                    "mean": -0.4966369324047104
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 0.5014627042462879,
+                    "mean": -0.4970703125
+                  }
+                ],
+                "segments": [
+                  {
+                    "start": 0,
+                    "milliseconds": 10,
+                    "expected_frames": 441.0,
+                    "observed_slope": 0.002267574562745936,
+                    "maximum_linear_residual": 8.344650268554688e-07,
+                    "settled_frame": null
+                  },
+                  {
+                    "start": 256,
+                    "milliseconds": 10,
+                    "expected_frames": 441.0,
+                    "observed_slope": -0.002450108868346367,
+                    "maximum_linear_residual": 7.178413274910866e-08,
+                    "settled_frame": 697
+                  }
+                ]
+              }
+            },
+            {
+              "case": {
+                "id": "change-duration",
+                "parameters": {
+                  "milliseconds": 10,
+                  "target": 1
+                },
+                "events": [
+                  {
+                    "block": 1,
+                    "id": "milliseconds",
+                    "value": 5
+                  },
+                  {
+                    "block": 1,
+                    "id": "target",
+                    "value": -0.5
+                  }
+                ]
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/change-duration.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/line-timing/float32-strict/change-duration.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "milliseconds",
+                "10",
+                "--parameter",
+                "target",
+                "1",
+                "--at-parameter",
+                "1",
+                "milliseconds",
+                "5",
+                "--at-parameter",
+                "1",
+                "target",
+                "-0.5"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.500470191,
+                "mean_process_us": 0.2342,
+                "max_process_us": 0.708,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "a52c922280bee18c639db9003b40de8b1b0a0f81a073dce92e74e4fa8d7533ee",
+              "pcm_sha256": "c8be12e0fbf1d786a7b954e644a6492e869f12739d2d18a372cdc379b74131ee",
+              "semantics": {
+                "kind": "line",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.5804988741874695,
+                    "rms": 0.49947570460141166,
+                    "mean": -0.49754578021184237
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 0.5014627042462879,
+                    "mean": -0.4970703125
+                  }
+                ],
+                "segments": [
+                  {
+                    "start": 0,
+                    "milliseconds": 10,
+                    "expected_frames": 441.0,
+                    "observed_slope": 0.002267574562745936,
+                    "maximum_linear_residual": 8.344650268554688e-07,
+                    "settled_frame": null
+                  },
+                  {
+                    "start": 256,
+                    "milliseconds": 5,
+                    "expected_frames": 220.5,
+                    "observed_slope": -0.0049002184296533255,
+                    "maximum_linear_residual": 1.2635085983037087e-07,
+                    "settled_frame": 477
+                  }
+                ]
+              }
+            }
+          ],
+          "status": "passed",
+          "manifest": {
+            "format": "rnbo-esp32s3-prepared-export",
+            "format_version": 1,
+            "rnbo_version": "1.4.4",
+            "class_name": "rnbos3patch",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "role": "main",
+            "audio_inputs": 0,
+            "audio_outputs": 2,
+            "midi_output_ports": 0,
+            "midi_output_policy": "reject",
+            "voices": 1,
+            "voice_topology": "single-export",
+            "parameter_count": 2,
+            "parameter_schema_sha256": "45ecbc697c2f2d0808840fd5fd87f84baad546cef197c2d8ddfd889860c08f35",
+            "required_host_services": [],
+            "execution": "static-development",
+            "numerical_profile": "float32-strict",
+            "scheduler_time": "float64",
+            "source_tree_sha256": "30f29bef900e5c8599db3a8704f37a16ba403d06b1df4f4415607c83fb8939d5",
+            "editable_source_sha256": "178812e9bf55cb23c342cc4fe369f88be190ef431a50c80f86d33264e5dd1a34",
+            "adaptations": [
+              "rnbo-1.4.4-list-copy-bounds-v1",
+              "rnbo-1.4.4-list-move-inline-storage-v1",
+              "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+              "rnbo-1.4.4-nested-clock-target-v1"
+            ]
+          },
+          "prepared_provenance_sha256": "f7ae9a9fdf24bb5918bee026e688880a86e3ea49fca807455138b4d07bf1c76e",
+          "prepared_manifest_sha256": "b4a809e7efa7d1023dc43524ccf2432b1330bef8d2e6eb8b98ea993a44ea7346",
+          "build_report_sha256": "68d1decc5347e2e339ebb41a41e09d089fa35f9d1887937f7328f068dc3febbb",
+          "probe": {
+            "source_libraries_sha256": {
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/librnbo_static.a": "6803c8ce4bdc0c84d9bf653f92aba04cfa2d8694eb1c6ea2da02246f10dbef68",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/libpcm_output.a": "d235502c3cfaa29181b2232dc9a3f092b162be27d490b999896d815511409974"
+            },
+            "command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/line-timing/float32-strict/wave2_probe"
+            ],
+            "artifact_sha256": "e10c347e5f67d8409ccb5fbfe6d66251c19244ce9fa9454981011525a9360013",
+            "native_build_report_sha256": "68d1decc5347e2e339ebb41a41e09d089fa35f9d1887937f7328f068dc3febbb"
+          }
+        },
+        {
+          "profile": "float32-audio-v2",
+          "cases": [],
+          "status": "unsupported-form",
+          "reason": "float32-audio-v2: no unique supported audio methods found"
+        }
+      ],
+      "source_audit": {
+        "source": "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/exports/line-timing/rnbo_source.h",
+        "source_sha256": "5c4b6d384b614c22c59fe842173c59e545d07172b8778c776b70b68c9970cff3",
+        "methods": []
+      }
+    },
+    {
+      "fixture": {
+        "id": "average-window",
+        "family": "average",
+        "patch": "average-window.rnbopat",
+        "role": "fx",
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "blocks": 512,
+        "arena_bytes": 2097152,
+        "cases": [
+          {
+            "id": "one",
+            "parameters": {
+              "window": 1
+            },
+            "events": []
+          },
+          {
+            "id": "default",
+            "parameters": {},
+            "events": []
+          },
+          {
+            "id": "maximum",
+            "parameters": {
+              "window": 64
+            },
+            "events": []
+          },
+          {
+            "id": "odd-window",
+            "parameters": {
+              "window": 63
+            },
+            "events": []
+          },
+          {
+            "id": "cancellation-tones",
+            "parameters": {},
+            "events": [],
+            "stimulus": {
+              "kind": "mixed-tone-v1"
+            }
+          }
+        ],
+        "semantic": {
+          "kind": "average",
+          "default_window": 16,
+          "maximum_absolute_error": 2e-06
+        },
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        },
+        "stimulus": {
+          "kind": "impulse-step-v1"
+        }
+      },
+      "variants": [
+        {
+          "profile": "float32-strict",
+          "cases": [
+            {
+              "case": {
+                "id": "one",
+                "parameters": {
+                  "window": 1
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/one.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/one.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "2097152",
+                "--parameter",
+                "window",
+                "1",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/one-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.0963437186,
+                "mean_process_us": 3.9619,
+                "max_process_us": 10.041,
+                "platform_allocations": 2,
+                "late_platform_allocations": 0,
+                "arena_used": 705632,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "pcm_sha256": "4b1a7cf9307f085ac920dd1cedb683d47beddac392fc21093194c3b2b925a239",
+              "semantics": {
+                "kind": "average",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.003088161777508183,
+                    "mean": 3.814697265625e-06
+                  },
+                  {
+                    "peak": 0.25,
+                    "rms": 0.13621559198564606,
+                    "mean": -0.1015625
+                  }
+                ],
+                "window_samples": 1,
+                "history_reset_on_window_change": true,
+                "expected_causal_output_lag_samples": 0,
+                "maximum_absolute_errors": [
+                  0.0,
+                  0.0
+                ],
+                "declared_maximum_absolute_error": 2e-06
+              }
+            },
+            {
+              "case": {
+                "id": "default",
+                "parameters": {},
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/default.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/default.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "2097152",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/default-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.25,
+                "rms": 0.0963075102,
+                "mean_process_us": 2.4048,
+                "max_process_us": 3.75,
+                "platform_allocations": 2,
+                "late_platform_allocations": 0,
+                "arena_used": 705632,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "6f20e60f732e4bebc6da711c65f01253564bc096e1dc5ca338a949e33b3fe9e3",
+              "pcm_sha256": "0e9ea8beda84f0c1c9c7637fe7bb443fd4437fc1c06c957bb36a4d314a5adc97",
+              "semantics": {
+                "kind": "average",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.0625,
+                    "rms": 0.0007720404443770458,
+                    "mean": 3.814697265625e-06
+                  },
+                  {
+                    "peak": 0.25,
+                    "rms": 0.13619719888657245,
+                    "mean": -0.10155534744262695
+                  }
+                ],
+                "window_samples": 16,
+                "history_reset_on_window_change": false,
+                "expected_causal_output_lag_samples": 0,
+                "maximum_absolute_errors": [
+                  0.0,
+                  0.0
+                ],
+                "declared_maximum_absolute_error": 2e-06
+              }
+            },
+            {
+              "case": {
+                "id": "maximum",
+                "parameters": {
+                  "window": 64
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/maximum.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/maximum.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "2097152",
+                "--parameter",
+                "window",
+                "64",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/maximum-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.0963508507,
+                "mean_process_us": 2.0614,
+                "max_process_us": 2.709,
+                "platform_allocations": 2,
+                "late_platform_allocations": 0,
+                "arena_used": 705632,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "7b32271f977d05a84523b70d815ae8548a9f51561d256caf25b43f5fff7b5219",
+              "pcm_sha256": "f39400a1356b82862bb11bf5a521f667f9ed4402805eca867662eb6dc55efda5",
+              "semantics": {
+                "kind": "average",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.003530066655753568,
+                    "mean": 3.237831847968664e-05
+                  },
+                  {
+                    "peak": 0.25,
+                    "rms": 0.13621494587611668,
+                    "mean": -0.10147237777709961
+                  }
+                ],
+                "window_samples": 64,
+                "history_reset_on_window_change": true,
+                "expected_causal_output_lag_samples": 0,
+                "maximum_absolute_errors": [
+                  9.934107481068821e-09,
+                  0.0
+                ],
+                "declared_maximum_absolute_error": 2e-06
+              }
+            },
+            {
+              "case": {
+                "id": "odd-window",
+                "parameters": {
+                  "window": 63
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/odd-window.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/odd-window.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "2097152",
+                "--parameter",
+                "window",
+                "63",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/odd-window-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.0963508472,
+                "mean_process_us": 2.08,
+                "max_process_us": 8.042,
+                "platform_allocations": 2,
+                "late_platform_allocations": 0,
+                "arena_used": 705632,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "b9c59d5635e956501bf029b8d7042c1b1d59231096f2fb2f05d63a77de0b4c38",
+              "pcm_sha256": "8e37d4c145f4a6132fc7e5840a9aff6cfdb1748d2cf2b9070855fe07d90d5f8a",
+              "semantics": {
+                "kind": "average",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.0035298698283572133,
+                    "mean": 3.225910896986761e-05
+                  },
+                  {
+                    "peak": 0.25,
+                    "rms": 0.13621494603902187,
+                    "mean": -0.10147380828857422
+                  }
+                ],
+                "window_samples": 63,
+                "history_reset_on_window_change": true,
+                "expected_causal_output_lag_samples": 0,
+                "maximum_absolute_errors": [
+                  9.934107481068821e-09,
+                  7.09579103808089e-09
+                ],
+                "declared_maximum_absolute_error": 2e-06
+              }
+            },
+            {
+              "case": {
+                "id": "cancellation-tones",
+                "parameters": {},
+                "events": [],
+                "stimulus": {
+                  "kind": "mixed-tone-v1"
+                }
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/cancellation-tones.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/cancellation-tones.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "2097152",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/average-window/float32-strict/cancellation-tones-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.373797357,
+                "rms": 0.184336827,
+                "mean_process_us": 1.9915,
+                "max_process_us": 2.625,
+                "platform_allocations": 2,
+                "late_platform_allocations": 0,
+                "arena_used": 705632,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "049f0161d7e2d3f11f5438781929bf0e190cc088b5487909cb9e399bb98315cf",
+              "float_sha256": "04f553a3935b7fd073eec78135c6f53f40336de0b59ed1738839bf8e9015176d",
+              "pcm_sha256": "69179900ee459a31a763fc62712bf33b2cf1359e9b3fb7d2cd9cc2c21f987132",
+              "semantics": {
+                "kind": "average",
+                "passed": false,
+                "channels": [
+                  {
+                    "peak": 0.37379735708236694,
+                    "rms": 0.18610881419355668,
+                    "mean": 7.711899296158897e-05
+                  },
+                  {
+                    "peak": 0.3634050786495209,
+                    "rms": 0.1825476404850084,
+                    "mean": 5.5593487599762265e-06
+                  }
+                ],
+                "window_samples": 16,
+                "history_reset_on_window_change": false,
+                "expected_causal_output_lag_samples": 0,
+                "maximum_absolute_errors": [
+                  8.655712008476257e-06,
+                  1.025758683681488e-05
+                ],
+                "declared_maximum_absolute_error": 2e-06,
+                "limitation": "Strict running-average output exceeds independent mathematical-window accuracy limit; no tolerance widening"
+              }
+            }
+          ],
+          "status": "baseline-precision-limitation",
+          "manifest": {
+            "format": "rnbo-esp32s3-prepared-export",
+            "format_version": 1,
+            "rnbo_version": "1.4.4",
+            "class_name": "rnbos3patch",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "role": "fx",
+            "audio_inputs": 2,
+            "audio_outputs": 2,
+            "midi_output_ports": 0,
+            "midi_output_policy": "reject",
+            "voices": 1,
+            "voice_topology": "single-export",
+            "parameter_count": 1,
+            "parameter_schema_sha256": "0ede2e020ff26cc89e0572aca56bca88fccb641b679ba13b7901f399c4e4bbb0",
+            "required_host_services": [],
+            "execution": "static-development",
+            "numerical_profile": "float32-strict",
+            "scheduler_time": "float64",
+            "source_tree_sha256": "98ae06781d8e9bdaf28c2483341a43d0300842f3255c93eac8c8cd368241781a",
+            "editable_source_sha256": "c56717e588ff6473db7a9cf9702bb6fdf63efb88b55e806a6b9af383fc63a6c6",
+            "adaptations": [
+              "rnbo-1.4.4-list-copy-bounds-v1",
+              "rnbo-1.4.4-list-move-inline-storage-v1",
+              "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+              "rnbo-1.4.4-nested-clock-target-v1"
+            ]
+          },
+          "prepared_provenance_sha256": "67f7febf2ab0604589e39eb8a543c4b87f426d1ac815a64378fe7f113b894dbf",
+          "prepared_manifest_sha256": "dfecb79c0752dcdebc988eaee6756927002d59dcb27d3b9d898bd467fd713308",
+          "build_report_sha256": "0a75c4a27e2ded5cd896daba1bd39fe9edcdb959524dd89f96fcc1409beee09a",
+          "probe": {
+            "source_libraries_sha256": {
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/librnbo_static.a": "5f829707b4c9afc631a3f51ef0d786fe0591c46cb91d2d9830d18103d8cd93ac",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/libpcm_output.a": "74d74210a33f3e15442d58b3ff52d1e907ba63a2866ea5f37e97e874ced5ac88"
+            },
+            "command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/average-window/float32-strict/wave2_probe"
+            ],
+            "artifact_sha256": "229dc351a16e7a8b73375ad7cea50aa45806aa415089ad7167b2dd0399ec0000",
+            "native_build_report_sha256": "0a75c4a27e2ded5cd896daba1bd39fe9edcdb959524dd89f96fcc1409beee09a"
+          }
+        },
+        {
+          "profile": "float32-audio-v2",
+          "cases": [],
+          "status": "unsupported-form",
+          "reason": "float32-audio-v2: no unique supported audio methods found"
+        }
+      ],
+      "source_audit": {
+        "source": "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/exports/average-window/rnbo_source.h",
+        "source_sha256": "0a1cf2b553c451b0253e3af83568888ffff1b37e7519e7cc3c9364da46393b74",
+        "methods": [
+          {
+            "name": "average_tilde_01_init",
+            "line": 764,
+            "raw_method_sha256": "d118eeedfa8b98b5675972c1b6b62755e9382b216c3de8fb96e1bb58fc6ca9b5",
+            "code_method_sha256": "694306ce006a070b5a4bd0b8afbe15474ee5f33d3f73b4efaa9528e3171badd0"
+          },
+          {
+            "name": "average_tilde_01_doReset",
+            "line": 770,
+            "raw_method_sha256": "75cb362ae3ea110cb03ef127a217fc9ad70efedeb52c0b1606082c933672b999",
+            "code_method_sha256": "42ed246837f85837fa0618904feef6d49f6f13e5831ac7dce9e57891042335a6"
+          },
+          {
+            "name": "average_tilde_01_setwindowsize",
+            "line": 777,
+            "raw_method_sha256": "8397f78612f47acbd4026776e525b36ebc4b477b44bd6d744563ec262320d3d5",
+            "code_method_sha256": "e81677c3c25aa7a5e495ab0b2fd97f1bdcbdbd2bb97033573a4442df037d9d20"
+          },
+          {
+            "name": "average_tilde_01_perform",
+            "line": 697,
+            "raw_method_sha256": "18c41c8548bff80e3435a9b85e0294e95f27fba135480c595f0e6d7105c86413",
+            "code_method_sha256": "221cecfc8009158ba9da1e2883ec71ede0fde5fb21d8b12d811088c8380be002"
+          },
+          {
+            "name": "average_tilde_01_dspsetup",
+            "line": 786,
+            "raw_method_sha256": "69fd09ce9f7659286e5e0b3db138b821483025d218893f4e40dcefc2d24a9a5b",
+            "code_method_sha256": "ab01ce42df00c2da529af387adaa964d13dec71510ea88af85ef487404e88d82"
+          },
+          {
+            "name": "average_tilde_02_init",
+            "line": 800,
+            "raw_method_sha256": "b394c8e0753979dee0c008c46e0cb39455588d0ad016a9416da06c780dbe63ff",
+            "code_method_sha256": "74a670883ed4f07eff04750e6ff5f211bce9044fffd828ea084b1ef2278646e3"
+          },
+          {
+            "name": "average_tilde_02_doReset",
+            "line": 806,
+            "raw_method_sha256": "8ad67dc62f7f8c10ccc2c0f0f41ccf889ed3d897f1fc386de6cb4f35687197bd",
+            "code_method_sha256": "67edf4a14370ecc740fad1a022442d933f07bfa0ff038d6732b9a40db64a652b"
+          },
+          {
+            "name": "average_tilde_02_setwindowsize",
+            "line": 813,
+            "raw_method_sha256": "bb8b80f6bbe312bbf0508d6ba64c4eaba78562137d37dd20b9cbc3a7d93ff8fa",
+            "code_method_sha256": "9fb5554e07862e5df6f707ffd0e4e0cc0bdd55070a391803d3e44565fe0bbe7a"
+          },
+          {
+            "name": "average_tilde_02_perform",
+            "line": 648,
+            "raw_method_sha256": "fc9bcc6a57a058a40e2b41db74402f8335f3f1d9ba6af65b35d91a17b7da5227",
+            "code_method_sha256": "d88ffb5c654481227cb0a73701623cf0efc86f9ce439000ea330366d7b184776"
+          },
+          {
+            "name": "average_tilde_02_dspsetup",
+            "line": 822,
+            "raw_method_sha256": "50457c7892dfdb8baa9a156c0d32bd92e98ec110069e73dbbc7fbe372006d104",
+            "code_method_sha256": "17c29f134893be12104dbac223d279d7021d84ef9da1147b461415fe05d05c97"
+          }
+        ],
+        "oracle_policy": {
+          "basis": "setwindowsize marks changed valid integer window for reset; doReset clears effective count, accumulation and position; perform grows available count until full",
+          "independent_truth": "math.fsum over each literal input window, divided by available history count; no generated accumulator implementation copied",
+          "warmup": "four detached zero-input blocks fill unchanged default16; a block0 change to1/63/64 resets to no available history",
+          "causal_lag": "zero: perform adds the current input to accumulation and writes history before emitting the average",
+          "allocation": "init requests samplerate+1 Float64 frames per channel, independent of these authored maximum64 windows"
+        }
+      }
+    },
+    {
+      "fixture": {
+        "id": "biquad-response",
+        "family": "biquad",
+        "patch": "biquad-response.rnbopat",
+        "role": "fx",
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "blocks": 512,
+        "arena_bytes": 1048576,
+        "cases": [
+          {
+            "id": "default",
+            "parameters": {},
+            "events": []
+          },
+          {
+            "id": "identity",
+            "parameters": {
+              "a0": 1,
+              "a1": 0,
+              "a2": 0,
+              "b1": 0,
+              "b2": 0
+            },
+            "events": []
+          },
+          {
+            "id": "slow-pole",
+            "parameters": {
+              "a0": 0.05,
+              "a1": 0,
+              "a2": 0,
+              "b1": -0.95,
+              "b2": 0
+            },
+            "events": []
+          }
+        ],
+        "semantic": {
+          "kind": "biquad",
+          "defaults": {
+            "a0": 0.5,
+            "a1": 0.25,
+            "a2": 0.125,
+            "b1": -0.4,
+            "b2": 0.2
+          },
+          "maximum_absolute_error": 3e-06
+        },
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        },
+        "stimulus": {
+          "kind": "impulse-step-v1"
+        }
+      },
+      "variants": [
+        {
+          "profile": "float32-strict",
+          "cases": [
+            {
+              "case": {
+                "id": "default",
+                "parameters": {},
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/default.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/default.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/default-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.5,
+                "rms": 0.105358805,
+                "mean_process_us": 3.3669,
+                "max_process_us": 9.917,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "dd7bc650565a9b4774d6e0cbe348db822c262c18fab1cce1d3a51405e1429587",
+              "pcm_sha256": "851bd6e89d451a18bc0c89296d810b627f8e9d7d8c1c62da95fc95419a253374",
+              "semantics": {
+                "kind": "biquad",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.5,
+                    "rms": 0.0021767185004878164,
+                    "mean": 4.1723250255187385e-06
+                  },
+                  {
+                    "peak": 0.2887499928474426,
+                    "rms": 0.14898395098405204,
+                    "mean": -0.11108338832934805
+                  }
+                ],
+                "maximum_absolute_errors": [
+                  1.6689300580408073e-08,
+                  1.6701740213065364e-08
+                ],
+                "expected_dc_gain": 1.09375,
+                "settled_right_dc": -0.13671875
+              }
+            },
+            {
+              "case": {
+                "id": "identity",
+                "parameters": {
+                  "a0": 1,
+                  "a1": 0,
+                  "a2": 0,
+                  "b1": 0,
+                  "b2": 0
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/identity.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/identity.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "a0",
+                "1",
+                "--parameter",
+                "a1",
+                "0",
+                "--parameter",
+                "a2",
+                "0",
+                "--parameter",
+                "b1",
+                "0",
+                "--parameter",
+                "b2",
+                "0",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/identity-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.0963437186,
+                "mean_process_us": 1.9911,
+                "max_process_us": 5.625,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "pcm_sha256": "4b1a7cf9307f085ac920dd1cedb683d47beddac392fc21093194c3b2b925a239",
+              "semantics": {
+                "kind": "biquad",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 1.0,
+                    "rms": 0.003088161777508183,
+                    "mean": 3.814697265625e-06
+                  },
+                  {
+                    "peak": 0.25,
+                    "rms": 0.13621559198564606,
+                    "mean": -0.1015625
+                  }
+                ],
+                "maximum_absolute_errors": [
+                  0.0,
+                  0.0
+                ],
+                "expected_dc_gain": 1.0,
+                "settled_right_dc": -0.125
+              }
+            },
+            {
+              "case": {
+                "id": "slow-pole",
+                "parameters": {
+                  "a0": 0.05,
+                  "a1": 0,
+                  "a2": 0,
+                  "b1": -0.95,
+                  "b2": 0
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/slow-pole.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/slow-pole.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "a0",
+                "0.05",
+                "--parameter",
+                "a1",
+                "0",
+                "--parameter",
+                "a2",
+                "0",
+                "--parameter",
+                "b1",
+                "-0.95",
+                "--parameter",
+                "b2",
+                "0",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/biquad-response/float32-strict/slow-pole-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.249999866,
+                "rms": 0.0962744709,
+                "mean_process_us": 2.2567,
+                "max_process_us": 12.792,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "111acd51c3ad414c8e389cd9b2c3a18d85a73fb9ba526ed2b1dcd6d2031d94cc",
+              "float_sha256": "493fc97c0382e52e0b456c7a5847619ff412bbccf78fef81a6abf835b937a362",
+              "pcm_sha256": "eb229f39791bf49b42a40031b9b865eb2f16b6552475f9f189557a04cc7c1c97",
+              "semantics": {
+                "kind": "biquad",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.05000000074505806,
+                    "rms": 0.0004945015598687811,
+                    "mean": 3.814695962751692e-06
+                  },
+                  {
+                    "peak": 0.24999986588954926,
+                    "rms": 0.136151764489481,
+                    "mean": -0.10154432558326398
+                  }
+                ],
+                "maximum_absolute_errors": [
+                  6.872298842844349e-09,
+                  1.3411045049482873e-07
+                ],
+                "expected_dc_gain": 0.9999999999999992,
+                "settled_right_dc": -0.12499993294477463
+              }
+            }
+          ],
+          "status": "passed",
+          "manifest": {
+            "format": "rnbo-esp32s3-prepared-export",
+            "format_version": 1,
+            "rnbo_version": "1.4.4",
+            "class_name": "rnbos3patch",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "role": "fx",
+            "audio_inputs": 2,
+            "audio_outputs": 2,
+            "midi_output_ports": 0,
+            "midi_output_policy": "reject",
+            "voices": 1,
+            "voice_topology": "single-export",
+            "parameter_count": 5,
+            "parameter_schema_sha256": "5ee44b4347d4f1d490c0ecb696d9fca49b9ece2d69635b837422dbf98ad9ea30",
+            "required_host_services": [],
+            "execution": "static-development",
+            "numerical_profile": "float32-strict",
+            "scheduler_time": "float64",
+            "source_tree_sha256": "7cd3e0167bef672bf5d26f7459b9d23f0c944d3267726777702e47925d236e5a",
+            "editable_source_sha256": "4e98b2dabc1779468c972de871acc719e909407b956d7dda86128e9cc196127d",
+            "adaptations": [
+              "rnbo-1.4.4-list-copy-bounds-v1",
+              "rnbo-1.4.4-list-move-inline-storage-v1",
+              "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+              "rnbo-1.4.4-nested-clock-target-v1"
+            ]
+          },
+          "prepared_provenance_sha256": "26534da1b4c083923ccd3ee10be03e039574cbd50619d39f46f093f2fd9ed43b",
+          "prepared_manifest_sha256": "43d140fffaff5e65a7d23cf0e324d9a571fed60c1919f1959c1ee84252c8accb",
+          "build_report_sha256": "f7ff4607abe443ceb9c54fa9fa39f732dc143db42d1625348557c3af1d403aaa",
+          "probe": {
+            "source_libraries_sha256": {
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/librnbo_static.a": "c33565f12ee52f79bfceeab337667677ad50d5bfe78b83a4e789c50bf7c22947",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/libpcm_output.a": "64efd6b8b8bae1e2c7611f9c6bdea94b9e774b50bc89b4dca9b819364f5840a9"
+            },
+            "command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/biquad-response/float32-strict/wave2_probe"
+            ],
+            "artifact_sha256": "b060dcdd7c4bdac6dc8c924eaf6c97286916396ca8b802b7914c7b0e7f881789",
+            "native_build_report_sha256": "f7ff4607abe443ceb9c54fa9fa39f732dc143db42d1625348557c3af1d403aaa"
+          }
+        },
+        {
+          "profile": "float32-audio-v2",
+          "cases": [],
+          "status": "unsupported-form",
+          "reason": "float32-audio-v2: no unique supported audio methods found"
+        }
+      ],
+      "source_audit": {
+        "source": "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/exports/biquad-response/rnbo_source.h",
+        "source_sha256": "3bf669da7e420a82f5c2370a4449c9ec791cdbef655b227fbb2057ab295015b5",
+        "methods": []
+      }
+    },
+    {
+      "fixture": {
+        "id": "phase-pulse",
+        "family": "phase-pulse",
+        "patch": "phase-pulse.rnbopat",
+        "role": "main",
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "blocks": 512,
+        "arena_bytes": 1048576,
+        "cases": [
+          {
+            "id": "default",
+            "parameters": {},
+            "events": []
+          },
+          {
+            "id": "negative",
+            "parameters": {
+              "frequency": -440
+            },
+            "events": []
+          },
+          {
+            "id": "zero",
+            "parameters": {
+              "frequency": 0
+            },
+            "events": []
+          },
+          {
+            "id": "short-period",
+            "parameters": {
+              "period": 17
+            },
+            "events": []
+          },
+          {
+            "id": "zero-width",
+            "parameters": {
+              "width": 0
+            },
+            "events": []
+          },
+          {
+            "id": "full-width",
+            "parameters": {
+              "width": 1
+            },
+            "events": []
+          }
+        ],
+        "semantic": {
+          "kind": "phase-pulse",
+          "frequency_default": 440,
+          "period_default": 441,
+          "width_default": 0.25,
+          "phase_frequency_relative_tolerance": 0.0002
+        },
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        }
+      },
+      "variants": [
+        {
+          "profile": "float32-strict",
+          "cases": [
+            {
+              "case": {
+                "id": "default",
+                "parameters": {},
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/default.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/default.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.540736351,
+                "mean_process_us": 1.4784,
+                "max_process_us": 1.875,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "fbc495fc0eaee420649d30b899354cd3d9b6e08e5a3bbac04d17fc0f5df6cdea",
+              "pcm_sha256": "e4e097c30d2faa1e712453a4cbbeb72478f3a85c795f41b35a6caa953b3916a5",
+              "semantics": {
+                "kind": "phase-pulse",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.999991238117218,
+                    "rms": 0.5773445746748566,
+                    "mean": 0.5000101832566912
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 0.5014627042462879,
+                    "mean": 0.25146484375
+                  }
+                ],
+                "phase_rate_hz": 440.0002002968224,
+                "pulse_duty": 0.25146484375,
+                "pulse_rising_edges": 297,
+                "minimum_interval": 441,
+                "maximum_interval": 441
+              }
+            },
+            {
+              "case": {
+                "id": "negative",
+                "parameters": {
+                  "frequency": -440
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/negative.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/negative.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-440"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.540778077,
+                "mean_process_us": 1.6597,
+                "max_process_us": 9.583,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "6be23ed0f4fc5876088f0f8d34e31139f0acd04bcc5a1463b3e367fcf6fa50b0",
+              "pcm_sha256": "e7bf8258865be1cf0e5cdea6746bf4ba86b8294c3a5f326b6c65cc0c310f5b64",
+              "semantics": {
+                "kind": "phase-pulse",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.999999463558197,
+                    "rms": 0.5774227337417382,
+                    "mean": 0.5000731624327273
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 0.5014627042462879,
+                    "mean": 0.25146484375
+                  }
+                ],
+                "phase_rate_hz": -440.00022523460706,
+                "pulse_duty": 0.25146484375,
+                "pulse_rising_edges": 297,
+                "minimum_interval": 441,
+                "maximum_interval": 441
+              }
+            },
+            {
+              "case": {
+                "id": "zero",
+                "parameters": {
+                  "frequency": 0
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/zero.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/zero.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "0"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.38630326,
+                "mean_process_us": 1.4931,
+                "max_process_us": 1.958,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "24d157e316b5164e506b214d461a13934c0a6faeb452494581beaed4f914f81a",
+              "pcm_sha256": "cd00c3d6516d8faaf9e4b674633885ed2c42b1684f3183f8a37d1dee9680919b",
+              "semantics": {
+                "kind": "phase-pulse",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.21678462624549866,
+                    "rms": 0.21678462624549866,
+                    "mean": 0.21678462624549866
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 0.5014627042462879,
+                    "mean": 0.25146484375
+                  }
+                ],
+                "phase_rate_hz": 0.0,
+                "pulse_duty": 0.25146484375,
+                "pulse_rising_edges": 297,
+                "minimum_interval": 441,
+                "maximum_interval": 441
+              }
+            },
+            {
+              "case": {
+                "id": "short-period",
+                "parameters": {
+                  "period": 17
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/short-period.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/short-period.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "period",
+                "17"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.533206004,
+                "mean_process_us": 1.5469,
+                "max_process_us": 2.334,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "4d927ebad4914d28fd55bb8bd398d9577fd1840da365ecc3f9c7933bed2827b3",
+              "pcm_sha256": "8b100bd883656e652245e7097ece5804a2815efffd41dc6c752a8966dfe4d5d6",
+              "semantics": {
+                "kind": "phase-pulse",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.999991238117218,
+                    "rms": 0.5773445746748566,
+                    "mean": 0.5000101832566912
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 0.48506754925860585,
+                    "mean": 0.23529052734375
+                  }
+                ],
+                "phase_rate_hz": 440.0002002968224,
+                "pulse_duty": 0.23529052734375,
+                "pulse_rising_edges": 7710,
+                "minimum_interval": 17,
+                "maximum_interval": 17
+              }
+            },
+            {
+              "case": {
+                "id": "zero-width",
+                "parameters": {
+                  "width": 0
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/zero-width.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/zero-width.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "width",
+                "0"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.999991238,
+                "rms": 0.408244264,
+                "mean_process_us": 1.4331,
+                "max_process_us": 2.666,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "e6ad25ba9f77d88bc979b94ead4fb9f81335c8c7591c6547752cb7011a3e64bc",
+              "pcm_sha256": "3574130758c56338eba42fd6de1a571b40853a1a6f4e0679878e96ed928f5405",
+              "semantics": {
+                "kind": "phase-pulse",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.999991238117218,
+                    "rms": 0.5773445746748566,
+                    "mean": 0.5000101832566912
+                  },
+                  {
+                    "peak": 0.0,
+                    "rms": 0.0,
+                    "mean": 0.0
+                  }
+                ],
+                "phase_rate_hz": 440.0002002968224,
+                "pulse_duty": 0.0,
+                "pulse_rising_edges": 0,
+                "minimum_interval": null,
+                "maximum_interval": null
+              }
+            },
+            {
+              "case": {
+                "id": "full-width",
+                "parameters": {
+                  "width": 1
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/full-width.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/phase-pulse/float32-strict/full-width.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "width",
+                "1"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 1,
+                "rms": 0.816494568,
+                "mean_process_us": 1.3733,
+                "max_process_us": 7.541,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "e079381ffecbda4d57f5c65355c77d190420173d474de0105489d13a133f3a09",
+              "pcm_sha256": "6705b7add0bbc3224fe7278606889fbb7e176922a22603123db2a40616d98f36",
+              "semantics": {
+                "kind": "phase-pulse",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.999991238117218,
+                    "rms": 0.5773445746748566,
+                    "mean": 0.5000101832566912
+                  },
+                  {
+                    "peak": 1.0,
+                    "rms": 1.0,
+                    "mean": 1.0
+                  }
+                ],
+                "phase_rate_hz": 440.0002002968224,
+                "pulse_duty": 1.0,
+                "pulse_rising_edges": 0,
+                "minimum_interval": null,
+                "maximum_interval": null
+              }
+            }
+          ],
+          "status": "passed",
+          "manifest": {
+            "format": "rnbo-esp32s3-prepared-export",
+            "format_version": 1,
+            "rnbo_version": "1.4.4",
+            "class_name": "rnbos3patch",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "role": "main",
+            "audio_inputs": 0,
+            "audio_outputs": 2,
+            "midi_output_ports": 0,
+            "midi_output_policy": "reject",
+            "voices": 1,
+            "voice_topology": "single-export",
+            "parameter_count": 3,
+            "parameter_schema_sha256": "c9650b81279f8bc8183118f2ec9e07dbd99471b38a03a571db40ec9e30f6cd66",
+            "required_host_services": [],
+            "execution": "static-development",
+            "numerical_profile": "float32-strict",
+            "scheduler_time": "float64",
+            "source_tree_sha256": "d1ad1dea3adff6c644eed5942085890507d4b674a62a579a4ddb2eca797920a7",
+            "editable_source_sha256": "b1ffdf24e21d4d725950100c999a4adfb3bf59d05369c8c7a05e1b65e9f60142",
+            "adaptations": [
+              "rnbo-1.4.4-list-copy-bounds-v1",
+              "rnbo-1.4.4-list-move-inline-storage-v1",
+              "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+              "rnbo-1.4.4-nested-clock-target-v1"
+            ]
+          },
+          "prepared_provenance_sha256": "396d4f638db0ac80fb065638c93cb710a1d39b7b9e1fb373309b6276f291e1f4",
+          "prepared_manifest_sha256": "6e3efe773426bf66f5e7b8557cf93a60ac4e0a7698742fb5e581117b77e77e59",
+          "build_report_sha256": "82cb8f9058d3376e988539978510e155110b9034052e65baa63f5107a47579d0",
+          "probe": {
+            "source_libraries_sha256": {
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/librnbo_static.a": "491f97c0d783bd2179174bd0cb2baa2d3e8d2dd3347265a35c5b6c00a5f2174d",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/libpcm_output.a": "c856ac9d10209dd968d80203682f9352455f118c5ee7377851fbad5a0a47a35a"
+            },
+            "command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/phase-pulse/float32-strict/wave2_probe"
+            ],
+            "artifact_sha256": "faa9c9ef14255601beedbf3a81719e1b81161a5af194a323d86a3977edfee3e2",
+            "native_build_report_sha256": "82cb8f9058d3376e988539978510e155110b9034052e65baa63f5107a47579d0"
+          }
+        },
+        {
+          "profile": "float32-audio-v2",
+          "cases": [],
+          "status": "unsupported-form",
+          "reason": "float32-audio-v2: no unique supported audio methods found"
+        }
+      ],
+      "source_audit": {
+        "source": "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/exports/phase-pulse/rnbo_source.h",
+        "source_sha256": "bfc417a0c8df062822bd4e47aa1d307ad5faa4606791545727a31b06681cfbd1",
+        "methods": []
+      }
+    },
+    {
+      "fixture": {
+        "id": "noise-colour",
+        "family": "noise",
+        "patch": "noise-colour.rnbopat",
+        "role": "main",
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "blocks": 512,
+        "arena_bytes": 1048576,
+        "cases": [
+          {
+            "id": "default",
+            "parameters": {},
+            "events": []
+          }
+        ],
+        "semantic": {
+          "kind": "noise",
+          "white_channel": 0,
+          "pink_channel": 1,
+          "white_variance_range": [
+            0.31,
+            0.36
+          ],
+          "maximum_absolute_mean": 0.02
+        },
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        }
+      },
+      "variants": [
+        {
+          "profile": "float32-strict",
+          "cases": [
+            {
+              "case": {
+                "id": "default",
+                "parameters": {},
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/noise-colour/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/noise-colour/float32-strict/default.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/noise-colour/float32-strict/default.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.999994159,
+                "rms": 0.423797557,
+                "mean_process_us": 1.0315,
+                "max_process_us": 10.917,
+                "platform_allocations": 1,
+                "late_platform_allocations": 0,
+                "arena_used": 136,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": null,
+              "float_sha256": "0d037e8f6caf14f14c1b60868d8ae5955ad4d0e86c76f4fc114ef4ce4edffea7",
+              "pcm_sha256": "a43818f63c0a290c9d22b59a8c19291c6836f375b924b227556c5e3007f3cbde",
+              "semantics": {
+                "kind": "noise",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.999994158744812,
+                    "rms": 0.5768050430773222,
+                    "mean": -0.002442713010168518
+                  },
+                  {
+                    "peak": 0.6908774375915527,
+                    "rms": 0.16280258135536413,
+                    "mean": 0.037318652428893984
+                  }
+                ],
+                "white_variance": 0.3326980908725814,
+                "white_lag_one_correlation": -0.0008013531860387823,
+                "low_to_high_band_power_ratios": {
+                  "white": 0.8736913309230215,
+                  "pink": 71.05890211406428
+                }
+              }
+            }
+          ],
+          "status": "native-seed-policy-limitation",
+          "manifest": {
+            "format": "rnbo-esp32s3-prepared-export",
+            "format_version": 1,
+            "rnbo_version": "1.4.4",
+            "class_name": "rnbos3patch",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "role": "main",
+            "audio_inputs": 0,
+            "audio_outputs": 2,
+            "midi_output_ports": 0,
+            "midi_output_policy": "reject",
+            "voices": 1,
+            "voice_topology": "single-export",
+            "parameter_count": 0,
+            "parameter_schema_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+            "required_host_services": [],
+            "execution": "static-development",
+            "numerical_profile": "float32-strict",
+            "scheduler_time": "float64",
+            "source_tree_sha256": "8d90f2d14a565cae275e555e2fd931aeeeabe2f59197feda2006de3030170bd3",
+            "editable_source_sha256": "668b3a80b0b745d855a96dc739fea503e04616ff194227f358043cb431adf11f",
+            "adaptations": [
+              "rnbo-1.4.4-list-copy-bounds-v1",
+              "rnbo-1.4.4-list-move-inline-storage-v1",
+              "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+              "rnbo-1.4.4-nested-clock-target-v1"
+            ]
+          },
+          "prepared_provenance_sha256": "22ff5135d6a3071e15077de16826c3c7bd39ae6b8f72ff045117f50266e255c5",
+          "prepared_manifest_sha256": "f9d1a1828d99b3cd5efcc258356843cce47f384cfb3909b2ef8863e064a39231",
+          "build_report_sha256": "21ed1fad83670e8538f57cd82e8b489579e1162ac43abdb1beb1ebe8ac4c8295",
+          "probe": {
+            "source_libraries_sha256": {
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/noise-colour/float32-strict/librnbo_static.a": "362367831b20e931d370912c0a69d6d84d3e6180c29b5d5ce5c0b554e5ab8301",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/noise-colour/float32-strict/libpcm_output.a": "1e405ae4134eaca983cd5f41a34fd4deb323c5db6b4216d4084d02551aa2d860"
+            },
+            "command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/noise-colour/float32-strict/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/noise-colour/float32-strict/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/noise-colour/float32-strict/wave2_probe"
+            ],
+            "artifact_sha256": "a7d838f19bcaae5143b928a418769cc73afabb09733fdd28ee172991cf7aa9d4",
+            "native_build_report_sha256": "21ed1fad83670e8538f57cd82e8b489579e1162ac43abdb1beb1ebe8ac4c8295"
+          },
+          "seed_policy": {
+            "same_seed_bit_identical": false,
+            "explicit_white_unchanged_other_context_seed": true,
+            "pink_same_context_seed_bit_identical": false,
+            "different_context_seed_observation_confounded_by_systemticks": true,
+            "repeat_float_sha256": "1bd4359f683f561640b0100b434f58fe12aef20f02b1519c12ae4d31e93547fe",
+            "other_seed_float_sha256": "4aba57078375f6797030298378b1b1b0e64bc40976f62d8b5e30b4a6cceb657b"
+          }
+        },
+        {
+          "profile": "float32-audio-v2",
+          "cases": [],
+          "status": "unsupported-form",
+          "reason": "float32-audio-v2: no unique supported audio methods found"
+        }
+      ],
+      "source_audit": {
+        "source": "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/exports/noise-colour/rnbo_source.h",
+        "source_sha256": "83777d35f432ced20b7b52db226ba138179b07c65334e44514520a0cec33c940",
+        "methods": [
+          {
+            "name": "noise_tilde_01_nz_reset",
+            "line": 568,
+            "raw_method_sha256": "74b9fa1ebac074a75e8ea53d4d8f699e52dd8a33c7248ed023d4709212d6af14",
+            "code_method_sha256": "c7130bc150fe94097f289341d4baaf8a8b51097b6b8ffcfe8f1dee4f9ae52d90"
+          },
+          {
+            "name": "noise_tilde_01_nz_seed",
+            "line": 579,
+            "raw_method_sha256": "580e5865cec84f172da53098b61d50b7432f53a0ff79bf4a0ca361d4cb657b8e",
+            "code_method_sha256": "d27848848c0976c6bf7e05ce2c80be53157a8704ad59fb66a49b1cabe92935c5"
+          },
+          {
+            "name": "pink_tilde_01_init",
+            "line": 594,
+            "raw_method_sha256": "06d2a9e9cfe9734e7b46111236b5e5f332ac5b3cd8a79b2a91e604fd88e7abb5",
+            "code_method_sha256": "0c0c0e24512a4baeb9d90f2f7cbc7ee77e957e72ac10b61e6fcbc1ac75587b07"
+          },
+          {
+            "name": "pink_tilde_01_generateRandomNumber",
+            "line": 603,
+            "raw_method_sha256": "ff6604bd28d6eb939dd88fbc1bed26962a54335fe0e99b5648200d39110f1d66",
+            "code_method_sha256": "f0387fcb6bce4e4a23148b6ceda69cb700c27a5b1ae6d2f6af1af1ae064f9220"
+          },
+          {
+            "name": "pink_tilde_01_perform",
+            "line": 524,
+            "raw_method_sha256": "e4d12b089ed01c7e922942bd7b4f6f72da4a93983016aa7134d93c966ac5c6be",
+            "code_method_sha256": "122497afd624c82fc65c4754d440a7ada6a53bc02a5386a150fa5b2d7ef22867"
+          }
+        ],
+        "runtime_audio_signal_sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+        "seed_policy_basis": "pink_init assigns systemticks only; generateRandomNumber is affine LCG with nonzero increment, so zero seed is not a constant-state generator; native systemticks wraps C library clock, dynamic private clock is a separate policy"
+      }
+    },
+    {
+      "fixture": {
+        "id": "nonlinear-domains",
+        "family": "nonlinear",
+        "patch": "nonlinear-domains.rnbopat",
+        "role": "fx",
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "blocks": 512,
+        "arena_bytes": 1048576,
+        "cases": [
+          {
+            "id": "square",
+            "parameters": {},
+            "events": []
+          },
+          {
+            "id": "fractional",
+            "parameters": {
+              "exponent": 0.25
+            },
+            "events": []
+          },
+          {
+            "id": "fourth",
+            "parameters": {
+              "exponent": 4
+            },
+            "events": []
+          }
+        ],
+        "semantic": {
+          "kind": "nonlinear",
+          "exponent_default": 2,
+          "maximum_absolute_error": 2e-06
+        },
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        },
+        "stimulus": {
+          "kind": "nonlinear-grid-v1"
+        }
+      },
+      "variants": [
+        {
+          "profile": "float32-strict",
+          "cases": [
+            {
+              "case": {
+                "id": "square",
+                "parameters": {},
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/square.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/square.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/square-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.999329329,
+                "rms": 0.552575934,
+                "mean_process_us": 1.2117,
+                "max_process_us": 16.083,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+              "float_sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a",
+              "pcm_sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c",
+              "semantics": {
+                "kind": "nonlinear",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.9993293285369873,
+                    "rms": 0.7775919813969603,
+                    "mean": -0.0015561856707790866
+                  },
+                  {
+                    "peak": 0.25,
+                    "rms": 0.07765974746902751,
+                    "mean": 0.02838134765625
+                  }
+                ],
+                "maximum_absolute_errors": [
+                  2.8797920270662303e-08,
+                  0.0
+                ]
+              }
+            },
+            {
+              "case": {
+                "id": "fractional",
+                "parameters": {
+                  "exponent": 0.25
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/fractional.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/fractional.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "exponent",
+                "0.25",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/fractional-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.999329329,
+                "rms": 0.59761154,
+                "mean_process_us": 1.3765,
+                "max_process_us": 15.792,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+              "float_sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d",
+              "pcm_sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778",
+              "semantics": {
+                "kind": "nonlinear",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.9993293285369873,
+                    "rms": 0.7775919813969603,
+                    "mean": -0.0015561856707790866
+                  },
+                  {
+                    "peak": 0.8408964276313782,
+                    "rms": 0.331103934474485,
+                    "mean": 0.14059013407677412
+                  }
+                ],
+                "maximum_absolute_errors": [
+                  2.8797920270662303e-08,
+                  1.237766367179205e-08
+                ]
+              }
+            },
+            {
+              "case": {
+                "id": "fourth",
+                "parameters": {
+                  "exponent": 4
+                },
+                "events": []
+              },
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/wave2_probe",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/fourth.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/fourth.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "exponent",
+                "4",
+                "--input-float",
+                "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/renders/nonlinear-domains/float32-strict/fourth-input.f32"
+              ],
+              "statistics": {
+                "evidence_kind": "host_render",
+                "sample_rate": 44100,
+                "block_frames": 256,
+                "blocks": 512,
+                "warmup_blocks": 4,
+                "seed": 305419896,
+                "peak": 0.999329329,
+                "rms": 0.550002474,
+                "mean_process_us": 1.3418,
+                "max_process_us": 37.416,
+                "platform_allocations": 0,
+                "late_platform_allocations": 0,
+                "arena_used": 0,
+                "errors": 0,
+                "invalid_samples": 0,
+                "allocation_coverage": "RNBO platform hooks only",
+                "target_performance_qualified": false
+              },
+              "input_sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d",
+              "float_sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2",
+              "pcm_sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9",
+              "semantics": {
+                "kind": "nonlinear",
+                "passed": true,
+                "channels": [
+                  {
+                    "peak": 0.9993293285369873,
+                    "rms": 0.7775919813969603,
+                    "mean": -0.0015561856707790866
+                  },
+                  {
+                    "peak": 0.0625,
+                    "rms": 0.0188720071453503,
+                    "mean": 0.006031036376953125
+                  }
+                ],
+                "maximum_absolute_errors": [
+                  2.8797920270662303e-08,
+                  0.0
+                ]
+              }
+            }
+          ],
+          "status": "passed",
+          "manifest": {
+            "format": "rnbo-esp32s3-prepared-export",
+            "format_version": 1,
+            "rnbo_version": "1.4.4",
+            "class_name": "rnbos3patch",
+            "sample_rate": 44100,
+            "block_frames": 256,
+            "role": "fx",
+            "audio_inputs": 2,
+            "audio_outputs": 2,
+            "midi_output_ports": 0,
+            "midi_output_policy": "reject",
+            "voices": 1,
+            "voice_topology": "single-export",
+            "parameter_count": 1,
+            "parameter_schema_sha256": "754c55e5f56bd5c2731847a19ed276e1ad4045849e3bcc2909acd4ec76b73ef1",
+            "required_host_services": [],
+            "execution": "static-development",
+            "numerical_profile": "float32-strict",
+            "scheduler_time": "float64",
+            "source_tree_sha256": "2d17d8010e325ac2d084694f7b8aeaab4f84ca76af29162d81c0a80b6c1a7efc",
+            "editable_source_sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180",
+            "adaptations": [
+              "rnbo-1.4.4-list-copy-bounds-v1",
+              "rnbo-1.4.4-list-move-inline-storage-v1",
+              "rnbo-1.4.4-list-cross-capacity-assignment-v1",
+              "rnbo-1.4.4-nested-clock-target-v1"
+            ]
+          },
+          "prepared_provenance_sha256": "d7d9bc2bd11a13d255d4114c70f400b56d9edc1868874471437c2a570d0c8c0b",
+          "prepared_manifest_sha256": "7a581e0c46f9d2246ceaf2fb01d73233a1be98dc622b781c318ce1c4ffcb9fe0",
+          "build_report_sha256": "e36dcebc2f984aaa5b1d89a4c5fd5f67f91f002e60badbc551b759abb92cd5d4",
+          "probe": {
+            "source_libraries_sha256": {
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp": "256b6d0c82a54cff928b91ffd2baf102d2ae5a9a165519531e29fc2a36f35ab3",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/librnbo_static.a": "95f11ea28f888943cfbbc697c5826251dfb97608081ae569456f2c0cbdae4e99",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/libpcm_output.a": "b624a3d5302f187e07a517b5d15341b36edcfcef1c8838fb5778f64bed0e5a05"
+            },
+            "command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/wave2/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/native/nonlinear-domains/float32-strict/wave2_probe"
+            ],
+            "artifact_sha256": "0f7519abc381beb5a047ab1300a52c1ac58d5d8ed4fe9de1720127ce90a91324",
+            "native_build_report_sha256": "e36dcebc2f984aaa5b1d89a4c5fd5f67f91f002e60badbc551b759abb92cd5d4"
+          }
+        },
+        {
+          "profile": "float32-audio-v2",
+          "cases": [],
+          "status": "unsupported-form",
+          "reason": "float32-audio-v2: unsupported RNBO1.4.4 audio method dspexpr_03_perform (76c6133e0ebfc9ea75793820d47b7d181bcc6ca69778dd8be355c203b97c9bf9)"
+        }
+      ],
+      "source_audit": {
+        "source": "/Users/a1106632/Documents/esp32-rnbo/build/object-qualification/wave2-final/exports/nonlinear-domains/rnbo_source.h",
+        "source_sha256": "b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b",
+        "methods": []
+      }
+    }
+  ]
+}

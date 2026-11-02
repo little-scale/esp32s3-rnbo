@@ -1,0 +1,4044 @@
+{
+  "format": "rnbo-private-cycle-invariant-observations",
+  "format_version": 1,
+  "production_enabled": false,
+  "target_comparisons": [
+    {
+      "fixture": "cycle-scalar-signed-phase",
+      "family": "cycle",
+      "role": "main",
+      "numerical_profiles": {
+        "strict": "float32-strict",
+        "optimized": "private-cycle-original-conversion-hoist-v1"
+      },
+      "identical_artifact_control": false,
+      "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+      "stimulus_provenance": null,
+      "build_report": "build/object-benchmark-amoled-cycle-scalar-signed-phase-strict-invariants/build-report.json",
+      "build_report_sha256": "3ac60b99ea80c8afca3a4bc7d5da335419cd325843a467d0f4811cee5755aea0",
+      "hardware_report": "build/object-optimisation/hardware-cycle-strict-invariants/hardware-test.json",
+      "hardware_report_sha256": "cc6680e22301e91e71f547e95aa436546e2db1f18fe1a893cbd7a2b2b8ef50cf",
+      "serial_log": "build/object-optimisation/hardware-cycle-strict-invariants/test-serial.log",
+      "serial_log_sha256": "23ede2813b5ec155b627520be36e539d720a5b5ea953305cb599bb36ea47d0eb",
+      "pass": {
+        "fixture": "cycle-scalar-signed-phase",
+        "firmware_elf_sha256": "cd95f8a706923854ce58028331b5ad0848d5cca4aaec74b9043754ba832140bc",
+        "strict_module_sha256": "90ae3d39d786126edabb28d2d6d582771dd36e7349e7d4cedee41c476c114538",
+        "optimized_module_sha256": "518ee0cd4c8ff81927a4817b883520b0763643a3ed2448c87cb0eed46f350473",
+        "cases": 12,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 9437184,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 0,
+        "max_pcm_lsb_tolerance": 0,
+        "relative_rms_tolerance": 0,
+        "strict_timed_blocks": 17280,
+        "strict_process_us": 9931225,
+        "strict_peak_us": 635,
+        "optimized_timed_blocks": 17280,
+        "optimized_process_us": 7490714,
+        "optimized_peak_us": 481,
+        "psram_before": 7333512,
+        "psram_after": 7333512,
+        "internal_before": 316607,
+        "internal_after": 316607,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 0,
+        "input_rechecks": 0,
+        "pilot_sample_checks": 0,
+        "stack_margin": 20564,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default-positive",
+          "declared_case": {
+            "id": "default-positive",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "default-positive",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "default-positive",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 658815,
+              "peak_us": 479,
+              "event_us": 47,
+              "prepare_us": 580620,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 457.5104166666667
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "default-positive",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 657841,
+              "peak_us": 481,
+              "event_us": 44,
+              "prepare_us": 580669,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 456.8340277777778
+            }
+          },
+          "observed_speed_ratio": 1.0014806009354844,
+          "observed_process_reduction_percent": 0.14784119972981458
+        },
+        {
+          "case": "active-positive",
+          "declared_case": {
+            "id": "active-positive",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.25
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "active-positive",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "active-positive",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 873015,
+              "peak_us": 626,
+              "event_us": 48,
+              "prepare_us": 580625,
+              "rms": 0.645473429,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 606.2604166666666
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "active-positive",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 658090,
+              "peak_us": 480,
+              "event_us": 44,
+              "prepare_us": 580690,
+              "rms": 0.645473429,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 457.00694444444446
+            }
+          },
+          "observed_speed_ratio": 1.3265890683645094,
+          "observed_process_reduction_percent": 24.61870643688825
+        },
+        {
+          "case": "phase-0_99",
+          "declared_case": {
+            "id": "phase-0_99",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-0_99",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-0_99",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 882573,
+              "peak_us": 635,
+              "event_us": 45,
+              "prepare_us": 580620,
+              "rms": 0.645562815,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 612.8979166666667
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-0_99",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 658530,
+              "peak_us": 476,
+              "event_us": 43,
+              "prepare_us": 580669,
+              "rms": 0.645562815,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 457.3125
+            }
+          },
+          "observed_speed_ratio": 1.3402168466129105,
+          "observed_process_reduction_percent": 25.38520892889313
+        },
+        {
+          "case": "phase-1-fallback",
+          "declared_case": {
+            "id": "phase-1-fallback",
+            "parameters": {
+              "frequency": 440,
+              "phase": 1
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-1-fallback",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-1-fallback",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 882966,
+              "peak_us": 632,
+              "event_us": 48,
+              "prepare_us": 580621,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 613.1708333333333
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-1-fallback",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 658803,
+              "peak_us": 480,
+              "event_us": 45,
+              "prepare_us": 580672,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 457.50208333333336
+            }
+          },
+          "observed_speed_ratio": 1.3402580133970246,
+          "observed_process_reduction_percent": 25.38750076446884
+        },
+        {
+          "case": "phase-nextbelow1",
+          "declared_case": {
+            "id": "phase-nextbelow1",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.9999999403953552
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-nextbelow1",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-nextbelow1",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 882636,
+              "peak_us": 632,
+              "event_us": 50,
+              "prepare_us": 580623,
+              "rms": 0.645576654,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 612.9416666666667
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-nextbelow1",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 658738,
+              "peak_us": 479,
+              "event_us": 44,
+              "prepare_us": 580670,
+              "rms": 0.645576654,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 457.45694444444445
+            }
+          },
+          "observed_speed_ratio": 1.3398893034863635,
+          "observed_process_reduction_percent": 25.366968943029743
+        },
+        {
+          "case": "phase-minsubnormal",
+          "declared_case": {
+            "id": "phase-minsubnormal",
+            "parameters": {
+              "frequency": 440,
+              "phase": 1.401298464324817e-45
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-minsubnormal",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-minsubnormal",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 870345,
+              "peak_us": 625,
+              "event_us": 49,
+              "prepare_us": 580627,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 604.40625
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-minsubnormal",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 658675,
+              "peak_us": 480,
+              "event_us": 44,
+              "prepare_us": 580676,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 457.41319444444446
+            }
+          },
+          "observed_speed_ratio": 1.321357270277451,
+          "observed_process_reduction_percent": 24.32024082404104
+        },
+        {
+          "case": "negative-frequency",
+          "declared_case": {
+            "id": "negative-frequency",
+            "parameters": {
+              "frequency": -440,
+              "phase": 0.25
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-frequency",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-frequency",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 876372,
+              "peak_us": 622,
+              "event_us": 49,
+              "prepare_us": 580525,
+              "rms": 0.645451965,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 608.5916666666667
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-frequency",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 662262,
+              "peak_us": 476,
+              "event_us": 43,
+              "prepare_us": 580604,
+              "rms": 0.645451965,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 459.90416666666664
+            }
+          },
+          "observed_speed_ratio": 1.3233010500375986,
+          "observed_process_reduction_percent": 24.431405841355048
+        },
+        {
+          "case": "negative-boundary",
+          "declared_case": {
+            "id": "negative-boundary",
+            "parameters": {
+              "frequency": -10000,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-boundary",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-boundary",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 788529,
+              "peak_us": 559,
+              "event_us": 47,
+              "prepare_us": 580814,
+              "rms": 0.645404994,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 547.5895833333333
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-boundary",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 563075,
+              "peak_us": 404,
+              "event_us": 44,
+              "prepare_us": 581067,
+              "rms": 0.645404994,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 391.02430555555554
+            }
+          },
+          "observed_speed_ratio": 1.40039781556631,
+          "observed_process_reduction_percent": 28.591719518242186
+        },
+        {
+          "case": "both-fallback",
+          "declared_case": {
+            "id": "both-fallback",
+            "parameters": {
+              "frequency": -440,
+              "phase": 1
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "both-fallback",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "both-fallback",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 886142,
+              "peak_us": 632,
+              "event_us": 47,
+              "prepare_us": 580500,
+              "rms": 0.645443093,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 615.3763888888889
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "both-fallback",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 662085,
+              "peak_us": 477,
+              "event_us": 42,
+              "prepare_us": 580612,
+              "rms": 0.645443093,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 459.78125
+            }
+          },
+          "observed_speed_ratio": 1.338411231186328,
+          "observed_process_reduction_percent": 25.284548074687805
+        },
+        {
+          "case": "negative-fractional",
+          "declared_case": {
+            "id": "negative-fractional",
+            "parameters": {
+              "frequency": -0.001,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-fractional",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-fractional",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 770535,
+              "peak_us": 540,
+              "event_us": 49,
+              "prepare_us": 581122,
+              "rms": 0.243929643,
+              "peak": 0.286105931,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 535.09375
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-fractional",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 544653,
+              "peak_us": 383,
+              "event_us": 44,
+              "prepare_us": 581613,
+              "rms": 0.243929643,
+              "peak": 0.286105931,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 378.23125
+            }
+          },
+          "observed_speed_ratio": 1.4147264405043212,
+          "observed_process_reduction_percent": 29.31495649126905
+        },
+        {
+          "case": "zero-frequency",
+          "declared_case": {
+            "id": "zero-frequency",
+            "parameters": {
+              "frequency": 0,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "zero-frequency",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "zero-frequency",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 770447,
+              "peak_us": 539,
+              "event_us": 51,
+              "prepare_us": 581124,
+              "rms": 0.239487146,
+              "peak": 0.268235594,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 535.0326388888889
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "zero-frequency",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 544577,
+              "peak_us": 382,
+              "event_us": 44,
+              "prepare_us": 581610,
+              "rms": 0.239487146,
+              "peak": 0.268235594,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 378.17847222222224
+            }
+          },
+          "observed_speed_ratio": 1.4147622833869222,
+          "observed_process_reduction_percent": 29.316747290858412
+        },
+        {
+          "case": "high-positive",
+          "declared_case": {
+            "id": "high-positive",
+            "parameters": {
+              "frequency": 10000,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "high-positive",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "high-positive",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 788850,
+              "peak_us": 558,
+              "event_us": 48,
+              "prepare_us": 580843,
+              "rms": 0.645515554,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-strict",
+              "mean_process_us": 547.8125
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "high-positive",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 563385,
+              "peak_us": 403,
+              "event_us": 48,
+              "prepare_us": 581049,
+              "rms": 0.645515554,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 391.2395833333333
+            }
+          },
+          "observed_speed_ratio": 1.4001970233499295,
+          "observed_process_reduction_percent": 28.58147936870128
+        }
+      ]
+    },
+    {
+      "fixture": "cycle-scalar-signed-phase",
+      "family": "cycle",
+      "role": "main",
+      "numerical_profiles": {
+        "strict": "float32-audio-v2",
+        "optimized": "private-cycle-original-conversion-hoist-v1"
+      },
+      "identical_artifact_control": false,
+      "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+      "stimulus_provenance": null,
+      "build_report": "build/object-benchmark-amoled-cycle-scalar-signed-phase-v2-invariants/build-report.json",
+      "build_report_sha256": "cd48e98ae6ebdd4bd0bb4c6b58efba3406b8c53abcc85e061daa22ca51deb762",
+      "hardware_report": "build/object-optimisation/hardware-cycle-v2-invariants/hardware-test.json",
+      "hardware_report_sha256": "18575cc0d8272a8f98677a28aa4d554e4bae668be43f870663d4494a964938b4",
+      "serial_log": "build/object-optimisation/hardware-cycle-v2-invariants/test-serial.log",
+      "serial_log_sha256": "49d131453388e6ca2f7afedd410ad26ab9d3e836752f74bd18b07219f8c68b69",
+      "pass": {
+        "fixture": "cycle-scalar-signed-phase",
+        "firmware_elf_sha256": "92daba02f54a5a0d6226c69075c0b69a09fb79f775c6d427a59cec96d081b52b",
+        "strict_module_sha256": "9b2569258860b10e4324cebc1e40698db4f110d365bcc5998becb0eed5c4488e",
+        "optimized_module_sha256": "eb67023cec7fe17fe1079e8c425345e22d25e7b0f22915ab6b2ac0b1286481e1",
+        "cases": 12,
+        "rounds": 3,
+        "blocks_per_pass": 512,
+        "warmup": 4,
+        "seed": 305419896,
+        "timing_exclude": 32,
+        "compared_samples": 9437184,
+        "max_abs": 0,
+        "rms_error": 0,
+        "pcm_different": 0,
+        "max_pcm_lsb": 0,
+        "max_abs_tolerance": 0,
+        "max_pcm_lsb_tolerance": 0,
+        "relative_rms_tolerance": 0,
+        "strict_timed_blocks": 17280,
+        "strict_process_us": 3064856,
+        "strict_peak_us": 241,
+        "optimized_timed_blocks": 17280,
+        "optimized_process_us": 2350764,
+        "optimized_peak_us": 212,
+        "psram_before": 7333512,
+        "psram_after": 7333512,
+        "internal_before": 316607,
+        "internal_after": 316607,
+        "host_heap_allocations": 0,
+        "host_heap_frees": 0,
+        "local_late_allocations": 0,
+        "images": 4,
+        "finalized_images": 4,
+        "input_cases": 0,
+        "input_rechecks": 0,
+        "pilot_sample_checks": 0,
+        "stack_margin": 20564,
+        "scope": "offline_no_i2s_ui_network"
+      },
+      "cases": [
+        {
+          "case": "default-positive",
+          "declared_case": {
+            "id": "default-positive",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "default-positive",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "default-positive",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 258858,
+              "peak_us": 215,
+              "event_us": 50,
+              "prepare_us": 577476,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 179.7625
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "default-positive",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 242157,
+              "peak_us": 211,
+              "event_us": 49,
+              "prepare_us": 577463,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 168.16458333333333
+            }
+          },
+          "observed_speed_ratio": 1.0689676532167147,
+          "observed_process_reduction_percent": 6.451799828477389
+        },
+        {
+          "case": "active-positive",
+          "declared_case": {
+            "id": "active-positive",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.25
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "active-positive",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "active-positive",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 293402,
+              "peak_us": 239,
+              "event_us": 53,
+              "prepare_us": 577480,
+              "rms": 0.645473429,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 203.7513888888889
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "active-positive",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 241357,
+              "peak_us": 209,
+              "event_us": 45,
+              "prepare_us": 577478,
+              "rms": 0.645473429,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 167.60902777777778
+            }
+          },
+          "observed_speed_ratio": 1.2156349308286065,
+          "observed_process_reduction_percent": 17.738461223849878
+        },
+        {
+          "case": "phase-0_99",
+          "declared_case": {
+            "id": "phase-0_99",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-0_99",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-0_99",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 304707,
+              "peak_us": 239,
+              "event_us": 52,
+              "prepare_us": 577468,
+              "rms": 0.645562815,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 211.60208333333333
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-0_99",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 242666,
+              "peak_us": 211,
+              "event_us": 44,
+              "prepare_us": 577457,
+              "rms": 0.645562815,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 168.51805555555555
+            }
+          },
+          "observed_speed_ratio": 1.2556641639125383,
+          "observed_process_reduction_percent": 20.36087126321351
+        },
+        {
+          "case": "phase-1-fallback",
+          "declared_case": {
+            "id": "phase-1-fallback",
+            "parameters": {
+              "frequency": 440,
+              "phase": 1
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-1-fallback",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-1-fallback",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 304290,
+              "peak_us": 239,
+              "event_us": 49,
+              "prepare_us": 577474,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 211.3125
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-1-fallback",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 242137,
+              "peak_us": 212,
+              "event_us": 42,
+              "prepare_us": 577461,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 168.15069444444444
+            }
+          },
+          "observed_speed_ratio": 1.2566852649533116,
+          "observed_process_reduction_percent": 20.425580860363468
+        },
+        {
+          "case": "phase-nextbelow1",
+          "declared_case": {
+            "id": "phase-nextbelow1",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.9999999403953552
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-nextbelow1",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-nextbelow1",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 304592,
+              "peak_us": 241,
+              "event_us": 52,
+              "prepare_us": 577473,
+              "rms": 0.645576654,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 211.5222222222222
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-nextbelow1",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 242632,
+              "peak_us": 212,
+              "event_us": 44,
+              "prepare_us": 577457,
+              "rms": 0.645576654,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 168.49444444444444
+            }
+          },
+          "observed_speed_ratio": 1.2553661512084144,
+          "observed_process_reduction_percent": 20.34196564584756
+        },
+        {
+          "case": "phase-minsubnormal",
+          "declared_case": {
+            "id": "phase-minsubnormal",
+            "parameters": {
+              "frequency": 440,
+              "phase": 1.401298464324817e-45
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-minsubnormal",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-minsubnormal",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 288538,
+              "peak_us": 234,
+              "event_us": 50,
+              "prepare_us": 577470,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 200.3736111111111
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "phase-minsubnormal",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 242094,
+              "peak_us": 211,
+              "event_us": 40,
+              "prepare_us": 577461,
+              "rms": 0.645576677,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 168.12083333333334
+            }
+          },
+          "observed_speed_ratio": 1.1918428379059374,
+          "observed_process_reduction_percent": 16.096320068760438
+        },
+        {
+          "case": "negative-frequency",
+          "declared_case": {
+            "id": "negative-frequency",
+            "parameters": {
+              "frequency": -440,
+              "phase": 0.25
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-frequency",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-frequency",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 290333,
+              "peak_us": 229,
+              "event_us": 49,
+              "prepare_us": 577357,
+              "rms": 0.645451965,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 201.6201388888889
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-frequency",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 236738,
+              "peak_us": 200,
+              "event_us": 41,
+              "prepare_us": 577345,
+              "rms": 0.645451965,
+              "peak": 0.999999881,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 164.4013888888889
+            }
+          },
+          "observed_speed_ratio": 1.2263895107671772,
+          "observed_process_reduction_percent": 18.459837496943166
+        },
+        {
+          "case": "negative-boundary",
+          "declared_case": {
+            "id": "negative-boundary",
+            "parameters": {
+              "frequency": -10000,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-boundary",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-boundary",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 189254,
+              "peak_us": 144,
+              "event_us": 50,
+              "prepare_us": 577656,
+              "rms": 0.645404994,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 131.42638888888888
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-boundary",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 115643,
+              "peak_us": 99,
+              "event_us": 42,
+              "prepare_us": 577843,
+              "rms": 0.645404994,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 80.30763888888889
+            }
+          },
+          "observed_speed_ratio": 1.6365365824131162,
+          "observed_process_reduction_percent": 38.89534699398691
+        },
+        {
+          "case": "both-fallback",
+          "declared_case": {
+            "id": "both-fallback",
+            "parameters": {
+              "frequency": -440,
+              "phase": 1
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "both-fallback",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "both-fallback",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 301525,
+              "peak_us": 239,
+              "event_us": 48,
+              "prepare_us": 577331,
+              "rms": 0.645443093,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 209.39236111111111
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "both-fallback",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 237112,
+              "peak_us": 203,
+              "event_us": 43,
+              "prepare_us": 577340,
+              "rms": 0.645443093,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 164.6611111111111
+            }
+          },
+          "observed_speed_ratio": 1.2716564324032527,
+          "observed_process_reduction_percent": 21.36240776055054
+        },
+        {
+          "case": "negative-fractional",
+          "declared_case": {
+            "id": "negative-fractional",
+            "parameters": {
+              "frequency": -0.001,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-fractional",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-fractional",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 170140,
+              "peak_us": 124,
+              "event_us": 52,
+              "prepare_us": 578000,
+              "rms": 0.243929643,
+              "peak": 0.286105931,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 118.15277777777777
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "negative-fractional",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 96241,
+              "peak_us": 72,
+              "event_us": 43,
+              "prepare_us": 578409,
+              "rms": 0.243929643,
+              "peak": 0.286105931,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 66.83402777777778
+            }
+          },
+          "observed_speed_ratio": 1.767853617481115,
+          "observed_process_reduction_percent": 43.43423063359586
+        },
+        {
+          "case": "zero-frequency",
+          "declared_case": {
+            "id": "zero-frequency",
+            "parameters": {
+              "frequency": 0,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "zero-frequency",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "zero-frequency",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 169991,
+              "peak_us": 124,
+              "event_us": 49,
+              "prepare_us": 577998,
+              "rms": 0.239487146,
+              "peak": 0.268235594,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 118.04930555555555
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "zero-frequency",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 96247,
+              "peak_us": 73,
+              "event_us": 44,
+              "prepare_us": 578400,
+              "rms": 0.239487146,
+              "peak": 0.268235594,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 66.83819444444444
+            }
+          },
+          "observed_speed_ratio": 1.7661953099836878,
+          "observed_process_reduction_percent": 43.381120176950546
+        },
+        {
+          "case": "high-positive",
+          "declared_case": {
+            "id": "high-positive",
+            "parameters": {
+              "frequency": 10000,
+              "phase": 0.99
+            }
+          },
+          "input": null,
+          "output_comparison": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "high-positive",
+            "samples": 786432,
+            "max_abs": 0,
+            "rms_error": 0,
+            "relative_rms": 0,
+            "pcm_different": 0,
+            "max_pcm_lsb": 0
+          },
+          "profiles": {
+            "strict": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "high-positive",
+              "profile": "strict",
+              "timed_blocks": 1440,
+              "process_us": 189226,
+              "peak_us": 143,
+              "event_us": 52,
+              "prepare_us": 577682,
+              "rms": 0.645515554,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "float32-audio-v2",
+              "mean_process_us": 131.40694444444443
+            },
+            "optimized": {
+              "fixture": "cycle-scalar-signed-phase",
+              "case": "high-positive",
+              "profile": "optimized",
+              "timed_blocks": 1440,
+              "process_us": 115740,
+              "peak_us": 98,
+              "event_us": 41,
+              "prepare_us": 577816,
+              "rms": 0.645515554,
+              "peak": 1,
+              "arena_high_water": 65600,
+              "numerical_profile": "private-cycle-original-conversion-hoist-v1",
+              "mean_process_us": 80.375
+            }
+          },
+          "observed_speed_ratio": 1.6349231035078624,
+          "observed_process_reduction_percent": 38.835043810047246
+        }
+      ]
+    }
+  ],
+  "native_proof": {
+    "compared_channel_sample_words": 7864320,
+    "format": "private-original-cycle-conversion-hoist",
+    "hardware_executed": false,
+    "original_export": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/export",
+    "pairs": [
+      {
+        "base_profile": "float32-strict",
+        "builds": {
+          "candidate": {
+            "native_build_report": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/host-build.json",
+            "native_build_report_sha256": "26eefff02fb2545b1e035f2456346dbcc21cbdf8127d7ad79a218948081b64fc",
+            "probe_command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-UNDEBUG",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/candidate/float32-strict/common",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe"
+            ],
+            "probe_sha256": "ec7c238f3532e311764da5fb25a6923e3aa06ecee3cb4d1b097d2870f46a7071"
+          },
+          "reference": {
+            "native_build_report": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/host-build.json",
+            "native_build_report_sha256": "f5e66ed96605e35547fd9f29984da4e3e8f7f356277210d50c7666e9c387d9d1",
+            "probe_command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-UNDEBUG",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/reference/float32-strict/common",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe"
+            ],
+            "probe_sha256": "74fc38c063d6ec33fb2e4ac3b2061ef38d28e75f1aebee60a151f75566441a47"
+          }
+        },
+        "candidate": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/candidate/float32-strict",
+        "candidate_profile": "private-cycle-original-conversion-hoist-v1",
+        "proof": {
+          "cached_increment_type": "Original UInt32 cast retained; phase macro UInt32 result retained",
+          "common_files_sha256": {
+            "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+            "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+            "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+            "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+            "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+            "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+            "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+            "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+            "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+            "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+            "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+            "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+            "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+            "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+            "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+            "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+            "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+            "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+            "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+            "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+            "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+            "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+            "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+            "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+            "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+            "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+            "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+            "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+            "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+            "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+            "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+            "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+            "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+            "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+            "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+            "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+          },
+          "domain": "Float32 phase[0,1], frequency[-10000,10000], fixed44100SR/256frames, exclusive boundary-event module callbacks; original conversions are Int64-defined throughout this domain; fenv observation not qualified",
+          "fixed_scale_expression": "(number)4294967296 / (number)44100",
+          "input_source_sha256": "dd62856b8bd06cf2c6bb2d3ed159d2ce3deb17b5f4e02a121f218361d08ab8f5",
+          "method": "cycle_tilde_01_perform",
+          "original_frequency_expression": "uint32_trunc(frequency * __cycle_tilde_01_f2i)",
+          "original_phase_expression": "uint32_trunc(phase_offset * 4294967296.0)",
+          "phase_condition": "phase_offset != 0 || 0 == 2",
+          "prepared_source_sha256": "bfcc1dc818e713368f0bcc606a533df555ae07b9e181f05dae0636fef7db7c2c",
+          "source_inverse": "Removing only the inserted prelude and restoring the two exact expression sites recovers every original method byte",
+          "unchanged": "Original uint32_trunc macro, strict/v2 literal spelling, lookup/interpolation, integer phase update, original in-loop branch, all other source bytes and common runtime",
+          "whole_kernel_sha256": "1dbcc6178f4628491e85c1a2c54289819d118cd5ff26ab44fda7acefe8390cc5"
+        },
+        "reference": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/reference/float32-strict",
+        "workloads": [
+          {
+            "case": "default-positive",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "f283abef6add54ae74ba7a73721a2907bb1847ef77486aa9b3323dd1059b9169",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/candidate.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/default-positive/reference.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "active-positive",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0.25
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "7ca9c95e38dce4271fb5aba409eed926e197583fb95db487ddbbeca59404d95a",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/candidate.json"
+                ],
+                "float_sha256": "7a29b3dade58a349368aaeb378cbbce0be3772e79ca6915396a4276e4964dae8",
+                "pcm_sha256": "33e9686dac2225272ca9f0ef3a5e7fe1bc4e2b7426a2e82181c8d7abafa80fe6",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/active-positive/reference.json"
+                ],
+                "float_sha256": "7a29b3dade58a349368aaeb378cbbce0be3772e79ca6915396a4276e4964dae8",
+                "pcm_sha256": "33e9686dac2225272ca9f0ef3a5e7fe1bc4e2b7426a2e82181c8d7abafa80fe6",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-0_99",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "1e38c92c62833711281b23fa8e28d15130803ac0214787ecb1c8dcccfb987a84",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/candidate.json"
+                ],
+                "float_sha256": "b6f523ef0c778ec0e0c12a9d34f8d16f9492c0a372d19304e3fed6420d73f91a",
+                "pcm_sha256": "388635041f02085298869e90d65a5956d16796d62e9ef1b2d229a36fbcb968a2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-0_99/reference.json"
+                ],
+                "float_sha256": "b6f523ef0c778ec0e0c12a9d34f8d16f9492c0a372d19304e3fed6420d73f91a",
+                "pcm_sha256": "388635041f02085298869e90d65a5956d16796d62e9ef1b2d229a36fbcb968a2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-1",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                1
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "5666c18a30d328457753c76f33e7118ff1d739e7e5408e96890a0a712e5441ea",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/candidate.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-1/reference.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-nextbelow1",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0.9999999403953552
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "df9cb8f8ab9a40f1b5d7a257eae8ddf8bd794614714e4841a67b0c449a989751",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/candidate.json"
+                ],
+                "float_sha256": "9d5d7e78fc8ac6c47cee3280ae439b62103fb9b8fa7da2606fb6e9fbba0010fb",
+                "pcm_sha256": "779ff8120e0b959e9e2a4396bf7368e697d94d2bbd4a0999ea636da92a23d8d2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-nextbelow1/reference.json"
+                ],
+                "float_sha256": "9d5d7e78fc8ac6c47cee3280ae439b62103fb9b8fa7da2606fb6e9fbba0010fb",
+                "pcm_sha256": "779ff8120e0b959e9e2a4396bf7368e697d94d2bbd4a0999ea636da92a23d8d2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-minsubnormal",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                1.401298464324817e-45
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "376596bc363a12178acba121dd19db835d7b0208fefacd0e25a3e4dcaee83778",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/candidate.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-minsubnormal/reference.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "negative-frequency",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -440
+              ],
+              [
+                0,
+                "phase",
+                0.25
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "c419972aced5a17ea783ea44079746ef8d6f0c75ca28ca969142d258eb643e82",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/candidate.json"
+                ],
+                "float_sha256": "5751b6aa1bbdd11584e2a83cdceb5761c2775bb3268d648d9e07b039ab94ff4e",
+                "pcm_sha256": "af86a84c54a16cfcfb08a5d1199276f99765ece3b2b7781f8b359387b4b2ad6c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-frequency/reference.json"
+                ],
+                "float_sha256": "5751b6aa1bbdd11584e2a83cdceb5761c2775bb3268d648d9e07b039ab94ff4e",
+                "pcm_sha256": "af86a84c54a16cfcfb08a5d1199276f99765ece3b2b7781f8b359387b4b2ad6c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "negative-boundary",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -10000
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "cc5647e642f0af48775e2aceddb32196908fe2731b7aa2ddf3bf1fd5edfd9d30",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/candidate.json"
+                ],
+                "float_sha256": "cb3fe976eb53c68a80fa6d716b72fae0eaa69a3277037fc446027e23d3fdb3c6",
+                "pcm_sha256": "404824a532dfa595ec895a911d0d3052293f6cec18dcb702826906e3b38dc269",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-boundary/reference.json"
+                ],
+                "float_sha256": "cb3fe976eb53c68a80fa6d716b72fae0eaa69a3277037fc446027e23d3fdb3c6",
+                "pcm_sha256": "404824a532dfa595ec895a911d0d3052293f6cec18dcb702826906e3b38dc269",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "both-boundaries",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -440
+              ],
+              [
+                0,
+                "phase",
+                1
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "31f8d36cdb8c43f03a6421b7523857b2844567c6818206796874e8833f2b51a0",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/candidate.json"
+                ],
+                "float_sha256": "35f0cb6cec224200c5aa03cdc1b8834a2cf75f9ccb6a6bf25b49d20cf78f0772",
+                "pcm_sha256": "69df770f4beda63ce0238420e00bbd73ef51574a1808ca180f09a20f1f19e414",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/both-boundaries/reference.json"
+                ],
+                "float_sha256": "35f0cb6cec224200c5aa03cdc1b8834a2cf75f9ccb6a6bf25b49d20cf78f0772",
+                "pcm_sha256": "69df770f4beda63ce0238420e00bbd73ef51574a1808ca180f09a20f1f19e414",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "negative-fractional",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -0.001
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "0c1e6030b100dc12e3ed6429be5ac6582affe2e450aeabedf7fbf17884f42aeb",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/candidate.json"
+                ],
+                "float_sha256": "f9279844c83f0a5c596edfc5708de1be0ea3102f5c96c8515cd482d63e27d11f",
+                "pcm_sha256": "fea116f2a0bad2801f3f1c1ea7ad8bc9257ad22178a67656e8e2f1381058ef6b",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/negative-fractional/reference.json"
+                ],
+                "float_sha256": "f9279844c83f0a5c596edfc5708de1be0ea3102f5c96c8515cd482d63e27d11f",
+                "pcm_sha256": "fea116f2a0bad2801f3f1c1ea7ad8bc9257ad22178a67656e8e2f1381058ef6b",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "zero-frequency",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                0
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "f2d21e5ef14fb223161c57ce9aae257fd03fc5523719e5817f924d2fdffa2a58",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/candidate.json"
+                ],
+                "float_sha256": "bdecb87cc29270763d100bc02f1ca6359bd6734e7922051a78f63268373ed17c",
+                "pcm_sha256": "6a693ff381726cfcc7428cffe92757da6de8cf600aff015e752e7fe3a49bd74e",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/zero-frequency/reference.json"
+                ],
+                "float_sha256": "bdecb87cc29270763d100bc02f1ca6359bd6734e7922051a78f63268373ed17c",
+                "pcm_sha256": "6a693ff381726cfcc7428cffe92757da6de8cf600aff015e752e7fe3a49bd74e",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "high-positive",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                10000
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "125746b48db3ef1d92cc341f2ed012051612eed84dad026863ca5b99fb5247b1",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/candidate.json"
+                ],
+                "float_sha256": "6fab61b332b91ba9c8486b688412c263003dfab53da1bcdc8f3217b5f2fb6c41",
+                "pcm_sha256": "a5237886df87ae8cc7de392e84e0957621786197ce5bd0c4faa22fa61004819d",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/high-positive/reference.json"
+                ],
+                "float_sha256": "6fab61b332b91ba9c8486b688412c263003dfab53da1bcdc8f3217b5f2fb6c41",
+                "pcm_sha256": "a5237886df87ae8cc7de392e84e0957621786197ce5bd0c4faa22fa61004819d",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-block-events",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0
+              ],
+              [
+                1,
+                "phase",
+                0.25
+              ],
+              [
+                2,
+                "phase",
+                1
+              ],
+              [
+                31,
+                "phase",
+                0.9999999403953552
+              ],
+              [
+                32,
+                "phase",
+                0.99
+              ],
+              [
+                127,
+                "phase",
+                0
+              ],
+              [
+                128,
+                "phase",
+                1.401298464324817e-45
+              ],
+              [
+                255,
+                "phase",
+                1
+              ],
+              [
+                256,
+                "phase",
+                0.25
+              ],
+              [
+                511,
+                "phase",
+                0
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "5797d2e9977b87c4aa992e11799e5788e24a5fb549cbe775da85ca8dd455c21f",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/candidate.json"
+                ],
+                "float_sha256": "a0d55c52f489f4503bbeb0d08c3a8099b0d5be3dba1a4e539349cef8189ad0d9",
+                "pcm_sha256": "9af5ca59d74b565e22dac9ebefd20ef5b730466d33a4bba9604c0f14b72cc6c4",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/phase-block-events/reference.json"
+                ],
+                "float_sha256": "a0d55c52f489f4503bbeb0d08c3a8099b0d5be3dba1a4e539349cef8189ad0d9",
+                "pcm_sha256": "9af5ca59d74b565e22dac9ebefd20ef5b730466d33a4bba9604c0f14b72cc6c4",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "frequency-block-events",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "phase",
+                0.99
+              ],
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                1,
+                "frequency",
+                0
+              ],
+              [
+                2,
+                "frequency",
+                -440
+              ],
+              [
+                31,
+                "frequency",
+                -10000
+              ],
+              [
+                32,
+                "frequency",
+                10000
+              ],
+              [
+                127,
+                "frequency",
+                -0.001
+              ],
+              [
+                128,
+                "frequency",
+                -0.0
+              ],
+              [
+                255,
+                "frequency",
+                20
+              ],
+              [
+                256,
+                "frequency",
+                -10000
+              ],
+              [
+                511,
+                "frequency",
+                10000
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "a4e9913414f33940fff582220c279b611a7e99b8f1e3a8f72aee1221917fe26c",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/candidate.json"
+                ],
+                "float_sha256": "810a503fab9c82e78e13ce476429ff0e9870e261cc01e81515d73e165dcdc567",
+                "pcm_sha256": "4ba043ccfe7704d2efd675a540f927a50f97a00facee906ca9d70ac1cda128a9",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/frequency-block-events/reference.json"
+                ],
+                "float_sha256": "810a503fab9c82e78e13ce476429ff0e9870e261cc01e81515d73e165dcdc567",
+                "pcm_sha256": "4ba043ccfe7704d2efd675a540f927a50f97a00facee906ca9d70ac1cda128a9",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "combined-block-events",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0
+              ],
+              [
+                1,
+                "frequency",
+                -440
+              ],
+              [
+                1,
+                "phase",
+                0.25
+              ],
+              [
+                2,
+                "frequency",
+                0
+              ],
+              [
+                2,
+                "phase",
+                1
+              ],
+              [
+                31,
+                "frequency",
+                -10000
+              ],
+              [
+                31,
+                "phase",
+                0.99
+              ],
+              [
+                32,
+                "frequency",
+                10000
+              ],
+              [
+                32,
+                "phase",
+                0.9999999403953552
+              ],
+              [
+                127,
+                "frequency",
+                -0.001
+              ],
+              [
+                127,
+                "phase",
+                1.401298464324817e-45
+              ],
+              [
+                128,
+                "frequency",
+                -0.0
+              ],
+              [
+                128,
+                "phase",
+                0
+              ],
+              [
+                255,
+                "frequency",
+                20
+              ],
+              [
+                255,
+                "phase",
+                1
+              ],
+              [
+                256,
+                "frequency",
+                -10000
+              ],
+              [
+                256,
+                "phase",
+                0.25
+              ],
+              [
+                511,
+                "frequency",
+                10000
+              ],
+              [
+                511,
+                "phase",
+                0
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "536ba33ea7b674ea873804ba433d838723e86a3e4f305cb462e193ebbe57d5b2",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/candidate.json"
+                ],
+                "float_sha256": "7dac6b0fde530b40c7541ad69c96360398c11f87c02046562d1aed285cf3f873",
+                "pcm_sha256": "10cdabfa4df0980fa3e0e5032f883bcd18025a429c8a06f14652a3f46019bb4c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 20,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-strict/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-strict/combined-block-events/reference.json"
+                ],
+                "float_sha256": "7dac6b0fde530b40c7541ad69c96360398c11f87c02046562d1aed285cf3f873",
+                "pcm_sha256": "10cdabfa4df0980fa3e0e5032f883bcd18025a429c8a06f14652a3f46019bb4c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 20,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "base_profile": "float32-audio-v2",
+        "builds": {
+          "candidate": {
+            "native_build_report": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/host-build.json",
+            "native_build_report_sha256": "b8fda1556310e99904bb76ee36ddfbd46c83efb705e3b42e5fc6f0ab979be874",
+            "probe_command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-UNDEBUG",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/candidate/float32-audio-v2/common",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe"
+            ],
+            "probe_sha256": "7566c4e6e387b68a63f173712617806e7d3d28bca716ae83ceaea17e0e786409"
+          },
+          "reference": {
+            "native_build_report": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/host-build.json",
+            "native_build_report_sha256": "43c618bb907108ba28fa2e0d2990b7232c4b9709e65fa7ab2dea8813aeb729c8",
+            "probe_command": [
+              "/usr/bin/c++",
+              "-std=c++17",
+              "-O3",
+              "-UNDEBUG",
+              "-fno-fast-math",
+              "-ffp-contract=off",
+              "-fno-strict-aliasing",
+              "-I/Users/a1106632/Documents/esp32-rnbo/module-sdk/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/firmware/components/pcm_output/include",
+              "-I/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/reference/float32-audio-v2/common",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/probe.cpp",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/librnbo_static.a",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/libpcm_output.a",
+              "-o",
+              "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe"
+            ],
+            "probe_sha256": "3978e46ccaac441700b4fcd45fb8735b0937c9a0633aedf9be0ab06eec9f65cb"
+          }
+        },
+        "candidate": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/candidate/float32-audio-v2",
+        "candidate_profile": "private-cycle-original-conversion-hoist-v1",
+        "proof": {
+          "cached_increment_type": "Original UInt32 cast retained; phase macro UInt32 result retained",
+          "common_files_sha256": {
+            "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+            "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+            "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+            "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+            "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+            "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+            "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+            "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+            "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+            "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+            "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+            "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+            "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+            "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+            "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+            "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+            "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+            "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+            "common/RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+            "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+            "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+            "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+            "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+            "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+            "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+            "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+            "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+            "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+            "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+            "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+            "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+            "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+            "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+            "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+            "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+            "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+          },
+          "domain": "Float32 phase[0,1], frequency[-10000,10000], fixed44100SR/256frames, exclusive boundary-event module callbacks; original conversions are Int64-defined throughout this domain; fenv observation not qualified",
+          "fixed_scale_expression": "(number)4294967296 / (number)44100",
+          "input_source_sha256": "c026f33a4bac03db52109224c11816cb062bf76c247393410aa72df210201b4e",
+          "method": "cycle_tilde_01_perform",
+          "original_frequency_expression": "uint32_trunc(frequency * __cycle_tilde_01_f2i)",
+          "original_phase_expression": "uint32_trunc(phase_offset * 4294967296.0f)",
+          "phase_condition": "phase_offset != 0 || 0 == 2",
+          "prepared_source_sha256": "d8a42daee923d3070cf69e3e514d3b8a741a3802245a0c0689dbb09c4fc47f93",
+          "source_inverse": "Removing only the inserted prelude and restoring the two exact expression sites recovers every original method byte",
+          "unchanged": "Original uint32_trunc macro, strict/v2 literal spelling, lookup/interpolation, integer phase update, original in-loop branch, all other source bytes and common runtime",
+          "whole_kernel_sha256": "94e35f0962c9b416221e9b3cfbab256207c3050dfb4aaea2c29707956f23e85e"
+        },
+        "reference": "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/prepared/reference/float32-audio-v2",
+        "workloads": [
+          {
+            "case": "default-positive",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "f283abef6add54ae74ba7a73721a2907bb1847ef77486aa9b3323dd1059b9169",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/candidate.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/default-positive/reference.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "active-positive",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0.25
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "7ca9c95e38dce4271fb5aba409eed926e197583fb95db487ddbbeca59404d95a",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/candidate.json"
+                ],
+                "float_sha256": "7a29b3dade58a349368aaeb378cbbce0be3772e79ca6915396a4276e4964dae8",
+                "pcm_sha256": "33e9686dac2225272ca9f0ef3a5e7fe1bc4e2b7426a2e82181c8d7abafa80fe6",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/active-positive/reference.json"
+                ],
+                "float_sha256": "7a29b3dade58a349368aaeb378cbbce0be3772e79ca6915396a4276e4964dae8",
+                "pcm_sha256": "33e9686dac2225272ca9f0ef3a5e7fe1bc4e2b7426a2e82181c8d7abafa80fe6",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-0_99",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "1e38c92c62833711281b23fa8e28d15130803ac0214787ecb1c8dcccfb987a84",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/candidate.json"
+                ],
+                "float_sha256": "b6f523ef0c778ec0e0c12a9d34f8d16f9492c0a372d19304e3fed6420d73f91a",
+                "pcm_sha256": "388635041f02085298869e90d65a5956d16796d62e9ef1b2d229a36fbcb968a2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-0_99/reference.json"
+                ],
+                "float_sha256": "b6f523ef0c778ec0e0c12a9d34f8d16f9492c0a372d19304e3fed6420d73f91a",
+                "pcm_sha256": "388635041f02085298869e90d65a5956d16796d62e9ef1b2d229a36fbcb968a2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-1",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                1
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "5666c18a30d328457753c76f33e7118ff1d739e7e5408e96890a0a712e5441ea",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/candidate.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-1/reference.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-nextbelow1",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0.9999999403953552
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "df9cb8f8ab9a40f1b5d7a257eae8ddf8bd794614714e4841a67b0c449a989751",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/candidate.json"
+                ],
+                "float_sha256": "9d5d7e78fc8ac6c47cee3280ae439b62103fb9b8fa7da2606fb6e9fbba0010fb",
+                "pcm_sha256": "779ff8120e0b959e9e2a4396bf7368e697d94d2bbd4a0999ea636da92a23d8d2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-nextbelow1/reference.json"
+                ],
+                "float_sha256": "9d5d7e78fc8ac6c47cee3280ae439b62103fb9b8fa7da2606fb6e9fbba0010fb",
+                "pcm_sha256": "779ff8120e0b959e9e2a4396bf7368e697d94d2bbd4a0999ea636da92a23d8d2",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-minsubnormal",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                1.401298464324817e-45
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "376596bc363a12178acba121dd19db835d7b0208fefacd0e25a3e4dcaee83778",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/candidate.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-minsubnormal/reference.json"
+                ],
+                "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+                "pcm_sha256": "783c6a7aa8c3ab95574e05dcfe1f979178de129eb6f0be4975095fc6badbe47a",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "negative-frequency",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -440
+              ],
+              [
+                0,
+                "phase",
+                0.25
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "c419972aced5a17ea783ea44079746ef8d6f0c75ca28ca969142d258eb643e82",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/candidate.json"
+                ],
+                "float_sha256": "5751b6aa1bbdd11584e2a83cdceb5761c2775bb3268d648d9e07b039ab94ff4e",
+                "pcm_sha256": "af86a84c54a16cfcfb08a5d1199276f99765ece3b2b7781f8b359387b4b2ad6c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-frequency/reference.json"
+                ],
+                "float_sha256": "5751b6aa1bbdd11584e2a83cdceb5761c2775bb3268d648d9e07b039ab94ff4e",
+                "pcm_sha256": "af86a84c54a16cfcfb08a5d1199276f99765ece3b2b7781f8b359387b4b2ad6c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "negative-boundary",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -10000
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "cc5647e642f0af48775e2aceddb32196908fe2731b7aa2ddf3bf1fd5edfd9d30",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/candidate.json"
+                ],
+                "float_sha256": "555cf9bc0d625dc368643b484b79322a4904ce7d976ca95f891cdee9f88ba491",
+                "pcm_sha256": "404824a532dfa595ec895a911d0d3052293f6cec18dcb702826906e3b38dc269",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-boundary/reference.json"
+                ],
+                "float_sha256": "555cf9bc0d625dc368643b484b79322a4904ce7d976ca95f891cdee9f88ba491",
+                "pcm_sha256": "404824a532dfa595ec895a911d0d3052293f6cec18dcb702826906e3b38dc269",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "both-boundaries",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -440
+              ],
+              [
+                0,
+                "phase",
+                1
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "31f8d36cdb8c43f03a6421b7523857b2844567c6818206796874e8833f2b51a0",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/candidate.json"
+                ],
+                "float_sha256": "35f0cb6cec224200c5aa03cdc1b8834a2cf75f9ccb6a6bf25b49d20cf78f0772",
+                "pcm_sha256": "69df770f4beda63ce0238420e00bbd73ef51574a1808ca180f09a20f1f19e414",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/both-boundaries/reference.json"
+                ],
+                "float_sha256": "35f0cb6cec224200c5aa03cdc1b8834a2cf75f9ccb6a6bf25b49d20cf78f0772",
+                "pcm_sha256": "69df770f4beda63ce0238420e00bbd73ef51574a1808ca180f09a20f1f19e414",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "negative-fractional",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                -0.001
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "0c1e6030b100dc12e3ed6429be5ac6582affe2e450aeabedf7fbf17884f42aeb",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/candidate.json"
+                ],
+                "float_sha256": "f9279844c83f0a5c596edfc5708de1be0ea3102f5c96c8515cd482d63e27d11f",
+                "pcm_sha256": "fea116f2a0bad2801f3f1c1ea7ad8bc9257ad22178a67656e8e2f1381058ef6b",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/negative-fractional/reference.json"
+                ],
+                "float_sha256": "f9279844c83f0a5c596edfc5708de1be0ea3102f5c96c8515cd482d63e27d11f",
+                "pcm_sha256": "fea116f2a0bad2801f3f1c1ea7ad8bc9257ad22178a67656e8e2f1381058ef6b",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "zero-frequency",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                0
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "f2d21e5ef14fb223161c57ce9aae257fd03fc5523719e5817f924d2fdffa2a58",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/candidate.json"
+                ],
+                "float_sha256": "bdecb87cc29270763d100bc02f1ca6359bd6734e7922051a78f63268373ed17c",
+                "pcm_sha256": "6a693ff381726cfcc7428cffe92757da6de8cf600aff015e752e7fe3a49bd74e",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/zero-frequency/reference.json"
+                ],
+                "float_sha256": "bdecb87cc29270763d100bc02f1ca6359bd6734e7922051a78f63268373ed17c",
+                "pcm_sha256": "6a693ff381726cfcc7428cffe92757da6de8cf600aff015e752e7fe3a49bd74e",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "high-positive",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                10000
+              ],
+              [
+                0,
+                "phase",
+                0.99
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "125746b48db3ef1d92cc341f2ed012051612eed84dad026863ca5b99fb5247b1",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/candidate.json"
+                ],
+                "float_sha256": "6fab61b332b91ba9c8486b688412c263003dfab53da1bcdc8f3217b5f2fb6c41",
+                "pcm_sha256": "a5237886df87ae8cc7de392e84e0957621786197ce5bd0c4faa22fa61004819d",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/high-positive/reference.json"
+                ],
+                "float_sha256": "6fab61b332b91ba9c8486b688412c263003dfab53da1bcdc8f3217b5f2fb6c41",
+                "pcm_sha256": "a5237886df87ae8cc7de392e84e0957621786197ce5bd0c4faa22fa61004819d",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 2,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "phase-block-events",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0
+              ],
+              [
+                1,
+                "phase",
+                0.25
+              ],
+              [
+                2,
+                "phase",
+                1
+              ],
+              [
+                31,
+                "phase",
+                0.9999999403953552
+              ],
+              [
+                32,
+                "phase",
+                0.99
+              ],
+              [
+                127,
+                "phase",
+                0
+              ],
+              [
+                128,
+                "phase",
+                1.401298464324817e-45
+              ],
+              [
+                255,
+                "phase",
+                1
+              ],
+              [
+                256,
+                "phase",
+                0.25
+              ],
+              [
+                511,
+                "phase",
+                0
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "5797d2e9977b87c4aa992e11799e5788e24a5fb549cbe775da85ca8dd455c21f",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/candidate.json"
+                ],
+                "float_sha256": "a0d55c52f489f4503bbeb0d08c3a8099b0d5be3dba1a4e539349cef8189ad0d9",
+                "pcm_sha256": "9af5ca59d74b565e22dac9ebefd20ef5b730466d33a4bba9604c0f14b72cc6c4",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/phase-block-events/reference.json"
+                ],
+                "float_sha256": "a0d55c52f489f4503bbeb0d08c3a8099b0d5be3dba1a4e539349cef8189ad0d9",
+                "pcm_sha256": "9af5ca59d74b565e22dac9ebefd20ef5b730466d33a4bba9604c0f14b72cc6c4",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "frequency-block-events",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "phase",
+                0.99
+              ],
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                1,
+                "frequency",
+                0
+              ],
+              [
+                2,
+                "frequency",
+                -440
+              ],
+              [
+                31,
+                "frequency",
+                -10000
+              ],
+              [
+                32,
+                "frequency",
+                10000
+              ],
+              [
+                127,
+                "frequency",
+                -0.001
+              ],
+              [
+                128,
+                "frequency",
+                -0.0
+              ],
+              [
+                255,
+                "frequency",
+                20
+              ],
+              [
+                256,
+                "frequency",
+                -10000
+              ],
+              [
+                511,
+                "frequency",
+                10000
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "a4e9913414f33940fff582220c279b611a7e99b8f1e3a8f72aee1221917fe26c",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/candidate.json"
+                ],
+                "float_sha256": "810a503fab9c82e78e13ce476429ff0e9870e261cc01e81515d73e165dcdc567",
+                "pcm_sha256": "4ba043ccfe7704d2efd675a540f927a50f97a00facee906ca9d70ac1cda128a9",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/frequency-block-events/reference.json"
+                ],
+                "float_sha256": "810a503fab9c82e78e13ce476429ff0e9870e261cc01e81515d73e165dcdc567",
+                "pcm_sha256": "4ba043ccfe7704d2efd675a540f927a50f97a00facee906ca9d70ac1cda128a9",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 11,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          },
+          {
+            "case": "combined-block-events",
+            "compared_channel_sample_words": 262144,
+            "events": [
+              [
+                0,
+                "frequency",
+                440
+              ],
+              [
+                0,
+                "phase",
+                0
+              ],
+              [
+                1,
+                "frequency",
+                -440
+              ],
+              [
+                1,
+                "phase",
+                0.25
+              ],
+              [
+                2,
+                "frequency",
+                0
+              ],
+              [
+                2,
+                "phase",
+                1
+              ],
+              [
+                31,
+                "frequency",
+                -10000
+              ],
+              [
+                31,
+                "phase",
+                0.99
+              ],
+              [
+                32,
+                "frequency",
+                10000
+              ],
+              [
+                32,
+                "phase",
+                0.9999999403953552
+              ],
+              [
+                127,
+                "frequency",
+                -0.001
+              ],
+              [
+                127,
+                "phase",
+                1.401298464324817e-45
+              ],
+              [
+                128,
+                "frequency",
+                -0.0
+              ],
+              [
+                128,
+                "phase",
+                0
+              ],
+              [
+                255,
+                "frequency",
+                20
+              ],
+              [
+                255,
+                "phase",
+                1
+              ],
+              [
+                256,
+                "frequency",
+                -10000
+              ],
+              [
+                256,
+                "phase",
+                0.25
+              ],
+              [
+                511,
+                "frequency",
+                10000
+              ],
+              [
+                511,
+                "phase",
+                0
+              ]
+            ],
+            "float_bit_identical": true,
+            "pcm_bit_identical": true,
+            "plan_sha256": "536ba33ea7b674ea873804ba433d838723e86a3e4f305cb462e193ebbe57d5b2",
+            "variants": {
+              "candidate": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/candidate/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/candidate.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/candidate.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/candidate.json"
+                ],
+                "float_sha256": "866f5a2e4134504e51a280750081c2aca374eb723bbc0afa76147280dc57cb47",
+                "pcm_sha256": "10cdabfa4df0980fa3e0e5032f883bcd18025a429c8a06f14652a3f46019bb4c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 20,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              },
+              "reference": {
+                "command": [
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/native/float32-audio-v2/reference/cycle_probe",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/events.txt",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/reference.f32",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/reference.pcm16",
+                  "/Users/a1106632/Documents/esp32-rnbo/build/research/cycle-invariant-hoist/renders/float32-audio-v2/combined-block-events/reference.json"
+                ],
+                "float_sha256": "866f5a2e4134504e51a280750081c2aca374eb723bbc0afa76147280dc57cb47",
+                "pcm_sha256": "10cdabfa4df0980fa3e0e5032f883bcd18025a429c8a06f14652a3f46019bb4c",
+                "statistics": {
+                  "arena_used": 65544,
+                  "blocks": 512,
+                  "errors": 0,
+                  "events": 20,
+                  "invalid_samples": 0,
+                  "late_platform_allocations": 0,
+                  "platform_allocations": 1,
+                  "sample_words": 262144,
+                  "seed": 305419896,
+                  "warmup": 4
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "passed": true,
+    "probe_sha256": "befa03bc910354a4a5823f85026961b1c162a6192db045dca95dc8536d68d538",
+    "production_admission_changed": false,
+    "prototype_sha256": "0ea632f403f1cb245d84042d5aa0ebf8a7a0427af99d9cd1da469227c459e32e",
+    "target_performance_qualified": false,
+    "workloads": 30
+  },
+  "claim": "Unchanged scalar conversions moved outside sample loops. NumericalFloat equality/exactPCM on target; native byteidentity independently. Actualreferenceprofiles recorded explicitly; no universal latency guarantee."
+}

@@ -1,0 +1,174 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1100,
+      700
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "frequency",
+          "maxclass": "newobj",
+          "text": "param frequency 440 @min -10000 @max 10000",
+          "rnbo_uniqueid": "frequency",
+          "patching_rect": [
+            20,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "period",
+          "maxclass": "newobj",
+          "text": "param period 441 @min 16 @max 2048",
+          "rnbo_uniqueid": "period",
+          "patching_rect": [
+            270,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "width",
+          "maxclass": "newobj",
+          "text": "param width 0.25 @min 0 @max 1",
+          "rnbo_uniqueid": "width",
+          "patching_rect": [
+            520,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "phase",
+          "maxclass": "newobj",
+          "text": "phasor~",
+          "rnbo_uniqueid": "phase",
+          "patching_rect": [
+            770,
+            20,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pulse",
+          "maxclass": "newobj",
+          "text": "train~",
+          "rnbo_uniqueid": "pulse",
+          "patching_rect": [
+            20,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            270,
+            95,
+            230,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            520,
+            95,
+            230,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "frequency",
+            0
+          ],
+          "destination": [
+            "phase",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "period",
+            0
+          ],
+          "destination": [
+            "pulse",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "width",
+            0
+          ],
+          "destination": [
+            "pulse",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "phase",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pulse",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

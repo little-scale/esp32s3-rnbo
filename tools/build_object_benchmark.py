@@ -22,7 +22,7 @@ from build_rnbo_loader_test import module_input
 from build_loader_spike import inventory, tree_digest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "host/compiler"))
-from prepare import ExportError, read_json, read_regular
+from prepare import ExportError, NUMERICAL_PROFILES, read_json, read_regular
 
 
 def require(condition, message):
@@ -102,7 +102,11 @@ def configuration(args, modules):
     require(manifest["audio_inputs"]==(0 if role=="main" else 2) and manifest["audio_outputs"]==2, "Unexpected audio channel shape")
     for key in ("parameter_schema_sha256", "source_tree_sha256", "editable_source_sha256", "parameter_count", "audio_inputs", "audio_outputs"):
         require(manifest[key]==candidate[key], "Strict/optimized source or schema identity differs: " + key)
-    require(manifest["numerical_profile"]=="float32-strict", "Reference must use float32-strict")
+    requested_reference=getattr(args,"reference_profile","float32-strict")
+    require(requested_reference in NUMERICAL_PROFILES, "Unknown reference numerical profile")
+    require(manifest["numerical_profile"]==requested_reference, "Reference numerical profile differs from explicit request")
+    numerical_profiles={"strict":manifest["numerical_profile"],"optimized":candidate["numerical_profile"]}
+    require(all(isinstance(p,str) and re.fullmatch(r"[A-Za-z0-9_.-]{1,96}",p) for p in numerical_profiles.values()),"Unsafe numerical profile identity")
     patch=Path(fixture["patch"])
     require(not patch.is_absolute() and ".." not in patch.parts, "Unsafe catalog patch path")
     patch=args.catalog.parent/patch
@@ -166,6 +170,8 @@ def configuration(args, modules):
            f"#define BENCH_MAX_ABS {maximum.hex()}",f"#define BENCH_MAX_RELATIVE_RMS {relative.hex()}",f"#define BENCH_MAX_PCM_LSB {pcm}u",
            f"#define BENCH_STRICT_SHA256 {c_string(modules['strict']['artifact_sha256'])}",
            f"#define BENCH_OPTIMIZED_SHA256 {c_string(modules['optimized']['artifact_sha256'])}",
+           f"#define BENCH_REFERENCE_PROFILE {c_string(numerical_profiles['strict'])}",
+           f"#define BENCH_CANDIDATE_PROFILE {c_string(numerical_profiles['optimized'])}",
            "static const bench_parameter bench_parameters[]={"]
     for p in parameters:
         lines.append("{%s,%s,%s,%s,%s,%su}," % (c_string(p["paramId"]),c_float(p["minimum"]),c_float(p["maximum"]),c_float(p["initialValue"]),c_float(p["exponent"]),p["steps"]))
@@ -183,6 +189,7 @@ def configuration(args, modules):
     return "\n".join(lines), {"catalog_path":str(args.catalog),"catalog_sha256":hashlib.sha256(data).hexdigest(),
         "fixture":fixture,"patch_sha256":sha(patch),"blocks":blocks,"rounds":args.rounds,"timing_exclude_blocks":args.timing_exclude_blocks,
         "arena_bytes":args.arena_bytes,"events":events,"stimuli":stimuli,"psram_budget":budget,"description_sha256":sha(description_path),
+        "numerical_profiles":numerical_profiles,
         "comparison_policy":{"pcm_gain":0.5,"pcm_scale":32767,"pcm_rounding":"lrintf; symmetric saturation",
         "case_gate":"all declared tolerances per independently reset case, combined channels and rounds",
         "fx_input":"per-case declared generator, Float64 sin then Float32 samples; interleaved little-endian input SHA before/after every pass; native/target transcendental rounding not assumed identical",
@@ -202,6 +209,8 @@ def main():
     parser.add_argument("--fixture-id",required=True)
     parser.add_argument("--catalog",type=Path,default=ROOT/"tests/fixtures/objects/catalog.json")
     parser.add_argument("--qualification-dir",type=Path,default=ROOT/"build/object-qualification/milestone-2")
+    parser.add_argument("--reference-profile",choices=NUMERICAL_PROFILES,default="float32-strict",
+                        help="Expected reference numerical profile; actual identities are printed and verified")
     for key in ("strict","optimized"):
         parser.add_argument(f"--{key}-module",type=Path)
         parser.add_argument(f"--{key}-export",type=Path)

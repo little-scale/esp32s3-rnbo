@@ -95,6 +95,18 @@ class ConfigurationTests(unittest.TestCase):
     def test_strict_reference_profile(self):
         self.modules["strict"]["report"]["prepared_export"]["manifest"]["numerical_profile"]="optimized"
         with self.assertRaises(ExportError):self.generate()
+    def test_explicit_optional_reference_is_truthfully_recorded(self):
+        self.args.reference_profile='float32-audio-v2'
+        self.modules['strict']['report']['prepared_export']['manifest']['numerical_profile']='float32-audio-v2'
+        header,policy=self.generate()
+        self.assertEqual(policy['numerical_profiles']['strict'],'float32-audio-v2')
+        self.assertIn('#define BENCH_REFERENCE_PROFILE',header)
+    def test_requested_profile_must_match_actual_reference(self):
+        self.args.reference_profile='float32-audio-v2'
+        with self.assertRaisesRegex(ExportError,'differs from explicit request'):self.generate()
+    def test_profile_identifiers_cannot_break_log_fields(self):
+        self.modules['optimized']['report']['prepared_export']['manifest']['numerical_profile']='two words'
+        with self.assertRaisesRegex(ExportError,'Unsafe numerical profile'):self.generate()
     def test_safe_literals(self):
         self.assertEqual(c_string('";\\\n'), '"\\x22""\\x3b""\\x5c""\\x0a"')
         self.assertTrue(c_float(.2).endswith("f"))

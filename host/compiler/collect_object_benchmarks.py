@@ -116,6 +116,15 @@ def collect(build_dir,run_dir):
         require(passed[field]==build['modules'][profile]['artifact_sha256'],'Native module identity differs')
         manifest=build['modules'][profile]['report']['prepared_export']['manifest']
         require(manifest['role']==role and manifest['audio_inputs']==(2 if role=='fx' else 0) and manifest['audio_outputs']==2,'Module role/channel declaration differs')
+    numerical_profiles={p:build['modules'][p]['report']['prepared_export']['manifest']['numerical_profile'] for p in ('strict','optimized')}
+    prefix_profiles='RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES '
+    profile_lines=[fields(line.strip(),prefix_profiles) for line in lines if line.strip().startswith(prefix_profiles)]
+    if 'numerical_profiles' in plan:
+        require(plan['numerical_profiles']==numerical_profiles,'Build numerical profiles differ from module manifests')
+        require(profile_lines==[{'fixture':name,'reference':numerical_profiles['strict'],'candidate':numerical_profiles['optimized']}],
+                'Missing or inconsistent numerical profile record')
+    else:
+        require(not profile_lines and numerical_profiles['strict']=='float32-strict','Legacy reference must be float32-strict')
     for field in ('host_heap_allocations','host_heap_frees','local_late_allocations'):
         require(passed[field]==0,'Unexpected running allocation')
     require(passed['psram_before']==passed['psram_after'] and passed['internal_after']>=passed['internal_before'],'Module memory did not recover')
@@ -143,12 +152,13 @@ def collect(build_dir,run_dir):
             values=[t for t in timing_lines if t['case']==declared['id'] and t['fixture']==name and t['profile']==profile]
             require(len(values)==1,'Missing or duplicate profile timing')
             value=values[0];require(value['timed_blocks']==expected_blocks and value['process_us']>0,'Invalid timing coverage')
-            timings[profile]={**value,'mean_process_us':value['process_us']/value['timed_blocks']}
+            timings[profile]={**value,'numerical_profile':numerical_profiles[profile],'mean_process_us':value['process_us']/value['timed_blocks']}
         reference=timings['strict']['mean_process_us'];candidate=timings['optimized']['mean_process_us']
         cases.append({'case':declared['id'],'declared_case':declared,'input':inputs.get(declared['id']),'output_comparison':case,'profiles':timings,
                       'observed_speed_ratio':reference/candidate,'observed_process_reduction_percent':100*(1-candidate/reference)})
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {'fixture':name,'family':fixture['family'],'role':fixture['role'],
+            'numerical_profiles':numerical_profiles,
             'identical_artifact_control':passed['strict_module_sha256']==passed['optimized_module_sha256'],
             'scope':('Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.' if role=='main' else
                      'Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.'),

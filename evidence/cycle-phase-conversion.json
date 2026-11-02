@@ -1,0 +1,2105 @@
+{
+  "format": "rnbo-private-whole-cycle-phase-observations",
+  "format_version": 1,
+  "production_enabled": false,
+  "target": {
+    "fixture": "cycle-scalar-signed-phase",
+    "family": "cycle",
+    "role": "main",
+    "numerical_profiles": {
+      "strict": "float32-strict",
+      "optimized": "private-float32-strict-phase-trunc-v1"
+    },
+    "identical_artifact_control": false,
+    "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+    "stimulus_provenance": null,
+    "build_report": "build/object-benchmark-amoled-cycle-scalar-signed-phase-private-phase-trunc-v1/build-report.json",
+    "build_report_sha256": "d35f748a7a8c9ca3adcba98df0d1d9eb8729c258b8e3a0dc084730e9099a90b6",
+    "hardware_report": "build/object-optimisation/hardware-cycle-phase-private-v1/hardware-test.json",
+    "hardware_report_sha256": "85e5c30194f5bb6b4a533d1e914cfacaa873a0a3d24c0d9216f4e4f7eb177b6a",
+    "serial_log": "build/object-optimisation/hardware-cycle-phase-private-v1/test-serial.log",
+    "serial_log_sha256": "3c43c59817a5cc3de174a501059701c9307f44e8dd49146fd70aaada1289c411",
+    "pass": {
+      "fixture": "cycle-scalar-signed-phase",
+      "firmware_elf_sha256": "860fdc7fae206f9aec42741a02e16c6a9a73196af35a68f1dc203ea2e4879266",
+      "strict_module_sha256": "90ae3d39d786126edabb28d2d6d582771dd36e7349e7d4cedee41c476c114538",
+      "optimized_module_sha256": "ffd68cad0a7f413fb4bda006a4866ee492601e613ed04b20446661f531f7ebbe",
+      "cases": 12,
+      "rounds": 3,
+      "blocks_per_pass": 512,
+      "warmup": 4,
+      "seed": 305419896,
+      "timing_exclude": 32,
+      "compared_samples": 9437184,
+      "max_abs": 0,
+      "rms_error": 0,
+      "pcm_different": 0,
+      "max_pcm_lsb": 0,
+      "max_abs_tolerance": 0,
+      "max_pcm_lsb_tolerance": 0,
+      "relative_rms_tolerance": 0,
+      "strict_timed_blocks": 17280,
+      "strict_process_us": 9946149,
+      "strict_peak_us": 636,
+      "optimized_timed_blocks": 17280,
+      "optimized_process_us": 8129129,
+      "optimized_peak_us": 546,
+      "psram_before": 7333512,
+      "psram_after": 7333512,
+      "internal_before": 316607,
+      "internal_after": 316607,
+      "host_heap_allocations": 0,
+      "host_heap_frees": 0,
+      "local_late_allocations": 0,
+      "images": 4,
+      "finalized_images": 4,
+      "input_cases": 0,
+      "input_rechecks": 0,
+      "pilot_sample_checks": 0,
+      "stack_margin": 20404,
+      "scope": "offline_no_i2s_ui_network"
+    },
+    "cases": [
+      {
+        "case": "default-positive",
+        "declared_case": {
+          "id": "default-positive",
+          "parameters": {
+            "frequency": 440,
+            "phase": 0
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "default-positive",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "default-positive",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 660752,
+            "peak_us": 478,
+            "event_us": 51,
+            "prepare_us": 580677,
+            "rms": 0.645576677,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 458.85555555555555
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "default-positive",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 677749,
+            "peak_us": 490,
+            "event_us": 46,
+            "prepare_us": 580872,
+            "rms": 0.645576677,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 470.6590277777778
+          }
+        },
+        "observed_speed_ratio": 0.9749213942034588,
+        "observed_process_reduction_percent": -2.5723720851393628
+      },
+      {
+        "case": "active-positive",
+        "declared_case": {
+          "id": "active-positive",
+          "parameters": {
+            "frequency": 440,
+            "phase": 0.25
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "active-positive",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "active-positive",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 874843,
+            "peak_us": 628,
+            "event_us": 56,
+            "prepare_us": 580666,
+            "rms": 0.645473429,
+            "peak": 0.999999881,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 607.5298611111111
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "active-positive",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 709875,
+            "peak_us": 517,
+            "event_us": 45,
+            "prepare_us": 580904,
+            "rms": 0.645473429,
+            "peak": 0.999999881,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 492.96875
+          }
+        },
+        "observed_speed_ratio": 1.2323902095439339,
+        "observed_process_reduction_percent": 18.856869175383473
+      },
+      {
+        "case": "phase-0_99",
+        "declared_case": {
+          "id": "phase-0_99",
+          "parameters": {
+            "frequency": 440,
+            "phase": 0.99
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "phase-0_99",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-0_99",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 884216,
+            "peak_us": 636,
+            "event_us": 56,
+            "prepare_us": 580670,
+            "rms": 0.645562815,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 614.0388888888889
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-0_99",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 710079,
+            "peak_us": 512,
+            "event_us": 43,
+            "prepare_us": 580878,
+            "rms": 0.645562815,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 493.11041666666665
+          }
+        },
+        "observed_speed_ratio": 1.2452360934487572,
+        "observed_process_reduction_percent": 19.693943561301765
+      },
+      {
+        "case": "phase-1-fallback",
+        "declared_case": {
+          "id": "phase-1-fallback",
+          "parameters": {
+            "frequency": 440,
+            "phase": 1
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "phase-1-fallback",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-1-fallback",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 884352,
+            "peak_us": 634,
+            "event_us": 53,
+            "prepare_us": 580661,
+            "rms": 0.645576677,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 614.1333333333333
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-1-fallback",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 757758,
+            "peak_us": 546,
+            "event_us": 44,
+            "prepare_us": 580882,
+            "rms": 0.645576677,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 526.2208333333333
+          }
+        },
+        "observed_speed_ratio": 1.1670638911103546,
+        "observed_process_reduction_percent": 14.314888189318287
+      },
+      {
+        "case": "phase-nextbelow1",
+        "declared_case": {
+          "id": "phase-nextbelow1",
+          "parameters": {
+            "frequency": 440,
+            "phase": 0.9999999403953552
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "phase-nextbelow1",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-nextbelow1",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 884397,
+            "peak_us": 635,
+            "event_us": 55,
+            "prepare_us": 580669,
+            "rms": 0.645576654,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 614.1645833333333
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-nextbelow1",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 710221,
+            "peak_us": 516,
+            "event_us": 44,
+            "prepare_us": 580879,
+            "rms": 0.645576654,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 493.2090277777778
+          }
+        },
+        "observed_speed_ratio": 1.2452419739771141,
+        "observed_process_reduction_percent": 19.69432279847172
+      },
+      {
+        "case": "phase-minsubnormal",
+        "declared_case": {
+          "id": "phase-minsubnormal",
+          "parameters": {
+            "frequency": 440,
+            "phase": 1.401298464324817e-45
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "phase-minsubnormal",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-minsubnormal",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 872241,
+            "peak_us": 626,
+            "event_us": 55,
+            "prepare_us": 580666,
+            "rms": 0.645576677,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 605.7229166666667
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "phase-minsubnormal",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 710162,
+            "peak_us": 516,
+            "event_us": 45,
+            "prepare_us": 580883,
+            "rms": 0.645576677,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 493.16805555555555
+          }
+        },
+        "observed_speed_ratio": 1.228228207085144,
+        "observed_process_reduction_percent": 18.581905688909384
+      },
+      {
+        "case": "negative-frequency",
+        "declared_case": {
+          "id": "negative-frequency",
+          "parameters": {
+            "frequency": -440,
+            "phase": 0.25
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "negative-frequency",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-frequency",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 878257,
+            "peak_us": 623,
+            "event_us": 55,
+            "prepare_us": 580566,
+            "rms": 0.645451965,
+            "peak": 0.999999881,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 609.9006944444444
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-frequency",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 704200,
+            "peak_us": 505,
+            "event_us": 43,
+            "prepare_us": 580803,
+            "rms": 0.645451965,
+            "peak": 0.999999881,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 489.02777777777777
+          }
+        },
+        "observed_speed_ratio": 1.247169838114172,
+        "observed_process_reduction_percent": 19.818458606079993
+      },
+      {
+        "case": "negative-boundary",
+        "declared_case": {
+          "id": "negative-boundary",
+          "parameters": {
+            "frequency": -10000,
+            "phase": 0.99
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "negative-boundary",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-boundary",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 788813,
+            "peak_us": 560,
+            "event_us": 54,
+            "prepare_us": 580860,
+            "rms": 0.645404994,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 547.7868055555556
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-boundary",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 604194,
+            "peak_us": 434,
+            "event_us": 48,
+            "prepare_us": 581271,
+            "rms": 0.645404994,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 419.57916666666665
+          }
+        },
+        "observed_speed_ratio": 1.3055624517952844,
+        "observed_process_reduction_percent": 23.404659913059245
+      },
+      {
+        "case": "both-fallback",
+        "declared_case": {
+          "id": "both-fallback",
+          "parameters": {
+            "frequency": -440,
+            "phase": 1
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "both-fallback",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "both-fallback",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 888173,
+            "peak_us": 634,
+            "event_us": 55,
+            "prepare_us": 580553,
+            "rms": 0.645443093,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 616.7868055555556
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "both-fallback",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 751496,
+            "peak_us": 540,
+            "event_us": 43,
+            "prepare_us": 580809,
+            "rms": 0.645443093,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 521.8722222222223
+          }
+        },
+        "observed_speed_ratio": 1.1818732235434386,
+        "observed_process_reduction_percent": 15.388556058335478
+      },
+      {
+        "case": "negative-fractional",
+        "declared_case": {
+          "id": "negative-fractional",
+          "parameters": {
+            "frequency": -0.001,
+            "phase": 0.99
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "negative-fractional",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-fractional",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 770536,
+            "peak_us": 540,
+            "event_us": 54,
+            "prepare_us": 581160,
+            "rms": 0.243929643,
+            "peak": 0.286105931,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 535.0944444444444
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "negative-fractional",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 585434,
+            "peak_us": 411,
+            "event_us": 44,
+            "prepare_us": 581811,
+            "rms": 0.243929643,
+            "peak": 0.286105931,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 406.5513888888889
+          }
+        },
+        "observed_speed_ratio": 1.3161791081488263,
+        "observed_process_reduction_percent": 24.022498624334233
+      },
+      {
+        "case": "zero-frequency",
+        "declared_case": {
+          "id": "zero-frequency",
+          "parameters": {
+            "frequency": 0,
+            "phase": 0.99
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "zero-frequency",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "zero-frequency",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 770409,
+            "peak_us": 539,
+            "event_us": 52,
+            "prepare_us": 581162,
+            "rms": 0.239487146,
+            "peak": 0.268235594,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 535.00625
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "zero-frequency",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 594470,
+            "peak_us": 417,
+            "event_us": 41,
+            "prepare_us": 581806,
+            "rms": 0.239487146,
+            "peak": 0.268235594,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 412.8263888888889
+          }
+        },
+        "observed_speed_ratio": 1.2959594260433662,
+        "observed_process_reduction_percent": 22.83709042859052
+      },
+      {
+        "case": "high-positive",
+        "declared_case": {
+          "id": "high-positive",
+          "parameters": {
+            "frequency": 10000,
+            "phase": 0.99
+          }
+        },
+        "input": null,
+        "output_comparison": {
+          "fixture": "cycle-scalar-signed-phase",
+          "case": "high-positive",
+          "samples": 786432,
+          "max_abs": 0,
+          "rms_error": 0,
+          "relative_rms": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0
+        },
+        "profiles": {
+          "strict": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "high-positive",
+            "profile": "strict",
+            "timed_blocks": 1440,
+            "process_us": 789160,
+            "peak_us": 558,
+            "event_us": 56,
+            "prepare_us": 580886,
+            "rms": 0.645515554,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "float32-strict",
+            "mean_process_us": 548.0277777777778
+          },
+          "optimized": {
+            "fixture": "cycle-scalar-signed-phase",
+            "case": "high-positive",
+            "profile": "optimized",
+            "timed_blocks": 1440,
+            "process_us": 613491,
+            "peak_us": 437,
+            "event_us": 42,
+            "prepare_us": 581260,
+            "rms": 0.645515554,
+            "peak": 1,
+            "arena_high_water": 65600,
+            "numerical_profile": "private-float32-strict-phase-trunc-v1",
+            "mean_process_us": 426.03541666666666
+          }
+        },
+        "observed_speed_ratio": 1.2863432389391207,
+        "observed_process_reduction_percent": 22.260251406558883
+      }
+    ]
+  },
+  "candidate_provenance": {
+    "format": "rnbo-private-cycle-phase-target-candidate",
+    "format_version": 1,
+    "private_experiment": true,
+    "production_compiler_admission_changed": false,
+    "production_helper_enabled": false,
+    "hardware_executed": false,
+    "target_performance_qualified": false,
+    "native_proof": {
+      "path": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/report.json",
+      "sha256": "281336be2facdd502df02cae7c32d6e4186f05420ea1725c25af1390d2e1a12f",
+      "cases": 12,
+      "compared_channel_samples": 3145728,
+      "maximum_float_error": 0,
+      "maximum_pcm_lsb_error": 0
+    },
+    "domain_proof": {
+      "path": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/domain-proof.json",
+      "sha256": "ef018a6017571646829afc15f4bfae6195c16f31ab695526db5b35989593dd97",
+      "checked": 2000005,
+      "sanitizers": [
+        "undefined",
+        "float-cast-overflow"
+      ],
+      "form_guard_tests": 7
+    },
+    "catalog": {
+      "path": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/catalog.json",
+      "sha256": "12f2a09c3186cf9abc43a7ee461c07073e997e90ceda04af7a421901e92f3a42"
+    },
+    "firmware_build": {
+      "path": "/Users/a1106632/Documents/esp32-rnbo/build/object-benchmark-amoled-cycle-scalar-signed-phase-private-phase-trunc-v1/build-report.json",
+      "sha256": "d35f748a7a8c9ca3adcba98df0d1d9eb8729c258b8e3a0dc084730e9099a90b6"
+    },
+    "modules": {
+      "strict": {
+        "report": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/modules/strict/build-report.json",
+        "report_sha256": "e86cfa2930a169314fe6c44a653315afe8bfa5421f45b3376d0349307c7d5b6c",
+        "artifact": {
+          "bytes": 46980,
+          "path": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/modules/strict/rnbo_s3_dynamic.app.elf",
+          "sha256": "90ae3d39d786126edabb28d2d6d582771dd36e7349e7d4cedee41c476c114538"
+        },
+        "imports": [],
+        "profile": "float32-strict"
+      },
+      "private-phase": {
+        "report": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/modules/private-phase/build-report.json",
+        "report_sha256": "c8391d5e03b04a188bdeb11814dfbabb0d8797c0b6a035ae2be14409e8e4854f",
+        "artifact": {
+          "bytes": 46980,
+          "path": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/modules/private-phase/rnbo_s3_dynamic.app.elf",
+          "sha256": "ffd68cad0a7f413fb4bda006a4866ee492601e613ed04b20446661f531f7ebbe"
+        },
+        "imports": [],
+        "profile": "private-float32-strict-phase-trunc-v1"
+      }
+    },
+    "disassembly_scope": "Static call sites are not measured workload costs; scalar frequency fallback call is hoisted eagerly, guard result selection stays in loop; active phase differs from phase0/1 fallback cases."
+  },
+  "native_proof": {
+    "baseline_profile": "float32-strict",
+    "candidate_base_profile": "float32-strict",
+    "candidate_profile": "private-float32-strict-phase-trunc-v1",
+    "fixture_provenance": {
+      "changes": [
+        {
+          "after": "param frequency 440 @min -10000 @max 10000",
+          "before": "param frequency 440 @min 20 @max 10000",
+          "box": "frequency"
+        }
+      ],
+      "original_patch": "/Users/a1106632/Documents/esp32-rnbo/tests/fixtures/objects/cycle-scalar.rnbopat",
+      "original_patch_sha256": "d1ed6ec7992743a4fd38db20525f7280c1fd2f8c9d27c0ea6bf5699a3c638a69",
+      "private_patch": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/fixtures/cycle-scalar-signed.rnbopat",
+      "private_patch_sha256": "0a155a5d058b0ab1f7828fa18e62b202221ad24c1ac17f15ba658aadd9e6a773"
+    },
+    "format": "rnbo-private-whole-cycle-phase-prototype",
+    "format_version": 1,
+    "hardware_executed": false,
+    "helper_sha256": "54f2023c11249d5c20efbbd5f1a031b20fa83337e440d717f7b177bb9d9aef52",
+    "native": {
+      "all_passed": true,
+      "builds": {
+        "private-phase": {
+          "renderer": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+          "renderer_sha256": "66d9669d9952119af26563dacd18b51969b28541c00a975d0401a3e40823c363",
+          "report": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/host-build.json",
+          "report_sha256": "c6ccdf41659c46f3e4b5519ccb19dfc23d84c61b637b318128e39814662dbcf6"
+        },
+        "strict": {
+          "renderer": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+          "renderer_sha256": "b2e79cb7d30a61a7f3d7162f2a54d88797cf2b39bb617d83a1a954ea2a51ea59",
+          "report": "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/host-build.json",
+          "report_sha256": "61d8ea57cbcec8103ca3efc77a4d57b499c9500e22e3f675759c38a85e4ba2b6"
+        }
+      },
+      "cases": [
+        {
+          "case": {
+            "id": "default-positive",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/default-positive.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/default-positive.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0"
+              ],
+              "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+              "pcm_sha256": "5dd7af743ac0cf2086cd5c0049203c71a7110b98066d2b313d9a2bd745fc7f7a",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 12.167,
+                "mean_process_us": 5.3159,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576677,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/default-positive.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/default-positive.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0"
+              ],
+              "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+              "pcm_sha256": "5dd7af743ac0cf2086cd5c0049203c71a7110b98066d2b313d9a2bd745fc7f7a",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 23.708,
+                "mean_process_us": 4.8373,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576677,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "active-positive",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.25
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/active-positive.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/active-positive.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0.25"
+              ],
+              "float_sha256": "7a29b3dade58a349368aaeb378cbbce0be3772e79ca6915396a4276e4964dae8",
+              "pcm_sha256": "5f9b27735b2b5874714618384402c1edd450be204943a3174a9431063cce2af4",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 4.417,
+                "mean_process_us": 3.0971,
+                "peak": 0.999999881,
+                "platform_allocations": 1,
+                "rms": 0.645473429,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/active-positive.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/active-positive.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0.25"
+              ],
+              "float_sha256": "7a29b3dade58a349368aaeb378cbbce0be3772e79ca6915396a4276e4964dae8",
+              "pcm_sha256": "5f9b27735b2b5874714618384402c1edd450be204943a3174a9431063cce2af4",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 10.0,
+                "mean_process_us": 3.1343,
+                "peak": 0.999999881,
+                "platform_allocations": 1,
+                "rms": 0.645473429,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "phase-0_99",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.99
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-0_99.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-0_99.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "b6f523ef0c778ec0e0c12a9d34f8d16f9492c0a372d19304e3fed6420d73f91a",
+              "pcm_sha256": "feae96e4fb2e320f7b73cd2c53e9507c2fdeb327dad532ca60d8424deeed57ba",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 4.25,
+                "mean_process_us": 2.9421,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645562815,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-0_99.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-0_99.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "b6f523ef0c778ec0e0c12a9d34f8d16f9492c0a372d19304e3fed6420d73f91a",
+              "pcm_sha256": "feae96e4fb2e320f7b73cd2c53e9507c2fdeb327dad532ca60d8424deeed57ba",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.458,
+                "mean_process_us": 2.4741,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645562815,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "phase-1-fallback",
+            "parameters": {
+              "frequency": 440,
+              "phase": 1
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-1-fallback.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-1-fallback.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "1"
+              ],
+              "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+              "pcm_sha256": "5dd7af743ac0cf2086cd5c0049203c71a7110b98066d2b313d9a2bd745fc7f7a",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 17.625,
+                "mean_process_us": 2.7258,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576677,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-1-fallback.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-1-fallback.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "1"
+              ],
+              "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+              "pcm_sha256": "5dd7af743ac0cf2086cd5c0049203c71a7110b98066d2b313d9a2bd745fc7f7a",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 16.958,
+                "mean_process_us": 2.5208,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576677,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "phase-nextbelow1",
+            "parameters": {
+              "frequency": 440,
+              "phase": 0.9999999403953552
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-nextbelow1.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-nextbelow1.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0.9999999403953552"
+              ],
+              "float_sha256": "9d5d7e78fc8ac6c47cee3280ae439b62103fb9b8fa7da2606fb6e9fbba0010fb",
+              "pcm_sha256": "2598a186f244b2a863e8bd35a1ca1a7893f275693ad185c9d38fe00c931d8aa0",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.917,
+                "mean_process_us": 2.5893,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576654,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-nextbelow1.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-nextbelow1.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "0.9999999403953552"
+              ],
+              "float_sha256": "9d5d7e78fc8ac6c47cee3280ae439b62103fb9b8fa7da2606fb6e9fbba0010fb",
+              "pcm_sha256": "2598a186f244b2a863e8bd35a1ca1a7893f275693ad185c9d38fe00c931d8aa0",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.708,
+                "mean_process_us": 2.6196,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576654,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "phase-minsubnormal",
+            "parameters": {
+              "frequency": 440,
+              "phase": 1.401298464324817e-45
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-minsubnormal.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/phase-minsubnormal.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "1.401298464324817e-45"
+              ],
+              "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+              "pcm_sha256": "5dd7af743ac0cf2086cd5c0049203c71a7110b98066d2b313d9a2bd745fc7f7a",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 4.0,
+                "mean_process_us": 2.6407,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576677,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-minsubnormal.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/phase-minsubnormal.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "440",
+                "--parameter",
+                "phase",
+                "1.401298464324817e-45"
+              ],
+              "float_sha256": "c0f7e01c3c8ba745f2a0695652bfb64e0a35dcc8683c5efc06cc6ca322156888",
+              "pcm_sha256": "5dd7af743ac0cf2086cd5c0049203c71a7110b98066d2b313d9a2bd745fc7f7a",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.083,
+                "mean_process_us": 2.6329,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645576677,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "negative-frequency",
+            "parameters": {
+              "frequency": -440,
+              "phase": 0.25
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/negative-frequency.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/negative-frequency.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-440",
+                "--parameter",
+                "phase",
+                "0.25"
+              ],
+              "float_sha256": "5751b6aa1bbdd11584e2a83cdceb5761c2775bb3268d648d9e07b039ab94ff4e",
+              "pcm_sha256": "26a1a17f9cf9350c9f7eddb533dd486d4e30e88921e619b7b10995adda889b95",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.916,
+                "mean_process_us": 2.5847,
+                "peak": 0.999999881,
+                "platform_allocations": 1,
+                "rms": 0.645451965,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/negative-frequency.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/negative-frequency.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-440",
+                "--parameter",
+                "phase",
+                "0.25"
+              ],
+              "float_sha256": "5751b6aa1bbdd11584e2a83cdceb5761c2775bb3268d648d9e07b039ab94ff4e",
+              "pcm_sha256": "26a1a17f9cf9350c9f7eddb533dd486d4e30e88921e619b7b10995adda889b95",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.375,
+                "mean_process_us": 2.5153,
+                "peak": 0.999999881,
+                "platform_allocations": 1,
+                "rms": 0.645451965,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "negative-boundary",
+            "parameters": {
+              "frequency": -10000,
+              "phase": 0.99
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/negative-boundary.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/negative-boundary.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-10000",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "cb3fe976eb53c68a80fa6d716b72fae0eaa69a3277037fc446027e23d3fdb3c6",
+              "pcm_sha256": "a6424e29b048d9f897253c2b17578aa5f8affc58b5b3fd12f88828e150d7dde1",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 14.625,
+                "mean_process_us": 2.9589,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645404994,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/negative-boundary.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/negative-boundary.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-10000",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "cb3fe976eb53c68a80fa6d716b72fae0eaa69a3277037fc446027e23d3fdb3c6",
+              "pcm_sha256": "a6424e29b048d9f897253c2b17578aa5f8affc58b5b3fd12f88828e150d7dde1",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.042,
+                "mean_process_us": 2.2727,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645404994,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "both-fallback",
+            "parameters": {
+              "frequency": -440,
+              "phase": 1
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/both-fallback.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/both-fallback.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-440",
+                "--parameter",
+                "phase",
+                "1"
+              ],
+              "float_sha256": "35f0cb6cec224200c5aa03cdc1b8834a2cf75f9ccb6a6bf25b49d20cf78f0772",
+              "pcm_sha256": "1ad18de08b9714804c08e39a17110ecafccd41b737f7c25a8c31080315e35cf9",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 10.083,
+                "mean_process_us": 3.0154,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645443093,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/both-fallback.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/both-fallback.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-440",
+                "--parameter",
+                "phase",
+                "1"
+              ],
+              "float_sha256": "35f0cb6cec224200c5aa03cdc1b8834a2cf75f9ccb6a6bf25b49d20cf78f0772",
+              "pcm_sha256": "1ad18de08b9714804c08e39a17110ecafccd41b737f7c25a8c31080315e35cf9",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 12.417,
+                "mean_process_us": 2.4875,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645443093,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "negative-fractional",
+            "parameters": {
+              "frequency": -0.001,
+              "phase": 0.99
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/negative-fractional.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/negative-fractional.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-0.001",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "f9279844c83f0a5c596edfc5708de1be0ea3102f5c96c8515cd482d63e27d11f",
+              "pcm_sha256": "3bcdfa7392865eab118700a41db22aab8b6206c2fdb12700c512ba407589987e",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 9.042,
+                "mean_process_us": 2.8143,
+                "peak": 0.286105931,
+                "platform_allocations": 1,
+                "rms": 0.243929643,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/negative-fractional.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/negative-fractional.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "-0.001",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "f9279844c83f0a5c596edfc5708de1be0ea3102f5c96c8515cd482d63e27d11f",
+              "pcm_sha256": "3bcdfa7392865eab118700a41db22aab8b6206c2fdb12700c512ba407589987e",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.459,
+                "mean_process_us": 2.5709,
+                "peak": 0.286105931,
+                "platform_allocations": 1,
+                "rms": 0.243929643,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "zero-frequency",
+            "parameters": {
+              "frequency": 0,
+              "phase": 0.99
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/zero-frequency.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/zero-frequency.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "0",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "bdecb87cc29270763d100bc02f1ca6359bd6734e7922051a78f63268373ed17c",
+              "pcm_sha256": "9274f24152bb72fc0496eccbd0606295a1db26b8ffed515a75fe91a022ddd861",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.916,
+                "mean_process_us": 2.842,
+                "peak": 0.268235594,
+                "platform_allocations": 1,
+                "rms": 0.239487146,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/zero-frequency.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/zero-frequency.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "0",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "bdecb87cc29270763d100bc02f1ca6359bd6734e7922051a78f63268373ed17c",
+              "pcm_sha256": "9274f24152bb72fc0496eccbd0606295a1db26b8ffed515a75fe91a022ddd861",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 6.917,
+                "mean_process_us": 2.4296,
+                "peak": 0.268235594,
+                "platform_allocations": 1,
+                "rms": 0.239487146,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        },
+        {
+          "case": {
+            "id": "high-positive",
+            "parameters": {
+              "frequency": 10000,
+              "phase": 0.99
+            }
+          },
+          "compared_channel_samples": 262144,
+          "float_bit_identical": true,
+          "maximum_absolute_error": 0.0,
+          "maximum_pcm_lsb_error": 0,
+          "pcm_identical": true,
+          "records": {
+            "private-phase": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/private-phase/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/high-positive.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/private-phase/high-positive.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "10000",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "6fab61b332b91ba9c8486b688412c263003dfab53da1bcdc8f3217b5f2fb6c41",
+              "pcm_sha256": "a30c83e8b94730d87faca9d2144a82b6f1d3a0f733769cd25c2f30a4344c7319",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 6.333,
+                "mean_process_us": 2.7342,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645515554,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            },
+            "strict": {
+              "command": [
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/native/strict/rnbo_render",
+                "--output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/high-positive.wav",
+                "--float-output",
+                "/Users/a1106632/Documents/esp32-rnbo/build/optimization/private-cycle-phase-v1/renders/strict/high-positive.f32",
+                "--blocks",
+                "512",
+                "--warmup",
+                "4",
+                "--seed",
+                "305419896",
+                "--arena-bytes",
+                "1048576",
+                "--parameter",
+                "frequency",
+                "10000",
+                "--parameter",
+                "phase",
+                "0.99"
+              ],
+              "float_sha256": "6fab61b332b91ba9c8486b688412c263003dfab53da1bcdc8f3217b5f2fb6c41",
+              "pcm_sha256": "a30c83e8b94730d87faca9d2144a82b6f1d3a0f733769cd25c2f30a4344c7319",
+              "stats": {
+                "allocation_coverage": "RNBO platform hooks only",
+                "arena_used": 65544,
+                "block_frames": 256,
+                "blocks": 512,
+                "errors": 0,
+                "evidence_kind": "host_render",
+                "invalid_samples": 0,
+                "late_platform_allocations": 0,
+                "max_process_us": 3.625,
+                "mean_process_us": 2.5994,
+                "peak": 1,
+                "platform_allocations": 1,
+                "rms": 0.645515554,
+                "sample_rate": 44100,
+                "seed": 305419896,
+                "target_performance_qualified": false,
+                "warmup_blocks": 4
+              }
+            }
+          }
+        }
+      ],
+      "compared_channel_samples": 3145728,
+      "hardware_executed": false,
+      "target_performance_qualified": false
+    },
+    "production_compiler_admission_changed": false,
+    "prototype_sha256": "778b6ada3e37bc4d526e2ce24973c280579617cbd0f455237d4970045dd3ff8a",
+    "target_performance_qualified": false,
+    "whole_kernel_sha256": "1dbcc6178f4628491e85c1a2c54289819d118cd5ff26ab44fda7acefe8390cc5"
+  },
+  "domain_proof": {
+    "format": "private-cycle-phase-domain-proof",
+    "hardware_executed": false,
+    "checks": 2000005,
+    "seed": 305419896,
+    "sanitizers": [
+      "undefined",
+      "float-cast-overflow"
+    ],
+    "flags": [
+      "-std=c++17",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-fno-sanitize-recover=all"
+    ],
+    "compiler": "Apple clang version 17.0.0 (clang-1700.6.3.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+    "source_sha256": "47719d63ebc8a306f3bfb35a6ccfde8b5f15e798f617bab5493aa8e42c4bf04a",
+    "binary_sha256": "5ace3fb897148132bc6af3093dbf8c0d5e2e9fb9281e3cfb7c543b1e596f7383",
+    "helper_sha256": "54f2023c11249d5c20efbbd5f1a031b20fa83337e440d717f7b177bb9d9aef52",
+    "result": "PRIVATE_CYCLE_PHASE_DOMAIN PASS checked=2000005 seed=305419896",
+    "guard_tests": 7
+  },
+  "conclusion": "Numerically equal finite target float values and exact PCM on12workloads. Active-phase workloads improve; phase-zero workload regresses. No production admission or universal speedup claim. Scalar conversion hoisting is being investigated separately."
+}

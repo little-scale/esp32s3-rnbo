@@ -16,11 +16,14 @@ trees and qualification reports remain intact.
 
 The new filter forms retain their existing `mstosamps(MillisecondTime)` call.
 Its result was already `number`/float32, but its intermediate calculations use
-double precision. Decimal suffixes elsewhere in these methods preserve the
-reviewed constants and float results: comb's scalar initializers were already
-assigned to float, the clamp result rounds to the same float, and allpass's
-multiply by -1 is exact negation. The exactly representable 40ms cap does not
-change the argument passed to the retained conversion.
+double precision. Comb's reviewed scalar initializers were already assigned
+to float, and its clamp result rounds to the same float. In allpass, multiplication
+by -1 itself is exact negation, but the unsuffixed literal also promotes the
+surrounding audio multiply/add expression to double. V2 deliberately changes
+that expression's rounding to float32. The current fixtures use gain 0.5, for
+which the observed output remains bit-identical; that result does not establish
+bit identity for arbitrary scalar gains. The exactly representable 40ms cap
+does not change the argument passed to the retained duration conversion.
 
 An initial experiment also replaced those local duration calculations with
 float32 arithmetic. It failed the existing filter tolerances: maximum absolute
@@ -133,8 +136,11 @@ values immediately below/above one sample, half a sample and the 40ms cap,
 then compare interpolation weights and frequency response with an independent
 fractional-delay reference. Signal-delay steps and modulation should cross
 those boundaries and vector boundaries. The admitted allpass scalar-gain form
-also needs direct coverage near zero and the 0.99 clamp, with a suitably long
-decay measurement; current authored fixtures use gain 0.5.
+also needs direct coverage with non-binary gains and fractional input values,
+as well as near zero and the 0.99 clamp, with a suitably long decay measurement.
+Current authored fixtures use gain 0.5. Those additional cases must measure the
+float32-versus-double multiply/add rounding under the existing numerical-profile
+contract rather than assume the present fixture's bit identity generalizes.
 
 Cycle's current analytic check compares cosine against its emitted phase. Add
 an independent phase-increment/frequency check so a shared phase error cannot

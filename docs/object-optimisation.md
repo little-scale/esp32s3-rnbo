@@ -14,7 +14,7 @@ successful whole-fixture admission alone does not establish per-object coverage.
 | scale~ | Four reviewed constant-range kernels in the drone | Independent linear mapping checks pass. New ranges, wired limits or non-unit exponents require their own generated-form review. |
 | reson~ | Reviewed modulated-centre-frequency kernel with the authored resonance | Decay/silence, stability and static transfer checks pass. More resonance values and boundary frequencies remain separate cases. |
 | comb~ | Explicit cap; paired float32 rings; previous v1 drone form plus new cap40 fixed/scalar/signal forms in audio v2 | New forms pass audio v2 and combined-storage host checks with bit-identical output. Their local double duration conversion is retained after float conversion failed the existing limits. |
-| allpass~ | Explicit cap, paired float32 rings and new cap40 fixed/scalar/signal forms in audio v2 | New suffix-only forms pass audio v2 and combined-storage host checks with bit-identical output; their original double duration conversion is retained. Echo/transfer and gain-boundary checks remain useful. |
+| allpass~ | Explicit cap, paired float32 rings and new cap40 fixed/scalar/signal forms in audio v2 | The authored gain 0.5 fixtures pass audio v2 and combined-storage host checks with bit-identical output; the original double duration conversion is retained. Other gains can change surrounding multiply/add rounding and require separate numerical checks. |
 | delay~ | Reviewed ring conversion and crossfade arithmetic | Steady sample lag and strict/optional output checks pass. Ordinary delay capacity remains source-defined; it is separate from the comb/allpass millisecond cap. |
 | Arithmetic | Reviewed drone expressions; audio v2 adds scalar addition and safe-division forms | DC semantic/output checks pass with bit-identical output, including the zero-divisor branch. Non-binary controls and small-divisor cases remain useful. |
 
@@ -207,3 +207,49 @@ Further work should follow measured object costs. Float32 expf/cosf/floorf and
 software float division remain valid audio operations; count or replace them
 only with independent semantics, accuracy and target-cost evidence. Clock
 precision and numerical stability remain requirements, not optimisation defects.
+
+## Whole-object follow-up measurements
+
+The disabled phase-conversion helper was also tested in a complete scalar
+cycle fixture, retaining strict interpolation and audio arithmetic. Twelve
+positive/negative-frequency and phase-boundary cases compared 9,437,184 finite
+channel values on target with zero numerical float error and exact PCM. The
+active-phase cases took about 19–24% less process time; phase zero took 2.57% more.
+The helper remains disabled. These are whole-fixture observations and exclude
+I2S/UI/network. See [the sealed cycle record](../evidence/cycle-phase-conversion.json).
+An alternative that moves unchanged scalar conversions outside the loop is
+being evaluated separately.
+
+A scalar comb/allpass pair at a 40ms cap and gain 0.5 also passed target output
+comparisons with the audio-v2 plus Float32-storage combination. All 2,359,296
+compared finite channel values had zero numerical error and exact PCM. The
+observed mean process reductions were 35.86% for the default impulse, 43.31% at
+minimum delay and 37.20% at maximum delay. Runtime memory recovered and no late
+allocation was observed. These results do not cover arbitrary allpass gains,
+other input shapes or worst-case deadlines. See
+[the scalar filter record](../evidence/filters-scalar-v2-storage.json).
+
+The [second-wave coverage audit](object-coverage-wave2.md) adds independent
+semantic tests for six more object groups and retains baseline precision and
+seed-policy limitations as explicit failures.
+
+Two subsequent scalar-cycle comparisons move the original conversion expressions
+outside the loop, preserving the arithmetic types and rounding. Each covers
+12 cases and 9,437,184 finite channel values on target with zero numerical error
+and exact PCM. Against strict, active-phase process reductions are about 24–29%,
+with phase zero essentially unchanged. Against the actual audio-v2 reference,
+observed reductions range from 6.45% to 43.43% across the declared cases. These
+are measured workload comparisons, not a universal speed bound. The distinct
+reference profiles are printed by firmware and verified against the two module
+manifests. See [cycle invariant evidence](../evidence/cycle-invariant-hoist.json).
+
+The scalar filter duration-hoist experiment also passed 2,359,296 target
+comparisons with zero numerical float difference and exact PCM. Total timed
+callback cost fell from 7,503,863 to 5,325,609µs across 4,320 vectors (about 29.0%).
+Target instruction/source mappings place both duration conversions inside
+reference sample loops and outside candidate sample loops; double evaluation
+is retained. Signal-rate delays are excluded. Its independent native proof
+covers 32 workloads and 8,388,608 byte-identical Float32/PCM words.
+[The sealed duration-hoist record](../evidence/filter-duration-hoist.json)
+retains unresolved instruction targets rather than treating them as resolved
+math calls. These experiments are not yet production compiler options.

@@ -14,7 +14,7 @@ class ObservationTests(unittest.TestCase):
         fixture={'id':'unit','family':'unit','role':'main','warmup_blocks':4,'seed':1,'cases':[{'id':'default'}],
                  'comparison_tolerance':{'maximum_absolute_error':0.001,'maximum_pcm_lsb_error':1,'relative_rms_level_difference':0.01}}
         report={'benchmark':{'fixture':fixture,'rounds':3,'blocks':2,'timing_exclude_blocks':0},
-                'modules':{p:{'artifact_sha256':c*64,'report':{'prepared_export':{'manifest':{'role':'main','audio_inputs':0,'audio_outputs':2}}}} for p,c in (('strict','a'),('optimized','b'))}}
+                'modules':{p:{'artifact_sha256':c*64,'report':{'prepared_export':{'manifest':{'role':'main','audio_inputs':0,'audio_outputs':2,'numerical_profile':'float32-strict' if p=='strict' else 'float32-audio-v1'}}}} for p,c in (('strict','a'),('optimized','b'))}}
         self.report=report
         (self.build/'build-report.json').write_text(json.dumps(report))
         self.lines=['RNBO_OBJECT_BENCHMARK CASE fixture=unit case=default samples=3072 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0',
@@ -48,6 +48,30 @@ class ObservationTests(unittest.TestCase):
         self.assertEqual(result['cases'][0]['input']['declared_settings']['base'],60)
         self.assertEqual(result['stimulus_provenance']['generator_source_sha256']['object-benchmark/main/stimulus.c'],'f'*64)
         self.assertIn('excluded',result['scope'])
+    def optional_reference(self):
+        profiles={'strict':'float32-audio-v2','optimized':'private-cycle-invariants-v1'}
+        for key,value in profiles.items():self.report['modules'][key]['report']['prepared_export']['manifest']['numerical_profile']=value
+        self.report['benchmark']['numerical_profiles']=profiles
+        self.lines.insert(0,'RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture=unit reference=float32-audio-v2 candidate=private-cycle-invariants-v1')
+        self.seal()
+    def test_explicit_optional_reference_preserves_actual_profile(self):
+        self.optional_reference();result=collect(self.build,self.run)
+        self.assertEqual(result['cases'][0]['profiles']['strict']['numerical_profile'],'float32-audio-v2')
+    def test_missing_profile_record_is_rejected(self):
+        self.optional_reference();self.lines.pop(0);self.seal()
+        with self.assertRaisesRegex(ValueError,'numerical profile record'):collect(self.build,self.run)
+    def test_reference_cannot_be_relabelled_strict(self):
+        self.optional_reference();self.lines[0]=self.lines[0].replace('reference=float32-audio-v2','reference=float32-strict');self.seal()
+        with self.assertRaisesRegex(ValueError,'numerical profile record'):collect(self.build,self.run)
+    def test_duplicate_profile_record_is_rejected(self):
+        self.optional_reference();self.lines.insert(0,self.lines[0]);self.seal()
+        with self.assertRaisesRegex(ValueError,'numerical profile record'):collect(self.build,self.run)
+    def test_manifest_profile_must_match_build_plan(self):
+        self.optional_reference();self.report['modules']['optimized']['report']['prepared_export']['manifest']['numerical_profile']='another';self.seal()
+        with self.assertRaisesRegex(ValueError,'Build numerical profiles'):collect(self.build,self.run)
+    def test_legacy_non_strict_reference_is_rejected(self):
+        self.report['modules']['strict']['report']['prepared_export']['manifest']['numerical_profile']='float32-audio-v2';self.seal()
+        with self.assertRaisesRegex(ValueError,'Legacy reference'):collect(self.build,self.run)
     def test_missing_fx_input_rejected(self):
         self.fx();self.lines.pop(0);self.seal()
         with self.assertRaisesRegex(ValueError,'Incomplete FX INPUT'):collect(self.build,self.run)

@@ -190,6 +190,7 @@ static void worker(void *unused)
     char formatted[192];
     CHECK(snprintf(formatted,sizeof formatted,"%.9g %.9g %.9g %.9g",1.0/3.0,1.401298464324817e-45,3.4028234663852886e38,1.0e-12)>0);
     printf("RNBO_OBJECT_BENCHMARK START fixture=%s firmware_elf_sha256=%s strict_module_sha256=%s optimized_module_sha256=%s\n",BENCH_FIXTURE,firmware_sha,strict_sha,optimized_sha);fflush(stdout);
+    printf("RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture=%s reference=%s candidate=%s\n",BENCH_FIXTURE,BENCH_REFERENCE_PROFILE,BENCH_CANDIDATE_PROFILE);fflush(stdout);
     /* All workspace/output buffers persist across both heap baseline snapshots. */
     reference=heap_caps_malloc((size_t)BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*sizeof(float),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
     work=heap_caps_malloc(4u*RNBO_S3_BLOCK_FRAMES*sizeof(float),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);CHECK(reference&&work);
