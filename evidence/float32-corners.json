@@ -1,0 +1,725 @@
+{
+  "findings": [
+    "All3036 tested add/sub/mul results match separate Double-intermediate results rounded back to Float32 in both variants.",
+    "Division has no tested finite-result differences; two signed-zero invalid divisions differ only in NaN sign representation.",
+    "No tested subnormal-input/result mismatch or rounding-mode change was observed.",
+    "Floating exception status words differ; this is not floating-environment equivalence."
+  ],
+  "format": "rnbo-esp32s3-float32-corner-observations-v1",
+  "hardware_executed": true,
+  "limitations": [
+    "Bounded3036-pair corpus, not exhaustive Float32 arithmetic or all rounding modes.",
+    "ROM and private GCC closures are separately bound; library identity does not prove all untested caller contexts.",
+    "No universal bit identity for changed history types, arbitrary expressions, NaN payloads or exception status."
+  ],
+  "module_libgcc_sha256": "184d25dcdb88604a0c07018c3cbb83e1ca8e75688208f4676d25739854d4fdd5",
+  "scope": "Two standalone Core1 diagnostics at unchanged default nearest/even rounding; explicit finite operands including signed zeros, subnormal/min-normal neighbors, exponent extremes and fixed-seed strata. Not an RNBO audio callback or timing qualification.",
+  "sealer_sha256": "b340f1ecb8e0e0f9c24547c2ff2e2784c1a2d7184571834f82794870eae98926",
+  "variants": {
+    "GCC": {
+      "analysis": {
+        "all_observed_words_identical": false,
+        "analysis_tool_sha256": "ba4ca79b1337d2b8d94b9e1b284db5ee2b8e1f5e32b3eae1260f8a08d5c7733e",
+        "build_report_sha256": "b1aa92ea2eb99e7416e4308da5c4014fa742ddea653728d0b2080de13ee11088",
+        "completed_record_integrity": true,
+        "completion": {
+          "core": "1",
+          "different_words": "2",
+          "elapsed_us": "6261841",
+          "fcr_final": "00000000",
+          "fcr_initial": "00000000",
+          "firmware_elf_sha256": "ae6f7f0c9503bd24e0a1d01ad485da509278c34675c3b1ca6aa3da46cada87e1",
+          "identity_claimed": "0",
+          "mode_changes": "0",
+          "pairs": "3036",
+          "result_records": "12144",
+          "rounding_nearest": "1",
+          "scope": "observed-raw-bit-diagnostic-no-RNBO",
+          "vector_sha256": "53cafc6ca1d661246ceb8e4e73287954c6789d67f28a2b7e589b7b2a6afb9d27"
+        },
+        "default_nearest_environment_observed": true,
+        "different_words": 2,
+        "fcr_final": "00000000",
+        "fcr_initial": "00000000",
+        "first_mismatch_examples": {
+          "add": [],
+          "div": [
+            {
+              "a": "00000000",
+              "b": "80000000",
+              "diff": "1",
+              "direct": "7fc00000",
+              "direct_kind": "nan",
+              "fcr32": "00000000",
+              "fcr64": "00000000",
+              "fsr32": "00000800",
+              "fsr64": "00000000",
+              "group": "0",
+              "i": "1",
+              "op": "div",
+              "reference": "ffc00000",
+              "reference_kind": "nan"
+            },
+            {
+              "a": "80000000",
+              "b": "00000000",
+              "diff": "1",
+              "direct": "7fc00000",
+              "direct_kind": "nan",
+              "fcr32": "00000000",
+              "fcr64": "00000000",
+              "fsr32": "00000800",
+              "fsr64": "00000000",
+              "group": "0",
+              "i": "22",
+              "op": "div",
+              "reference": "ffc00000",
+              "reference_kind": "nan"
+            }
+          ],
+          "mul": [],
+          "sub": []
+        },
+        "format": "private-fp32-corner-GCC-observations-v1",
+        "hardware_executed": true,
+        "limits": [
+          "Bounded tested inputs, not all-domain arithmetic equivalence",
+          "Private prefixed GCC helper reference; ROM helper observations are a separate diagnostic",
+          "No RNBO whole-object/graph equivalence or performance qualification",
+          "FSR flags are recorded observations, not required to match"
+        ],
+        "log_bytes": 2421690,
+        "log_sha256": "b59a4a43f10ab1da4e1715fd1f33b83d1fad91f61dbb84f2a9b6b0d0a512d02d",
+        "maximum_finite_absolute_differences": {
+          "add": 0.0,
+          "div": 0.0,
+          "mul": 0.0,
+          "sub": 0.0
+        },
+        "mode_changes": 0,
+        "operations": {
+          "add": {
+            "checked": 3036,
+            "different_words": 0,
+            "direct_checksum": 2972237629,
+            "finite_differences": 0,
+            "nan_payload_differences": 0,
+            "nonfinite_differences": 0,
+            "reference_checksum": 2972237629,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          },
+          "div": {
+            "checked": 3036,
+            "different_words": 2,
+            "direct_checksum": 3095613768,
+            "finite_differences": 0,
+            "nan_payload_differences": 2,
+            "nonfinite_differences": 0,
+            "reference_checksum": 3095613768,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          },
+          "mul": {
+            "checked": 3036,
+            "different_words": 0,
+            "direct_checksum": 425807319,
+            "finite_differences": 0,
+            "nan_payload_differences": 0,
+            "nonfinite_differences": 0,
+            "reference_checksum": 425807319,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          },
+          "sub": {
+            "checked": 3036,
+            "different_words": 0,
+            "direct_checksum": 2630688617,
+            "finite_differences": 0,
+            "nan_payload_differences": 0,
+            "nonfinite_differences": 0,
+            "reference_checksum": 2630688617,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          }
+        },
+        "pairs": 3036,
+        "private_archive": {
+          "all_undefined_archive_symbols_prefixed": true,
+          "command": [
+            "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-objcopy",
+            "--enable-deterministic-archives",
+            "--prefix-symbols=private_",
+            "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/esp32s3/libgcc.a",
+            "/Users/a1106632/Documents/esp32-rnbo/build/research/fp32-corners-gcc/private-libgcc.a"
+          ],
+          "format": "private-prefixed-libgcc-archive-v1",
+          "generator_sha256": "e323593d3d8815231e725f92e21f48e9a31e1461a175049081dfc9cc946a6baa",
+          "objcopy_sha256": "0b00cd52846abfffbf8d6deabed3d835e5c7df6c19a3a2e68fda1c371084de6d",
+          "original_archive": {
+            "bytes": 691722,
+            "path": "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/14.2.0/esp32s3/libgcc.a",
+            "sha256": "184d25dcdb88604a0c07018c3cbb83e1ca8e75688208f4676d25739854d4fdd5"
+          },
+          "original_archive_unchanged": true,
+          "prefix": "private_",
+          "private_archive": {
+            "bytes": 695374,
+            "path": "/Users/a1106632/Documents/esp32-rnbo/build/research/fp32-corners-gcc/private-libgcc.a",
+            "sha256": "d38ed3244d02505f07b832f60086351f3d9c2a8362e5c30a255a0af84bf7d1bd"
+          },
+          "scope": "same GCC archive as dynamic module linker, all defined/undefined symbols and archive relocations renamed; no ROM fallback name remains",
+          "undefined_symbols": [
+            "private__Unwind_Find_FDE",
+            "private__Unwind_GetDataRelBase",
+            "private__Unwind_GetIPInfo",
+            "private__Unwind_GetLanguageSpecificData",
+            "private__Unwind_GetRegionStart",
+            "private__Unwind_GetTextRelBase",
+            "private__Unwind_SetGR",
+            "private__Unwind_SetIP",
+            "private___adddf3",
+            "private___divdf3",
+            "private___divsf3",
+            "private___eqdf2",
+            "private___floatsidf",
+            "private___gedf2",
+            "private___getreent",
+            "private___gtdf2",
+            "private___ledf2",
+            "private___ltdf2",
+            "private___muldf3",
+            "private___subdf3",
+            "private___unorddf2",
+            "private___xtensa_libgcc_window_spill",
+            "private_abort",
+            "private_calloc",
+            "private_fflush",
+            "private_fprintf",
+            "private_free",
+            "private_malloc",
+            "private_memcpy",
+            "private_memset",
+            "private_realloc",
+            "private_strlen"
+          ]
+        },
+        "records": 12144,
+        "reference_arithmetic": "Prefixed private GCC libgcc __extendsfdf2/{add,sub,mul,div}df3/__truncdfsf2; Float32 division uses private GCC __divsf3. Explicit helper calls and renamed archive relocations prevent ROM fallback.",
+        "vectors_sha256": "53cafc6ca1d661246ceb8e4e73287954c6789d67f28a2b7e589b7b2a6afb9d27"
+      },
+      "different_output_words": [
+        {
+          "a": "00000000",
+          "b": "80000000",
+          "diff": "1",
+          "direct": "7fc00000",
+          "direct_kind": "nan",
+          "fcr32": "00000000",
+          "fcr64": "00000000",
+          "fsr32": "00000800",
+          "fsr64": "00000000",
+          "group": "0",
+          "i": "1",
+          "op": "div",
+          "reference": "ffc00000",
+          "reference_kind": "nan"
+        },
+        {
+          "a": "80000000",
+          "b": "00000000",
+          "diff": "1",
+          "direct": "7fc00000",
+          "direct_kind": "nan",
+          "fcr32": "00000000",
+          "fcr64": "00000000",
+          "fsr32": "00000800",
+          "fsr64": "00000000",
+          "group": "0",
+          "i": "22",
+          "op": "div",
+          "reference": "ffc00000",
+          "reference_kind": "nan"
+        }
+      ],
+      "exception_status_word_differences": {
+        "add": 2348,
+        "div": 2371,
+        "mul": 2120,
+        "sub": 2348
+      },
+      "hardware_report_sha256": "f537420bbfb3c6617a6be70983f7b6df596aa8e59800568198b46c9f15d5105c",
+      "observation_completed_and_instrument_restored": true,
+      "offline_build_and_assembly": {
+        "all_raw_result_row_bound_bytes": 2489520,
+        "arithmetic_identity_claimed": false,
+        "artifacts": {
+          "build/research/fp32-corners-gcc/README.md": {
+            "bytes": 3960,
+            "sha256": "afa2175ed44a206db6bdd6ef23761786844485cc1418784b2b60a275753d18fe"
+          },
+          "build/research/fp32-corners-gcc/analyze.py": {
+            "bytes": 9276,
+            "sha256": "ba4ca79b1337d2b8d94b9e1b284db5ee2b8e1f5e32b3eae1260f8a08d5c7733e"
+          },
+          "build/research/fp32-corners-gcc/build.py": {
+            "bytes": 9235,
+            "sha256": "24fc8aaab260b6ecb9ba835510ba19ce12ac64d4e516f05d382ff30e0b7eebc1"
+          },
+          "build/research/fp32-corners-gcc/disassembly.txt": {
+            "bytes": 2701336,
+            "sha256": "35396f0a59776317cd27e2ad33f495cabdef6ff9ed33708df3da67ec13c3a6fe"
+          },
+          "build/research/fp32-corners-gcc/firmware/build-report.json": {
+            "bytes": 14991,
+            "sha256": "b1aa92ea2eb99e7416e4308da5c4014fa742ddea653728d0b2080de13ee11088"
+          },
+          "build/research/fp32-corners-gcc/functions.json": {
+            "bytes": 7768,
+            "sha256": "68abdbce3d668de93f3d3e5eb95a82a86505983f01749909e54f5c43c26c4e80"
+          },
+          "build/research/fp32-corners-gcc/make_vectors.py": {
+            "bytes": 3472,
+            "sha256": "461475bcb6ddfcdaa6e2b71417ad864698bf225b1eeec06599dea4016419a71c"
+          },
+          "build/research/fp32-corners-gcc/object-relocations.txt": {
+            "bytes": 45928,
+            "sha256": "63a80c25e5ad7e6d2fa05f46b92fc328dde793c2df903585bad80280129cb169"
+          },
+          "build/research/fp32-corners-gcc/private-libgcc-symbols.txt": {
+            "bytes": 32477,
+            "sha256": "a7f1b6d1378eff1828d19ae4611437d9a50bd8f60c6bc2336c2b02865fdaab6e"
+          },
+          "build/research/fp32-corners-gcc/private-libgcc.a": {
+            "bytes": 695374,
+            "sha256": "d38ed3244d02505f07b832f60086351f3d9c2a8362e5c30a255a0af84bf7d1bd"
+          },
+          "build/research/fp32-corners-gcc/private-libgcc.json": {
+            "bytes": 2331,
+            "sha256": "f69f1c6280f8735654bc3390814b117da28c0f05aff2bb8fe6443a05348e0359"
+          },
+          "build/research/fp32-corners-gcc/private_archive.py": {
+            "bytes": 2356,
+            "sha256": "e323593d3d8815231e725f92e21f48e9a31e1461a175049081dfc9cc946a6baa"
+          },
+          "build/research/fp32-corners-gcc/seal.py": {
+            "bytes": 3443,
+            "sha256": "4706487f80c07e272d8fd97dae07f54e0a62a01e628f2e59fd438d402bc36ac6"
+          },
+          "build/research/fp32-corners-gcc/test_analyze.py": {
+            "bytes": 4103,
+            "sha256": "f95985cde17ae9022b7e140f1a8c4f547174ba792969942fe63fbcd9f105aaf8"
+          },
+          "build/research/fp32-corners-gcc/tests.log": {
+            "bytes": 523,
+            "sha256": "0e2af703f668d2f83fbbfe2e1127ad563932d3c4446e5aeadb31707f70951bb9"
+          },
+          "build/research/fp32-corners-gcc/vectors.json": {
+            "bytes": 294336,
+            "sha256": "53cafc6ca1d661246ceb8e4e73287954c6789d67f28a2b7e589b7b2a6afb9d27"
+          }
+        },
+        "assembly_audit": {
+          "fp32_add": {
+            "body_sha256": "de9ad932cbb1d78afa20fcd9fac89769143fab25e0b8d2817684ec4b4f4f45bb",
+            "instruction": "add.s",
+            "no_helper_call": true
+          },
+          "fp32_mul": {
+            "body_sha256": "6b5fe787c571793efa0c0e0b2cd7de3cc15d641a7b15c80587caa79aff5a2e6e",
+            "instruction": "mul.s",
+            "no_helper_call": true
+          },
+          "fp32_sub": {
+            "body_sha256": "679d7f43b7b39f4a3892c7aa16b37274bc58555f5e44988d2721e6416d244cf9",
+            "instruction": "sub.s",
+            "no_helper_call": true
+          },
+          "fp64_reference_add": {
+            "body_sha256": "3838caf681e83937da4b328881fe9755319d1ce30bd29b7a36ff5450e8fa2a42",
+            "helpers": [
+              "private___extendsfdf2",
+              "private___extendsfdf2",
+              "private___adddf3",
+              "private___truncdfsf2"
+            ],
+            "linked_code_addresses": [
+              "42008908",
+              "42008908",
+              "4200816c",
+              "42008864"
+            ]
+          },
+          "fp64_reference_div": {
+            "body_sha256": "a00fcf4f802d0a65d34ab6aea3d0156f6c4e790a1bdd59710296f00acf27f775",
+            "helpers": [
+              "private___extendsfdf2",
+              "private___extendsfdf2",
+              "private___divdf3",
+              "private___truncdfsf2"
+            ],
+            "linked_code_addresses": [
+              "42008908",
+              "42008908",
+              "42008740",
+              "42008864"
+            ]
+          },
+          "fp64_reference_mul": {
+            "body_sha256": "d77d8fa828a706fd8c7f8e9b934166c9dd27689de12ab4f24ed5c1bb277d5f66",
+            "helpers": [
+              "private___extendsfdf2",
+              "private___extendsfdf2",
+              "private___muldf3",
+              "private___truncdfsf2"
+            ],
+            "linked_code_addresses": [
+              "42008908",
+              "42008908",
+              "42008534",
+              "42008864"
+            ]
+          },
+          "fp64_reference_sub": {
+            "body_sha256": "3e6f241dcc8189717913c2303faa3b9a7ad9d596efb47f62903cd88d040b9b61",
+            "helpers": [
+              "private___extendsfdf2",
+              "private___extendsfdf2",
+              "private___subdf3",
+              "private___truncdfsf2"
+            ],
+            "linked_code_addresses": [
+              "42008908",
+              "42008908",
+              "420082c8",
+              "42008864"
+            ]
+          }
+        },
+        "build_report_sha256": "b1aa92ea2eb99e7416e4308da5c4014fa742ddea653728d0b2080de13ee11088",
+        "expected_completion": "RNBO_FP32_CORNERS_GCC COMPLETE",
+        "format": "private-fp32-corner-GCC-offline-seal-v1",
+        "hardware_executed": false,
+        "pairs": 3036,
+        "private_archive_original_sha256": "184d25dcdb88604a0c07018c3cbb83e1ca8e75688208f4676d25739854d4fdd5",
+        "private_archive_renamed_sha256": "d38ed3244d02505f07b832f60086351f3d9c2a8362e5c30a255a0af84bf7d1bd",
+        "production_changed": false,
+        "rows": 12144,
+        "scope": "hardware add.s/sub.s/mul.s; private GCC Float32 division; separately called private GCC Double references; no ROM helper fallback"
+      },
+      "offline_report_sha256": "9872eaaf35acbaa94c918f0bca8e9aff5566975468d37d11dae592be3c66c449",
+      "restored_firmware_elf_sha256": "35465266cfb8d69eaa9dbe81d52c1f41b39ad92076cb5858e76565c2cc1a1c94"
+    },
+    "ROM": {
+      "analysis": {
+        "all_observed_words_identical": false,
+        "analysis_tool_sha256": "2afc92d26eeb8d71a89ab36392d99f02c9ce3455d5dc11b3a776b2f5ea50dde6",
+        "build_report_sha256": "e543e1aed43e1027e7a4c2d961e863a2866c662191b32b223fcd1e16239a8cc8",
+        "completed_record_integrity": true,
+        "completion": {
+          "core": "1",
+          "different_words": "2",
+          "elapsed_us": "6262466",
+          "fcr_final": "00000000",
+          "fcr_initial": "00000000",
+          "firmware_elf_sha256": "52e591aa83e8d5bcb0523e7aadb138b10738c672cef55af1340bcb4c41e30c6d",
+          "identity_claimed": "0",
+          "mode_changes": "0",
+          "pairs": "3036",
+          "result_records": "12144",
+          "rounding_nearest": "1",
+          "scope": "observed-raw-bit-diagnostic-no-RNBO",
+          "vector_sha256": "53cafc6ca1d661246ceb8e4e73287954c6789d67f28a2b7e589b7b2a6afb9d27"
+        },
+        "default_nearest_environment_observed": true,
+        "different_words": 2,
+        "fcr_final": "00000000",
+        "fcr_initial": "00000000",
+        "first_mismatch_examples": {
+          "add": [],
+          "div": [
+            {
+              "a": "00000000",
+              "b": "80000000",
+              "diff": "1",
+              "direct": "7fc00000",
+              "direct_kind": "nan",
+              "fcr32": "00000000",
+              "fcr64": "00000000",
+              "fsr32": "00000800",
+              "fsr64": "00000000",
+              "group": "0",
+              "i": "1",
+              "op": "div",
+              "reference": "ffc00000",
+              "reference_kind": "nan"
+            },
+            {
+              "a": "80000000",
+              "b": "00000000",
+              "diff": "1",
+              "direct": "7fc00000",
+              "direct_kind": "nan",
+              "fcr32": "00000000",
+              "fcr64": "00000000",
+              "fsr32": "00000800",
+              "fsr64": "00000000",
+              "group": "0",
+              "i": "22",
+              "op": "div",
+              "reference": "ffc00000",
+              "reference_kind": "nan"
+            }
+          ],
+          "mul": [],
+          "sub": []
+        },
+        "format": "private-fp32-corner-observations-v1",
+        "hardware_executed": true,
+        "limits": [
+          "Bounded tested inputs, not all-domain arithmetic equivalence",
+          "ROM helper reference in this first variant; private module libgcc requires separate probe",
+          "No RNBO whole-object/graph equivalence or performance qualification",
+          "FSR flags are recorded observations, not required to match"
+        ],
+        "log_bytes": 2421682,
+        "log_sha256": "74da344435d0ee9db9470fc1c4648a303429f30016ada93292531eda436f53c1",
+        "maximum_finite_absolute_differences": {
+          "add": 0.0,
+          "div": 0.0,
+          "mul": 0.0,
+          "sub": 0.0
+        },
+        "mode_changes": 0,
+        "operations": {
+          "add": {
+            "checked": 3036,
+            "different_words": 0,
+            "direct_checksum": 2972237629,
+            "finite_differences": 0,
+            "nan_payload_differences": 0,
+            "nonfinite_differences": 0,
+            "reference_checksum": 2972237629,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          },
+          "div": {
+            "checked": 3036,
+            "different_words": 2,
+            "direct_checksum": 3095613768,
+            "finite_differences": 0,
+            "nan_payload_differences": 2,
+            "nonfinite_differences": 0,
+            "reference_checksum": 3095613768,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          },
+          "mul": {
+            "checked": 3036,
+            "different_words": 0,
+            "direct_checksum": 425807319,
+            "finite_differences": 0,
+            "nan_payload_differences": 0,
+            "nonfinite_differences": 0,
+            "reference_checksum": 425807319,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          },
+          "sub": {
+            "checked": 3036,
+            "different_words": 0,
+            "direct_checksum": 2630688617,
+            "finite_differences": 0,
+            "nan_payload_differences": 0,
+            "nonfinite_differences": 0,
+            "reference_checksum": 2630688617,
+            "subnormal_input_differences": 0,
+            "subnormal_input_pairs": 245,
+            "subnormal_output_differences": 0,
+            "zero_sign_differences": 0
+          }
+        },
+        "pairs": 3036,
+        "records": 12144,
+        "vectors_sha256": "53cafc6ca1d661246ceb8e4e73287954c6789d67f28a2b7e589b7b2a6afb9d27"
+      },
+      "different_output_words": [
+        {
+          "a": "00000000",
+          "b": "80000000",
+          "diff": "1",
+          "direct": "7fc00000",
+          "direct_kind": "nan",
+          "fcr32": "00000000",
+          "fcr64": "00000000",
+          "fsr32": "00000800",
+          "fsr64": "00000000",
+          "group": "0",
+          "i": "1",
+          "op": "div",
+          "reference": "ffc00000",
+          "reference_kind": "nan"
+        },
+        {
+          "a": "80000000",
+          "b": "00000000",
+          "diff": "1",
+          "direct": "7fc00000",
+          "direct_kind": "nan",
+          "fcr32": "00000000",
+          "fcr64": "00000000",
+          "fsr32": "00000800",
+          "fsr64": "00000000",
+          "group": "0",
+          "i": "22",
+          "op": "div",
+          "reference": "ffc00000",
+          "reference_kind": "nan"
+        }
+      ],
+      "exception_status_word_differences": {
+        "add": 2348,
+        "div": 2371,
+        "mul": 2120,
+        "sub": 2348
+      },
+      "hardware_report_sha256": "348979a1c5144c9fa826e013fbb779d9612f36200d0ebbabf984758391b1fda3",
+      "observation_completed_and_instrument_restored": true,
+      "offline_build_and_assembly": {
+        "all_raw_result_row_bound_bytes": 2489520,
+        "arithmetic_identity_claimed": false,
+        "artifacts": {
+          "build/research/fp32-corners/README.md": {
+            "bytes": 4109,
+            "sha256": "23eb35e00ed8dfbf23b6d9677a2e0298e651500c795e19bdcbf32f7ad4b76f38"
+          },
+          "build/research/fp32-corners/analyze.py": {
+            "bytes": 9141,
+            "sha256": "2afc92d26eeb8d71a89ab36392d99f02c9ce3455d5dc11b3a776b2f5ea50dde6"
+          },
+          "build/research/fp32-corners/build.py": {
+            "bytes": 7684,
+            "sha256": "eb767a3d6afa6f37c5306c478936a816a1b6407e5052056d20fd59dd7d78bfe2"
+          },
+          "build/research/fp32-corners/disassembly.txt": {
+            "bytes": 2665003,
+            "sha256": "48c3bfb3b36776a4f89f55b4c02db0b2b16859588ce37c54990611349dde04eb"
+          },
+          "build/research/fp32-corners/firmware/build-report.json": {
+            "bytes": 10159,
+            "sha256": "e543e1aed43e1027e7a4c2d961e863a2866c662191b32b223fcd1e16239a8cc8"
+          },
+          "build/research/fp32-corners/functions.json": {
+            "bytes": 8720,
+            "sha256": "b917ac94d3dd9336ce9ac52f685b2427f05d75ed2f2cacf51f2f143190a7787e"
+          },
+          "build/research/fp32-corners/make_vectors.py": {
+            "bytes": 3472,
+            "sha256": "461475bcb6ddfcdaa6e2b71417ad864698bf225b1eeec06599dea4016419a71c"
+          },
+          "build/research/fp32-corners/object-relocations.txt": {
+            "bytes": 45652,
+            "sha256": "59140cf63a0490f2bf29ea0de33424586f70b4550d3c4683e674e3050627d7d5"
+          },
+          "build/research/fp32-corners/seal.py": {
+            "bytes": 2810,
+            "sha256": "a7353ba0e2fa9e90ce9fd5c75d303a625bec25a6748bd4805af41e1ab8794477"
+          },
+          "build/research/fp32-corners/test_analyze.py": {
+            "bytes": 4095,
+            "sha256": "cc2dc6f0255db9b972d6b5679405a54b3e7bf64da3e136ebbdf1cae2556f2373"
+          },
+          "build/research/fp32-corners/tests.log": {
+            "bytes": 523,
+            "sha256": "fc5cfff609fcc27d6a94e0ce697e69d9507f7ca969c7301f2752be5f6feff4e8"
+          },
+          "build/research/fp32-corners/vectors.json": {
+            "bytes": 294336,
+            "sha256": "53cafc6ca1d661246ceb8e4e73287954c6789d67f28a2b7e589b7b2a6afb9d27"
+          }
+        },
+        "assembly_audit": {
+          "fp32_add": {
+            "body_sha256": "f9c37f0f5b2c609a7b95a8bfb5fbb209d721631d721b03f61fe56cb3b4f3815c",
+            "instruction": "add.s",
+            "no_helper_call": true
+          },
+          "fp32_mul": {
+            "body_sha256": "4a2426bb8e967f0b468a69862268b5de3a682bd9d381c9431d43369317983f3c",
+            "instruction": "mul.s",
+            "no_helper_call": true
+          },
+          "fp32_sub": {
+            "body_sha256": "c2f74673db709f1e8480bfb608677535eeed8bb827d3b8ebee9652ab3cffd119",
+            "instruction": "sub.s",
+            "no_helper_call": true
+          },
+          "fp64_reference_add": {
+            "all_helper_addresses_in_ROM_4000": true,
+            "body_sha256": "491462163e2a369f3982dc1338daf8eaee332ced452765429d6787683b63a5aa",
+            "helpers": [
+              "__extendsfdf2",
+              "__extendsfdf2",
+              "__adddf3",
+              "__truncdfsf2"
+            ]
+          },
+          "fp64_reference_div": {
+            "all_helper_addresses_in_ROM_4000": true,
+            "body_sha256": "209b7054a29d35d4945a0b3fe3d50e1d867ae2f786a1863491890009ff092e7c",
+            "helpers": [
+              "__extendsfdf2",
+              "__extendsfdf2",
+              "__divdf3",
+              "__truncdfsf2"
+            ]
+          },
+          "fp64_reference_mul": {
+            "all_helper_addresses_in_ROM_4000": true,
+            "body_sha256": "c298b83c48bc42d04a3288167fd2e87573b6b847cb898f7b006a41c666dc7861",
+            "helpers": [
+              "__extendsfdf2",
+              "__extendsfdf2",
+              "__muldf3",
+              "__truncdfsf2"
+            ]
+          },
+          "fp64_reference_sub": {
+            "all_helper_addresses_in_ROM_4000": true,
+            "body_sha256": "8bf7a37b6e89ce19b6f75a39ac1e634e56ea004628aa23465f74e680f571084c",
+            "helpers": [
+              "__extendsfdf2",
+              "__extendsfdf2",
+              "__subdf3",
+              "__truncdfsf2"
+            ]
+          }
+        },
+        "build_report_sha256": "e543e1aed43e1027e7a4c2d961e863a2866c662191b32b223fcd1e16239a8cc8",
+        "expected_completion": "RNBO_FP32_CORNERS COMPLETE",
+        "format": "private-fp32-corner-ROM-offline-seal-v1",
+        "hardware_executed": false,
+        "pairs": 3036,
+        "production_changed": false,
+        "rows": 12144,
+        "scope": "hardware add.s/sub.s/mul.s and IDF ROM Float32 division versus separate IDF ROM Double helpers; private-libgcc variant separate"
+      },
+      "offline_report_sha256": "6215f748b919d0bd0a46701e6c61bc12695f0f10818e0462cab6d802dbe45b15",
+      "restored_firmware_elf_sha256": "35465266cfb8d69eaa9dbe81d52c1f41b39ad92076cb5858e76565c2cc1a1c94"
+    }
+  }
+}

@@ -124,9 +124,11 @@ instrument was restored.
 Float64 history reads promote the original `accum -= history[...]` subtraction
 to double; Float32 history makes that intermediate float. The arithmetic source
 statements and accumulator field type are preserved, but intermediate precision
-does change. Identity is established for the tested normal workloads. A separate
-target corner-domain/floating-environment diagnostic is pending; no all-domain
-bit-identity claim follows from the host result or those workloads.
+does change. Identity is established for the tested normal workloads. The later
+[standalone target corner diagnostic](float32-corners.md) observed no tested
+finite-result differences in either ROM or private-module arithmetic closures;
+it retains NaN sign and exception-status differences. No all-domain bit-identity
+claim follows from this bounded corpus or the host/workload results.
 
 The integrated static drone also completed 300 playing polls over 304.43 seconds
 with a 128KiB arena, using 99,088B. Its observed mean was 3,884.35µs/vector,
