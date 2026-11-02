@@ -1,0 +1,397 @@
+{
+  "arena": {
+    "capacity_bytes": 393216,
+    "coverage": "RNBO Platform arena plus separate successful audio-task heap operation guard; arena_used excludes other C++ heap allocations and complete initialization peak",
+    "free_psram_after_bytes": 7866044,
+    "free_psram_before_bytes": 7210684,
+    "free_psram_increase_bytes": 655360,
+    "placement": "PSRAM",
+    "platform_arena_used_bytes": 361240,
+    "previous_capacity_bytes": 1048576,
+    "reservation_reduction_bytes": 655360,
+    "unused_bytes": 31976
+  },
+  "build": {
+    "artifacts": {
+      "build/firmware-amoled-rnbo-drone3-f32audio-compact/partition_table/partition-table.bin": {
+        "bytes": 3072,
+        "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+      },
+      "build/firmware-amoled-rnbo-drone3-f32audio-compact/rnbo_s3_amoled.bin": {
+        "bytes": 671328,
+        "sha256": "d7962815d54954124a5094c95258b0417cacc890f105d174f70540007298c98b"
+      },
+      "build/firmware-amoled-rnbo-drone3-f32audio-compact/rnbo_s3_amoled.elf": {
+        "bytes": 10311308,
+        "sha256": "f64cdf654598d72955e9ec5cca6fd9cd3eaa7230def4d95590347826ff9d9ac3"
+      }
+    },
+    "compiler": {
+      "path": "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc",
+      "version": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    "idf_version": "5.5.0",
+    "path": "build/firmware-amoled-rnbo-drone3-f32audio-compact",
+    "report_sha256": "7ee1eec78af462922447e08e3a874bf06954e924621a428c61bfef715906db25",
+    "sdkconfig_sha256": "eb4eba0101629f228263dda70fc08f31e76b13cde84ef168f32b19f300fe4872"
+  },
+  "continuous_silent_dsp_observation": {
+    "average_render_core_percent": 66.82660162311423,
+    "average_render_us": 3879.2766475095787,
+    "blocks_advanced": 52200,
+    "deadline_overruns": 0,
+    "dsp_active": true,
+    "frames_advanced": 13363200,
+    "free_memory_ranges": {
+      "internal_free_bytes": {
+        "first": 188991,
+        "last": 188991,
+        "maximum": 188991,
+        "minimum": 188991
+      },
+      "internal_largest_free_bytes": {
+        "first": 114688,
+        "last": 114688,
+        "maximum": 114688,
+        "minimum": 114688
+      },
+      "psram_free_bytes": {
+        "first": 7866044,
+        "last": 7866044,
+        "maximum": 7866044,
+        "minimum": 7866044
+      },
+      "psram_largest_free_bytes": {
+        "first": 7864320,
+        "last": 7864320,
+        "maximum": 7864320,
+        "minimum": 7864320
+      }
+    },
+    "i2s_active": true,
+    "minimum_stack_free_bytes": {
+      "audio_stack_free": 12552,
+      "control_stack_free": 2384,
+      "main_stack_free": 3660
+    },
+    "network_initialized": false,
+    "nominal_block_period_us": 5804.988662131519,
+    "observed_peak_render_us": 4967,
+    "panic_samples": 0,
+    "playing_samples": 300,
+    "source_frame_seconds": 303.0204081632653,
+    "status_samples": 300,
+    "status_uptime_seconds": 303.023103,
+    "timing_limit": "Observed elapsed owner-through-PCM times; not a hard worst-case bound or complete audio-task CPU accounting",
+    "timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+    "ui_active": true,
+    "volume_percent": 0,
+    "zero_fault_counters": [
+      "allocation_fault",
+      "module_errors",
+      "nonfinite",
+      "write_errors",
+      "dma_errors",
+      "queue_errors",
+      "render_deadline_overruns",
+      "late_platform_allocations",
+      "audio_heap_allocations",
+      "audio_heap_frees"
+    ]
+  },
+  "device": {
+    "flash_bytes": 16777216,
+    "mac": "28:84:85:3a:d3:90",
+    "model": "Waveshare ESP32-S3 Touch AMOLED1.8 V2",
+    "psram_bytes": 8388608
+  },
+  "earlier_trials": {
+    "cap40_double": {
+      "arena_used_bytes": 394520,
+      "deadline_overruns": 8,
+      "observed_peak_us": 13605,
+      "result": "timing_rejected_and_restored"
+    },
+    "first_float32": {
+      "deadline_overruns": 0,
+      "interpretation": "User confirmed testing controls; recorded counters do not show a DSP failure; corrected interaction run kept Panic as a valid state",
+      "observed_peak_us": 4928,
+      "playing_samples": 16,
+      "runner_result": "failed because user Panic was treated as a failure",
+      "samples": 17
+    }
+  },
+  "evidence_kind": "physical-target-static-RNBO-instrument-execution",
+  "final_device_state": {
+    "allocation_fault": false,
+    "firmware_elf_sha256": "f64cdf654598d72955e9ec5cca6fd9cd3eaa7230def4d95590347826ff9d9ac3",
+    "panic": true,
+    "parameter_restore_verification": "Executed runner checks all eight final readback float32 values against its latest snapshot; detailed final parameter list is not separately logged",
+    "parameters_before_trial": [
+      {
+        "actual": 0.100000001,
+        "id": "lfo-rate",
+        "index": 0
+      },
+      {
+        "actual": 0.5,
+        "id": "lfo-depth",
+        "index": 1
+      },
+      {
+        "actual": 0.899999976,
+        "id": "comb-ff",
+        "index": 2
+      },
+      {
+        "actual": 0.899999976,
+        "id": "comb-fb",
+        "index": 3
+      },
+      {
+        "actual": 25,
+        "id": "delay-time",
+        "index": 4
+      },
+      {
+        "actual": 0.5,
+        "id": "delay-fb",
+        "index": 5
+      },
+      {
+        "actual": 1,
+        "id": "vib-rate",
+        "index": 6
+      },
+      {
+        "actual": 0.432000011,
+        "id": "vib-depth",
+        "index": 7
+      }
+    ],
+    "parameters_restored": true,
+    "persistence": "Controls are RAM state. Firmware startup volume is0 and source parameter defaults apply after reset.",
+    "phase_restored": false,
+    "ready_to_resume": true,
+    "reconstruction_failed": false,
+    "volume_percent": 12
+  },
+  "format": "rnbo-esp32s3-drone3-qualification",
+  "format_version": 1,
+  "host_numerics": {
+    "cap40_double_vs_original_large_rings": {
+      "cases": 3,
+      "maximum_absolute_error": 0.0057108402252197266,
+      "sample_words_per_case": 2097152,
+      "scope": "Changes ring capacity/input range while preserving double storage/conversion"
+    },
+    "full_float32_vs_cap40_double_independent": {
+      "cases": 3,
+      "maximum_absolute_error": 0.003439664840698242,
+      "maximum_error_rms_relative_reference_rms": 0.00030171870470893495,
+      "maximum_relative_rms_level_difference": 1.1269004508429603e-06,
+      "sample_words_per_case": 2097152,
+      "scope_audit": {
+        "all_other_source_bytes_unchanged": true,
+        "all_runtime_headers_unchanged": true,
+        "audio_source_sha256": "84fd64ab3428929c3101d324959cabf09456d053032cfd7600b74da986330f3c",
+        "baseline_source_sha256": "d73e5f37645dc47cf84326dc33431f6320adacec2800376a27389a95ffdad033",
+        "local_float32_ms_calls": 2,
+        "new_local_float_constants": 2,
+        "original_literal_suffixes": 64,
+        "runtime_header_hashes": {
+          "RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+          "RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+          "RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+          "RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+          "RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+          "RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+          "RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+          "RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+          "RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+          "RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+          "RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+          "RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+          "RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+          "RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+          "RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+          "RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+          "RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+          "RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+          "RNBO_Math.h": "bc251b20bf8b6f71575b3d779d16c99b2e91c7d0e0f534003c0458d74b609479",
+          "RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+          "RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+          "RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+          "RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+          "RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+          "RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+          "RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+          "RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+          "RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+          "RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+          "RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+          "RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+          "RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+          "RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+          "RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+          "RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+          "RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+        },
+        "storage_constructor_reference_pairs": 6,
+        "storage_source_sha256": "70e737ea1d1fc6829cf9c2991c69f9d10afa285763ec159caa7d7df7d43dccad"
+      },
+      "seed": 305419896,
+      "warmup_blocks": 4
+    },
+    "limitations": "Selected host workloads and precision profiles; no universal error bound, overall bit-identity claim, or host-to-target waveform identity claim",
+    "storage_only_vs_cap40_double": {
+      "cases": 3,
+      "float_and_pcm_bit_identical": true,
+      "platform_arena_bytes_after": 361240,
+      "platform_arena_bytes_before": 394520
+    }
+  },
+  "interactive_observation": {
+    "capture": {
+      "channels": 1,
+      "frames": 44100,
+      "path": "build/hardware/drone3-f32audio-soak/capture-130.wav",
+      "pcm_sha256": "a303d0471f3f6327e11f13111907e1bdf1c13b6215d99c4766a573b5e72a4a21",
+      "peak": 0.0977783203125,
+      "rms": 0.023923789090629668,
+      "sample_rate": 44100,
+      "scope": "Device post-volume PCM buffer; no external electrical/analog measurement",
+      "wav_sha256": "5eaf7f6df100cda6d432f98b3de1a7811fd23467d1f52c04a8b1a4b20fcf72f1"
+    },
+    "deadline_overruns": 0,
+    "interpretation": "Interaction/Panic coverage; not five minutes of continuous DSP",
+    "observed_peak_us": 5012,
+    "playing_samples": 27,
+    "status_samples": 300,
+    "status_span_seconds": 305.009952,
+    "user_confirmed_audio_and_parameter_operation": true
+  },
+  "not_qualified": [
+    "Dynamic execution of this drone patch; its native ELF is compile/admission checked separately",
+    "Arbitrary RNBO/Gen compatibility or all parameter ranges on the board",
+    "WiFi/network stress and persistent module installation/recovery",
+    "External analog/electrical timing or acoustic measurement",
+    "A hard worst-case render-time bound or complete task CPU accounting"
+  ],
+  "patch": {
+    "boxes": 58,
+    "cords": 70,
+    "editable_source_sha256": "b8b47ad0fa60cde08ea86cef58e851b3fc8431c7f7c391489b2acee5de38f0f5",
+    "name": "3sawsDrone3",
+    "parameters": 8,
+    "prepared_dsp_sha256": "84fd64ab3428929c3101d324959cabf09456d053032cfd7600b74da986330f3c",
+    "raw_source_tree_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+    "rnbo_version": "1.4.4",
+    "role": "main",
+    "static_execution": true,
+    "voices": 1
+  },
+  "profile": {
+    "arena_bytes": 393216,
+    "block_frames": 256,
+    "filter_delay_max_ms": 40,
+    "fixed_pcm_headroom": 0.5,
+    "float32_delay_storage": true,
+    "initial_volume_percent": 0,
+    "mono_conversion": "L/R average once at final PCM boundary",
+    "numerical_profile": "float32-audio-v1",
+    "patch_channels": 2,
+    "physical_sink_channels": 1,
+    "sample_rate": 44100,
+    "scheduler_time": "float64",
+    "seed": 305419896,
+    "signal_format": "planar-float32",
+    "sink_format": "mono signed16bit I2S",
+    "warmup_blocks": 4
+  },
+  "raw_build_products_committed": false,
+  "recorded_at_utc": "2026-11-02T12:58:14.152436+00:00",
+  "reports": {
+    "build/firmware-amoled-rnbo-drone3-f32audio-compact/build-report.json": {
+      "bytes": 94625,
+      "sha256": "7ee1eec78af462922447e08e3a874bf06954e924621a428c61bfef715906db25"
+    },
+    "build/hardware/drone3-cap40-first/installation.json": {
+      "bytes": 4008,
+      "sha256": "5eb7ea8b32015ed8cf65346e3de227b31fa4951d5e7e29b219ecb09b40e2207c"
+    },
+    "build/hardware/drone3-compact-final/before.json": {
+      "bytes": 2517,
+      "sha256": "fdf0dfbd6442e745518cf4c705b92f6c3dd93abb3b264a072f77e5f634c83ea6"
+    },
+    "build/hardware/drone3-compact-final/install-compact.log": {
+      "bytes": 1427,
+      "sha256": "ba7106380fac2be993cf290ea8d0ac0ac8f210fce102443270801c71233b47ed"
+    },
+    "build/hardware/drone3-compact-final/qualification.json": {
+      "bytes": 5097,
+      "sha256": "571363c1a44cb25e944b55c3e004bd9a79363e004985ed3b5c626a4c5537025d"
+    },
+    "build/hardware/drone3-compact-final/statuses.jsonl": {
+      "bytes": 476025,
+      "sha256": "9f9c74679bb04bec1c1d0fc6449afb5e101122b8944f749913a2477ceb31320d"
+    },
+    "build/hardware/drone3-f32audio-first/installation.json": {
+      "bytes": 34317,
+      "sha256": "e14f702074d1205cebffe7d3a37e0fe0beb19516d32cda273f720670f708486d"
+    },
+    "build/hardware/drone3-f32audio-soak/capture-130.wav": {
+      "bytes": 88244,
+      "sha256": "5eaf7f6df100cda6d432f98b3de1a7811fd23467d1f52c04a8b1a4b20fcf72f1"
+    },
+    "build/hardware/drone3-f32audio-soak/capture-130.wav.json": {
+      "bytes": 5212,
+      "sha256": "42ccfd6fbedf256314c5d23fbb56fa4465bc03a33ba08fac8d0ec4aeec1787b2"
+    },
+    "build/hardware/drone3-f32audio-soak/installation.json": {
+      "bytes": 569318,
+      "sha256": "f4ca81c75800ef222bf467e425380cff80d8ab5631b5dfb6031b976afa2a5e2f"
+    },
+    "build/hardware/drone3-f32audio-soak/statuses.jsonl": {
+      "bytes": 475539,
+      "sha256": "c9c0617785e615c31d2352ba7be2b9a6e904feaa50c152a8e0d230c673334f30"
+    },
+    "build/hardware/finalize_drone.py": {
+      "bytes": 7087,
+      "sha256": "8e81b2747c8bb2fa66d287cbaf1dcb0dd033c5596fbafa3eb98c1d763e16307b"
+    },
+    "build/user-patches/3sawsDrone3/cap40-comparison/comparison.json": {
+      "bytes": 27669,
+      "sha256": "8d04a82ca832cd8c9fa67fd9bfb51d09a5dc5fbef8520af7bdfde561fe917b11"
+    },
+    "build/user-patches/3sawsDrone3/f32audio-comparison/comparison.json": {
+      "bytes": 28840,
+      "sha256": "ed794a30822c07a74edc2fbc5af09f6adabadc4ef58945f0de2f3d80db658a69"
+    },
+    "build/user-patches/3sawsDrone3/f32delays-comparison/comparison.json": {
+      "bytes": 28495,
+      "sha256": "343890480a95765c3f58178abb7d3aa5c5545455b301bc7f9b0f8f1774b652cb"
+    },
+    "build/user-patches/3sawsDrone3/independent-float32/audit.json": {
+      "bytes": 45056,
+      "sha256": "c1986e7bb3bfe86903834a0c2469607b08184d10a97c9f853d38fdd80b505ccf"
+    },
+    "build/user-patches/3sawsDrone3/independent-float32/audit.py": {
+      "bytes": 5330,
+      "sha256": "6adb76a15661b578e818a1d292f03364f398862c8851e669191f492c0192741a"
+    },
+    "build/user-patches/3sawsDrone3/independent-float32/final-prepared-identity.json": {
+      "bytes": 752,
+      "sha256": "d5defbab1f3c22c465b094736f08f3ef351e2ea591b39be506227e4c349773dd"
+    },
+    "build/user-patches/3sawsDrone3/prepared-cap40-f32audio-v1/manifest.json": {
+      "bytes": 1182,
+      "sha256": "c6c1b67b205848065b4a54be7aacc82e880380df690f9628fcddf7cd8132fc42"
+    },
+    "build/user-patches/3sawsDrone3/prepared-cap40-f32audio-v1/provenance.json": {
+      "bytes": 30401,
+      "sha256": "89889e95ed2802cac2cdb3e0d81dd32548f05101beb3eb2516783f41465dcda1"
+    }
+  },
+  "result": "passed"
+}

@@ -1,0 +1,96 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      100,
+      100,
+      800,
+      500
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "left_in",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "left_in",
+          "patching_rect": [
+            40,
+            40,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right_in",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "right_in",
+          "patching_rect": [
+            280,
+            40,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left_out",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left_out",
+          "patching_rect": [
+            40,
+            160,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right_out",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right_out",
+          "patching_rect": [
+            280,
+            160,
+            200,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "left_in",
+            0
+          ],
+          "destination": [
+            "left_out",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "right_in",
+            0
+          ],
+          "destination": [
+            "right_out",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

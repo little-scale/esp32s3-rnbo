@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.20)
+
+set(RNBO_S3_BOARD "" CACHE STRING "Board profile: xiao or amoled")
+if(NOT RNBO_S3_BOARD MATCHES "^(xiao|amoled)$")
+    message(FATAL_ERROR "Set RNBO_S3_BOARD=xiao or amoled; use tools/build_firmware.py")
+endif()
+set(ENV{RNBO_S3_BOARD} "${RNBO_S3_BOARD}")
+set(ENV{RNBO_S3_EXPORT_DIR} "${RNBO_S3_EXPORT_DIR}")
+set(ENV{RNBO_S3_VISUAL_DIR} "${RNBO_S3_VISUAL_DIR}")
+# Only the selected board support manifest participates in dependency resolution.
+set(EXTRA_COMPONENT_DIRS "${CMAKE_CURRENT_LIST_DIR}/boards/${RNBO_S3_BOARD}")
+if(RNBO_S3_COMPONENTS_DIR)
+    list(APPEND EXTRA_COMPONENT_DIRS "${RNBO_S3_COMPONENTS_DIR}")
+endif()
+set(COMPONENTS main ${RNBO_S3_VENDOR_COMPONENTS})
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+project(rnbo_s3_${RNBO_S3_BOARD} VERSION 0.1.0)
+
+if(RNBO_S3_BOARD STREQUAL "amoled" AND RNBO_S3_COMPONENTS_DIR)
+    # With offline components, their locked manifest requirements must remain
+    # explicit even though Component Manager is disabled.
+    include("${CMAKE_CURRENT_LIST_DIR}/boards/amoled/offline-dependencies.cmake")
+endif()
+
+if(RNBO_S3_BOARD STREQUAL "xiao")
+    if(NOT CONFIG_RNBO_S3_HEADLESS OR NOT CONFIG_ESPTOOLPY_FLASHSIZE_8MB)
+        message(FATAL_ERROR "XIAO requires its own headless/8MiB sdkconfig")
+    endif()
+else()
+    if(CONFIG_RNBO_S3_HEADLESS OR NOT CONFIG_ESPTOOLPY_FLASHSIZE_16MB)
+        message(FATAL_ERROR "AMOLED requires its own headed/16MiB sdkconfig")
+    endif()
+endif()

@@ -1,0 +1,276 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      100,
+      100,
+      800,
+      500
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "note",
+          "maxclass": "newobj",
+          "text": "notein",
+          "rnbo_uniqueid": "note",
+          "patching_rect": [
+            40,
+            40,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pitch",
+          "maxclass": "newobj",
+          "text": "mtof",
+          "rnbo_uniqueid": "pitch",
+          "patching_rect": [
+            40,
+            100,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "oscillator",
+          "maxclass": "newobj",
+          "text": "cycle~",
+          "rnbo_uniqueid": "oscillator",
+          "patching_rect": [
+            40,
+            160,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "velocity",
+          "maxclass": "newobj",
+          "text": "/ 127.",
+          "rnbo_uniqueid": "velocity",
+          "patching_rect": [
+            280,
+            100,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "envelope",
+          "maxclass": "newobj",
+          "text": "adsr~ 5 20 0.8 60",
+          "rnbo_uniqueid": "envelope",
+          "patching_rect": [
+            280,
+            160,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "voice_gain",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "voice_gain",
+          "patching_rect": [
+            40,
+            220,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "level",
+          "maxclass": "newobj",
+          "text": "param level 0.1 @min 0 @max 1",
+          "rnbo_uniqueid": "level",
+          "patching_rect": [
+            520,
+            160,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "output_gain",
+          "maxclass": "newobj",
+          "text": "*~",
+          "rnbo_uniqueid": "output_gain",
+          "patching_rect": [
+            40,
+            280,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left",
+          "patching_rect": [
+            40,
+            350,
+            200,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right",
+          "patching_rect": [
+            280,
+            350,
+            200,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "note",
+            0
+          ],
+          "destination": [
+            "pitch",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "pitch",
+            0
+          ],
+          "destination": [
+            "oscillator",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "note",
+            1
+          ],
+          "destination": [
+            "velocity",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "velocity",
+            0
+          ],
+          "destination": [
+            "envelope",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "oscillator",
+            0
+          ],
+          "destination": [
+            "voice_gain",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "envelope",
+            0
+          ],
+          "destination": [
+            "voice_gain",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "voice_gain",
+            0
+          ],
+          "destination": [
+            "output_gain",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "level",
+            0
+          ],
+          "destination": [
+            "output_gain",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "output_gain",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "output_gain",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

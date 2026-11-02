@@ -1,0 +1,28 @@
+menu "RNBO ESP32-S3 bring-up"
+config RNBO_S3_ALLOCATION_WATCH
+    bool "Count detached initialization and audio-owner heap operations"
+    default y
+    select HEAP_USE_HOOKS
+    help
+        Successful heap allocations by the audio owner fault its final output.
+        Other tasks and interrupts are excluded. The RNBO arena's internal
+        allocations are counted separately by the module wrapper.
+config RNBO_S3_HEADLESS
+    bool "XIAO stereo sink (no display/codec)"
+    default n
+config RNBO_S3_I2S_BCLK
+    int "XIAO I2S bit clock GPIO"
+    default 7
+    range 0 48
+    depends on RNBO_S3_HEADLESS
+config RNBO_S3_I2S_WS
+    int "XIAO I2S word select GPIO"
+    default 8
+    range 0 48
+    depends on RNBO_S3_HEADLESS
+config RNBO_S3_I2S_DOUT
+    int "XIAO I2S data out GPIO"
+    default 9
+    range 0 48
+    depends on RNBO_S3_HEADLESS
+endmenu

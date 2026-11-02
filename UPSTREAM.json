@@ -1,0 +1,146 @@
+{
+  "format_version": 1,
+  "baselines": {
+    "synthdef": {
+      "repository": "https://github.com/little-scale/synthdefs-for-esp32-s3-touch-amoled-1.8",
+      "commit": "59e19441408a4df14cf2f5b6e8ba527929e74d9b",
+      "verification": "Local HEAD equals pinned commit; source files read only.",
+      "file_inventory": "firmware/UPSTREAM_IMPORTS.json"
+    },
+    "fm1_rnbo": {
+      "repository": "https://github.com/little-scale/fm1-rnbo",
+      "commit": "3b46afcd022f10a7f82be99a613bdc98b875c209",
+      "verification": "Pinned exporter and runtime.cjs read via GitHub connector; not imported wholesale.",
+      "reviewed_git_blobs": {
+        "fm1-base/rnbo/tools/export.cjs": "6d93a599345947220ef633758f02167601763951",
+        "fm1-base/rnbo/tools/runtime.cjs": "67e56531dcea39affe6251069a3b56f2f2a19610"
+      }
+    },
+    "elf_loader": {
+      "repository": "https://github.com/espressif/esp-iot-solution",
+      "commit": "d2d935d0ee3e78deffa3981cc8c39ac8f534932b",
+      "path": "components/elf_loader",
+      "qualification": "Small native fixture and actual RNBO modules passed isolated AMOLED V2 qualification: 132 actual RNBO image loads/unloads across32 lifecycle rounds, exact float/PCM comparison, MIDI/FX/isolation and heap recovery. Live instrument loader integration remains a separate gate.",
+      "source_lock": "loader-spike/dependencies.json",
+      "hardware_evidence": "evidence/amoled-v2-hardware.json",
+      "rnbo_hardware_evidence": "evidence/dynamic-loader.json"
+    },
+    "fm1_visual": {
+      "repository": "https://github.com/little-scale/fm1-rnbo",
+      "verification": "Owner-provided local FM1 visual implementation reviewed read only; exact file/font identities retained separately from historical handover snapshot.",
+      "file_inventory": "host/visual/UPSTREAM.json",
+      "license": "MIT visual/layout; SIL OFL1.1 Barlow fonts",
+      "adaptation": "AMOLED336x232 metadata, LVGL renderer and touch parameter controls; originalsource preserved."
+    }
+  },
+  "imports": [
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/components/board_audio/board_audio.c",
+      "path": "firmware/components/board_audio/board_audio.c",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "ff86ff1da342bb7728da615f96a5129661fe3adbcd20c4b1a88a393828f3cef7",
+      "local_sha256": "ff86ff1da342bb7728da615f96a5129661fe3adbcd20c4b1a88a393828f3cef7",
+      "changes": "Unchanged; inherited BSP pin/codec setup retains Apache-2.0 provenance."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/components/board_audio/board_audio_i2s.c",
+      "path": "firmware/components/board_audio/board_audio_i2s.c",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "d3c1c3a99bcfd7ed054162de2401e8c0818255f3cb48c393a882cf25980b83b4",
+      "local_sha256": "ca5500c081dbf5547704ca1f7e150b4c783a9d918253e7c60993d339fd283341",
+      "changes": "Rename CONFIG_SYNTHDEF_* to CONFIG_RNBO_S3_*; CAPINFO advertises max_chunk_bytes=1024."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/components/board_audio/include/board_audio.h",
+      "path": "firmware/components/board_audio/include/board_audio.h",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "87c87647fa0cc5c0a1c052fccf35a9d73c432aa011b16acb7262afe35a855b8d",
+      "local_sha256": "c70908ad34d48f1cdbc75cf36f9ed5a12738ef5a85c05325d2b9eb7fcdb5628c",
+      "changes": "Rename headless config; make capture chunk limit available to both sinks."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/partitions.csv",
+      "path": "firmware/partitions-amoled.csv",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "11e1a6f2c0a677945771ab08b81761fe19c9ecd46829f2810b118aa16236f6e3",
+      "local_sha256": "69d6bfc49c56e07bb957c128fccf5c3710bc2e0d7b276b0c69acd17359096ea8",
+      "changes": "Add SPDX notice; retain offsets and sizes."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/partitions-xiao.csv",
+      "path": "firmware/partitions-xiao.csv",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "a59da30f21cd4f3a910fc1a88a16669303309f4f27573612afcd81b18e5c1315",
+      "local_sha256": "30f93fee76451b7f4b7b11d06319423fc93c9678eb5cc02201319b539463f33f",
+      "changes": "Add SPDX notice; retain offsets and sizes."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/components/ui/touch_display.c",
+      "path": "firmware/components/board_display/touch_display.c",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "7f34867c9f54852fac065bf5421873f85d6123e53d108c8cd7604390a415c82b",
+      "local_sha256": "45b804768d153e4791ba257b41e67bdc6dbe6bb8a368daf07777b6d57923ff19",
+      "changes": "Rename diagnostic config only; preserve power/reset, LVGL/SPI/touch and read-only battery sequence."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/components/ui/include/touch_display.h",
+      "path": "firmware/components/board_display/include/touch_display.h",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "194bab266dea67411cd4dd682606532349d7e97362306569aff6d81be36d6373",
+      "local_sha256": "c945388fc4255467cf40ee4538b05cd02ad6e9370a13308ba4c202d4b6c34dc3",
+      "changes": "Rename diagnostic config only."
+    }
+  ],
+  "derived_files": [
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/components/instrument/output_volume.c",
+      "path": "firmware/components/pcm_output/pcm_output.c",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "22a08bb3e752478dda9c20c45f2ffdff959428ebdd8e531b0461c360b49e70ae",
+      "local_sha256": "e3660f3d2e44f4b00eafa2208de175bdec532ee8975b9210530181b53ff93afb",
+      "changes": "Engine-neutral extraction of 20ms gain ramp; planar inputs, exact-vector admission, finite checks, mono mean and int16 saturation."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "firmware/sdkconfig.defaults",
+      "path": "firmware/sdkconfig.amoled.defaults",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "f3e05b85fbc3930fefc7596fa4dafed1ccdf72f3ce9a73e3bfc3090b131d5cdd",
+      "local_sha256": "522a3113ed41492686ad32aa877e136114d0d7823312a9c8eacaea5f9231505b",
+      "changes": "Retain validated flash/PSRAM/cache/LVGL settings; remove SynthDef-specific settings."
+    },
+    {
+      "source_project": "synthdef",
+      "source_path": "host/xiao.defaults",
+      "path": "firmware/sdkconfig.xiao.defaults",
+      "license": "GPL-3.0-or-later",
+      "source_sha256": "694daab30b59525be3b75a9069da3bdf810124a142d1ca2603bb027522809005",
+      "local_sha256": "e4f6d363e2c3e25265a30f8c59219ce219974075b2f333caef9763bb5dadf274",
+      "changes": "Retain validated headless hardware settings; remove SynthDef/network-specific settings."
+    },
+    {
+      "path": "host/compiler/prepare.py",
+      "source_project": "fm1_rnbo",
+      "source_path": "fm1-base/rnbo/tools/runtime.cjs",
+      "license": "MIT",
+      "changes": "Guarded list-copy and nested-clock fixes; independently tested move/cross-capacity fixes added locally."
+    },
+    {
+      "path": "host/export/export.mjs",
+      "source_project": "fm1_rnbo",
+      "source_path": "fm1-base/rnbo/tools/export.cjs",
+      "license": "MIT",
+      "changes": "Original narrow flat-graph generator adapter using reviewed versionchecked invocation. No FM1 target compiler or DSP optimizations copied."
+    }
+  ],
+  "generated_code_policy": "Generated RNBO source and runtime stay in ignored build/ with raw bytes, notices and file hashes. Installed RNBO package is never modified.",
+  "dependency_inventory": "firmware/dependencies.amoled.json contains exact staged component source hashes; each dependency retains its own license."
+}

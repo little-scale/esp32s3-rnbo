@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: MIT
+idf_component_register(SRCS "spike.c" INCLUDE_DIRS "../../include" REQUIRES elf_loader esp_psram)
+if(NOT EXISTS "${SPIKE_MODULE_ELF}" OR NOT EXISTS "${SPIKE_BAD_MODULE_ELF}")
+  message(FATAL_ERROR "Build the loader spike module and negative import fixture first")
+endif()
+configure_file("${SPIKE_MODULE_ELF}" "${CMAKE_CURRENT_BINARY_DIR}/spike_payload.bin" COPYONLY)
+configure_file("${SPIKE_BAD_MODULE_ELF}" "${CMAKE_CURRENT_BINARY_DIR}/spike_bad_payload.bin" COPYONLY)
+elf_embed_aligned_binary(${COMPONENT_LIB} "${CMAKE_CURRENT_BINARY_DIR}/spike_payload.bin" BINARY)
+elf_embed_aligned_binary(${COMPONENT_LIB} "${CMAKE_CURRENT_BINARY_DIR}/spike_bad_payload.bin" BINARY)
+target_compile_options(${COMPONENT_LIB} PRIVATE -fno-fast-math -ffp-contract=off)

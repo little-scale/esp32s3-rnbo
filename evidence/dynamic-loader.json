@@ -1,0 +1,234 @@
+{
+  "format": "rnbo-esp32s3-dynamic-loader-qualification",
+  "format_version": 1,
+  "evidence_kind": "physical-target-native-module-execution",
+  "result": "passed",
+  "device": {
+    "board": "Waveshare AMOLED 1.8 V2",
+    "device_id": "28:84:85:3a:d3:90"
+  },
+  "started_at_utc": "2026-11-02T12:20:33.721835+00:00",
+  "completed_at_utc": "2026-11-02T12:22:00.323753+00:00",
+  "profile": {
+    "sample_rate": 44100,
+    "block_frames": 256,
+    "signal_format": "planar-float32",
+    "scheduler_time": "float64",
+    "numerical_profile": "float32-strict",
+    "warmup_blocks": 4,
+    "seed": 305419896,
+    "core": 1,
+    "i2s_active": false,
+    "ui_active": false,
+    "network_initialized": false
+  },
+  "build": {
+    "report": "build/rnbo-loader-test-amoled/build-report.json",
+    "sha256": "c2a7da9ca9c07286836b305b76e2317007cd8efc309ab84966600c1e37587b4a",
+    "idf_version": "5.5.0",
+    "idf_git_revision": "v5.5",
+    "compiler": {
+      "path": "/Users/a1106632/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc",
+      "version": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    "sdkconfig_sha256": "0781857822acb993658db83aa6e4fd8a9ec6a2917f4b87992a5159726bb7a62e",
+    "dependencies": {
+      "elf_loader": {
+        "source_tree_sha256": "62d0bc75890842f243f7835a49279cb951daaca61768116d370b5040226f5910",
+        "files": 81,
+        "version": "2.0.0"
+      },
+      "cmake_utilities": {
+        "source_tree_sha256": "4debf79f417db7c25083c3a4d565183b7b4b5e98ca207e958ed7da76551d6ee6",
+        "files": 36,
+        "version": "0.5.3"
+      }
+    }
+  },
+  "artifacts": {
+    "build/rnbo-loader-test-amoled/rnbo_dynamic_qualification.elf": {
+      "bytes": 4838292,
+      "sha256": "d2cb37e632e894962075504284f1e8e34568176d985c467160772d0cc122885e"
+    },
+    "build/rnbo-loader-test-amoled/rnbo_dynamic_qualification.bin": {
+      "bytes": 419040,
+      "sha256": "b1fc6cf1c661b98340466b72dd65a02f9078ba5f186ac1714f52ce13ee6f1b8c"
+    },
+    "build/rnbo-loader-test-amoled/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+    }
+  },
+  "modules": {
+    "sine": {
+      "artifact": "build/modules/sine/rnbo_s3_dynamic.app.elf",
+      "bytes": 46980,
+      "sha256": "222826d0ddbc5fd5245683f66de46aaac36dfe373aaf687578ac6cead031c72f",
+      "compiler_report_sha256": "4bfa2b114be04018ab644f5de0ce3b442adb59a518a370c1e57da7e946715cea",
+      "source_tree_sha256": "94511049c1ef63b89bc64f62746a381f3d28537004863ff6aca46714ff2b2326",
+      "prepared_manifest_sha256": "273ce8bf8d6eb0061d792ca40f2c0ff477326ef9ca06e1efd0b06703eb51e74f",
+      "numerical_profile": "float32-strict",
+      "role": "main",
+      "imports": [],
+      "arena_bytes_used_in_test": 1048576
+    },
+    "fx": {
+      "artifact": "build/modules/fx/rnbo_s3_dynamic.app.elf",
+      "bytes": 32736,
+      "sha256": "ea6e98cdb81cf4b06079fe81f16b9c2a9df64120a0c8482d961780bd14915afc",
+      "compiler_report_sha256": "36d285df7bba516abd2eb7316d5e0d348d6458672a2558b0212477e6e02b5817",
+      "source_tree_sha256": "9e000e4bf6679d6a0ff074a33a3a2f13cb58d52d151737ab75145c9c020949bb",
+      "prepared_manifest_sha256": "e0b61e8b8b7757ccf6ac8594531ba8317fe03b16fa70e2da591601dee206770b",
+      "numerical_profile": "float32-strict",
+      "role": "fx",
+      "imports": [],
+      "arena_bytes_used_in_test": 1048576
+    },
+    "midi": {
+      "artifact": "build/modules/midi4/rnbo_s3_dynamic.app.elf",
+      "bytes": 80688,
+      "sha256": "82a3eeb8091392d97442986cfbe800966dfe5f1b3ab5ee226e47702efad1e795",
+      "compiler_report_sha256": "0b896818d33fce7643e37bc40b49551686bd5f54ef239853c34bf06b4141634c",
+      "source_tree_sha256": "a1f2504ba0fb771372b0c2d430183cc3917d7576b59979dd1c6e3dabe5eb9870",
+      "prepared_manifest_sha256": "71972d16e64073b279418280a9e88fa35eb4cc3bd119c23d0a48ac5b3f706322",
+      "numerical_profile": "float32-strict",
+      "role": "main",
+      "imports": [],
+      "arena_bytes_used_in_test": 1048576
+    }
+  },
+  "observed": {
+    "metrics": {
+      "cycles": 32,
+      "modules_per_cycle": 4,
+      "loaded_images": 132,
+      "unloaded_images": 132,
+      "ctor_once": 1,
+      "finalizers": 1,
+      "globals_isolated": 1,
+      "parameters": 1,
+      "midi": 1,
+      "midi_distinct_notes": 4,
+      "fx_stereo": 1,
+      "negative_handshakes": 1188,
+      "same_image_reconstruct": 1,
+      "panic": 1,
+      "float_abs_tolerance": 0,
+      "pcm_lsb_tolerance": 0,
+      "compared_samples": 378368,
+      "pcm_compared_samples": 378368,
+      "late_allocations": 0,
+      "host_heap_allocations": 0,
+      "host_heap_frees": 0,
+      "cpp_new_calls": 363,
+      "arena_allocations": 660,
+      "arena_high_water": 328416,
+      "psram_before": 8377996,
+      "psram_after": 8377996,
+      "internal_before": 315879,
+      "internal_after": 315879,
+      "static_blocks": 706,
+      "static_total_us": 376108,
+      "static_peak_us": 617,
+      "sine_blocks": 739,
+      "sine_total_us": 420980,
+      "sine_peak_us": 711,
+      "fx_blocks": 264,
+      "fx_total_us": 27685,
+      "midi_blocks": 2372,
+      "midi_total_us": 6203443,
+      "stack_free": 20508
+    },
+    "midi_spectrum": [
+      {
+        "midi_note": 60,
+        "amplitude": 0.0627223238
+      },
+      {
+        "midi_note": 64,
+        "amplitude": 0.0631719425
+      },
+      {
+        "midi_note": 67,
+        "amplitude": 0.0628672296
+      },
+      {
+        "midi_note": 71,
+        "amplitude": 0.0626991272
+      }
+    ],
+    "midi_spectrum_minimum_amplitude": 0.015,
+    "float_absolute_tolerance": 0,
+    "pcm_lsb_tolerance": 0,
+    "timing": {
+      "static_sine_reference": {
+        "blocks": 706,
+        "total_us": 376108,
+        "average_us_per_block": 532.7308781869689,
+        "peak_us": 617
+      },
+      "dynamic_sine": {
+        "blocks": 739,
+        "total_us": 420980,
+        "average_us_per_block": 569.6617050067659,
+        "peak_us": 711
+      },
+      "dynamic_fx": {
+        "blocks": 264,
+        "total_us": 27685,
+        "average_us_per_block": 104.86742424242425,
+        "peak_us": null
+      },
+      "dynamic_midi4": {
+        "blocks": 2372,
+        "total_us": 6203443,
+        "average_us_per_block": 2615.2795109612143,
+        "peak_us": null
+      }
+    },
+    "expected_negative_test_rejections": {
+      "truncated_elf": 1,
+      "invalid_or_busy_handshakes": 1188
+    },
+    "arena_high_water_scope": "maximum module-local monotonic arena high-water; excludes context, ELF mappings and shell",
+    "heap_hook_scope": "successful firmware heap allocation/free calls by the test owner during watched parameter/MIDI/process callbacks",
+    "timing_scope": "offline callback elapsed time; excludes ELF load/prepare, output conversion, I2S, UI and networking; work mixes differ",
+    "per_round_invariants": {
+      "free_psram_equals_post_warmup_baseline": true,
+      "free_internal_ram_not_below_post_warmup_baseline": true,
+      "heap_integrity": true
+    },
+    "midi_output_policy": "discard; output delivery not qualified",
+    "pcm_comparison_policy": "per-channel 0.5 scale, symmetric int16 saturation and lrintf conversion; no physical I2S sink involved"
+  },
+  "logs": {
+    "hardware_test": {
+      "path": "build/hardware/rnbo-dynamic-first/hardware-test.json",
+      "sha256": "5a5a214ea03a17a34d0dca5c6b470b10c151adfa060d2db7e64b86d8388f3054"
+    },
+    "serial": {
+      "path": "build/hardware/rnbo-dynamic-first/test-serial.log",
+      "sha256": "615b7ddcd63f157f269a7a33f3f4f13f9e83fe2bd6096b4a9134d49f734f0d8e"
+    },
+    "pass_line": "RNBO_DYNAMIC_LOADER_TEST PASS firmware_elf_sha256=d2cb37e632e894962075504284f1e8e34568176d985c467160772d0cc122885e sine_elf_sha256=222826d0ddbc5fd5245683f66de46aaac36dfe373aaf687578ac6cead031c72f fx_elf_sha256=ea6e98cdb81cf4b06079fe81f16b9c2a9df64120a0c8482d961780bd14915afc midi_elf_sha256=82a3eeb8091392d97442986cfbe800966dfe5f1b3ab5ee226e47702efad1e795 cycles=32 modules_per_cycle=4 loaded_images=132 unloaded_images=132 ctor_once=1 finalizers=1 globals_isolated=1 parameters=1 midi=1 midi_distinct_notes=4 fx_stereo=1 negative_handshakes=1188 same_image_reconstruct=1 panic=1 float_abs_tolerance=0 pcm_lsb_tolerance=0 compared_samples=378368 pcm_compared_samples=378368 late_allocations=0 host_heap_allocations=0 host_heap_frees=0 cpp_new_calls=363 arena_allocations=660 arena_high_water=328416 psram_before=8377996 psram_after=8377996 internal_before=315879 internal_after=315879 static_blocks=706 static_total_us=376108 static_peak_us=617 sine_blocks=739 sine_total_us=420980 sine_peak_us=711 fx_blocks=264 fx_total_us=27685 midi_blocks=2372 midi_total_us=6203443 stack_free=20508"
+  },
+  "restoration": {
+    "result": "restored",
+    "firmware_elf_sha256": "b14f63ef2f56e30732afec7c893fd68f68d22e584d023689cac524ce5c901ca4",
+    "module_source_sha256": "94511049c1ef63b89bc64f62746a381f3d28537004863ff6aca46714ff2b2326",
+    "volume_percent": 28,
+    "running": true,
+    "parameter_readback_available": false,
+    "instance_phase_restored": false
+  },
+  "scope_limits": [
+    "Known sine, pass-through FX and four-voice MIDI fixtures only; not a general RNBO object-support claim.",
+    "Isolated target firmware with no I2S, UI, network or flash maintenance; no permanent-player audio deadline claim.",
+    "Two independent loaded Main images and separate FX processing were tested; live Main-to-FX chaining/replacement was not.",
+    "No native package installation, durable storage/recovery, browser upload or authenticated deployment was tested.",
+    "Each loaded image exposes one live context; same binding can reconstruct after destroy; concurrent contexts within one image are unqualified.",
+    "Native code remains trusted; section bounds and narrow imports are not memory isolation.",
+    "Timing block populations differ; these aggregate timings are not a controlled static-versus-dynamic performance benchmark.",
+    "Initialization arena requests are counted, but whole-system initialization peak and all simultaneous-stage resource admission remain separate work."
+  ]
+}

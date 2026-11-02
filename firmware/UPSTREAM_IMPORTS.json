@@ -1,0 +1,91 @@
+{
+  "repository": "https://github.com/little-scale/synthdefs-for-esp32-s3-touch-amoled-1.8",
+  "commit": "59e19441408a4df14cf2f5b6e8ba527929e74d9b",
+  "verification": "Local checkout HEAD and tracked contents match pinned commit; imported file bytes recorded individually.",
+  "files": [
+    {
+      "upstream_path": "firmware/components/board_audio/board_audio.c",
+      "local_path": "firmware/components/board_audio/board_audio.c",
+      "upstream_sha256": "ff86ff1da342bb7728da615f96a5129661fe3adbcd20c4b1a88a393828f3cef7",
+      "local_sha256": "ff86ff1da342bb7728da615f96a5129661fe3adbcd20c4b1a88a393828f3cef7",
+      "license": "GPL-3.0-or-later",
+      "changes": "Unchanged; inherited BSP pin/codec setup retains Apache-2.0 provenance."
+    },
+    {
+      "upstream_path": "firmware/components/board_audio/board_audio_i2s.c",
+      "local_path": "firmware/components/board_audio/board_audio_i2s.c",
+      "upstream_sha256": "d3c1c3a99bcfd7ed054162de2401e8c0818255f3cb48c393a882cf25980b83b4",
+      "local_sha256": "ca5500c081dbf5547704ca1f7e150b4c783a9d918253e7c60993d339fd283341",
+      "license": "GPL-3.0-or-later",
+      "changes": "Rename CONFIG_SYNTHDEF_* to CONFIG_RNBO_S3_*; CAPINFO advertises max_chunk_bytes=1024."
+    },
+    {
+      "upstream_path": "firmware/components/board_audio/include/board_audio.h",
+      "local_path": "firmware/components/board_audio/include/board_audio.h",
+      "upstream_sha256": "87c87647fa0cc5c0a1c052fccf35a9d73c432aa011b16acb7262afe35a855b8d",
+      "local_sha256": "c70908ad34d48f1cdbc75cf36f9ed5a12738ef5a85c05325d2b9eb7fcdb5628c",
+      "license": "GPL-3.0-or-later",
+      "changes": "Rename headless config; make capture chunk limit available to both sinks."
+    },
+    {
+      "upstream_path": "firmware/partitions.csv",
+      "local_path": "firmware/partitions-amoled.csv",
+      "upstream_sha256": "11e1a6f2c0a677945771ab08b81761fe19c9ecd46829f2810b118aa16236f6e3",
+      "local_sha256": "69d6bfc49c56e07bb957c128fccf5c3710bc2e0d7b276b0c69acd17359096ea8",
+      "license": "GPL-3.0-or-later",
+      "changes": "Add SPDX notice; retain offsets and sizes."
+    },
+    {
+      "upstream_path": "firmware/partitions-xiao.csv",
+      "local_path": "firmware/partitions-xiao.csv",
+      "upstream_sha256": "a59da30f21cd4f3a910fc1a88a16669303309f4f27573612afcd81b18e5c1315",
+      "local_sha256": "30f93fee76451b7f4b7b11d06319423fc93c9678eb5cc02201319b539463f33f",
+      "license": "GPL-3.0-or-later",
+      "changes": "Add SPDX notice; retain offsets and sizes."
+    },
+    {
+      "upstream_path": "firmware/components/ui/touch_display.c",
+      "local_path": "firmware/components/board_display/touch_display.c",
+      "upstream_sha256": "7f34867c9f54852fac065bf5421873f85d6123e53d108c8cd7604390a415c82b",
+      "local_sha256": "45b804768d153e4791ba257b41e67bdc6dbe6bb8a368daf07777b6d57923ff19",
+      "license": "GPL-3.0-or-later",
+      "changes": "Rename diagnostic config only; preserve power/reset, LVGL/SPI/touch and read-only battery sequence."
+    },
+    {
+      "upstream_path": "firmware/components/ui/include/touch_display.h",
+      "local_path": "firmware/components/board_display/include/touch_display.h",
+      "upstream_sha256": "194bab266dea67411cd4dd682606532349d7e97362306569aff6d81be36d6373",
+      "local_sha256": "c945388fc4255467cf40ee4538b05cd02ad6e9370a13308ba4c202d4b6c34dc3",
+      "license": "GPL-3.0-or-later",
+      "changes": "Rename diagnostic config only."
+    },
+    {
+      "upstream_path": "firmware/components/instrument/output_volume.c",
+      "local_path": "firmware/components/pcm_output/pcm_output.c",
+      "upstream_sha256": "22a08bb3e752478dda9c20c45f2ffdff959428ebdd8e531b0461c360b49e70ae",
+      "local_sha256": "e3660f3d2e44f4b00eafa2208de175bdec532ee8975b9210530181b53ff93afb",
+      "license": "GPL-3.0-or-later",
+      "changes": "Engine-neutral extraction of 20ms gain ramp; planar inputs, exact-vector admission, finite checks, mono mean and int16 saturation.",
+      "kind": "derived"
+    },
+    {
+      "upstream_path": "firmware/sdkconfig.defaults",
+      "local_path": "firmware/sdkconfig.amoled.defaults",
+      "upstream_sha256": "f3e05b85fbc3930fefc7596fa4dafed1ccdf72f3ce9a73e3bfc3090b131d5cdd",
+      "local_sha256": "522a3113ed41492686ad32aa877e136114d0d7823312a9c8eacaea5f9231505b",
+      "license": "GPL-3.0-or-later",
+      "changes": "Retain validated flash/PSRAM/cache/LVGL settings; remove SynthDef-specific settings.",
+      "kind": "derived"
+    },
+    {
+      "upstream_path": "host/xiao.defaults",
+      "local_path": "firmware/sdkconfig.xiao.defaults",
+      "upstream_sha256": "694daab30b59525be3b75a9069da3bdf810124a142d1ca2603bb027522809005",
+      "local_sha256": "e4f6d363e2c3e25265a30f8c59219ce219974075b2f333caef9763bb5dadf274",
+      "license": "GPL-3.0-or-later",
+      "changes": "Retain validated headless hardware settings; remove SynthDef/network-specific settings.",
+      "kind": "derived"
+    }
+  ],
+  "component_cache": "dependencies.amoled.json records exact registry component/source-tree identities; copied to ignored build/vendor-amoled with original notices."
+}

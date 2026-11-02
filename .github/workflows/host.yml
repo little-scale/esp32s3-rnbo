@@ -1,0 +1,22 @@
+name: Portable host checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Build portable runtime with sanitizers
+        run: cmake -S . -B build/ci -DRNBO_S3_SANITIZERS=ON && cmake --build build/ci --parallel 2 && ctest --test-dir build/ci --output-on-failure
+      - name: Validate host protocols and patch layout
+        run: |
+          python -m unittest discover -s host/clients -v
+          python -m unittest discover -s tests/visual -v
+          python -m unittest discover -s tests/dynamic -v
+          python -m unittest discover -s host/compiler -v
+      # Real exports require the user's local licensed RNBO installation.
+      # These checks do not claim an ESP32 build or hardware qualification.

@@ -1,0 +1,297 @@
+{
+  "patcher": {
+    "classnamespace": "rnbo",
+    "boxes": [
+      {
+        "box": {
+          "id": "osc",
+          "maxclass": "newobj",
+          "text": "cycle~ 440",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "mod",
+          "maxclass": "newobj",
+          "text": "cycle~ 1",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "param",
+          "maxclass": "newobj",
+          "text": "param time 16 @min 0 @max 40",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "comb_fixed",
+          "maxclass": "newobj",
+          "text": "comb~ 16 0.5 0.7 0.7",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "comb_scalar",
+          "maxclass": "newobj",
+          "text": "comb~ 16 0.5 0.7 0.7",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "comb_signal",
+          "maxclass": "newobj",
+          "text": "comb~ 16 0.5 0.7 0.7",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "allpass_fixed",
+          "maxclass": "newobj",
+          "text": "allpass~ 16 0.5 0.7 0.7",
+          "patching_rect": [
+            300,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "allpass_scalar",
+          "maxclass": "newobj",
+          "text": "allpass~ 16 0.5 0.7 0.7",
+          "patching_rect": [
+            300,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "allpass_signal",
+          "maxclass": "newobj",
+          "text": "allpass~ 16 0.5 0.7 0.7",
+          "patching_rect": [
+            300,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "patching_rect": [
+            0,
+            0,
+            80,
+            20
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "patching_rect": [
+            400,
+            0,
+            80,
+            20
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "osc",
+            0
+          ],
+          "destination": [
+            "comb_fixed",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "comb_fixed",
+            0
+          ],
+          "destination": [
+            "comb_scalar",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "param",
+            0
+          ],
+          "destination": [
+            "comb_scalar",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "comb_scalar",
+            0
+          ],
+          "destination": [
+            "comb_signal",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "mod",
+            0
+          ],
+          "destination": [
+            "comb_signal",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "comb_signal",
+            0
+          ],
+          "destination": [
+            "allpass_fixed",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "allpass_fixed",
+            0
+          ],
+          "destination": [
+            "allpass_scalar",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "param",
+            0
+          ],
+          "destination": [
+            "allpass_scalar",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "allpass_scalar",
+            0
+          ],
+          "destination": [
+            "allpass_signal",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "mod",
+            0
+          ],
+          "destination": [
+            "allpass_signal",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "allpass_signal",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "allpass_signal",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  },
+  "test_fixture_license": "MIT; original integration test graph, no generated RNBO source."
+}

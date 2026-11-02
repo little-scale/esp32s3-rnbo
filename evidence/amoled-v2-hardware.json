@@ -1,0 +1,150 @@
+{
+  "board": {
+    "chip": "ESP32-S3 revision0.2",
+    "flash_bytes": 16777216,
+    "mac": "28:84:85:3a:d3:90",
+    "model": "Waveshare ESP32-S3 Touch AMOLED 1.8 V2",
+    "psram_bytes": 8388608
+  },
+  "compiler_optimization": {
+    "average_render_core_percent_after": 34.512027944973156,
+    "average_render_core_percent_before": 57.04907251955241,
+    "average_render_us_after": 2003.4193092773532,
+    "average_render_us_before": 3311.6921916112055,
+    "coefficient_intermediates_not_universally_bit_identical": true,
+    "host_comparison_cases": 36,
+    "host_final_sample_differences_observed": 0,
+    "observed_peak_us_after": 3082,
+    "observed_peak_us_before": 4276,
+    "profile": "float32-cycle-v1",
+    "relative_render_time_reduction_percent": 39.50466428153611,
+    "strict_default_retained": true
+  },
+  "final_device_state": {
+    "firmware_build": "build/firmware-amoled-rnbo-sine-cycle-f32",
+    "firmware_elf_sha256": "b14f63ef2f56e30732afec7c893fd68f68d22e584d023689cac524ce5c901ca4",
+    "frequency_hz": 440,
+    "level": 0.2,
+    "module_source_sha256": "94511049c1ef63b89bc64f62746a381f3d28537004863ff6aca46714ff2b2326",
+    "numerical_profile": "float32-cycle-v1",
+    "running": true,
+    "settings_persistence": "Current controls are RAM state; startup defaults apply after reset",
+    "user_selected_volume_preserved": true,
+    "volume_percent": 28
+  },
+  "format_version": 1,
+  "hardware_audio": {
+    "acknowledged_events_each": 2400,
+    "internal_and_psram_free_total_delta_after_reconstruction_each": 0,
+    "observed_late_allocations_each": 0,
+    "optimized_midi4_cases": 19,
+    "optimized_sine_cases": 8,
+    "optimized_soak_seconds": 300.0082294169988,
+    "periodic_captures_each": 9,
+    "psram_largest_block_note": "Total free memory is unchanged. The largest contiguous PSRAM block decreases once after initial reconstruction and stays bounded across recorded cycles; see raw reports.",
+    "reconstruction_cycles_each": 10,
+    "render_overruns_each": 0,
+    "strict_midi4_cases": 19,
+    "strict_sine_cases": 8,
+    "strict_soak_seconds": 300.032214167004
+  },
+  "host_target_pcm": {
+    "alignment": "Integer256framevector alignment only; no fractional phase or amplitude fitting",
+    "frames_each_comparison": 44100,
+    "optimized_maximum_lsb_error": 0,
+    "strict_maximum_lsb_error": 0
+  },
+  "loader_fixture": {
+    "dynamic_rnbo_qualified": false,
+    "hardware_passed": true,
+    "heap_before_after": {
+      "internal_after": 329547,
+      "internal_before": 329547,
+      "psram_after": 8386192,
+      "psram_before": 8386192
+    },
+    "measured_cycles": 32,
+    "simultaneous_modules": 2
+  },
+  "negative_allocation_guard": {
+    "clean_firmware_recovered": true,
+    "expected_fault_observed": true,
+    "pcm_exactly_silent": true
+  },
+  "not_qualified": [
+    "Dynamic RNBO module execution and independent Main/FX images",
+    "WiFi stress and authenticated/group deployment",
+    "External electrical clock/data measurements",
+    "Arbitrary RNBO/Gen compatibility and long-durationuptime",
+    "Persistent module package installation/recovery"
+  ],
+  "recorded_at_client_time": "2026-11-02T21:57:06.886969+10:30",
+  "recorded_at_utc": "2026-11-02T11:27:06.886197+00:00",
+  "reports": {
+    "allocation_guard_negative": {
+      "path": "build/hardware/amoled-first/heap-guard-negative.json",
+      "sha256": "245e169939044617b2678c39ce058c7810f4846b3a392e5fe30d6443796444ed"
+    },
+    "final_status": {
+      "path": "build/hardware/amoled-first/final-after-touch-status.json",
+      "sha256": "5f2a3ea6feee88630307ed6b1490814ed98bfd44604cb8fa8e0c572c2bb790ab"
+    },
+    "host_target_optimized": {
+      "path": "build/hardware/amoled-first/optimized-host-target-pcm-comparison.json",
+      "sha256": "0e2ae48cc39d98bd87177162e009a6ca368cff53e7754b4684fcd967baf84cc8"
+    },
+    "host_target_strict": {
+      "path": "build/hardware/amoled-first/host-target-pcm-comparison.json",
+      "sha256": "81bb4d7da970f4e3776e6ad11e4f50bf0c68017310e9863054a246001837fa39"
+    },
+    "native_loader": {
+      "path": "build/hardware/amoled-first/loader-hardware-result.json",
+      "sha256": "bbc796cafda29cc3969499fca870a4fa07efe1879d79d9152a265760d48b8c1f"
+    },
+    "optimized_midi4": {
+      "path": "build/hardware/amoled-first/midi4-cycle-f32-qualification/qualification.json",
+      "sha256": "21c43518d2f045e44e2b51278e365e1173181727d53cb32b85b6ec08c636fa8c"
+    },
+    "optimized_sine": {
+      "path": "build/hardware/amoled-first/sine-cycle-f32-qualification/qualification.json",
+      "sha256": "abc545ace3a8f1bd7836cfed524c622d49bbb0c2a302f057ece110665d766945"
+    },
+    "optimized_soak": {
+      "path": "build/hardware/amoled-first/midi4-cycle-f32-soak-300s/soak.json",
+      "sha256": "fbeb040be32f0c7694a2081ba7f4851b5e1f0e4b21acf8e62d7526b906676756"
+    },
+    "original_flash_regions": {
+      "path": "build/hardware/amoled-first/preserved-regions.json",
+      "sha256": "4b48ff5799b2ec22122ad0cb572af9cac1ce2afd8747cc67f098e3d2a9642d95"
+    },
+    "profile_comparison": {
+      "path": "build/hardware/amoled-first/profile-comparison.json",
+      "sha256": "738296d8ccaf49040ffa9159badd340ee3ba7909f35f2def725dc83d1cb776fd"
+    },
+    "strict_midi4": {
+      "path": "build/hardware/amoled-first/midi4-qualification/qualification.json",
+      "sha256": "36fdddab07fcd1a5de06e3e58d06bb183cf238fea71897778af10bbad3cb963c"
+    },
+    "strict_sine": {
+      "path": "build/hardware/amoled-first/sine-qualification/qualification.json",
+      "sha256": "7bf4a489f814f3776f548f30533c651863471c2e91a3c2e1f6bde3fec5039106"
+    },
+    "strict_soak": {
+      "path": "build/hardware/amoled-first/midi4-soak-300s/soak.json",
+      "sha256": "fea32947aec535db5e1b01e974cce82d6be8aaa87c1847d78a5201074941e561"
+    }
+  },
+  "safety_and_recovery": {
+    "backup_kept_private": true,
+    "full_original_flash_backup_bytes": 16777216,
+    "full_original_flash_backup_sha256": "6aefd0d727d944b913988bfc91ecc128f5247b64bdbd28ca80941de7e867003c",
+    "original_bootloader_partition_nvs_phy_64k_unchanged": true,
+    "storage_partition_not_written": true,
+    "writes": "Application at 0x10000 only"
+  },
+  "user_observations": {
+    "display_and_steady_speaker_tone_confirmed": true,
+    "source": "User replies in this chat; separate from software-buffer checks",
+    "touchscreen_volume_panic_resume_confirmed": true
+  }
+}

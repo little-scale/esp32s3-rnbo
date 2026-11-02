@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: MIT
+get_filename_component(repo_root "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
+idf_component_register(SRCS "qualification.c" "allocation_probe.c"
+    INCLUDE_DIRS "." "${repo_root}/module-sdk/include"
+    REQUIRES elf_loader static_reference esp_psram esp_timer mbedtls esp_app_format)
+configure_file(test_identity.h.in "${CMAKE_CURRENT_BINARY_DIR}/test_identity.h" @ONLY)
+target_include_directories(${COMPONENT_LIB} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+foreach(kind sine fx)
+    string(TOUPPER "${kind}" upper)
+    if(NOT EXISTS "${RNBO_TEST_${upper}_ELF}")
+        message(FATAL_ERROR "Missing verified ${kind} dynamic module")
+    endif()
+    configure_file("${RNBO_TEST_${upper}_ELF}" "${CMAKE_CURRENT_BINARY_DIR}/rnbo_${kind}_payload.bin" COPYONLY)
+    elf_embed_aligned_binary(${COMPONENT_LIB} "${CMAKE_CURRENT_BINARY_DIR}/rnbo_${kind}_payload.bin" BINARY)
+endforeach()
+if(RNBO_TEST_HAVE_MIDI)
+    configure_file("${RNBO_TEST_MIDI_ELF}" "${CMAKE_CURRENT_BINARY_DIR}/rnbo_midi_payload.bin" COPYONLY)
+    elf_embed_aligned_binary(${COMPONENT_LIB} "${CMAKE_CURRENT_BINARY_DIR}/rnbo_midi_payload.bin" BINARY)
+endif()
+target_compile_options(${COMPONENT_LIB} PRIVATE -O2 -fno-fast-math -ffp-contract=off -fno-strict-aliasing)
