@@ -68,6 +68,57 @@ class ConfigurationTests(unittest.TestCase):
     def test_fx_memory_budget(self):
         self.fx();self.args.blocks=1024
         with self.assertRaisesRegex(ExportError,'PSRAM budget'):self.generate()
+    def average(self):
+        fixture=self.fx();fixture['family']='average';fixture['stimulus']={'kind':'impulse-step-v1'}
+        fixture['verification']={'kind':'average-window-v1','parameter_id':'window','default_window':16,'maximum_window':64,'maximum_absolute_error':2e-6}
+        fixture['semantic']={'kind':'average','default_window':16,'maximum_absolute_error':2e-6}
+        fixture['cases']=[{'id':name,'parameters':parameters,'events':[]} for name,parameters in [('one',{'window':1}),('default',{}),('odd-window',{'window':63}),('maximum',{'window':64})]]
+        self.average_schema={'index':0,'paramId':'window','minimum':1,'maximum':64,'initialValue':16,'exponent':1,'steps':0}
+        self.write_average_schema();return fixture
+    def write_average_schema(self):
+        (self.directory/'description.json').write_text(json.dumps({'parameters':[self.average_schema]}))
+    def test_average_contract_windows_and_oracle_budget(self):
+        self.average();header,policy=self.generate()
+        self.assertIn('#define BENCH_HAS_ORACLE 1u',header)
+        self.assertEqual([(v['window'],v['initial_available']) for v in policy['verifications']],[(1,0),(16,16),(63,0),(64,0)])
+        self.assertEqual(policy['psram_budget']['oracle_cache_bytes'],1048576)
+        self.assertLessEqual(policy['psram_budget']['required_upper_bound_bytes'],8388608)
+    def test_average_cold_default_has_no_prepared_history(self):
+        self.average();self.catalog['fixtures'][0]['warmup_blocks']=0
+        self.assertEqual(self.generate()[1]['verifications'][1]['initial_available'],0)
+    def test_retrigger_same_default_preserves_warm_history(self):
+        fixture=self.average();fixture['cases'][1]['parameters']={'window':16}
+        self.assertEqual(self.generate()[1]['verifications'][1]['initial_available'],16)
+    def test_average_fractional_window_rejected(self):
+        fixture=self.average();fixture['cases'][0]['parameters']['window']=1.5
+        with self.assertRaisesRegex(ExportError,'integer1..64'):self.generate()
+    def test_average_events_rejected_until_modeled(self):
+        fixture=self.average();fixture['cases'][0]['events']=[{'block':1,'id':'window','value':32}]
+        with self.assertRaisesRegex(ExportError,'events are not yet modeled'):self.generate()
+    def test_average_unknown_parameter_rejected(self):
+        fixture=self.average();fixture['cases'][0]['parameters']={'another':1}
+        with self.assertRaisesRegex(ExportError,'Unknown average parameter'):self.generate()
+    def test_average_wider_semantic_tolerance_rejected(self):
+        fixture=self.average();fixture['verification']['maximum_absolute_error']=3e-6
+        with self.assertRaisesRegex(ExportError,'verification contract'):self.generate()
+    def test_average_schema_exponent_and_steps_guard(self):
+        self.average()
+        for field,value in [('exponent',2),('steps',1)]:
+            with self.subTest(field=field):
+                before=dict(self.average_schema);self.average_schema[field]=value;self.write_average_schema()
+                with self.assertRaisesRegex(ExportError,'window schema'):self.generate()
+                self.average_schema=before;self.write_average_schema()
+    def test_wave2_input_cannot_ignore_missing_verification(self):
+        fixture=self.fx();fixture['stimulus']={'kind':'impulse-step-v1'}
+        with self.assertRaisesRegex(ExportError,'explicit verification'):self.generate()
+    def test_average_cancellation_case_retains_same_gate(self):
+        fixture=self.average();fixture['cases'].append({'id':'cancellation','parameters':{},'events':[],'stimulus':{'kind':'mixed-tone-v1'}})
+        policy=self.generate()[1]
+        self.assertEqual(policy['stimuli'][-1]['kind'],5)
+        self.assertEqual(policy['verifications'][-1]['maximum_absolute_error'],2e-6)
+    def test_average_extra_oracle_cache_budget_rejects_oversize(self):
+        self.average();self.args.blocks=1024
+        with self.assertRaisesRegex(ExportError,'PSRAM budget'):self.generate()
     def test_wrong_source(self):
         self.modules["optimized"]["report"]["prepared_export"]["manifest"]["source_tree_sha256"]="other"
         with self.assertRaises(ExportError):self.generate()

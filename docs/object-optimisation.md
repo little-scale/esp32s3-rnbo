@@ -1,5 +1,10 @@
 # RNBO object optimisation matrix
 
+See [compiler options and integrated evidence](compiler-optimisations.md) for the
+current correctness fixes and opt-in transformations, and
+[the next optimisation pass](optimisation-next-pass.md) for remaining coverage,
+precision and whole-system qualification work. The optimisation goal remains active.
+
 This is a matrix of reviewed forms and evidence, not a claim that a family is
 fully optimised. Strict preparation remains the default. Optional profiles
 change only fingerprinted methods or paired internal buffer types. A profile

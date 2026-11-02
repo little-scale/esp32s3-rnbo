@@ -98,7 +98,8 @@ def main():
     require(build_reports["prepared"]["source_tree_sha256"] == build_reports["reference"]["source_tree_sha256"], "Reference uses different raw source/runtime")
     require(build_reports["reference"]["prepared_manifest"]["adaptations"] == [], "Reference is not an unmodified-runtime build")
     fixes = ["rnbo-1.4.4-list-copy-bounds-v1", "rnbo-1.4.4-list-move-inline-storage-v1",
-             "rnbo-1.4.4-list-cross-capacity-assignment-v1", "rnbo-1.4.4-nested-clock-target-v1"]
+             "rnbo-1.4.4-list-cross-capacity-assignment-v1", "rnbo-1.4.4-nested-clock-target-v1",
+             "rnbo-1.4.4-defined-imul-v1"]
     require(build_reports["prepared"]["prepared_manifest"]["adaptations"] == fixes,
             "Prepared oscillator is missing the declared correctness-fix profile")
     require(build_reports["fx"]["prepared_manifest"]["adaptations"] == fixes,

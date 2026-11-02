@@ -39,6 +39,13 @@ def digest(value,message):
 
 
 def declared_stimulus(fixture,case):
+    wave2={'impulse-step-v1':4,'mixed-tone-v1':5}
+    base=fixture.get('stimulus');override=case.get('stimulus',{})
+    require(isinstance(base,dict) and isinstance(override,dict),'FX stimulus declaration missing')
+    if base.get('kind') in wave2:
+        require(set(base)=={'kind'} and set(override)<={'kind'},'Unknown wave2 stimulus fields')
+        settings=base|override;require(settings.get('kind') in wave2,'Unknown wave2 stimulus kind')
+        return {'kind':wave2[settings['kind']],'settings':settings,**{k:0.0 for k in ('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level')}}
     contracts={
         'midi-stereo-v1':(1,{'kind','base','depth','rate','pilot_frequency','pilot_amplitude'}),
         'frequency-stereo-v1':(2,{'kind','frequency','depth','rate','pilot_frequency','pilot_amplitude'}),
@@ -58,24 +65,67 @@ def declared_stimulus(fixture,case):
             'excitation':settings.get('excitation',0.0),'level':settings.get('level',0.0)}
 
 
+def declared_verification(fixture,case):
+    declaration=fixture.get('verification')
+    kind=(fixture.get('stimulus',{})|case.get('stimulus',{})).get('kind')
+    if declaration is None:
+        require(kind not in ('impulse-step-v1','mixed-tone-v1'),'Missing explicit average verification contract')
+        return None
+    expected={'kind':'average-window-v1','parameter_id':'window','default_window':16,'maximum_window':64,'maximum_absolute_error':2e-6}
+    require(fixture.get('role')=='fx' and fixture.get('family')=='average' and declaration==expected,'Unsupported average verification contract')
+    require(kind in ('impulse-step-v1','mixed-tone-v1'),'Average verification has unmodeled input')
+    semantic=fixture.get('semantic',{})
+    require(semantic.get('kind')=='average' and semantic.get('default_window')==16 and semantic.get('maximum_absolute_error')==2e-6,'Average semantic declaration differs')
+    require(isinstance(case.get('events',[]),list) and not case.get('events',[]),'Average events are not modeled')
+    parameters=case.get('parameters',{})
+    require(isinstance(parameters,dict) and set(parameters)<={'window'},'Unknown average parameter')
+    n=parameters.get('window',16)
+    require(type(n) in (int,float) and math.isfinite(n) and n==int(n) and 1<=n<=64,'Average window must be integer1..64')
+    n=int(n);initial=min(16,fixture['warmup_blocks']*256) if n==16 else 0
+    return {'kind':'average-window-v1','window':n,'initial_available':initial,'maximum_absolute_error':2e-6,
+            'default_window':16,'maximum_window':64,'parameter_id':'window','model':'fresh-float64-window-sum',
+            'rounding':'once-float32','gate':'cache-error-plus-maximum-cache-rounding-error'}
+
+
+def oracle_memory_budget(build,plan):
+    budget=plan.get('psram_budget');require(isinstance(budget,dict),'Missing oracle PSRAM budget')
+    blocks=plan['blocks'];arena=plan.get('arena_bytes');require(type(arena) is int and 4096<=arena<=1048576,'Invalid selected arena budget')
+    require(all(build['modules'][p]['report']['prepared_export']['manifest'].get('parameter_count')==1 for p in ('strict','optimized')),'Average module parameter count differs')
+    loaded=sum(build['modules'][p]['inspection']['loaded_bytes_upper_bound'] for p in ('strict','optimized'))
+    expected={'workspace_bytes':blocks*256*2*4*2+4*256*4,'oracle_cache_bytes':blocks*256*2*4,
+              'arena_bytes':2*arena,'opaque_context_upper_bound_bytes':2*1048576,'loaded_images_upper_bound_bytes':loaded,
+              'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8*1048576}
+    expected['required_upper_bound_bytes']=sum(expected[k] for k in expected if k!='physical_psram_bytes')
+    require(budget==expected and expected['required_upper_bound_bytes']<=expected['physical_psram_bytes'],'Oracle PSRAM budget differs or exceeds capacity')
+    return budget
+
+
 def input_evidence(build,fixture,plan,passed,lines,expected_samples):
     name=fixture['id'];role=fixture['role'];case_count=len(fixture['cases'])
-    prefix='RNBO_OBJECT_BENCHMARK INPUT '
+    prefix='RNBO_OBJECT_BENCHMARK INPUT ';oracle_prefix='RNBO_OBJECT_BENCHMARK ORACLE '
     records=[fields(line.strip(),prefix) for line in lines if line.strip().startswith(prefix)]
+    oracle_records=[fields(line.strip(),oracle_prefix) for line in lines if line.strip().startswith(oracle_prefix)]
     evidence={}
     if role=='main':
-        require(not records,'Main fixture cannot claim external INPUT evidence')
-        require('stimulus' not in fixture and all('stimulus' not in c for c in fixture['cases']),'Main fixture declares ignored stimulus')
+        require(not records and not oracle_records,'Main fixture cannot claim external INPUT/oracle evidence')
+        require('stimulus' not in fixture and 'verification' not in fixture and all('stimulus' not in c for c in fixture['cases']),'Main fixture declares ignored stimulus')
         require('stimuli' not in plan or plan['stimuli']==[None]*case_count,'Main plan declares external stimulus')
-        require(all(passed.get(k,0)==0 for k in ('input_cases','input_rechecks','pilot_sample_checks')),'Main fixture has unexpected FX input counters')
+        require('verifications' not in plan or plan['verifications']==[None]*case_count,'Main plan declares oracle')
+        require(all(passed.get(k,0)==0 for k in ('input_cases','input_rechecks','pilot_sample_checks','oracle_cases','oracle_rechecks','semantic_sample_checks')),'Main fixture has unexpected FX input counters')
         return evidence,None
     require(len(records)==case_count,'Incomplete FX INPUT evidence')
-    for key,expected in (('input_cases',case_count),('input_rechecks',case_count*plan['rounds']*3),
-                         ('pilot_sample_checks',expected_samples*case_count)):
-        require(type(passed.get(key)) is int and passed[key]==expected,'FX input/pilot coverage differs: '+key)
+    verifications=[declared_verification(fixture,c) for c in fixture['cases']]
+    oracle_count=sum(v is not None for v in verifications);pilot_count=case_count-oracle_count
+    expected_counts={'input_cases':case_count,'input_rechecks':case_count*plan['rounds']*3,'pilot_sample_checks':expected_samples*pilot_count,
+                     'oracle_cases':oracle_count,'oracle_rechecks':oracle_count*plan['rounds']*3,'semantic_sample_checks':expected_samples*oracle_count*2}
+    for key,expected in expected_counts.items():
+        value=passed.get(key,0) if not oracle_count and key in ('oracle_cases','oracle_rechecks','semantic_sample_checks') else passed.get(key)
+        require(type(value) is int and value==expected,'FX input/pilot coverage differs: '+key)
+    require(len(oracle_records)==oracle_count,'Incomplete average ORACLE evidence')
+    require('verifications' not in plan and not oracle_count or plan.get('verifications')==verifications,'Compiled verification differs from declaration')
     require(isinstance(plan.get('stimuli'),list) and len(plan['stimuli'])==case_count,'Compiled stimulus plan missing')
     for index,case in enumerate(fixture['cases']):
-        expected=declared_stimulus(fixture,case)
+        expected=declared_stimulus(fixture,case);verification=verifications[index]
         require(plan['stimuli'][index]==expected,'Compiled stimulus differs from catalog/case declaration')
         found=[r for r in records if r.get('fixture')==name and r.get('case')==case['id']]
         require(len(found)==1,'Missing or duplicate FX INPUT case')
@@ -84,19 +134,34 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         require(record.get('layout')=='float32_stereo_interleaved_le','FX input layout differs')
         require(type(record.get('stimulus_kind')) is int and record['stimulus_kind']==expected['kind'],'FX input stimulus kind differs')
         evidence[case['id']]={**record,'declared_settings':expected['settings']}
-    source_names=('object-benchmark/main/stimulus.c','object-benchmark/main/stimulus.h')
-    sources=build.get('source_files_sha256',{})
+        if verification:
+            candidates=[r for r in oracle_records if r.get('fixture')==name and r.get('case')==case['id']]
+            require(len(candidates)==1,'Missing or duplicate ORACLE case');oracle=candidates[0]
+            digest(oracle.get('oracle_sha256'),'Malformed oracle SHA256')
+            require(type(oracle.get('oracle_bytes')) is int and oracle['oracle_bytes']==plan['blocks']*256*2*4,'Oracle byte coverage differs')
+            require(oracle.get('layout')=='float32_stereo_interleaved_le' and oracle.get('oracle_kind')=='average-window-v1','Oracle layout/model kind differs')
+            require(oracle.get('window')==verification['window'] and oracle.get('initial_available')==verification['initial_available'],'Oracle history/window differs')
+            require(oracle.get('max_abs_tolerance')==verification['maximum_absolute_error'],'Oracle tolerance differs')
+            require(oracle.get('model')==verification['model'] and oracle.get('rounding')==verification['rounding'],'Oracle precision/model differs')
+            error=oracle.get('max_cache_rounding_error');require(type(error) in (int,float) and 0<=error<=2**-24,'Invalid oracle cache rounding error')
+            evidence[case['id']]['oracle']={**oracle,'verification':verification}
+    source_names=('object-benchmark/main/stimulus.c','object-benchmark/main/stimulus.h');sources=build.get('source_files_sha256',{})
     generator={key:digest(sources.get(key),'Missing generator source identity') for key in source_names}
     provenance={'catalog_path':plan.get('catalog_path'),'catalog_sha256':digest(plan.get('catalog_sha256'),'Missing stimulus catalog identity'),
                 'patch_sha256':digest(plan.get('patch_sha256'),'Missing fixture patch identity'),
                 'generator_source_sha256':generator,'sample_rate':44100,'block_frames':256,
                 'sample_time':'Zero-based rendered frame n/44100 after zero-input warmup',
-                'generation':'Float64 sine and arithmetic; round each completed channel sample once to Float32',
-                'timing':'Generator/cache copy excluded from process callback timers',
-                'rechecks':'Cached INPUT SHA before/after every strict and optimized pass; shared adjacent-pass checkpoint',
-                'pilot':'Every rendered output reference/pilot sample equals its declared input channel',
+                'generation':'Float64 sine/arithmetic; round each completed channel sample once to Float32',
+                'timing':'Generator/oracle precomputation and cache copy excluded from process timers',
+                'rechecks':'Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint',
+                'pilot':('Every output reference/pilot sample equals its declared input channel' if pilot_count else 'No pilot samples; both output channels use the declared average oracle'),
                 'limit':'Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed'}
     require(isinstance(provenance['catalog_path'],str) and provenance['catalog_path'],'Missing stimulus catalog path')
+    if oracle_count:
+        provenance['oracle_source_sha256']={key:digest(sources.get(key),'Missing oracle source identity') for key in ('object-benchmark/main/average_oracle.c','object-benchmark/main/average_oracle.h')}
+        provenance['verification_contract']=fixture['verification'];provenance['psram_budget']=oracle_memory_budget(build,plan)
+        provenance['oracle']='Fresh Float64 window sum over actual Float32 input; once Float32 cache rounding. fsum bit identity is not claimed.'
+        provenance['semantic_gate']='Maximum output/cache error plus maximum cache/model rounding error must be <= declared2e-6'
     return evidence,provenance
 
 
@@ -139,6 +204,10 @@ def collect(build_dir,run_dir):
     case_lines=[fields(line.strip(),'RNBO_OBJECT_BENCHMARK CASE ') for line in lines if line.strip().startswith('RNBO_OBJECT_BENCHMARK CASE ')]
     timing_lines=[fields(line.strip(),'RNBO_OBJECT_BENCHMARK CASE_PROFILE ') for line in lines if line.strip().startswith('RNBO_OBJECT_BENCHMARK CASE_PROFILE ')]
     require(len(case_lines)==len(fixture['cases']) and len(timing_lines)==2*len(case_lines),'Incomplete case measurements')
+    semantic_prefix='RNBO_OBJECT_BENCHMARK CASE_SEMANTIC '
+    semantic_records=[fields(line.strip(),semantic_prefix) for line in lines if line.strip().startswith(semantic_prefix)]
+    expected_semantic_cases=sum('oracle' in value for value in inputs.values())
+    require(len(semantic_records)==2*expected_semantic_cases,'Incomplete semantic measurements')
     tolerance=fixture['comparison_tolerance']
     for declared in fixture['cases']:
         records=[c for c in case_lines if c['case']==declared['id'] and c['fixture']==name]
@@ -153,8 +222,20 @@ def collect(build_dir,run_dir):
             require(len(values)==1,'Missing or duplicate profile timing')
             value=values[0];require(value['timed_blocks']==expected_blocks and value['process_us']>0,'Invalid timing coverage')
             timings[profile]={**value,'numerical_profile':numerical_profiles[profile],'mean_process_us':value['process_us']/value['timed_blocks']}
+        semantics={}
+        if inputs.get(declared['id'],{}).get('oracle'):
+            oracle=inputs[declared['id']]['oracle'];limit=oracle['max_abs_tolerance']
+            for profile in ('strict','optimized'):
+                matches=[r for r in semantic_records if r.get('fixture')==name and r.get('case')==declared['id'] and r.get('profile')==profile]
+                require(len(matches)==1,'Missing or duplicate semantic profile');value=matches[0]
+                require(value.get('semantic_kind')=='average-window-v1' and value.get('oracle_sha256')==oracle['oracle_sha256'],'Semantic oracle identity differs')
+                require(value.get('samples')==expected_samples and value.get('max_abs_tolerance')==limit,'Semantic sample coverage/tolerance differs')
+                error=value.get('max_abs');require(type(error) in (int,float) and error>=0,'Invalid semantic error')
+                bound=error+oracle['max_cache_rounding_error']
+                require(value.get('max_model_error_bound')==bound and bound<=limit,'Semantic average exceeds unchanged model limit')
+                semantics[profile]=value
         reference=timings['strict']['mean_process_us'];candidate=timings['optimized']['mean_process_us']
-        cases.append({'case':declared['id'],'declared_case':declared,'input':inputs.get(declared['id']),'output_comparison':case,'profiles':timings,
+        cases.append({'case':declared['id'],'declared_case':declared,'input':inputs.get(declared['id']),'semantic_comparison':semantics,'output_comparison':case,'profiles':timings,
                       'observed_speed_ratio':reference/candidate,'observed_process_reduction_percent':100*(1-candidate/reference)})
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {'fixture':name,'family':fixture['family'],'role':fixture['role'],

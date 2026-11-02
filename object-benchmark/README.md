@@ -38,8 +38,8 @@ maximum signed-16 PCM difference and relative RMS level difference over both
 channels. Error RMS, sample counts, clipped counts and per-case/profile CPU,
 peak/RMS and arena usage are also printed. PCM uses gain 0.5, saturation and
 symmetric 32767 scaling with `lrintf`, matching the host render comparison. Main
-fixtures run autonomously. FX fixtures must declare one of `midi-stereo-v1`,
-`frequency-stereo-v1` or `reson-stereo-v1`, with complete settings in the separate
+fixtures run autonomously. FX fixtures must declare `midi-stereo-v1`, `frequency-stereo-v1`,
+`reson-stereo-v1`, `impulse-step-v1` or `mixed-tone-v1`, with complete settings in the separate
 FX catalog. Unknown fields/kinds, unsafe pitch/frequency bounds and ignored Main
 stimulus declarations fail host admission. Case overrides replace only known
 numeric fields. Absolute rendered time is n/44100 after zero-input warmup;
@@ -69,6 +69,43 @@ inspected image spans and 512 KiB of allocator/loader reserve. The runtime still
 requires actual successful PSRAM allocations. A sealed build directory cannot
 be overwritten with another producer/module/config identity; select a fresh
 `--variant`. Existing Main hardware candidates remain historical artifacts.
+
+`impulse-step-v1` and `mixed-tone-v1` require the explicit average verification
+contract below. A target catalog may select the original one/default/odd-window/
+maximum cases with windows1/16/63/64. It must preserve the authored patch bytes.
+The cancellation-tone case remains a known original strict failure and retains
+its2e-6 gate whenever selected.
+
+```json
+"verification": {
+  "kind": "average-window-v1",
+  "parameter_id": "window",
+  "default_window": 16,
+  "maximum_window": 64,
+  "maximum_absolute_error": 0.000002
+}
+```
+
+This revision admits one linear window parameter with minimum1, maximum64,
+initial16, exponent1 and steps0. Only integer case settings are admitted;
+parameter events and other settings fail admission until modeled. Unchanged
+window16 retains up to16 zero samples from detached warmup. A block-zero change
+to another window resets available history to0. Output is causal with zero lag.
+
+The target precomputes an additional Float32 stereo oracle cache. Every expected
+sample recomputes a fresh Float64 sum of the actual input window (at most64
+samples), divides by available history, then rounds once into the cache. This
+is independent of the generated running accumulator; it does not claim the
+same bits as Python `fsum`. Native tests compare it with fresh `fsum` and track
+the rounding bound. Oracle construction and all semantic checks are outside
+process timers. The absolute semantic gate is conservative: maximum output/cache
+error plus maximum cache/model rounding error must be <=2e-6. `ORACLE` lines
+record actual cache SHA, window/history, precision and rounding; SHA is rechecked
+around every pass. `CASE_SEMANTIC` reports each profile's independent error and
+coverage. Old pilot checks remain unchanged; `semantic_sample_checks` separately
+counts both channels of both profiles. The extra cache is included in the8MiB
+host admission budget and runtime allocation checks. Existing sealed build
+variants cannot be overwritten.
 
 The loader and admission checks are adapted from the physically qualified
 `rnbo-loader-test`: zero undefined imports, pinned loader, callback/data spans,

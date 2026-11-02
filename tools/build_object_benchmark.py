@@ -66,6 +66,11 @@ def stimulus_contract(fixture, case):
         return None
     base=fixture.get("stimulus");override=case.get("stimulus",{})
     require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
+    wave2={"impulse-step-v1":4,"mixed-tone-v1":5}
+    if base.get("kind") in wave2:
+        require(set(base)=={"kind"} and set(override)<={"kind"},"Unknown wave2 stimulus settings")
+        settings=base|override;require(settings.get("kind") in wave2,"Unknown wave2 stimulus kind")
+        return {"kind":wave2[settings["kind"]],"settings":settings,**{k:0.0 for k in ("base","depth","rate","pilot_frequency","pilot_amplitude","excitation","level")}}
     kinds={"midi-stereo-v1":(1,{"kind","base","depth","rate","pilot_frequency","pilot_amplitude"}),
            "frequency-stereo-v1":(2,{"kind","frequency","depth","rate","pilot_frequency","pilot_amplitude"}),
            "reson-stereo-v1":(3,{"kind","excitation","level","center","depth","rate"})}
@@ -85,6 +90,30 @@ def stimulus_contract(fixture, case):
     return {"kind":kind,"settings":settings,"base":center,"depth":numbers["depth"],"rate":numbers["rate"],
             "pilot_frequency":numbers.get("pilot_frequency",0.0),"pilot_amplitude":numbers.get("pilot_amplitude",0.0),
             "excitation":numbers.get("excitation",0.0),"level":numbers.get("level",0.0)}
+
+
+def verification_contract(fixture,case,by_id,warmup):
+    declaration=fixture.get("verification")
+    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1")
+    if declaration is None:
+        require(not new_input,"Wave2 stimulus requires an explicit verification contract")
+        return None
+    require(fixture["role"]=="fx" and fixture.get("family")=="average" and isinstance(declaration,dict),"Unsupported verification fixture")
+    expected={"kind":"average-window-v1","parameter_id":"window","default_window":16,"maximum_window":64,"maximum_absolute_error":2e-6}
+    require(declaration==expected and new_input,"Unsupported average verification contract/input")
+    semantic=fixture.get("semantic",{})
+    require(semantic.get("kind")=="average" and semantic.get("default_window")==16 and semantic.get("maximum_absolute_error")==2e-6,"Average semantic declaration differs")
+    require(set(by_id)=={"window"},"Average verification requires one window parameter")
+    p=by_id["window"]
+    require((p["minimum"],p["maximum"],p["initialValue"],p["exponent"],p["steps"])==(1,64,16,1,0),"Unsupported average window schema")
+    require(isinstance(case.get("events",[]),list) and not case.get("events",[]),"Average window events are not yet modeled")
+    parameters=case.get("parameters",{})
+    require(isinstance(parameters,dict) and set(parameters)<={"window"},"Unknown average parameter setting")
+    value=finite(parameters.get("window",16));require(value==int(value) and 1<=value<=64,"Average window must be an integer1..64")
+    window=int(value);initial=min(16,warmup*256) if window==16 else 0
+    return {"kind":"average-window-v1","window":window,"initial_available":initial,"maximum_absolute_error":2e-6,
+            "default_window":16,"maximum_window":64,"parameter_id":"window",
+            "model":"fresh-float64-window-sum","rounding":"once-float32","gate":"cache-error-plus-maximum-cache-rounding-error"}
 
 
 def configuration(args, modules):
@@ -130,9 +159,10 @@ def configuration(args, modules):
     require(args.timing_exclude_blocks<blocks, "Timing exclusion consumes entire pass")
     cases = fixture["cases"]
     require(isinstance(cases,list) and 1<=len(cases)<=16, "Expected 1..16 cases")
-    events=[]; case_rows=[]; case_ids=set();stimuli=[]
+    events=[]; case_rows=[]; case_ids=set();stimuli=[];verifications=[]
     for case in cases:
         stimuli.append(stimulus_contract(fixture,case))
+        verifications.append(verification_contract(fixture,case,by_id,warmup))
         name=case["id"];require(isinstance(name,str) and name not in case_ids,"Invalid/duplicate case ID");case_ids.add(name)
         current=[]
         require(isinstance(case.get("parameters",{}),dict), "Parameters must be a map")
@@ -154,19 +184,20 @@ def configuration(args, modules):
     maximum=finite(tolerance["maximum_absolute_error"]);relative=finite(tolerance["relative_rms_level_difference"])
     require(maximum>=0 and relative>=0,"Negative comparison tolerance")
     pcm=integer(tolerance["maximum_pcm_lsb_error"],0,65535,"PCM tolerance")
+    oracle_bytes=blocks*256*2*4 if any(verifications) else 0
     buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
     loaded=sum(m["inspection"]["loaded_bytes_upper_bound"] for m in modules.values())
     # Admission permits <=1MiB opaque context/image. Budget that full bound,
     # not an unverified guess of the current wrapper's smaller sizeof(Context).
-    budget={"workspace_bytes":buffers,"arena_bytes":2*args.arena_bytes,"opaque_context_upper_bound_bytes":2*1048576,
+    budget={"workspace_bytes":buffers,"oracle_cache_bytes":oracle_bytes,"arena_bytes":2*args.arena_bytes,"opaque_context_upper_bound_bytes":2*1048576,
             "loaded_images_upper_bound_bytes":loaded,"loader_heap_alignment_reserve_bytes":524288,"physical_psram_bytes":8*1048576}
-    budget["required_upper_bound_bytes"]=sum(budget[k] for k in ("workspace_bytes","arena_bytes","opaque_context_upper_bound_bytes","loaded_images_upper_bound_bytes","loader_heap_alignment_reserve_bytes"))
+    budget["required_upper_bound_bytes"]=sum(budget[k] for k in ("workspace_bytes","oracle_cache_bytes","arena_bytes","opaque_context_upper_bound_bytes","loaded_images_upper_bound_bytes","loader_heap_alignment_reserve_bytes"))
     require(budget["required_upper_bound_bytes"]<=budget["physical_psram_bytes"],"Conservative benchmark PSRAM budget exceeds 8MiB; reduce blocks/arena")
     lines=["/* Generated by tools/build_object_benchmark.py; do not edit. */", "#pragma once",
            f"#define BENCH_FIXTURE {c_string(args.fixture_id)}",f"#define BENCH_ROLE {1 if role=='main' else 2}u",
            f"#define BENCH_BLOCKS {blocks}u", f"#define BENCH_WARMUP {warmup}u",f"#define BENCH_SEED {seed}u",
            f"#define BENCH_ROUNDS {args.rounds}u",f"#define BENCH_TIMING_EXCLUDE {args.timing_exclude_blocks}u",
-           f"#define BENCH_ARENA_BYTES {args.arena_bytes}u",f"#define BENCH_CASE_COUNT {len(cases)}u",f"#define BENCH_PARAMETER_COUNT {len(parameters)}u",
+           f"#define BENCH_ARENA_BYTES {args.arena_bytes}u",f"#define BENCH_HAS_ORACLE {1 if oracle_bytes else 0}u",f"#define BENCH_CASE_COUNT {len(cases)}u",f"#define BENCH_PARAMETER_COUNT {len(parameters)}u",
            f"#define BENCH_MAX_ABS {maximum.hex()}",f"#define BENCH_MAX_RELATIVE_RMS {relative.hex()}",f"#define BENCH_MAX_PCM_LSB {pcm}u",
            f"#define BENCH_STRICT_SHA256 {c_string(modules['strict']['artifact_sha256'])}",
            f"#define BENCH_OPTIMIZED_SHA256 {c_string(modules['optimized']['artifact_sha256'])}",
@@ -185,10 +216,14 @@ def configuration(args, modules):
     for stimulus in stimuli:
         if stimulus is None:lines.append("{0,0,0,0,0,0,0,0},")
         else:lines.append("{%su,%s},"%(stimulus["kind"],",".join(float(stimulus[k]).hex() for k in ("base","depth","rate","pilot_frequency","pilot_amplitude","excitation","level"))))
+    lines += ["};", "static const bench_verification bench_verifications[]={"]
+    for verification in verifications:
+        if verification is None:lines.append("{0,0,0,0},")
+        else:lines.append("{1u,%su,%su,%s},"%(verification["window"],verification["initial_available"],float(verification["maximum_absolute_error"]).hex()))
     lines += ["};", ""]
     return "\n".join(lines), {"catalog_path":str(args.catalog),"catalog_sha256":hashlib.sha256(data).hexdigest(),
         "fixture":fixture,"patch_sha256":sha(patch),"blocks":blocks,"rounds":args.rounds,"timing_exclude_blocks":args.timing_exclude_blocks,
-        "arena_bytes":args.arena_bytes,"events":events,"stimuli":stimuli,"psram_budget":budget,"description_sha256":sha(description_path),
+        "arena_bytes":args.arena_bytes,"events":events,"stimuli":stimuli,"verifications":verifications,"psram_budget":budget,"description_sha256":sha(description_path),
         "numerical_profiles":numerical_profiles,
         "comparison_policy":{"pcm_gain":0.5,"pcm_scale":32767,"pcm_rounding":"lrintf; symmetric saturation",
         "case_gate":"all declared tolerances per independently reset case, combined channels and rounds",

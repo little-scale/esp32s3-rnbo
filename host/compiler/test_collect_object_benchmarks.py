@@ -48,6 +48,80 @@ class ObservationTests(unittest.TestCase):
         self.assertEqual(result['cases'][0]['input']['declared_settings']['base'],60)
         self.assertEqual(result['stimulus_provenance']['generator_source_sha256']['object-benchmark/main/stimulus.c'],'f'*64)
         self.assertIn('excluded',result['scope'])
+    def average(self):
+        self.fx();plan=self.report['benchmark'];fixture=plan['fixture'];fixture['family']='average'
+        fixture['stimulus']={'kind':'impulse-step-v1'};fixture['semantic']={'kind':'average','default_window':16,'maximum_absolute_error':2e-6}
+        fixture['verification']={'kind':'average-window-v1','parameter_id':'window','default_window':16,'maximum_window':64,'maximum_absolute_error':2e-6}
+        fixture['cases'][0]['parameters']={};fixture['cases'][0]['events']=[]
+        plan['stimuli']=[{'kind':4,'settings':{'kind':'impulse-step-v1'},'base':0.,'depth':0.,'rate':0.,'pilot_frequency':0.,'pilot_amplitude':0.,'excitation':0.,'level':0.}]
+        plan['verifications']=[{'kind':'average-window-v1','window':16,'initial_available':16,'maximum_absolute_error':2e-6,'default_window':16,'maximum_window':64,'parameter_id':'window','model':'fresh-float64-window-sum','rounding':'once-float32','gate':'cache-error-plus-maximum-cache-rounding-error'}]
+        plan['arena_bytes']=1048576
+        for module in self.report['modules'].values():
+            module['inspection']={'loaded_bytes_upper_bound':65536};module['report']['prepared_export']['manifest']['parameter_count']=1
+        budget={'workspace_bytes':12288,'oracle_cache_bytes':4096,'arena_bytes':2097152,'opaque_context_upper_bound_bytes':2097152,'loaded_images_upper_bound_bytes':131072,'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
+        budget['required_upper_bound_bytes']=sum(v for k,v in budget.items() if k!='physical_psram_bytes');plan['psram_budget']=budget
+        self.report['source_files_sha256'].update({'object-benchmark/main/average_oracle.c':'2'*64,'object-benchmark/main/average_oracle.h':'3'*64})
+        self.lines[0]=self.lines[0].replace('stimulus_kind=1','stimulus_kind=4')
+        self.lines[-1]=self.lines[-1].replace('pilot_sample_checks=3072','pilot_sample_checks=0')+' oracle_cases=1 oracle_rechecks=9 semantic_sample_checks=6144'
+        self.lines.insert(1,'RNBO_OBJECT_BENCHMARK ORACLE fixture=unit case=default oracle_sha256='+('8'*64)+' oracle_bytes=4096 layout=float32_stereo_interleaved_le oracle_kind=average-window-v1 window=16 initial_available=16 max_abs_tolerance=2e-6 max_cache_rounding_error=0 model=fresh-float64-window-sum rounding=once-float32')
+        for profile in ('strict','optimized'):
+            self.lines.insert(-1,'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC fixture=unit case=default profile='+profile+' semantic_kind=average-window-v1 samples=3072 max_abs=0 max_model_error_bound=0 max_abs_tolerance=2e-6 oracle_sha256='+('8'*64))
+        self.seal()
+    def test_average_oracle_provenance_and_independent_coverage(self):
+        self.average();result=collect(self.build,self.run)
+        self.assertEqual(result['cases'][0]['input']['oracle']['oracle_sha256'],'8'*64)
+        self.assertEqual(result['cases'][0]['semantic_comparison']['strict']['samples'],3072)
+        self.assertEqual(result['pass']['pilot_sample_checks'],0)
+        self.assertIn('oracle_source_sha256',result['stimulus_provenance'])
+    def test_average_missing_oracle_record_rejected(self):
+        self.average();self.lines.pop(1);self.seal()
+        with self.assertRaisesRegex(ValueError,'ORACLE evidence'):collect(self.build,self.run)
+    def test_average_wrong_oracle_history_rejected(self):
+        self.average();self.lines[1]=self.lines[1].replace('initial_available=16','initial_available=0');self.seal()
+        with self.assertRaisesRegex(ValueError,'history/window'):collect(self.build,self.run)
+    def test_average_wrong_oracle_sha_link_rejected(self):
+        self.average();self.lines[-2]=self.lines[-2].replace('8'*64,'7'*64);self.seal()
+        with self.assertRaisesRegex(ValueError,'oracle identity'):collect(self.build,self.run)
+    def test_average_missing_semantic_profile_rejected(self):
+        self.average();self.lines.pop(-2);self.seal()
+        with self.assertRaisesRegex(ValueError,'semantic measurements'):collect(self.build,self.run)
+    def test_average_wrong_semantic_counter_rejected(self):
+        self.average();self.lines[-1]=self.lines[-1].replace('semantic_sample_checks=6144','semantic_sample_checks=3072');self.seal()
+        with self.assertRaisesRegex(ValueError,'coverage'):collect(self.build,self.run)
+    def test_average_strict_cancellation_failure_cannot_be_hidden_by_pair_equality(self):
+        self.average();index=next(i for i,line in enumerate(self.lines) if 'CASE_SEMANTIC' in line and 'profile=strict' in line)
+        self.lines[index]=self.lines[index].replace('max_abs=0','max_abs=3e-6').replace('max_model_error_bound=0','max_model_error_bound=3e-6');self.seal()
+        with self.assertRaisesRegex(ValueError,'unchanged model limit'):collect(self.build,self.run)
+    def test_average_rounding_error_participates_in_conservative_gate(self):
+        self.average();self.lines[1]=self.lines[1].replace('max_cache_rounding_error=0','max_cache_rounding_error=2e-8')
+        for i,line in enumerate(self.lines):
+            if 'CASE_SEMANTIC' in line:self.lines[i]=line.replace('max_abs=0','max_abs=1.99e-6').replace('max_model_error_bound=0','max_model_error_bound=2.01e-6')
+        self.seal()
+        with self.assertRaisesRegex(ValueError,'unchanged model limit'):collect(self.build,self.run)
+    def test_average_missing_oracle_cache_budget_rejected(self):
+        self.average();self.report['benchmark']['psram_budget']['oracle_cache_bytes']=0;self.seal()
+        with self.assertRaisesRegex(ValueError,'PSRAM budget'):collect(self.build,self.run)
+    def test_average_window_events_rejected(self):
+        self.average();self.report['benchmark']['fixture']['cases'][0]['events']=[{'block':1,'id':'window','value':1}];self.seal()
+        with self.assertRaisesRegex(ValueError,'events'):collect(self.build,self.run)
+    def test_average_bad_oracle_sha_rejected(self):
+        self.average();self.lines[1]=self.lines[1].replace('8'*64,'bad');self.seal()
+        with self.assertRaisesRegex(ValueError,'oracle SHA'):collect(self.build,self.run)
+    def test_average_wrong_oracle_recheck_count_rejected(self):
+        self.average();self.lines[-1]=self.lines[-1].replace('oracle_rechecks=9','oracle_rechecks=8');self.seal()
+        with self.assertRaisesRegex(ValueError,'coverage'):collect(self.build,self.run)
+    def test_average_oracle_precision_cannot_be_relabelled(self):
+        self.average();self.lines[1]=self.lines[1].replace('rounding=once-float32','rounding=float64');self.seal()
+        with self.assertRaisesRegex(ValueError,'precision/model'):collect(self.build,self.run)
+    def test_average_missing_oracle_source_identity_rejected(self):
+        self.average();del self.report['source_files_sha256']['object-benchmark/main/average_oracle.c'];self.seal()
+        with self.assertRaisesRegex(ValueError,'oracle source'):collect(self.build,self.run)
+    def test_average_compiled_window_mismatch_rejected(self):
+        self.average();self.report['benchmark']['verifications'][0]['window']=64;self.seal()
+        with self.assertRaisesRegex(ValueError,'Compiled verification'):collect(self.build,self.run)
+    def test_average_module_parameter_count_rejected(self):
+        self.average();self.report['modules']['strict']['report']['prepared_export']['manifest']['parameter_count']=2;self.seal()
+        with self.assertRaisesRegex(ValueError,'parameter count'):collect(self.build,self.run)
     def optional_reference(self):
         profiles={'strict':'float32-audio-v2','optimized':'private-cycle-invariants-v1'}
         for key,value in profiles.items():self.report['modules'][key]['report']['prepared_export']['manifest']['numerical_profile']=value
