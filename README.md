@@ -10,6 +10,10 @@ builds, test evidence and remaining physical gates.
 The original technical handover is a historical starting point; implementation
 status records the current results.
 
+The searchable [object and operation status page](https://little-scale.github.io/esp32s3-rnbo/)
+lists the complete pinned inventory, verification scope, available and experimental
+optimisations, and measured CPU time saved. Each qualified row links to its evidence.
+
 The AMOLED V2 now runs the oscillator and four-voice MIDI fixtures on hardware.
 Two five-minute MIDI stress runs passed with no render overruns or late
 allocations. The optional `float32-cycle-v1` profile reduced average render load

@@ -1,0 +1,1012 @@
+{
+  "format": "rnbo-wrap-finite-evidence-v1",
+  "format_version": 1,
+  "object": "wrap~",
+  "status": "partial",
+  "claim": "Bounded original S3 graph coverage plus independently reviewed private finite-precision correction; no target execution or production admission of the guard.",
+  "private_research_source": {
+    "path": "build/research/wrap-finite-v1/report.json",
+    "bytes": 44502,
+    "sha256": "df6c93a73fdec01fec49a34c3739df5f82a37bf6da943a5c4e962d8e7c3db769"
+  },
+  "original_private_artifact_records_preserved": 96,
+  "existing_target_coverage": {
+    "hardware_executed": true,
+    "guard_present": false,
+    "source": {
+      "path": "evidence/wave2-target-oracles.json",
+      "bytes": 80991,
+      "sha256": "4942c083109f7cc14c8c9839c1da9f5d8d7fdcf94591ed373e7a5fa0eda55edf"
+    },
+    "fixture": "nonlinear-domains",
+    "module_sha256": "a7641cb35760f7bede7727b18b0d1e6f088b228b5d2995fe717960872339471d",
+    "scope": "Authored tanh/wrap[-1,1)/clip[0,1]/positive-pow FX chain, right grid[-3,3], exponents2/.25/4",
+    "pairwise_float_words": 2359296,
+    "pairwise_maximum_error": 0,
+    "pcm_exact": true,
+    "model_scalar_checks": 4718592,
+    "maximum_model_error_bound": 2.8797920270662303e-08,
+    "model_tolerance": 2e-06,
+    "identical_artifact_control": true,
+    "optimization_gain_claimed": false,
+    "limit": "Original bounded-graph run only; it never executes or qualifies either private finite guard."
+  },
+  "original_defined_range_failures": [
+    {
+      "input": 16777218,
+      "input_bits": "4b800001",
+      "original_arithmetic_defined": true,
+      "original_output": -2,
+      "original_output_bits": "c0000000",
+      "exact_result": 0,
+      "private_candidate_result": 0
+    },
+    {
+      "input": -33554436,
+      "input_bits": "cc000001",
+      "original_arithmetic_defined": true,
+      "original_output": 2,
+      "original_output_bits": "40000000",
+      "exact_result": 0,
+      "private_candidate_result": 0
+    }
+  ],
+  "original_undefined_and_width_controls": [
+    {
+      "input_bits": "4f800000",
+      "model": "original Int32 target-width source",
+      "undefined_operation": "outside the range",
+      "returncode": -6,
+      "log": {
+        "path": "build/research/wrap-finite-v1/original32-4f800000-ubsan.log",
+        "bytes": 310,
+        "sha256": "3d628f775324d7109cb57a710dd35faed2f2e3ca625247c301f54ddf6242eec9"
+      }
+    },
+    {
+      "input_bits": "cf800000",
+      "model": "original Int32 target-width source",
+      "undefined_operation": "signed integer overflow",
+      "returncode": -6,
+      "log": {
+        "path": "build/research/wrap-finite-v1/original32-cf800000-ubsan.log",
+        "bytes": 316,
+        "sha256": "6c1e20f5fa29e945c72244f49211153ae845841112df9610da3cdbfb57423b1d"
+      }
+    },
+    {
+      "input_bits": "7f7fffff",
+      "model": "original Int32 target-width source",
+      "undefined_operation": "outside the range",
+      "returncode": -6,
+      "log": {
+        "path": "build/research/wrap-finite-v1/original32-7f7fffff-ubsan.log",
+        "bytes": 310,
+        "sha256": "f28c810e945246fb0ce89cb3027898aa40fbc36ec4e07af1997528e4ed1133cb"
+      }
+    },
+    {
+      "input_bits": "ff7fffff",
+      "model": "original Int32 target-width source",
+      "undefined_operation": "outside the range",
+      "returncode": -6,
+      "log": {
+        "path": "build/research/wrap-finite-v1/original32-ff7fffff-ubsan.log",
+        "bytes": 311,
+        "sha256": "3e21652f4dd62cc97b9a0cdc4b0e684949bb53c0c38feca413b806a6708b14fa"
+      }
+    },
+    {
+      "input_bits": "7f800000",
+      "model": "original Int32 target-width source",
+      "undefined_operation": "outside the range",
+      "returncode": -6,
+      "log": {
+        "path": "build/research/wrap-finite-v1/original32-7f800000-ubsan.log",
+        "bytes": 302,
+        "sha256": "e360a2d6b8f3b206ab701ee4833b7dd7fe02240cda7f9c58bf28ae1fcf29f2e5"
+      }
+    },
+    {
+      "input_bits": "7fc12345",
+      "model": "original Int32 target-width source",
+      "undefined_operation": "outside the range",
+      "returncode": -6,
+      "log": {
+        "path": "build/research/wrap-finite-v1/original32-7fc12345-ubsan.log",
+        "bytes": 302,
+        "sha256": "54c942e68ea185313991ba336bc0c14ea50d00221c9212284f3ef862c1f54353"
+      }
+    },
+    {
+      "input_bits": "4f800000",
+      "model": "original native intptr_t64 source",
+      "defined_control": true,
+      "output_bits": "00000000",
+      "log": {
+        "path": "build/research/wrap-finite-v1/original-native-4f800000.log",
+        "bytes": 89,
+        "sha256": "7685a00269b33b6184f8cdd3ac0acb33bf0c868a2a7074881831ac9342761949"
+      }
+    },
+    {
+      "input_bits": "cf800000",
+      "model": "original native intptr_t64 source",
+      "defined_control": true,
+      "output_bits": "00000000",
+      "log": {
+        "path": "build/research/wrap-finite-v1/original-native-cf800000.log",
+        "bytes": 89,
+        "sha256": "300ebbedc298ed16827c70ac633fb0c8c1398729874c21d806340a6236728bd7"
+      }
+    }
+  ],
+  "private_correction": {
+    "stage": "private_native_and_static_lowering_only",
+    "production_admitted": false,
+    "target_module_or_firmware_built": false,
+    "hardware_executed": false,
+    "target_speed_measured": false,
+    "input_type": "IEEE binary32",
+    "interval": "[-1,1)",
+    "rounding_tested": "nearest-even",
+    "preferred_profile": "private-wrap-finite-even24-v1",
+    "threshold": 16777216,
+    "threshold_power": 24,
+    "mathematical_basis": "Every finite binary32 value with magnitude>=2^24 is an even integer, whose exact modulo2 result in[-1,1) is zero.",
+    "source_adaptation": "Insert finite-large guard after original in-range fast branch; full original remaining method/runtime/type bytes restore by inverse.",
+    "signed_zero": "Input-0 remains-0 through unchanged fast branch; nonzero even integers return canonical+0.",
+    "nonfinite": "Guards reject NaN/Inf without writing; original nonfinite path remains unchanged and unqualified.",
+    "exhaustive_proofs": [
+      {
+        "build": "release",
+        "finite_binary32_encodings": 4278190080,
+        "different_words": 0,
+        "safe_original_encodings": 2533359616,
+        "safe_original_bit_identical": true,
+        "log": {
+          "path": "build/research/wrap-finite-v1/release-exhaustive-even24.log",
+          "bytes": 175,
+          "sha256": "64bd88ac87b39faef8caa0fb604616d4229d4c4c9958b9f693f4dfeee52a6a5c"
+        },
+        "oracle": "Independent raw-bit integer modulo2 and direct binary32 packing"
+      },
+      {
+        "build": "ubsan",
+        "finite_binary32_encodings": 4278190080,
+        "different_words": 0,
+        "safe_original_encodings": 2533359616,
+        "safe_original_bit_identical": true,
+        "log": {
+          "path": "build/research/wrap-finite-v1/ubsan-exhaustive-even24.log",
+          "bytes": 175,
+          "sha256": "f139372b7dbe8908ed151790822713f4dbf1363db0d852848c98a650f75ae122"
+        },
+        "oracle": "Independent raw-bit integer modulo2 and direct binary32 packing"
+      }
+    ],
+    "fmod_alternative_and_rejected_threshold": [
+      {
+        "build": "release",
+        "fmod24_stratified_encodings": 153083904,
+        "fmod24_different_words": 0,
+        "fmod31_threshold_mismatches": 8392704,
+        "log": {
+          "path": "build/research/wrap-finite-v1/release-fmod-strata.log",
+          "bytes": 171,
+          "sha256": "aa835c08dd4d0ae3c57c93dd5a0b5a2aa15a7d906eabc4ffd8b757a10e8c25fc"
+        }
+      },
+      {
+        "build": "ubsan",
+        "fmod24_stratified_encodings": 153083904,
+        "fmod24_different_words": 0,
+        "fmod31_threshold_mismatches": 8392704,
+        "log": {
+          "path": "build/research/wrap-finite-v1/ubsan-fmod-strata.log",
+          "bytes": 171,
+          "sha256": "4eb12a60853f89af287883d475c720231a98dc6250914fd2a802dccaf754ce99"
+        }
+      }
+    ],
+    "native_graph": {
+      "original_cases": 3,
+      "variants": 2,
+      "float_pcm_comparisons": 1572864,
+      "maximum_absolute_error": 0,
+      "maximum_pcm_lsb_error": 0,
+      "large_finite_scalar_checks": 1572864,
+      "large_finite_expected_zero_passed": true,
+      "scope": "Actual native static wrapper; host Int=intptr_t64. Target Int32 is tested separately by an explicit source model."
+    },
+    "static_xtensa_lowering": {
+      "optimizations": [
+        "O2",
+        "O3"
+      ],
+      "original_scalar_bytes": 117,
+      "even24_scalar_bytes": 178,
+      "even24_helper_calls": 0,
+      "observed_float64_or_int64_helpers": 0,
+      "speed_measured": false,
+      "scope": "Standalone scalar lowering only; no RNBO target module/firmware was built for the guard."
+    }
+  },
+  "limits": [
+    "Finite Float32 fixed[-1,1) only; arbitrary ranges and Float64 input are not admitted.",
+    "No S3 execution, timing, allocation, stack, heap or full-application deadline qualification of the correction.",
+    "NaN/Inf, floating exception flags and non-default rounding modes remain unqualified.",
+    "Original bounded S3 graph evidence remains separate from native correction and static instruction evidence.",
+    "Metadata/hashes only: generated RNBO bodies and binaries remain in the ignored local research/build tree."
+  ],
+  "artifacts": {
+    "build/research/wrap-finite-v1/seal.py": {
+      "bytes": 5826,
+      "sha256": "b29246f4e71e3952c9ebf8fefa9277d792ee196e02385f83311c42ec848e410d"
+    },
+    "build/research/wrap-finite-v1/PROOF.md": {
+      "bytes": 7077,
+      "sha256": "4b4857548ccd47ad32d25435d965396daaf60f7e529c3ca5f610d4c9511b25dc"
+    },
+    "build/research/wrap-finite-v1/finite_wrap.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "build/research/wrap-finite-v1/prepare_research.py": {
+      "bytes": 6590,
+      "sha256": "a316cda41520b6ef14c29a48d634f8ee6d6af17af02ff526313beb62dd397fe8"
+    },
+    "build/research/wrap-finite-v1/kernel.h": {
+      "bytes": 11588,
+      "sha256": "065d98250ba80e272ef4b3d6363a5fb0bfe6b4aa2db32f1bcebf8f4f55ac0583"
+    },
+    "build/research/wrap-finite-v1/source-proof.json": {
+      "bytes": 17120,
+      "sha256": "351650d867f528e76ba4a3d24011745c0c91d2cd91d6ca296304c30c08913286"
+    },
+    "build/research/wrap-finite-v1/proof.cpp": {
+      "bytes": 6472,
+      "sha256": "d21a1112496c8d85f6fa4bf8f48d0430ebcb3333c9baf499344a0855bd5db093"
+    },
+    "build/research/wrap-finite-v1/run_proof.py": {
+      "bytes": 3154,
+      "sha256": "3f85211d9ac58532698eb8b782a3bbe4daada043e515b3413e2e5a6fe2f0be55"
+    },
+    "build/research/wrap-finite-v1/release-report.json": {
+      "bytes": 2653,
+      "sha256": "f50bc39b8dc139e065fb9dd81b360c91c3350d6f6bb5b9a2dd0c50f3970c24ca"
+    },
+    "build/research/wrap-finite-v1/ubsan-report.json": {
+      "bytes": 5270,
+      "sha256": "8ac1f96d954275698249083608e3ea99c72cb0bfe21def1c8498d412a7f07d10"
+    },
+    "build/research/wrap-finite-v1/run_graph.py": {
+      "bytes": 5728,
+      "sha256": "d0acfc34f8eeee16c2584ad648510a30d492ed90a8bd2002542bb46377ed37e4"
+    },
+    "build/research/wrap-finite-v1/graph-report.json": {
+      "bytes": 46538,
+      "sha256": "6927920a18809fe4392ad321754b9d356a76c0c03d37f346ba422198e09f6a00"
+    },
+    "build/research/wrap-finite-v1/lowering.cpp": {
+      "bytes": 286,
+      "sha256": "727d55b3e4f9a1c94eda9b0c6cb360ce1040a7ad912901d58a4aa60c852b79d7"
+    },
+    "build/research/wrap-finite-v1/audit_lowering.py": {
+      "bytes": 4260,
+      "sha256": "d7b7812d468738ea3471898f08460dece68ea4e8ae329dbc81727eee800a74a3"
+    },
+    "build/research/wrap-finite-v1/lowering-report.json": {
+      "bytes": 5267,
+      "sha256": "994c2700b60d6cf5fc8bf92998eea097b96486d87d7e49565631a3d0898337b7"
+    },
+    "module-sdk/wrapper/rnbo_s3_static.cpp": {
+      "bytes": 15243,
+      "sha256": "1178b37dcd255bedd50c3c01c55c77a590e07cee9d9ff4a2d6530c63ba7f99ed"
+    },
+    "module-sdk/dynamic/rnbo_s3_dynamic.cpp": {
+      "bytes": 17029,
+      "sha256": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/rnbo_source.h": {
+      "bytes": 21068,
+      "sha256": "b246e2357fc3829af9d44eec0efc1aa69a82bd9157be093663005ea0eb1ea28b"
+    },
+    "build/object-optimisation/wave2-target-v1/prepared/nonlinear-domains/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/research/wrap-finite-v1/proof-release": {
+      "bytes": 34640,
+      "sha256": "a13bce40ebc88cccf3fe48ccbaf038c2ef7eb3ff88a80815a3569023c4a31ff4"
+    },
+    "build/research/wrap-finite-v1/release-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build/research/wrap-finite-v1/release-edges.log": {
+      "bytes": 5906,
+      "sha256": "806d3ad09dfa3129deda2ef6b2edee0976e4567123c9d23d9ec32af1f6619a2e"
+    },
+    "build/research/wrap-finite-v1/release-fmod-strata.log": {
+      "bytes": 171,
+      "sha256": "aa835c08dd4d0ae3c57c93dd5a0b5a2aa15a7d906eabc4ffd8b757a10e8c25fc"
+    },
+    "build/research/wrap-finite-v1/release-exhaustive-even24.log": {
+      "bytes": 175,
+      "sha256": "64bd88ac87b39faef8caa0fb604616d4229d4c4c9958b9f693f4dfeee52a6a5c"
+    },
+    "build/research/wrap-finite-v1/proof-ubsan": {
+      "bytes": 52392,
+      "sha256": "3af54e0d1e096cbfdefa916922b6d120c9c1fb1dde2819ad4b3cff8852f5e75e"
+    },
+    "build/research/wrap-finite-v1/ubsan-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build/research/wrap-finite-v1/ubsan-edges.log": {
+      "bytes": 5906,
+      "sha256": "806d3ad09dfa3129deda2ef6b2edee0976e4567123c9d23d9ec32af1f6619a2e"
+    },
+    "build/research/wrap-finite-v1/ubsan-fmod-strata.log": {
+      "bytes": 171,
+      "sha256": "4eb12a60853f89af287883d475c720231a98dc6250914fd2a802dccaf754ce99"
+    },
+    "build/research/wrap-finite-v1/ubsan-exhaustive-even24.log": {
+      "bytes": 175,
+      "sha256": "f139372b7dbe8908ed151790822713f4dbf1363db0d852848c98a650f75ae122"
+    },
+    "build/research/wrap-finite-v1/original32-4f800000-ubsan.log": {
+      "bytes": 310,
+      "sha256": "3d628f775324d7109cb57a710dd35faed2f2e3ca625247c301f54ddf6242eec9"
+    },
+    "build/research/wrap-finite-v1/original32-cf800000-ubsan.log": {
+      "bytes": 316,
+      "sha256": "6c1e20f5fa29e945c72244f49211153ae845841112df9610da3cdbfb57423b1d"
+    },
+    "build/research/wrap-finite-v1/original32-7f7fffff-ubsan.log": {
+      "bytes": 310,
+      "sha256": "f28c810e945246fb0ce89cb3027898aa40fbc36ec4e07af1997528e4ed1133cb"
+    },
+    "build/research/wrap-finite-v1/original32-ff7fffff-ubsan.log": {
+      "bytes": 311,
+      "sha256": "3e21652f4dd62cc97b9a0cdc4b0e684949bb53c0c38feca413b806a6708b14fa"
+    },
+    "build/research/wrap-finite-v1/original32-7f800000-ubsan.log": {
+      "bytes": 302,
+      "sha256": "e360a2d6b8f3b206ab701ee4833b7dd7fe02240cda7f9c58bf28ae1fcf29f2e5"
+    },
+    "build/research/wrap-finite-v1/original32-7fc12345-ubsan.log": {
+      "bytes": 302,
+      "sha256": "54c942e68ea185313991ba336bc0c14ea50d00221c9212284f3ef862c1f54353"
+    },
+    "build/research/wrap-finite-v1/original-native-4f800000.log": {
+      "bytes": 89,
+      "sha256": "7685a00269b33b6184f8cdd3ac0acb33bf0c868a2a7074881831ac9342761949"
+    },
+    "build/research/wrap-finite-v1/original-native-cf800000.log": {
+      "bytes": 89,
+      "sha256": "300ebbedc298ed16827c70ac633fb0c8c1398729874c21d806340a6236728bd7"
+    },
+    "build/research/wrap-finite-v1/lowering-O2.o": {
+      "bytes": 52208,
+      "sha256": "c2452c4ce5ec40cd9c9fc0665fd75b172987c5abf26d6aff998089f25c85d53d"
+    },
+    "build/research/wrap-finite-v1/lowering-O2.s": {
+      "bytes": 168510,
+      "sha256": "2bbcba2cee973a5f583b69fa11f6f6bd7e2d12873ad07872b9cdac38fde25958"
+    },
+    "build/research/wrap-finite-v1/lowering-O2-disassembly.txt": {
+      "bytes": 13538,
+      "sha256": "6aa3e8c524549b7a583c6402bbdeb712b48fb5f531a5abc99c115d0750dd6a47"
+    },
+    "build/research/wrap-finite-v1/lowering-O2-symbols.txt": {
+      "bytes": 251,
+      "sha256": "e61bcfec7debcdf7624d3d7b71259563f2822ad35631b3af38b365e8d0132c26"
+    },
+    "build/research/wrap-finite-v1/lowering-O3.o": {
+      "bytes": 52140,
+      "sha256": "1c6ad21619fe6ba9d8c345f17402644ce8a6fc390b18de4e2ade3ca64d6de018"
+    },
+    "build/research/wrap-finite-v1/lowering-O3.s": {
+      "bytes": 168392,
+      "sha256": "4ae35a10c8cbc78bab713b6229cb35afcba493599353c8ad197073947613cc7e"
+    },
+    "build/research/wrap-finite-v1/lowering-O3-disassembly.txt": {
+      "bytes": 13762,
+      "sha256": "029af7bd433b9c17f0086fd45107d682ee35b22e1e6c0affdaaafcf6e6e6187c"
+    },
+    "build/research/wrap-finite-v1/lowering-O3-symbols.txt": {
+      "bytes": 251,
+      "sha256": "bc9a448be12ee4edd823039a2cad70575c69825ebfbd0d80e0b736f5edc5d23d"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-ef_fmod.o": {
+      "bytes": 10168,
+      "sha256": "fc4693abd66da26d8de4dccc48ff50f6033c0004f66de432f41c2b2c0739606c"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-fmodl.o.disassembly.txt": {
+      "bytes": 671,
+      "sha256": "26d4bfbe10907a9b0f164b0be18bca6aff859fc9c7df7bf3ec0e83ee4286aa2d"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-w_fmod.o.disassembly.txt": {
+      "bytes": 2163,
+      "sha256": "40225fc99a466bea3a31bf9c2a41f8f663730ef97023bb7ddecadc4e029a275d"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-wf_fmod.o.disassembly.txt": {
+      "bytes": 1600,
+      "sha256": "81ef49cd59b06f929e933d2b4c9c6e07773a893409abf55a189eeba93bc08da3"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-w_fmod.o": {
+      "bytes": 5316,
+      "sha256": "27ef568071ccf6d08aa09c256f8f5cf92ae07b4db77992e2e999ed813e836c43"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-wf_fmod.o": {
+      "bytes": 5088,
+      "sha256": "7e92700f94ba1e05a44c1da117af37a0b60dccebef5436facab7765faf59846c"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-fmodl.o": {
+      "bytes": 4060,
+      "sha256": "16c599e1b1f2a7fd1cb62ab51a05683db2d9307ac47a3cb69d55c70e768c165a"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-e_fmod.o": {
+      "bytes": 13728,
+      "sha256": "b55109fd9e166c7c54b57d22c5ac179f8d799930d073d227d9713fba48d787e3"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-ef_fmod.o.disassembly.txt": {
+      "bytes": 6011,
+      "sha256": "022854035281e4a13c6cd11142c9cbab0ee1950cef873aa4796c24be6263cac1"
+    },
+    "build/research/wrap-finite-v1/libm-audit/libm_a-e_fmod.o.disassembly.txt": {
+      "bytes": 11307,
+      "sha256": "4ac964faabb520a62003567bd068b95de4d7652b4585ef552c22cd3be0863c93"
+    },
+    "build/research/wrap-finite-v1/native/reference/host-build.json": {
+      "bytes": 10330,
+      "sha256": "76a00f2ade796bdad504b7431105fb6b709bd001795f80d8244bae343f6fadb8"
+    },
+    "build/research/wrap-finite-v1/native/reference/probe-build.json": {
+      "bytes": 1433,
+      "sha256": "944b3182e9af891e98d1cd54716579905c39715069c4bcd052acb9cd4eba9974"
+    },
+    "build/research/wrap-finite-v1/native/reference/wave2_probe": {
+      "bytes": 87384,
+      "sha256": "0f7519abc381beb5a047ab1300a52c1ac58d5d8ed4fe9de1720127ce90a91324"
+    },
+    "build/research/wrap-finite-v1/native/fmod24/host-build.json": {
+      "bytes": 10514,
+      "sha256": "c8b61d6179afb6d96b74bcde6b3be78f24e3610236c5ced4496f49e7bb5a37bb"
+    },
+    "build/research/wrap-finite-v1/native/fmod24/probe-build.json": {
+      "bytes": 1418,
+      "sha256": "a14e1e12e487b8fe30680e567d578ce38aca7a89f1c8098a389b7fbd8f165312"
+    },
+    "build/research/wrap-finite-v1/native/fmod24/wave2_probe": {
+      "bytes": 87384,
+      "sha256": "7ae5226875f942371c8ecb32e3379be0b728b843963a18f5f822be361214dcc3"
+    },
+    "build/research/wrap-finite-v1/native/even24/host-build.json": {
+      "bytes": 10514,
+      "sha256": "cb663ab32fae67961f689b82225025e28d0d04ce4ee4cf33d4f70a0b0a6e4ae3"
+    },
+    "build/research/wrap-finite-v1/native/even24/probe-build.json": {
+      "bytes": 1418,
+      "sha256": "55b8eeb42339212ca1623bd29bca55120ca359a8e1881cc5c98c51b3b50a1103"
+    },
+    "build/research/wrap-finite-v1/native/even24/wave2_probe": {
+      "bytes": 87384,
+      "sha256": "c51441c2445c14de9139a313eb7e4c7fd0c1cdc2bc29ab1d7bcf948e7e4359a4"
+    },
+    "build/research/wrap-finite-v1/original-grid.f32": {
+      "bytes": 1048576,
+      "sha256": "e7c879fcf8e61f4412aed0261559ee4e53bd98c52e74ba744685a032d6ecb59d"
+    },
+    "build/research/wrap-finite-v1/large-finite-grid.f32": {
+      "bytes": 1048576,
+      "sha256": "b318362a2381c546fb700e0ee83a6579c14ff3ced951dd2054f0a838b021a43f"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fourth.wav": {
+      "bytes": 524332,
+      "sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-square.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/square.wav": {
+      "bytes": 524332,
+      "sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fourth.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-square.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/square.f32": {
+      "bytes": 1048576,
+      "sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+    },
+    "build/research/wrap-finite-v1/renders/fmod24/large-fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fourth.wav": {
+      "bytes": 524332,
+      "sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-square.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778"
+    },
+    "build/research/wrap-finite-v1/renders/even24/square.wav": {
+      "bytes": 524332,
+      "sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fourth.wav": {
+      "bytes": 524332,
+      "sha256": "e5a8c4844fced27cfba7dc4782d98b3f07f33ffced847bd3dcd5aad7505f361b"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-square.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+    },
+    "build/research/wrap-finite-v1/renders/even24/fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/even24/square.f32": {
+      "bytes": 1048576,
+      "sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+    },
+    "build/research/wrap-finite-v1/renders/even24/large-fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "30e14955ebf1352266dc2ff8067e68104607e750abb9d3b36582b8af909fcb58"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fourth.wav": {
+      "bytes": 524332,
+      "sha256": "7fc2917b10dd94e4860ecff6aca8e93ab0d383263e20a6bc826bf85b12dc18e9"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fractional.wav": {
+      "bytes": 524332,
+      "sha256": "e85ed3463404b14d9f9214a4843cce571b24f2b05844372fc3a2e78c23202778"
+    },
+    "build/research/wrap-finite-v1/renders/reference/square.wav": {
+      "bytes": 524332,
+      "sha256": "9641734deeaa3b26b1d04bdfff90824ebceed22c4f286ebc0c83d0bfe882ca6c"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fourth.f32": {
+      "bytes": 1048576,
+      "sha256": "780a85b2b73addd6bfbe5f47b5fb8a4d3f21e4176e4abbb6984b1dc360238af2"
+    },
+    "build/research/wrap-finite-v1/renders/reference/fractional.f32": {
+      "bytes": 1048576,
+      "sha256": "244284d2aca79878e08d7502101483c3065eb44a5318df32d80c6c3b7df1ac6d"
+    },
+    "build/research/wrap-finite-v1/renders/reference/square.f32": {
+      "bytes": 1048576,
+      "sha256": "5790b5ebb42e65dbc0dd5a63b452b96987118340757ac3ca9f1cf9acfd8c459a"
+    },
+    "build/research/wrap-finite-v1/report.json": {
+      "bytes": 44502,
+      "sha256": "df6c93a73fdec01fec49a34c3739df5f82a37bf6da943a5c4e962d8e7c3db769"
+    },
+    "build/research/publish-wrap-finite/seal.py": {
+      "bytes": 11606,
+      "sha256": "57b43e96155de8ed154f4fd9501c5ee4ce56be8808836bd1d590ca331567db37"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/description.json": {
+      "bytes": 2839,
+      "sha256": "20f3ba4d3a8e8a19967fa566c59a04021d35f2bdeb49fa5095b70bed6fa24cec"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/generator.json": {
+      "bytes": 980,
+      "sha256": "cfdcfaa04983904bbf74b46622ac086bac86a53ea2847cc3497283bd1228d26d"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/patch_config.h": {
+      "bytes": 237,
+      "sha256": "a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/private_finite_wrap.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/rnbo_source.h": {
+      "bytes": 21282,
+      "sha256": "a0e79d116c67adc2e1ac62c4216fa9931afafdc9d6374ffd8bc764e696531260"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/source.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/manifest.json": {
+      "bytes": 1188,
+      "sha256": "6cc5388299def49341394605986db3511f06593e995d56e10b78a837c1588dff"
+    },
+    "build/research/wrap-finite-v1/prepared/fmod24/provenance.json": {
+      "bytes": 13693,
+      "sha256": "4010801a98738205b3604be57c8b8fdc1eced872eab4e10de25200957b832a4a"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/RNBO-runtime-LICENSE": {
+      "bytes": 1056,
+      "sha256": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Array.h": {
+      "bytes": 2140,
+      "sha256": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_AudioSignal.h": {
+      "bytes": 8766,
+      "sha256": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_BaseInterface.h": {
+      "bytes": 1012,
+      "sha256": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_CMath.h": {
+      "bytes": 3677,
+      "sha256": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Common.h": {
+      "bytes": 1038,
+      "sha256": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_CompilerMacros.h": {
+      "bytes": 1913,
+      "sha256": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_DataRef.h": {
+      "bytes": 30180,
+      "sha256": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Debug.h": {
+      "bytes": 1437,
+      "sha256": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_EngineInterface.h": {
+      "bytes": 2932,
+      "sha256": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_EngineLink.h": {
+      "bytes": 717,
+      "sha256": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_EventTarget.h": {
+      "bytes": 579,
+      "sha256": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_ExternalBase.h": {
+      "bytes": 393,
+      "sha256": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_ExternalPtr.h": {
+      "bytes": 1112,
+      "sha256": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_List.h": {
+      "bytes": 18982,
+      "sha256": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_ListHelpers.h": {
+      "bytes": 2340,
+      "sha256": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Logger.h": {
+      "bytes": 2603,
+      "sha256": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_LoggerImpl.h": {
+      "bytes": 993,
+      "sha256": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_MIDIHelper.h": {
+      "bytes": 2739,
+      "sha256": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Math.h": {
+      "bytes": 20774,
+      "sha256": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_MathFast.h": {
+      "bytes": 58885,
+      "sha256": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_MinimalEngine.h": {
+      "bytes": 9733,
+      "sha256": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_ParameterInterface.h": {
+      "bytes": 4187,
+      "sha256": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_PatcherEventTarget.h": {
+      "bytes": 1755,
+      "sha256": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_PatcherFactory.h": {
+      "bytes": 1168,
+      "sha256": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_PatcherInterface.h": {
+      "bytes": 3359,
+      "sha256": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_PatcherInterfaceImpl.h": {
+      "bytes": 434,
+      "sha256": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_PatcherStateInterface.h": {
+      "bytes": 4847,
+      "sha256": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Platform.h": {
+      "bytes": 4577,
+      "sha256": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_ProbingInterface.h": {
+      "bytes": 375,
+      "sha256": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_ProcessInterface.h": {
+      "bytes": 2187,
+      "sha256": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Std.h": {
+      "bytes": 4002,
+      "sha256": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_String.h": {
+      "bytes": 5378,
+      "sha256": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_TimeConverter.h": {
+      "bytes": 3820,
+      "sha256": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Types.h": {
+      "bytes": 8507,
+      "sha256": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_UniquePtr.h": {
+      "bytes": 3242,
+      "sha256": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/common/RNBO_Version.h": {
+      "bytes": 135,
+      "sha256": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/description.json": {
+      "bytes": 2839,
+      "sha256": "20f3ba4d3a8e8a19967fa566c59a04021d35f2bdeb49fa5095b70bed6fa24cec"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/generator.json": {
+      "bytes": 980,
+      "sha256": "cfdcfaa04983904bbf74b46622ac086bac86a53ea2847cc3497283bd1228d26d"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/patch_config.h": {
+      "bytes": 237,
+      "sha256": "a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/private_finite_wrap.h": {
+      "bytes": 1647,
+      "sha256": "5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/rnbo_source.h": {
+      "bytes": 21260,
+      "sha256": "cb3034efc572a29b2d3e9cc82e733035a12b6907b6213c9c3af9ee01ab64cbfd"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/source.rnbopat": {
+      "bytes": 4026,
+      "sha256": "426eace2f5d115d12b3cb61280325bff289a9ac28c9ce80652c6b466ae0aa180"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/manifest.json": {
+      "bytes": 1188,
+      "sha256": "4e5199967d2bfd17dc9b7a031276dbf23bee051ebd1b1846594e92ac3d02c6f6"
+    },
+    "build/research/wrap-finite-v1/prepared/even24/provenance.json": {
+      "bytes": 13693,
+      "sha256": "565b164e12aa7a57ade0109487916a27a8a4826343c9eef89a489e49f86041f5"
+    },
+    "evidence/wave2-target-oracles.json": {
+      "bytes": 80991,
+      "sha256": "4942c083109f7cc14c8c9839c1da9f5d8d7fdcf94591ed373e7a5fa0eda55edf"
+    },
+    "build/object-benchmark-amoled-nonlinear-domains-wave2-oracles-v1/build-report.json": {
+      "bytes": 93242,
+      "sha256": "13b9a066204965ff7a3c0998fcdef469a6c65c2887a34813a31b510008ad4cfb"
+    },
+    "build/object-optimisation/hardware-nonlinear-oracles-v1/hardware-test.json": {
+      "bytes": 4901,
+      "sha256": "30dbde005a5d4080d5c72b37025db985a0ab02163ea68ec06eaee46e9f413251"
+    },
+    "build/object-optimisation/hardware-nonlinear-oracles-v1/test-serial.log": {
+      "bytes": 8008,
+      "sha256": "fa9eb903f1811f359e6682ffccd8cf829a49b14f3467e07f5dc3ef76c2da43d4"
+    }
+  }
+}
