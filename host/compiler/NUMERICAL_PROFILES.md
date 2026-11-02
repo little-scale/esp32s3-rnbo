@@ -50,3 +50,9 @@ The separately named `float32-cycle-v2`, `float32-audio-v1` and
 [the float32 audio profile notes](../../docs/float32-audio.md). Their broader
 method catalogs and measured audio differences do not change v1 admission or
 its comparison limits. Strict remains the default.
+
+The separate [`float32-scalar-powers-v1` profile](../../docs/scalar-powers.md)
+admits only the whole-source/runtime-pinned nonlinear FX fixture. It deliberately
+changes power rounding, supports the reviewed finite-wrap composition, and has
+its own native and board evidence. Its results do not extend cycle or audio
+profile admission.

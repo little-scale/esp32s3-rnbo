@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-enum { OBJECT_WAVE2_BIQUAD=2, OBJECT_WAVE2_NONLINEAR=3, OBJECT_WAVE2_WRAP_FINITE=4 };
+enum { OBJECT_WAVE2_BIQUAD=2, OBJECT_WAVE2_NONLINEAR=3, OBJECT_WAVE2_WRAP_FINITE=4, OBJECT_WAVE2_POWER_MODES=5 };
 enum { OBJECT_WAVE2_MAX_FRAMES=1024*256 };
 typedef struct {
     uint32_t magic,kind,case_index,next_frame;
@@ -21,6 +21,9 @@ bool object_wave2_oracle_init(object_wave2_oracle *state,uint32_t kind,
 /* One independent Float64 model step, available for native model tests.
  * The model state is Float64; no generated Float32 accumulator is copied. */
 bool object_wave2_oracle_step(object_wave2_oracle *state,const float input[2],double truth[2]);
+/* New power-mode contract only: actual Float32 exponent in[.25,4], applied
+ * before the next block. Original kind3 remains restricted to2/.25/4. */
+bool object_wave2_oracle_set_exponent(object_wave2_oracle *state,float exponent);
 /* Fill a contiguous Float32 oracle-cache chunk outside timed callbacks.
  * first_frame must equal state.next_frame. max_rounding accumulates the
  * absolute model->cache rounding error. Actual input is interleaved Float32;

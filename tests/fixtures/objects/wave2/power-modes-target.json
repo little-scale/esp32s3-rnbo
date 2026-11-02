@@ -1,0 +1,259 @@
+{
+  "format_version": 1,
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "fixtures": [
+    {
+      "id": "nonlinear-domains",
+      "family": "nonlinear",
+      "patch": "nonlinear-domains.rnbopat",
+      "role": "fx",
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "blocks": 512,
+      "arena_bytes": 4096,
+      "cases": [
+        {
+          "id": "square",
+          "parameters": {},
+          "events": []
+        },
+        {
+          "id": "fractional",
+          "parameters": {
+            "exponent": 0.25
+          },
+          "events": []
+        },
+        {
+          "id": "fourth",
+          "parameters": {
+            "exponent": 4
+          },
+          "events": []
+        },
+        {
+          "id": "dense-square",
+          "parameters": {
+            "exponent": 2
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "dense-quarter",
+          "parameters": {
+            "exponent": 0.25
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "dense-fourth",
+          "parameters": {
+            "exponent": 4
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "fallback-half",
+          "parameters": {
+            "exponent": 0.5
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "fallback-one-half",
+          "parameters": {
+            "exponent": 1.5
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "fallback-two-half",
+          "parameters": {
+            "exponent": 2.5
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "below-two",
+          "parameters": {
+            "exponent": 1.9999998807907104
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "above-two",
+          "parameters": {
+            "exponent": 2.000000238418579
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "above-quarter",
+          "parameters": {
+            "exponent": 0.2500000298023224
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "below-four",
+          "parameters": {
+            "exponent": 3.999999761581421
+          },
+          "events": [],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "mode-switches",
+          "parameters": {},
+          "events": [
+            {
+              "block": 1,
+              "id": "exponent",
+              "value": 0.5,
+              "form": "actual"
+            },
+            {
+              "block": 32,
+              "id": "exponent",
+              "value": 0.25,
+              "form": "actual"
+            },
+            {
+              "block": 63,
+              "id": "exponent",
+              "value": 1.5,
+              "form": "actual"
+            },
+            {
+              "block": 128,
+              "id": "exponent",
+              "value": 4,
+              "form": "actual"
+            },
+            {
+              "block": 255,
+              "id": "exponent",
+              "value": 2.5,
+              "form": "actual"
+            },
+            {
+              "block": 384,
+              "id": "exponent",
+              "value": 2,
+              "form": "actual"
+            },
+            {
+              "block": 511,
+              "id": "exponent",
+              "value": 0.25,
+              "form": "actual"
+            }
+          ],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        },
+        {
+          "id": "neighbor-switches",
+          "parameters": {
+            "exponent": 0.25
+          },
+          "events": [
+            {
+              "block": 1,
+              "id": "exponent",
+              "value": 0.2500000298023224,
+              "form": "actual"
+            },
+            {
+              "block": 32,
+              "id": "exponent",
+              "value": 2,
+              "form": "actual"
+            },
+            {
+              "block": 64,
+              "id": "exponent",
+              "value": 1.9999998807907104,
+              "form": "actual"
+            },
+            {
+              "block": 127,
+              "id": "exponent",
+              "value": 2.000000238418579,
+              "form": "actual"
+            },
+            {
+              "block": 256,
+              "id": "exponent",
+              "value": 4,
+              "form": "actual"
+            },
+            {
+              "block": 384,
+              "id": "exponent",
+              "value": 3.999999761581421,
+              "form": "actual"
+            },
+            {
+              "block": 511,
+              "id": "exponent",
+              "value": 0.25,
+              "form": "actual"
+            }
+          ],
+          "stimulus": {
+            "kind": "nonlinear-dense-binary32-v1"
+          }
+        }
+      ],
+      "semantic": {
+        "kind": "nonlinear",
+        "exponent_default": 2,
+        "maximum_absolute_error": 2e-06
+      },
+      "comparison_tolerance": {
+        "maximum_absolute_error": 2e-06,
+        "maximum_pcm_lsb_error": 1,
+        "relative_rms_level_difference": 0.0001
+      },
+      "stimulus": {
+        "kind": "nonlinear-grid-v1"
+      },
+      "verification": {
+        "kind": "nonlinear-power-modes-v1",
+        "maximum_absolute_error": 2e-06
+      }
+    }
+  ]
+}

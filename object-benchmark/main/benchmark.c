@@ -38,7 +38,7 @@ typedef struct {
     uint64_t samples,clipped;
     double square_sum,peak;
 } profile_metrics;
-typedef struct { uint64_t samples,pcm_different;uint32_t max_pcm_lsb;double max_abs,error_square_sum; } compare_metrics;
+typedef struct { uint64_t samples,pcm_different;uint32_t max_pcm_lsb;double max_abs,error_square_sum;uint64_t float_bit_different,zero_sign_different; } compare_metrics;
 static profile_metrics profiles[2];
 static int64_t benchmark_started;
 static compare_metrics aggregate;
@@ -54,6 +54,7 @@ static double dc_expected;
 static const object_stimulus *active_stimulus;
 static uint32_t input_rechecks;
 static uint64_t pilot_sample_checks;
+static char event_schedule_sha[65];
 static float *inputs[2],*outputs[2];
 
 static const char *verification_name(uint32_t kind)
@@ -63,6 +64,7 @@ static const char *verification_name(uint32_t kind)
     case OBJECT_WAVE2_BIQUAD:return "biquad-response-v1";
     case OBJECT_WAVE2_NONLINEAR:return "nonlinear-chain-v1";
     case OBJECT_WAVE2_WRAP_FINITE:return "wrap-finite-v1";
+    case OBJECT_WAVE2_POWER_MODES:return "nonlinear-power-modes-v1";
     default:CHECK(false);return "invalid";
     }
 }
@@ -72,6 +74,24 @@ static void digest_hex(const uint8_t *bytes,size_t count,char result[65])
     uint8_t digest[32];CHECK(mbedtls_sha256(bytes,count,digest,0)==0);
     for (unsigned i=0;i<32;++i) sprintf(result+2*i,"%02x",digest[i]);
     result[64]=0;
+}
+static void put_u32le(uint8_t *out,uint32_t value)
+{for(unsigned n=0;n<4;++n)out[n]=(uint8_t)(value>>(n*8u));}
+static void power_schedule_fingerprint(const bench_case *test)
+{
+    /* Canonical wire bytes, never C structure padding: initial Float32 bits,
+     * count, then block/index/kind/Float32-value for each actual event. */
+    CHECK(test->event_count<=16u);
+    uint8_t bytes[8u+16u*16u];float initial=(float)active_verification->exponent;uint32_t bits;
+    __builtin_memcpy(&bits,&initial,4);put_u32le(bytes,bits);put_u32le(bytes+4,test->event_count);
+    for(uint32_t n=0;n<test->event_count;++n){
+        const bench_event *event=&bench_events[test->event_begin+n];uint8_t *p=bytes+8u+16u*n;
+        CHECK(event->kind==1u && event->index==0u && event->block<BENCH_BLOCKS && isfinite(event->value) && event->value>=.25f && event->value<=4.f);
+        if(n)CHECK(bench_events[test->event_begin+n-1u].block<event->block);
+        __builtin_memcpy(&bits,&event->value,4);
+        put_u32le(p,event->block);put_u32le(p+4,event->index);put_u32le(p+8,event->kind);put_u32le(p+12,bits);
+    }
+    digest_hex(bytes,8u+16u*test->event_count,event_schedule_sha);
 }
 static int16_t pcm(float value)
 {
@@ -95,8 +115,8 @@ static void verify_parameters(object_image *image)
 }
 static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[65])
 {
-    active_verification=&bench_verifications[test];strcpy(oracle_sha,"none");oracle_rounding_error=0;dc_expected=0;
-    CHECK(active_verification->kind<=OBJECT_WAVE2_WRAP_FINITE);
+    active_verification=&bench_verifications[test];strcpy(oracle_sha,"none");strcpy(event_schedule_sha,"none");oracle_rounding_error=0;dc_expected=0;
+    CHECK(active_verification->kind<=OBJECT_WAVE2_POWER_MODES);
     CHECK(!active_verification->kind || BENCH_ROLE==RNBO_S3_FX);
     if(BENCH_ROLE!=RNBO_S3_FX){strcpy(fingerprint,"none");return;}
     active_stimulus=&bench_stimuli[test];
@@ -114,6 +134,13 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
             CHECK(active_stimulus->kind==OBJECT_STIMULUS_WRAP_BOUNDARIES+test && bench_cases[test].event_count==0);
             CHECK(active_verification->window==0 && active_verification->initial_available==0 && active_verification->maximum_error==0 && active_verification->exponent==0);
             for(unsigned i=0;i<5;++i)CHECK(active_verification->coefficients[i]==0);
+        }else if(active_verification->kind==OBJECT_WAVE2_POWER_MODES){
+            CHECK(BENCH_BLOCKS==512 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==15 && BENCH_PARAMETER_COUNT==1);
+            CHECK(active_stimulus->kind==(test<3?OBJECT_STIMULUS_NONLINEAR_GRID:OBJECT_STIMULUS_NONLINEAR_DENSE));
+            CHECK(active_verification->window==0 && active_verification->initial_available==0 && active_verification->maximum_error==2e-6 && active_verification->exponent==2);
+            for(unsigned i=0;i<5;++i)CHECK(active_verification->coefficients[i]==0);
+            CHECK(object_wave2_oracle_init(&model,active_verification->kind,active_verification->coefficients,active_verification->exponent,BENCH_WARMUP));
+            power_schedule_fingerprint(&bench_cases[test]);
         }else if(active_verification->kind!=1){
             CHECK(BENCH_BLOCKS==512 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==3);
             for(uint32_t i=0;i<bench_cases[test].event_count;++i)
@@ -128,6 +155,13 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
             }
         }
         for(unsigned block=0;block<BENCH_BLOCKS;++block){
+            if(active_verification->kind==OBJECT_WAVE2_POWER_MODES){
+                const bench_case *source=&bench_cases[test];
+                for(uint32_t n=0;n<source->event_count;++n){
+                    const bench_event *event=&bench_events[source->event_begin+n];
+                    if(event->block==block)CHECK(object_wave2_oracle_set_exponent(&model,event->value));
+                }
+            }
             if(active_verification->kind==1){
                 CHECK(object_average_oracle_fill(stimulus_cache,BENCH_BLOCKS*RNBO_S3_BLOCK_FRAMES,block*RNBO_S3_BLOCK_FRAMES,RNBO_S3_BLOCK_FRAMES,active_verification->window,active_verification->initial_available,oracle_cache+(size_t)block*2u*RNBO_S3_BLOCK_FRAMES,&oracle_rounding_error));
             }else if(active_verification->kind==OBJECT_WAVE2_WRAP_FINITE){
@@ -247,6 +281,14 @@ static void run_pass(object_image *image,unsigned profile,const bench_case *test
             if(fabs(value*0.5)>1)++metrics->clipped;
             if(save)reference[offset]=actual;
             else {
+                if(active_verification->kind==OBJECT_WAVE2_POWER_MODES){
+                    uint32_t actual_word,reference_word;
+                    __builtin_memcpy(&actual_word,&actual,4);__builtin_memcpy(&reference_word,reference+offset,4);
+                    if(actual_word!=reference_word){
+                        ++comparison->float_bit_different;
+                        if((actual_word&0x7fffffffu)==0 && (reference_word&0x7fffffffu)==0)++comparison->zero_sign_different;
+                    }
+                }
                 double difference=value-(double)reference[offset];double absolute=fabs(difference);
                 if(absolute>comparison->max_abs)comparison->max_abs=absolute;
                 comparison->error_square_sum+=difference*difference;++comparison->samples;
@@ -312,6 +354,8 @@ static void worker(void *unused)
             }else if(active_verification->kind==OBJECT_WAVE2_NONLINEAR){
                 CHECK(active_verification->kind==OBJECT_WAVE2_NONLINEAR);
                 printf("RNBO_OBJECT_BENCHMARK ORACLE fixture=%s case=%s oracle_sha256=%s oracle_bytes=%u layout=float32_stereo_interleaved_le oracle_kind=nonlinear-chain-v1 max_abs_tolerance=%.17g max_cache_rounding_error=%.17g model=float64-tanh-wrap-clip-pow rounding=once-float32 exponent=%.17g\n",BENCH_FIXTURE,bench_cases[c].name,oracle_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_verification->maximum_error,oracle_rounding_error,active_verification->exponent);
+            }else if(active_verification->kind==OBJECT_WAVE2_POWER_MODES){
+                printf("RNBO_OBJECT_BENCHMARK ORACLE fixture=%s case=%s oracle_sha256=%s oracle_bytes=%u layout=float32_stereo_interleaved_le oracle_kind=nonlinear-power-modes-v1 max_abs_tolerance=%.17g max_cache_rounding_error=%.17g model=float64-tanh-wrap-clip-pow-events-v1 rounding=once-float32 initial_exponent=%.17g event_schedule_sha256=%s\n",BENCH_FIXTURE,bench_cases[c].name,oracle_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_verification->maximum_error,oracle_rounding_error,active_verification->exponent,event_schedule_sha);
             }else{
                 CHECK(active_verification->kind==OBJECT_WAVE2_WRAP_FINITE);
                 printf("RNBO_OBJECT_BENCHMARK ORACLE fixture=%s case=%s oracle_sha256=%s oracle_bytes=%u layout=float32_stereo_interleaved_le oracle_kind=wrap-finite-v1 max_abs_tolerance=0 max_cache_rounding_error=0 model=exact-binary32-modulo2 rounding=exact-binary32\n",BENCH_FIXTURE,bench_cases[c].name,oracle_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float));
@@ -328,6 +372,10 @@ static void worker(void *unused)
         }
         double relative=squares[0]>0?fabs(sqrt(squares[1]/squares[0])-1.0):(squares[1]==0?0:INFINITY);
         printf("RNBO_OBJECT_BENCHMARK CASE fixture=%s case=%s samples=%"PRIu64" max_abs=%.9g rms_error=%.9g relative_rms=%.9g pcm_different=%"PRIu64" max_pcm_lsb=%"PRIu32"\n",BENCH_FIXTURE,bench_cases[c].name,comparison.samples,comparison.max_abs,sqrt(comparison.error_square_sum/(double)comparison.samples),relative,comparison.pcm_different,comparison.max_pcm_lsb);fflush(stdout);
+        if(active_verification->kind==OBJECT_WAVE2_POWER_MODES){
+            printf("RNBO_OBJECT_BENCHMARK CASE_ROUNDING fixture=%s case=%s samples=%"PRIu64" float_bit_different=%"PRIu64" zero_sign_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,comparison.samples,comparison.float_bit_different,comparison.zero_sign_different);fflush(stdout);
+            CHECK(comparison.zero_sign_different<=comparison.float_bit_different && comparison.float_bit_different<=comparison.samples);
+        }
         if(active_verification->kind){
             for(unsigned p=0;p<2;++p){
                 double bound=semantic[p].max_abs+oracle_rounding_error;

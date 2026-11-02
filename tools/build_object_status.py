@@ -22,7 +22,7 @@ PRIMARY_GROUPS={
     'patcher:allpass~':'filters-scalar-v2-storage',
     'patcher:pink~':'pink-float32-output',
     'patcher:average~':'average-compact-history',
-    'patcher:pow~':'scalar-powers-private',
+    'patcher:pow~':'scalar-powers-composed-original',
     'patcher:wrap~':'finite-wrap-correction-bounded'}
 WORKING_LABELS={'board':'Board verified','in_patch':'In a verified patch','native':'Native tests only',
                 'partial':'Partial / known gaps','unverified':'Not yet verified','not_applicable':'Host / editor context'}
@@ -195,7 +195,7 @@ def make_status(inventory,coverage,root=ROOT):
                       'initial_coverage_public_revision':coverage['verified_public_revision']['sha'],
                       'later_evidence_policy':'Later additions are included with this snapshot and individually bound to public evidence content hashes; the initial revision identifies the original audited source set.',
                       'measurement_count':len(measurements),'exact_coverage_entries':len(seen),
-                      'primary_policy':'Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, private scalar-powers fixture, and the bounded nonlinear callback for the finite-wrap correction. Negative percentages record extra CPU time. Other results remain linked in source evidence.'}}
+                      'primary_policy':'Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence.'}}
 
 
 def main():

@@ -506,7 +506,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "Initial verified revision applies to the original audited mapping. Finite-wrap target additions are bound to their own evidence content hash and included with this status snapshot.",
+  "later_publication_notes": "The initial verified revision applies to the original audited mapping. Later finite-wrap and scalar-power additions are bound to their own evidence content hashes and included with this status snapshot.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -1654,6 +1654,124 @@
       "source_build_report": "build/object-benchmark-amoled-wrap-finite-stereo-finite-wrap-direct-v1/build-report.json",
       "source_log": "build/object-optimisation/hardware-wrap-direct-v1/test-serial.log",
       "source_selector": "/target/direct",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "aggregate_cpu_time_saved_percent": 24.10277964828581,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "firmware_elf_sha256": "44d0ebbbf3050213ec3f7f2e27bd0dc48f8401f48d3e8e6c0c31c0b38e2a7478",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "id": "scalar-powers-composed-original",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "per_case_cpu_time_saved_percent_range": [
+        14.651341408072726,
+        35.96079002002307
+      ],
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-original-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-original-v1/test-serial.log",
+      "source_selector": "/target/original/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "aggregate_cpu_time_saved_percent": 15.656729718691253,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "id": "scalar-powers-composed-modes",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "per_case_cpu_time_saved_percent_range": [
+        0.025062607948922455,
+        59.8139429752333
+      ],
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
       "timing_exclusion_vectors": 32,
       "warmup_vectors": 4
     }
@@ -10755,6 +10873,1498 @@
       "source_selector": "/target/direct",
       "timing_exclusion_vectors": 32,
       "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 479.0189814814815,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 2069362,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 4320,
+      "case": "aggregate",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 24.10277964828581,
+      "firmware_elf_sha256": "44d0ebbbf3050213ec3f7f2e27bd0dc48f8401f48d3e8e6c0c31c0b38e2a7478",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-original",
+      "id": "scalar-powers-composed-original:aggregate",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 631.1416666666667,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 2726532,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 4320,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/original/collected/pass/optimized_process_us",
+        "candidate_timed_vectors": "/target/original/collected/pass/optimized_timed_blocks",
+        "reference_process_us": "/target/original/collected/pass/strict_process_us",
+        "reference_timed_vectors": "/target/original/collected/pass/strict_timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-original-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-original-v1/test-serial.log",
+      "source_selector": "/target/original/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 429.7048611111111,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 618775,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "square",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 21.001967370502715,
+      "firmware_elf_sha256": "44d0ebbbf3050213ec3f7f2e27bd0dc48f8401f48d3e8e6c0c31c0b38e2a7478",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-original",
+      "id": "scalar-powers-composed-original:square",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 543.94375,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 783279,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/original/collected/cases/0/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/original/collected/cases/0/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/original/collected/cases/0/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/original/collected/cases/0/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-original-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-original-v1/test-serial.log",
+      "source_selector": "/target/original/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 573.3645833333334,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 825645,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fractional",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 14.651341408072739,
+      "firmware_elf_sha256": "44d0ebbbf3050213ec3f7f2e27bd0dc48f8401f48d3e8e6c0c31c0b38e2a7478",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-original",
+      "id": "scalar-powers-composed-original:fractional",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 671.7909722222222,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 967379,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/original/collected/cases/1/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/original/collected/cases/1/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/original/collected/cases/1/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/original/collected/cases/1/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-original-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-original-v1/test-serial.log",
+      "source_selector": "/target/original/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 433.9875,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 624942,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fourth",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth"
+      ],
+      "catalog_source": "build/object-optimisation/wrap-target-v1/fixtures/bounded-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 35.96079002002308,
+      "firmware_elf_sha256": "44d0ebbbf3050213ec3f7f2e27bd0dc48f8401f48d3e8e6c0c31c0b38e2a7478",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-original",
+      "id": "scalar-powers-composed-original:fourth",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 677.6902777777777,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 975874,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/original/collected/cases/2/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/original/collected/cases/2/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/original/collected/cases/2/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/original/collected/cases/2/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-original-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-original-v1/test-serial.log",
+      "source_selector": "/target/original/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 766.1877777777778,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 16549656,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 21600,
+      "case": "aggregate",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 15.656729718691253,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:aggregate",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 908.4160185185185,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 19621786,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 21600,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/pass/optimized_process_us",
+        "candidate_timed_vectors": "/target/modes/collected/pass/optimized_timed_blocks",
+        "reference_process_us": "/target/modes/collected/pass/strict_process_us",
+        "reference_timed_vectors": "/target/modes/collected/pass/strict_timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 429.6659722222222,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 618719,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "square",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 21.017788642586787,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:square",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 544.0034722222222,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 783365,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/0/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/0/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/0/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/0/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 573.3854166666666,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 825675,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fractional",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 14.651416403508321,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:fractional",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 671.8159722222222,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 967415,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/1/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/1/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/1/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/1/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 433.93402777777777,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 624865,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fourth",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 35.974978739100585,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:fourth",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 677.7569444444445,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 975970,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/2/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/2/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/2/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/2/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 427.6638888888889,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 615836,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "dense-square",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 21.22250208189157,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:dense-square",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 542.8756944444444,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 781741,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/3/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/3/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/3/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/3/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 571.3694444444444,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 822772,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "dense-quarter",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 46.71034649816511,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:dense-quarter",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1072.1958333333334,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1543962,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/4/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/4/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/4/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/4/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 432.12569444444443,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 622261,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "dense-fourth",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 59.8139429752333,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:dense-fourth",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1075.3125,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1548450,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/5/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/5/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/5/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/5/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 595.70625,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 857817,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fallback-half",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:fallback-half",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 596.4305555555555,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 858860,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/6/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/6/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/6/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/6/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 1082.6208333333334,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1558974,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fallback-one-half",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:fallback-one-half",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1082.9993055555556,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1559519,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/7/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/7/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/7/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/7/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 1077.5520833333333,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1551675,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "fallback-two-half",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:fallback-two-half",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1077.8868055555556,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1552157,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/8/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/8/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/8/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/8/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 1079.5034722222222,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1554485,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "below-two",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:below-two",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1079.8840277777779,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1555033,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/9/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/9/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/9/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/9/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 1079.473611111111,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1554442,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "above-two",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:above-two",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1079.8805555555555,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1555028,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/10/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/10/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/10/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/10/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 1072.0458333333333,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1543746,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "above-quarter",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:above-quarter",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1072.3145833333333,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1544133,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/11/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/11/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/11/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/11/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": false,
+      "attribution": "Original powf/fixnan path retained; pair float and PCM output are exact. Raw timings are recorded, but their small variation is not claimed as an algorithm improvement.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 1074.9076388888889,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1547867,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "below-four",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": false,
+      "cpu_time_saved_percent": null,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:below-four",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "unchanged-powf-fallback-workload",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1075.2597222222223,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1548374,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/12/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/12/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/12/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/12/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 701.7513888888889,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1010522,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "mode-switches",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 25.02166570704403,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:mode-switches",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 935.9388888888889,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1347752,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/13/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/13/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/13/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/13/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
+    },
+    {
+      "CPU_savings_claimed": true,
+      "attribution": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim.",
+      "block_frames": 256,
+      "board": "ESP32-S3 / Waveshare AMOLED1.8V2",
+      "candidate_mean_us_per_vector": 861.1111111111111,
+      "candidate_module_sha256": "633a8d55040bfe3a51714664e3b511e8d222031c4a5edcd930fcb804d225b60b",
+      "candidate_process_us": 1240000,
+      "candidate_profile": "float32-scalar-powers-v1 + finite-wrap correction",
+      "candidate_timed_vectors": 1440,
+      "case": "neighbor-switches",
+      "case_ids": [
+        "square",
+        "fractional",
+        "fourth",
+        "dense-square",
+        "dense-quarter",
+        "dense-fourth",
+        "fallback-half",
+        "fallback-one-half",
+        "fallback-two-half",
+        "below-two",
+        "above-two",
+        "above-quarter",
+        "below-four",
+        "mode-switches",
+        "neighbor-switches"
+      ],
+      "catalog_source": "tests/fixtures/objects/wave2/power-modes-target.json",
+      "cpu_time_change_measured": true,
+      "cpu_time_saved_percent": 17.33482130654982,
+      "firmware_elf_sha256": "f51a6a83ba8667b2c1afb2c21f858e2b3a3313c815086b822a2682bd04f6ec46",
+      "fixture": "nonlinear-domains",
+      "graph_source": "tests/fixtures/objects/wave2/nonlinear-domains.rnbopat",
+      "group_id": "scalar-powers-composed-modes",
+      "id": "scalar-powers-composed-modes:neighbor-switches",
+      "module_artifacts": {
+        "optimized": {
+          "artifact_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/power-admission-v1/modules/wrap-powers/build-report.json"
+        },
+        "strict": {
+          "artifact_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/rnbo_s3_dynamic.app.elf",
+          "build_report_source": "build/object-optimisation/wrap-target-v1/modules/nonlinear-domains-corrected/build-report.json"
+        }
+      },
+      "not_isolated_operator_cost": true,
+      "observation_class": "paired-S3-callback",
+      "optimization_id": "scalar-powers-public-v1",
+      "optimization_state": "available",
+      "primary_objects": [
+        "patcher:pow~"
+      ],
+      "reference_mean_us_per_vector": 1041.6854166666667,
+      "reference_module_sha256": "d399977d2c86ec49af4fbd96c2024341b4b7d44fe2b73f9e4a6b78c8048e5b10",
+      "reference_process_us": 1500027,
+      "reference_profile": "float32-strict + finite-wrap correction",
+      "reference_timed_vectors": 1440,
+      "role": "fx",
+      "rounds": 3,
+      "same_artifact_control": false,
+      "sample_rate": 44100,
+      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "seed": 305419896,
+      "selectors": {
+        "candidate_process_us": "/target/modes/collected/cases/14/profiles/optimized/process_us",
+        "candidate_timed_vectors": "/target/modes/collected/cases/14/profiles/optimized/timed_blocks",
+        "reference_process_us": "/target/modes/collected/cases/14/profiles/strict/process_us",
+        "reference_timed_vectors": "/target/modes/collected/cases/14/profiles/strict/timed_blocks"
+      },
+      "source": "evidence/power-admission-v1.json",
+      "source_build_report": "build/object-benchmark-amoled-nonlinear-domains-powers-composed-modes-v1/build-report.json",
+      "source_log": "build/hardware-nonlinear-powers-composed-modes-v1/test-serial.log",
+      "source_selector": "/target/modes/collected",
+      "timing_exclusion_vectors": 32,
+      "warmup_vectors": 4
     }
   ],
   "merge_policy": {
@@ -11759,7 +13369,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -12541,7 +14151,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -13422,7 +15032,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -14048,7 +15658,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         }
@@ -14127,12 +15737,32 @@
         "scalar-powers-private:aggregate",
         "scalar-powers-private:fourth",
         "scalar-powers-private:fractional",
-        "scalar-powers-private:square"
+        "scalar-powers-private:square",
+        "scalar-powers-composed-original:aggregate",
+        "scalar-powers-composed-original:square",
+        "scalar-powers-composed-original:fractional",
+        "scalar-powers-composed-original:fourth",
+        "scalar-powers-composed-modes:aggregate",
+        "scalar-powers-composed-modes:square",
+        "scalar-powers-composed-modes:fractional",
+        "scalar-powers-composed-modes:fourth",
+        "scalar-powers-composed-modes:dense-square",
+        "scalar-powers-composed-modes:dense-quarter",
+        "scalar-powers-composed-modes:dense-fourth",
+        "scalar-powers-composed-modes:fallback-half",
+        "scalar-powers-composed-modes:fallback-one-half",
+        "scalar-powers-composed-modes:fallback-two-half",
+        "scalar-powers-composed-modes:below-two",
+        "scalar-powers-composed-modes:above-two",
+        "scalar-powers-composed-modes:above-quarter",
+        "scalar-powers-composed-modes:below-four",
+        "scalar-powers-composed-modes:mode-switches",
+        "scalar-powers-composed-modes:neighbor-switches"
       ],
       "id": "patcher:pow~",
       "known_gaps": [
         "Upper clip saturation is unreachable after correct wrapping.",
-        "Negative-base fractional power/NaN repair and arbitrary finite wrap input are not established by this chain."
+        "Negative-base fractional power, nonfinite/fenv semantics, signal-rate exponents and arbitrary caller graphs remain unqualified."
       ],
       "observed_in": [
         {
@@ -14160,7 +15790,7 @@
           ]
         }
       ],
-      "optimisation_state": "experimental",
+      "optimisation_state": "available",
       "optimisations": [
         {
           "flag": null,
@@ -14176,13 +15806,25 @@
           "publication_expected_path": "evidence/nonlinear-powers.json",
           "source": "evidence/nonlinear-powers.json",
           "state": "experimental"
+        },
+        {
+          "flag": "--numerical-profile float32-scalar-powers-v1",
+          "id": "scalar-powers-public-v1",
+          "note": "Exact reviewed nonlinear FX graph, alone or with --correct-finite-wrap. Float32 special exponents2/4/.25, original powf fallback otherwise; changed rounding and signed zero retained. Matched composed callback saves24.10% on original3 cases; mixed15 aggregate15.66%. Unchanged fallback timing fluctuations are not gains.",
+          "source": "docs/scalar-powers.md",
+          "state": "available"
         }
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
+        },
+        {
+          "conditions": "Fresh composed target: original3 exact-output grids plus dense15 special/fallback/adjacent-exponent/actual-boundary-event cases, finite left[-4,4]/right[-3,3], unchanged2e-6/PCM1/RMS1e-4 gates. Both sides use the same wrap correction.",
+          "level": "S3-composed-power-profile-output-model-cost",
+          "source": "evidence/power-admission-v1.json"
         }
       ],
       "registry_context": {
@@ -14193,7 +15835,7 @@
       },
       "spelling": "pow~",
       "surface": "patcher",
-      "working_note": "Qualified within the authored nonlinear chain and original bounded grid, not the complete primitive domain.",
+      "working_note": "Qualified in the exact authored nonlinear FX graph and declared bounded workloads; not the complete primitive domain.",
       "working_state": "board"
     },
     {
@@ -14759,7 +16401,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -14801,7 +16443,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         }
@@ -14902,12 +16544,12 @@
           "source": "evidence/wrap-finite-target.json"
         },
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
         {
-          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; ±2^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
+          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; \u00b12^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
           "level": "private-native-known-failure",
           "source": "evidence/wrap-finite.json"
         }
@@ -15976,6 +17618,13 @@
       "sha256": "5f870a9615af46a5af3a99880469d444687bf3d811c9c9734557c8d602dd9837",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/parameter-event-order.md"
     },
+    "docs/scalar-powers.md": {
+      "bytes": 4799,
+      "path": "docs/scalar-powers.md",
+      "publication": "included-with-status-snapshot",
+      "sha256": "12e33b1adaac17a948bd0ec4514d09a597655d95d3d291be2c2565e25b84c23d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/scalar-powers.md"
+    },
     "docs/unused-mtof-table.md": {
       "bytes": 9940,
       "path": "docs/unused-mtof-table.md",
@@ -16157,6 +17806,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "5133afeffcb7967eabe0a176e3005d3bf798abfde06e45fd969a6b811c4239a5",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/evidence/pink-output-compiler.json"
+    },
+    "evidence/power-admission-v1.json": {
+      "bytes": 540821,
+      "path": "evidence/power-admission-v1.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
     },
     "evidence/wave2-target-oracles.json": {
       "bytes": 80991,

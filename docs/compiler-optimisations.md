@@ -11,6 +11,12 @@ independently qualified default-off Float32 scaling change for the exact
 authored 16-row noise graph. It retains the strict base profile and seed/time
 behavior; its manifest flag records the selected transformation.
 
+The [scalar-power numerical profile](scalar-powers.md) separately admits one
+exact nonlinear FX graph, optionally after the finite-wrap correction. It
+changes rounding for exponents 2, 4 and 0.25 and retains the original fallback
+for every other scalar exponent. Fresh native and target comparisons preserve
+the declared accuracy gates; the strict default remains unchanged.
+
 | Selection | Default | Effect and admission scope |
 | --- | --- | --- |
 | Defined integer wrap | On with normal runtime fixes | Replaces the reviewed `rnbo_imul` signed product with defined modulo 2^32 arithmetic and a safe signed mapping. Matching pink-noise generators also receive a defined unsigned affine multiply/add. Other signed arithmetic is outside this fix's claim. |

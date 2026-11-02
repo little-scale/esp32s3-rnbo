@@ -151,6 +151,54 @@ class ConfigurationTests(unittest.TestCase):
         self.assertEqual([v['exponent'] for v in policy['verifications']],[2,.25,4])
         self.assertTrue(all(v['maximum_absolute_error']==2e-6 for v in policy['verifications']))
         self.assertIn('{3u,0,0,',header)
+    def power_modes(self):
+        from build_object_benchmark import _POWER_CONTRACT,_WRAP_CONTRACT,_WRAP_IDENTITY
+        self.wave2('nonlinear-domains')
+        fixture=json.loads((Path(__file__).resolve().parents[1]/'tests/fixtures/objects/wave2/power-modes-target.json').read_text())['fixtures'][0]
+        self.catalog['fixtures']=[fixture];self.args.arena_bytes=4096
+        for side,module in self.modules.items():
+            m=module['report']['prepared_export']['manifest']
+            m.update(correct_finite_wrap=True,finite_wrap_contract=_WRAP_CONTRACT|{'context':'nonlinear-domains','guard_count':1})
+            hashes={'private_finite_wrap.h':_WRAP_IDENTITY['helper'],'rnbo_source.h':'cb3034efc572a29b2d3e9cc82e733035a12b6907b6213c9c3af9ee01ab64cbfd'}
+            if side=='optimized':
+                m.update(numerical_profile='float32-scalar-powers-v1',scalar_powers_contract=copy.deepcopy(_POWER_CONTRACT))
+                hashes.update({'rnbo_source.h':'f0774e0e80519692ad9da7b645460433b14981e6e3ec1f0ce0591042a8a607b2',
+                    'rnbo_s3_scalar_powers_source.h':'b08d3f3dced35995ee28990f3e9343f37bfb5c5833dd03890187b145fd3b3821'})
+            module['report']['prepared_snapshot']={'prepared_files_sha256':hashes}
+        return fixture
+    def test_power_fifteen_cases_and_canonical_actual_schedule(self):
+        import struct
+        fixture=self.power_modes();header,policy=self.generate()
+        self.assertEqual([s['kind'] for s in policy['stimuli']],[6]*3+[11]*12)
+        self.assertEqual(len(policy['verifications']),15);self.assertIn('{5u,0,0,',header)
+        for row in policy['verifications']:
+            self.assertEqual(row['initial_exponent'],2)
+            wire=struct.pack('<II',0x40000000,len(row['event_schedule']))
+            for event in row['event_schedule']:
+                self.assertEqual(event['kind'],1)
+                wire+=struct.pack('<III',event['block'],event['index'],event['kind'])+struct.pack('<f',event['value'])
+            self.assertEqual(hashlib.sha256(wire).hexdigest(),row['event_schedule_sha256'])
+        self.assertEqual([e['block'] for e in policy['verifications'][-1]['event_schedule']],[0,1,32,64,127,256,384,511])
+    def test_power_closed_cases_reject_normalized_events_neighbors_and_wider_limits(self):
+        changes=[lambda f:f['cases'].reverse(),lambda f:f['cases'].pop(),
+            lambda f:f['cases'][-1]['events'][0].update(form='normalized'),
+            lambda f:f['cases'][-1]['events'][0].update(block=2),
+            lambda f:f['cases'][11]['parameters'].update(exponent=.2499999850988388),
+            lambda f:f['cases'][12]['parameters'].update(exponent=4.000000476837158),
+            lambda f:f['cases'][3].update(stimulus={'kind':'nonlinear-grid-v1'}),
+            lambda f:f['comparison_tolerance'].update(maximum_absolute_error=2.01e-6),
+            lambda f:f['verification'].update(maximum_absolute_error=2.01e-6)]
+        for change in changes:
+            fixture=self.power_modes();change(fixture)
+            with self.subTest(change=change),self.assertRaises(ExportError):self.generate()
+    def test_power_module_source_profile_contract_and_wrap_must_match(self):
+        for change in ('profile','source','compile','composition','baseline-wrap'):
+            self.power_modes();m=self.modules['optimized'];manifest=m['report']['prepared_export']['manifest']
+            if change=='profile':manifest['numerical_profile']='float32-strict'
+            elif change=='composition':manifest['scalar_powers_contract']['finite_wrap_composition']=False
+            elif change=='baseline-wrap':self.modules['strict']['report']['prepared_export']['manifest']['correct_finite_wrap']=False
+            else:m['report']['prepared_snapshot']['prepared_files_sha256']['rnbo_source.h' if change=='source' else 'rnbo_s3_scalar_powers_source.h']='0'*64
+            with self.subTest(change=change),self.assertRaises(ExportError):self.generate()
     def test_wave2_metadata_identity_cannot_be_spoofed(self):
         for field in ('editable_source_sha256','parameter_schema_sha256','raw'):
             self.wave2()

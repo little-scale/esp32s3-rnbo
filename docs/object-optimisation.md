@@ -10,9 +10,12 @@ The [independent biquad/nonlinear target models](object-oracles.md) now qualify
 the original six bounded cases on the board. Their identical-artifact controls
 establish accuracy and cost observations, not an optimisation gain. The
 [parameter-event ordering correction](parameter-event-order.md) preserves
-authored same-block order. The separate [private scalar-power experiment](nonlinear-powers.md)
-observes 15.3–36.7% less callback time in its three nonlinear cases; it remains
-unadmitted and is not a general bit-identity transformation.
+authored same-block order. The [optional scalar-power profile](scalar-powers.md)
+now admits the exact reviewed nonlinear FX graph, alone or after the finite-wrap
+correction. The composed comparison observes 24.10% less callback time across
+the three original cases and 15.66% across 15 expanded cases. Changed rounding
+and signed-zero differences remain explicit; this is not a general bit-identity
+transformation.
 
 The separate [pink-noise Float32 output review](noise-float32-normalisation.md)
 records its measured target improvement and exact-context compiler option.

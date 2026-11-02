@@ -142,9 +142,11 @@ python3 host/compiler/prepare.py \
   --out build/prepared/wrap-finite-stereo-corrected
 ```
 
-The option requires normal runtime fixes, the `float32-strict` base profile and
-FX role. Combination with other optional adapters is explicitly rejected until
-reviewed. It does not change the numerical-profile label or enable fast-math.
+The option requires normal runtime fixes and FX role. It accepts either the
+`float32-strict` base profile or the separately reviewed
+`float32-scalar-powers-v1` composition below. Other optional adapters are
+rejected. The wrap correction itself does not change the numerical-profile
+label or enable fast-math.
 The manifest records the finite-input contract and guard count; provenance
 records all original/prepared hashes, exact methods, helper/transformer hashes
 and inverse checks. A generated thin source include rejects Float64 compilation.
@@ -161,3 +163,49 @@ checks the admitted contexts on the board: bounded output preservation and
 6,291,456 direct raw-bit checks over 4,080 distinct finite values. The bounded
 whole-chain measurement observes 0.276% extra CPU, with unchanged context and
 arena costs. This is a correctness repair; it establishes no CPU saving.
+
+## Optional scalar-power numerical profile
+
+`--numerical-profile float32-scalar-powers-v1` admits only the exact authored
+`nonlinear-domains` FX graph. It dispatches once per vector for scalar exponents
+2, 4 and 0.25, using Float32 multiplication or nested square roots. Every output
+retains `fixnan`; all other scalar exponents use the original `powf` route.
+Complete source, description, runtime and method hashes guard admission, and a
+generated include rejects Float64 compilation. Arbitrary `pow~` graphs and the
+standalone stereo wrap fixture are rejected.
+
+This profile deliberately changes rounding. It has no bit-identity, signed-zero
+or floating-exception identity claim: for example, a quarter power of input
+`-0` can retain `-0` where `powf` returns `+0`. Its local base domain is the
+authored clip output `[0,1]`; negative bases, nonfinite inputs and general power
+semantics are outside admission. Whole-graph qualification retains the reviewed
+bounded finite stereo input scope. The strict default remains unchanged.
+
+The only admitted option composition is `--correct-finite-wrap`, applied before
+power specialisation in this same nonlinear graph:
+
+```sh
+python3 host/compiler/prepare.py \
+  --export build/object-qualification/wave2-final/exports/nonlinear-domains \
+  --class-name rnbos3patch --role fx \
+  --numerical-profile float32-scalar-powers-v1 --correct-finite-wrap \
+  --out build/prepared/nonlinear-wrap-and-powers
+```
+
+The manifest records the public numerical profile, `float32-strict` base,
+changed-rounding identity and exact specialisation/composition contract.
+Provenance records input/output/method/runtime/helper hashes and a byte inverse.
+Solo output is byte-identical to the previously measured private candidate; its
+historical source comment is retained for that comparison. The composed header
+has its own pin, with only the power method changed relative to the corrected
+baseline. Tests include neighbouring exponents, exact fallback samples,
+independent mathematical bounds, failure atomicity and rejected compositions.
+The [subsequent native and S3 qualification](../docs/scalar-powers.md) verifies
+the public solo module's exact identity with the earlier measured prototype
+and separately measures the finite-wrap composition. The three original cases
+use 24.10% less callback time with exact output; the expanded 15-case run uses
+15.66% less time, retaining changed rounding and signed-zero observations within
+unchanged limits. Both target contexts/arenas are unchanged, with 436 more ELF
+bytes. These are bounded whole-fixture observations, not general power or
+full-player timing claims. No fast-math, clock, buffer or allocator change is
+enabled.

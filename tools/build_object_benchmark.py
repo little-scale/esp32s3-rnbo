@@ -44,6 +44,23 @@ _WRAP_IDENTITY = {
     'helper':'5120c1152ed007ac389bef310ac6e83fd6b32c3be9862d9c6615a365f30492fd'}
 _WRAP_CONTRACT = {'context':'wrap-finite-stereo','input':'finite binary32 audio samples','range':[-1,1],
                   'upper_endpoint_exclusive':True,'nonfinite':'upstream route unchanged and unqualified','guard_count':2}
+_POWER_KIND='nonlinear-power-modes-v1'
+_POWER_NEIGHBORS={name:struct.unpack('<f',struct.pack('<I',bits))[0] for name,bits in
+    [('below-two',0x3fffffff),('above-two',0x40000001),('above-quarter',0x3e800001),('below-four',0x407fffff)]}
+_POWER_CASES=[{'id':name,'parameters':parameters,'events':[]} for name,parameters in
+    [('square',{}),('fractional',{'exponent':.25}),('fourth',{'exponent':4})]]
+_POWER_CASES += [{'id':name,'parameters':{'exponent':value},'events':[],
+                 'stimulus':{'kind':'nonlinear-dense-binary32-v1'}} for name,value in
+    [('dense-square',2),('dense-quarter',.25),('dense-fourth',4),('fallback-half',.5),
+     ('fallback-one-half',1.5),('fallback-two-half',2.5),*_POWER_NEIGHBORS.items()]]
+for _name,_initial,_schedule in [
+    ('mode-switches',{},[(1,.5),(32,.25),(63,1.5),(128,4),(255,2.5),(384,2),(511,.25)]),
+    ('neighbor-switches',{'exponent':.25},[(1,_POWER_NEIGHBORS['above-quarter']),(32,2),(64,_POWER_NEIGHBORS['below-two']),
+       (127,_POWER_NEIGHBORS['above-two']),(256,4),(384,_POWER_NEIGHBORS['below-four']),(511,.25)])]:
+    _POWER_CASES.append({'id':_name,'parameters':_initial,'events':[{'block':b,'id':'exponent','value':v,'form':'actual'} for b,v in _schedule],
+                         'stimulus':{'kind':'nonlinear-dense-binary32-v1'}})
+_POWER_CONTRACT={'context':'nonlinear-domains','special_exponents':[2,4,.25],'base_domain':[0,1],
+    'fallback':'original-powf-with-fixnan','fixnan_retained':True,'bit_identity_claimed':False,'finite_wrap_composition':True}
 
 
 def require(condition, message):
@@ -87,7 +104,7 @@ def stimulus_contract(fixture, case):
         return None
     base=fixture.get("stimulus");override=case.get("stimulus",{})
     require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
-    wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6,
+    wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6,'nonlinear-dense-binary32-v1':11,
            **{name:7+i for i,(_,name) in enumerate(_WRAP_CASES)}}
     if base.get("kind") in wave2:
         require(set(base)=={"kind"} and set(override)<={"kind"},"Unknown wave2 stimulus settings")
@@ -166,15 +183,32 @@ def wrap_finite_verification(fixture,case,by_id,warmup,blocks):
     return {'kind':'wrap-finite-v1','maximum_absolute_error':0,'model':'exact-binary32-modulo2',
             'rounding':'exact-binary32','gate':'raw-binary32-equality','bit_exact':True}
 
+def power_modes_verification(fixture,case,by_id,warmup,blocks):
+    require(fixture.get('id')=='nonlinear-domains' and fixture.get('family')=='nonlinear' and fixture.get('role')=='fx', 'Unsupported power-mode fixture')
+    require(warmup==4 and blocks==512 and fixture.get('seed')==305419896,'Power modes require reviewed audio/initial state')
+    require(fixture['verification']=={'kind':_POWER_KIND,'maximum_absolute_error':2e-6},'Power-mode verification differs')
+    require(fixture.get('semantic')=={'kind':'nonlinear','exponent_default':2,'maximum_absolute_error':2e-6} and
+            fixture.get('stimulus')=={'kind':'nonlinear-grid-v1'},'Power-mode semantic/input contract differs')
+    require(case in _POWER_CASES,'Unreviewed power-mode case or actual-event schedule')
+    require(set(by_id)=={'exponent'},'Power modes require original exponent schema')
+    p=by_id['exponent']
+    require((p['index'],p['minimum'],p['maximum'],p['initialValue'],p['exponent'],p['steps'])==(0,.25,4,2,1,0),'Power exponent schema differs')
+    for value in case['parameters'].values():finite(value)
+    for event in case['events']:finite(event['value'])
+    return {'kind':_POWER_KIND,'maximum_absolute_error':2e-6,'model':'float64-tanh-wrap-clip-pow-events-v1',
+            'rounding':'once-float32','gate':'cache-error-plus-maximum-cache-rounding-error','initial_exponent':2.0}
+
 
 def verification_contract(fixture,case,by_id,warmup,blocks=512):
     declaration=fixture.get("verification")
-    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1",*(name for _,name in _WRAP_CASES))
+    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in ("impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1","nonlinear-dense-binary32-v1",*(name for _,name in _WRAP_CASES))
     if declaration is None:
         require(not new_input,"Wave2 stimulus requires an explicit verification contract")
         return None
     if isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1':
         return wrap_finite_verification(fixture,case,by_id,warmup,blocks)
+    if isinstance(declaration,dict) and declaration.get('kind')==_POWER_KIND:
+        return power_modes_verification(fixture,case,by_id,warmup,blocks)
     if isinstance(declaration,dict) and declaration.get('kind') in _WAVE2_IDENTITIES:
         return wave2_verification(fixture,case,by_id,warmup,blocks)
     require(fixture["role"]=="fx" and fixture.get("family")=="average" and isinstance(declaration,dict),"Unsupported verification fixture")
@@ -240,6 +274,23 @@ def configuration(args, modules):
     cases = fixture["cases"]
     require(isinstance(cases,list) and 1<=len(cases)<=16, "Expected 1..16 cases")
     declaration=fixture.get('verification',{})
+    power_modes=isinstance(declaration,dict) and declaration.get('kind')==_POWER_KIND
+    if power_modes:
+        require(cases==_POWER_CASES,'Power modes require all fifteen closed cases in order')
+        chain_wrap=_WRAP_CONTRACT|{'context':'nonlinear-domains','guard_count':1}
+        for side,module in modules.items():
+            exported=module['report']['prepared_export'];identity=exported['manifest']
+            require(identity.get('correct_finite_wrap') is True and identity.get('finite_wrap_contract')==chain_wrap,'Power modes require matched finite-wrap correction')
+            expected_profile='float32-strict' if side=='strict' else 'float32-scalar-powers-v1'
+            require(identity['numerical_profile']==expected_profile,'Power modes require corrected strict vs public scalar-powers profile')
+            if side=='optimized':require(identity.get('scalar_powers_contract')==_POWER_CONTRACT,'Power specialization contract differs')
+            pins=_WAVE2_IDENTITIES['nonlinear-chain-v1']
+            require(identity['editable_source_sha256']==pins['patch'] and identity['parameter_schema_sha256']==pins['schema'] and
+                    exported.get('provenance',{}).get('raw_files_sha256',{}).get('rnbo_source.h')==pins['raw_source'],'Power graph/source/schema differs')
+            hashes=module['report'].get('prepared_snapshot',{}).get('prepared_files_sha256',{})
+            expected_source='cb3034efc572a29b2d3e9cc82e733035a12b6907b6213c9c3af9ee01ab64cbfd' if side=='strict' else 'f0774e0e80519692ad9da7b645460433b14981e6e3ec1f0ce0591042a8a607b2'
+            require(hashes.get('rnbo_source.h')==expected_source and hashes.get('private_finite_wrap.h')==_WRAP_IDENTITY['helper'],'Power prepared source/helper differs')
+            if side=='optimized':require(hashes.get('rnbo_s3_scalar_powers_source.h')=='b08d3f3dced35995ee28990f3e9343f37bfb5c5833dd03890187b145fd3b3821','Power Float32 compile contract differs')
     raw_wrap=isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1'
     if raw_wrap:
         require([case.get('id') for case in cases]==[name for name,_ in _WRAP_CASES],"Raw wrap requires all four reviewed cases in order")
@@ -283,12 +334,19 @@ def configuration(args, modules):
         # (e.g. line target reads duration). Keep authored order within a block:
         # initial map iteration first, then explicit event-array order.
         current.sort(key=lambda e:e["block"])
+        if power_modes:
+            require(all(e['kind']==1 and e['index']==0 for e in current),'Power schedule requires actual exponent events')
+            wire=struct.pack('<II',0x40000000,len(current))
+            for e in current:wire+=struct.pack('<III',e['block'],e['index'],e['kind'])+struct.pack('<f',e['value'])
+            verifications[-1]['event_schedule']=current
+            verifications[-1]['event_schedule_sha256']=hashlib.sha256(wire).hexdigest()
         case_rows.append((name,len(events),len(current)));events.extend(current)
     tolerance=fixture["comparison_tolerance"]
     maximum=finite(tolerance["maximum_absolute_error"]);relative=finite(tolerance["relative_rms_level_difference"])
     require(maximum>=0 and relative>=0,"Negative comparison tolerance")
     pcm=integer(tolerance["maximum_pcm_lsb_error"],0,65535,"PCM tolerance")
     if reviewed:require(maximum<=2e-6 and pcm<=1 and relative<=1e-4,"Reviewed wave2 pair limits cannot be widened")
+    if power_modes:require(maximum==2e-6 and pcm==1 and relative==1e-4,'Power pair tolerances must remain2e-6/PCM1/RMS1e-4')
     if raw_wrap:require(maximum==pcm==relative==0,"Raw wrap control requires exact pair tolerances")
     oracle_bytes=blocks*256*2*4 if any(verifications) else 0
     buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
@@ -330,8 +388,8 @@ def configuration(args, modules):
         else:
             coefficients=verification.get('coefficients',dict.fromkeys(('a0','a1','a2','b1','b2'),0))
             fields=','.join(float(coefficients[k]).hex() for k in ('a0','a1','a2','b1','b2'))
-            lines.append('{%su,0,0,%s,{%s},%s},'%({'biquad-response-v1':2,'nonlinear-chain-v1':3,'wrap-finite-v1':4}[verification['kind']],
-                         float(verification['maximum_absolute_error']).hex(),fields,float(verification.get('exponent',0)).hex()))
+            lines.append('{%su,0,0,%s,{%s},%s},'%({'biquad-response-v1':2,'nonlinear-chain-v1':3,'wrap-finite-v1':4,_POWER_KIND:5}[verification['kind']],
+                         float(verification['maximum_absolute_error']).hex(),fields,float(verification.get('exponent',verification.get('initial_exponent',0))).hex()))
     lines += ["};", ""]
     return "\n".join(lines), {"catalog_path":str(args.catalog),"catalog_sha256":hashlib.sha256(data).hexdigest(),
         "fixture":fixture,"patch_sha256":sha(patch),"blocks":blocks,"rounds":args.rounds,"timing_exclude_blocks":args.timing_exclude_blocks,

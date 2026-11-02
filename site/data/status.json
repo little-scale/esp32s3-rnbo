@@ -27504,18 +27504,18 @@
       "is_alias": false,
       "name": "pow~",
       "optimisation": {
-        "detail": "No gain from the strict identical-artifact control; no transformation to this object unless separately listed. Only pow~ is transformed; whole-chain target ~24.84% saved on three original grids. Native broader-domain rounding/signed-zero differences remain; not production admission.",
-        "label": "Experimental",
-        "short": "",
-        "status": "experimental"
+        "detail": "No gain from the strict identical-artifact control; no transformation to this object unless separately listed. Only pow~ is transformed; whole-chain target ~24.84% saved on three original grids. Native broader-domain rounding/signed-zero differences remain; not production admission. Exact reviewed nonlinear FX graph, alone or with --correct-finite-wrap. Float32 special exponents2/4/.25, original powf fallback otherwise; changed rounding and signed zero retained. Matched composed callback saves24.10% on original3 cases; mixed15 aggregate15.66%. Unchanged fallback timing fluctuations are not gains.",
+        "label": "Yes — available",
+        "short": "--numerical-profile float32-scalar-powers-v1",
+        "status": "available"
       },
       "performance": {
-        "detail": "Only pow~ is transformed. Whole nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Native broader domains have rounding/signed-zero differences; target original grid does not establish bit/fenv equivalence. Reference: float32-strict; candidate: PRIVATE-float32-scalar-powers-v1. Aggregate matched process times: 2,717,210→2,042,298µs over 4,320 vectors per profile. Cases: square: 21.8%; fractional: 15.3%; fourth: 36.7%.",
-        "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/nonlinear-powers.json",
-        "label": "24.8%",
-        "measurement_id": "scalar-powers-private:aggregate",
-        "percent": 24.83841881930362,
-        "phase": "experimental",
+        "detail": "Only the power method changes; both modules already have the same finite-wrap correction. Complete nonlinear FX callback includes unchanged tanh~, wrap~ and clip~. Changed rounding and signed zero remain explicit; no isolated primitive or full-player deadline claim. Reference: float32-strict + finite-wrap correction; candidate: float32-scalar-powers-v1 + finite-wrap correction. Aggregate matched process times: 2,726,532→2,069,362µs over 4,320 vectors per profile. Cases: square: 21.0%; fractional: 14.7%; fourth: 36.0%.",
+        "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json",
+        "label": "24.1%",
+        "measurement_id": "scalar-powers-composed-original:aggregate",
+        "percent": 24.10277964828581,
+        "phase": "available",
         "scope": "Whole test patch"
       },
       "reference_url": "https://rnbo.cycling74.com/objects/ref/pow~?v=1.4.4",
@@ -27525,13 +27525,21 @@
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave2-target-oracles.json"
         },
         {
+          "label": "power admission v1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
+        },
+        {
           "label": "nonlinear powers — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/nonlinear-powers.json"
+        },
+        {
+          "label": "scalar powers — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/scalar-powers.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Qualified within the authored nonlinear chain and original bounded grid, not the complete primitive domain. Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model. Remaining scope: Upper clip saturation is unreachable after correct wrapping. Negative-base fractional power/NaN repair and arbitrary finite wrap input are not established by this chain.",
+        "detail": "Qualified in the exact authored nonlinear FX graph and declared bounded workloads; not the complete primitive domain. Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model. Fresh composed target: original3 exact-output grids plus dense15 special/fallback/adjacent-exponent/actual-boundary-event cases, finite left[-4,4]/right[-3,3], unchanged2e-6/PCM1/RMS1e-4 gates. Both sides use the same wrap correction. Remaining scope: Upper clip saturation is unreachable after correct wrapping. Negative-base fractional power, nonfinite/fenv semantics, signal-rate exponents and arbitrary caller graphs remain unqualified.",
         "label": "Board verified",
         "short": "Tested modes only",
         "status": "board"
@@ -36111,16 +36119,16 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "fc6501b3bbf4f52b1eac18dbbaec334633b99d661a1815fc34a49e14294e88bd",
-    "coverage_source_sha256": "fc6501b3bbf4f52b1eac18dbbaec334633b99d661a1815fc34a49e14294e88bd",
+    "coverage_canonical_sha256": "ba670fcf484c59040e2c41f6b8d6415025c183453a574bfa5a10c1693bbf3731",
+    "coverage_source_sha256": "1e3cbc66462aa12f55ae56b7662603c5a13b5f31d42322e5d547aaed07e9ccd3",
     "exact_coverage_entries": 39,
-    "generator_sha256": "e1948e829d7c317bc4bc4d1b2c449e32a4b5c73632332c8e717531e21bb23823",
+    "generator_sha256": "d48b1fee1bedeb42f4cfcccc3b05f9e07fa3c4974d5543c9fb4bb1f43b1ccf41",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
     "later_evidence_policy": "Later additions are included with this snapshot and individually bound to public evidence content hashes; the initial revision identifies the original audited source set.",
-    "measurement_count": 121,
-    "primary_policy": "Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, private scalar-powers fixture, and the bounded nonlinear callback for the finite-wrap correction. Negative percentages record extra CPU time. Other results remain linked in source evidence."
+    "measurement_count": 141,
+    "primary_policy": "Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence."
   },
   "rnbo_version": "1.4.4",
   "schema_version": 1,

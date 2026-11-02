@@ -35,12 +35,26 @@ class ObjectStatusTests(unittest.TestCase):
 
     def test_all_percentages_recompute_from_exact_raw_evidence_and_vectors(self):
         checked=checked_measurements(self.coverage,ROOT)
-        self.assertEqual(len(checked),121)
+        self.assertEqual(len(checked),141)
         for measurement in checked.values():
             if measurement.get('cpu_time_change_measured',measurement['CPU_savings_claimed']):
                 expected=100*(1-measurement['candidate_process_us']/measurement['reference_process_us'])
                 self.assertAlmostEqual(measurement['cpu_time_saved_percent'],expected,places=10)
             else:self.assertIsNone(measurement['cpu_time_saved_percent'])
+
+    def test_power_primary_uses_composed_reference_and_fallbacks_claim_no_gain(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        row=rows['patcher:pow~']
+        self.assertEqual(row['optimisation']['status'],'available')
+        self.assertEqual(row['performance']['measurement_id'],'scalar-powers-composed-original:aggregate')
+        self.assertAlmostEqual(row['performance']['percent'],24.10277964828581)
+        fallback=[m for m in self.coverage['measurements'] if m.get('observation_class')=='unchanged-powf-fallback-workload']
+        self.assertEqual(len(fallback),7)
+        self.assertTrue(all(m['cpu_time_saved_percent'] is None and not m['CPU_savings_claimed'] for m in fallback))
+        forged=copy.deepcopy(self.coverage)
+        control=next(m for m in forged['measurements'] if m['id']==fallback[0]['id'])
+        control['CPU_savings_claimed']=True
+        with self.assertRaisesRegex(ValueError,'Controls must have no savings claim'):checked_measurements(forged,ROOT)
 
     def test_correction_cost_is_shown_without_claiming_cpu_saving(self):
         measurement=next(m for m in self.coverage['measurements'] if m['id']=='finite-wrap-correction-bounded:aggregate')

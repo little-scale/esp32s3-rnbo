@@ -74,6 +74,161 @@ WRAP_ORACLE = {
                 'nonfinite':'upstream route unchanged and unqualified','guard_count':2}}
 WRAP_STIMULI = {case['stimulus']['kind']:7+i for i,case in enumerate(WRAP_ORACLE['cases'])}
 
+POWER_KIND = 'nonlinear-power-modes-v1'
+POWER_DENSE = 'nonlinear-dense-binary32-v1'
+POWER_DESCRIPTION = '20f3ba4d3a8e8a19967fa566c59a04021d35f2bdeb49fa5095b70bed6fa24cec'
+POWER_CORRECTED = 'cb3034efc572a29b2d3e9cc82e733035a12b6907b6213c9c3af9ee01ab64cbfd'
+POWER_COMPOSED = 'f0774e0e80519692ad9da7b645460433b14981e6e3ec1f0ce0591042a8a607b2'
+POWER_COMPILE_CONTRACT = 'b08d3f3dced35995ee28990f3e9343f37bfb5c5833dd03890187b145fd3b3821'
+
+
+def power_cases():
+    """Public authored cases, independent of mutable target configuration."""
+    f=lambda word:struct.unpack('<f',struct.pack('<I',word))[0]
+    cases=[{'id':'square','parameters':{},'events':[]},
+           {'id':'fractional','parameters':{'exponent':.25},'events':[]},
+           {'id':'fourth','parameters':{'exponent':4},'events':[]}]
+    values=(('dense-square',2),('dense-quarter',.25),('dense-fourth',4),
+            ('fallback-half',.5),('fallback-one-half',1.5),('fallback-two-half',2.5),
+            ('below-two',f(0x3fffffff)),('above-two',f(0x40000001)),
+            ('above-quarter',f(0x3e800001)),('below-four',f(0x407fffff)))
+    for name,value in values:
+        cases.append({'id':name,'parameters':{'exponent':value},'events':[],
+                      'stimulus':{'kind':POWER_DENSE}})
+    schedules=(('mode-switches',{},[(1,.5),(32,.25),(63,1.5),(128,4),(255,2.5),(384,2),(511,.25)]),
+               ('neighbor-switches',{'exponent':.25},
+                [(1,f(0x3e800001)),(32,2),(64,f(0x3fffffff)),(127,f(0x40000001)),
+                 (256,4),(384,f(0x407fffff)),(511,.25)]))
+    for name,parameters,events in schedules:
+        cases.append({'id':name,'parameters':parameters,
+                      'events':[{'block':b,'id':'exponent','value':v,'form':'actual'} for b,v in events],
+                      'stimulus':{'kind':POWER_DENSE}})
+    return cases
+
+
+def power_events(case):
+    events=[{'block':0,'id':identity,'value':value} for identity,value in case['parameters'].items()]
+    events+=case['events']
+    return [{'block':event['block'],'index':0,'kind':1,
+             'value':struct.unpack('<f',struct.pack('<f',event['value']))[0],'id':'exponent'}
+            for event in sorted(events,key=lambda event:event['block'])]
+
+
+def power_schedule_sha(events):
+    """Explicit LE words, never C struct bytes or a host float repr."""
+    wire=struct.pack('<II',0x40000000,len(events))
+    for event in events:
+        bits=struct.unpack('<I',struct.pack('<f',event['value']))[0]
+        wire+=struct.pack('<IIII',event['block'],event['index'],event['kind'],bits)
+    return hashlib.sha256(wire).hexdigest()
+
+
+def power_verification(fixture,case):
+    require(fixture.get('id')=='nonlinear-domains' and fixture.get('family')=='nonlinear' and
+            fixture.get('role')=='fx','Power fixture identity/family/role differs')
+    require(same_declaration(fixture.get('cases'),power_cases()),'Power requires fifteen authored cases and actual event schedules')
+    require(same_declaration(fixture.get('verification'),{'kind':POWER_KIND,'maximum_absolute_error':2e-6}),
+            'Power verification declaration differs')
+    require(same_declaration(fixture.get('semantic'),{'kind':'nonlinear','exponent_default':2,'maximum_absolute_error':2e-6}),
+            'Power semantic declaration differs')
+    require(same_declaration(fixture.get('stimulus'),{'kind':'nonlinear-grid-v1'}),'Power base stimulus differs')
+    require(type(fixture.get('blocks')) is int and fixture['blocks']==512 and
+            type(fixture.get('warmup_blocks')) is int and fixture['warmup_blocks']==4 and
+            type(fixture.get('seed')) is int and fixture['seed']==305419896,'Power blocks/warmup/seed differ')
+    require(any(same_declaration(case,c) for c in power_cases()),'Unknown power case')
+    events=power_events(case)
+    return {'kind':POWER_KIND,'maximum_absolute_error':2e-6,'model':'float64-tanh-wrap-clip-pow-events-v1',
+            'rounding':'once-float32','gate':'cache-error-plus-maximum-cache-rounding-error',
+            'initial_exponent':2,'event_schedule':events,'event_schedule_sha256':power_schedule_sha(events)}
+
+
+def power_identity(build,fixture,plan):
+    contract=WAVE2_ORACLES['nonlinear-chain-v1']
+    require(type(plan.get('blocks')) is int and plan['blocks']==512 and
+            type(plan.get('rounds')) is int and 1<=plan['rounds']<=5,'Power block/round coverage differs')
+    require(same_declaration(plan.get('parameter_schema'),contract['parameters']),'Power parameter projection differs')
+    require(plan.get('patch_sha256')==contract['patch'] and plan.get('description_sha256')==POWER_DESCRIPTION,
+            'Power patch/description identity differs')
+    require(same_declaration(plan.get('events'),[e for c in power_cases() for e in power_events(c)]),
+            'Power actual compiled event table differs')
+    require(same_declaration(fixture['comparison_tolerance'],{'maximum_absolute_error':2e-6,
+            'maximum_pcm_lsb_error':1,'relative_rms_level_difference':1e-4}),'Power pair tolerances differ')
+    wrap_contract={**WRAP_ORACLE['contract'],'context':'nonlinear-domains','guard_count':1}
+    for profile,module in build['modules'].items():
+        require(profile in ('strict','optimized'),'Unknown power module profile')
+        export=module['report']['prepared_export'];manifest=export['manifest'];provenance=export.get('provenance',{})
+        require(manifest.get('correct_finite_wrap') is True and
+                same_declaration(manifest.get('finite_wrap_contract'),wrap_contract),'Power comparison requires the same finite-wrap correction')
+        require(manifest.get('editable_source_sha256')==contract['patch'] and
+                manifest.get('parameter_schema_sha256')==contract['schema'] and
+                type(manifest.get('parameter_count')) is int and manifest['parameter_count']==1 and
+                manifest.get('sample_rate')==44100 and manifest.get('block_frames')==256,'Power source/schema/audio profile differs')
+        require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==contract['raw_source'],'Power raw source identity differs')
+        files=provenance.get('prepared_files_sha256',{})
+        expected={'rnbo_source.h':POWER_CORRECTED if profile=='strict' else POWER_COMPOSED,
+                  'description.json':POWER_DESCRIPTION,'private_finite_wrap.h':WRAP_ORACLE['helper'],
+                  'rnbo_s3_finite_wrap_source.h':WRAP_ORACLE['compile_contract']}
+        if profile=='optimized':expected['rnbo_s3_scalar_powers_source.h']=POWER_COMPILE_CONTRACT
+        require(all(files.get(k)==v for k,v in expected.items()),'Power prepared source/helper/type contract differs')
+        runtime={k:v for k,v in sorted(files.items()) if k.startswith('common/')}
+        runtime_hash=hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2,ensure_ascii=True,allow_nan=False)+'\n').encode()).hexdigest()
+        require(runtime_hash==WRAP_ORACLE['runtime'],'Power actual runtime/types inventory differs')
+        wrap=[a for a in provenance.get('adaptations',[]) if a.get('name')=='rnbo-1.4.4-finite-wrap-even24-v1']
+        require(len(wrap)==1 and wrap[0].get('context')=='nonlinear-domains' and wrap[0].get('guard_count')==1 and
+                wrap[0].get('input_sha256')==contract['raw_source'] and wrap[0].get('prepared_sha256')==POWER_CORRECTED and
+                wrap[0].get('runtime_tree_sha256')==WRAP_ORACLE['runtime'],'Power correction adaptation differs')
+        powers=[a for a in provenance.get('adaptations',[]) if a.get('name')=='rnbo-1.4.4-float32-scalar-powers-v1']
+        if profile=='strict':
+            require(manifest.get('numerical_profile')=='float32-strict' and not powers and
+                    'scalar_powers_contract' not in manifest and 'rnbo_s3_scalar_powers_source.h' not in files,
+                    'Power reference must contain correction only')
+        else:
+            expected_contract={'context':'nonlinear-domains','special_exponents':[2,4,.25],'base_domain':[0,1],
+                'fallback':'original-powf-with-fixnan','fixnan_retained':True,'bit_identity_claimed':False,'finite_wrap_composition':True}
+            require(manifest.get('numerical_profile')=='float32-scalar-powers-v1' and
+                    manifest.get('base_numerical_profile')=='float32-strict' and
+                    manifest.get('numerical_identity')=='changed-rounding-float32-scalar-powers-v1' and
+                    same_declaration(manifest.get('scalar_powers_contract'),expected_contract),'Power candidate numerical contract differs')
+            require(len(powers)==1 and powers[0].get('input_sha256')==POWER_CORRECTED and
+                    powers[0].get('prepared_sha256')==POWER_COMPOSED and powers[0].get('finite_wrap_composition') is True and
+                    powers[0].get('runtime_tree_sha256')==WRAP_ORACLE['runtime'] and
+                    powers[0].get('inverse_byte_identity') is True,'Power composition adaptation differs')
+    left,right=(build['modules'][p]['report'] for p in ('strict','optimized'))
+    for field in ('compiler','dependencies','private_support_archives'):
+        require(isinstance(left.get(field),dict) and left[field] and left[field]==right.get(field),
+                'Power pair compiler/dependency/math archive identity differs')
+    sdk=lambda r:{k:v for k,v in r.get('source_files_sha256',{}).items() if k.startswith('module-sdk/')}
+    require('module-sdk/dynamic/rnbo_s3_dynamic.cpp' in sdk(left) and sdk(left)==sdk(right),'Power pair SDK source identity differs')
+
+
+@lru_cache(maxsize=2)
+def power_input_data(kind,blocks=512):
+    require(kind in (6,11) and blocks==512,'Unsupported power input coverage')
+    boundaries=(0,0x80000000,1,0x80000001,0x7fffff,0x807fffff,0x800000,0x80800000,
+                0x3e800000,0xbe800000,0x3f000000,0xbf000000,0x3f7fffff,0xbf7fffff,0x3f800000,
+                0xbf800000,0x3f800001,0xbf800001,0x3fc00000,0xbfc00000,0x3fffffff,0xbfffffff,
+                0x40000000,0xc0000000,0x40000001,0xc0000001,0x40400000,0xc0400000)
+    left_bounds=boundaries+(0x40800000,0xc0800000)
+    data=bytearray();sets=[set(),set()]
+    for frame in range(blocks*256):
+        if kind==6:
+            values=((-4,-2,-1,-.5,0,.5,1,2,4)[(frame//64)%9],
+                    (-3,-2,-1,-.5,0,.25,.5,1,1.5,2,3)[(frame//64)%11])
+            words=struct.unpack('<II',struct.pack('<ff',*values))
+        elif frame%16==0:
+            words=(left_bounds[(frame//16)%len(left_bounds)],boundaries[((frame//16)+13)%len(boundaries)])
+        else:
+            hr=(frame*1664525+1013904223)&0xffffffff
+            exponent=(frame//4)%127 if frame%4==0 else 127-frame%4
+            hl=((frame+2039)*22695477+1)&0xffffffff
+            words=((hl&0x80000000)|((124+(frame//4)%5)<<23)|(hl&0x7fffff),(exponent<<23)|(hr&0x7fffff))
+        data.extend(struct.pack('<II',*words))
+        for channel,word in enumerate(words):sets[channel].add(word)
+    coverage={'per_channel_distinct_words':[len(s) for s in sets],
+              'all_channels_union_words':len(sets[0]|sets[1]),
+              'scope':'Deterministic representative finite binary32 values within left[-4,4],right[-3,3]; repeated checks are not exhaustive encodings.'}
+    return hashlib.sha256(data).hexdigest(),coverage
+
 
 def wrap_verification(fixture,case):
     require(fixture.get('id')==WRAP_ORACLE['fixture'] and fixture.get('family')=='wrap' and fixture.get('role')=='fx',
@@ -278,7 +433,7 @@ def wave2_identity(build,fixture,plan):
 
 
 def declared_stimulus(fixture,case):
-    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,**WRAP_STIMULI}
+    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,POWER_DENSE:11,**WRAP_STIMULI}
     base=fixture.get('stimulus');override=case.get('stimulus',{})
     require(isinstance(base,dict) and isinstance(override,dict),'FX stimulus declaration missing')
     if base.get('kind') in wave2:
@@ -308,8 +463,10 @@ def declared_verification(fixture,case):
     declaration=fixture.get('verification')
     kind=(fixture.get('stimulus',{})|case.get('stimulus',{})).get('kind')
     if declaration is None:
-        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',*WRAP_STIMULI),'Missing explicit verification contract')
+        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',POWER_DENSE,*WRAP_STIMULI),'Missing explicit verification contract')
         return None
+    if isinstance(declaration,dict) and declaration.get('kind')==POWER_KIND:
+        return power_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1':
         return wrap_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind') in WAVE2_ORACLES:
@@ -362,8 +519,10 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
     verifications=[declared_verification(fixture,c) for c in fixture['cases']]
     new_model=fixture.get('verification',{}).get('kind') in WAVE2_ORACLES
     exact_wrap=fixture.get('verification',{}).get('kind')=='wrap-finite-v1'
+    powers=fixture.get('verification',{}).get('kind')==POWER_KIND
     if new_model:wave2_identity(build,fixture,plan)
     if exact_wrap:wrap_identity(build,fixture,plan)
+    if powers:power_identity(build,fixture,plan)
     oracle_count=sum(v is not None for v in verifications);pilot_count=case_count-oracle_count
     expected_counts={'input_cases':case_count,'input_rechecks':case_count*plan['rounds']*3,'pilot_sample_checks':expected_samples*pilot_count,
                      'oracle_cases':oracle_count,'oracle_rechecks':oracle_count*plan['rounds']*3,'semantic_sample_checks':expected_samples*oracle_count*2}
@@ -379,7 +538,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         found=[r for r in records if r.get('fixture')==name and r.get('case')==case['id']]
         require(len(found)==1,'Missing or duplicate FX INPUT case')
         record=found[0];digest(record.get('input_sha256'),'Malformed target input SHA256')
-        if exact_wrap:
+        if exact_wrap or powers:
             require(set(record)=={'fixture','case','input_sha256','input_bytes','layout','stimulus_kind'},
                     'Unknown or missing finite wrap input metadata')
         require(type(record.get('input_bytes')) is int and record['input_bytes']==plan['blocks']*256*2*4,'FX input byte coverage differs')
@@ -388,14 +547,19 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         if exact_wrap:
             expected_input,expected_oracle=wrap_cache_hashes(expected['kind'],plan['blocks'])
             require(record['input_sha256']==expected_input,'Finite wrap deterministic input SHA differs')
+        if powers:
+            expected_input,coverage=power_input_data(expected['kind'],plan['blocks'])
+            require(record['input_sha256']==expected_input,'Power deterministic input SHA differs')
         evidence[case['id']]={**record,'declared_settings':expected['settings']}
         if exact_wrap:evidence[case['id']]['distinct_input_coverage']=wrap_input_coverage(expected['kind'],plan['blocks'])
+        if powers:evidence[case['id']]['distinct_input_coverage']=coverage
         if verification:
             candidates=[r for r in oracle_records if r.get('fixture')==name and r.get('case')==case['id']]
             require(len(candidates)==1,'Missing or duplicate ORACLE case');oracle=candidates[0]
-            if verification['kind'] in WAVE2_ORACLES or exact_wrap:
+            if verification['kind'] in WAVE2_ORACLES or exact_wrap or powers:
                 keys={'fixture','case','oracle_sha256','oracle_bytes','layout','oracle_kind','max_abs_tolerance','max_cache_rounding_error','model','rounding'}
-                if not exact_wrap:keys.update(verification['coefficients'] if verification['kind']=='biquad-response-v1' else ('exponent',))
+                if powers:keys.update(('initial_exponent','event_schedule_sha256'))
+                elif not exact_wrap:keys.update(verification['coefficients'] if verification['kind']=='biquad-response-v1' else ('exponent',))
                 require(set(oracle)==keys,'Unknown or missing oracle metadata')
             digest(oracle.get('oracle_sha256'),'Malformed oracle SHA256')
             require(type(oracle.get('oracle_bytes')) is int and oracle['oracle_bytes']==plan['blocks']*256*2*4,'Oracle byte coverage differs')
@@ -404,6 +568,9 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 require(oracle.get('window')==verification['window'] and oracle.get('initial_available')==verification['initial_available'],'Oracle history/window differs')
             elif exact_wrap:
                 require(oracle['oracle_sha256']==expected_oracle,'Finite wrap independent oracle SHA differs')
+            elif powers:
+                require(same_declaration(oracle.get('initial_exponent'),verification['initial_exponent']) and
+                        oracle.get('event_schedule_sha256')==verification['event_schedule_sha256'],'Power oracle initial exponent/event schedule differs')
             elif verification['kind']=='biquad-response-v1':
                 require(same_declaration({key:oracle.get(key) for key in verification['coefficients']},verification['coefficients']),'Oracle Float64 coefficients differ')
             else:
@@ -428,7 +595,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 'limit':'Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed'}
     require(isinstance(provenance['catalog_path'],str) and provenance['catalog_path'],'Missing stimulus catalog path')
     if oracle_count:
-        stem='wave2_oracle' if new_model or exact_wrap else 'average_oracle'
+        stem='wave2_oracle' if new_model or exact_wrap or powers else 'average_oracle'
         provenance['oracle_source_sha256']={key:digest(sources.get(key),'Missing oracle source identity') for key in (f'object-benchmark/main/{stem}.c',f'object-benchmark/main/{stem}.h')}
         provenance['verification_contract']=fixture['verification'];provenance['psram_budget']=oracle_memory_budget(build,plan)
         if exact_wrap:
@@ -446,11 +613,16 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 'signs':len(signs),'mantissa_patterns':len(mantissas),
                 'sorted_distinct_words_sha256':hashlib.sha256(struct.pack('<%dI'%len(union),*sorted(union))).hexdigest(),
                 'scope':'4080 distinct finite input words across four cases; repeated oracle check totals count executions, not distinct encodings.'}
-        elif new_model:
+        elif new_model or powers:
             provenance['oracle']='Original catalog Float64 model over actual Float32 input; once Float32 cache rounding. Native/target libm byte identity is not assumed.'
             provenance['semantic_gate']='Maximum output/cache error plus maximum cache/model rounding error must stay within the unchanged declared semantic limit.'
             provenance['parameter_schema']=plan['parameter_schema']
             provenance['events']=plan['events']
+            if powers:
+                provenance['pilot']='No pilot samples; both output channels use the declared mathematical oracle.'
+                provenance['generation']='Independent complete INPUT SHA regeneration: original held dyadic grid or deterministic raw binary32 dense strata; no transcendental input generation.'
+                provenance['oracle']='Fresh Float64 tanh/wrap/clip/pow per sample, replaying actual Float32 events before each block from source default2. Once Float32 cache rounding; host/target libm byte identity is not assumed.'
+                provenance['rounding_scope']='Changed Float32 rounding and signed zero are diagnosed pairwise, not required bit-identical. No nonfinite, fenv, normalized-event or all-domain power claim.'
         else:
             provenance['oracle']='Fresh Float64 window sum over actual Float32 input; once Float32 cache rounding. fsum bit identity is not claimed.'
             provenance['semantic_gate']='Maximum output/cache error plus maximum cache/model rounding error must be <= declared2e-6'
@@ -510,6 +682,11 @@ def collect(build_dir,run_dir):
     bit_records=[fields(line.strip(),bits_prefix) for line in lines if line.strip().startswith(bits_prefix)]
     bit_cases=sum(value.get('oracle',{}).get('verification',{}).get('kind')=='wrap-finite-v1' for value in inputs.values())
     require(len(bit_records)==2*bit_cases,'Incomplete or unexpected exact-bit measurements')
+    rounding_prefix='RNBO_OBJECT_BENCHMARK CASE_ROUNDING '
+    rounding_records=[fields(line.strip(),rounding_prefix) for line in lines if line.strip().startswith(rounding_prefix)]
+    power_mode=fixture.get('verification',{}).get('kind')==POWER_KIND
+    require(len(rounding_records)==(len(fixture['cases']) if power_mode else 0),
+            'Incomplete or unexpected pair rounding diagnostics')
     bit_fields={'oracle_bit_sample_checks','oracle_bit_differences'}&passed.keys()
     require(len(bit_fields)==2 if bit_cases else len(bit_fields) in (0,2), 'Missing or incomplete PASS exact-bit counter schema')
     bit_count=passed.get('oracle_bit_sample_checks',0)
@@ -568,6 +745,19 @@ def collect(build_dir,run_dir):
                       'observed_speed_ratio':reference/candidate,'observed_process_reduction_percent':100*(1-candidate/reference)})
         if dc:cases[-1]['dc_comparison']=dc
         if bit_comparison:cases[-1]['bit_comparison']=bit_comparison
+        if power_mode:
+            matches=[r for r in rounding_records if r.get('fixture')==name and r.get('case')==declared['id']]
+            require(len(matches)==1,'Missing or duplicate pair rounding case')
+            record=matches[0]
+            require(set(record)=={'fixture','case','samples','float_bit_different','zero_sign_different'},
+                    'Unknown or missing pair rounding metadata')
+            require(type(record['samples']) is int and record['samples']==expected_samples and
+                    type(record['float_bit_different']) is int and type(record['zero_sign_different']) is int and
+                    0<=record['zero_sign_different']<=record['float_bit_different']<=record['samples'],
+                    'Invalid pair rounding sample coverage or counts')
+            if declared['id']=='dense-quarter':
+                require(record['zero_sign_different']>0,'Dense quarter did not observe the expected signed-zero profile difference')
+            cases[-1]['rounding_comparison']=record
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {'fixture':name,'family':fixture['family'],'role':fixture['role'],
             'numerical_profiles':numerical_profiles,

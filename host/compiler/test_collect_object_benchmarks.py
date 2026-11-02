@@ -9,7 +9,10 @@ import tempfile
 import struct
 import unittest
 from collect_object_benchmarks import (collect,fields,sha,WRAP_ORACLE,WRAP_STIMULI,
-    wrap_cache_hashes,wrap_input_coverage,exact_wrap_word)
+    wrap_cache_hashes,wrap_input_coverage,exact_wrap_word,POWER_KIND,POWER_DENSE,
+    POWER_DESCRIPTION,POWER_CORRECTED,POWER_COMPOSED,POWER_COMPILE_CONTRACT,
+    power_cases,power_events,power_schedule_sha,power_verification,power_input_data,
+    WAVE2_ORACLES)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -601,6 +604,158 @@ class FiniteWrapObservationTests(unittest.TestCase):
         legacy.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_BITS fixture=unit case=default profile=strict oracle_sha256='+('a'*64)+' samples=3072 bit_different=0')
         legacy.seal()
         with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+
+
+class PowerModeObservationTests(unittest.TestCase):
+    """Synthetic protocol/admission negatives; never hardware observations."""
+    seal=Wave2ObservationTests.seal
+    rejected=Wave2ObservationTests.rejected
+
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.build=self.root/'build';self.run=self.root/'run'
+        self.build.mkdir();self.run.mkdir();self.fixture()
+
+    def fixture(self):
+        root=Path(__file__).resolve().parents[2]
+        table=json.loads((root/'evidence/pink-output-compiler.json').read_text())['prepared_snapshot']['prepared_files_sha256']
+        runtime={k:v for k,v in table.items() if k.startswith('common/')}
+        contract=WAVE2_ORACLES['nonlinear-chain-v1']
+        fixture={'id':'nonlinear-domains','family':'nonlinear','role':'fx','blocks':512,'warmup_blocks':4,
+            'seed':305419896,'stimulus':{'kind':'nonlinear-grid-v1'},'cases':power_cases(),
+            'semantic':{'kind':'nonlinear','exponent_default':2,'maximum_absolute_error':2e-6},
+            'verification':{'kind':POWER_KIND,'maximum_absolute_error':2e-6},
+            'comparison_tolerance':{'maximum_absolute_error':2e-6,'maximum_pcm_lsb_error':1,'relative_rms_level_difference':1e-4}}
+        plan={'fixture':fixture,'rounds':3,'blocks':512,'timing_exclude_blocks':32,'arena_bytes':4096,
+            'catalog_path':'/synthetic/power-modes.json','catalog_sha256':'d'*64,'patch_sha256':contract['patch'],
+            'description_sha256':POWER_DESCRIPTION,'parameter_schema':copy.deepcopy(contract['parameters']),
+            'events':[e for c in power_cases() for e in power_events(c)],
+            'numerical_profiles':{'strict':'float32-strict','optimized':'float32-scalar-powers-v1'},'stimuli':[],'verifications':[]}
+        wrap_contract={**WRAP_ORACLE['contract'],'context':'nonlinear-domains','guard_count':1}
+        manifest={'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
+            'parameter_count':1,'editable_source_sha256':contract['patch'],'parameter_schema_sha256':contract['schema'],
+            'correct_finite_wrap':True,'finite_wrap_contract':wrap_contract}
+        self.report={'benchmark':plan,'modules':{},'source_files_sha256':{f'object-benchmark/main/{name}':str(i)*64
+            for i,name in enumerate(('stimulus.c','stimulus.h','wave2_oracle.c','wave2_oracle.h'),1)}}
+        for profile in ('strict','optimized'):
+            m=copy.deepcopy(manifest);m['numerical_profile']=plan['numerical_profiles'][profile]
+            p={'raw_files_sha256':{'rnbo_source.h':contract['raw_source']},'prepared_files_sha256':{
+                **runtime,'rnbo_source.h':POWER_CORRECTED if profile=='strict' else POWER_COMPOSED,
+                'description.json':POWER_DESCRIPTION,'private_finite_wrap.h':WRAP_ORACLE['helper'],
+                'rnbo_s3_finite_wrap_source.h':WRAP_ORACLE['compile_contract']},
+                'adaptations':[{'name':'rnbo-1.4.4-finite-wrap-even24-v1','context':'nonlinear-domains','guard_count':1,
+                    'input_sha256':contract['raw_source'],'prepared_sha256':POWER_CORRECTED,'runtime_tree_sha256':WRAP_ORACLE['runtime']}]}
+            if profile=='optimized':
+                m.update(base_numerical_profile='float32-strict',numerical_identity='changed-rounding-float32-scalar-powers-v1',
+                    scalar_powers_contract={'context':'nonlinear-domains','special_exponents':[2,4,.25],'base_domain':[0,1],
+                    'fallback':'original-powf-with-fixnan','fixnan_retained':True,'bit_identity_claimed':False,'finite_wrap_composition':True})
+                p['prepared_files_sha256']['rnbo_s3_scalar_powers_source.h']=POWER_COMPILE_CONTRACT
+                p['adaptations'].append({'name':'rnbo-1.4.4-float32-scalar-powers-v1','input_sha256':POWER_CORRECTED,
+                    'prepared_sha256':POWER_COMPOSED,'finite_wrap_composition':True,'runtime_tree_sha256':WRAP_ORACLE['runtime'],'inverse_byte_identity':True})
+            self.report['modules'][profile]={'artifact_sha256':('a' if profile=='strict' else 'b')*64,
+                'inspection':{'loaded_bytes_upper_bound':65536},'report':{'prepared_export':{'manifest':m,'provenance':p},
+                'compiler':{'version':'test'},'dependencies':{'test':'1'},'private_support_archives':{'test':'hash'},
+                'source_files_sha256':{'module-sdk/dynamic/rnbo_s3_dynamic.cpp':'a'*64}}}
+        budget={'workspace_bytes':2101248,'oracle_cache_bytes':1048576,'arena_bytes':8192,'opaque_context_upper_bound_bytes':2097152,
+            'loaded_images_upper_bound_bytes':131072,'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
+        budget['required_upper_bound_bytes']=sum(v for k,v in budget.items() if k!='physical_psram_bytes');plan['psram_budget']=budget
+        self.lines=['RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture=nonlinear-domains reference=float32-strict candidate=float32-scalar-powers-v1']
+        for i,c in enumerate(fixture['cases']):
+            cid=c['id'];kind=6 if i<3 else 11;ih=power_input_data(kind)[0];oh=hashlib.sha256(cid.encode()).hexdigest()
+            plan['stimuli'].append({'kind':kind,'settings':{'kind':'nonlinear-grid-v1' if kind==6 else POWER_DENSE},
+                **{k:0. for k in ('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level')}})
+            v=power_verification(fixture,c);plan['verifications'].append(v)
+            prefix=f'fixture=nonlinear-domains case={cid}'
+            self.lines.extend([
+                f'RNBO_OBJECT_BENCHMARK INPUT {prefix} input_sha256={ih} input_bytes=1048576 layout=float32_stereo_interleaved_le stimulus_kind={kind}',
+                f'RNBO_OBJECT_BENCHMARK ORACLE {prefix} oracle_sha256={oh} oracle_bytes=1048576 layout=float32_stereo_interleaved_le oracle_kind={POWER_KIND} initial_exponent=2 event_schedule_sha256={v["event_schedule_sha256"]} max_abs_tolerance=2e-6 max_cache_rounding_error=0 model=float64-tanh-wrap-clip-pow-events-v1 rounding=once-float32',
+                f'RNBO_OBJECT_BENCHMARK CASE {prefix} samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0',
+                f'RNBO_OBJECT_BENCHMARK CASE_ROUNDING {prefix} samples=786432 float_bit_different=4 zero_sign_different={1 if cid=="dense-quarter" else 0}'])
+            for profile in ('strict','optimized'):
+                self.lines.extend([f'RNBO_OBJECT_BENCHMARK CASE_PROFILE {prefix} profile={profile} timed_blocks=1440 process_us=12000 peak_us=25',
+                    f'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC {prefix} profile={profile} semantic_kind={POWER_KIND} samples=786432 max_abs=0 max_model_error_bound=0 max_abs_tolerance=2e-6 oracle_sha256={oh}'])
+        self.lines.append(f'RNBO_OBJECT_BENCHMARK PASS fixture=nonlinear-domains firmware_elf_sha256={"c"*64} strict_module_sha256={"a"*64} optimized_module_sha256={"b"*64} host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 psram_before=123 psram_after=123 internal_before=42 internal_after=42 images=4 finalized_images=4 cases=15 rounds=3 blocks_per_pass=512 timing_exclude=32 warmup=4 seed=305419896 compared_samples=11796480 input_cases=15 input_rechecks=135 pilot_sample_checks=0 oracle_cases=15 oracle_rechecks=135 semantic_sample_checks=23592960 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0')
+        self.seal()
+
+    def test_power_modes_record_changed_rounding_without_bit_gate(self):
+        r=collect(self.build,self.run);self.assertFalse(r['identical_artifact_control'])
+        self.assertEqual(len(r['cases']),15);self.assertEqual(r['cases'][4]['rounding_comparison']['zero_sign_different'],1)
+        self.assertEqual(r['cases'][-1]['input']['oracle']['verification']['event_schedule'],power_events(power_cases()[-1]))
+        self.assertIn('normalized-event',r['stimulus_provenance']['rounding_scope'])
+
+    def test_public_catalog_and_stable_wire_schedule(self):
+        root=Path(__file__).resolve().parents[2];path=root/'tests/fixtures/objects/wave2/power-modes-target.json'
+        self.assertEqual(json.loads(path.read_text())['fixtures'][0]['cases'],power_cases())
+        events=power_events(power_cases()[-1]);wire=struct.pack('<II',0x40000000,len(events))
+        for event in events:
+            wire+=struct.pack('<III',event['block'],0,1)+struct.pack('<f',event['value'])
+        self.assertEqual(power_schedule_sha(events),hashlib.sha256(wire).hexdigest())
+        self.assertEqual(events[0]['block'],0);self.assertEqual(events[-1]['block'],511)
+
+    def test_power_case_schedule_and_normalized_spoofs_rejected(self):
+        original=copy.deepcopy(self.report)
+        for mutation in ('order','normalized','value','block','extra','missing'):
+            with self.subTest(mutation=mutation):
+                self.report=copy.deepcopy(original);f=self.report['benchmark']['fixture']
+                if mutation=='order':f['cases'][-1]['events'].reverse()
+                elif mutation=='normalized':f['cases'][-1]['events'][0]['form']='normalized'
+                elif mutation=='value':f['cases'][-1]['events'][0]['value']=.25
+                elif mutation=='block':self.report['benchmark']['events'][-1]['block']=510
+                elif mutation=='extra':f['cases'][0]['stimulus']={'kind':POWER_DENSE}
+                else:f['cases'].pop()
+                self.rejected()
+
+    def test_power_closed_source_composition_and_runtime_required(self):
+        original=copy.deepcopy(self.report)
+        for mutation in ('uncorrected','source','runtime','contract','profile','support','compiler','sdk','inverse'):
+            with self.subTest(mutation=mutation):
+                self.report=copy.deepcopy(original);m=self.report['modules']['optimized']['report'];e=m['prepared_export']
+                if mutation=='uncorrected':self.report['modules']['strict']['report']['prepared_export']['manifest']['correct_finite_wrap']=False
+                elif mutation=='source':e['provenance']['prepared_files_sha256']['rnbo_source.h']='1'*64
+                elif mutation=='runtime':e['provenance']['prepared_files_sha256']['common/RNBO_Types.h']='1'*64
+                elif mutation=='contract':e['manifest']['scalar_powers_contract']['bit_identity_claimed']=True
+                elif mutation=='profile':e['manifest']['numerical_profile']='float32-strict'
+                elif mutation=='support':del e['provenance']['prepared_files_sha256']['rnbo_s3_scalar_powers_source.h']
+                elif mutation=='compiler':m['compiler']['version']='other'
+                elif mutation=='sdk':m['source_files_sha256']['module-sdk/dynamic/rnbo_s3_dynamic.cpp']='f'*64
+                else:e['provenance']['adaptations'][-1]['inverse_byte_identity']=False
+                self.rejected()
+
+    def test_power_input_oracle_wirehash_and_rounding_records_required(self):
+        original=list(self.lines)
+        for mutation in ('input','wire','initial','missing','extra','duplicate','negative','too-many','zero-sign','sensitivity'):
+            with self.subTest(mutation=mutation):
+                self.lines=list(original);i=next(i for i,l in enumerate(self.lines) if 'CASE_ROUNDING' in l and 'case=dense-quarter ' in l)
+                if mutation=='input':self.lines[1]=self.lines[1].replace('input_sha256=','input_sha256=a')
+                elif mutation=='wire':self.lines[2]=self.lines[2].replace('event_schedule_sha256=','event_schedule_sha256=a')
+                elif mutation=='initial':self.lines[2]=self.lines[2].replace('initial_exponent=2','initial_exponent=4')
+                elif mutation=='missing':self.lines.pop(i)
+                elif mutation=='extra':self.lines[i]+=' profile=strict'
+                elif mutation=='duplicate':self.lines.insert(i,self.lines[i])
+                elif mutation=='negative':self.lines[i]=self.lines[i].replace('float_bit_different=4','float_bit_different=-1')
+                elif mutation=='too-many':self.lines[i]=self.lines[i].replace('float_bit_different=4','float_bit_different=786433')
+                elif mutation=='zero-sign':self.lines[i]=self.lines[i].replace('zero_sign_different=1','zero_sign_different=5')
+                else:self.lines[i]=self.lines[i].replace('zero_sign_different=1','zero_sign_different=0')
+                self.rejected()
+
+    def test_power_truth_and_pair_gates_not_widened(self):
+        original=copy.deepcopy(self.report);lines=list(self.lines)
+        for mutation in ('pair','truth','rounding','bits','budget'):
+            with self.subTest(mutation=mutation):
+                self.report=copy.deepcopy(original);self.lines=list(lines)
+                if mutation=='pair':self.report['benchmark']['fixture']['comparison_tolerance']['maximum_pcm_lsb_error']=2
+                elif mutation=='truth':
+                    i=next(i for i,l in enumerate(self.lines) if 'CASE_SEMANTIC' in l)
+                    self.lines[i]=self.lines[i].replace('max_abs=0','max_abs=3e-6').replace('max_model_error_bound=0','max_model_error_bound=3e-6')
+                elif mutation=='rounding':self.lines[2]=self.lines[2].replace('rounding=once-float32','rounding=twice-float32')
+                elif mutation=='bits':self.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_BITS fixture=nonlinear-domains case=square')
+                else:self.report['benchmark']['psram_budget']['oracle_cache_bytes']=0
+                self.rejected()
+
+    def test_rounding_diagnostics_not_accepted_in_legacy_kind(self):
+        legacy=Wave2ObservationTests();legacy.setUp();self.addCleanup(legacy.doCleanups)
+        legacy.fixture('nonlinear');legacy.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_ROUNDING fixture=nonlinear-domains case=square samples=786432 float_bit_different=0 zero_sign_different=0')
+        legacy.rejected()
 
 
 if __name__=='__main__':unittest.main()
