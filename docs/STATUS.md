@@ -1,15 +1,19 @@
-# Implementation status — 2 November 2026
+# Implementation status — 3 November 2026
 
 The **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** now runs the supplied
 `3sawsDrone3` patch with an FM1-style graph, a 40 ms comb limit and optional
-float32 delay storage/audio arithmetic. The user confirmed audio, Panic/Resume
-and touch parameter control. See [patch qualification](drone3-qualification.md)
+float32 delay storage/audio arithmetic. The user confirmed audio and touch
+parameter control. The current
+[AMOLED interface](amoled-controls.md) provides Resume/Pause, a Patch/Params
+page switch, eight wide vertical parameter bars with continuous cross-bar
+dragging, a thicker volume slider and a post-volume output meter. The user
+confirmed the continuous gesture works well. See [patch qualification](drone3-qualification.md)
 and [the numerical choices](float32-audio.md). The original firmware has a
 private full-flash backup, and earlier readback
 verified that the original bootloader, partition table, NVS and PHY bytes below
 the application are unchanged.
 
-The final compact drone build completed 300 continuously playing status polls
+The earlier compact drone build completed 300 continuously playing status polls
 over 303 seconds, with the output volume set to zero for the timing test.
 Average render work was 3,879.3 µs (66.83% of one audio core), peak 4,967 µs,
 against a 5,805 µs block period. There were no render overruns, DMA/write/module
@@ -18,11 +22,24 @@ errors, non-finite samples or late audio-owner allocations. Its arena uses
 earlier 1 MiB reservation. This is measured workload evidence, not a hard
 worst-case bound or a Wi-Fi qualification.
 
-Current firmware ELF:
+That earlier measurement used firmware ELF
 `f64cdf654598d72955e9ec5cca6fd9cd3eaa7230def4d95590347826ff9d9ac3`.
-The board was left at the user's **12% volume, Panic muted, ready to Resume**,
-with all eight parameter values preserved (including the touched vibrato
-depth). Cold startup uses zero speaker volume; controls remain RAM state.
+It is historical evidence for that build, rather than a timing qualification
+of the newer interface.
+
+The latest verified installation is the wide-bar GUI build, ELF
+`0e988a813a11e96106fd83898031260921a6808a611c7e3b44f33ebae460c9ec`.
+It retains the qualified optimised drone export, including unused-table
+omission: the arena uses 99,088 of 131,072 reserved bytes. The installation
+check captured silence → signal → silence at volume 0 → 5 → 0, restored all
+eight parameter values, volume and Pause state, and observed no render
+deadline overruns or allocation/module/DMA/write faults. The subsequent user
+trial left it playing at 2% volume with adjusted parameters and no observed
+faults. This is the last verified snapshot, not a guarantee of current live
+settings. Later device tests must snapshot controls afresh and restore this
+GUI build. Cold startup uses zero speaker volume; controls remain RAM state.
+See [the GUI installation evidence](../evidence/amoled-gui-v3.json) and
+[the table-omission review](unused-mtof-table.md).
 
 ## Hardware qualification
 
