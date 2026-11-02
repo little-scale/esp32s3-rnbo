@@ -19,10 +19,13 @@ unreadable layouts select a paginated parameter list and report the reason.
 Connections are never silently omitted to make a graph fit. A manual Minimal
 Export without editable source also uses the parameter list.
 
-Tap a parameter box to highlight it and edit its normalized value with the
-slider. The current value and unit come from RNBO's exported parameter schema.
-Tap **Volume** to return to speaker level. **Panic** and **Resume** remain
-available in both views. Touch and USB send bounded owner events; the display
+Tap a parameter box to highlight it and open the dedicated parameter page,
+or use **Params**. The eight drone parameters have wide multislider bars that
+can be edited with one continuous drag; current
+values and units come from RNBO's exported schema. **Patch** returns to the
+graph. Volume, **Pause** and **Resume** remain available on both pages, with a
+post-volume output meter. See [AMOLED controls](amoled-controls.md).
+Touch and USB send bounded owner events; the display
 never calls a running patch. The audio owner publishes parameter readbacks with
 32-bit atomics after accepted events. Rendering uses an LVGL draw callback,
 without allocating an object for each box/wire or doing display work on the
@@ -47,8 +50,8 @@ python3 tools/render_patch_view.py --prepared build/prepared/my-patch \
 ```
 
 This uses the locked LVGL source staged under `build/vendor-amoled/`, a native
-C compiler and mocked board functions. It produces PNGs for the graph, selected
-parameter and muted state, simulates the Panic/Resume buttons, and checks LVGL
+C compiler and mocked board functions. It produces PNGs for the graph,
+parameter page and paused state, simulates the navigation and Pause/Resume buttons, and checks LVGL
 heap integrity. It is a renderer preview; physical touch/display checks are
 separate. The font generator needs Pillow 13.0.0 only for regeneration; normal
 builds use the checked-in C font data.

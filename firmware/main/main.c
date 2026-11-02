@@ -2,6 +2,7 @@
 /* Initial engine-neutral hardware shell; the default source is a test signal. */
 #include "board_audio.h"
 #include "pcm_output.h"
+#include "output_meter.h"
 #include "allocation_watch.h"
 #include "audio_lifecycle.h"
 #ifndef CONFIG_RNBO_S3_HEADLESS
@@ -83,6 +84,7 @@ typedef struct {
     uint64_t blocks, render_busy_total_us, render_deadline_overruns;
     uint64_t driver_elapsed_total_us, post_write_capture_elapsed_total_us;
     uint32_t render_us, peak_us, dma_errors, muted, volume, queue_errors;
+    uint32_t output_peak_q15;
     uint32_t module_errors;
     uint32_t allocation_fault;
     allocation_watch_stats heap;
@@ -93,6 +95,11 @@ typedef struct {
 static audio_lifecycle lifecycle;
 static atomic_uint queue_errors;
 static atomic_uint volume_target=RNBO_S3_INITIAL_VOLUME;
+/* Maximum final-PCM peak since the display last consumed it. No display or
+ * floating logarithm work runs on the audio owner. */
+#ifndef CONFIG_RNBO_S3_HEADLESS
+static atomic_uint display_output_peak;
+#endif
 static QueueHandle_t controls, telemetry;
 static StaticTask_t audio_tcb, control_tcb;
 static TaskHandle_t audio_handle, control_handle, main_handle;
@@ -254,8 +261,14 @@ static void audio_task(void *unused)
         stats.driver_elapsed_total_us+=(uint64_t)(esp_timer_get_time()-driver_began);
 #ifndef CONFIG_RNBO_S3_HEADLESS
         int64_t capture_began=esp_timer_get_time();
-        if (result==ESP_OK && written==sizeof pcm)
+        if (result==ESP_OK && written==sizeof pcm) {
             pcm_capture_append(&capture,pcm,RNBO_S3_BLOCK_FRAMES);
+            stats.output_peak_q15=output_meter_peak_q15(pcm,RNBO_S3_BLOCK_FRAMES*BOARD_AUDIO_CHANNELS);
+            unsigned previous=atomic_load_explicit(&display_output_peak,memory_order_relaxed);
+            while (stats.output_peak_q15>previous &&
+                   !atomic_compare_exchange_weak_explicit(&display_output_peak,&previous,stats.output_peak_q15,
+                                                         memory_order_relaxed,memory_order_relaxed)) {}
+        } else stats.output_peak_q15=0;
         stats.post_write_capture_elapsed_total_us+=(uint64_t)(esp_timer_get_time()-capture_began);
 #endif
         if (result!=ESP_OK || written!=sizeof pcm) {
@@ -358,6 +371,9 @@ static void command(const char *line)
                stats.nonfinite,stats.clipped,stats.write_errors,stats.dma_errors,stats.queue_errors,
                (unsigned)uxTaskGetStackHighWaterMark(audio_handle),stats.module_errors,
                stats.heap.allocations,stats.heap.frees,stats.heap.requested_bytes,stats.allocation_fault?"true":"false");
+#ifndef CONFIG_RNBO_S3_HEADLESS
+        printf(",\"output_peak_q15\":%" PRIu32 ",\"output_meter_scope\":\"final PCM after volume, routing and saturation\"",stats.output_peak_q15);
+#endif
         printf(",\"blocks\":%" PRIu64 ",\"render_busy_total_us\":%" PRIu64 ",\"render_deadline_overruns\":%" PRIu64
                ",\"driver_elapsed_total_us\":%" PRIu64 ",\"post_write_capture_elapsed_total_us\":%" PRIu64
                ",\"render_timing_scope\":\"owner-through-PCM; excludes driver and post-write capture\"",
@@ -623,10 +639,11 @@ void app_main(void)
         maintenance_service();
 #ifndef CONFIG_RNBO_S3_HEADLESS
         audio_stats stats;
-        if (xTaskGetTickCount()-last_display>=pdMS_TO_TICKS(1000) && xQueuePeek(telemetry,&stats,0)==pdTRUE) {
+        if (xTaskGetTickCount()-last_display>=pdMS_TO_TICKS(50) && xQueuePeek(telemetry,&stats,0)==pdTRUE) {
             last_display=xTaskGetTickCount();
             bool fault=stats.allocation_fault || stats.write_errors || audio_lifecycle_owner(&lifecycle)==AUDIO_LIFECYCLE_FAULT;
-            board_display_update(stats.muted,fault,stats.volume,stats.render_us,stats.peak_us);
+            unsigned output_peak=atomic_exchange_explicit(&display_output_peak,0,memory_order_relaxed);
+            board_display_update(stats.muted,fault,stats.volume,stats.render_us,stats.peak_us,output_peak);
         }
 #else
         (void)last_display;

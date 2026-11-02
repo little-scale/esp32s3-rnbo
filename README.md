@@ -40,6 +40,9 @@ retained. See [patch qualification](docs/drone3-qualification.md),
 [bounded filters](docs/bounded-filters.md) and
 [float32 choices and numerical comparisons](docs/float32-audio.md).
 
+The [AMOLED controls](docs/amoled-controls.md) include Pause/Resume, a page with
+eight parameter sliders, and a post-volume output meter.
+
 ## Build and verify on the computer
 
 Prerequisites: an authorized local RNBO **1.4.4** installation, Node, Python 3,

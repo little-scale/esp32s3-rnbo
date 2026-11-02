@@ -16,4 +16,4 @@ typedef struct {
  * atomics/queue operations. No callback may call a live RNBO instance. */
 esp_err_t board_display_start(const board_display_actions *actions);
 void board_display_update(bool muted, bool fault, unsigned volume_percent,
-                          uint32_t render_us, uint32_t peak_us);
+                          uint32_t render_us, uint32_t peak_us,unsigned output_peak_q15);

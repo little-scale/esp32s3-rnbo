@@ -53,13 +53,37 @@ static void image(const char *directory,const char *name)
     for(unsigned i=0;i<368*448;++i){lv_color32_t c; c.full=lv_color_to32(framebuffer[i]);unsigned char rgb[3]={c.ch.red,c.ch.green,c.ch.blue};assert(fwrite(rgb,1,3,out)==3);}
     fclose(out);
 }
+static bool has_text(lv_obj_t *parent,const char *text)
+{
+    for(unsigned i=0;i<lv_obj_get_child_cnt(parent);++i) {
+        lv_obj_t *child=lv_obj_get_child(parent,i);
+        if(lv_obj_check_type(child,&lv_label_class) && !strcmp(lv_label_get_text(child),text)) return true;
+        if(has_text(child,text)) return true;
+    }
+    return false;
+}
 int main(int argc,char **argv)
 {
     assert(argc==2);board_display_actions actions={.panic=panic,.resume=resume,.volume=set_volume,.parameter=parameter,.parameter_value=value,.initial_volume=28,.source_label="Preview"};
-    assert(board_display_start(&actions)==ESP_OK);board_display_update(false,false,28,250,521);image(argv[1],"patch");
-    for(unsigned i=0;i<rnbo_patch_layout.node_count;++i){const patch_node *n=&rnbo_patch_layout.nodes[i];if(n->parameter!=PATCH_NO_PARAMETER){click(16+n->x+n->width/2,64+n->y+n->height/2);image(argv[1],"parameter");click(336,374);assert(parameter_calls>0 && last_parameter==n->parameter && normalized_values[last_parameter]>0.95f);click(318,342);click(180,374);assert(volume>40 && volume<60);break;}}
-    click(274,419);assert(panic_count==1);board_display_update(true,false,28,250,521);image(argv[1],"panic");
-    click(95,419);assert(resume_count==1);
+    assert(board_display_start(&actions)==ESP_OK);
+    lv_tick_inc(1000);board_display_update(false,false,volume,250,521,16384);
+    image(argv[1],"patch");assert(has_text(lv_scr_act(),"OUT -6.0 dBFS"));
+    if(rnbo_patch_layout.parameter_count) {
+        click(300,419);assert(has_text(lv_scr_act(),"RNBO / PARAMS"));
+        image(argv[1],"params");image(argv[1],"parameter"); /* Legacy filename. */
+        unsigned columns=rnbo_patch_layout.parameter_count<8?rnbo_patch_layout.parameter_count:8;
+        int bar_top=rnbo_patch_layout.parameter_count>8?40:24;
+        click(16+PATCH_WIDTH/(2*(int)columns),64+bar_top+2);
+        assert(parameter_calls>0 && last_parameter==0 && normalized_values[0]>0.95f);
+        click(300,419);assert(has_text(lv_scr_act(),"RNBO / MAIN"));
+    }
+    click(180,382);assert(volume>40 && volume<60); /* Always the volume slider. */
+    click(184,419);assert(panic_count==1);
+    board_display_update(true,false,volume,250,521,0);
+    image(argv[1],"paused");image(argv[1],"panic");assert(has_text(lv_scr_act(),"OUT -inf dBFS"));
+    click(68,419);assert(resume_count==1);
+    board_display_update(false,false,volume,250,521,32767);
+    image(argv[1],"resumed");assert(has_text(lv_scr_act(),"OUT 0.0 dBFS"));
     lv_mem_monitor_t mem;lv_mem_monitor(&mem);assert(lv_mem_test()==LV_RES_OK);
     printf("{\"panic\":%u,\"resume\":%u,\"parameter_slider_events\":%u,\"lvgl_free\":%u,\"lvgl_largest\":%u}\n",panic_count,resume_count,parameter_calls,(unsigned)mem.free_size,(unsigned)mem.free_biggest_size);
     return 0;
