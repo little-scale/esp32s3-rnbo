@@ -15,6 +15,13 @@ less whole-callback time with exact output in the three declared cases and
 unchanged state/memory behaviour. Native subnormal/zero-sign counterexamples
 retain the explicit changed-rounding contract; other Gen graphs remain pending.
 
+Fifteen separately authored GenExpr arithmetic spellings now also pass XIAO:
+45 case programs, 4,423,680 exact pair comparisons and 8,847,360 independent
+model/bit checks, with full memory recovery and drone restoration. Absolute
+callback times are [recorded per exact source](gen-arithmetic-qualification.md);
+same-image controls claim no optimisation gain. Three unbound, non-registry
+function-call probes are kept as compile failures rather than working objects.
+
 Systematic **XIAO object qualification** is now active. The first isolated
 oscillator control and comb/allpass duration-hoist comparisons passed, with
 5,505,024 exact reference/candidate sample comparisons, complete memory recovery

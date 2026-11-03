@@ -121,6 +121,14 @@ archived original build epoch.
 
 ## Inventory and remaining work
 
+Fifteen [exact GenExpr arithmetic spellings](gen-arithmetic-qualification.md)
+now also pass their own native and XIAO runs: abs, min/minimum, max/maximum,
+sub/`-`, eq/`==`, lt/`<`, add/`+` and mul/`*`. The 45 device case programs pass
+8,847,360 numerical model and operation-bit checks with zero observed error.
+These same-image controls record absolute callback costs, with no optimisation
+gain. Three additional unbound function-call probes fail C++ compilation;
+frontend/prepare acceptance is explicitly kept separate from execution.
+
 The [metadata inventory](../site/data/gen-inventory.json) records:
 
 - 164 audio-capable names from installed Max common/DSP Gen references.
@@ -132,10 +140,12 @@ The [metadata inventory](../site/data/gen-inventory.json) records:
   These do not exhaust GenExpr grammar or arbitrary user-defined functions.
 - Jitter reference context, kept separate from the requested `gen~` DSP scope.
 
-Only the exact GenExpr `History` declaration has scoped native and XIAO evidence
-in these programs (target initial values 0, 1, 2 and 3). That does not qualify a visual
-`history` box, a differently spelled functional form, another operator, an
-alias or a complete Gen object family. The remaining operator/form outcomes
+The exact GenExpr `History` declaration has scoped native and XIAO evidence
+in its three programs (target initial values 0, 1, 2 and 3); the fifteen arithmetic
+spellings above have separate source-specific evidence. Neither qualifies a
+visual `history` box, another syntax/arity, an untested alias or a complete Gen
+object family. Inventory pending labels are metadata, not a qualification join.
+The remaining operator/form outcomes
 and the remaining Gen XIAO execution/performance tests remain pending.
 
 The initial importer route requires explicit GenExpr. Visual embedded Gen

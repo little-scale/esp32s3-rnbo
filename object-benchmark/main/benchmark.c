@@ -10,6 +10,7 @@
 #include "wave2_oracle.h"
 #include "wave4_oracle.h"
 #include "gen_history_oracle.h"
+#include "gen_arithmetic_oracle.h"
 #include "esp_app_desc.h"
 #include "esp_heap_caps.h"
 #include "esp_timer.h"
@@ -54,6 +55,7 @@ static uint64_t oracle_bit_sample_checks,oracle_bit_differences;
 static uint64_t dc_sample_checks;
 static uint64_t wave4_bit_sample_checks,wave4_bit_differences,wave4_zero_sign_differences;
 static uint64_t observer_bit_sample_checks,observer_bit_differences;
+static uint64_t gen_arith_bit_sample_checks,gen_arith_bit_differences,gen_arith_zero_sign_differences;
 static double dc_expected;
 static const object_stimulus *active_stimulus;
 static uint32_t input_rechecks;
@@ -74,6 +76,7 @@ static const char *verification_name(uint32_t kind)
     case OBJECT_WAVE2_POWER_MODES:return "nonlinear-power-modes-v1";
     case OBJECT_WAVE4_KIND:return "wave4-mathematical-v1";
     case OBJECT_GEN_HISTORY_KIND:return "gen-history-v1";
+    case OBJECT_GEN_ARITH_KIND:return "gen-arithmetic-v1";
     default:CHECK(false);return "invalid";
     }
 }
@@ -138,7 +141,7 @@ static void verify_parameters(object_image *image)
 static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[65])
 {
     active_verification=&bench_verifications[test];strcpy(oracle_sha,"none");strcpy(event_schedule_sha,"none");strcpy(reset_witness_sha,"none");memset(reset_witness_mask,0,sizeof reset_witness_mask);reset_witness_count=0;oracle_rounding_error=0;dc_expected=0;
-    CHECK(active_verification->kind<=OBJECT_GEN_HISTORY_KIND);
+    CHECK(active_verification->kind<=OBJECT_GEN_ARITH_KIND);
     CHECK(!active_verification->kind || BENCH_ROLE==RNBO_S3_FX);
     if(BENCH_ROLE!=RNBO_S3_FX){strcpy(fingerprint,"none");return;}
     active_stimulus=&bench_stimuli[test];
@@ -152,7 +155,14 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
         object_wave2_oracle model;
         object_wave4_oracle wave4;
         object_gen_history_oracle gen;
-        if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
+        if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
+            CHECK(BENCH_GEN_ARITH && BENCH_BLOCKS==64 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==3 && BENCH_PARAMETER_COUNT==0);
+            CHECK(!strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256));
+            CHECK(active_stimulus->kind==OBJECT_STIMULUS_WAVE4_GRID+test && bench_cases[test].event_count==0);
+            CHECK(active_verification->initial_available==0 && active_verification->maximum_error==0 && active_verification->exponent==0);
+            for(unsigned i=0;i<5;++i)CHECK(active_verification->coefficients[i]==0);
+            CHECK(object_gen_arithmetic_model(active_verification->window));
+        }else if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
             CHECK(BENCH_GEN_HISTORY && BENCH_BLOCKS==64 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==3 && BENCH_PARAMETER_COUNT==1);
             CHECK(BENCH_GEN_FEEDBACK_F32?strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256)!=0:!strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256));
             if(BENCH_GEN_FEEDBACK_F32)CHECK(active_verification->window==OBJECT_GEN_HISTORY_FEEDBACK && BENCH_MAX_ABS==2e-6 && BENCH_MAX_PCM_LSB==1 && BENCH_MAX_RELATIVE_RMS==1e-4);
@@ -201,7 +211,9 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
                     if(event->block==block)CHECK(object_wave2_oracle_set_exponent(&model,event->value));
                 }
             }
-            if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
+            if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
+                CHECK(object_gen_arithmetic_oracle_fill(active_verification->window,stimulus_cache,BENCH_BLOCKS*RNBO_S3_BLOCK_FRAMES,block*RNBO_S3_BLOCK_FRAMES,RNBO_S3_BLOCK_FRAMES,oracle_cache+(size_t)block*2u*RNBO_S3_BLOCK_FRAMES,2u*RNBO_S3_BLOCK_FRAMES));
+            }else if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
                 const bench_case *source=&bench_cases[test];
                 for(uint32_t n=0;n<source->event_count;++n){
                     const bench_event *event=&bench_events[source->event_begin+n];
@@ -227,7 +239,7 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
         if(active_verification->kind==OBJECT_GEN_HISTORY_KIND)
             digest_hex(reset_witness_mask,sizeof reset_witness_mask,reset_witness_sha);
         CHECK(oracle_rounding_error<=0x1p-24);
-        if(active_verification->kind==OBJECT_WAVE2_WRAP_FINITE || active_verification->kind==OBJECT_WAVE4_KIND)CHECK(oracle_rounding_error==0);
+        if(active_verification->kind==OBJECT_WAVE2_WRAP_FINITE || active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_ARITH_KIND)CHECK(oracle_rounding_error==0);
         digest_hex((const uint8_t*)oracle_cache,(size_t)BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*sizeof(float),oracle_sha);
     }
 }
@@ -328,6 +340,14 @@ static void run_pass(object_image *image,unsigned profile,const bench_case *test
                     if(error>semantic->witness_max_abs)semantic->witness_max_abs=error;
                     if(error>active_verification->maximum_error)++semantic->witness_differences;
                 }
+                if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
+                    uint32_t actual_word,expected_word;
+                    __builtin_memcpy(&actual_word,&actual,4);__builtin_memcpy(&expected_word,oracle_cache+expected_offset,4);
+                    bool different=actual_word!=expected_word;
+                    bool zero_sign=different && (actual_word&0x7fffffffu)==0 && (expected_word&0x7fffffffu)==0;
+                    ++gen_arith_bit_sample_checks;semantic->bit_different+=different;gen_arith_bit_differences+=different;
+                    semantic->zero_sign_different+=zero_sign;gen_arith_zero_sign_differences+=zero_sign;
+                }
                 if(active_verification->kind==OBJECT_WAVE4_KIND){
                     uint32_t actual_word,expected_word;
                     __builtin_memcpy(&actual_word,&actual,4);__builtin_memcpy(&expected_word,oracle_cache+expected_offset,4);
@@ -354,7 +374,7 @@ static void run_pass(object_image *image,unsigned profile,const bench_case *test
             if(fabs(value*(active_verification->kind==OBJECT_GEN_HISTORY_KIND?.25:.5))>1)++metrics->clipped;
             if(save)reference[offset]=actual;
             else {
-                if(active_verification->kind==OBJECT_WAVE2_POWER_MODES || active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_HISTORY_KIND){
+                if(active_verification->kind==OBJECT_WAVE2_POWER_MODES || active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_HISTORY_KIND || active_verification->kind==OBJECT_GEN_ARITH_KIND){
                     uint32_t actual_word,reference_word;
                     __builtin_memcpy(&actual_word,&actual,4);__builtin_memcpy(&reference_word,reference+offset,4);
                     if(actual_word!=reference_word){
@@ -419,7 +439,9 @@ static void worker(void *unused)
             printf("RNBO_OBJECT_BENCHMARK INPUT fixture=%s case=%s input_sha256=%s input_bytes=%u layout=float32_stereo_interleaved_le stimulus_kind=%"PRIu32"\n",BENCH_FIXTURE,bench_cases[c].name,input_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_stimulus->kind);fflush(stdout);
         }
         if(active_verification->kind){
-            if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
+            if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
+                printf("RNBO_OBJECT_BENCHMARK ORACLE fixture=%s case=%s oracle_sha256=%s oracle_bytes=%u layout=float32_stereo_interleaved_le oracle_kind=gen-arithmetic-v1 model_code=%"PRIu32" observer_channel=2 max_abs_tolerance=0 max_cache_rounding_error=0 model=independent-binary32-operations rounding=once-binary32-per-output-operation\n",BENCH_FIXTURE,bench_cases[c].name,oracle_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_verification->window);
+            }else if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
                 printf("RNBO_OBJECT_BENCHMARK ORACLE fixture=%s case=%s oracle_sha256=%s oracle_bytes=%u layout=float32_stereo_interleaved_le oracle_kind=gen-history-v1 model_code=%"PRIu32" initial_epoch_frames=-1024 event_schedule_sha256=%s reset_witness_sha256=%s witness_minimum_separation=%.17g model_tail_bound=%.17g model_evaluation_bound=%.17g max_abs_tolerance=%.17g max_cache_rounding_error=%.17g model=fresh-float64-input-convolution-or-integer-cycle rounding=once-float32\n",BENCH_FIXTURE,bench_cases[c].name,oracle_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_verification->window,event_schedule_sha,reset_witness_sha,8e-6,object_gen_history_oracle_tail_bound(active_verification->window),object_gen_history_oracle_evaluation_bound(active_verification->window),active_verification->maximum_error,oracle_rounding_error);
             }else if(active_verification->kind==1){
                 printf("RNBO_OBJECT_BENCHMARK ORACLE fixture=%s case=%s oracle_sha256=%s oracle_bytes=%u layout=float32_stereo_interleaved_le oracle_kind=average-window-v1 window=%"PRIu32" initial_available=%"PRIu32" max_abs_tolerance=%.17g max_cache_rounding_error=%.17g model=fresh-float64-window-sum rounding=once-float32\n",BENCH_FIXTURE,bench_cases[c].name,oracle_sha,BENCH_BLOCKS*2u*RNBO_S3_BLOCK_FRAMES*(unsigned)sizeof(float),active_verification->window,active_verification->initial_available,active_verification->maximum_error,oracle_rounding_error);
@@ -449,10 +471,10 @@ static void worker(void *unused)
         }
         double relative=squares[0]>0?fabs(sqrt(squares[1]/squares[0])-1.0):(squares[1]==0?0:INFINITY);
         printf("RNBO_OBJECT_BENCHMARK CASE fixture=%s case=%s samples=%"PRIu64" max_abs=%.9g rms_error=%.9g relative_rms=%.9g pcm_different=%"PRIu64" max_pcm_lsb=%"PRIu32"\n",BENCH_FIXTURE,bench_cases[c].name,comparison.samples,comparison.max_abs,sqrt(comparison.error_square_sum/(double)comparison.samples),relative,comparison.pcm_different,comparison.max_pcm_lsb);fflush(stdout);
-        if(active_verification->kind==OBJECT_WAVE2_POWER_MODES || active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_HISTORY_KIND){
+        if(active_verification->kind==OBJECT_WAVE2_POWER_MODES || active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_HISTORY_KIND || active_verification->kind==OBJECT_GEN_ARITH_KIND){
             printf("RNBO_OBJECT_BENCHMARK CASE_ROUNDING fixture=%s case=%s samples=%"PRIu64" float_bit_different=%"PRIu64" zero_sign_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,comparison.samples,comparison.float_bit_different,comparison.zero_sign_different);fflush(stdout);
             CHECK(comparison.zero_sign_different<=comparison.float_bit_different && comparison.float_bit_different<=comparison.samples);
-            if(active_verification->kind==OBJECT_WAVE4_KIND || (active_verification->kind==OBJECT_GEN_HISTORY_KIND && !BENCH_GEN_FEEDBACK_F32))CHECK(comparison.float_bit_different==0);
+            if(active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_ARITH_KIND || (active_verification->kind==OBJECT_GEN_HISTORY_KIND && !BENCH_GEN_FEEDBACK_F32))CHECK(comparison.float_bit_different==0);
         }
         if(active_verification->kind){
             for(unsigned p=0;p<2;++p){
@@ -470,6 +492,10 @@ static void worker(void *unused)
                     printf("RNBO_OBJECT_BENCHMARK CASE_GEN_RESET fixture=%s case=%s profile=%s oracle_sha256=%s event_schedule_sha256=%s reset_witness_sha256=%s reset_events=%"PRIu64" witness_events=%"PRIu64" witness_sample_checks=%"PRIu64" witness_differences=%"PRIu64" max_abs=%.17g max_abs_tolerance=%.17g\n",BENCH_FIXTURE,bench_cases[c].name,p?"optimized":"strict",oracle_sha,event_schedule_sha,reset_witness_sha,current[p].events,witnesses,semantic[p].witness_samples,semantic[p].witness_differences,semantic[p].witness_max_abs,active_verification->maximum_error);
                     gen_reset_events+=current[p].events;gen_reset_witness_events+=witnesses;
                     gen_reset_witness_sample_checks+=semantic[p].witness_samples;gen_reset_witness_differences+=semantic[p].witness_differences;
+                }
+                if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
+                    printf("RNBO_OBJECT_BENCHMARK CASE_GEN_ARITH_BITS fixture=%s case=%s profile=%s oracle_sha256=%s samples=%"PRIu64" bit_different=%"PRIu64" zero_sign_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,p?"optimized":"strict",oracle_sha,semantic[p].samples,semantic[p].bit_different,semantic[p].zero_sign_different);fflush(stdout);
+                    CHECK(semantic[p].bit_different==semantic[p].zero_sign_different && semantic[p].bit_different<=semantic[p].samples);
                 }
                 if(active_verification->kind==OBJECT_WAVE4_KIND){
                     printf("RNBO_OBJECT_BENCHMARK CASE_WAVE4_BITS fixture=%s case=%s profile=%s oracle_sha256=%s samples=%"PRIu64" bit_different=%"PRIu64" zero_sign_different=%"PRIu64" observer_samples=%"PRIu64" observer_bit_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,p?"optimized":"strict",oracle_sha,semantic[p].samples,semantic[p].bit_different,semantic[p].zero_sign_different,semantic[p].observer_samples,semantic[p].observer_bit_different);fflush(stdout);
@@ -513,6 +539,9 @@ static void worker(void *unused)
     printf("RNBO_OBJECT_BENCHMARK PASS fixture=%s firmware_elf_sha256=%s strict_module_sha256=%s optimized_module_sha256=%s cases=%u rounds=%u blocks_per_pass=%u warmup=%u seed=%u timing_exclude=%u compared_samples=%"PRIu64" max_abs=%.9g rms_error=%.9g pcm_different=%"PRIu64" max_pcm_lsb=%"PRIu32" max_abs_tolerance=%.9g max_pcm_lsb_tolerance=%u relative_rms_tolerance=%.9g strict_timed_blocks=%"PRIu64" strict_process_us=%"PRIu64" strict_peak_us=%"PRIu32" optimized_timed_blocks=%"PRIu64" optimized_process_us=%"PRIu64" optimized_peak_us=%"PRIu32" psram_before=%u psram_after=%u internal_before=%u internal_after=%u host_heap_allocations=%"PRIu32" host_heap_frees=%"PRIu32" local_late_allocations=0 images=4 finalized_images=4 input_cases=%u input_rechecks=%"PRIu32" pilot_sample_checks=%"PRIu64" oracle_cases=%u oracle_rechecks=%"PRIu32" semantic_sample_checks=%"PRIu64" dc_sample_checks=%"PRIu64" oracle_bit_sample_checks=%"PRIu64" oracle_bit_differences=%"PRIu64" stack_margin=%u scope=offline_no_i2s_ui_network",BENCH_FIXTURE,firmware_sha,strict_sha,optimized_sha,BENCH_CASE_COUNT,BENCH_ROUNDS,BENCH_BLOCKS,BENCH_WARMUP,BENCH_SEED,BENCH_TIMING_EXCLUDE,aggregate.samples,aggregate.max_abs,sqrt(aggregate.error_square_sum/(double)aggregate.samples),aggregate.pcm_different,aggregate.max_pcm_lsb,(double)BENCH_MAX_ABS,BENCH_MAX_PCM_LSB,(double)BENCH_MAX_RELATIVE_RMS,profiles[0].timed_blocks,profiles[0].process_us,profiles[0].peak_us,profiles[1].timed_blocks,profiles[1].process_us,profiles[1].peak_us,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after,allocation_probe_allocations(),allocation_probe_frees(),BENCH_ROLE==RNBO_S3_FX?BENCH_CASE_COUNT:0u,input_rechecks,pilot_sample_checks,BENCH_HAS_ORACLE?BENCH_CASE_COUNT:0u,oracle_rechecks,semantic_sample_checks,dc_sample_checks,oracle_bit_sample_checks,oracle_bit_differences,(unsigned)uxTaskGetStackHighWaterMark(NULL));
 #if BENCH_WAVE4
     printf(" wave4_bit_sample_checks=%"PRIu64" wave4_bit_differences=%"PRIu64" wave4_zero_sign_differences=%"PRIu64" observer_bit_sample_checks=%"PRIu64" observer_bit_differences=%"PRIu64,wave4_bit_sample_checks,wave4_bit_differences,wave4_zero_sign_differences,observer_bit_sample_checks,observer_bit_differences);
+#endif
+#if BENCH_GEN_ARITH
+    printf(" gen_arith_bit_sample_checks=%"PRIu64" gen_arith_bit_differences=%"PRIu64" gen_arith_zero_sign_differences=%"PRIu64,gen_arith_bit_sample_checks,gen_arith_bit_differences,gen_arith_zero_sign_differences);
 #endif
 #if BENCH_GEN_HISTORY
     printf(" gen_reset_events=%"PRIu64" gen_reset_witness_events=%"PRIu64" gen_reset_witness_sample_checks=%"PRIu64" gen_reset_witness_differences=%"PRIu64" pcm_gain=0.25",gen_reset_events,gen_reset_witness_events,gen_reset_witness_sample_checks,gen_reset_witness_differences);

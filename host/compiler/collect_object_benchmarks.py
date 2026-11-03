@@ -834,6 +834,205 @@ def gen_identity(build,fixture,plan):
                 'Gen feedback changes unreviewed prepared files')
 
 
+GEN_ARITH_KIND='gen-arithmetic-v1'
+GEN_ARITH_MODELS={'abs-call':1,'min-call':2,'minimum-call':2,'max-call':3,'maximum-call':3,
+    'sub-call':4,'subtract-infix':4,'eq-call':5,'equal-infix':5,'lt-call':6,'less-infix':6,
+    'add-call':9,'add-infix':9,'mul-call':10,'mul-infix':10}
+GEN_ARITH_IDENTITIES={
+  "abs-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "71e3fcc0535c5808b8cb1ff7543e02b2116562f928b0e90f86f90d137f21646e",
+    "patch": "c2878ab82152020b8a26f006c96e22b7a4837ecfe9005ca9768bcaf9bbba39c6",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "86cb0539073bef4bccb2352681eac0c051c0890731e42d3744beeec71397220d",
+    "source_tree": "0d24c3f6067cd25889e322e2194a263392936c6c6d972dabdff34b26f6ae122b"
+  },
+  "add-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "2e03829df2aca4f7504139d95b90306e1fbfe1a2477c418335fc16c86553d89f",
+    "patch": "20da67e975649c83bdb209f90e7547078184cdbf16e0ea5e5c561a80d1c486ca",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "fe18b78ecd90f1b6b27020773a4f5c39d8caa74914b76e8298501b175a2abda6",
+    "source_tree": "a206515db9c3d36afd67125790b0502e4d6df0fa9158dffb56a0afbc6661ce2b"
+  },
+  "add-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "628a310d600c263c14cfee13b80eb5449df505c00802ec98123aa356bf3dc173",
+    "patch": "6aa63780a1cbf56831b5132c32c9056c0aae9cc871d8986d643ac13370407dca",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "fe18b78ecd90f1b6b27020773a4f5c39d8caa74914b76e8298501b175a2abda6",
+    "source_tree": "77aaaa750154fe1d17deb23c3ebb1647cd821716365c359448beef54a287b409"
+  },
+  "eq-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "3983df5571c87a98546c944de42fee3a4d65c128284322c9bf7a2eebd01cff85",
+    "patch": "dbbbb2036fcaf8e2964bf657eeee01a9adc3a259b3a6d6b5e1f1f1af0d526115",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "c118d1806ce20e5d5cc2c5154f910a8f44a5f976d070d7ff044dd03750ccf014",
+    "source_tree": "0a9c0e183a25a3a18280edd1a87a709e303626ece9064d905ec7dcff4b0857a3"
+  },
+  "equal-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "4eeae0cc7851e43a90c49c4fc973a99538c4520ddbbee49bbf14376bedcd98e3",
+    "patch": "c888c4b7b3024f72e1460e243812028c74654fc43fee209e05b36b2be9567c3a",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "c118d1806ce20e5d5cc2c5154f910a8f44a5f976d070d7ff044dd03750ccf014",
+    "source_tree": "43b8e5fe6d5864ccafd7f0a2aec3f8876e2aa18ffd822f91a799eef4e2d9828b"
+  },
+  "less-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "de195d2b73978fef32ccbe9a38a1fc95f85e2f00a4499f57b06089cba0ecd15d",
+    "patch": "effbdcfd741225b48519ee2b4947b7a669376a8b920ab75391cd3245ee35f2cb",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "2b0fd61747c1529d5255808419e59676f012b66853ba13f8ac8ec600277e5f6f",
+    "source_tree": "5fdef3e3bd1b864ec53cc09583445f86405b2a8f5cda9e0d6ad683ed83c741c8"
+  },
+  "lt-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "a2300c304105f5f90bdadd4597b40ad7d841080e3395e25ebb7234cfca463449",
+    "patch": "ea93cf36febdf6927af6400d1680d8acfdcefdc8f80714c2f293109ab084e56b",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "2b0fd61747c1529d5255808419e59676f012b66853ba13f8ac8ec600277e5f6f",
+    "source_tree": "c0f90c3340fc0362de71a3b64f110084515ce6a6fe91f91d83218570cacd5424"
+  },
+  "max-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "babb19ecf92dd68bf081ec87f9765bd5c786c2ff7a2e0402fe937575cf1bda6d",
+    "patch": "f331c0d547491254bb3f39921194943db205225192ca51ffe3e912ac0a721f57",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "ab4a9b12770267d8a4b69cbaec660bfc167088880a53c93194b59ffaac663f9b",
+    "source_tree": "b3994ef8578969684466ce1062b6beda7b81e3770d30f0af06d9213dee405969"
+  },
+  "maximum-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "f36d02f1f61fe40afb6b9e73b796252bc2e2146dc985a4ce50651179c5fb24df",
+    "patch": "d8eb69ee640e9e13b48d85a24845895f922af0979fa3a0352952d0fd94b8611c",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "ab4a9b12770267d8a4b69cbaec660bfc167088880a53c93194b59ffaac663f9b",
+    "source_tree": "aa36141f268b72c348cd22378fd482a13144a508fef770f5ef1b4770d2ad4550"
+  },
+  "min-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "dd30dd2760276d302c5f9394ece17c81f5d89c391ebcd953d5faee0ce6bbb589",
+    "patch": "ae15329737cdb0cc73fc680952427a8ca2c223039b6e60e59a9fa155e993bfb0",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "1d843100b53839881b4072bd9d8d58a8de254562ae1d18dcef717bdadf76c7d7",
+    "source_tree": "629dfe6182a9d5b25b196811b02d3ca3522120600f7162fd35c0e37afff11fed"
+  },
+  "minimum-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "5c5ba2f06ff0635370592ca9ae32007842f0461378277374fb7ab55550f69189",
+    "patch": "034f7ad3090217e5193313dc8a9d52e8440ad43fdbaa2babffa239285f758084",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "1d843100b53839881b4072bd9d8d58a8de254562ae1d18dcef717bdadf76c7d7",
+    "source_tree": "6025d37d7b87c3e0f818853f5c9a166a73cb88ad69453e15edb8fbef08353845"
+  },
+  "mul-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "b2ad47540e08411e539df5772396eb913cfe7c27958f05057245336d2e09a535",
+    "patch": "17204c076425bfa2e9382195b2b8803e35e6b02ce2a45ffb0f683c42f6cfa2f2",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "316ace992e3b52aa0f5ce31cf124f273ff8aabd1da8215772bd8c072418c8bc6",
+    "source_tree": "65d1c391c0182ca49d05f81f055f83d8c89a916000ccf6363df03b81f3975bca"
+  },
+  "mul-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "0b4f1a0fa4ce7dfe83c3ef43b4d15d2a32c4052acb4c315ce53ba73fe1ee151d",
+    "patch": "5e9a5931929537b1c8c84508d90517e1af808bc5c6bbb52e3655704d5916fc98",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "316ace992e3b52aa0f5ce31cf124f273ff8aabd1da8215772bd8c072418c8bc6",
+    "source_tree": "98a7eacc787353066efd9055f74c6c850db2d19269c4ca57401bc7340bdea903"
+  },
+  "sub-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "6e63f326258526c6cf227105477f667a6e0bb0c6bc5eb71d1c6d5868dffa70a1",
+    "patch": "a8335ab43dc772c370b70ab968eee7fbc3bfebd455c685ef4b985290fe3a8fb1",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "53a2edab494f0d57e898fdbef6f4d42d3736650f57e40c12c1e04acfdfb40bc8",
+    "source_tree": "8a4ac9da57ca0ebeaef73f481388de8317b930f8f2d0110a3e6dd6d98f1d75e2"
+  },
+  "subtract-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "288ee313daf5ac77d9fce7a08d36b44f7e212d035b68b16d4f67ea3d1c8b6a42",
+    "patch": "7e3ccc0b037f3140ca19bfb7ac49e22f66d116e247142f23b9c76f1a2f1bc852",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "53a2edab494f0d57e898fdbef6f4d42d3736650f57e40c12c1e04acfdfb40bc8",
+    "source_tree": "e574eb24a5134beb377c95cc169ada0ccaeef307ba2735cc8dda08d941dcb7a5"
+  }
+}
+
+
+def gen_arith_verification(fixture,case):
+    identity=fixture.get('id');require(identity in GEN_ARITH_MODELS,'Unknown exact Gen arithmetic fixture')
+    pin=GEN_ARITH_IDENTITIES.get(identity);require(pin is not None,'Gen arithmetic source identity is not frozen')
+    original={k:v for k,v in fixture.items()if k!='family'}
+    try:original_sha=hashlib.sha256((json.dumps(original,sort_keys=True,indent=2,allow_nan=False)+'\n').encode()).hexdigest()
+    except (TypeError,ValueError):original_sha=None
+    require(original_sha==pin['fixture'],'Gen arithmetic original source/surface/domain/cases differ')
+    require(fixture.get('family')=='gen-arithmetic'and fixture.get('role')=='fx','Gen arithmetic family/role differs')
+    expected={'kind':GEN_ARITH_KIND,'model_code':GEN_ARITH_MODELS[identity],'maximum_absolute_error':0.}
+    require(same_declaration(fixture.get('semantic'),expected)and same_declaration(fixture.get('verification'),expected),
+            'Gen arithmetic model declaration differs')
+    require(any(same_declaration(case,c)for c in fixture['cases']),'Unknown Gen arithmetic case')
+    return {**expected,'observer_channel':2,'model':'independent-binary32-operations',
+        'rounding':'once-binary32-per-output-operation','gate':'numeric-exact-plus-signed-zero-only-operation-bits',
+        'operation_zero_sign':'diagnostic-only'}
+
+
+def gen_arith_identity(build,fixture,plan):
+    gen_arith_verification(fixture,fixture['cases'][0]);pin=GEN_ARITH_IDENTITIES[fixture['id']]
+    require(same_declaration(plan.get('parameter_schema'),[])and same_declaration(plan.get('events'),[]),'Gen arithmetic parameters/events are unqualified')
+    require(type(plan.get('blocks'))is int and plan['blocks']==64 and type(plan.get('rounds'))is int and plan['rounds']==3 and
+            type(plan.get('timing_exclude_blocks'))is int and plan['timing_exclude_blocks']==32 and
+            type(plan.get('arena_bytes'))is int and plan['arena_bytes']==4096 and plan.get('comparison_policy',{}).get('pcm_gain')==.5,
+            'Gen arithmetic blocks/rounds/timing/arena/gain differ')
+    require(plan.get('patch_sha256')==pin['patch']and plan.get('description_sha256')==pin['description'],'Gen arithmetic patch/description differs')
+    require(build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256'],'Gen arithmetic requires same-image control')
+    for module in build['modules'].values():
+        report=module['report'];manifest=report['prepared_export']['manifest'];provenance=report['prepared_export'].get('provenance',{})
+        require(manifest.get('editable_source_sha256')==pin['patch']and manifest.get('parameter_schema_sha256')==pin['schema']and
+                manifest.get('source_tree_sha256')==pin['source_tree'],'Gen arithmetic exact graph/schema/source differs')
+        require(same_declaration({k:manifest.get(k)for k in ('parameter_count','role','audio_inputs','audio_outputs','sample_rate','block_frames',
+            'numerical_profile','scheduler_time','rnbo_version','class_name','voices','voice_topology','required_host_services','midi_output_ports','adaptations')},
+            {'parameter_count':0,'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
+             'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
+             'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,'adaptations':WAVE4_ADAPTATIONS}),
+            'Gen arithmetic strict ABI/profile differs')
+        require(report.get('imports')==[],'Gen arithmetic module has unapproved imports')
+        require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==pin['source'],'Gen arithmetic raw source differs')
+        files=report.get('prepared_snapshot',{}).get('prepared_files_sha256',{})
+        require(files.get('rnbo_source.h')==pin['source'],'Gen arithmetic strict prepared source differs')
+        runtime={k:v for k,v in files.items()if k.startswith('common/')}
+        require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
+                'Gen arithmetic fixed runtime differs')
+        require(set(files)==set(runtime)|{'RNBO-runtime-LICENSE','description.json','generator.json','patch_config.h','rnbo_source.h','source.rnbopat'}and
+                files.get('description.json')==pin['description']and files.get('source.rnbopat')==pin['patch']and
+                files.get('patch_config.h')=='a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b',
+                'Gen arithmetic normal strict file/config composition differs')
+
+
+@lru_cache(maxsize=24,typed=True)
+def gen_arith_oracle_bytes(model,kind):
+    """Independent binary64 arithmetic over exact binary32 operands, once rounded.
+
+    A product has at most48 significant bits and remains normal in binary64
+    even for two binary32 subnormals. No generated Gen/RNBO kernel is imported.
+    """
+    require(type(model)is int and model in (1,2,3,4,5,6,9,10),'Unknown Gen arithmetic operation')
+    data=wave4_input_bytes(kind,64);result=bytearray()
+    for x,y in struct.iter_unpack('<ff',data):
+        if model==1:a,b=abs(x),abs(y)
+        elif model==2:a,b=(x if x<=y else y),(y if y<=x else x)
+        elif model==3:a,b=(x if x>=y else y),(y if y>=x else x)
+        elif model==4:a,b=x-y,y-x
+        elif model==5:a=b=float(x==y)
+        elif model==6:a,b=float(x<y),float(y<x)
+        elif model==9:a,b=x+y,y+x
+        else:a,b=x*y,y*x
+        result.extend(struct.pack('<ff',a,b))
+    return bytes(result)
+
+
 def declared_stimulus(fixture,case):
     wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,POWER_DENSE:11,GEN_INPUT:15,**WRAP_STIMULI,**WAVE4_INPUTS}
     base=fixture.get('stimulus');override=case.get('stimulus',{})
@@ -869,6 +1068,8 @@ def declared_verification(fixture,case):
         return None
     if isinstance(declaration,dict) and declaration.get('kind')==GEN_KIND:
         return gen_verification(fixture,case)
+    if isinstance(declaration,dict) and declaration.get('kind')==GEN_ARITH_KIND:
+        return gen_arith_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind')==WAVE4_KIND:
         return wave4_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind')==POWER_KIND:
@@ -897,7 +1098,7 @@ def oracle_memory_budget(build,plan):
     budget=plan.get('psram_budget');require(isinstance(budget,dict),'Missing oracle PSRAM budget')
     blocks=plan['blocks'];arena=plan.get('arena_bytes');require(type(arena) is int and 4096<=arena<=1048576,'Invalid selected arena budget')
     kind=plan['fixture'].get('verification',{}).get('kind')
-    expected_count=5 if kind=='biquad-response-v1' else 0 if kind in ('wrap-finite-v1',WAVE4_KIND) else 1
+    expected_count=5 if kind=='biquad-response-v1' else 0 if kind in ('wrap-finite-v1',WAVE4_KIND,GEN_ARITH_KIND) else 1
     require(all(build['modules'][p]['report']['prepared_export']['manifest'].get('parameter_count')==expected_count for p in ('strict','optimized')),'Oracle module parameter count differs')
     loaded=sum(build['modules'][p]['inspection']['loaded_bytes_upper_bound'] for p in ('strict','optimized'))
     expected={'workspace_bytes':blocks*256*2*4*2+4*256*4,'oracle_cache_bytes':blocks*256*2*4,
@@ -928,11 +1129,13 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
     powers=fixture.get('verification',{}).get('kind')==POWER_KIND
     wave4=fixture.get('verification',{}).get('kind')==WAVE4_KIND
     gen=fixture.get('verification',{}).get('kind')==GEN_KIND
+    gen_arith=fixture.get('verification',{}).get('kind')==GEN_ARITH_KIND
     if new_model:wave2_identity(build,fixture,plan)
     if exact_wrap:wrap_identity(build,fixture,plan)
     if powers:power_identity(build,fixture,plan)
     if wave4:wave4_identity(build,fixture,plan)
     if gen:gen_identity(build,fixture,plan)
+    if gen_arith:gen_arith_identity(build,fixture,plan)
     oracle_count=sum(v is not None for v in verifications);pilot_count=case_count-oracle_count
     expected_counts={'input_cases':case_count,'input_rechecks':case_count*plan['rounds']*3,'pilot_sample_checks':expected_samples*pilot_count,
                      'oracle_cases':oracle_count,'oracle_rechecks':oracle_count*plan['rounds']*3,'semantic_sample_checks':expected_samples*oracle_count*2}
@@ -948,7 +1151,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         found=[r for r in records if r.get('fixture')==name and r.get('case')==case['id']]
         require(len(found)==1,'Missing or duplicate FX INPUT case')
         record=found[0];digest(record.get('input_sha256'),'Malformed target input SHA256')
-        if exact_wrap or powers or wave4 or gen:
+        if exact_wrap or powers or wave4 or gen or gen_arith:
             require(set(record)=={'fixture','case','input_sha256','input_bytes','layout','stimulus_kind'},
                     'Unknown or missing finite wrap input metadata')
         require(type(record.get('input_bytes')) is int and record['input_bytes']==plan['blocks']*256*2*4,'FX input byte coverage differs')
@@ -968,17 +1171,21 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             cache,mask,cache_rounding=gen_cache_data(verification['model_code'],case['id'])
             expected_oracle=hashlib.sha256(cache).hexdigest()
             require(record['input_sha256']==expected_input,'Gen deterministic input SHA differs')
+        if gen_arith:
+            expected_input=hashlib.sha256(wave4_input_bytes(expected['kind'],64)).hexdigest()
+            expected_oracle=hashlib.sha256(gen_arith_oracle_bytes(verification['model_code'],expected['kind'])).hexdigest()
+            require(record['input_sha256']==expected_input,'Gen arithmetic deterministic input SHA differs')
         evidence[case['id']]={**record,'declared_settings':expected['settings']}
         if exact_wrap:evidence[case['id']]['distinct_input_coverage']=wrap_input_coverage(expected['kind'],plan['blocks'])
         if powers:evidence[case['id']]['distinct_input_coverage']=coverage
         if verification:
             candidates=[r for r in oracle_records if r.get('fixture')==name and r.get('case')==case['id']]
             require(len(candidates)==1,'Missing or duplicate ORACLE case');oracle=candidates[0]
-            if verification['kind'] in WAVE2_ORACLES or exact_wrap or powers or wave4 or gen:
+            if verification['kind'] in WAVE2_ORACLES or exact_wrap or powers or wave4 or gen or gen_arith:
                 keys={'fixture','case','oracle_sha256','oracle_bytes','layout','oracle_kind','max_abs_tolerance','max_cache_rounding_error','model','rounding'}
                 if gen:keys.update(('model_code','initial_epoch_frames','event_schedule_sha256','reset_witness_sha256',
                                    'witness_minimum_separation','model_tail_bound','model_evaluation_bound'))
-                elif wave4:keys.update(('model_code','observer_channel'))
+                elif wave4 or gen_arith:keys.update(('model_code','observer_channel'))
                 elif powers:keys.update(('initial_exponent','event_schedule_sha256'))
                 elif not exact_wrap:keys.update(verification['coefficients'] if verification['kind']=='biquad-response-v1' else ('exponent',))
                 require(set(oracle)==keys,'Unknown or missing oracle metadata')
@@ -999,6 +1206,10 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 for key in ('model_code','initial_epoch_frames','event_schedule_sha256','reset_witness_sha256',
                             'witness_minimum_separation','model_tail_bound','model_evaluation_bound'):
                     require(same_declaration(oracle.get(key),verification[key]),'Gen oracle reset/model metadata differs: '+key)
+            elif gen_arith:
+                require(oracle['oracle_sha256']==expected_oracle,'Gen arithmetic independent oracle SHA differs')
+                require(same_declaration(oracle.get('model_code'),verification['model_code'])and
+                        same_declaration(oracle.get('observer_channel'),2),'Gen arithmetic operation/no-observer contract differs')
             elif powers:
                 require(same_declaration(oracle.get('initial_exponent'),verification['initial_exponent']) and
                         oracle.get('event_schedule_sha256')==verification['event_schedule_sha256'],'Power oracle initial exponent/event schedule differs')
@@ -1009,7 +1220,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             require(oracle.get('max_abs_tolerance')==verification['maximum_absolute_error'],'Oracle tolerance differs')
             require(oracle.get('model')==verification['model'] and oracle.get('rounding')==verification['rounding'],'Oracle precision/model differs')
             error=oracle.get('max_cache_rounding_error');require(type(error) in (int,float) and 0<=error<=2**-24,'Invalid oracle cache rounding error')
-            if exact_wrap or wave4:require(error==0,'Exact oracle must have zero cache rounding error')
+            if exact_wrap or wave4 or gen_arith:require(error==0,'Exact oracle must have zero cache rounding error')
             if gen:require(same_declaration(error,cache_rounding),'Gen oracle cache rounding differs from independently regenerated truth')
             evidence[case['id']]['oracle']={**oracle,'verification':verification}
     source_names=('object-benchmark/main/stimulus.c','object-benchmark/main/stimulus.h');sources=build.get('source_files_sha256',{})
@@ -1027,10 +1238,18 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 'limit':'Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed'}
     require(isinstance(provenance['catalog_path'],str) and provenance['catalog_path'],'Missing stimulus catalog path')
     if oracle_count:
-        stem='gen_history_oracle' if gen else 'wave4_oracle' if wave4 else 'wave2_oracle' if new_model or exact_wrap or powers else 'average_oracle'
+        stem='gen_arithmetic_oracle'if gen_arith else 'gen_history_oracle' if gen else 'wave4_oracle' if wave4 else 'wave2_oracle' if new_model or exact_wrap or powers else 'average_oracle'
         provenance['oracle_source_sha256']={key:digest(sources.get(key),'Missing oracle source identity') for key in (f'object-benchmark/main/{stem}.c',f'object-benchmark/main/{stem}.h')}
         provenance['verification_contract']=fixture['verification'];provenance['psram_budget']=oracle_memory_budget(build,plan)
-        if gen:
+        if gen_arith:
+            provenance['generation']='Three deterministic integer/binary32 input families; complete INPUT SHA independently regenerated on host.'
+            provenance['oracle']='Independent binary64 arithmetic/comparisons over binary32 operands, rounded once per output operation. Product has at most48 significant bits, including binary32 underflow inputs. Complete canonical ORACLE SHA independently regenerated; min/max choose the first operand on ties.'
+            provenance['semantic_gate']='Numerical output/model error and cache-rounding error must be zero. Operation raw-bit differences may only change zero sign; identical-image pair raw bits must match.'
+            provenance['limit']='Only these exact authored GenExpr call/infix contexts, finite binary32 inputs in[-1,1],64 fixed256-frame vectors, four warmups and three rounds. No RNBO, alias/canonical, visual Gen, other overload/resource/event, nonfinite or fenv transfer.'
+            provenance['pilot']='No direct observer; both output channels are the declared arithmetic operations.'
+            provenance['parameter_schema']=plan['parameter_schema'];provenance['events']=plan['events'];provenance['pcm_gain']=.5
+            provenance['surface_identity']={key:fixture[key]for key in ('source','exact_entries','aliases_inherit_qualification')}
+        elif gen:
             provenance['generation']='Seven exact dyadic binary32 input values with independently shifted right plane; complete INPUT SHA regenerated on host.'
             provenance['oracle']='Fresh independent fsum of at most64 weighted source inputs, or integer two/three-state phase; no generated recurrence. Both cached channel hashes independently regenerated.'
             provenance['semantic_gate']='Output/cache error plus once-binary32 cache rounding plus independently declared tail and model-evaluation bounds must stay within2e-6.'
@@ -1201,8 +1420,21 @@ def collect(build_dir,run_dir):
     power_mode=fixture.get('verification',{}).get('kind')==POWER_KIND
     wave4_mode=fixture.get('verification',{}).get('kind')==WAVE4_KIND
     gen_mode=fixture.get('verification',{}).get('kind')==GEN_KIND
-    require(len(rounding_records)==(len(fixture['cases']) if power_mode or wave4_mode or gen_mode else 0),
+    gen_arith_mode=fixture.get('verification',{}).get('kind')==GEN_ARITH_KIND
+    require(len(rounding_records)==(len(fixture['cases']) if power_mode or wave4_mode or gen_mode or gen_arith_mode else 0),
             'Incomplete or unexpected pair rounding diagnostics')
+    gen_arith_prefix='RNBO_OBJECT_BENCHMARK CASE_GEN_ARITH_BITS '
+    gen_arith_records=[fields(line.strip(),gen_arith_prefix)for line in lines if line.strip().startswith(gen_arith_prefix)]
+    require(len(gen_arith_records)==(2*len(fixture['cases'])if gen_arith_mode else 0),'Incomplete or unexpected Gen arithmetic bit measurements')
+    gen_arith_fields={'gen_arith_bit_sample_checks','gen_arith_bit_differences','gen_arith_zero_sign_differences'}
+    gen_arith_present=gen_arith_fields&passed.keys()
+    require(len(gen_arith_present)==3 if gen_arith_mode else len(gen_arith_present)in (0,3),'Missing or partial Gen arithmetic PASS counters')
+    gen_arith_totals=dict.fromkeys(gen_arith_fields,0)
+    for key in gen_arith_fields:
+        value=passed.get(key,0);require(type(value)is int and value>=0,'Invalid Gen arithmetic PASS counter')
+        if not gen_arith_mode:require(value==0,'Other fixtures cannot claim Gen arithmetic counters')
+    if gen_arith_mode:
+        require(passed['gen_arith_bit_sample_checks']==expected_samples*len(fixture['cases'])*2,'Gen arithmetic PASS sample coverage differs')
     gen_prefix='RNBO_OBJECT_BENCHMARK CASE_GEN_RESET '
     gen_records=[fields(line.strip(),gen_prefix)for line in lines if line.strip().startswith(gen_prefix)]
     require(len(gen_records)==(2*len(fixture['cases'])if gen_mode else 0),'Incomplete or unexpected Gen reset witnesses')
@@ -1248,7 +1480,7 @@ def collect(build_dir,run_dir):
             require(len(values)==1,'Missing or duplicate profile timing')
             value=values[0];require(value['timed_blocks']==expected_blocks and value['process_us']>0,'Invalid timing coverage')
             timings[profile]={**value,'numerical_profile':numerical_profiles[profile],'mean_process_us':value['process_us']/value['timed_blocks']}
-        semantics={};dc={};bit_comparison={};wave4_comparison={};gen_resets={}
+        semantics={};dc={};bit_comparison={};wave4_comparison={};gen_resets={};gen_arith_comparison={}
         if inputs.get(declared['id'],{}).get('oracle'):
             oracle=inputs[declared['id']]['oracle'];limit=oracle['max_abs_tolerance']
             for profile in ('strict','optimized'):
@@ -1261,6 +1493,22 @@ def collect(build_dir,run_dir):
                 if gen_mode:bound=bound+oracle['model_tail_bound']+oracle['model_evaluation_bound']
                 require(value.get('max_model_error_bound')==bound and bound<=limit,'Semantic average exceeds unchanged model limit')
                 semantics[profile]=value
+                if gen_arith_mode:
+                    require(set(value)=={'fixture','case','profile','semantic_kind','samples','max_abs',
+                            'max_model_error_bound','max_abs_tolerance','oracle_sha256'},'Unknown or missing Gen arithmetic semantic metadata')
+                    matches=[r for r in gen_arith_records if r.get('fixture')==name and r.get('case')==declared['id']and r.get('profile')==profile]
+                    require(len(matches)==1,'Missing or duplicate Gen arithmetic bit profile');record=matches[0]
+                    require(set(record)=={'fixture','case','profile','oracle_sha256','samples','bit_different','zero_sign_different'},
+                            'Unknown or missing Gen arithmetic bit metadata')
+                    require(record['oracle_sha256']==oracle['oracle_sha256'],'Gen arithmetic bit oracle differs')
+                    require(all(type(record[k])is int for k in ('samples','bit_different','zero_sign_different')),
+                            'Invalid Gen arithmetic bit count type')
+                    require(record['samples']==expected_samples and 0<=record['bit_different']==record['zero_sign_different']<=expected_samples,
+                            'Gen arithmetic bit differences must be zero-sign changes only')
+                    gen_arith_comparison[profile]=record
+                    for counter,field in (('gen_arith_bit_sample_checks','samples'),('gen_arith_bit_differences','bit_different'),
+                                          ('gen_arith_zero_sign_differences','zero_sign_different')):
+                        gen_arith_totals[counter]+=record[field]
                 if gen_mode:
                     require(set(value)=={'fixture','case','profile','semantic_kind','samples','max_abs',
                             'max_model_error_bound','max_abs_tolerance','oracle_sha256'},'Unknown or missing Gen semantic metadata')
@@ -1333,7 +1581,8 @@ def collect(build_dir,run_dir):
         if bit_comparison:cases[-1]['bit_comparison']=bit_comparison
         if wave4_comparison:cases[-1]['wave4_bit_comparison']=wave4_comparison
         if gen_resets:cases[-1]['gen_reset_comparison']=gen_resets
-        if power_mode or wave4_mode or gen_mode:
+        if gen_arith_comparison:cases[-1]['gen_arith_bit_comparison']=gen_arith_comparison
+        if power_mode or wave4_mode or gen_mode or gen_arith_mode:
             matches=[r for r in rounding_records if r.get('fixture')==name and r.get('case')==declared['id']]
             require(len(matches)==1,'Missing or duplicate pair rounding case')
             record=matches[0]
@@ -1345,7 +1594,7 @@ def collect(build_dir,run_dir):
                     'Invalid pair rounding sample coverage or counts')
             if declared['id']=='dense-quarter':
                 require(record['zero_sign_different']>0,'Dense quarter did not observe the expected signed-zero profile difference')
-            if wave4_mode or gen_mode and fixture.get('qualification_mode')!=GEN_FEEDBACK_MODE:
+            if wave4_mode or gen_arith_mode or gen_mode and fixture.get('qualification_mode')!=GEN_FEEDBACK_MODE:
                 require(record['float_bit_different']==record['zero_sign_different']==0,'Same-artifact pair must preserve all output bits')
             if gen_mode and fixture.get('qualification_mode')==GEN_FEEDBACK_MODE:
                 require((case['max_abs']>0)==(record['float_bit_different']>record['zero_sign_different']),
@@ -1355,6 +1604,8 @@ def collect(build_dir,run_dir):
         require(all(passed[k]==total for k,total in wave4_totals.items()),'Wave4 per-case/PASS bit totals differ')
     if gen_mode:
         require(all(passed[k]==total for k,total in gen_totals.items()),'Gen per-case/PASS reset totals differ')
+    if gen_arith_mode:
+        require(all(passed[k]==total for k,total in gen_arith_totals.items()),'Gen arithmetic per-case/PASS bit totals differ')
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {**(binding or {}),**({'qualification_mode':fixture['qualification_mode']}if 'qualification_mode'in fixture else {}),
             'fixture':name,'family':fixture['family'],'role':fixture['role'],

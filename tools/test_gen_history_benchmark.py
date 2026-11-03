@@ -152,6 +152,7 @@ class GenHistoryBenchmarkTests(unittest.TestCase):
 #include "wave2_oracle.h"
 #include "wave4_oracle.h"
 #include "gen_history_oracle.h"
+#include "gen_arithmetic_oracle.h"
 #define CHECK(x) assert(x)
 #define RNBO_S3_BLOCK_FRAMES 256
 #define RNBO_S3_FX 2
@@ -166,6 +167,7 @@ static char event_schedule_sha[65],reset_witness_sha[65];static uint8_t reset_wi
 static uint32_t reset_witness_count;
 static uint64_t dc_sample_checks,semantic_sample_checks,pilot_sample_checks,oracle_bit_sample_checks,oracle_bit_differences;
 static uint64_t wave4_bit_sample_checks,wave4_bit_differences,wave4_zero_sign_differences,observer_bit_sample_checks,observer_bit_differences;
+static uint64_t gen_arith_bit_sample_checks,gen_arith_bit_differences,gen_arith_zero_sign_differences;
 static void digest_hex(const uint8_t *bytes,size_t count,char out[65]){(void)bytes;(void)count;memset(out,'0',64);out[64]=0;}
 static int64_t esp_timer_get_time(void){return 1;}
 static void vTaskDelay(int ticks){(void)ticks;}
@@ -206,7 +208,7 @@ int main(void){
         subprocess.run(['cc', '-std=c11', '-O2', '-fno-fast-math', '-ffp-contract=off', '-UNDEBUG',
                         '-I' + str(self.directory), '-I' + str(ROOT / 'object-benchmark/main'), str(path),
                         *[str(ROOT / 'object-benchmark/main' / name) for name in
-                          ('stimulus.c', 'average_oracle.c', 'wave2_oracle.c', 'wave4_oracle.c', 'gen_history_oracle.c')],
+                          ('stimulus.c', 'average_oracle.c', 'wave2_oracle.c', 'wave4_oracle.c', 'gen_history_oracle.c', 'gen_arithmetic_oracle.c')],
                         '-o', str(binary), '-lm'], check=True)
         subprocess.run([str(binary)], check=True, timeout=10)
 

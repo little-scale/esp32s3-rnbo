@@ -16,7 +16,8 @@ from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_OR
     WAVE4_SCHEMA,WAVE4_RUNTIME,WAVE4_ADAPTATIONS,wave4_verification,wave4_input_bytes,
     wave4_oracle_bytes,wave4_cache_hashes,GEN_KIND,GEN_INPUT,GEN_MODELS,GEN_IDENTITIES,GEN_SCHEMA,
     gen_cases,gen_events,gen_schedule_sha,gen_verification,gen_input_bytes,gen_cache_data,
-    GEN_FEEDBACK_MODE,GEN_FEEDBACK_PROFILE,GEN_FEEDBACK_PIN,GEN_FEEDBACK_CONTRACT,GEN_FEEDBACK_CATALOG_SHA)
+    GEN_FEEDBACK_MODE,GEN_FEEDBACK_PROFILE,GEN_FEEDBACK_PIN,GEN_FEEDBACK_CONTRACT,GEN_FEEDBACK_CATALOG_SHA,
+    GEN_ARITH_KIND,GEN_ARITH_MODELS,GEN_ARITH_IDENTITIES,gen_arith_verification,gen_arith_oracle_bytes)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -1370,5 +1371,160 @@ class GenHistoryObservationTests(unittest.TestCase):
                 elif mutation=='rounding-count':self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=2')
                 else:self.lines=[l for l in self.lines if ' CASE_ROUNDING 'not in l]
                 self.rejected()
+
+class GenArithmeticObservationTests(unittest.TestCase):
+    setUp=GenHistoryObservationTests.setUp
+    seal=GenHistoryObservationTests.seal
+    change=GenHistoryObservationTests.change
+    rejected=GenHistoryObservationTests.rejected
+
+    def fixture(self,identity='mul-infix'):
+        directory=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/arithmetic'
+        catalog=json.loads((directory/'catalog.json').read_text());fixture=copy.deepcopy(next(f for f in catalog['fixtures']if f['id']==identity));fixture['family']='gen-arithmetic'
+        pins=json.loads((directory/'identities.json').read_text());pin=GEN_ARITH_IDENTITIES[identity];code=GEN_ARITH_MODELS[identity]
+        manifest={'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,'parameter_count':0,
+            'parameter_schema_sha256':pin['schema'],'editable_source_sha256':pin['patch'],'source_tree_sha256':pin['source_tree'],
+            'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
+            'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,'adaptations':list(WAVE4_ADAPTATIONS)}
+        plan={'fixture':fixture,'rounds':3,'blocks':64,'timing_exclude_blocks':32,'arena_bytes':4096,
+            'catalog_path':'/synthetic/gen/arithmetic/catalog.json','catalog_sha256':sha(directory/'catalog.json'),
+            'patch_sha256':pin['patch'],'description_sha256':pin['description'],'parameter_schema':[],'events':[],
+            'comparison_policy':{'pcm_gain':.5},'numerical_profiles':dict.fromkeys(('strict','optimized'),'float32-strict'),
+            'stimuli':[{'kind':kind,'settings':{'kind':name},**dict.fromkeys(('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level'),0.)}for name,kind in WAVE4_INPUTS.items()],
+            'verifications':[gen_arith_verification(fixture,c)for c in fixture['cases']]}
+        budget={'workspace_bytes':266240,'oracle_cache_bytes':131072,'arena_bytes':8192,'opaque_context_upper_bound_bytes':2097152,
+            'loaded_images_upper_bound_bytes':131072,'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
+        budget['required_upper_bound_bytes']=sum(v for k,v in budget.items()if k!='physical_psram_bytes');plan['psram_budget']=budget
+        self.report={'board':'xiao','artifacts':{'build/app.elf':{'bytes':100,'sha256':'c'*64},'build/app.bin':{'bytes':100,'sha256':'d'*64}},
+            'benchmark':plan,'modules':{side:{'artifact_sha256':'a'*64,'inspection':{'loaded_bytes_upper_bound':65536},
+                'report':{'imports':[],'prepared_export':{'manifest':copy.deepcopy(manifest),'provenance':{'raw_files_sha256':{'rnbo_source.h':pin['source']}}},
+                    'prepared_snapshot':{'prepared_files_sha256':{**pins['runtime_files_sha256'],'rnbo_source.h':pin['source'],
+                        'patch_config.h':'a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b',
+                        'description.json':pin['description'],'source.rnbopat':pin['patch'],'RNBO-runtime-LICENSE':'4'*64,'generator.json':'5'*64}}}}for side in ('strict','optimized')},
+            'source_files_sha256':{f'object-benchmark/main/{name}':str(i)*64 for i,name in enumerate(('stimulus.c','stimulus.h','gen_arithmetic_oracle.c','gen_arithmetic_oracle.h'),1)}}
+        self.lines=[f'RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture={identity} reference=float32-strict candidate=float32-strict']
+        for name,kind in WAVE4_INPUTS.items():
+            common=f'fixture={identity} case={name}';ih=hashlib.sha256(wave4_input_bytes(kind)).hexdigest();oh=hashlib.sha256(gen_arith_oracle_bytes(code,kind)).hexdigest()
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK INPUT {common} input_sha256={ih} input_bytes=131072 layout=float32_stereo_interleaved_le stimulus_kind={kind}')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK ORACLE {common} oracle_sha256={oh} oracle_bytes=131072 layout=float32_stereo_interleaved_le oracle_kind={GEN_ARITH_KIND} max_abs_tolerance=0 max_cache_rounding_error=0 model=independent-binary32-operations rounding=once-binary32-per-output-operation model_code={code} observer_channel=2')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE {common} samples=98304 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0')
+            for side in ('strict','optimized'):
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC {common} profile={side} semantic_kind={GEN_ARITH_KIND} samples=98304 max_abs=0 max_model_error_bound=0 max_abs_tolerance=0 oracle_sha256={oh}')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_GEN_ARITH_BITS {common} profile={side} oracle_sha256={oh} samples=98304 bit_different=0 zero_sign_different=0')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_PROFILE {common} profile={side} timed_blocks=96 process_us=960 peak_us=11')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_ROUNDING {common} samples=98304 float_bit_different=0 zero_sign_different=0')
+        self.lines.append(f'RNBO_OBJECT_BENCHMARK PASS fixture={identity} firmware_elf_sha256='+('c'*64)+' strict_module_sha256='+('a'*64)+' optimized_module_sha256='+('a'*64)+
+            ' host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 psram_before=123 psram_after=123 internal_before=42 internal_after=42 images=4 finalized_images=4 cases=3 rounds=3 blocks_per_pass=64 timing_exclude=32 warmup=4 seed=305419896 compared_samples=294912 input_cases=3 input_rechecks=27 pilot_sample_checks=0 oracle_cases=3 oracle_rechecks=27 semantic_sample_checks=589824 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 gen_arith_bit_sample_checks=589824 gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0')
+        self.seal()
+
+    def test_fifteen_exact_source_contexts_are_individually_admitted(self):
+        self.assertEqual(len(GEN_ARITH_IDENTITIES),15)
+        for identity in GEN_ARITH_MODELS:
+            with self.subTest(identity=identity):
+                self.fixture(identity);value=collect(self.build,self.run)
+                self.assertTrue(value['identical_artifact_control']);self.assertEqual(value['pass']['gen_arith_bit_sample_checks'],589824)
+                self.assertEqual(value['stimulus_provenance']['surface_identity']['exact_entries'],self.report['benchmark']['fixture']['exact_entries'])
+
+    def test_complete_45_oracle_caches_match_independent_public_python_model(self):
+        import importlib.util
+        path=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/arithmetic/models.py'
+        spec=importlib.util.spec_from_file_location('independent_Gen_arithmetic_math',path);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+        count=0
+        for identity,code in GEN_ARITH_MODELS.items():
+            for kind in WAVE4_INPUTS.values():
+                with self.subTest(identity=identity,kind=kind):
+                    pairs=list(struct.iter_unpack('<ff',wave4_input_bytes(kind)));planes=tuple(tuple(p[i]for p in pairs)for i in (0,1))
+                    self.assertEqual(gen_arith_oracle_bytes(code,kind),m.cache_bytes(m.expected_outputs(code,planes)));count+=1
+        self.assertEqual(count,45)
+        for unsupported in (0,7,8,11,True):
+            with self.assertRaises(ValueError):gen_arith_oracle_bytes(unsupported,12)
+
+    def test_product_underflow_matches_independent_exact_rational_rounding(self):
+        def rounded_magnitude(v):
+            if not v:return 0
+            def nearest(q):
+                n,r=divmod(q.numerator,q.denominator)
+                return n+int(2*r>q.denominator or 2*r==q.denominator and n%2)
+            if v<Fraction(1,1<<126):return nearest(v*(1<<149))
+            e=v.numerator.bit_length()-v.denominator.bit_length()
+            if v<(Fraction(1<<e)if e>=0 else Fraction(1,1<<-e)):e-=1
+            q=v/(Fraction(1<<(e-23))if e>=23 else Fraction(1,1<<(23-e)));n=nearest(q)
+            if n==1<<24:n>>=1;e+=1
+            return((e+127)<<23)|(n-(1<<23))
+        words=(0,0x80000000,1,0x80000001,3,0x80000003,0x7fffff,0x807fffff,0x800000,0x3f000000,0xbf000000,0x3f000001,0x3f7fffff,0x3f800000)
+        for a in words:
+            for b in words:
+                x,y=struct.unpack('<ff',struct.pack('<II',a,b));sign=(a^b)&0x80000000
+                exact=abs(Fraction.from_float(x)*Fraction.from_float(y));want=sign|rounded_magnitude(exact)
+                got=struct.unpack('<I',struct.pack('<f',x*y))[0];self.assertEqual(got,want,(hex(a),hex(b)))
+
+    def test_source_names_schema_runtime_and_zero_import_control_cannot_be_forged(self):
+        for mutation in ('name','surface','canonical','alias-inherits','model','state-model','param','event','raw','prepared','runtime','schema','different-ELF','optional-profile','imports'):
+            with self.subTest(mutation=mutation):
+                self.fixture();p=self.report['benchmark'];f=p['fixture'];r=self.report['modules']['optimized']['report'];m=r['prepared_export']['manifest']
+                if mutation=='name':f['source']['exact_name']='mul'
+                elif mutation=='surface':f['source']['surface']='codebox'
+                elif mutation=='canonical':f['source']['canonical']='mult'
+                elif mutation=='alias-inherits':f['aliases_inherit_qualification']=True
+                elif mutation=='model':f['verification']['model_code']=9
+                elif mutation=='state-model':f['verification']['model_code']=8
+                elif mutation=='param':p['parameter_schema']=[{'paramId':'gain','index':0}]
+                elif mutation=='event':p['events']=[{'block':0,'index':0,'kind':1,'value':1}]
+                elif mutation=='raw':r['prepared_export']['provenance']['raw_files_sha256']['rnbo_source.h']='1'*64
+                elif mutation=='prepared':r['prepared_snapshot']['prepared_files_sha256']['rnbo_source.h']='1'*64
+                elif mutation=='runtime':r['prepared_snapshot']['prepared_files_sha256']['common/RNBO_Math.h']='1'*64
+                elif mutation=='schema':m['parameter_schema_sha256']='1'*64
+                elif mutation=='different-ELF':self.report['modules']['optimized']['artifact_sha256']='b'*64
+                elif mutation=='optional-profile':m['numerical_profile']='float32-audio-v1'
+                else:r['imports']=['malloc']
+                self.rejected()
+
+    def test_exact_numeric_model_input_and_cache_hashes_cannot_be_relaxed(self):
+        for prefix,before,after in [('INPUT','input_sha256=','input_sha256=0'),('ORACLE','oracle_sha256=','oracle_sha256=0'),
+            ('ORACLE','model_code=10','model_code=9'),('ORACLE','observer_channel=2','observer_channel=1'),
+            ('ORACLE','max_abs_tolerance=0','max_abs_tolerance=1e-6'),('ORACLE','max_cache_rounding_error=0','max_cache_rounding_error=1e-45'),
+            ('CASE_SEMANTIC','max_abs=0 max_model_error_bound=0','max_abs=1.401298464324817e-45 max_model_error_bound=1.401298464324817e-45'),
+            ('ORACLE','model=independent-binary32-operations','model=generated-code'),
+            ('ORACLE','observer_channel=2','observer_channel=2 extra=0')]:
+            with self.subTest(prefix=prefix,before=before):
+                self.fixture();self.change(prefix,before,after);self.rejected()
+        for field in ('maximum_absolute_error','maximum_pcm_lsb_error','relative_rms_level_difference'):
+            self.fixture();self.report['benchmark']['fixture']['comparison_tolerance'][field]=1;self.rejected()
+
+    def test_operation_signed_zero_diagnostics_are_allowed_but_other_differences_fail(self):
+        self.change('CASE_GEN_ARITH_BITS','bit_different=0 zero_sign_different=0','bit_different=1 zero_sign_different=1')
+        self.change('PASS','gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0','gen_arith_bit_differences=1 gen_arith_zero_sign_differences=1')
+        self.seal();result=collect(self.build,self.run);self.assertEqual(result['pass']['gen_arith_bit_differences'],1)
+        self.change('CASE_GEN_ARITH_BITS','bit_different=1 zero_sign_different=1','bit_different=2 zero_sign_different=1');self.rejected()
+
+    def test_closed_bits_counters_no_observer_and_pair_rounding_are_required(self):
+        for mutation in ('missing-bits','duplicate-bits','observer-field','bool-count','wrong-hash','missing-rounding','pair-bits','partial-pass','wrong-samples','wrong-totals','reset-fields','gain-field','budget','source'):
+            with self.subTest(mutation=mutation):
+                self.fixture();i=next(i for i,l in enumerate(self.lines)if ' CASE_GEN_ARITH_BITS 'in l)
+                if mutation=='missing-bits':self.lines.pop(i)
+                elif mutation=='duplicate-bits':self.lines.insert(i,self.lines[i])
+                elif mutation=='observer-field':self.lines[i]+=' observer_samples=0'
+                elif mutation=='bool-count':self.lines[i]=self.lines[i].replace('bit_different=0','bit_different=true')
+                elif mutation=='wrong-hash':self.lines[i]=self.lines[i].replace('oracle_sha256=','oracle_sha256=0')
+                elif mutation=='missing-rounding':self.lines=[l for l in self.lines if ' CASE_ROUNDING 'not in l]
+                elif mutation=='pair-bits':self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=1')
+                elif mutation=='partial-pass':self.change('PASS',' gen_arith_bit_differences=0','')
+                elif mutation=='wrong-samples':self.change('PASS','gen_arith_bit_sample_checks=589824','gen_arith_bit_sample_checks=1')
+                elif mutation=='wrong-totals':self.change('PASS','gen_arith_bit_differences=0','gen_arith_bit_differences=1')
+                elif mutation=='reset-fields':self.lines[-1]+=' gen_reset_events=0'
+                elif mutation=='gain-field':self.lines[-1]+=' pcm_gain=0.5'
+                elif mutation=='budget':del self.report['benchmark']['psram_budget']
+                else:del self.report['source_files_sha256']['object-benchmark/main/gen_arithmetic_oracle.h']
+                self.rejected()
+
+    def test_old_modes_keep_shape_and_cannot_inherit_gen_arithmetic_results(self):
+        legacy=ObservationTests('test_observed_case_cost_and_identity');legacy.setUp();self.addCleanup(legacy.doCleanups)
+        zero=' gen_arith_bit_sample_checks=0 gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0';original=list(legacy.lines)
+        legacy.lines[-1]+=zero;legacy.seal();collect(legacy.build,legacy.run)
+        for extra in (' gen_arith_bit_differences=0',zero.replace('gen_arith_bit_sample_checks=0','gen_arith_bit_sample_checks=1')):
+            legacy.lines=list(original);legacy.lines[-1]+=extra;legacy.seal()
+            with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+        legacy.lines=list(original);legacy.lines.insert(0,next(l for l in self.lines if ' CASE_GEN_ARITH_BITS 'in l));legacy.seal()
+        with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
 
 if __name__=='__main__':unittest.main()

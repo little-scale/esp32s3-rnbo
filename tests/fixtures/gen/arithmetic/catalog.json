@@ -1,0 +1,1183 @@
+{
+  "block_frames": 256,
+  "event_order": "No parameters or events in this initial arithmetic mode.",
+  "fixture_root": "tests/fixtures/gen/arithmetic",
+  "fixtures": [
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:abs"
+      ],
+      "genexpr": "abs-call.genexpr",
+      "id": "abs-call",
+      "patch": "abs-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 1
+      },
+      "source": {
+        "arity": 1,
+        "canonical": "abs",
+        "exact_name": "abs",
+        "inventory_id": "rnbo-genexpr:abs",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 1
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:min"
+      ],
+      "genexpr": "min-call.genexpr",
+      "id": "min-call",
+      "patch": "min-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 2
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "min",
+        "exact_name": "min",
+        "inventory_id": "rnbo-genexpr:min",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 2
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:minimum"
+      ],
+      "genexpr": "minimum-call.genexpr",
+      "id": "minimum-call",
+      "patch": "minimum-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 2
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "min",
+        "exact_name": "minimum",
+        "inventory_id": "rnbo-genexpr:minimum",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 2
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:max"
+      ],
+      "genexpr": "max-call.genexpr",
+      "id": "max-call",
+      "patch": "max-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 3
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "max",
+        "exact_name": "max",
+        "inventory_id": "rnbo-genexpr:max",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 3
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:maximum"
+      ],
+      "genexpr": "maximum-call.genexpr",
+      "id": "maximum-call",
+      "patch": "maximum-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 3
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "max",
+        "exact_name": "maximum",
+        "inventory_id": "rnbo-genexpr:maximum",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 3
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:sub"
+      ],
+      "genexpr": "sub-call.genexpr",
+      "id": "sub-call",
+      "patch": "sub-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 4
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "sub",
+        "exact_name": "sub",
+        "inventory_id": "rnbo-genexpr:sub",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 4
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:-"
+      ],
+      "genexpr": "subtract-infix.genexpr",
+      "id": "subtract-infix",
+      "patch": "subtract-infix.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 4
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "sub",
+        "exact_name": "-",
+        "inventory_id": "rnbo-genexpr:-",
+        "surface": "genexpr",
+        "syntax": "infix"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 4
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:eq"
+      ],
+      "genexpr": "eq-call.genexpr",
+      "id": "eq-call",
+      "patch": "eq-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 5
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "eq",
+        "exact_name": "eq",
+        "inventory_id": "rnbo-genexpr:eq",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 5
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:=="
+      ],
+      "genexpr": "equal-infix.genexpr",
+      "id": "equal-infix",
+      "patch": "equal-infix.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 5
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "eq",
+        "exact_name": "==",
+        "inventory_id": "rnbo-genexpr:==",
+        "surface": "genexpr",
+        "syntax": "infix"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 5
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:lt"
+      ],
+      "genexpr": "lt-call.genexpr",
+      "id": "lt-call",
+      "patch": "lt-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 6
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "lt",
+        "exact_name": "lt",
+        "inventory_id": "rnbo-genexpr:lt",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 6
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:<"
+      ],
+      "genexpr": "less-infix.genexpr",
+      "id": "less-infix",
+      "patch": "less-infix.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 6
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "lt",
+        "exact_name": "<",
+        "inventory_id": "rnbo-genexpr:<",
+        "surface": "genexpr",
+        "syntax": "infix"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 6
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:add"
+      ],
+      "genexpr": "add-call.genexpr",
+      "id": "add-call",
+      "patch": "add-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 9
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "add",
+        "exact_name": "add",
+        "inventory_id": "rnbo-genexpr:add",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 9
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:+"
+      ],
+      "genexpr": "add-infix.genexpr",
+      "id": "add-infix",
+      "patch": "add-infix.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 9
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "add",
+        "exact_name": "+",
+        "inventory_id": "rnbo-genexpr:+",
+        "surface": "genexpr",
+        "syntax": "infix"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 9
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:mul"
+      ],
+      "genexpr": "mul-call.genexpr",
+      "id": "mul-call",
+      "patch": "mul-call.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 10
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "mul",
+        "exact_name": "mul",
+        "inventory_id": "rnbo-genexpr:mul",
+        "surface": "genexpr",
+        "syntax": "call"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 10
+      },
+      "warmup_blocks": 4
+    },
+    {
+      "aliases_inherit_qualification": false,
+      "arena_bytes": 4096,
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "blocks": 64,
+      "cases": [
+        {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        }
+      ],
+      "comparison_tolerance": {
+        "maximum_absolute_error": 0.0,
+        "maximum_pcm_lsb_error": 0,
+        "relative_rms_level_difference": 0.0
+      },
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "exact_entries": [
+        "rnbo-genexpr:*"
+      ],
+      "genexpr": "mul-infix.genexpr",
+      "id": "mul-infix",
+      "patch": "mul-infix.rnbopat",
+      "pcm_gain": 0.5,
+      "role": "fx",
+      "rounds": 3,
+      "seed": 305419896,
+      "semantic": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 10
+      },
+      "source": {
+        "arity": 2,
+        "canonical": "mul",
+        "exact_name": "*",
+        "inventory_id": "rnbo-genexpr:*",
+        "surface": "genexpr",
+        "syntax": "infix"
+      },
+      "stimulus": {
+        "kind": "signed-grid-v1"
+      },
+      "surface": "genexpr",
+      "verification": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 10
+      },
+      "warmup_blocks": 4
+    }
+  ],
+  "format": "rnbo-original-gen-arithmetic-fixtures-v1",
+  "format_version": 1,
+  "license": "MIT",
+  "performance_gain_claimed": false,
+  "sample_rate": 44100,
+  "scope": "Fifteen exact authored GenExpr arithmetic syntax forms; execution evidence is separate."
+}
