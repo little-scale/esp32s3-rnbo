@@ -630,7 +630,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none. The bounded-line compiler option is experimental with native output/clock evidence and exact public/private target-image binding only. Its target execution flag is false and no CPU measurement is added; it does not reuse physical-original identity flags. Wave3 adds four exact native-only spellings: onepole~ and slide~ retain six mathematical accuracy failures, while delta~ and sah~ pass their declared independent gates. Ten target forms compile; none executed. The isolated integer abs runtime fix adds no DSP adapter or CPU measurement. Canonical sah and codebox sah remain unverified. The experimental default-off Float32 onepole clamp option adds a finite stored-value proof and exact public/private compiled pairs, retaining all five native accuracy failures. The separate corrected Float32 recurrence remains private because a large-finite input faults it. No target execution or CPU measurement is added.",
+  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none. The bounded-line compiler option is experimental with native output/clock evidence and exact public/private target-image binding only. Its target execution flag is false and no CPU measurement is added; it does not reuse physical-original identity flags. Wave3 adds four exact native-only spellings: onepole~ and slide~ retain six mathematical accuracy failures, while delta~ and sah~ pass their declared independent gates. Ten target forms compile; none executed. The isolated integer abs runtime fix adds no DSP adapter or CPU measurement. Canonical sah and codebox sah remain unverified. The experimental default-off Float32 onepole clamp option adds a finite stored-value proof and exact public/private compiled pairs, retaining all five native accuracy failures. The separate corrected Float32 recurrence remains private because a large-finite input faults it. No target execution or CPU measurement is added. The experimental stable-onepole profile adds corrected Float32 coefficient/history and finite recovery in three exact FX graphs. The strict baseline retains its five accuracy failures; the corrected declared native gates pass. New explicit15-case public CLI selection is not additional program coverage. Finite safety, bounded accuracy, compiled resources and target execution remain separate; no CPU measurement or alias qualification is added.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -15860,9 +15860,10 @@
       "cpu_measurement_ids": [],
       "id": "patcher:onepole~",
       "known_gaps": [
-        "Five numerical failures remain: long DC at zero/.05/1 Hz, ordered frequency events and signal slow-control grid.",
+        "Strict default: Five numerical failures remain: long DC at zero/.05/1 Hz, ordered frequency events and signal slow-control grid.",
         "No other coefficient modes, arbitrary compositions, target execution or CPU measurements are qualified.",
-        "The comparison option assumes runtime nearest-even rounding and excludes floating flags/traps and signalling-NaN/payload equivalence. It does not repair coefficient/recurrence accuracy or qualify broader object modes."
+        "The comparison option assumes runtime nearest-even rounding and excludes floating flags/traps and signalling-NaN/payload equivalence. It does not repair coefficient/recurrence accuracy or qualify broader object modes.",
+        "Stable profile admission is closed to three exact FX graphs. Finite recovery requires IEEE gradual-underflow, nearest-even, nontrapping, noncontracted execution and private independent state; broad mode/composition, target CPU, live memory and uptime qualification remain open."
       ],
       "observed_in": [
         {
@@ -15909,11 +15910,21 @@
       "optimisation_state": "experimental",
       "optimisations": [
         {
+          "candidate_module_sha256": "ff65e928f4fe70baabfd68c461b8abb1efde0f41499f7823f84554ddf785cd94",
+          "compiler_admission_source": "evidence/stable-onepole.json",
+          "flag": "--stable-onepole",
+          "id": "stable-onepole",
+          "note": "--stable-onepole: experimental Float32 coefficient, compensated history and finite recovery in three closed FX forms, reusing the original feedback state word. Declared native accuracy gates pass and fresh public modules reproduce reviewed private images. Rounding/state meaning change; the strict baseline retains its five failures. No hardware execution or CPU percentage.",
+          "reference_module_sha256": "ca3412dc4a84d2326df7b6deeb9e0efa88898452c2b6fc7220c3bd380c362791",
+          "source": "docs/stable-onepole.md",
+          "state": "experimental"
+        },
+        {
           "candidate_module_sha256": "9019e80a5e585132bb6862068cb493e54ddfd27e1760f9326beb9551c077b781",
           "compiler_admission_source": "evidence/onepole-float32-clamp.json",
           "flag": "--float32-onepole-clamp",
           "id": "float32-onepole-clamp",
-          "note": "Experimental typed Float32 clamp with finite nearest-even stored-value identity; coefficient and recurrence unchanged. Three fresh public target pairs reproduce their reviewed images. Five baseline numerical failures remain. Floating flags/traps and NaN payload equivalence excluded; no target execution or CPU percentage.",
+          "note": "--float32-onepole-clamp: Experimental typed Float32 clamp with finite nearest-even stored-value identity; coefficient and recurrence unchanged. Three fresh public target pairs reproduce their reviewed images. Five baseline numerical failures remain. Floating flags/traps and NaN payload equivalence excluded; no target execution or CPU percentage.",
           "reference_module_sha256": "ca3412dc4a84d2326df7b6deeb9e0efa88898452c2b6fc7220c3bd380c362791",
           "source": "docs/onepole-float32.md",
           "state": "experimental"
@@ -15931,9 +15942,14 @@
           "source": "docs/wave3-stateful.md"
         },
         {
-          "conditions": "Finite binary32 clamp-store partition proof plus sampled execution; all15 public native programs retain original outputs/PCM/traces/statistics/models exactly, including five numerical failures. Three public candidate/reference target pairs match their reviewed prototypes. Compiled only; the separate stable compensated candidate remains private with an extreme-finite-input fault.",
+          "conditions": "Finite binary32 clamp-store partition proof plus sampled execution; all15 public native programs retain original outputs/PCM/traces/statistics/models exactly, including five numerical failures. Three public candidate/reference target pairs match their reviewed prototypes. Compiled only. The historical first compensated prototype is preserved with its extreme-input fault; the separately qualified recovery profile is described below.",
           "level": "native-experimental-local-store-proof-and-exact-compiled-pairs",
           "source": "evidence/onepole-float32-clamp.json"
+        },
+        {
+          "conditions": "Corrected profile: 27 expanded plus six additional bounded native accuracy programs pass fixed3e-6/exact-observer gates. Separate 27 finite-extreme programs test finite output/resources without PCM or all-amplitude accuracy claims. The explicit public CLI15-case subset reproduces corrected passes and strict five failures on matched inputs/plans. Analytical finite-state induction and sampled helper tests are separate; three actual candidate/reference target pairs match their reviewed images. No target execution or CPU measurement.",
+          "level": "native-experimental-stable-onepole-and-exact-compiled-binding",
+          "source": "evidence/stable-onepole.json"
         }
       ],
       "registry_context": {
@@ -15944,7 +15960,7 @@
       },
       "spelling": "onepole~",
       "surface": "patcher",
-      "working_note": "All 15 native programs run without processing allocations or runtime faults; five exceed the fixed independent 3e-6 absolute-error gate.",
+      "working_note": "Default strict baseline: All 15 native programs run without processing allocations or runtime faults; five exceed the fixed independent 3e-6 absolute-error gate. The experimental --stable-onepole profile passes 33 declared native accuracy programs with finite recovery; the default strict baseline remains unchanged.",
       "working_state": "partial"
     },
     {
@@ -19271,10 +19287,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/object-oracles.md"
     },
     "docs/onepole-float32.md": {
-      "bytes": 8367,
+      "bytes": 8678,
       "path": "docs/onepole-float32.md",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "ce0fe98fe4084222435d16e19d04f62cd1126b7653ea3a875548c42885da4a27",
+      "sha256": "a865e393d4d61a2b2084ccd64ca223192f03f11f5402427cbe5306c88eaad0c5",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/onepole-float32.md"
     },
     "docs/optimisation-next-pass.md": {
@@ -19297,6 +19313,13 @@
       "publication": "included-with-status-snapshot",
       "sha256": "12e33b1adaac17a948bd0ec4514d09a597655d95d3d291be2c2565e25b84c23d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/scalar-powers.md"
+    },
+    "docs/stable-onepole.md": {
+      "bytes": 9502,
+      "path": "docs/stable-onepole.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "47a51f2b6835c45e126f97049655d36ee38d5d7b54bb2e3c54accfb10a446b52",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/stable-onepole.md"
     },
     "docs/train-reciprocal-compiler.md": {
       "bytes": 5487,
@@ -19542,6 +19565,13 @@
       "publication": "included-with-status-snapshot",
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
+    },
+    "evidence/stable-onepole.json": {
+      "bytes": 1487259,
+      "path": "evidence/stable-onepole.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e7d47f0e6dbecbf9f0db5839e6f5bd0bb859091056f5a7014660316e4ce5a99d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/stable-onepole.json"
     },
     "evidence/train-reciprocal-compiler.json": {
       "bytes": 401129,

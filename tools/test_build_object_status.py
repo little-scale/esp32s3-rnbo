@@ -123,6 +123,27 @@ class ObjectStatusTests(unittest.TestCase):
             with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Experimental compiler admission'):
                 make_status(self.inventory,forged)
 
+    def test_stable_onepole_keeps_default_gaps_and_has_no_board_or_cpu_credit(self):
+        record=next(r for r in self.coverage['objects'] if r['id']=='patcher:onepole~')
+        option=next(o for o in record['optimisations'] if o['id']=='stable-onepole')
+        self.assertEqual(option['flag'],'--stable-onepole')
+        self.assertEqual(option['state'],'experimental')
+        row=next(r for r in make_status(self.inventory,self.coverage)['objects'] if r['id']==record['id'])
+        self.assertEqual(row['working']['status'],'partial')
+        self.assertFalse(row['board_evidence']);self.assertIsNone(row['performance'])
+        self.assertIn('five exceed',row['working']['detail'])
+        self.assertIn('strict baseline',row['working']['detail'])
+        self.assertIn('finite recovery',row['optimisation']['detail'])
+        for kind in ('flag','reference','candidate','historical_only'):
+            forged=copy.deepcopy(self.coverage)
+            changed=next(o for r in forged['objects'] if r['id']==record['id'] for o in r['optimisations'] if o['id']=='stable-onepole')
+            if kind=='flag':changed['flag']='--unreviewed-onepole-profile'
+            elif kind=='reference':changed['reference_module_sha256']='0'*64
+            elif kind=='candidate':changed['candidate_module_sha256']='0'*64
+            else:changed['compiler_admission_source']='evidence/onepole-float32-clamp.json'
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Experimental compiler admission'):
+                make_status(self.inventory,forged)
+
     def test_stateful_native_accuracy_and_alias_boundaries_remain_visible(self):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
         for name,state in (('onepole~','partial'),('slide~','partial'),
@@ -167,7 +188,7 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('recurrence unchanged',row['optimisation']['detail'])
         for kind in ('flag','candidate','reference','historical_only'):
             forged=copy.deepcopy(self.coverage)
-            changed=next(r for r in forged['objects'] if r['id']==record['id'])['optimisations'][0]
+            changed=next(o for r in forged['objects'] if r['id']==record['id'] for o in r['optimisations'] if o['id']=='float32-onepole-clamp')
             if kind=='flag':changed['flag']='--stable-onepole-not-admitted'
             elif kind=='candidate':changed['candidate_module_sha256']='0'*64
             elif kind=='reference':changed['reference_module_sha256']='0'*64

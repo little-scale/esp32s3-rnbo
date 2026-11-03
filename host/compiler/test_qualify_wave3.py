@@ -18,6 +18,33 @@ class PublicDriverTests(unittest.TestCase):
         with self.assertRaisesRegex(q.QualificationError,'catalogue changed'):
             q.load_catalog(json.dumps(changed).encode())
 
+    def test_onepole_selection_is_explicit_isolated_and_retains_the_original_catalogue(self):
+        original=q.load_catalog();before=copy.deepcopy(original)
+        selected=q.select_catalog(original,onepole_only=True)
+        self.assertEqual(len(selected['fixtures']),3)
+        self.assertEqual(sum(len(f['cases'])for f in selected['fixtures']),15)
+        self.assertEqual({f['object_spelling']for f in selected['fixtures']},{'onepole~'})
+        selected['fixtures'][0]['cases'].clear()
+        self.assertEqual(original,before)
+        self.assertEqual(q.select_catalog(original),before)
+        self.assertEqual(sum(len(f['cases'])for f in original['fixtures']),45)
+
+    def test_profile_and_selection_require_real_booleans_before_tools_or_output(self):
+        for keyword in ('stable_onepole','onepole_only'):
+            for value in (0,1,None,'true',[]):
+                with tempfile.TemporaryDirectory()as name:
+                    out=Path(name)/'new-run'
+                    with self.subTest(keyword=keyword,value=value),self.assertRaisesRegex(q.QualificationError,'booleans'):
+                        q.qualify(out,**{keyword:value})
+                    self.assertFalse(out.exists())
+
+    def test_help_exposes_the_separate_profile_and_selection(self):
+        ran=subprocess.run([sys.executable,str(Path(q.__file__)),'--help'],capture_output=True,text=True)
+        self.assertEqual(ran.returncode,0)
+        self.assertIn('--onepole-only',ran.stdout)
+        self.assertIn('--stable-onepole',ran.stdout)
+        self.assertIn('other objects stay strict',ran.stdout)
+
     def test_existing_output_is_rejected_without_overwriting_data(self):
         build=q.ROOT/'build';build.mkdir(exist_ok=True)
         with tempfile.TemporaryDirectory(dir=build)as name:

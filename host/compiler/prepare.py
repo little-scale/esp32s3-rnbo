@@ -296,7 +296,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             float32_pink_output: bool = False, correct_finite_wrap: bool = False,
             exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False,
             hoist_train_reciprocal: bool = False, bounded_line_ramps: bool = False,
-            float32_onepole_clamp: bool = False) -> dict:
+            float32_onepole_clamp: bool = False, stable_onepole: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -325,13 +325,21 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("hoist train reciprocal must be a boolean")
     if type(bounded_line_ramps) is not bool:
         raise ExportError("bounded line ramps must be a boolean")
+    if type(stable_onepole) is not bool:
+        raise ExportError("Stable onepole must be a boolean")
+    if stable_onepole and (type(apply_fixes) is not bool or not apply_fixes or role != "fx" or
+            numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
+            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or float32_onepole_clamp):
+        raise ExportError("Experimental stable onepole requires normal fixes, strict FX and no other optional adapters")
     if type(float32_onepole_clamp) is not bool:
         raise ExportError("Float32 onepole clamp must be a boolean")
     if float32_onepole_clamp and (type(apply_fixes) is not bool or not apply_fixes or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
             hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
-            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps):
+            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or stable_onepole):
         raise ExportError("Float32 onepole clamp requires normal fixes, strict audio and no other optional adapters")
     if exact_audio_delay44100 and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
@@ -414,7 +422,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     for name in ("generator.json", "source.rnbopat"):
         if (export_dir / name).exists():
             files[name] = read_regular(export_dir / name, 1024 * 1024)
-    if exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps:
+    if exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or stable_onepole:
         # This closed optional route admits the reviewed raw file set too,
         # rather than silently ignoring extra export files or linked aliases.
         for path in export_dir.rglob("*"):
@@ -712,11 +720,41 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             "rounding": "nearest-even", "baseline_bit_identity_claimed": False,
             "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False,
             "target_cpu_gain_claimed": False}
+    if stable_onepole:
+        from stable_onepole import transform as stable_onepole_transform
+        options = {"rnbo_version": SUPPORTED_VERSION, "apply_fixes": apply_fixes, "role": role,
+                   "sample_rate": manifest["sample_rate"], "block_frames": manifest["block_frames"],
+                   "audio_inputs": manifest["audio_inputs"], "audio_outputs": manifest["audio_outputs"],
+                   "numerical_profile": numerical_profile, "filter_delay_max_ms": filter_delay_max_ms,
+                   "float32_delay_storage": float32_delay_storage,
+                   "required_host_services": manifest["required_host_services"], "other_optimizations": []}
+        try:
+            files, stable_onepole_change = stable_onepole_transform(files, description, options,
+                code_mask=cpp_code_mask, helper=Path(__file__).with_name("onepole_stable.h").read_bytes())
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        stable_onepole_change["transformer_sha256"] = digest(Path(__file__).with_name("stable_onepole.py").read_bytes())
+        changes.append(stable_onepole_change)
+        manifest["adaptations"].append(stable_onepole_change["name"])
+        manifest["stable_onepole"] = True
+        manifest["stable_onepole_contract"] = {
+            "version": 1, "experimental": True, "correctness_profile": "stable-onepole-v1",
+            "context": stable_onepole_change["context"], "sample_rate": 44100, "block_frames": 256,
+            "coefficient": "Float32 bounded Hz, rounded constant scale, expm1f and clamp",
+            "recurrence": "Float32 compensated difference with finite interpolation recovery",
+            "state": "original feedback word reused for correction; no added members",
+            "finite_output_scope": "finite binary32 inputs/frequencies and finite private state",
+            "rounding": "nearest-even", "contraction": "disabled", "floating_traps": "disabled",
+            "floating_arithmetic": "IEEE binary32 including gradual underflow",
+            "scheduler_time": "unchanged binary64", "abi_revision_required": [1, 0],
+            "ownership": "exclusive opaque callbacks; private independent state words and disjoint audio planes",
+            "baseline_bit_identity_claimed": False, "target_cpu_gain_claimed": False,
+            "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
     prepared_hashes = {name: digest(data) for name, data in sorted(files.items())}
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_stable.h")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -778,6 +816,8 @@ def main() -> None:
                         help="Experimental bounded relative line timing in the reviewed two-item-pack Main graph; changes rounding, no target CPU claim")
     parser.add_argument("--float32-onepole-clamp", action="store_true",
                         help="Use Float32 literals in type-checked onepole clamps; preserves finite stored values, not fenv/NaN payloads; coefficient/recurrence unchanged")
+    parser.add_argument("--stable-onepole", action="store_true",
+                        help="Experimental stable Float32 coefficient/compensated recurrence in three reviewed onepole FX graphs; changes rounding, no target CPU claim")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -788,7 +828,7 @@ def main() -> None:
                            float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
                            exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations,
                            hoist_train_reciprocal=args.hoist_train_reciprocal,bounded_line_ramps=args.bounded_line_ramps,
-                           float32_onepole_clamp=args.float32_onepole_clamp)
+                           float32_onepole_clamp=args.float32_onepole_clamp,stable_onepole=args.stable_onepole)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Reproduce the fixed45-case stateful RNBO native qualification, computer only.
+"""Reproduce the fixed stateful RNBO native qualification, computer only.
 
 An authorised local RNBO1.4.4 package, Node and a Clang/GCC C/C++ toolchain are
 required. No hardware is accessed. Exit0 means all gates pass,1 means retained
 qualification failures, and2 means an input/setup/integrity error. Reports and
 captures are kept, including when the independent accuracy gates fail.
+Default: all45 strict cases. --onepole-only explicitly selects15 original
+cases; --stable-onepole applies the optional profile only to onepole forms.
 """
 from __future__ import annotations
 import argparse
 import array
+import copy
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import importlib.util
@@ -67,6 +70,17 @@ def load_catalog(data=None):
     require(len(catalog['fixtures'])==10 and sum(len(f['cases'])for f in catalog['fixtures'])==45,'Expected10authoredforms/45cases')
     return catalog
 
+def select_catalog(catalog, *, onepole_only=False):
+    """Explicit selection only; never silently hide other known failures."""
+    require(type(onepole_only)is bool,'onepole-only must be a boolean')
+    result=copy.deepcopy(catalog)
+    if onepole_only:
+        result['fixtures']=[f for f in result['fixtures']if f['object_spelling']=='onepole~']
+        require({f['id']for f in result['fixtures']}=={'onepole-fixed-stereo','onepole-scalar-stereo','onepole-signal-cutoff'}and
+                len(result['fixtures'])==3 and sum(len(f['cases'])for f in result['fixtures'])==15,
+                'Expected the three reviewed onepole forms and15 original programs')
+    return result
+
 def run_logged(command,path):
     with path.open('w')as log:
         subprocess.run(command,cwd=ROOT,check=True,stdout=log,stderr=subprocess.STDOUT)
@@ -110,16 +124,18 @@ def audit_case_protocol(record,plan,out):
     except (QualificationError,KeyError,ValueError,TypeError,OverflowError,struct.error)as exc:
         return {'passed':False,'error':str(exc)}
 
-def export_fixture(fixture,out,node,rnbo_dir):
+def export_fixture(fixture,out,node,rnbo_dir,*,stable_onepole=False):
     id=fixture['id'];raw=out/'raw'/id;prepared=out/'prepared'/id;log=out/'logs'/(id+'-export.log')
     command=[node,str(ROOT/'host/export/export.mjs'),str(FIXTURES/fixture['patch']),'--out',str(raw)]
     if rnbo_dir is not None:command+=['--rnbo-dir',str(rnbo_dir)]
     run_logged(command,log)
-    prepare(raw,prepared,'rnbos3patch','fx') # normal fixes, strict, no optional adapters
+    apply_stable=stable_onepole and fixture['object_spelling']=='onepole~'
+    prepare(raw,prepared,'rnbos3patch','fx',stable_onepole=apply_stable) # Other object forms remain strict.
     provenance,manifest,snapshot=verify_prepared(prepared)
     require(manifest['numerical_profile']=='float32-strict'and manifest['audio_inputs']==manifest['audio_outputs']==2,'Unreviewed prepared mode')
-    emit({'stage':'prepared','fixture':id})
-    return id,{'command':command,'manifest':manifest,'snapshot':snapshot,'raw_files_sha256':provenance['raw_files_sha256']}
+    require(manifest.get('stable_onepole',False)is apply_stable,'Requested onepole profile was not applied exactly')
+    emit({'stage':'prepared','fixture':id,'stable_onepole':apply_stable})
+    return id,{'command':command,'requested_stable_onepole':apply_stable,'manifest':manifest,'snapshot':snapshot,'raw_files_sha256':provenance['raw_files_sha256']}
 
 def make_plans(catalog,exports,out,inputs):
     records=[];cache={};wire_plans=[]
@@ -201,14 +217,18 @@ def compare_results(catalog,builds,out):
             comparisons.append(row)
     return comparisons,reconstruction
 
-def qualify(output,rnbo_dir=None):
-    out=validate_output(output);catalog=load_catalog()
+def qualify(output,rnbo_dir=None,*,stable_onepole=False,onepole_only=False):
+    require(type(stable_onepole)is bool and type(onepole_only)is bool,'Profile and selection options must be booleans')
+    out=validate_output(output);catalog=select_catalog(load_catalog(),onepole_only=onepole_only)
     require(sys.byteorder=='little'and struct.calcsize('f')==4,'Native capture requires a little-endian Float32 host')
     require(sha(NATIVE/'probe.cpp')==ORIGINAL_PROBE_SHA256 and sha(NATIVE/'inputs.py')==ORIGINAL_INPUTS_SHA256,'Reviewed native probe/input generator changed; review before updating this driver')
     node=shutil.which('node');cc=shutil.which('cc');cxx=shutil.which('c++')
     require(node and cc and cxx,'Install Node and a Clang/GCC C/C++ toolchain first')
     out.mkdir(parents=True,exist_ok=False)
-    report={'format':'rnbo-wave3-computer-qualification-v1','hardware_executed':False,'target_performance_measured':False,'elf_lifecycle_tested':False,'qualification_passed':False,'catalog_sha256':CATALOG_SHA256,'python_version':sys.version,'scope':'Fixed10authoredpatcherforms/45cases; no alias/codebox/explicitoperator-reset qualification',
+    report={'format':'rnbo-wave3-computer-qualification-v1','hardware_executed':False,'target_performance_measured':False,'elf_lifecycle_tested':False,'qualification_passed':False,'catalog_sha256':CATALOG_SHA256,'python_version':sys.version,'scope':f"Fixed{len(catalog['fixtures'])}authoredpatcherforms/{sum(len(f['cases'])for f in catalog['fixtures'])}cases; no alias/codebox/explicitoperator-reset qualification",
+        'selection':{'onepole_only':onepole_only,'fixtures':[f['id']for f in catalog['fixtures']],'case_programs':sum(len(f['cases'])for f in catalog['fixtures'])},
+        'optional_onepole_profile':'stable-onepole-v1'if stable_onepole else None,
+        'profile_scope':'Stable profile applies only to the three onepole forms; all other selected objects retain strict preparation',
         'native_support_policy':'Actual production dynamic wrapper and arena, host libc/libm; support.cpp/lifecycle.cpp NOT linked; constructor/finalizer counters are explicit native stubs, not ELF lifecycle proof'}
     try:
         for name in('logs','inputs','plans'):(out/name).mkdir()
@@ -221,7 +241,7 @@ def qualify(output,rnbo_dir=None):
         inputs=load_module('wave3_inputs_'+digest(str(out).encode())[:12],out/'sources'/str((NATIVE/'inputs.py').relative_to(ROOT)))
         oracle=load_module('wave3_oracle_'+digest(str(out).encode())[:12],out/'sources/host/compiler/wave3_oracles.py')
         report['oracle_sha256']=sha(out/'sources/host/compiler/wave3_oracles.py')
-        with ThreadPoolExecutor(2)as pool:exports=dict(pool.map(lambda f:export_fixture(f,out,node,rnbo_dir),catalog['fixtures']))
+        with ThreadPoolExecutor(2)as pool:exports=dict(pool.map(lambda f:export_fixture(f,out,node,rnbo_dir,stable_onepole=stable_onepole),catalog['fixtures']))
         report['exports']=exports;plans,vectors=make_plans(catalog,exports,out,inputs);report['input_vectors_sha256']=vectors
         snapshots={id:verify_prepared(out/'prepared'/id)[2]for id in exports};fixtures={f['id']:f for f in catalog['fixtures']}
         with ThreadPoolExecutor(2)as pool:builds=dict(pool.map(lambda p:compile_and_run(p,fixtures,plans,out,cc,cxx,oracle),[(id,mode)for id in fixtures for mode in('O3','UBSan')]))
@@ -247,9 +267,11 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out',type=Path,required=True,help='Fresh directory below build/; never overwrites an existing run')
     parser.add_argument('--rnbo-dir',type=Path,help='Authorised local RNBO1.4.4 package; otherwise use exporter discovery/RNBO_DIR')
+    parser.add_argument('--onepole-only',action='store_true',help='Explicitly select the three onepole graphs/15 original cases; other known failures are outside this selected run')
+    parser.add_argument('--stable-onepole',action='store_true',help='Apply the experimental stable profile to selected onepole graphs; other objects stay strict')
     args=parser.parse_args()
-    try:report=qualify(args.out,args.rnbo_dir)
+    try:report=qualify(args.out,args.rnbo_dir,stable_onepole=args.stable_onepole,onepole_only=args.onepole_only)
     except (QualificationError,OSError,subprocess.SubprocessError)as exc:parser.exit(2,f'Qualification setup rejected: {exc}\n')
-    print(json.dumps({'report':str(args.out.resolve()/'report.json'),'status':report['status'],'health_passed':report['health_passed'],'compatibility_passed':report['compatibility_passed'],'independent_accuracy_passed':report['independent_accuracy_passed'],'failed_accuracy_cases':report['failed_accuracy_cases']}))
+    print(json.dumps({'report':str(args.out.resolve()/'report.json'),'status':report['status'],'selection':report['selection'],'optional_onepole_profile':report['optional_onepole_profile'],'health_passed':report['health_passed'],'compatibility_passed':report['compatibility_passed'],'independent_accuracy_passed':report['independent_accuracy_passed'],'failed_accuracy_cases':report['failed_accuracy_cases']}))
     raise SystemExit(0 if report['qualification_passed']else 1)
 if __name__=='__main__':main()

@@ -1,5 +1,12 @@
 # Local export and static compilation
 
+`--stable-onepole` is an experimental, default-off corrected Float32 profile
+for three reviewed onepole FX graphs. It changes rounding and state meaning,
+passes the declared independent accuracy gates and adds finite recovery without
+adding state members. Reproduce the original onepole programs with
+`python3 host/compiler/qualify_wave3.py --onepole-only --stable-onepole --out build/qualify-stable-onepole`.
+See [use, proof, resource costs and limits](../docs/stable-onepole.md).
+
 `--float32-onepole-clamp` is an experimental, default-off local comparison
 option for exact generated onepole clamps. It preserves finite stored values
 under nearest-even rounding, while excluding floating flags/traps and NaN

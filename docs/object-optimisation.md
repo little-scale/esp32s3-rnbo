@@ -1,5 +1,12 @@
 # RNBO object optimisation matrix
 
+The [experimental stable onepole profile](stable-onepole.md) now passes the
+five formerly failing onepole programs and expanded native accuracy tests.
+It uses Float32 coefficient/signal/recovery math, reuses the existing feedback
+word for correction and adds a finite-state recovery proof. Three fresh public
+candidate/reference target pairs match their reviewed images. The default
+strict failures remain recorded; this adds no hardware or CPU percentage.
+
 The experimental [Float32 onepole clamp option](onepole-float32.md) removes
 Double comparisons while preserving finite stored values and the original
 five accuracy failures. Fresh public modules reproduce the reviewed private

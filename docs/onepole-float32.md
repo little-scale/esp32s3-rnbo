@@ -1,5 +1,10 @@
 # Onepole Float32 comparisons and numerical study
 
+The later [stable onepole profile](stable-onepole.md) implements a guarded
+descendant of the numerical study below. It adds finite recovery and is now an
+experimental option for three exact FX graphs. The unguarded prototype and its
+counterexample below remain historical evidence, not the admitted algorithm.
+
 The experimental, default-off `--float32-onepole-clamp` compiler option removes Double
 comparisons from exact generated onepole clamp statements. It preserves the
 stored result for every finite binary32 operand under nearest-even rounding.

@@ -90,7 +90,7 @@ def sources():
            ROOT/"host/compiler/build_module.py",ROOT/"host/compiler/build.py",
            ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",
            ROOT/"loader-spike/dependencies.json"]
-    for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py"):
+    for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_stable.h"):
         helper=ROOT/"host/compiler"/name
         if helper.is_file():paths.append(helper)
     for directory in (ROOT/"module-sdk/dynamic",ROOT/"module-sdk/cmake/dynamic"):

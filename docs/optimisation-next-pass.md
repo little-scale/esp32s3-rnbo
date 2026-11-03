@@ -61,14 +61,14 @@ target results need their own later sealed records.
 
 ## What the evidence establishes, and what remains
 
-The [onepole Float32 study](onepole-float32.md) now supplies an experimental
-comparison-only compiler option with a local stored-value proof. It leaves
-the baseline numerical failures intact. A private stable coefficient plus
-compensated recurrence passes the original and additional bounded native
-programs without adding state storage, but an actual large-finite-input fault
-requires an overflow-safe update or enforced domain before admission. Its
-extra sample arithmetic and cheaper coefficient updates need separate target
-measurements; compiled helper removal is not a CPU percentage.
+The [onepole Float32 study](onepole-float32.md) supplies the comparison-only
+option with a local stored-value proof. The later [stable profile](stable-onepole.md)
+adds Float32 coefficient work, compensated history and checked finite recovery
+in three closed FX forms. It passes the original and expanded native accuracy
+programs without adding state members, while retaining the strict baseline's
+failures as separate facts. Its extra sample arithmetic and cheaper coefficient
+updates need separate target measurements; compiled helper removal is not a
+CPU percentage. Generalising admission beyond these exact graphs remains work.
 
 | Area | Existing evidence | Remaining material checks |
 | --- | --- | --- |
