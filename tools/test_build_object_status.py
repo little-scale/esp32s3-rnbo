@@ -89,6 +89,20 @@ class ObjectStatusTests(unittest.TestCase):
             else:group['compiler_admission_source']='evidence/exact-delay44100.json'
             with self.assertRaisesRegex(ValueError,'Compiler admission'):checked_measurements(forged,ROOT)
 
+    def test_scalar_filter_availability_binds_the_current_reference_too(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        for name in ('patcher:comb~','patcher:allpass~'):
+            record=next(r for r in self.coverage['objects'] if r['id']==name)
+            option=next(o for o in record['optimisations'] if o['id']=='scalar-filter-duration-hoist')
+            self.assertEqual(option['state'],'available')
+            self.assertIn('--hoist-filter-durations',option['flag'])
+            self.assertIn('Current-runtime public pair reproduces both',rows[name]['optimisation']['detail'])
+            self.assertEqual(rows[name]['performance']['measurement_id'],'filters-scalar-v2-storage:aggregate')
+        forged=copy.deepcopy(self.coverage)
+        measurement=next(m for m in forged['measurements'] if m['id']=='filters-scalar-duration-hoist-private:aggregate')
+        measurement['reference_module_sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'Compiler admission reference'):checked_measurements(forged,ROOT)
+
     def test_correction_cost_is_shown_without_claiming_cpu_saving(self):
         measurement=next(m for m in self.coverage['measurements'] if m['id']=='finite-wrap-correction-bounded:aggregate')
         self.assertTrue(measurement['cpu_time_change_measured'])

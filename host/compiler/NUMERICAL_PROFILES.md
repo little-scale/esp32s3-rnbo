@@ -63,3 +63,9 @@ conversion contract. It reproduces the reviewed Double conversion's Float32
 return in one pinned signal-delay graph; strict profile name or raw source hash
 alone does not identify whether this optional implementation was selected.
 Retain the complete manifest, prepared source and ELF identities.
+
+[`--hoist-filter-durations`](../../docs/filter-duration-hoist-compiler.md) also
+keeps the strict profile and uses its own explicit manifest flag and versioned
+contract. It retains Double evaluation and the original Float32 return while
+hoisting only the reviewed scalar conversions. This is separate from the
+per-sample exact signal-delay option; the two cannot be combined.

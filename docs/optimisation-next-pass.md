@@ -100,10 +100,11 @@ double work automatically.
 3. **Profile the uncovered generated hot paths.** Build/audit representative
    wave2 and additional admitted operators on Xtensa. Resolve active callers,
    classify setup/control/audio/time operations, retain unresolved calls and
-   measure complete callback cost. Review scalar filter-duration hoisting for
-   a guarded production context: its private target cases already show material
-   benefit, but its SR/ownership proof must not be replaced by an object-name
-   rule. Keep signal conversions per sample and preserve rounding.
+   measure complete callback cost. The [scalar filter-duration option](filter-duration-hoist-compiler.md)
+   now admits the strict cap40 scalar context, retaining original arithmetic
+   and proving current-runtime images identical to the previously measured
+   pair. Broader forms still need source/SR/ownership proof; an object-name
+   rule is insufficient. Keep signal conversions per sample and preserve rounding.
    The [exact 44.1 kHz signal-delay compiler option](exact-delay44100-compiler.md)
    now admits the strict cap40 signal fixture and reproduces its complete
    previously measured ELF. Its four saved target cases show 12.70% less

@@ -24,6 +24,12 @@ The public build reproduces the entire previously measured module; the older
 12.70% callback observation is reused for that exact image, with no new device
 execution claimed.
 
+The [scalar filter-duration option](filter-duration-hoist-compiler.md) moves the
+original Double calculation outside sample loops without narrowing it. This
+separate strict cap40 scalar context reproduces both modules from the older
+29.03% callback comparison using the current corrected runtime. It is off by
+default and rejects signal/fixed/storage/profile compositions.
+
 | Selection | Default | Effect and admission scope |
 | --- | --- | --- |
 | Defined integer wrap | On with normal runtime fixes | Replaces the reviewed `rnbo_imul` signed product with defined modulo 2^32 arithmetic and a safe signed mapping. Matching pink-noise generators also receive a defined unsigned affine multiply/add. Other signed arithmetic is outside this fix's claim. |

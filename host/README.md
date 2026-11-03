@@ -164,6 +164,21 @@ checks the admitted contexts on the board: bounded output preservation and
 whole-chain measurement observes 0.276% extra CPU, with unchanged context and
 arena costs. This is a correctness repair; it establishes no CPU saving.
 
+## Optional scalar filter-duration hoisting
+
+`--hoist-filter-durations` requires the exact reviewed `filters-scalar` Main
+graph, normal fixes, `float32-strict` and `--filter-delay-max-ms 40`. It moves the
+original scalar duration declaration, Double conversion and invariant clamp
+before each fixed 256-frame loop. The Float32 return, Float64 rings, remaining
+per-sample processing and precise clocks are unchanged. Signal/fixed/storage,
+other profile/option and current-drone contexts reject preparation.
+
+The [admission review](../docs/filter-duration-hoist-compiler.md) binds fresh
+public builds to both complete modules previously measured on target. That
+three-case callback comparison used 29.03% less processing time with zero
+numerical Float32 difference and exact PCM. Current-runtime native coverage
+adds cold and long-tail cases, with no new board execution claimed.
+
 ## Optional exact 44.1 kHz audio-delay conversion
 
 `--exact-audio-delay44100` requires the exact reviewed `filters-signal` Main

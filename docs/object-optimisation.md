@@ -35,6 +35,11 @@ saved four-case measurement preserves output with 12.70% less callback time;
 the public source/type guards and exact-image binding were checked on the
 computer without a new board run.
 
+The [scalar duration-hoist compiler option](filter-duration-hoist-compiler.md)
+also reproduces the complete previously measured pair with the current runtime.
+It retains Double evaluation and Float32 return rounding, reusing the original
+29.03% scalar callback observation. Signal inputs and other compositions reject.
+
 See [compiler options and integrated evidence](compiler-optimisations.md) for the
 current correctness fixes and opt-in transformations, and
 [the next optimisation pass](optimisation-next-pass.md) for remaining coverage,
@@ -292,4 +297,5 @@ is retained. Signal-rate delays are excluded. Its independent native proof
 covers 32 workloads and 8,388,608 byte-identical Float32/PCM words.
 [The sealed duration-hoist record](../evidence/filter-duration-hoist.json)
 retains unresolved instruction targets rather than treating them as resolved
-math calls. These experiments are not yet production compiler options.
+math calls. The [subsequent public option](filter-duration-hoist-compiler.md)
+admits only the strict scalar context after a current-runtime refresh and exact-image binding.

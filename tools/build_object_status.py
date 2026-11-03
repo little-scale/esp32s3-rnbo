@@ -79,6 +79,12 @@ def checked_measurements(coverage,root):
                     identity.get('sha256')==measure['candidate_module_sha256'] and
                     identity.get('complete_ELF_bytes_equal_public_guarded_prototype_and_physical_original') is True,
                     'Compiler admission does not reproduce the measured image/option')
+            reference_identity=admission.get('reference_identity')
+            if reference_identity is not None:
+                require(isinstance(reference_identity,dict) and
+                        reference_identity.get('sha256')==measure['reference_module_sha256'] and
+                        reference_identity.get('full_bytes_equal_current_runtime_private_and_physical_original') is True,
+                        'Compiler admission reference differs from the measured image')
         fixture=pointer(cache[source],group['source_selector']);passed=fixture['pass']
         require(passed['strict_module_sha256']==measure['reference_module_sha256'] and
                 passed['optimized_module_sha256']==measure['candidate_module_sha256'],'Module identity differs from measured evidence')
