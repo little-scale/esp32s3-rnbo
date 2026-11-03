@@ -15,6 +15,9 @@ DESCRIPTION='dcbba4108dc65eb2a3c9714826bce54c74f8014ba4df8e9c2a5fad5a2b7e9b21'
 PATCH='630eacd5fe1c3dad5f5a5174da495e6ff097a8d695d21b62a759bd8904fb2359'
 RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
 FILE_MAP='028365ff4bfc4431b073266c57bb6dd0495878161ded4cf1b2e7c215fd8b506e'
+# Exact same41 DSP/runtime/config/graph files; the GenExpr-aware importer
+# changes only generator.json's patcher_adapter_sha256. Retain both whole maps.
+GENEXPR_FILE_MAP='0d609c0e56baa144774f3a220b6b2e78d70d13692d792ffbae47f066c2d23525'
 UNGUARDED_SOURCE='ec1a5dc1f86af83a0152e682c85d141c40b9ce54afdaf80be813dd57c06c5ffc'
 GUARDED_SOURCE='113571f43d1f92ee4890b0e5977c4464202090ec669d775618dfd242ca64be58'
 OPTIONS={'rnbo_version':'1.4.4','apply_fixes':True,'role':'main','sample_rate':44100,'block_frames':256,
@@ -50,7 +53,8 @@ def transform(files,description,options,*,code_mask):
     inventory={name:sha(data) for name,data in sorted(files.items())}
     runtime={name:value for name,value in inventory.items() if name.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
-    require(len(files)==42 and sha(canonical(inventory))==FILE_MAP,'unknown file/config/source composition')
+    input_map=sha(canonical(inventory))
+    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP),'unknown file/config/source composition')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str) and len(masked)==len(text),'invalid C++ lexical mask')
     require(re.findall(r'\bvoid\s+((?:comb|allpass)_tilde_\d+_perform)\s*\(',masked)==['comb_tilde_01_perform','allpass_tilde_01_perform'],'filter context differs')
@@ -89,7 +93,7 @@ def transform(files,description,options,*,code_mask):
     result=dict(files);result['rnbo_source.h']=guarded.encode()
     return result,{'name':'rnbo-1.4.4-hoist-filter-durations-v1','file':'rnbo_source.h','input_sha256':SOURCE,
         'prepared_sha256':GUARDED_SOURCE,'assertion_removed_source_sha256':UNGUARDED_SOURCE,
-        'inline_contract_sha256':sha(CONTRACT.encode()),'whole_input_map_sha256':FILE_MAP,'input_file_count':42,
+        'inline_contract_sha256':sha(CONTRACT.encode()),'whole_input_map_sha256':input_map,'input_file_count':42,
         'description_file_sha256':DESCRIPTION,'authored_patch_sha256':PATCH,'runtime_tree_sha256':RUNTIME,
         'method_pins':dict(METHODS),'ring_helper_pins':{k:dict(v) for k,v in RINGS.items()},'moved_statements':moved,
         'source_inverse_byte_identity':True,'assertion_removal_byte_identity':True,'scalar_conversions_hoisted':2,

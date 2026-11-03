@@ -23,6 +23,7 @@ from build_loader_spike import inventory, tree_digest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "host/compiler"))
 from prepare import ExportError, NUMERICAL_PROFILES, read_json, read_regular
+from gen_history_contract import KIND as GEN_KIND, INPUT as GEN_INPUT, FORMAT as GEN_FORMAT, FIXTURES as GEN_FIXTURES, benchmark_fixture as gen_fixture, verification as gen_verification, admit_module as gen_admit_module, witness_sha256 as gen_witness_sha
 from wave4_contract import KIND as WAVE4_KIND, INPUTS as WAVE4_INPUTS, benchmark_fixture as wave4_fixture, verification as wave4_verification, admit_module as wave4_admit_module
 
 _WAVE2_IDENTITIES = {
@@ -107,7 +108,7 @@ def stimulus_contract(fixture, case):
     require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
     wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6,'nonlinear-dense-binary32-v1':11,
            **{name:7+i for i,(_,name) in enumerate(_WRAP_CASES)},
-           **{name:12+i for i,name in enumerate(WAVE4_INPUTS)}}
+           **{name:12+i for i,name in enumerate(WAVE4_INPUTS)}, GEN_INPUT:15}
     if base.get("kind") in wave2:
         require(set(base)=={"kind"} and set(override)<={"kind"},"Unknown wave2 stimulus settings")
         settings=base|override;require(settings.get("kind") in wave2,"Unknown wave2 stimulus kind")
@@ -203,10 +204,13 @@ def power_modes_verification(fixture,case,by_id,warmup,blocks):
 
 def verification_contract(fixture,case,by_id,warmup,blocks=512):
     declaration=fixture.get("verification")
+    if isinstance(declaration,dict) and declaration.get('kind')==GEN_KIND:
+        try:return gen_verification(fixture,case,by_id,warmup,blocks)
+        except ValueError as exc:raise ExportError(str(exc)) from exc
     if isinstance(declaration,dict) and declaration.get('kind')==WAVE4_KIND:
         try:return wave4_verification(fixture,case,by_id,warmup,blocks)
         except ValueError as exc:raise ExportError(str(exc)) from exc
-    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in (*WAVE4_INPUTS,"impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1","nonlinear-dense-binary32-v1",*(name for _,name in _WRAP_CASES))
+    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in (GEN_INPUT,*WAVE4_INPUTS,"impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1","nonlinear-dense-binary32-v1",*(name for _,name in _WRAP_CASES))
     if declaration is None:
         require(not new_input,"Wave2 stimulus requires an explicit verification contract")
         return None
@@ -241,17 +245,31 @@ def configuration(args, modules):
     require(catalog.get("sample_rate")==44100 and catalog.get("block_frames")==256, "Wrong catalog audio profile")
     matches = [f for f in catalog.get("fixtures",[]) if f.get("id")==args.fixture_id]
     require(len(matches)==1, "Fixture ID must occur exactly once")
+    gen = catalog.get('format') == GEN_FORMAT
+    require(gen or matches[0].get('verification', {}).get('kind') != GEN_KIND,
+            'Gen history verification requires the original Gen history catalog format')
     wave4 = catalog.get('format') == 'rnbo-original-wave4-fixtures-v1'
     require(wave4 or matches[0].get('verification', {}).get('kind') != WAVE4_KIND,
             'Wave4 mathematical verification requires the original wave4 catalog format')
     if wave4:
         try:fixture=wave4_fixture(catalog,args.catalog.parent,args.fixture_id)
         except ValueError as exc:raise ExportError(str(exc)) from exc
+    elif gen:
+        try:fixture=gen_fixture(catalog,args.catalog.parent,args.fixture_id)
+        except ValueError as exc:raise ExportError(str(exc)) from exc
     else:fixture = matches[0]
     require(re.fullmatch(r"[A-Za-z0-9_-]+", args.fixture_id), "Unsafe fixture ID")
     manifest = modules["strict"]["report"]["prepared_export"]["manifest"]
     candidate = modules["optimized"]["report"]["prepared_export"]["manifest"]
     role = fixture.get("role")
+    if gen:
+        try:
+            for module in modules.values():gen_admit_module(fixture,module)
+        except ValueError as exc:raise ExportError(str(exc)) from exc
+        require(modules['strict']['artifact_sha256']==modules['optimized']['artifact_sha256'],
+                'Initial Gen history qualification requires an identical-module control')
+        require(args.rounds==3 and args.timing_exclude_blocks==32 and args.arena_bytes==65536,
+                'Gen history requires the reviewed rounds, timing exclusion and arena capacity')
     if wave4:
         try:
             for module in modules.values():wave4_admit_module(fixture,module)
@@ -271,7 +289,7 @@ def configuration(args, modules):
     require(all(isinstance(p,str) and re.fullmatch(r"[A-Za-z0-9_.-]{1,96}",p) for p in numerical_profiles.values()),"Unsafe numerical profile identity")
     patch=Path(fixture["patch"])
     require(not patch.is_absolute() and ".." not in patch.parts, "Unsafe catalog patch path")
-    patch=args.catalog.parent/patch
+    patch=(GEN_FIXTURES if gen else args.catalog.parent)/patch
     require(sha(patch)==manifest["editable_source_sha256"], "Module source differs from catalog patch")
     require(not manifest["required_host_services"] and not candidate["required_host_services"], "Host services unsupported")
     description_path = Path(modules["strict"]["export_path"])/"description.json"
@@ -353,12 +371,13 @@ def configuration(args, modules):
         # (e.g. line target reads duration). Keep authored order within a block:
         # initial map iteration first, then explicit event-array order.
         current.sort(key=lambda e:e["block"])
-        if power_modes:
+        if power_modes or gen:
             require(all(e['kind']==1 and e['index']==0 for e in current),'Power schedule requires actual exponent events')
-            wire=struct.pack('<II',0x40000000,len(current))
+            wire=struct.pack('<II',0 if gen else 0x40000000,len(current))
             for e in current:wire+=struct.pack('<III',e['block'],e['index'],e['kind'])+struct.pack('<f',e['value'])
             verifications[-1]['event_schedule']=current
             verifications[-1]['event_schedule_sha256']=hashlib.sha256(wire).hexdigest()
+            if gen:verifications[-1]['reset_witness_sha256']=gen_witness_sha(fixture,case)
         case_rows.append((name,len(events),len(current)));events.extend(current)
     tolerance=fixture["comparison_tolerance"]
     maximum=finite(tolerance["maximum_absolute_error"]);relative=finite(tolerance["relative_rms_level_difference"])
@@ -367,6 +386,7 @@ def configuration(args, modules):
     if reviewed:require(maximum<=2e-6 and pcm<=1 and relative<=1e-4,"Reviewed wave2 pair limits cannot be widened")
     if power_modes:require(maximum==2e-6 and pcm==1 and relative==1e-4,'Power pair tolerances must remain2e-6/PCM1/RMS1e-4')
     if raw_wrap:require(maximum==pcm==relative==0,"Raw wrap control requires exact pair tolerances")
+    if gen:require(maximum==pcm==relative==0 and fixture['pcm_gain']==.25,'Gen history controls require exact pair gates and quarter-scale PCM')
     if wave4:require(maximum==pcm==relative==0,'Wave4 control requires exact numerical/PCM/RMS pair gates')
     oracle_bytes=blocks*256*2*4 if any(verifications) else 0
     buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
@@ -381,7 +401,7 @@ def configuration(args, modules):
            f"#define BENCH_FIXTURE {c_string(args.fixture_id)}",f"#define BENCH_ROLE {1 if role=='main' else 2}u",
            f"#define BENCH_BLOCKS {blocks}u", f"#define BENCH_WARMUP {warmup}u",f"#define BENCH_SEED {seed}u",
            f"#define BENCH_ROUNDS {args.rounds}u",f"#define BENCH_TIMING_EXCLUDE {args.timing_exclude_blocks}u",
-           f"#define BENCH_WAVE4 {1 if wave4 else 0}u",
+           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u",
            f"#define BENCH_ARENA_BYTES {args.arena_bytes}u",f"#define BENCH_HAS_ORACLE {1 if oracle_bytes else 0}u",f"#define BENCH_CASE_COUNT {len(cases)}u",f"#define BENCH_PARAMETER_COUNT {len(parameters)}u",
            f"#define BENCH_MAX_ABS {maximum.hex()}",f"#define BENCH_MAX_RELATIVE_RMS {relative.hex()}",f"#define BENCH_MAX_PCM_LSB {pcm}u",
            f"#define BENCH_STRICT_SHA256 {c_string(modules['strict']['artifact_sha256'])}",
@@ -404,6 +424,8 @@ def configuration(args, modules):
     lines += ["};", "static const bench_verification bench_verifications[]={"]
     for verification in verifications:
         if verification is None:lines.append("{0,0,0,0,{0,0,0,0,0},0},")
+        elif verification['kind']==GEN_KIND:
+            lines.append('{7u,%su,0,%s,{0,0,0,0,0},0},'%(verification['model_code'],float(verification['maximum_absolute_error']).hex()))
         elif verification['kind']==WAVE4_KIND:
             lines.append('{6u,%su,0,0,{0,0,0,0,0},0},'%verification['model_code'])
         elif verification['kind']=='average-window-v1':
@@ -419,7 +441,7 @@ def configuration(args, modules):
         "arena_bytes":args.arena_bytes,"events":events,"stimuli":stimuli,"verifications":verifications,"psram_budget":budget,"description_sha256":sha(description_path),
         "numerical_profiles":numerical_profiles,"event_order":"stable-block-source-order-v1",
         "parameter_schema":[{k:p[k] for k in ('paramId','index','minimum','maximum','initialValue','exponent','steps')} for p in parameters],
-        "comparison_policy":{"pcm_gain":0.5,"pcm_scale":32767,"pcm_rounding":"lrintf; symmetric saturation",
+        "comparison_policy":{"pcm_gain":0.25 if gen else 0.5,"pcm_scale":32767,"pcm_rounding":"lrintf; symmetric saturation",
         "case_gate":"all declared tolerances per independently reset case, combined channels and rounds",
         "fx_input":"per-case declared generator; completed channel samples rounded once to Float32; interleaved little-endian input SHA before/after every pass; native/target transcendental rounding not assumed identical",
         "timing":"process callback only; excludes first N rendered blocks of each pass; events/preparation separate"}}
@@ -428,10 +450,12 @@ def configuration(args, modules):
 def sources():
     paths=[Path(__file__).resolve(),ROOT/"tools/build_rnbo_loader_test.py",ROOT/"tools/build_loader_spike.py",ROOT/"loader-spike/dependencies.json",
            ROOT/"host/compiler/build.py",ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",
-           ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
+           ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
            ROOT/"tests/fixtures/objects/wave4/recipes.json",ROOT/"tests/fixtures/objects/wave4/inputs.py",
            ROOT/"tests/fixtures/objects/wave4/models.py",ROOT/"tests/fixtures/objects/wave4/identities.json"]
-    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk"):
+    for identity in ('history-feedback','two-history-swap','three-history-rotation'):
+        paths.extend(GEN_FIXTURES/(identity+suffix) for suffix in ('.rnbopat','.genexpr'))
+    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target"):
         paths.extend(p for p in sorted(directory.rglob("*")) if p.is_file() and "__pycache__" not in p.parts)
     return {p.relative_to(ROOT).as_posix():sha(p) for p in paths}
 

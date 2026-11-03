@@ -8,17 +8,60 @@ from prepare import cpp_code_mask,prepare,ExportError
 from build import verify_prepared
 from exact_delay44100 import transform,OPTIONS,CONTRACT,TESTED_SOURCE,GUARDED_SOURCE,HELPER,sha
 
+
+def assert_generator_epoch_only(case, actual, historical):
+    """Historical metadata is kept; only the explicitly reviewed stamp differs."""
+    if actual == historical: return
+    left=json.loads(actual); right=json.loads(historical)
+    case.assertEqual(set(left),set(right))
+    known={'de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',
+           '56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065'}
+    case.assertIn(left['patcher_adapter_sha256'],known)
+    case.assertIn(right['patcher_adapter_sha256'],known)
+    left['patcher_adapter_sha256']=right['patcher_adapter_sha256']
+    case.assertEqual((json.dumps(left,indent=2)+'\n').encode(),historical)
+
+
 class CandidateTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.export=Path(os.environ.get('RNBO_S3_TEST_EXACT_DELAY_EXPORT',ROOT/'build/object-qualification/audio-v2-qualified/exports/filters-signal'))
-        if not (cls.export/'rnbo_source.h').is_file():raise unittest.SkipTest('Generate the authorized local filters-signal export first')
         cls.temp=tempfile.TemporaryDirectory();cls.addClassCleanup(cls.temp.cleanup)
+        override=os.environ.get('RNBO_S3_TEST_EXACT_DELAY_EXPORT')
+        cls.export=Path(override)if override else Path(cls.temp.name)/'fresh-export'
+        if override:
+            if not (cls.export/'rnbo_source.h').is_file():raise unittest.SkipTest('Authorized filters-signal export unavailable')
+        else:
+            try:result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/objects/filters-signal.rnbopat'),'--out',str(cls.export)],capture_output=True,text=True)
+            except FileNotFoundError:raise unittest.SkipTest('Node and authorized RNBO1.4.4 required')
+            if result.returncode and 'Set --rnbo-dir or RNBO_DIR'in result.stderr:raise unittest.SkipTest('Authorized RNBO1.4.4 unavailable')
+            if result.returncode:raise AssertionError(result.stderr)
         cls.reference=Path(cls.temp.name)/'reference'
         prepare(cls.export,cls.reference,'rnbos3patch','main',filter_delay_max_ms=40)
         snapshot=verify_prepared(cls.reference)[2]
         cls.original={n:(cls.reference/n).read_bytes() for n in snapshot['prepared_files_sha256']}
         cls.helper=(WORK/'exact_delay44100.h').read_bytes()
+
+    def test_both_exact_metadata_epochs_and_unknown_generator_mutations(self):
+        import exact_delay44100 as module
+        from prepare import canonical
+        original=dict(self.original)
+        for stamp,expected in [
+            ('de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',module.FILE_MAP),
+            ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.GENEXPR_FILE_MAP)]:
+            generator=json.loads(original['generator.json']);generator['patcher_adapter_sha256']=stamp
+            self.files=dict(original);self.files['generator.json']=(json.dumps(generator,indent=2)+'\n').encode()
+            baseline=dict(self.files);before=copy.deepcopy(self.files)
+            _,record=self.apply()
+            self.assertEqual(record['whole_input_map_sha256'],expected)
+            self.assertEqual(sha(canonical({n:sha(v)for n,v in sorted(self.files.items())})),expected)
+            self.assertEqual(self.files,before)
+            for key,value in [('patcher_adapter_sha256','f'*64),('adapter_sha256','0'*64),
+                              ('generated_sha256','0'*64),('voices',2),('class_name','other'),('unknown',False)]:
+                changed=dict(generator);changed[key]=value
+                self.files=dict(baseline);self.files['generator.json']=(json.dumps(changed,indent=2)+'\n').encode()
+                with self.subTest(epoch=stamp,key=key):self.reject_atomic()
+        self.files=original
+
     def setUp(self):self.files=dict(self.original);self.description=json.loads(self.files['description.json']);self.options=copy.deepcopy(OPTIONS)
     def apply(self,**kw):return transform(self.files,self.description,self.options,kw.get('helper',self.helper),code_mask=kw.get('mask',cpp_code_mask))
     def reject_atomic(self,**kw):
@@ -115,7 +158,9 @@ class CandidateTests(unittest.TestCase):
             self.assertEqual(len(provenance['prepared_files_sha256']),43)
             for key,value in updated.items():self.assertEqual((output/key).read_bytes(),value)
             if prototype.is_dir():
-                for key in updated:self.assertEqual((output/key).read_bytes(),(prototype/key).read_bytes())
+                for key in updated:
+                    if key=='generator.json':assert_generator_epoch_only(self,(output/key).read_bytes(),(prototype/key).read_bytes())
+                    else:self.assertEqual((output/key).read_bytes(),(prototype/key).read_bytes())
             self.assertEqual((output/'patch_config.h').read_bytes(),self.original['patch_config.h'])
             self.assertEqual((output/'originals/rnbo_source.h').read_bytes(),(self.export/'rnbo_source.h').read_bytes())
             self.assertEqual(provenance['adaptations'][-1]['name'],'rnbo-1.4.4-exact-audio-delay44100-v1')

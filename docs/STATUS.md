@@ -3,9 +3,14 @@
 The active scope also includes **Gen/`gen~` and its single-sample processing**.
 Gen has a separate metadata inventory, guarded GenExpr export admission and two
 native History programs with sample-level feedback/reset/partition tests.
-Gen hardware, other operators and visual Gen import remain pending; the RNBO
-table does not validate Gen. See [the Gen results](gen-qualification.md) and
+Three Gen history programs now also pass XIAO execution: 1,769,472 independent
+model checks and 828 observable reset witnesses, exact memory recovery and
+verified drone restoration. Identical-module timings claim no gain. Other
+operators, visual Gen import and sample-offset target events remain pending;
+the RNBO table does not validate Gen. See [the Gen results](gen-qualification.md) and
 [the qualification requirements](qualification-scope.md).
+The feedback baseline also exposes an unnecessary double-literal promotion
+inside its sample loop; its replacement and measured optimisation are pending.
 
 Systematic **XIAO object qualification** is now active. The first isolated
 oscillator control and comb/allpass duration-hoist comparisons passed, with

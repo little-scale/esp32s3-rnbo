@@ -15,6 +15,9 @@ SOURCE='42db7756994ae167bfb58046af0ab559bab7d2beba7d8664dad460607255f138'
 DESCRIPTION='9f6f5064cea14ce6c1498e3931320902dea441988836d080c20b1665c6359dd8'
 RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
 FILE_MAP='dcf861aacea4efaa85afaa7f1d08a3c4651285558b407d3dcaa595c6ea715782'
+# Exact same41 DSP/runtime/config/graph files; the GenExpr-aware importer
+# changes only generator.json's patcher_adapter_sha256. Retain both whole maps.
+GENEXPR_FILE_MAP='66a03d749fcaf43af015a6a249bd915439389bdfd2906ea29fc8312fbf55fed3'
 HELPER='6ec20697aad74e12995a5442c2ed2eae6f40cc3bee48f2349faa513af4df379c'
 TESTED_SOURCE='86a26d933103a18a22edcbe6a6df6e48f7f21f13a330116eed5f9ae55e10bb4b'
 GUARDED_SOURCE='2bbbf9c375be9745388090f65237020d095dc9b83f8ae3c6534f05aec4ad99cd'
@@ -87,7 +90,8 @@ def transform(files,description,options,helper,*,code_mask):
     inventory={name:sha(data) for name,data in sorted(files.items())}
     runtime={name:value for name,value in inventory.items() if name.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
-    require(len(files)==42 and sha(canonical(inventory))==FILE_MAP,'unknown file/config/source composition')
+    input_map=sha(canonical(inventory))
+    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP),'unknown file/config/source composition')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str) and len(masked)==len(text),'invalid C++ lexical mask')
     require(re.findall(r'\bvoid\s+((?:comb|allpass)_tilde_\d+_perform)\s*\(',masked)==['comb_tilde_01_perform','allpass_tilde_01_perform'],'filter context differs')
@@ -127,7 +131,7 @@ def transform(files,description,options,helper,*,code_mask):
     return result,{'name':'rnbo-1.4.4-exact-audio-delay44100-v1','file':'rnbo_source.h','input_sha256':SOURCE,'prepared_sha256':sha(updated.encode()),
         'assertion_removed_source_sha256':TESTED_SOURCE,'helper_sha256':HELPER,'inline_contract_sha256':sha(CONTRACT.encode()),
         'description_file_sha256':DESCRIPTION,'helper_file':HELPER_NAME,
-        'runtime_tree_sha256':RUNTIME,'whole_input_map_sha256':FILE_MAP,'input_file_count':42,'method_pins':dict(METHODS),
+        'runtime_tree_sha256':RUNTIME,'whole_input_map_sha256':input_map,'input_file_count':42,'method_pins':dict(METHODS),
         'source_inverse_byte_identity':True,'assertion_removal_byte_identity':True,'audio_call_substitutions':2,
         'signal_duration_stays_per_sample':True,'shared_scheduler_mstosamps_unchanged':True,
         'owned_float64_rings':rings,'options':json.loads(canonical(options)),

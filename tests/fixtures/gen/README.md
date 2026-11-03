@@ -26,6 +26,16 @@ the module ABI, test a device, measure CPU cost, qualify all Gen operators or
 prove external resource support. Generated code remains in temporary/ignored
 output directories.
 
+The additional `three-history-rotation` program rotates explicit old-state
+temporaries initially 1, 2 and 3. Unlike the period-two swap, its phase can
+change observably on a 256-frame reset boundary. The closed
+[`target/catalog.json`](target/catalog.json) runs all three fixed-256 programs
+against a dyadic stereo input and continuous/boundary/every-block reset cases.
+Python and portable C independently produce the expected caches; the collector
+also recomputes them using a fresh high-accuracy convolution or integer phase.
+The first XIAO batch passes; see [the scoped results](../../../docs/gen-qualification.md).
+Zero reset witnesses for the period-two swap do not qualify its reset action.
+
 Admission currently requires explicit GenExpr code. File/title forms, converted
 `gencode`, embedded visual patchers, `exposeparams` and unknown Gen box options
 are rejected. Zero saved signal inputs are allowed for autonomous code: Gen

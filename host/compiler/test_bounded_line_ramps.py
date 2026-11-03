@@ -18,6 +18,20 @@ from prepare import ExportError,NUMERICAL_PROFILES,cpp_code_mask,prepare
 from build import verify_prepared
 from bounded_line_ramps import CONTRACT,GUARDED_SOURCE,OPTIONS,UNGUARDED_SOURCE,sha,transform
 
+
+def assert_generator_epoch_only(case, actual, historical):
+    """Historical metadata is kept; only the explicitly reviewed stamp differs."""
+    if actual == historical: return
+    left=json.loads(actual); right=json.loads(historical)
+    case.assertEqual(set(left),set(right))
+    known={'de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',
+           '56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065'}
+    case.assertIn(left['patcher_adapter_sha256'],known)
+    case.assertIn(right['patcher_adapter_sha256'],known)
+    left['patcher_adapter_sha256']=right['patcher_adapter_sha256']
+    case.assertEqual((json.dumps(left,indent=2)+'\n').encode(),historical)
+
+
 class InputTests(unittest.TestCase):
     def test_invalid_boolean_requires_no_export_and_creates_no_output(self):
         with tempfile.TemporaryDirectory() as name:
@@ -90,6 +104,28 @@ class PipelineTests(unittest.TestCase):
         prepare(cls.export,cls.reference,'rnbos3patch','main')
         cls.original={n:(cls.reference/n).read_bytes() for n in verify_prepared(cls.reference)[2]['prepared_files_sha256']}
 
+
+    def test_both_exact_metadata_epochs_and_unknown_generator_mutations(self):
+        import bounded_line_ramps as module
+        from prepare import canonical
+        original=dict(self.original)
+        for stamp,expected in [
+            ('de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',module.FILE_MAP),
+            ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.GENEXPR_FILE_MAP)]:
+            generator=json.loads(original['generator.json']);generator['patcher_adapter_sha256']=stamp
+            self.files=dict(original);self.files['generator.json']=(json.dumps(generator,indent=2)+'\n').encode()
+            baseline=dict(self.files);before=copy.deepcopy(self.files)
+            _,record=self.apply()
+            self.assertEqual(record['whole_input_map_sha256'],expected)
+            self.assertEqual(sha(canonical({n:sha(v)for n,v in sorted(self.files.items())})),expected)
+            self.assertEqual(self.files,before)
+            for key,value in [('patcher_adapter_sha256','f'*64),('adapter_sha256','0'*64),
+                              ('generated_sha256','0'*64),('voices',2),('class_name','other'),('unknown',False)]:
+                changed=dict(generator);changed[key]=value
+                self.files=dict(baseline);self.files['generator.json']=(json.dumps(changed,indent=2)+'\n').encode()
+                with self.subTest(epoch=stamp,key=key):self.reject_atomic()
+        self.files=original
+
     def setUp(self):
         self.files=dict(self.original);self.description=json.loads(self.files['description.json']);self.options=copy.deepcopy(OPTIONS)
 
@@ -110,7 +146,8 @@ class PipelineTests(unittest.TestCase):
         historical=ROOT/'build/research/line-timing-fix-candidates-v1/prepared/integer-relative'
         if historical.is_dir():
             for name,data in updated.items():
-                self.assertEqual(data.replace(CONTRACT.encode(),b'') if name=='rnbo_source.h' else data,(historical/name).read_bytes())
+                if name=='generator.json':assert_generator_epoch_only(self,data,(historical/name).read_bytes())
+                else:self.assertEqual(data.replace(CONTRACT.encode(),b'') if name=='rnbo_source.h' else data,(historical/name).read_bytes())
         self.assertTrue(record['bounded_single_active_segment']);self.assertTrue(record['experimental'])
         self.assertTrue(record['source_inverse_byte_identity']);self.assertTrue(record['original_duration_conversion_unchanged'])
         self.assertFalse(record['baseline_bit_identity_claimed'] or record['target_cpu_gain_claimed'])

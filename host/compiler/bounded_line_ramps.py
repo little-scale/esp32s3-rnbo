@@ -15,6 +15,9 @@ DESCRIPTION='55c7dd99e757e8b9d89ec8b3e20015637a8577bc82bb149a735003c6c4a942c0'
 PATCH='178812e9bf55cb23c342cc4fe369f88be190ef431a50c80f86d33264e5dd1a34'
 RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
 FILE_MAP='daf234beebf45b4b2c34549cf89e7e9f608afc64afb8a51cec5333d70b02c107'
+# Exact same41 DSP/runtime/config/graph files; the GenExpr-aware importer
+# changes only generator.json's patcher_adapter_sha256. Retain both whole maps.
+GENEXPR_FILE_MAP='4ea3d3850bd351942b1f732eebc16497a8dc43119e186b00927f7c55550adca3'
 UNGUARDED_SOURCE='1a3f2d4ad8854f2261dc31ea24ae944641ccd5c0e6c3fe89bbf470c8fc55a3f6'
 OPTIONS={'rnbo_version':'1.4.4','apply_fixes':True,'role':'main','sample_rate':44100,'block_frames':256,
          'audio_inputs':0,'audio_outputs':2,'numerical_profile':'float32-strict','filter_delay_max_ms':None,
@@ -188,7 +191,8 @@ def transform(files,description,options,*,code_mask):
     require(sha(files.get('source.rnbopat',b''))==PATCH,'authored line/pack graph differs')
     inventory={n:sha(v)for n,v in sorted(files.items())};runtime={n:h for n,h in inventory.items()if n.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
-    require(len(files)==42 and sha(canonical(inventory))==FILE_MAP,'unknown file/config/source composition')
+    input_map=sha(canonical(inventory))
+    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP),'unknown file/config/source composition')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str)and len(masked)==len(text),'invalid C++ lexical mask')
     for m in METHODS:require(m['sha256']in method_hashes(text,masked,m['name']),'caller/clock/kernel differs: '+m['name'])
@@ -217,7 +221,7 @@ def transform(files,description,options,*,code_mask):
         'correctness_profile':'bounded-line-ramps-v1','input_sha256':SOURCE,'prepared_sha256':GUARDED_SOURCE,
         'assertion_removed_source_sha256':UNGUARDED_SOURCE,'inline_contract_sha256':sha(CONTRACT.encode()),
         'description_file_sha256':DESCRIPTION,'authored_patch_sha256':PATCH,'runtime_tree_sha256':RUNTIME,
-        'whole_input_map_sha256':FILE_MAP,'input_file_count':42,'method_pins':[dict(m)for m in METHODS],
+        'whole_input_map_sha256':input_map,'input_file_count':42,'method_pins':[dict(m)for m in METHODS],
         'source_inverse_byte_identity':True,'assertion_removal_byte_identity':True,
         'bounded_single_active_segment':True,'original_duration_conversion_unchanged':True,
         'correctness_changes':['UInt64 anchor with bounded UInt32 age and Float32 relative duration','D<=1 causal one-sample path without reciprocal','Replace cancelled same-block segments instead of appending dead list entries','Intentional Float32 per-block reanchor changes rounding'],

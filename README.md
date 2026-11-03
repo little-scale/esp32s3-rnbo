@@ -153,4 +153,4 @@ separate milestones. See
 
 Systematic XIAO object testing is under way: [results and remaining scope](docs/xiao-qualification.md). Board measurements remain separate from AMOLED results.
 
-Gen/`gen~` operators and single-sample behaviour are explicitly in scope. See [Gen qualification](docs/gen-qualification.md) for the first native History tests and the remaining hardware work.
+Gen/`gen~` operators and single-sample behaviour are explicitly in scope. See [Gen qualification](docs/gen-qualification.md) for native sample/partition tests, the first three XIAO history programs and the remaining operator work.

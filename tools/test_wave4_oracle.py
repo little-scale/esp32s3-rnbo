@@ -101,6 +101,7 @@ class TargetWave4OracleTests(unittest.TestCase):
 #include "stimulus.h"
 #include "wave2_oracle.h"
 #include "wave4_oracle.h"
+#include "gen_history_oracle.h"
 #define CHECK(x) assert(x)
 #define BENCH_ROLE 2
 #define RNBO_S3_FX 2
@@ -113,10 +114,11 @@ typedef struct { unsigned ignored; } bench_case;
 '''+ '\n'.join(declarations)+r'''
 static float reference[BENCH_BLOCKS*512],oracle_cache[BENCH_BLOCKS*512];
 static float planar[4][256],*outputs[2]={planar[0],planar[1]},*inputs[2]={planar[2],planar[3]};
-static struct { unsigned kind,window; } verification={OBJECT_WAVE4_KIND,OBJECT_WAVE4_DELTA},*active_verification=&verification;
+static struct { unsigned kind,window; double maximum_error; } verification={OBJECT_WAVE4_KIND,OBJECT_WAVE4_DELTA,0},*active_verification=&verification;
 static object_stimulus stimulus,*active_stimulus=&stimulus;
 static uint64_t dc_sample_checks,semantic_sample_checks,pilot_sample_checks,oracle_bit_sample_checks,oracle_bit_differences;
 static uint64_t wave4_bit_sample_checks,wave4_bit_differences,wave4_zero_sign_differences,observer_bit_sample_checks,observer_bit_differences;
+static uint8_t reset_witness_mask[64];
 static int64_t benchmark_started;static double dc_expected;
 static int64_t esp_timer_get_time(void){return 1;}
 static void vTaskDelay(int ticks){(void)ticks;}

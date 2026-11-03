@@ -53,6 +53,7 @@ by a finite fixture corpus.
 
 The [XIAO results](xiao-qualification.md) retain the current RNBO measurements.
 The Gen inventory and first native History-program evidence are now recorded
-in [the Gen qualification record](gen-qualification.md). Gen hardware and the
-remaining named operators/forms remain pending; no RNBO result transfers to
+in [the Gen qualification record](gen-qualification.md). The first three Gen
+history programs now have scoped XIAO evidence. The remaining named Gen
+operators and forms remain pending; no RNBO result transfers to
 Gen by association.

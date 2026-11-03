@@ -54,6 +54,69 @@ qualification follows from this host test. The native runtime uses
 qualified. Full data, source/capture hashes and limits are in
 [the native single-sample evidence](../evidence/gen-single-sample-native.json).
 
+## First XIAO history batch
+
+Three original GenExpr programs now pass actual XIAO execution through the
+production fixed-256 module ABI. Each runs continuous, six boundary-reset and
+every-block retrigger cases, with three reconstructed passes per comparison
+slot. The input and independent expected-output caches are generated outside
+the process timer; their complete SHA-256 identities are independently checked
+on the computer. This is separate from the variable-block native test above.
+
+| Program | Mean callback, reference slot | Observable reset witnesses, both slots |
+| --- | ---: | ---: |
+| One-history feedback | 304.15 µs | 414 |
+| Two-history swap | 54.16 µs | 0 |
+| Three-history rotation, initially 1, 2 and 3 | 55.16 µs | 414 |
+
+The batch passes 884,736 pair comparisons and 1,769,472 independent-model
+checks. Pair numerical, PCM and raw-word differences are zero. The largest
+conservative feedback-model error bound is 2.236e-8 against the predeclared
+2e-6 gate; both periodic models have zero error. The bound separately includes
+cache rounding, the omitted convolution tail and binary64 model evaluation.
+There are 1,260 dispatched reset commands, 828 observable reset witnesses and
+1,656 checks of their first output pair, with no witness failures. Counts
+include repeated executions, rather than distinct test values.
+
+The two-history swap repeats every two samples, so a reset at a 256-frame
+boundary leaves its phase unchanged. Its zero witnesses are deliberately not
+reported as functional reset validation. The three-history rotation avoids
+that blind spot: four warmup vectors advance its initial phase, and a block-0
+reset observably restores `(1, 2)` from the continuous `(2, 3)` start. Some
+later boundary resets also coincide with its existing phase and are excluded
+from the witness count by a separately predicted counterfactual mask.
+
+All 12 module images are finalised, both heaps return exactly to their recorded
+baselines, and callback heap/late-allocation counters remain zero. After each
+application-only test the drone is restored unpaused at 50% with its compiled
+parameter defaults. The declared module profile is `float32-strict`; the
+independent offline model intentionally uses binary64. Whole-program timings
+compare identical ELFs and claim no optimisation gain or isolated-operator cost.
+See [the complete target observations](../evidence/xiao-gen-history.json).
+
+The precision audit found a real limitation in this baseline: the generated
+feedback expression `in1[i] + 0.5 * z` uses an unsuffixed double literal. State
+and outputs are Float32, but actual Xtensa disassembly shows two Float32-to-double
+conversions, a double multiply/add and a conversion back per sample. This is
+1,280 double-helper calls per 256-frame vector. The swap and rotation sample
+loops contain no corresponding double-helper calls; scheduler clock arithmetic
+remains separate. The next bounded optimisation is to remove this unnecessary
+promotion and compare a separately identified candidate against this retained
+baseline. No speedup or entirely-Float32 feedback execution is claimed here.
+
+These device tests establish the authored per-sample feedback/history ordering
+inside 256-frame callbacks and the listed block-boundary resets. They do not
+establish a one-frame module API, sample-offset event dispatch on XIAO, arbitrary
+feedback algorithms, visual Gen import or complete Gen operator coverage.
+
+The target evidence preserves an earlier compiler-suite failure discovered
+during publication. The [separate admission follow-up](../evidence/producer-metadata-admission.json)
+resolves it: seven existing optimisation contexts now admit the Gen-aware
+importer's exact provenance fingerprint alongside the historical one. Their
+other 41 input files and generated guarded DSP headers are unchanged. The final
+417 compiler tests and 124 tool tests pass; the target binaries retain their
+archived original build epoch.
+
 ## Inventory and remaining work
 
 The [metadata inventory](../site/data/gen-inventory.json) records:
@@ -67,11 +130,11 @@ The [metadata inventory](../site/data/gen-inventory.json) records:
   These do not exhaust GenExpr grammar or arbitrary user-defined functions.
 - Jitter reference context, kept separate from the requested `gen~` DSP scope.
 
-Only the exact GenExpr `History` declaration has scoped native evidence for
-initial values 0, 1 and 2 in these programs. That does not qualify a visual
+Only the exact GenExpr `History` declaration has scoped native and XIAO evidence
+in these programs (target initial values 0, 1, 2 and 3). That does not qualify a visual
 `history` box, a differently spelled functional form, another operator, an
 alias or a complete Gen object family. The remaining operator/form outcomes
-and all Gen XIAO execution/performance tests remain pending.
+and the remaining Gen XIAO execution/performance tests remain pending.
 
 The initial importer route requires explicit GenExpr. Visual embedded Gen
 patchers, `.gendsp` file/title forms, converted `gencode`, `exposeparams`, unknown
@@ -82,7 +145,7 @@ External Buffer declarations remain visible to normal prepared-module admission
 and are rejected there until their host/resource contract is implemented.
 
 Next tests extend the same input/model/precision and resource discipline to
-Gen on XIAO, visual/operator forms, delays, data/resources, control flow,
+the remaining Gen operators on XIAO, visual forms, delays, data/resources, control flow,
 sample-accurate events and the remaining named inventory. Single-sample feedback
 and block-boundary behaviour must be observed directly, alongside numerical
 truth and resource measurements. Cycling '74 describes the underlying semantics

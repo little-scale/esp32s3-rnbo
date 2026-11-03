@@ -16,6 +16,13 @@ CONTEXTS = {
  'onepole-scalar-stereo': {'source':'e90e695aec96abb63ed29873817e432701e062dc104b3bdaff9ebe19e26aab0b','description':'6ae479eda282ebb6b87f1a752da07b78d4d3669adcb336d82e57d76edf821e71','patch':'93af0c651e74cceb5d2b72594e3f10d10ad1ee5be53b79f1b86090990431f4a8','file_map':'346695c46acdd4b3803b7f3cb580ef87493fd919858ffa52109b352faa9ba5d6','instances':2},
  'onepole-signal-cutoff': {'source':'95a093ab048cabd77d057c877f7e49e33ec74a8e29a58007c2efc08f552b8096','description':'85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314','patch':'4fb35c91af67ba8f4fa3fd712ae804b7687448736fcd699e3f65811638f00386','file_map':'efea3ab531a08e0c70acbc02b14886cf6b1f60c5a858ec6926ac6004661591a5','instances':1},
 }
+# Exact alternative42-file maps after the GenExpr-aware importer changed only
+# generator.json's patcher_adapter_sha256. Historical CONTEXTS pins remain valid.
+GENEXPR_FILE_MAPS = {
+ 'onepole-fixed-stereo':'eb177eeb6f6f1c7030399d4f6e05701169051523b55913660c5618a7494a3543',
+ 'onepole-scalar-stereo':'4f2a342cd98c00d649c5d6952a5541caf4f50e0cbea7329da89774675bc55802',
+ 'onepole-signal-cutoff':'9eaf9fcf96bacfc93f5e90a08783ded3d610028623b9db4a65d4188168855421',
+}
 OPTIONS = {'rnbo_version':'1.4.4','apply_fixes':True,'role':'fx','sample_rate':44100,'block_frames':256,
            'audio_inputs':2,'audio_outputs':2,'numerical_profile':'float32-strict','filter_delay_max_ms':None,
            'float32_delay_storage':False,'required_host_services':[],'other_optimizations':[]}
@@ -72,7 +79,8 @@ def transform(files, description, options, *, code_mask, helper):
     inventory={n:sha(data) for n,data in sorted(files.items())}
     runtime={n:h for n,h in inventory.items() if n.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
-    require(len(files)==42 and sha(canonical(inventory))==pins['file_map'],'source/config/caller composition differs')
+    input_map=sha(canonical(inventory))
+    require(len(files)==42 and input_map in (pins['file_map'],GENEXPR_FILE_MAPS[name]),'source/config/caller composition differs')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str) and len(masked)==len(text),'invalid C++ lexical mask')
     instances=re.findall(r'    number (onepole_tilde_\d+)_b1;',masked)
@@ -117,7 +125,7 @@ def transform(files, description, options, *, code_mask, helper):
     return result,{'name':'rnbo-1.4.4-stable-onepole-v1','file':'rnbo_source.h','context':name,
         'input_sha256':sha(source),'prepared_sha256':sha(result['rnbo_source.h']),
         'assertion_removed_source_sha256':sha(changed.encode()),'inline_contract_sha256':sha(CONTRACT.encode()),
-        'helper_sha256':HELPER_SHA256,'whole_input_map_sha256':pins['file_map'],'runtime_tree_sha256':RUNTIME,
+        'helper_sha256':HELPER_SHA256,'whole_input_map_sha256':input_map,'runtime_tree_sha256':RUNTIME,
         'source_inverse_byte_identity':True,'assertion_removal_byte_identity':True,'input_files':42,'output_files':43,
         'state_reuse':state,'added_state_members':0,'float32_audio_coefficient_and_fallback':True,
         'coefficient_scale_bits':'b9156592','sample_rate':44100,'block_frames':256,

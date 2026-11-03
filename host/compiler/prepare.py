@@ -721,7 +721,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False,
             "target_cpu_gain_claimed": False}
     if stable_onepole:
-        from stable_onepole import CONTEXTS, transform as stable_onepole_transform
+        from stable_onepole import CONTEXTS, GENEXPR_FILE_MAPS, transform as stable_onepole_transform
         options = {"rnbo_version": SUPPORTED_VERSION, "apply_fixes": apply_fixes, "role": role,
                    "sample_rate": manifest["sample_rate"], "block_frames": manifest["block_frames"],
                    "audio_inputs": manifest["audio_inputs"], "audio_outputs": manifest["audio_outputs"],
@@ -731,7 +731,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         try:
             helper = Path(__file__).with_name("onepole_stable.h").read_bytes()
             normal_map_sha256 = digest(canonical({name: digest(data) for name, data in sorted(files.items())}))
-            if normal_map_sha256 in {pins["file_map"] for pins in CONTEXTS.values()}:
+            if normal_map_sha256 in ({pins["file_map"] for pins in CONTEXTS.values()} | set(GENEXPR_FILE_MAPS.values())):
                 # Preserve the original reviewed three-form route byte for
                 # byte. Even an unchanged C++ source can come from a different
                 # editable graph; every other map must be freshly regenerated.

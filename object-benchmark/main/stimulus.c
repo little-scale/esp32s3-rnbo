@@ -74,7 +74,16 @@ static bool wave4_input(uint32_t kind,uint32_t first,uint32_t frames,float *ster
 }
 bool object_stimulus_fill(const object_stimulus *s,uint32_t first_frame,uint32_t frames,float *stereo)
 {
-    if(!s || !stereo || !frames || first_frame>1024u*256u || frames>1024u*256u-first_frame || s->kind<OBJECT_STIMULUS_MIDI || s->kind>OBJECT_STIMULUS_WAVE4_BOUNDARIES)return false;
+    if(!s || !stereo || !frames || first_frame>1024u*256u || frames>1024u*256u-first_frame || s->kind<OBJECT_STIMULUS_MIDI || s->kind>OBJECT_STIMULUS_GEN_HISTORY)return false;
+    if(s->kind==OBJECT_STIMULUS_GEN_HISTORY){
+        static const float pattern[]={.25f,-.125f,.5f,0.f,-.25f,.125f,-.5f};
+        if(first_frame>16384u || frames>16384u-first_frame)return false;
+        for(uint32_t n=0;n<frames;++n){
+            stereo[2u*n]=pattern[(first_frame+n)%7u];
+            stereo[2u*n+1u]=pattern[(first_frame+n+3u)%7u];
+        }
+        return true;
+    }
     if(s->kind>=OBJECT_STIMULUS_WAVE4_GRID)return wave4_input(s->kind,first_frame,frames,stereo);
     if(s->kind>=OBJECT_STIMULUS_WRAP_BOUNDARIES){
         for(uint32_t n=0;n<frames;++n)for(unsigned channel=0;channel<2;++channel){

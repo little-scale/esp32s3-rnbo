@@ -14,7 +14,8 @@ from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_OR
     power_cases,power_events,power_schedule_sha,power_verification,power_input_data,
     WAVE2_ORACLES,WAVE4_KIND,WAVE4_MODELS,WAVE4_INPUTS,WAVE4_IDENTITIES,
     WAVE4_SCHEMA,WAVE4_ADAPTATIONS,wave4_verification,wave4_input_bytes,
-    wave4_oracle_bytes,wave4_cache_hashes)
+    wave4_oracle_bytes,wave4_cache_hashes,GEN_KIND,GEN_INPUT,GEN_MODELS,GEN_IDENTITIES,GEN_SCHEMA,
+    gen_cases,gen_events,gen_schedule_sha,gen_verification,gen_input_bytes,gen_cache_data)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -1074,6 +1075,178 @@ class Wave4ObservationTests(unittest.TestCase):
             legacy.lines=list(original);legacy.lines[-1]+=extra;legacy.seal()
             with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
         legacy.lines=list(original);legacy.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_WAVE4_BITS fixture=unit case=default profile=strict samples=1 bit_different=0 zero_sign_different=0 observer_samples=0 observer_bit_different=0 oracle_sha256='+('a'*64));legacy.seal()
+        with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+
+class GenHistoryObservationTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.build=self.root/'build';self.run=self.root/'run'
+        self.build.mkdir();self.run.mkdir();self.fixture()
+
+    def fixture(self,identity='history-feedback'):
+        directory=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/target'
+        catalog=json.loads((directory/'catalog.json').read_text())
+        fixture=copy.deepcopy(next(f for f in catalog['fixtures']if f['id']==identity));fixture['family']='gen-history'
+        runtime=json.loads((directory/'identities.json').read_text())['runtime_files_sha256'];pin=GEN_IDENTITIES[identity];code=GEN_MODELS[identity]
+        manifest={'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,'parameter_count':1,
+            'parameter_schema_sha256':pin['schema'],'editable_source_sha256':pin['patch'],'source_tree_sha256':pin['source_tree'],
+            'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
+            'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,'adaptations':list(WAVE4_ADAPTATIONS)}
+        plan={'fixture':fixture,'rounds':3,'blocks':64,'timing_exclude_blocks':32,'arena_bytes':65536,
+            'catalog_path':'/synthetic/gen/catalog.json','catalog_sha256':sha(directory/'catalog.json'),'patch_sha256':pin['patch'],
+            'description_sha256':pin['description'],'parameter_schema':copy.deepcopy(GEN_SCHEMA),
+            'events':[e for c in gen_cases()for e in gen_events(c)],'event_order':'stable-block-source-order-v1',
+            'comparison_policy':{'pcm_gain':.25},'numerical_profiles':dict.fromkeys(('strict','optimized'),'float32-strict'),
+            'stimuli':[{'kind':15,'settings':{'kind':GEN_INPUT},**dict.fromkeys(('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level'),0.)}for _ in fixture['cases']],
+            'verifications':[gen_verification(fixture,c)for c in fixture['cases']]}
+        budget={'workspace_bytes':266240,'oracle_cache_bytes':131072,'arena_bytes':131072,'opaque_context_upper_bound_bytes':2097152,
+            'loaded_images_upper_bound_bytes':131072,'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
+        budget['required_upper_bound_bytes']=sum(v for k,v in budget.items()if k!='physical_psram_bytes');plan['psram_budget']=budget
+        self.report={'board':'xiao','artifacts':{'build/app.elf':{'bytes':100,'sha256':'c'*64},'build/app.bin':{'bytes':100,'sha256':'d'*64}},
+            'benchmark':plan,'modules':{side:{'artifact_sha256':'a'*64,'inspection':{'loaded_bytes_upper_bound':65536},
+                'report':{'prepared_export':{'manifest':copy.deepcopy(manifest),'provenance':{'raw_files_sha256':{'rnbo_source.h':pin['source']}}},
+                    'prepared_snapshot':{'prepared_files_sha256':{**runtime,'rnbo_source.h':pin['source']}}}}for side in ('strict','optimized')},
+            'source_files_sha256':{f'object-benchmark/main/{name}':str(i)*64 for i,name in enumerate(('stimulus.c','stimulus.h','gen_history_oracle.c','gen_history_oracle.h'),1)}}
+        self.lines=[f'RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture={identity} reference=float32-strict candidate=float32-strict']
+        samples=98304;total_events=total_witnesses=0
+        for case,v in zip(fixture['cases'],plan['verifications']):
+            name=case['id'];cache,mask,rounding=gen_cache_data(code,name);oh=hashlib.sha256(cache).hexdigest()
+            events=len(case['events'])*3;witnesses=sum(mask)*3;total_events+=2*events;total_witnesses+=2*witnesses
+            common=f'fixture={identity} case={name}';hashes=f'oracle_sha256={oh} event_schedule_sha256={v["event_schedule_sha256"]} reset_witness_sha256={v["reset_witness_sha256"]}'
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK INPUT {common} input_sha256={hashlib.sha256(gen_input_bytes()).hexdigest()} input_bytes=131072 layout=float32_stereo_interleaved_le stimulus_kind=15')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK ORACLE {common} oracle_sha256={oh} oracle_bytes=131072 layout=float32_stereo_interleaved_le oracle_kind={GEN_KIND} max_abs_tolerance=2e-6 max_cache_rounding_error={rounding:.17g} model=fresh-float64-input-convolution-or-integer-cycle rounding=once-float32 model_code={code} initial_epoch_frames=-1024 event_schedule_sha256={v["event_schedule_sha256"]} reset_witness_sha256={v["reset_witness_sha256"]} witness_minimum_separation=8e-6 model_tail_bound={v["model_tail_bound"]:.17g} model_evaluation_bound={v["model_evaluation_bound"]:.17g}')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE {common} samples={samples} max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0')
+            bound=(rounding+v['model_tail_bound'])+v['model_evaluation_bound']
+            for side in ('strict','optimized'):
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC {common} profile={side} semantic_kind={GEN_KIND} samples={samples} max_abs=0 max_model_error_bound={bound:.17g} max_abs_tolerance=2e-6 oracle_sha256={oh}')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_GEN_RESET {common} profile={side} {hashes} reset_events={events} witness_events={witnesses} witness_sample_checks={2*witnesses} witness_differences=0 max_abs=0 max_abs_tolerance=2e-6')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_PROFILE {common} profile={side} timed_blocks=96 process_us=960 peak_us=11')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_ROUNDING {common} samples={samples} float_bit_different=0 zero_sign_different=0')
+        self.lines.append(f'RNBO_OBJECT_BENCHMARK PASS fixture={identity} firmware_elf_sha256='+('c'*64)+' strict_module_sha256='+('a'*64)+' optimized_module_sha256='+('a'*64)+
+            f' host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 psram_before=123 psram_after=123 internal_before=42 internal_after=42 images=4 finalized_images=4 cases=3 rounds=3 blocks_per_pass=64 timing_exclude=32 warmup=4 seed=305419896 compared_samples=294912 input_cases=3 input_rechecks=27 pilot_sample_checks=0 oracle_cases=3 oracle_rechecks=27 semantic_sample_checks=589824 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 gen_reset_events={total_events} gen_reset_witness_events={total_witnesses} gen_reset_witness_sample_checks={2*total_witnesses} gen_reset_witness_differences=0 pcm_gain=0.25')
+        self.seal()
+
+    def seal(self):
+        (self.build/'build-report.json').write_text(json.dumps(self.report));log=self.run/'test-serial.log';log.write_text('\n'.join(self.lines)+'\n')
+        (self.run/'hardware-test.json').write_text(json.dumps({'format':'rnbo-isolated-hardware-test','format_version':1,'board':'xiao','flash_bytes':8388608,'device_id':'ba:1e:48:12:34:56',
+            'result':'passed','restoration':{'result':'restored','status':{'board':'XIAO ESP32-S3'}},'test_build_report_sha256':sha(self.build/'build-report.json'),
+            'serial_log_sha256':sha(log),'pass_line':self.lines[-1],'test_elf_sha256':'c'*64,'test_app_sha256':'d'*64}))
+
+    def change(self,prefix,old,new,case=None):
+        index=next(i for i,line in enumerate(self.lines)if line.startswith('RNBO_OBJECT_BENCHMARK '+prefix+' ')and(case is None or ' case='+case+' 'in line))
+        self.lines[index]=self.lines[index].replace(old,new)
+
+    def rejected(self):
+        self.seal()
+        with self.assertRaises(ValueError):collect(self.build,self.run)
+
+    def test_three_exact_programs_reconcile_witness_totals(self):
+        totals=[0,0,0]
+        for identity in GEN_MODELS:
+            self.fixture(identity);result=collect(self.build,self.run);p=result['pass']
+            self.assertEqual(p['gen_reset_events'],420)
+            self.assertEqual(p['gen_reset_witness_events'],0 if identity=='two-history-swap'else 414)
+            for i,key in enumerate(('gen_reset_events','gen_reset_witness_events','gen_reset_witness_sample_checks')):totals[i]+=p[key]
+            self.assertTrue(result['identical_artifact_control']);self.assertEqual(result['stimulus_provenance']['pcm_gain'],.25)
+        self.assertEqual(totals,[1260,828,1656])
+
+    def test_complete_input_oracles_and_witness_masks_match_separate_python_model(self):
+        import importlib.util
+        directory=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/target'
+        def module(name):
+            spec=importlib.util.spec_from_file_location('independent_gen_'+name,directory/(name+'.py'));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
+        inputs=module('inputs');models=module('models');self.assertEqual(gen_input_bytes(),inputs.interleaved())
+        for code in GEN_MODELS.values():
+            for case in gen_cases():
+                with self.subTest(code=code,case=case['id']):
+                    expected=models.expected_outputs(code,inputs.generate(16384),case['events'])
+                    cache,mask,rounding=gen_cache_data(code,case['id'])
+                    self.assertEqual(cache,models.cache_bytes(expected));self.assertEqual(mask,models.reset_witness_bytes(expected))
+                    self.assertEqual(rounding,expected['maximum_cache_rounding_error'])
+        self.assertEqual(struct.unpack_from('<ff',gen_cache_data(3,'continuous')[0]),(2.,3.))
+        self.assertEqual(struct.unpack_from('<ff',gen_cache_data(3,'retrigger-every-block')[0]),(1.,2.))
+        self.assertEqual(gen_cache_data(3,'boundary-resets')[1][31],0)
+        self.assertEqual(gen_cache_data(1,'retrigger-every-block')[1][0],0)
+
+    def test_unknown_normalized_reordered_or_mutated_schedule_fails_closed(self):
+        for mutation in ('normalized','same-zero','missing','order','schema','bool-block','extra-case'):
+            with self.subTest(mutation=mutation):
+                self.fixture();p=self.report['benchmark'];f=p['fixture']
+                if mutation=='normalized':f['cases'][1]['events'][0]['form']='normalized'
+                elif mutation=='same-zero':f['cases'][1]['events'][0]['value']=0.
+                elif mutation=='missing':p['events'].pop()
+                elif mutation=='order':p['events'][0],p['events'][1]=p['events'][1],p['events'][0]
+                elif mutation=='schema':p['parameter_schema'][0]['steps']=1
+                elif mutation=='bool-block':f['cases'][1]['events'][0]['block']=True
+                else:f['cases'].append(copy.deepcopy(f['cases'][0]))
+                self.rejected()
+
+    def test_all_source_schema_runtime_and_same_image_pins_are_required(self):
+        for mutation in ('raw','prepared','runtime','schema','source-tree','module','profile','unknown-support'):
+            with self.subTest(mutation=mutation):
+                self.fixture();m=self.report['modules']['optimized'];mf=m['report']['prepared_export']['manifest']
+                if mutation=='raw':m['report']['prepared_export']['provenance']['raw_files_sha256']['rnbo_source.h']='1'*64
+                elif mutation=='prepared':m['report']['prepared_snapshot']['prepared_files_sha256']['rnbo_source.h']='1'*64
+                elif mutation=='runtime':m['report']['prepared_snapshot']['prepared_files_sha256']['common/RNBO_Math.h']='1'*64
+                elif mutation=='schema':mf['parameter_schema_sha256']='1'*64
+                elif mutation=='source-tree':mf['source_tree_sha256']='1'*64
+                elif mutation=='module':m['artifact_sha256']='b'*64
+                elif mutation=='profile':mf['numerical_profile']='float32-audio-v1'
+                else:mf['required_host_services']=['buffer']
+                self.rejected()
+
+    def test_full_input_oracle_schedule_mask_hashes_and_closed_fields_are_enforced(self):
+        for prefix,before,after in [('INPUT','input_sha256=','input_sha256=0'),('ORACLE','oracle_sha256=','oracle_sha256=0'),
+                ('ORACLE','event_schedule_sha256=','event_schedule_sha256=0'),('ORACLE','reset_witness_sha256=','reset_witness_sha256=0'),
+                ('CASE_GEN_RESET','reset_witness_sha256=','reset_witness_sha256=0'),('CASE_GEN_RESET','event_schedule_sha256=','event_schedule_sha256=0'),
+                ('ORACLE','model_code=1','model_code=2'),('ORACLE','initial_epoch_frames=-1024','initial_epoch_frames=0'),
+                ('ORACLE','witness_minimum_separation=8e-6','witness_minimum_separation=4e-6'),('CASE_GEN_RESET','reset_events=0','reset_events=0 extra=0')]:
+            with self.subTest(prefix=prefix,before=before):
+                self.fixture();self.change(prefix,before,after);self.rejected()
+
+    def test_tail_evaluation_cache_rounding_and_semantic_sum_cannot_be_removed_or_widened(self):
+        for key in ('model_tail_bound','model_evaluation_bound','max_cache_rounding_error'):
+            self.fixture();i=next(i for i,l in enumerate(self.lines)if ' ORACLE 'in l);record=fields(self.lines[i],'RNBO_OBJECT_BENCHMARK ORACLE ')
+            old=next(t for t in self.lines[i].split()if t.startswith(key+'='));self.lines[i]=self.lines[i].replace(old,key+'=0')
+            self.assertNotEqual(record[key],0);self.rejected()
+        self.fixture();i=next(i for i,l in enumerate(self.lines)if ' CASE_SEMANTIC 'in l)
+        old=next(t for t in self.lines[i].split()if t.startswith('max_model_error_bound='));self.lines[i]=self.lines[i].replace(old,'max_model_error_bound=0');self.rejected()
+        self.fixture();self.change('CASE_SEMANTIC','max_abs=0','max_abs=3e-6');self.rejected()
+
+    def test_witness_counts_errors_sample_coverage_and_pass_totals_are_exact(self):
+        for prefix,before,after in [('CASE_GEN_RESET','reset_events=18','reset_events=17'),('CASE_GEN_RESET','witness_events=18','witness_events=17'),
+                ('CASE_GEN_RESET','witness_sample_checks=36','witness_sample_checks=35'),('CASE_GEN_RESET','witness_differences=0','witness_differences=1'),
+                ('CASE_GEN_RESET','max_abs=0','max_abs=3e-6'),('CASE_GEN_RESET','reset_events=18','reset_events=true'),
+                ('PASS','gen_reset_events=420','gen_reset_events=419'),('PASS','gen_reset_witness_events=414','gen_reset_witness_events=0'),
+                ('PASS','gen_reset_witness_sample_checks=828','gen_reset_witness_sample_checks=827'),('PASS','gen_reset_witness_differences=0','gen_reset_witness_differences=1')]:
+            with self.subTest(before=before):
+                self.fixture();self.change(prefix,before,after,'boundary-resets'if prefix=='CASE_GEN_RESET'else None);self.rejected()
+        self.fixture('two-history-swap');self.change('CASE_GEN_RESET','witness_events=0','witness_events=1');self.rejected()
+        self.fixture('two-history-swap');self.change('CASE_GEN_RESET','max_abs=0','max_abs=1e-8');self.rejected()
+
+    def test_gain_missing_duplicate_witness_and_rounding_records_are_rejected(self):
+        for mutation in ('pass-gain','plan-gain','missing-pass','partial-pass','missing-witness','duplicate-witness','missing-rounding','rounding-difference','missing-budget','missing-source'):
+            with self.subTest(mutation=mutation):
+                self.fixture()
+                if mutation=='pass-gain':self.change('PASS','pcm_gain=0.25','pcm_gain=0.5')
+                elif mutation=='plan-gain':self.report['benchmark']['comparison_policy']['pcm_gain']=.5
+                elif mutation=='missing-pass':self.lines[-1]=self.lines[-1].replace(' pcm_gain=0.25','')
+                elif mutation=='partial-pass':self.lines[-1]=self.lines[-1].replace(' gen_reset_events=420','')
+                elif mutation=='missing-witness':self.lines.pop(next(i for i,l in enumerate(self.lines)if ' CASE_GEN_RESET 'in l))
+                elif mutation=='duplicate-witness':self.lines.insert(0,next(l for l in self.lines if ' CASE_GEN_RESET 'in l))
+                elif mutation=='missing-rounding':self.lines=[l for l in self.lines if ' CASE_ROUNDING 'not in l]
+                elif mutation=='rounding-difference':self.change('CASE_ROUNDING','float_bit_different=0','float_bit_different=1')
+                elif mutation=='missing-budget':del self.report['benchmark']['psram_budget']
+                else:del self.report['source_files_sha256']['object-benchmark/main/gen_history_oracle.c']
+                self.rejected()
+
+    def test_legacy_cannot_claim_gen_witnesses_or_gain(self):
+        legacy=ObservationTests('test_observed_case_cost_and_identity');legacy.setUp();self.addCleanup(legacy.doCleanups)
+        original=list(legacy.lines)
+        for extra in (' gen_reset_events=0',' pcm_gain=0.25'):
+            legacy.lines=list(original);legacy.lines[-1]+=extra;legacy.seal()
+            with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+        legacy.lines=list(original);legacy.lines.insert(0,next(l for l in self.lines if ' CASE_GEN_RESET 'in l));legacy.seal()
         with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
 
 if __name__=='__main__':unittest.main()

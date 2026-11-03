@@ -18,6 +18,20 @@ WORK=ROOT/'host/compiler'
 HELPER=(WORK/'onepole_stable.h').read_bytes()
 
 
+
+def assert_generator_epoch_only(case, actual, historical):
+    """Historical metadata is kept; only the explicitly reviewed stamp differs."""
+    if actual == historical: return
+    left=json.loads(actual); right=json.loads(historical)
+    case.assertEqual(set(left),set(right))
+    known={'de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',
+           '56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065'}
+    case.assertIn(left['patcher_adapter_sha256'],known)
+    case.assertIn(right['patcher_adapter_sha256'],known)
+    left['patcher_adapter_sha256']=right['patcher_adapter_sha256']
+    case.assertEqual((json.dumps(left,indent=2)+'\n').encode(),historical)
+
+
 class InputTests(unittest.TestCase):
     def test_option_types_and_modes_reject_before_reading_an_export(self):
         with tempfile.TemporaryDirectory()as name:
@@ -101,6 +115,29 @@ class PipelineTests(unittest.TestCase):
             if result.returncode:raise AssertionError(result.stderr)
             reference=cls.root/(context+'-reference');prepare(raw,reference,'rnbos3patch','fx')
             cls.exports[context]=raw;cls.references[context]=reference;cls.maps[context]={n:(reference/n).read_bytes()for n in verify_prepared(reference)[2]['prepared_files_sha256']}
+
+
+    def test_all_three_contexts_both_exact_metadata_epochs_and_unknown_mutations(self):
+        import stable_onepole as module
+        from prepare import canonical
+        for context,original in self.maps.items():
+            for stamp,expected in [
+                ('de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',module.CONTEXTS[context]['file_map']),
+                ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.GENEXPR_FILE_MAPS[context])]:
+                generator=json.loads(original['generator.json']);generator['patcher_adapter_sha256']=stamp
+                files=dict(original);files['generator.json']=(json.dumps(generator,indent=2)+'\n').encode()
+                before=copy.deepcopy(files)
+                _,record=transform(files,json.loads(files['description.json']),copy.deepcopy(OPTIONS),code_mask=cpp_code_mask,helper=HELPER)
+                self.assertEqual(record['whole_input_map_sha256'],expected)
+                self.assertEqual(sha(canonical({n:sha(v)for n,v in sorted(files.items())})),expected)
+                self.assertEqual(files,before)
+                for key,value in [('patcher_adapter_sha256','f'*64),('adapter_sha256','0'*64),
+                                  ('generated_sha256','0'*64),('voices',2),('class_name','other'),('unknown',False)]:
+                    changed=dict(generator);changed[key]=value
+                    bad=dict(files);bad['generator.json']=(json.dumps(changed,indent=2)+'\n').encode();snapshot=copy.deepcopy(bad)
+                    with self.subTest(context=context,epoch=stamp,key=key),self.assertRaises(ValueError):
+                        transform(bad,json.loads(bad['description.json']),copy.deepcopy(OPTIONS),code_mask=cpp_code_mask,helper=HELPER)
+                    self.assertEqual(bad,snapshot)
 
     def test_pure_three_form_transform_preserves_all_other_files_and_private_code(self):
         for context,files in self.maps.items():

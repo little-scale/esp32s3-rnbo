@@ -15,6 +15,9 @@ DESCRIPTION='9290e3fc349df001d703058cac6cf6e9118e3f9c7243525febdda15e98aff1b0'
 PATCH='b1ffdf24e21d4d725950100c999a4adfb3bf59d05369c8c7a05e1b65e9f60142'
 RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
 FILE_MAP='d208f80a6fdfffa17aabd392c443ddd485469ac6e8c6403cdc90c67eb35181b7'
+# Exact same41 DSP/runtime/config/graph files; the GenExpr-aware importer
+# changes only generator.json's patcher_adapter_sha256. Retain both whole maps.
+GENEXPR_FILE_MAP='3a7411c4bdc3a0bbd49d6e329a1bb868c186cb71b9270e77692d4431afeabb06'
 UNGUARDED_SOURCE='8a736c464fd12717b150b25dc554251aae10f6dc9039b8cca79aa8b9012c011e'
 OPTIONS={'rnbo_version':'1.4.4','apply_fixes':True,'role':'main','sample_rate':44100,'block_frames':256,
          'audio_inputs':0,'audio_outputs':2,'numerical_profile':'float32-strict','filter_delay_max_ms':None,
@@ -86,7 +89,8 @@ def transform(files,description,options,*,code_mask):
     inventory={name:sha(data) for name,data in sorted(files.items())}
     runtime={name:value for name,value in inventory.items() if name.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
-    require(len(files)==42 and sha(canonical(inventory))==FILE_MAP,'unknown file/config/source composition')
+    input_map=sha(canonical(inventory))
+    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP),'unknown file/config/source composition')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str) and len(masked)==len(text),'invalid C++ lexical mask')
     require(len(re.findall(r'\btrain_tilde_01_perform\b',masked))==2,'only one scalar caller and definition admitted')
@@ -125,7 +129,7 @@ def transform(files,description,options,*,code_mask):
     result=dict(files);result['rnbo_source.h']=guarded.encode()
     return result,{'name':'rnbo-1.4.4-hoist-train-reciprocal-v1','file':'rnbo_source.h','input_sha256':SOURCE,
         'prepared_sha256':GUARDED_SOURCE,'assertion_removed_source_sha256':UNGUARDED_SOURCE,
-        'inline_contract_sha256':sha(CONTRACT.encode()),'whole_input_map_sha256':FILE_MAP,'input_file_count':42,
+        'inline_contract_sha256':sha(CONTRACT.encode()),'whole_input_map_sha256':input_map,'input_file_count':42,
         'description_file_sha256':DESCRIPTION,'authored_patch_sha256':PATCH,'runtime_tree_sha256':RUNTIME,
         'method_pins':dict(METHODS),'source_inverse_byte_identity':True,'assertion_removal_byte_identity':True,
         'active_width_reciprocal_once_per_vector':True,'width_endpoints_remain_division_free':True,
