@@ -13,6 +13,69 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## RNBO arithmetic and logic batch
+
+A single upload checks **36 exact RNBO signal spellings: all 36 pass**, with no
+output mismatches, compilation failures or CPU-review flags. Aliases have their
+own authored patches and device records; status does not transfer by alias.
+
+| Exact form | Basic hardware result | Median µs | Peak µs | CPU review |
+| --- | --- | ---: | ---: | --- |
+| `add~` | Pass | 54.0 | 59 | No flag |
+| `+~` | Pass | 54.0 | 59 | No flag |
+| `mul~` | Pass | 54.0 | 55 | No flag |
+| `*~` | Pass | 54.0 | 55 | No flag |
+| `times~` | Pass | 54.0 | 59 | No flag |
+| `rsub~` | Pass | 54.0 | 58 | No flag |
+| `!-~` | Pass | 54.0 | 55 | No flag |
+| `rminus~` | Pass | 54.0 | 55 | No flag |
+| `absdiff~` | Pass | 89.5 | 93 | No flag |
+| `neg~` | Pass | 43.0 | 48 | No flag |
+| `fabs~` | Pass | 67.0 | 67 | No flag |
+| `pass~` | Pass | 41.0 | 42 | No flag |
+| `neq~` | Pass | 54.0 | 55 | No flag |
+| `!=~` | Pass | 54.0 | 55 | No flag |
+| `notequals~` | Pass | 54.0 | 59 | No flag |
+| `gt~` | Pass | 54.0 | 59 | No flag |
+| `>~` | Pass | 54.0 | 59 | No flag |
+| `greaterthan~` | Pass | 54.0 | 59 | No flag |
+| `gte~` | Pass | 54.0 | 55 | No flag |
+| `>=~` | Pass | 54.0 | 59 | No flag |
+| `greaterthaneq~` | Pass | 54.0 | 59 | No flag |
+| `lte~` | Pass | 54.0 | 59 | No flag |
+| `<=~` | Pass | 54.0 | 59 | No flag |
+| `lessthaneq~` | Pass | 54.0 | 55 | No flag |
+| `and~` | Pass | 66.0 | 70 | No flag |
+| `&&~` | Pass | 66.0 | 70 | No flag |
+| `logand~` | Pass | 66.0 | 66 | No flag |
+| `or~` | Pass | 58.0 | 62 | No flag |
+| `\|\|~` | Pass | 58.0 | 62 | No flag |
+| `xor~` | Pass | 67.0 | 71 | No flag |
+| `^^~` | Pass | 67.0 | 71 | No flag |
+| `not~` | Pass | 52.0 | 53 | No flag |
+| `!~` | Pass | 52.0 | 56 | No flag |
+| `boolnum~` | Pass | 52.0 | 53 | No flag |
+| `bool~` | Pass | 52.0 | 57 | No flag |
+| `b~` | Pass | 52.0 | 52 | No flag |
+
+Each graph has two operator instances, with reversed inputs for binary objects
+and independent lanes for unary objects. The common vector covers all 256
+ordered pairs of sixteen small binary fractions/integers in [-4,4], including
+both zero signs. Twenty callbacks compare 10,240 output words per module:
+**368,640 output checks** in this batch. Numeric-zero sign differences are
+diagnostic, so `pass~` is a short numerical check rather than a separate
+bit-exact copy qualification.
+
+The 16 timed callbacks per graph have median costs from 41 to 89.5 µs, with a
+largest observed peak of 93 µs. These are complete stereo graph costs for
+256 frames at 44.1 kHz, not per-instance timings or optimisation gains.
+All 36 images finalise successfully; the test firmware stays installed and
+quiet after completion. Other modes, message-rate forms and domains remain
+untested by this batch.
+
+See [the compact device result](../evidence/xiao-smoke-rnbo-stateless.json) and
+[the original test patches and reference](../tests/fixtures/smoke/rnbo-stateless/README.md).
+
 ## First numeric batch
 
 One upload executes 15 original GenExpr forms: **10 pass and 5 have output
@@ -86,12 +149,15 @@ python3 tools/build_smoke_modules.py \
   --out build/smoke-modules/batch-01
 
 python3 tools/build_hardware_smoke.py \
+  --catalog tests/fixtures/smoke/rnbo-stateless/catalog.json \
   --modules-report build/smoke-modules/batch-01/batch-report.json \
   --build-dir build/smoke/batch-01 \
   --cache-build-dir build/hardware-smoke-cache-xiao
 ```
 
-Supply normal prepared exports matching the selected catalog. The initial fast
+Supply normal prepared exports matching the selected catalog. The numeric Gen
+catalog and the RNBO stateless catalog have separate independent references.
+The initial fast
 builder supports strict, self-contained two-input/two-output FX modules without
 parameters; additional object shapes will be added as coverage expands. The
 firmware SDK cache is reusable, while each completed batch's artifacts are

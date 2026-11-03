@@ -152,6 +152,44 @@ def inventory_rows(inventory):
     return rows
 
 
+def checked_short_smoke(record,item,data):
+    """A short exact-spelling hardware observation, with no gain attribution."""
+    require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
+            data.get('family')=='rnbo-stateless' and data.get('surface')=='patcher' and
+            data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
+            'Short smoke board/surface/test scope differs')
+    selector=item.get('selector','')
+    require(type(selector)is str and selector.startswith('/cases/') and selector[7:].isdigit(),'Short smoke selector must name an executed case')
+    cases=data.get('cases');require(type(cases)is list and int(selector[7:])<len(cases),'Short smoke selector is outside executed cases')
+    case=pointer(data,selector)
+    require(record['surface']=='patcher' and record['id']=='patcher:'+case.get('exact_name','') and
+            record['spelling']==case.get('exact_name'),'Short smoke exact spelling/surface differs')
+    require(case.get('status') in ('pass','output_mismatch') and case.get('finalized') is True and
+            type(case.get('samples_checked')) is int and case['samples_checked']==10240,
+            'Short smoke case did not complete the declared scenario')
+    bits,zeros=case.get('bit_mismatches'),case.get('zero_sign_differences')
+    require(type(bits)is int and type(zeros)is int and 0<=zeros<=bits<=case['samples_checked'] and
+            (case['status']=='pass')==(bits==zeros),'Short smoke output status/counters differ')
+    times=case.get('times_us')
+    require(type(times)is list and len(times)==16 and all(type(t)is int and t>=0 for t in times),
+            'Short smoke requires sixteen raw callback times')
+    ordered=sorted(times);mean=number(case.get('mean_us'));median=number(case.get('median_us'));peak=number(case.get('peak_us'))
+    require(abs(mean-sum(times)/16)<=1e-6 and median==(ordered[7]+ordered[8])/2 and peak==max(times),
+            'Short smoke absolute timing summary differs')
+    require(type(case.get('context_bytes'))is int and case['context_bytes']>0 and
+            type(case.get('arena_high_water'))is int and case['arena_high_water']>=0,
+            'Short smoke resource observation is invalid')
+    reasons=case.get('cpu_review_reasons');expected=[]
+    if median>.1*256000000/44100:expected.append('median_budget')
+    if peak>max(3*median,median+100):expected.append('peak_spike')
+    require(reasons==expected,'Short smoke CPU review reasons differ')
+    return {'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
+            'mean_us':mean,'median_us':median,'peak_us':peak,'cpu_review_reasons':reasons,
+            'samples_checked':case['samples_checked'],'test_level':'short-functional-hardware-check',
+            'full_qualification_claimed':False,'cpu_time_saved_percent':None,
+            'evidence_url':PUBLIC_BASE+item['source']}
+
+
 def public_sources(record,coverage,root,evidence_cache=None):
     if evidence_cache is None:evidence_cache={}
     result={}
@@ -163,6 +201,9 @@ def public_sources(record,coverage,root,evidence_cache=None):
                     path.is_file() and not (root/source).is_symlink(),'Qualification evidence must be a public regular file')
             entry=coverage['sources'].get(source)
             require(entry is not None and digest(path)==entry['sha256'],'Qualification evidence changed: '+source)
+            if item.get('evidence_kind')=='xiao-rnbo-short-smoke':
+                if source not in evidence_cache:evidence_cache[source]=load(path)
+                checked_short_smoke(record,item,evidence_cache[source])
             if item.get('evidence_kind')=='xiao-wave4-model-output':
                 if source not in evidence_cache:evidence_cache[source]=load(path)
                 data=evidence_cache[source];observation=pointer(data,item['selector'])
@@ -240,6 +281,21 @@ def make_status(inventory,coverage,root=ROOT):
                              'short':next((o['flag'] for o in options if o.get('flag') and o.get('state')==opt),''),
                              'detail':' '.join(o['note'] for o in options)}
         row['sources']=public_sources(record,coverage,root,qualification_cache)
+        smoke=[checked_short_smoke(record,item,qualification_cache[item['source']])
+               for item in record.get('qualification',[])if item.get('evidence_kind')=='xiao-rnbo-short-smoke']
+        if smoke:
+            row['hardware_smoke']=smoke
+            for observation in smoke:
+                row['working']['detail']+=f" Short XIAO check ({observation['status']}): one repeated stereo vector; mean {observation['mean_us']:.2f}µs, median {observation['median_us']:.2f}µs, peak {observation['peak_us']:.0f}µs."
+                if observation['cpu_review_reasons']:row['working']['detail']+=' Callback timing flagged for later review.'
+        if record.get('working_test_level')=='short-functional-hardware-check':
+            require(smoke and working in ('board','partial'),'Short smoke label requires a bound hardware scenario')
+            require((working=='board' and all(item['status']=='pass'for item in smoke))or
+                    (working=='partial' and any(item['status']=='output_mismatch'for item in smoke)),
+                    'Short smoke working label differs from observed output status')
+            row['working']['label']='Short hardware check' if working=='board' else 'Short check / known gaps'
+            row['working']['short']='One short hardware scenario' if working=='board' else 'Short hardware mismatch'
+            row['working']['test_level']='short-functional-hardware-check'
         group=PRIMARY_GROUPS.get(identity)
         if group:
             selected=[m for m in measurements.values() if m['group_id']==group and m['case']=='aggregate']

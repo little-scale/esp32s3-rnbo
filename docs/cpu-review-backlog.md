@@ -10,7 +10,10 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
-The [first numeric smoke batch](hardware-smoke.md) has **no triggered CPU flags**.
+The [36-form RNBO arithmetic/logic batch](hardware-smoke.md#rnbo-arithmetic-and-logic-batch)
+has **no triggered CPU flags**: medians 41–89.5 µs, largest observed peak 93 µs.
+
+The [first numeric smoke batch](hardware-smoke.md#first-numeric-batch) also has **no triggered CPU flags**.
 Its five output mismatches and one compilation failure are correctness/support
 outcomes, recorded separately. Other untested objects remain unassessed.
 

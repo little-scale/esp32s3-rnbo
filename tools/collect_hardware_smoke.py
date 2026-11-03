@@ -92,7 +92,7 @@ def collect(build_dir,run_dir):
             int(done['mismatched'])==sum(r['status']=='output_mismatch'for r in records) and
             int(done['cpu_review'])==len(cpu) and int(done['images'])==int(done['finalized_images'])==len(records),
             'Smoke completion totals differ')
-    return {'format':'rnbo-hardware-smoke-results-v1','board':'xiao','device_label':'xiao-test-device-01',
+    result={'format':'rnbo-hardware-smoke-results-v1','board':'xiao','device_label':'xiao-test-device-01',
         'test_level':'short-functional-hardware-check',
         'scope':'Short hardware functionality check, not full mode/domain qualification; no optimisation comparison',
         'firmware_elf_sha256':elfs[0],'plan_sha256':build['plan_sha256'],
@@ -107,6 +107,9 @@ def collect(build_dir,run_dir):
         'cpu_review_policy':{'timed_callbacks':16,'high_median_block_fraction':0.1,
             'peak_threshold':'greater than max(3*median, median+100us)',
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
+    if plan.get('family')=='rnbo-stateless' and plan.get('surface')=='patcher':
+        result.update(family='rnbo-stateless',surface='patcher')
+    return result
 
 
 if __name__=='__main__':

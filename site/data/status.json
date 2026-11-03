@@ -205,9 +205,25 @@
         "!-~",
         "rminus~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "rsub~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "reverse-subtract-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.1875,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:!-~",
       "inventory_group": "patcher:rsub~",
       "is_alias": true,
@@ -215,16 +231,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/rsub~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.19µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -442,9 +466,25 @@
         "!=~",
         "notequals~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "neq~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "not-equal-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.1875,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:!=~",
       "inventory_group": "patcher:neq~",
       "is_alias": true,
@@ -452,25 +492,49 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/neq~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.19µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [
         "!~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "not~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "not-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 52.5,
+          "median_us": 52.0,
+          "peak_us": 56,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:!~",
       "inventory_group": "patcher:not~",
       "is_alias": true,
@@ -478,16 +542,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/not~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 52.50µs, median 52.00µs, peak 56µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -627,9 +699,25 @@
         "&&~",
         "logand~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "and~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "and-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 66.375,
+          "median_us": 66.0,
+          "peak_us": 70,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:&&~",
       "inventory_group": "patcher:and~",
       "is_alias": true,
@@ -637,16 +725,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/and~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 66.38µs, median 66.00µs, peak 70µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -796,6 +892,22 @@
       "board_evidence": true,
       "canonical_name": "mul~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "multiply-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.25,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:*~",
       "inventory_group": "patcher:mul~",
       "is_alias": true,
@@ -812,11 +924,15 @@
         {
           "label": "object optimisation — documentation",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/object-optimisation.md"
+        },
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Independent native checks plus incidental participation in qualified S3 graphs. Original DC arithmetic and linear mapping fixtures; typed scalar/zero-divisor branches where authored. Separate drone/sine/MIDI/FX compositions run on S3. Remaining scope: No isolated target callback saving is assigned to this spelling. Whole-fixture admission can transform an upstream oscillator without changing this operator.",
+        "detail": "Independent native checks plus incidental participation in qualified S3 graphs. Original DC arithmetic and linear mapping fixtures; typed scalar/zero-divisor branches where authored. Separate drone/sine/MIDI/FX compositions run on S3. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: No isolated target callback saving is assigned to this spelling. Whole-fixture admission can transform an upstream oscillator without changing this operator. Short XIAO check (pass): one repeated stereo vector; mean 54.25µs, median 54.00µs, peak 55µs.",
         "label": "In a verified patch",
         "short": "Composition coverage",
         "status": "in_patch"
@@ -980,6 +1096,22 @@
       "board_evidence": true,
       "canonical_name": "add~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "add-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.4375,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:+~",
       "inventory_group": "patcher:add~",
       "is_alias": true,
@@ -996,11 +1128,15 @@
         {
           "label": "object optimisation — documentation",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/object-optimisation.md"
+        },
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Independent native checks plus incidental participation in qualified S3 graphs. Original DC arithmetic and linear mapping fixtures; typed scalar/zero-divisor branches where authored. Separate drone/sine/MIDI/FX compositions run on S3. Remaining scope: No isolated target callback saving is assigned to this spelling. Whole-fixture admission can transform an upstream oscillator without changing this operator.",
+        "detail": "Independent native checks plus incidental participation in qualified S3 graphs. Original DC arithmetic and linear mapping fixtures; typed scalar/zero-divisor branches where authored. Separate drone/sine/MIDI/FX compositions run on S3. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: No isolated target callback saving is assigned to this spelling. Whole-fixture admission can transform an upstream oscillator without changing this operator. Short XIAO check (pass): one repeated stereo vector; mean 54.44µs, median 54.00µs, peak 59µs.",
         "label": "In a verified patch",
         "short": "Composition coverage",
         "status": "in_patch"
@@ -1392,9 +1528,25 @@
         "<=~",
         "lessthaneq~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "lte~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "less-equal-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.6875,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:<=~",
       "inventory_group": "patcher:lte~",
       "is_alias": true,
@@ -1402,16 +1554,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/lte~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.69µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -1891,9 +2051,25 @@
         ">=~",
         "greaterthaneq~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gte~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "greater-equal-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.3125,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:>=~",
       "inventory_group": "patcher:gte~",
       "is_alias": true,
@@ -1901,16 +2077,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gte~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.31µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -1996,9 +2180,25 @@
         ">~",
         "greaterthan~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gt~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "greater-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.4375,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:>~",
       "inventory_group": "patcher:gt~",
       "is_alias": true,
@@ -2006,16 +2206,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gt~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.44µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2152,9 +2360,25 @@
       "aliases": [
         "^^~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "xor~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "xor-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 67.1875,
+          "median_us": 67.0,
+          "peak_us": 71,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:^^~",
       "inventory_group": "patcher:xor~",
       "is_alias": true,
@@ -2162,16 +2386,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/xor~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 67.19µs, median 67.00µs, peak 71µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2272,9 +2504,25 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "absdiff~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "absolute-difference-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 89.6875,
+          "median_us": 89.5,
+          "peak_us": 93,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:absdiff~",
       "inventory_group": "patcher:absdiff~",
       "is_alias": false,
@@ -2282,16 +2530,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/absdiff~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 89.69µs, median 89.50µs, peak 93µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2656,9 +2912,25 @@
       "aliases": [
         "+~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "add~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "add-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.375,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:add~",
       "inventory_group": "patcher:add~",
       "is_alias": false,
@@ -2666,16 +2938,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/add~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.38µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2920,9 +3200,25 @@
         "&&~",
         "logand~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "and~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "and-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 66.125,
+          "median_us": 66.0,
+          "peak_us": 70,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:and~",
       "inventory_group": "patcher:and~",
       "is_alias": false,
@@ -2930,16 +3226,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/and~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 66.12µs, median 66.00µs, peak 70µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -4778,9 +5082,25 @@
         "bool~",
         "b~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "boolean-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 52.0625,
+          "median_us": 52.0,
+          "peak_us": 53,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:boolnum~",
       "inventory_group": "patcher:boolnum~",
       "is_alias": false,
@@ -4788,16 +5108,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/boolnum~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 52.06µs, median 52.00µs, peak 53µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -4805,9 +5133,25 @@
         "bool~",
         "b~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "boolean-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 52.625,
+          "median_us": 52.0,
+          "peak_us": 57,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:bool~",
       "inventory_group": "patcher:boolnum~",
       "is_alias": true,
@@ -4815,16 +5159,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/boolnum~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 52.62µs, median 52.00µs, peak 57µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -5292,9 +5644,25 @@
         "bool~",
         "b~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "boolean-short-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 52.0,
+          "median_us": 52.0,
+          "peak_us": 52,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:b~",
       "inventory_group": "patcher:boolnum~",
       "is_alias": true,
@@ -5302,16 +5670,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/boolnum~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 52.00µs, median 52.00µs, peak 52µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -13601,9 +13977,25 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fabs~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "fabs-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 67.0,
+          "median_us": 67.0,
+          "peak_us": 67,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:fabs~",
       "inventory_group": "patcher:fabs~",
       "is_alias": false,
@@ -13611,16 +14003,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/fabs~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 67.00µs, median 67.00µs, peak 67µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16018,9 +16418,25 @@
         ">=~",
         "greaterthaneq~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gte~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "greater-equal-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.5,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:greaterthaneq~",
       "inventory_group": "patcher:gte~",
       "is_alias": true,
@@ -16028,16 +16444,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gte~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.50µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16045,9 +16469,25 @@
         ">~",
         "greaterthan~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gt~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "greater-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.4375,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:greaterthan~",
       "inventory_group": "patcher:gt~",
       "is_alias": true,
@@ -16055,16 +16495,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gt~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.44µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16282,9 +16730,25 @@
         ">=~",
         "greaterthaneq~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gte~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "greater-equal-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.1875,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:gte~",
       "inventory_group": "patcher:gte~",
       "is_alias": false,
@@ -16292,16 +16756,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gte~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.19µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16387,9 +16859,25 @@
         ">~",
         "greaterthan~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gt~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "greater-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.5625,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:gt~",
       "inventory_group": "patcher:gt~",
       "is_alias": false,
@@ -16397,16 +16885,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gt~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.56µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -18649,9 +19145,25 @@
         "<=~",
         "lessthaneq~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "lte~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "less-equal-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.0625,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:lessthaneq~",
       "inventory_group": "patcher:lte~",
       "is_alias": true,
@@ -18659,16 +19171,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/lte~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.06µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -22239,9 +22759,25 @@
         "&&~",
         "logand~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "and~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "and-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 66.0,
+          "median_us": 66.0,
+          "peak_us": 66,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:logand~",
       "inventory_group": "patcher:and~",
       "is_alias": true,
@@ -22249,16 +22785,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/and~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 66.00µs, median 66.00µs, peak 66µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -22550,9 +23094,25 @@
         "<=~",
         "lessthaneq~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "lte~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "less-equal-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.3125,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:lte~",
       "inventory_group": "patcher:lte~",
       "is_alias": false,
@@ -22560,16 +23120,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/lte~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.31µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24552,9 +25120,25 @@
         "*~",
         "times~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mul~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "multiply-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.125,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:mul~",
       "inventory_group": "patcher:mul~",
       "is_alias": false,
@@ -24562,16 +25146,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mul~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.12µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24672,9 +25264,25 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "neg~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "negate-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 43.6875,
+          "median_us": 43.0,
+          "peak_us": 48,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:neg~",
       "inventory_group": "patcher:neg~",
       "is_alias": false,
@@ -24682,16 +25290,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/neg~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 43.69µs, median 43.00µs, peak 48µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24831,9 +25447,25 @@
         "!=~",
         "notequals~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "neq~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "not-equal-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.125,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:neq~",
       "inventory_group": "patcher:neq~",
       "is_alias": false,
@@ -24841,16 +25473,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/neq~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.12µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25250,9 +25890,25 @@
         "!=~",
         "notequals~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "neq~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "case": "not-equal-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.375,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:notequals~",
       "inventory_group": "patcher:neq~",
       "is_alias": true,
@@ -25260,25 +25916,49 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/neq~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.38µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [
         "!~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "not~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "not-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 52.0625,
+          "median_us": 52.0,
+          "peak_us": 53,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:not~",
       "inventory_group": "patcher:not~",
       "is_alias": false,
@@ -25286,16 +25966,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/not~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 52.06µs, median 52.00µs, peak 53µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25833,9 +26521,25 @@
       "aliases": [
         "||~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "or~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "or-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 58.0,
+          "median_us": 58.0,
+          "peak_us": 62,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:or~",
       "inventory_group": "patcher:or~",
       "is_alias": false,
@@ -25843,16 +26547,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/or~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 58.00µs, median 58.00µs, peak 62µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -26203,9 +26915,25 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "pass~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "pass-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 41.25,
+          "median_us": 41.0,
+          "peak_us": 42,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:pass~",
       "inventory_group": "patcher:pass~",
       "is_alias": false,
@@ -26213,16 +26941,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/pass~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 41.25µs, median 41.00µs, peak 42µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -29048,9 +29784,25 @@
         "!-~",
         "rminus~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "rsub~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "reverse-subtract-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.25,
+          "median_us": 54.0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:rminus~",
       "inventory_group": "patcher:rsub~",
       "is_alias": true,
@@ -29058,16 +29810,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/rsub~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.25µs, median 54.00µs, peak 55µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -29377,9 +30137,25 @@
         "!-~",
         "rminus~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "rsub~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "reverse-subtract-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.5,
+          "median_us": 54.0,
+          "peak_us": 58,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:rsub~",
       "inventory_group": "patcher:rsub~",
       "is_alias": false,
@@ -29387,16 +30163,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/rsub~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.50µs, median 54.00µs, peak 58µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -34056,9 +34840,25 @@
         "*~",
         "times~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mul~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "case": "multiply-name-alias-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 54.75,
+          "median_us": 54.0,
+          "peak_us": 59,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:times~",
       "inventory_group": "patcher:mul~",
       "is_alias": true,
@@ -34066,16 +34866,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mul~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 54.75µs, median 54.00µs, peak 59µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -36070,9 +36878,25 @@
       "aliases": [
         "^^~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "xor~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "xor-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 67.1875,
+          "median_us": 67.0,
+          "peak_us": 71,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:xor~",
       "inventory_group": "patcher:xor~",
       "is_alias": false,
@@ -36080,16 +36904,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/xor~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 67.19µs, median 67.00µs, peak 71µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -36384,9 +37216,25 @@
       "aliases": [
         "||~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "or~",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "case": "or-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json",
+          "full_qualification_claimed": false,
+          "mean_us": 57.9375,
+          "median_us": 58.0,
+          "peak_us": 62,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check"
+        }
+      ],
       "id": "patcher:||~",
       "inventory_group": "patcher:or~",
       "is_alias": true,
@@ -36394,24 +37242,32 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/or~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo stateless — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling. Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison. Remaining scope: Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 57.94µs, median 58.00µs, peak 62µs.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "e76ad2e9fa989cd29057d4190f143c8dd1af1da80fcfd1d2599dda321cb42ec2",
-    "coverage_source_sha256": "fe134dead8af2b519e40c830e8ab0acc34dd4bfca2e5e6afcd3ae281595d5823",
-    "exact_coverage_entries": 58,
-    "generator_sha256": "2700515d81767c2d7d4e24f54039e1bfbef0d3cdf70531c73f30ccc2ba5e495c",
+    "coverage_canonical_sha256": "2a07f038bc54cfca0d1cf9062d39624e434642569bf82d389e7546213139c721",
+    "coverage_source_sha256": "2a07f038bc54cfca0d1cf9062d39624e434642569bf82d389e7546213139c721",
+    "exact_coverage_entries": 92,
+    "generator_sha256": "e1935b8b88884b4bce53712e39dea63173779a3b4a957087e41289088047efdc",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

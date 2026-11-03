@@ -4,8 +4,10 @@
 
 The current priority is short hardware functionality checks with CPU timing,
 batching many objects into one upload and leaving the test firmware installed
-between batches. The [first fast batch](hardware-smoke.md) records 15 device
-scenarios (10 pass, 5 output mismatches) and one compilation rejection.
+between batches. The [latest fast batch](hardware-smoke.md#rnbo-arithmetic-and-logic-batch)
+checks 36 exact RNBO signal spellings: all pass. The earlier numeric Gen batch
+records 15 device scenarios (10 pass, 5 output mismatches) and one compilation
+rejection.
 [CPU outliers are queued](cpu-review-backlog.md) for future optimisation.
 These smoke checks are distinct from the deeper historical tests below.
 

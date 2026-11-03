@@ -2,9 +2,12 @@
 """Prevent missing names, alias overclaims and unsupported performance numbers."""
 import copy
 import json
+import hashlib
+import tempfile
+from pathlib import Path
 import unittest
 
-from build_object_status import ROOT,make_status,checked_measurements,pointer
+from build_object_status import ROOT,make_status,checked_measurements,pointer,checked_short_smoke,public_sources
 
 
 class ObjectStatusTests(unittest.TestCase):
@@ -57,6 +60,23 @@ class ObjectStatusTests(unittest.TestCase):
             self.assertTrue(any(s['url'].endswith('/evidence/xiao-wave4.json') for s in row['sources']))
         for identity in ('codebox:add','codebox:sub','codebox-member:delta.reset','patcher:abs'):
             self.assertEqual(rows[identity]['working']['status'],'unverified')
+
+    def test_actual_rnbo_short_smoke_adds_only_exact_scenarios_without_gains(self):
+        source='evidence/xiao-smoke-rnbo-stateless.json';data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(data['summary']['executed'],36);self.assertEqual(data['summary']['passed'],36)
+        self.assertEqual(len(self.coverage['objects']),92)
+        for case in data['cases']:
+            identity='patcher:'+case['exact_name'];row=rows[identity]
+            observation=next(v for v in row['hardware_smoke']if v['case']==case['id'])
+            self.assertEqual(observation['mean_us'],case['mean_us']);self.assertIsNone(observation['cpu_time_saved_percent'])
+            self.assertIsNone(row['performance']);self.assertTrue(any(s['url'].endswith('/'+source)for s in row['sources']))
+            if identity in ('patcher:+~','patcher:*~'):
+                self.assertEqual(row['working']['status'],'in_patch');self.assertEqual(row['optimisation']['status'],'available')
+            else:
+                self.assertEqual(row['working']['label'],'Short hardware check')
+                self.assertEqual(row['working']['test_level'],'short-functional-hardware-check')
+                self.assertEqual(row['optimisation']['status'],'unassessed')
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -309,6 +329,90 @@ class ObjectStatusTests(unittest.TestCase):
 
     def test_explicit_json_pointer_handles_arrays_and_escaped_keys(self):
         self.assertEqual(pointer({'a/b':[{'~value':9}]},'/a~1b/0/~0value'),9)
+
+
+class ShortSmokeStatusTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.root=Path(self.tmp.name);(self.root/'evidence').mkdir()
+        self.source='evidence/xiao-smoke-rnbo-stateless.json'
+        self.item={'source':self.source,'selector':'/cases/0','level':'S3-XIAO-short-functional-hardware-check','evidence_kind':'xiao-rnbo-short-smoke'}
+        self.record={'id':'patcher:floor~','spelling':'floor~','surface':'patcher','aliases_inherit_status':False,
+            'working_state':'board','working_test_level':'short-functional-hardware-check',
+            'working_note':'Passed the declared short hardware scenario.','optimisation_state':'unassessed',
+            'optimisations':[],'qualification':[self.item],'cpu_measurement_ids':[]}
+        self.data={'format':'rnbo-hardware-smoke-results-v1','board':'xiao','family':'rnbo-stateless','surface':'patcher',
+            'test_level':'short-functional-hardware-check','full_qualification_claimed':False,
+            'cases':[{'id':'floor-signal','exact_name':'floor~','status':'pass','finalized':True,'samples_checked':10240,
+            'bit_mismatches':2,'zero_sign_differences':2,'mean_us':40.0,'median_us':40.0,'peak_us':40,
+            'times_us':[40]*16,'context_bytes':12720,'arena_high_water':0,'cpu_review_reasons':[],
+            'reference_policy':'basic-mathematical-function'}]}
+        self.inventory=json.loads((ROOT/'site/data/inventory.json').read_bytes())
+        self.coverage={'format':'curated-RNBO-exact-spelling-status-mapping-v1','merge_policy':{'patcher_aliases_inherit':False,'codebox_inherits':False},
+            'measurement_groups':[],'measurements':[],'objects':[self.record],'sources':{},'snapshot_date':'2026-11-04',
+            'verified_public_revision':{'sha':'synthetic-unit-fixture'}}
+        self.write()
+
+    def write(self):
+        encoded=(json.dumps(self.data,sort_keys=True)+'\n').encode();(self.root/self.source).write_bytes(encoded)
+        self.coverage['sources'][self.source]={'sha256':hashlib.sha256(encoded).hexdigest()}
+
+    def result(self):
+        self.write();return{r['id']:r for r in make_status(self.inventory,self.coverage,self.root)['objects']}
+
+    def test_short_hardware_label_has_absolute_times_and_no_alias_or_gain(self):
+        rows=self.result();row=rows['patcher:floor~']
+        self.assertTrue(row['board_evidence']);self.assertEqual(row['working']['label'],'Short hardware check')
+        self.assertIn('mean 40.00µs',row['working']['detail']);self.assertEqual(row['hardware_smoke'][0]['test_level'],'short-functional-hardware-check')
+        self.assertIsNone(row['performance']);self.assertIsNone(row['hardware_smoke'][0]['cpu_time_saved_percent'])
+        self.assertEqual(row['optimisation']['status'],'unassessed')
+        self.assertEqual(rows['codebox:floor']['working']['status'],'unverified')
+
+    def test_existing_stronger_status_and_optimisation_are_preserved(self):
+        self.record.pop('working_test_level');self.record['working_state']='in_patch'
+        self.record['working_note']='Existing verified composition.';self.record['optimisation_state']='available'
+        self.record['optimisations']=[{'state':'available','note':'Existing optimisation.'}]
+        row=self.result()['patcher:floor~']
+        self.assertEqual(row['working']['status'],'in_patch');self.assertEqual(row['working']['label'],'In a verified patch')
+        self.assertEqual(row['optimisation']['status'],'available');self.assertIn('Existing verified composition.',row['working']['detail'])
+        self.assertEqual(len(row['hardware_smoke']),1)
+        self.data['cases'][0].update(status='output_mismatch',bit_mismatches=3)
+        row=self.result()['patcher:floor~'];self.assertEqual(row['working']['status'],'in_patch')
+        self.assertEqual(row['hardware_smoke'][0]['status'],'output_mismatch')
+
+    def test_mismatch_is_explicit_and_cpu_spikes_are_only_review_flags(self):
+        case=self.data['cases'][0];case.update(status='output_mismatch',bit_mismatches=3,times_us=[600]*16,mean_us=600.,median_us=600.,peak_us=600,cpu_review_reasons=['median_budget'])
+        with self.assertRaisesRegex(ValueError,'working label differs'):self.result()
+        self.record.update(working_state='partial',board_evidence=True)
+        row=self.result()['patcher:floor~'];self.assertEqual(row['working']['label'],'Short check / known gaps')
+        self.assertIn('output_mismatch',row['working']['detail']);self.assertIn('flagged for later review',row['working']['detail'])
+        self.assertIsNone(row['performance']);self.assertEqual(row['optimisation']['status'],'unassessed')
+
+    def test_smoke_scope_spelling_counters_and_timing_cannot_be_forged(self):
+        original=copy.deepcopy(self.data)
+        for mutation in ('Gen','surface','full','name','finalized','samples','counter','status','raw-times','mean','cpu-reason','selector'):
+            with self.subTest(mutation=mutation):
+                self.data=copy.deepcopy(original);case=self.data['cases'][0];item=copy.deepcopy(self.item)
+                if mutation=='Gen':self.data['family']='gen-numeric'
+                elif mutation=='surface':self.data['surface']='codebox'
+                elif mutation=='full':self.data['full_qualification_claimed']=True
+                elif mutation=='name':case['exact_name']='floor'
+                elif mutation=='finalized':case['finalized']=False
+                elif mutation=='samples':case['samples_checked']=True
+                elif mutation=='counter':case['bit_mismatches']=True
+                elif mutation=='status':case['status']='output_mismatch'
+                elif mutation=='raw-times':case['times_us'].pop()
+                elif mutation=='mean':case['mean_us']=39
+                elif mutation=='cpu-reason':case['cpu_review_reasons']=['peak_spike']
+                else:item['selector']='/compile_failures/0'
+                with self.assertRaises(ValueError):checked_short_smoke(self.record,item,self.data)
+
+    def test_content_hash_and_bound_scenario_are_required(self):
+        self.data['cases'][0]['mean_us']=39;self.write()
+        self.coverage['sources'][self.source]['sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'evidence changed'):public_sources(self.record,self.coverage,self.root)
+        self.data['cases'][0]['mean_us']=40;self.write();self.record['qualification']=[]
+        with self.assertRaisesRegex(ValueError,'bound hardware scenario'):make_status(self.inventory,self.coverage,self.root)
 
 
 if __name__=='__main__':unittest.main()

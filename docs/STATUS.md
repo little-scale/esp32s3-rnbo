@@ -1,9 +1,11 @@
 # Implementation status — 4 November 2026
 
 Testing now prioritises [fast batched hardware checks](hardware-smoke.md),
-with CPU-review flags retained for future optimisation. The first numeric run
-executes 15 forms: 10 pass, 5 have output mismatches; registered `f()` fails
-compilation. No CPU-review flags trigger in this short run. Quiet smoke firmware
+with CPU-review flags retained for future optimisation. The latest batch checks
+36 exact RNBO signal spellings: all pass, with no CPU-review flags. Its 368,640
+output checks cover small arithmetic/logic vectors; median callback costs are
+41–89.5 µs. The earlier numeric Gen run executes 15 forms: 10 pass, 5 have output
+mismatches; registered `f()` fails compilation. It also has no CPU-review flags. Quiet smoke firmware
 is currently installed on XIAO; the drone is not restored after every batch.
 
 The earlier [Gen comparison/logic batch](gen-logic-qualification.md) adds twenty

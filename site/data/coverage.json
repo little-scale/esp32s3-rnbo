@@ -13879,6 +13879,13 @@
           "conditions": "Original DC arithmetic and linear mapping fixtures; typed scalar/zero-divisor branches where authored. Separate drone/sine/MIDI/FX compositions run on S3.",
           "level": "native-semantics-and-S3-composition",
           "source": "docs/object-optimisation.md"
+        },
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
         }
       ],
       "registry_context": {
@@ -14017,6 +14024,13 @@
           "conditions": "Original DC arithmetic and linear mapping fixtures; typed scalar/zero-divisor branches where authored. Separate drone/sine/MIDI/FX compositions run on S3.",
           "level": "native-semantics-and-S3-composition",
           "source": "docs/object-optimisation.md"
+        },
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
         }
       ],
       "registry_context": {
@@ -14604,7 +14618,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -15454,7 +15468,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -16476,7 +16490,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -17110,7 +17124,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         },
@@ -17274,7 +17288,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
@@ -18024,7 +18038,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -18091,12 +18105,12 @@
       ],
       "qualification": [
         {
-          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         },
         {
-          "conditions": "SavedS3:12 warm4 Main workloads,512blocks\u00d73rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle.",
+          "conditions": "SavedS3:12 warm4 Main workloads,512blocks×3rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle.",
           "level": "S3-exact-numeric-pair-private-train-hoist",
           "source": "evidence/train-reciprocal-hoist.json"
         },
@@ -18203,12 +18217,12 @@
           "source": "evidence/wrap-finite-target.json"
         },
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
         {
-          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; \u00b12^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
+          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; ±2^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
           "level": "private-native-known-failure",
           "source": "evidence/wrap-finite.json"
         }
@@ -18888,6 +18902,1162 @@
       "surface": "codebox",
       "working_note": "XIAO ESP32-S3: independent output-model checks passed for this exact authored form.",
       "working_state": "board"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:add~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "add~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/add-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "add~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mul~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mul~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/multiply-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "mul~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:times~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "times~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/multiply-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "times~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:rsub~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "rsub~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/reverse-subtract-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "rsub~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:!-~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "!-~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/reverse-subtract-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "!-~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:rminus~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "rminus~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/reverse-subtract-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "rminus~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:absdiff~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "absdiff~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/absolute-difference-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "absdiff~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:neg~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "neg~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/negate-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "neg~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fabs~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fabs~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/fabs-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "fabs~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:pass~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "pass~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/pass-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "pass~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:neq~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "neq~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/not-equal-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "neq~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:!=~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "!=~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/not-equal-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "!=~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:notequals~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "notequals~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/not-equal-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "notequals~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gt~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gt~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/greater-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "gt~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:>~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            ">~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/greater-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": ">~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:greaterthan~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "greaterthan~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/greater-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "greaterthan~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gte~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gte~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/greater-equal-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "gte~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:>=~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            ">=~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/greater-equal-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": ">=~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:greaterthaneq~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "greaterthaneq~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/greater-equal-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "greaterthaneq~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:lte~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "lte~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/less-equal-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "lte~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:<=~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "<=~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/less-equal-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/22",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "<=~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:lessthaneq~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "lessthaneq~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/less-equal-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/23",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "lessthaneq~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:and~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "and~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/and-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/24",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "and~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:&&~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "&&~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/and-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/25",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "&&~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:logand~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "logand~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/and-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/26",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "logand~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:or~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "or~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/or-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/27",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "or~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:||~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "||~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/or-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/28",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "||~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:xor~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "xor~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/xor-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/29",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "xor~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:^^~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "^^~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/xor-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/30",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "^^~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:not~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "not~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/not-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/31",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "not~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:!~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "!~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/not-symbol-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/32",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "!~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:boolnum~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "boolnum~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/boolean-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/33",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "boolnum~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:bool~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "bool~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/boolean-name-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/34",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "bool~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:b~",
+      "known_gaps": [
+        "Only the supplied short signal-vector scenario is checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "b~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-stateless/boolean-short-alias-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short direct-input hardware scenario only: one 256-frame stereo dyadic grid in [-4,4], four manual warm calls and sixteen timed calls. Exact declared binary32 outputs with zero-sign diagnostics; no full mode/domain or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/35",
+          "source": "evidence/xiao-smoke-rnbo-stateless.json"
+        }
+      ],
+      "spelling": "b~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short direct-input signal check for this exact spelling.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -20181,6 +21351,13 @@
       "publication": "included-with-status-site",
       "sha256": "9d4d24617678a02109cd14980d799ecf935581485e195994c0c7bd4ffc138a81",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wrap-finite.json"
+    },
+    "evidence/xiao-smoke-rnbo-stateless.json": {
+      "bytes": 35102,
+      "path": "evidence/xiao-smoke-rnbo-stateless.json",
+      "publication": "public-evidence",
+      "sha256": "d36e19114420ff84c4ac210aefe7ea7a756bfd1785046f873e426e6a63c85f72",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-stateless.json"
     },
     "evidence/xiao-wave4.json": {
       "bytes": 499096,

@@ -24,17 +24,32 @@ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def save(path,value):path.write_bytes(canonical(value))
 
 
+def reference_path(catalog):
+    family=catalog.get('family')
+    if family not in ('gen-numeric','rnbo-stateless'):
+        raise ExportError('Unsupported smoke reference family')
+    return ROOT/'tests/fixtures/smoke'/family/'reference.py'
+
+
+def checked_words(words):
+    words=tuple(words)
+    if len(words)!=512 or any(type(w)is not int or not 0<=w<=0xffffffff or
+            (w&0x7f800000)==0x7f800000 for w in words):
+        raise ExportError('Smoke vectors require 512 finite binary32 words')
+    return words
+
+
 def prepare_plan(catalog_path,modules_path):
     catalog=read_json(read_regular(catalog_path,1024*1024),'smoke catalog')
     batch=read_json(read_regular(modules_path,8*1024*1024),'smoke modules')
-    if (catalog.get('format')!='rnbo-hardware-smoke-catalog-v1' or catalog.get('family')!='gen-numeric' or
+    if (catalog.get('format')!='rnbo-hardware-smoke-catalog-v1' or
             catalog.get('sample_rate')!=44100 or catalog.get('block_frames')!=256 or
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
-    reference_path=ROOT/'tests/fixtures/smoke/gen-numeric/reference.py'
-    spec=importlib.util.spec_from_file_location('smoke_reference',reference_path)
+    reference_source=reference_path(catalog)
+    spec=importlib.util.spec_from_file_location('smoke_reference',reference_source)
     reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
-    inputs=reference.input_words(256)
+    inputs=checked_words(reference.input_words(256))
     modules={r['id']:r for r in batch['modules']}
     if len(modules)!=len(batch['modules']) or set(modules)!={r['id']for r in catalog['cases']}:
         raise ExportError('Module batch and source catalog identities differ')
@@ -43,9 +58,12 @@ def prepare_plan(catalog_path,modules_path):
         identity=row['id']
         if not re.fullmatch('[A-Za-z0-9_-]+',identity):raise ExportError('Unsafe smoke identity')
         module=modules[identity]
-        patch=catalog_path.parent/row['patch'];expression=catalog_path.parent/row['genexpr']
+        patch=catalog_path.parent/row['patch']
         source_hash=hashlib.sha256(read_regular(patch,1024*1024)).hexdigest()
-        expression_hash=hashlib.sha256(read_regular(expression,65536)).hexdigest()
+        expression_info={}
+        if 'genexpr' in row:
+            expression_info['genexpr_sha256']=hashlib.sha256(
+                read_regular(catalog_path.parent/row['genexpr'],65536)).hexdigest()
         manifest=module.get('prepared',{}).get('manifest',{})
         if manifest.get('editable_source_sha256')!=source_hash:
             raise ExportError('Prepared module does not match authored patch: '+identity)
@@ -54,7 +72,7 @@ def prepare_plan(catalog_path,modules_path):
             raise ExportError('Prepared module changed: '+identity)
         if module['status']!='built':
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
-                'genexpr_sha256':expression_hash,'compile_log_sha256':module.get('compile_log_sha256'),
+                **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -62,22 +80,24 @@ def prepare_plan(catalog_path,modules_path):
             raise ExportError('Module artifact changed: '+identity)
         inspection=inspect_module(data,allowed_imports=set())
         if inspection['imports']:raise ExportError('Smoke module imports are not empty')
-        expected=reference.reference_words(row['model'],inputs)
+        expected=checked_words(reference.reference_words(row['model'],inputs))
         import struct
         expected_hash=hashlib.sha256(struct.pack('<512I',*expected)).hexdigest()
         cases.append({**row,'module_sha256':module['artifact']['sha256'],'module_bytes':len(data),
-            'source_sha256':source_hash,'genexpr_sha256':expression_hash,
+            'source_sha256':source_hash,**expression_info,
             'expected_words_sha256':expected_hash,'expected':expected})
         payloads.append(artifact)
     if not cases or sum(p.stat().st_size for p in payloads)>2*1024*1024:
         raise ExportError('Empty or oversized smoke batch; split the catalog')
     import struct
     plan={'format':'rnbo-hardware-smoke-plan-v1','catalog_sha256':sha(catalog_path),
-        'module_batch_sha256':sha(modules_path),'reference_source_sha256':sha(reference_path),
+        'module_batch_sha256':sha(modules_path),'reference_source_sha256':sha(reference_source),
         'sample_rate':44100,'block_frames':256,'warmup_blocks':4,'timed_blocks':16,
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
+    if catalog['family']=='rnbo-stateless':
+        plan.update(family='rnbo-stateless',surface='patcher')
     return plan,inputs,payloads
 
 
@@ -97,14 +117,15 @@ def generate_header(plan,inputs):
 
 
 def sources(catalog):
+    data=json.loads(catalog.read_bytes())
     paths=[Path(__file__).resolve(),ROOT/'tools/build_smoke_modules.py',catalog,
-        ROOT/'tests/fixtures/smoke/gen-numeric/reference.py']
+        reference_path(data)]
     paths.extend(p for p in (ROOT/'hardware-smoke').rglob('*') if p.is_file())
     paths.extend(ROOT/'object-benchmark/main'/name for name in
         ('module_host.c','module_host.h','allocation_probe.c','allocation_probe.h','bench_check.h','mapped_range.h'))
     paths.extend(ROOT/'module-sdk/include'/name for name in ('rnbo_s3_module.h','rnbo_s3_dynamic.h'))
-    for row in json.loads(catalog.read_bytes())['cases']:
-        paths.extend(catalog.parent/row[key] for key in ('patch','genexpr'))
+    for row in data['cases']:
+        paths.extend(catalog.parent/row[key] for key in ('patch','genexpr') if key in row)
     return {str(p.relative_to(ROOT)):sha(p) for p in sorted(set(paths)) if '__pycache__'not in p.parts}
 
 
