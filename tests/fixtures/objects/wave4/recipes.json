@@ -1,0 +1,884 @@
+{
+  "block_frames": 256,
+  "format": "rnbo-original-object-recipes-v1",
+  "format_version": 1,
+  "license": "MIT",
+  "recipes": [
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "absolute-signal-stereo",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "absolute",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_abs~.maxref.xml",
+          "sha256": "6e83b3e33f23eb5fd19ff82c990b913e39af256daea7ea35b49743705ade5836",
+          "url": "https://rnbo.cycling74.com/objects/ref/abs~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 1,
+        "canonical": "abs~",
+        "spelling": "abs~",
+        "surface": "patcher",
+        "wiring": "independent-planes"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "minimum-canonical-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "minimum",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_minimum~.maxref.xml",
+          "sha256": "bd2824e8e128085ffc9590536828d7c24d5817582463460dce7c6224790a594c",
+          "url": "https://rnbo.cycling74.com/objects/ref/minimum~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "minimum~",
+        "spelling": "minimum~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "minimum-alias-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "minimum",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_minimum~.maxref.xml",
+          "sha256": "bd2824e8e128085ffc9590536828d7c24d5817582463460dce7c6224790a594c",
+          "url": "https://rnbo.cycling74.com/objects/ref/minimum~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "minimum~",
+        "spelling": "min~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "maximum-canonical-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "maximum",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_maximum~.maxref.xml",
+          "sha256": "3db5505e07fec0c16003213e2adaf2e81176c69215dcc71f8fa0edd6b845338f",
+          "url": "https://rnbo.cycling74.com/objects/ref/maximum~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "maximum~",
+        "spelling": "maximum~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "maximum-alias-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "maximum",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_maximum~.maxref.xml",
+          "sha256": "3db5505e07fec0c16003213e2adaf2e81176c69215dcc71f8fa0edd6b845338f",
+          "url": "https://rnbo.cycling74.com/objects/ref/maximum~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "maximum~",
+        "spelling": "max~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "subtract-canonical-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "subtract",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sub~.maxref.xml",
+          "sha256": "5338646f5e77154ba5c44d58af7b1c77a88b291d5e605839395281689379c89c",
+          "url": "https://rnbo.cycling74.com/objects/ref/sub~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "sub~",
+        "spelling": "sub~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "subtract-alias-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "subtract",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sub~.maxref.xml",
+          "sha256": "5338646f5e77154ba5c44d58af7b1c77a88b291d5e605839395281689379c89c",
+          "url": "https://rnbo.cycling74.com/objects/ref/sub~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "sub~",
+        "spelling": "-~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "equal-canonical-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "equal",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_eq~.maxref.xml",
+          "sha256": "d4977fcd4ae557f9c88065ccbdc8223e6d1cf9d068d59fcfe272122b3d711f06",
+          "url": "https://rnbo.cycling74.com/objects/ref/eq~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "eq~",
+        "spelling": "eq~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "equal-alias-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "equal",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_eq~.maxref.xml",
+          "sha256": "d4977fcd4ae557f9c88065ccbdc8223e6d1cf9d068d59fcfe272122b3d711f06",
+          "url": "https://rnbo.cycling74.com/objects/ref/eq~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "eq~",
+        "spelling": "==~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "less-canonical-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "less",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_lt~.maxref.xml",
+          "sha256": "baeb2104052dccd6a730d09cd58762eb694216ef759a15c022f505cc3de4c07c",
+          "url": "https://rnbo.cycling74.com/objects/ref/lt~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "lt~",
+        "spelling": "lt~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "less-alias-signal",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "less",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_lt~.maxref.xml",
+          "sha256": "baeb2104052dccd6a730d09cd58762eb694216ef759a15c022f505cc3de4c07c",
+          "url": "https://rnbo.cycling74.com/objects/ref/lt~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "arity": 2,
+        "canonical": "lt~",
+        "spelling": "<~",
+        "surface": "patcher",
+        "wiring": "reversed-binary-operands"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "codebox-arithmetic",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "sum-and-difference",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_expr~.maxref.xml",
+          "sha256": "9f1048ac3749657b8b6bbb601c4ae6afac2263f8b0e8671a7870d2aca2c916ca",
+          "url": "https://rnbo.cycling74.com/objects/ref/expr~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/add",
+          "version_scope": "unversioned web reference; name/signature verified against installed RNBO1.4.4"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "exact_entries": [
+          "codebox:+",
+          "codebox:-"
+        ],
+        "program": "arithmetic",
+        "surface": "codebox",
+        "wrapper_spelling": "codebox~"
+      }
+    },
+    {
+      "audio_inputs": 2,
+      "audio_outputs": 2,
+      "cases": [
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "signed-grid-v1",
+          "input": {
+            "kind": "signed-grid-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "dense-binary32-v1",
+          "input": {
+            "kind": "dense-binary32-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        },
+        {
+          "blocks": 64,
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "input": {
+            "kind": "vector-boundaries-v1"
+          },
+          "lifecycles": 2,
+          "warmup_blocks": 4
+        }
+      ],
+      "domain": {
+        "finite": true,
+        "input_type": "binary32",
+        "maximum": 1.0,
+        "minimum": -1.0,
+        "zero_sign": "numeric-equality-with-separate-bit-observation"
+      },
+      "id": "codebox-delta-state",
+      "model": {
+        "independent_truth": "mathematical-operation-and-explicit-input-history",
+        "kind": "delta-left-observer-right",
+        "maximum_absolute_error": 0.0,
+        "rounding": "once-binary32-per-output-operation"
+      },
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_expr~.maxref.xml",
+          "sha256": "9f1048ac3749657b8b6bbb601c4ae6afac2263f8b0e8671a7870d2aca2c916ca",
+          "url": "https://rnbo.cycling74.com/objects/ref/expr~?v=1.4.4",
+          "version_scope": "installed RNBO1.4.4 primary metadata"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/delta",
+          "version_scope": "unversioned web reference; name/signature verified against installed RNBO1.4.4"
+        }
+      ],
+      "role": "fx",
+      "source": {
+        "exact_entries": [
+          "codebox:delta",
+          "codebox-member:delta.next"
+        ],
+        "program": "delta-state",
+        "surface": "codebox",
+        "wrapper_spelling": "codebox~"
+      }
+    }
+  ],
+  "rnbo_version": "1.4.4",
+  "sample_rate": 44100
+}
