@@ -62,6 +62,9 @@ def build(export: Path, build_dir: Path, cmake: str = "cmake") -> Path:
                            root / "host/compiler/exact_delay44100.h", root / "host/compiler/hoist_filter_durations.py",
                            root / "host/compiler/hoist_train_reciprocal.py", root / "host/compiler/bounded_line_ramps.py",
                            root / "host/compiler/onepole_clamp.py", root / "host/compiler/stable_onepole.py",
+                           root / "host/compiler/onepole_graphs.py", root / "host/compiler/regenerated_export.py",
+                           root / "host/export/export.mjs", root / "host/export/patcher.mjs",
+                           root / "host/export/inspect_onepole_graph.mjs",
                            root / "host/compiler/onepole_stable.h"]
     integration_hashes = snapshot_files(root, integration_files)
     compiler_tool_hashes = snapshot_files(root, compiler_tool_files)

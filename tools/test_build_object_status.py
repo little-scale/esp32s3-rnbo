@@ -134,6 +134,19 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('five exceed',row['working']['detail'])
         self.assertIn('strict baseline',row['working']['detail'])
         self.assertIn('finite recovery',row['optimisation']['detail'])
+        graph_source='evidence/stable-onepole-graphs.json'
+        graph_evidence=json.loads((ROOT/graph_source).read_bytes())
+        self.assertTrue(any(q['source']==graph_source for q in record['qualification']))
+        self.assertTrue(any(s['url'].endswith('/'+graph_source) for s in row['sources']))
+        self.assertEqual(graph_evidence['native']['summary']['graphs'],10)
+        self.assertEqual(len(graph_evidence['target_compilation']['variants']),4)
+        self.assertFalse(graph_evidence['target_execution'])
+        self.assertFalse(graph_evidence['target_cpu_gain_claimed'])
+        self.assertIsNone(graph_evidence['performance_percentage'])
+        source=self.coverage['sources'][graph_source]
+        self.assertEqual(source['path'],graph_source)
+        self.assertEqual(source['bytes'],(ROOT/graph_source).stat().st_size)
+        self.assertTrue(source['url'].endswith('/'+graph_source))
         for kind in ('flag','reference','candidate','historical_only'):
             forged=copy.deepcopy(self.coverage)
             changed=next(o for r in forged['objects'] if r['id']==record['id'] for o in r['optimisations'] if o['id']=='stable-onepole')
