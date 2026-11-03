@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 get_filename_component(repo_root "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
-idf_component_register(SRCS "benchmark.c" "module_host.c" "allocation_probe.c" "stimulus.c" "average_oracle.c" "wave2_oracle.c"
+idf_component_register(SRCS "benchmark.c" "module_host.c" "allocation_probe.c" "stimulus.c" "average_oracle.c" "wave2_oracle.c" "wave4_oracle.c"
     INCLUDE_DIRS "." "${repo_root}/module-sdk/include" "${OBJECT_BENCH_CONFIG_DIR}"
     REQUIRES elf_loader esp_psram esp_timer mbedtls esp_app_format)
 foreach(kind strict optimized)

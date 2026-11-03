@@ -434,8 +434,214 @@ def wave2_identity(build,fixture,plan):
     require(position==len(events),'Unexpected oracle parameter events')
 
 
+# Frozen original wave4 metadata identities; no generated DSP bodies.
+WAVE4_KIND='wave4-mathematical-v1'
+WAVE4_MODELS=('absolute','minimum','maximum','subtract','equal','less','sum-and-difference','delta-left-observer-right')
+WAVE4_INPUTS={'signed-grid-v1':12,'dense-binary32-v1':13,'vector-boundaries-v1':14}
+WAVE4_IDENTITIES={
+  "absolute-signal-stereo": {
+    "model_code": 1,
+    "original_fixture": "4cac13d6fd218c772281576fa710b0d2a97d11e5f260e1ac1af3e7df2bb13a3f",
+    "patch": "da3625938474de6cc902b3518375559f1b01dc287a4df0f1686dbf0ad4305764",
+    "source": "1035315dd9e3273df51041727eabb0f236b62cb944f3c8a12f9fdff27ea9c0e0",
+    "source_tree": "e1bf2c87d1b1675d593683b56bf3590f9023b6bbe492f3c994db7b9700377d57"
+  },
+  "codebox-arithmetic": {
+    "model_code": 7,
+    "original_fixture": "0630421697799a936e75abf456c4f673d930b0571f5608d45e88ae50cccb3f2c",
+    "patch": "107e5667d49089e4a276bebdbcccba1040f42f74274b6d868bfb5aea1ccfe80b",
+    "source": "a179ffd02af10c4ba02c38be9d4a252b9be2b92fc76feaef8c9dd733d2bc45a6",
+    "source_tree": "70039fb9c620e53ed929acf208a360afaa616e55b34a832b15282b5ff14617c9"
+  },
+  "codebox-delta-state": {
+    "model_code": 8,
+    "original_fixture": "bc256464b3f4ef5cdc2f14bcdb7305d5e077f2ea7d79fa2fb2f08de8fed13136",
+    "patch": "1d0f85909f72dac741f8f1ab40634e4990da306ab088f66a4cc87d9a50015f75",
+    "source": "8cb5a2989432c755840959b5b1acd6eb9f16638094a387c04b18bff4b0ea3827",
+    "source_tree": "5000cd55d1247ceffc56fde83e4da1aab4bfd34949ed28e007b2a8719bea873d"
+  },
+  "equal-alias-signal": {
+    "model_code": 5,
+    "original_fixture": "6a99218ae9e117497adc8a31ccdbed6a0548ee527a289989b9d3fff379129cf6",
+    "patch": "c3d4b15149d98652cd79da3fef0686ed7ab547d8e8de38593eb80df41fa680d1",
+    "source": "8cab03d9e755c9733459869f420d6c28617160988561b10e6ddef79fa2ab98e3",
+    "source_tree": "0a7cd26d7e7e512477384df4aea3fb6bbe81d978306239679218315191731bbd"
+  },
+  "equal-canonical-signal": {
+    "model_code": 5,
+    "original_fixture": "2c57f47b3caa1690d2c94874756e9da3d35fc593f92a989cafe690e581f6ec74",
+    "patch": "1f6b762d970ac0438dc13b4168cb2723487d5ae7af55d1ab920d110c27f79114",
+    "source": "8cab03d9e755c9733459869f420d6c28617160988561b10e6ddef79fa2ab98e3",
+    "source_tree": "34d7fcaa8a3d2c89b425f5fe287b17fe28402ace0291089259b6a136d1b38e2c"
+  },
+  "less-alias-signal": {
+    "model_code": 6,
+    "original_fixture": "189ca2b5b47e9a759dfa82120e45f9cc5a3d403b15c3f570d6b70e505c32333f",
+    "patch": "2c17f11cc2bdaf8ecc730b0c18a74f234ea4fa7243c0d1da5b6573601d7b1864",
+    "source": "cf646ac2c294dbb203814ee96eb22bc17ca4721dc02f4a2862db79767f7e5980",
+    "source_tree": "55b0469916809fa46eb57020e1aa2f1ac12ff5b49ea2846d7de53fbb9de82a63"
+  },
+  "less-canonical-signal": {
+    "model_code": 6,
+    "original_fixture": "74305eeb9afee6dee54473ade346dae22b8a1b70e9cf4b7a33ecbbb2d319b7aa",
+    "patch": "e7820bc2b39c13804c1ad284f5afc08c1a637e559d93c97a9c36afad6b19346f",
+    "source": "cf646ac2c294dbb203814ee96eb22bc17ca4721dc02f4a2862db79767f7e5980",
+    "source_tree": "db511bfdab8b92015709ccbbbe03689277e203c075477c31694490b7c0b394a6"
+  },
+  "maximum-alias-signal": {
+    "model_code": 3,
+    "original_fixture": "133e4e259c8d226178b5af7c34e687486aa71f7d37e5fe347be97600d19ccd0e",
+    "patch": "6b065ec92da9bf71b7668a67a53023e9d4aed5894a3fbd0b31327295817db6b6",
+    "source": "7b6367d6cc00e272600d6e670fc772e6eef02e7ce316afb39494acfe5519119c",
+    "source_tree": "2a969be6f7fb12ad01a6a19ea50f3c4413163613426c7d2b6e01bf5c95a5bac7"
+  },
+  "maximum-canonical-signal": {
+    "model_code": 3,
+    "original_fixture": "3663829e1c37ea478d197996da225275d91894ec82b75bc76e832f3d8de6c386",
+    "patch": "74afaafcf651995b00309bf1bc3c60c4596eaa98730395716941a472210592ad",
+    "source": "7b6367d6cc00e272600d6e670fc772e6eef02e7ce316afb39494acfe5519119c",
+    "source_tree": "92d976df549ca005c92ce584336128d311f4b68b58080b5ec8a78573ea0dc45a"
+  },
+  "minimum-alias-signal": {
+    "model_code": 2,
+    "original_fixture": "5904e7240494302d4a2ce81d4fb1e0933d4d4f15d9722b605b6ee4a9a5c6ff3d",
+    "patch": "516a939cf542a60f0a9566e72c246d49bd6e58b005c5f03baf232898b2331efe",
+    "source": "641bd05f02cb043b0259c4a10e91346a26ee07975207d7e7d4bde45001a88468",
+    "source_tree": "54efedfb1572e655312bb4b4261009bb6cafab07b19cc572f17e1fd7722c59da"
+  },
+  "minimum-canonical-signal": {
+    "model_code": 2,
+    "original_fixture": "bd182c7cb0e5953613d2da93d6671c25848f5a6ab6c999086da43107d845da47",
+    "patch": "36bd71ae615de1f129e929d27cb5f1602ba8a41cb02a5dcb6e1ecb3628bad013",
+    "source": "641bd05f02cb043b0259c4a10e91346a26ee07975207d7e7d4bde45001a88468",
+    "source_tree": "0af0eb09122b832b240ddfd832ff28e9ee5c6bd7518637d6516b81ce375d5c6f"
+  },
+  "subtract-alias-signal": {
+    "model_code": 4,
+    "original_fixture": "694d5d16a31e6193603ea315e7ac7e0ed0fac5789d55ced03e21a7d0f94cbd47",
+    "patch": "bf1f2beb9fd24ac80507d0b4291b3a664d11fad527efeb9d27dd59bf5a85409f",
+    "source": "13e34e2fc89cbb750ad42d02a6903dc07ecea9456fcd7d12c4a706ce8078811b",
+    "source_tree": "feedef57dc4f4d18506c85b1b94acb6df474f5244e277e128360d1f408c2e376"
+  },
+  "subtract-canonical-signal": {
+    "model_code": 4,
+    "original_fixture": "e605e72ecf02da3ba6f1cc978ba3bfb14c597ff27464ffd003b705ded8e13bfd",
+    "patch": "59ab8fbc18fce82db8d05d83f037e59f93984558be1c679391c92098668e4221",
+    "source": "13e34e2fc89cbb750ad42d02a6903dc07ecea9456fcd7d12c4a706ce8078811b",
+    "source_tree": "3bcb4f2da0017d62fb0070a4b942b63e309c51dd144dbc0b8f8d729dac975cc8"
+  }
+}
+WAVE4_SCHEMA='37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570'
+WAVE4_RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
+WAVE4_ADAPTATIONS=['rnbo-1.4.4-list-copy-bounds-v1','rnbo-1.4.4-list-move-inline-storage-v1','rnbo-1.4.4-list-cross-capacity-assignment-v1','rnbo-1.4.4-nested-clock-target-v1','rnbo-1.4.4-defined-imul-v1']
+
+def wave4_declaration(fixture):
+    identity=fixture.get('id');require(type(identity)is str and identity in WAVE4_IDENTITIES,'Unknown exact wave4 fixture')
+    pin=WAVE4_IDENTITIES[identity]
+    extras={'original_cases','family','blocks','warmup_blocks','seed','stimulus','verification','comparison_tolerance'}
+    original={k:v for k,v in fixture.items()if k not in extras};original['cases']=fixture.get('original_cases')
+    try: original_sha=hashlib.sha256((json.dumps(original,sort_keys=True,indent=2,allow_nan=False)+'\n').encode()).hexdigest()
+    except (TypeError,ValueError):original_sha=None
+    require(original_sha==pin['original_fixture'],'Wave4 original source/surface/domain/model metadata differs')
+    require(fixture.get('family')=='wave4' and fixture.get('role')=='fx' and fixture.get('blocks')==64 and
+            fixture.get('warmup_blocks')==4 and fixture.get('seed')==305419896,'Wave4 audio/initial state differs')
+    require(fixture.get('stimulus')=={'kind':'signed-grid-v1'},'Wave4 base stimulus differs')
+    cases=[{'id':name,'parameters':{},'events':[],'stimulus':{'kind':name}}for name in WAVE4_INPUTS]
+    require(same_declaration(fixture.get('cases'),cases),'Wave4 requires all three original inputs in order without events')
+    require(same_declaration(fixture.get('comparison_tolerance'),{'maximum_absolute_error':0,'maximum_pcm_lsb_error':0,'relative_rms_level_difference':0}),'Wave4 pair tolerances must remain zero')
+    expected={'kind':WAVE4_KIND,'model_code':pin['model_code'],'maximum_absolute_error':0,
+              'observer_channel':1 if pin['model_code']==8 else 2}
+    require(same_declaration(fixture.get('verification'),expected),'Wave4 verification model differs')
+    return expected
+
+
+def wave4_verification(fixture,case):
+    expected=wave4_declaration(fixture)
+    require(any(same_declaration(case,c)for c in fixture['cases']),'Unknown wave4 case')
+    return {**expected,'model':'independent-binary32-operations-and-input-history',
+            'rounding':'once-binary32-per-output-operation','gate':'numeric-exact-plus-direct-observer-bits',
+            'operation_zero_sign':'diagnostic-only','initial_previous_input':0.0}
+
+
+def wave4_identity(build,fixture,plan):
+    wave4_declaration(fixture);pin=WAVE4_IDENTITIES[fixture['id']]
+    require(type(plan.get('blocks'))is int and plan['blocks']==64 and type(plan.get('rounds'))is int and plan['rounds']==3,
+            'Wave4 requires64 blocks and three rounds')
+    require(plan.get('parameter_schema')==[] and plan.get('events')==[],'Wave4 parameters/events are unmodeled')
+    require(plan.get('patch_sha256')==pin['patch'],'Wave4 patch identity differs')
+    require(build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256'],
+            'Wave4 initial qualification requires same-artifact control')
+    for module in build['modules'].values():
+        export=module['report']['prepared_export'];manifest=export['manifest'];provenance=export.get('provenance',{})
+        require(manifest.get('editable_source_sha256')==pin['patch'] and manifest.get('parameter_schema_sha256')==WAVE4_SCHEMA and
+                manifest.get('source_tree_sha256')==pin['source_tree'],
+                'Wave4 exact source/empty parameter schema differs')
+        require(type(manifest.get('parameter_count'))is int and manifest['parameter_count']==0 and
+                manifest.get('role')=='fx' and manifest.get('audio_inputs')==manifest.get('audio_outputs')==2 and
+                manifest.get('sample_rate')==44100 and manifest.get('block_frames')==256 and
+                manifest.get('numerical_profile')=='float32-strict' and manifest.get('scheduler_time')=='float64' and
+                manifest.get('rnbo_version')=='1.4.4' and manifest.get('class_name')=='rnbos3patch' and
+                manifest.get('voices')==1 and manifest.get('voice_topology')=='single-export' and
+                manifest.get('required_host_services')==[] and manifest.get('midi_output_ports')==0,
+                'Wave4 strict module/ABI profile differs')
+        require(manifest.get('adaptations')==WAVE4_ADAPTATIONS,'Wave4 requires only normal strict runtime fixes')
+        require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==pin['source'],'Wave4 raw generated source differs')
+        snapshot=module['report'].get('prepared_snapshot',{}).get('prepared_files_sha256',{})
+        require(snapshot.get('rnbo_source.h')==pin['source'],'Wave4 strict prepared source differs')
+        runtime={k:v for k,v in snapshot.items()if k.startswith('common/')}
+        require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
+                'Wave4 normal fixed runtime differs')
+
+
+@lru_cache(maxsize=3)
+def wave4_input_bytes(kind,blocks=64):
+    require(type(kind)is int and kind in WAVE4_INPUTS.values() and type(blocks)is int and blocks==64,'Unknown wave4 input/span')
+    grid=((0,0x80000000),(0xbf800000,0x3f800000),(0x3f800000,0xbf800000),(0x3f000000,0x3f000000),
+          (0xbf000000,0xbf000000),(0x3f7fffff,0x3f800000),(1,0),(0x80000001,0),(0x3f000001,0x3f000000),
+          (0x3effffff,0x3f000000),(0x80000000,0),(0x3f800000,0x3f800000))
+    result=bytearray();state=305419896
+    for n in range(blocks*256):
+        if kind==12:a,b=grid[(n//17)%12]
+        elif kind==13:
+            words=[]
+            for _ in range(2):
+                state=(1664525*state+1013904223)&0xffffffff
+                words.append((state&0x807fffff)|(((state>>24)%127)<<23))
+            a,b=words
+            if n%17==0:b=a
+            if n%31==0:b=a^0x80000000
+        else:
+            cycle=n%1024
+            a=(0x3f400000 if (n//1024)%2==0 else 0xbf400000)if cycle in (0,255,256,511,512)else 0x3e800000 if cycle>=768 else 0
+            b=0xbf000000 if 256<=cycle<512 else 0x3f000000 if 512<=cycle<768 else 0x80000000
+        result.extend(struct.pack('<II',a,b))
+    return bytes(result)
+
+
+@lru_cache(maxsize=24)
+def wave4_oracle_bytes(model,kind,blocks=64):
+    require(type(model)is int and 1<=model<=8,'Unknown wave4 operation')
+    data=wave4_input_bytes(kind,blocks);result=bytearray();previous=0.0
+    def wire(v):return struct.pack('<f',v)
+    for x,y in struct.iter_unpack('<ff',data):
+        if model==1:a,b=abs(x),abs(y)
+        elif model==2:a,b=(x if x<=y else y),(y if y<=x else x)
+        elif model==3:a,b=(x if x>=y else y),(y if y>=x else x)
+        elif model==4:a,b=x-y,y-x
+        elif model==5:a=b=float(x==y)
+        elif model==6:a,b=float(x<y),float(y<x)
+        elif model==7:a,b=x+y,x-y
+        else:a,b=x-previous,y;previous=x
+        result.extend(wire(a));result.extend(wire(b))
+    return bytes(result)
+
+
+def wave4_cache_hashes(model,kind,blocks=64):
+    return hashlib.sha256(wave4_input_bytes(kind,blocks)).hexdigest(),hashlib.sha256(wave4_oracle_bytes(model,kind,blocks)).hexdigest()
+
+
 def declared_stimulus(fixture,case):
-    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,POWER_DENSE:11,**WRAP_STIMULI}
+    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,POWER_DENSE:11,**WRAP_STIMULI,**WAVE4_INPUTS}
     base=fixture.get('stimulus');override=case.get('stimulus',{})
     require(isinstance(base,dict) and isinstance(override,dict),'FX stimulus declaration missing')
     if base.get('kind') in wave2:
@@ -465,8 +671,10 @@ def declared_verification(fixture,case):
     declaration=fixture.get('verification')
     kind=(fixture.get('stimulus',{})|case.get('stimulus',{})).get('kind')
     if declaration is None:
-        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',POWER_DENSE,*WRAP_STIMULI),'Missing explicit verification contract')
+        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',POWER_DENSE,*WRAP_STIMULI,*WAVE4_INPUTS),'Missing explicit verification contract')
         return None
+    if isinstance(declaration,dict) and declaration.get('kind')==WAVE4_KIND:
+        return wave4_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind')==POWER_KIND:
         return power_verification(fixture,case)
     if isinstance(declaration,dict) and declaration.get('kind')=='wrap-finite-v1':
@@ -493,7 +701,7 @@ def oracle_memory_budget(build,plan):
     budget=plan.get('psram_budget');require(isinstance(budget,dict),'Missing oracle PSRAM budget')
     blocks=plan['blocks'];arena=plan.get('arena_bytes');require(type(arena) is int and 4096<=arena<=1048576,'Invalid selected arena budget')
     kind=plan['fixture'].get('verification',{}).get('kind')
-    expected_count=5 if kind=='biquad-response-v1' else 0 if kind=='wrap-finite-v1' else 1
+    expected_count=5 if kind=='biquad-response-v1' else 0 if kind in ('wrap-finite-v1',WAVE4_KIND) else 1
     require(all(build['modules'][p]['report']['prepared_export']['manifest'].get('parameter_count')==expected_count for p in ('strict','optimized')),'Oracle module parameter count differs')
     loaded=sum(build['modules'][p]['inspection']['loaded_bytes_upper_bound'] for p in ('strict','optimized'))
     expected={'workspace_bytes':blocks*256*2*4*2+4*256*4,'oracle_cache_bytes':blocks*256*2*4,
@@ -522,9 +730,11 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
     new_model=fixture.get('verification',{}).get('kind') in WAVE2_ORACLES
     exact_wrap=fixture.get('verification',{}).get('kind')=='wrap-finite-v1'
     powers=fixture.get('verification',{}).get('kind')==POWER_KIND
+    wave4=fixture.get('verification',{}).get('kind')==WAVE4_KIND
     if new_model:wave2_identity(build,fixture,plan)
     if exact_wrap:wrap_identity(build,fixture,plan)
     if powers:power_identity(build,fixture,plan)
+    if wave4:wave4_identity(build,fixture,plan)
     oracle_count=sum(v is not None for v in verifications);pilot_count=case_count-oracle_count
     expected_counts={'input_cases':case_count,'input_rechecks':case_count*plan['rounds']*3,'pilot_sample_checks':expected_samples*pilot_count,
                      'oracle_cases':oracle_count,'oracle_rechecks':oracle_count*plan['rounds']*3,'semantic_sample_checks':expected_samples*oracle_count*2}
@@ -540,7 +750,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         found=[r for r in records if r.get('fixture')==name and r.get('case')==case['id']]
         require(len(found)==1,'Missing or duplicate FX INPUT case')
         record=found[0];digest(record.get('input_sha256'),'Malformed target input SHA256')
-        if exact_wrap or powers:
+        if exact_wrap or powers or wave4:
             require(set(record)=={'fixture','case','input_sha256','input_bytes','layout','stimulus_kind'},
                     'Unknown or missing finite wrap input metadata')
         require(type(record.get('input_bytes')) is int and record['input_bytes']==plan['blocks']*256*2*4,'FX input byte coverage differs')
@@ -552,15 +762,19 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
         if powers:
             expected_input,coverage=power_input_data(expected['kind'],plan['blocks'])
             require(record['input_sha256']==expected_input,'Power deterministic input SHA differs')
+        if wave4:
+            expected_input,expected_oracle=wave4_cache_hashes(verification['model_code'],expected['kind'],plan['blocks'])
+            require(record['input_sha256']==expected_input,'Wave4 deterministic input SHA differs')
         evidence[case['id']]={**record,'declared_settings':expected['settings']}
         if exact_wrap:evidence[case['id']]['distinct_input_coverage']=wrap_input_coverage(expected['kind'],plan['blocks'])
         if powers:evidence[case['id']]['distinct_input_coverage']=coverage
         if verification:
             candidates=[r for r in oracle_records if r.get('fixture')==name and r.get('case')==case['id']]
             require(len(candidates)==1,'Missing or duplicate ORACLE case');oracle=candidates[0]
-            if verification['kind'] in WAVE2_ORACLES or exact_wrap or powers:
+            if verification['kind'] in WAVE2_ORACLES or exact_wrap or powers or wave4:
                 keys={'fixture','case','oracle_sha256','oracle_bytes','layout','oracle_kind','max_abs_tolerance','max_cache_rounding_error','model','rounding'}
-                if powers:keys.update(('initial_exponent','event_schedule_sha256'))
+                if wave4:keys.update(('model_code','observer_channel'))
+                elif powers:keys.update(('initial_exponent','event_schedule_sha256'))
                 elif not exact_wrap:keys.update(verification['coefficients'] if verification['kind']=='biquad-response-v1' else ('exponent',))
                 require(set(oracle)==keys,'Unknown or missing oracle metadata')
             digest(oracle.get('oracle_sha256'),'Malformed oracle SHA256')
@@ -570,6 +784,11 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 require(oracle.get('window')==verification['window'] and oracle.get('initial_available')==verification['initial_available'],'Oracle history/window differs')
             elif exact_wrap:
                 require(oracle['oracle_sha256']==expected_oracle,'Finite wrap independent oracle SHA differs')
+            elif wave4:
+                require(oracle['oracle_sha256']==expected_oracle,'Wave4 independent oracle SHA differs')
+                require(same_declaration(oracle.get('model_code'),verification['model_code']) and
+                        same_declaration(oracle.get('observer_channel'),verification['observer_channel']),
+                        'Wave4 oracle operation/observer differs')
             elif powers:
                 require(same_declaration(oracle.get('initial_exponent'),verification['initial_exponent']) and
                         oracle.get('event_schedule_sha256')==verification['event_schedule_sha256'],'Power oracle initial exponent/event schedule differs')
@@ -580,7 +799,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             require(oracle.get('max_abs_tolerance')==verification['maximum_absolute_error'],'Oracle tolerance differs')
             require(oracle.get('model')==verification['model'] and oracle.get('rounding')==verification['rounding'],'Oracle precision/model differs')
             error=oracle.get('max_cache_rounding_error');require(type(error) in (int,float) and 0<=error<=2**-24,'Invalid oracle cache rounding error')
-            if exact_wrap:require(error==0,'Finite wrap oracle must have zero cache rounding error')
+            if exact_wrap or wave4:require(error==0,'Exact oracle must have zero cache rounding error')
             evidence[case['id']]['oracle']={**oracle,'verification':verification}
     source_names=('object-benchmark/main/stimulus.c','object-benchmark/main/stimulus.h');sources=build.get('source_files_sha256',{})
     generator={key:digest(sources.get(key),'Missing generator source identity') for key in source_names}
@@ -597,10 +816,18 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
                 'limit':'Target SHA fingerprints actual cached input; host/target transcendental byte identity is not assumed'}
     require(isinstance(provenance['catalog_path'],str) and provenance['catalog_path'],'Missing stimulus catalog path')
     if oracle_count:
-        stem='wave2_oracle' if new_model or exact_wrap or powers else 'average_oracle'
+        stem='wave4_oracle' if wave4 else 'wave2_oracle' if new_model or exact_wrap or powers else 'average_oracle'
         provenance['oracle_source_sha256']={key:digest(sources.get(key),'Missing oracle source identity') for key in (f'object-benchmark/main/{stem}.c',f'object-benchmark/main/{stem}.h')}
         provenance['verification_contract']=fixture['verification'];provenance['psram_budget']=oracle_memory_budget(build,plan)
-        if exact_wrap:
+        if wave4:
+            provenance['generation']='Deterministic integer/binary32 programs; complete INPUT SHA independently regenerated on host.'
+            provenance['oracle']='Independent host binary64 mathematical operations rounded once to binary32, min/max first-operand ties and explicit zero-initialized previous-input delta state. Complete oracle bytes independently hashed; no generated kernel imported.'
+            provenance['semantic_gate']='Numerical output/model error and cache-rounding error must both be zero. Operation bit differences may only change zero sign; the delta right-plane observer must preserve every input bit.'
+            provenance['limit']='Thirteen exact authored source contexts, finite binary32 inputs in[-1,1],64 blocks/four warmups/three rounds only. No alias, arbitrary-domain, nonfinite, fenv, explicit-reset or family-wide transfer.'
+            provenance['pilot']='Delta right-plane observer checked raw-bit exactly; other channels use the independent mathematical model.'
+            provenance['parameter_schema']=plan['parameter_schema'];provenance['events']=plan['events']
+            provenance['surface_identity']={key:fixture[key]for key in ('surface','source','exact_entries','aliases_inherit_qualification')}
+        elif exact_wrap:
             provenance['generation']='Deterministic raw IEEEbinary32 finite words; exact little-endian bit copy, no transcendental or numeric input rounding.'
             provenance['oracle']='Independent host binary64 floor arithmetic over the exact below2^24 domain, raw signed-zero identity and even-integer large-value proof; target integer-bit modulo packer is separate.'
             provenance['semantic_gate']='Every output raw binary32 word equals the independently hashed oracle; numeric/cache-rounding errors and bit differences must all be zero.'
@@ -750,8 +977,24 @@ def collect(build_dir,run_dir):
     rounding_prefix='RNBO_OBJECT_BENCHMARK CASE_ROUNDING '
     rounding_records=[fields(line.strip(),rounding_prefix) for line in lines if line.strip().startswith(rounding_prefix)]
     power_mode=fixture.get('verification',{}).get('kind')==POWER_KIND
-    require(len(rounding_records)==(len(fixture['cases']) if power_mode else 0),
+    wave4_mode=fixture.get('verification',{}).get('kind')==WAVE4_KIND
+    require(len(rounding_records)==(len(fixture['cases']) if power_mode or wave4_mode else 0),
             'Incomplete or unexpected pair rounding diagnostics')
+    wave4_prefix='RNBO_OBJECT_BENCHMARK CASE_WAVE4_BITS '
+    wave4_records=[fields(line.strip(),wave4_prefix)for line in lines if line.strip().startswith(wave4_prefix)]
+    require(len(wave4_records)==(2*len(fixture['cases'])if wave4_mode else 0),'Incomplete or unexpected wave4 bit measurements')
+    wave4_fields={'wave4_bit_sample_checks','wave4_bit_differences','wave4_zero_sign_differences',
+                 'observer_bit_sample_checks','observer_bit_differences'}
+    present=wave4_fields&passed.keys()
+    require(len(present)==5 if wave4_mode else len(present)in (0,5),'Missing or incomplete PASS wave4 counter schema')
+    wave4_totals=dict.fromkeys(wave4_fields,0)
+    for key in wave4_fields:
+        value=passed.get(key,0);require(type(value)is int and value>=0,'Invalid PASS wave4 counter')
+        if not wave4_mode:require(value==0,'Legacy fixture cannot claim wave4 counters')
+    if wave4_mode:
+        expected_observer=expected_samples*len(fixture['cases']) if fixture['verification']['model_code']==8 else 0
+        require(passed['wave4_bit_sample_checks']==expected_samples*len(fixture['cases'])*2 and
+                passed['observer_bit_sample_checks']==expected_observer,'Wave4 PASS sample coverage differs')
     bit_fields={'oracle_bit_sample_checks','oracle_bit_differences'}&passed.keys()
     require(len(bit_fields)==2 if bit_cases else len(bit_fields) in (0,2), 'Missing or incomplete PASS exact-bit counter schema')
     bit_count=passed.get('oracle_bit_sample_checks',0)
@@ -772,7 +1015,7 @@ def collect(build_dir,run_dir):
             require(len(values)==1,'Missing or duplicate profile timing')
             value=values[0];require(value['timed_blocks']==expected_blocks and value['process_us']>0,'Invalid timing coverage')
             timings[profile]={**value,'numerical_profile':numerical_profiles[profile],'mean_process_us':value['process_us']/value['timed_blocks']}
-        semantics={};dc={};bit_comparison={}
+        semantics={};dc={};bit_comparison={};wave4_comparison={}
         if inputs.get(declared['id'],{}).get('oracle'):
             oracle=inputs[declared['id']]['oracle'];limit=oracle['max_abs_tolerance']
             for profile in ('strict','optimized'):
@@ -784,6 +1027,26 @@ def collect(build_dir,run_dir):
                 bound=error+oracle['max_cache_rounding_error']
                 require(value.get('max_model_error_bound')==bound and bound<=limit,'Semantic average exceeds unchanged model limit')
                 semantics[profile]=value
+                if oracle['verification']['kind']==WAVE4_KIND:
+                    require(set(value)=={'fixture','case','profile','semantic_kind','samples','max_abs',
+                            'max_model_error_bound','max_abs_tolerance','oracle_sha256'},'Unknown or missing wave4 semantic metadata')
+                    matches=[r for r in wave4_records if r.get('fixture')==name and r.get('case')==declared['id'] and r.get('profile')==profile]
+                    require(len(matches)==1,'Missing or duplicate wave4 bit profile');record=matches[0]
+                    require(set(record)=={'fixture','case','profile','oracle_sha256','samples','bit_different',
+                            'zero_sign_different','observer_samples','observer_bit_different'},'Unknown or missing wave4 bit metadata')
+                    require(record.get('oracle_sha256')==oracle['oracle_sha256'],'Wave4 bit oracle identity differs')
+                    require(all(type(record[k])is int for k in ('samples','bit_different','zero_sign_different','observer_samples','observer_bit_different')),
+                            'Invalid wave4 bit count type')
+                    require(record['samples']==expected_samples and 0<=record['bit_different']==record['zero_sign_different']<=expected_samples,
+                            'Wave4 operation bit differences must be only zero-sign changes')
+                    observer_samples=expected_samples//2 if oracle['verification']['observer_channel']==1 else 0
+                    require(record['observer_samples']==observer_samples and record['observer_bit_different']==0,
+                            'Wave4 direct observer bit gate/coverage differs')
+                    wave4_comparison[profile]=record
+                    for counter,field in (('wave4_bit_sample_checks','samples'),('wave4_bit_differences','bit_different'),
+                                          ('wave4_zero_sign_differences','zero_sign_different'),
+                                          ('observer_bit_sample_checks','observer_samples'),('observer_bit_differences','observer_bit_different')):
+                        wave4_totals[counter]+=record[field]
                 if oracle['verification']['kind']=='wrap-finite-v1':
                     require(set(value)=={'fixture','case','profile','semantic_kind','samples','max_abs',
                             'max_model_error_bound','max_abs_tolerance','oracle_sha256'}, 'Unknown or missing finite wrap semantic metadata')
@@ -810,7 +1073,8 @@ def collect(build_dir,run_dir):
                       'observed_speed_ratio':reference/candidate,'observed_process_reduction_percent':100*(1-candidate/reference)})
         if dc:cases[-1]['dc_comparison']=dc
         if bit_comparison:cases[-1]['bit_comparison']=bit_comparison
-        if power_mode:
+        if wave4_comparison:cases[-1]['wave4_bit_comparison']=wave4_comparison
+        if power_mode or wave4_mode:
             matches=[r for r in rounding_records if r.get('fixture')==name and r.get('case')==declared['id']]
             require(len(matches)==1,'Missing or duplicate pair rounding case')
             record=matches[0]
@@ -822,7 +1086,11 @@ def collect(build_dir,run_dir):
                     'Invalid pair rounding sample coverage or counts')
             if declared['id']=='dense-quarter':
                 require(record['zero_sign_different']>0,'Dense quarter did not observe the expected signed-zero profile difference')
+            if wave4_mode:
+                require(record['float_bit_different']==record['zero_sign_different']==0,'Wave4 same-artifact pair must preserve all output bits')
             cases[-1]['rounding_comparison']=record
+    if wave4_mode:
+        require(all(passed[k]==total for k,total in wave4_totals.items()),'Wave4 per-case/PASS bit totals differ')
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
     return {**(binding or {}),'fixture':name,'family':fixture['family'],'role':fixture['role'],
             'numerical_profiles':numerical_profiles,

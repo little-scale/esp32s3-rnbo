@@ -12,7 +12,9 @@ from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_OR
     wrap_cache_hashes,wrap_input_coverage,exact_wrap_word,POWER_KIND,POWER_DENSE,
     POWER_DESCRIPTION,POWER_CORRECTED,POWER_COMPOSED,POWER_COMPILE_CONTRACT,
     power_cases,power_events,power_schedule_sha,power_verification,power_input_data,
-    WAVE2_ORACLES)
+    WAVE2_ORACLES,WAVE4_KIND,WAVE4_MODELS,WAVE4_INPUTS,WAVE4_IDENTITIES,
+    WAVE4_SCHEMA,WAVE4_ADAPTATIONS,wave4_verification,wave4_input_bytes,
+    wave4_oracle_bytes,wave4_cache_hashes)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -882,5 +884,196 @@ class PowerModeObservationTests(unittest.TestCase):
         legacy.fixture('nonlinear');legacy.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_ROUNDING fixture=nonlinear-domains case=square samples=786432 float_bit_different=0 zero_sign_different=0')
         legacy.rejected()
 
+
+
+class Wave4ObservationTests(unittest.TestCase):
+    """Closed metadata, numerical-cache and protocol tests; no target execution."""
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.build=self.root/'build';self.run=self.root/'run'
+        self.build.mkdir();self.run.mkdir();self.fixture()
+
+    def fixture(self,identity='codebox-delta-state'):
+        from wave4_contract import benchmark_fixture
+        root=Path(__file__).resolve().parents[2];directory=root/'tests/fixtures/objects/wave4'
+        catalog=json.loads((directory/'catalog.json').read_text());fixture=benchmark_fixture(catalog,directory,identity)
+        pins=json.loads((directory/'identities.json').read_text());pin=WAVE4_IDENTITIES[identity];code=pin['model_code'];observer=1 if code==8 else 2
+        runtime=pins['runtime_files_sha256'];manifest={'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
+            'parameter_count':0,'parameter_schema_sha256':WAVE4_SCHEMA,'editable_source_sha256':pin['patch'],
+            'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
+            'source_tree_sha256':pins['entries'][identity]['source_tree_sha256'],'voices':1,'voice_topology':'single-export',
+            'required_host_services':[],'midi_output_ports':0,'adaptations':list(WAVE4_ADAPTATIONS)}
+        plan={'fixture':fixture,'rounds':3,'blocks':64,'timing_exclude_blocks':32,'arena_bytes':4096,
+              'catalog_path':'/synthetic/wave4/catalog.json','catalog_sha256':sha(directory/'catalog.json'),
+              'patch_sha256':pin['patch'],'description_sha256':'d'*64,'parameter_schema':[],'events':[],
+              'numerical_profiles':{'strict':'float32-strict','optimized':'float32-strict'},'stimuli':[],
+              'verifications':[wave4_verification(fixture,c)for c in fixture['cases']]}
+        budget={'workspace_bytes':266240,'oracle_cache_bytes':131072,'arena_bytes':8192,
+            'opaque_context_upper_bound_bytes':2097152,'loaded_images_upper_bound_bytes':131072,
+            'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
+        budget['required_upper_bound_bytes']=sum(v for k,v in budget.items()if k!='physical_psram_bytes');plan['psram_budget']=budget
+        self.report={'board':'xiao','artifacts':{'build/app.elf':{'bytes':100,'sha256':'c'*64},'build/app.bin':{'bytes':100,'sha256':'d'*64}},
+            'benchmark':plan,'modules':{side:{'artifact_sha256':'a'*64,'inspection':{'loaded_bytes_upper_bound':65536},
+                'report':{'prepared_export':{'manifest':copy.deepcopy(manifest),'provenance':{'raw_files_sha256':{'rnbo_source.h':pin['source']}}},
+                          'prepared_snapshot':{'prepared_files_sha256':{**runtime,'rnbo_source.h':pin['source']}}}}for side in ('strict','optimized')},
+            'source_files_sha256':{f'object-benchmark/main/{name}':str(i)*64 for i,name in enumerate(('stimulus.c','stimulus.h','wave4_oracle.c','wave4_oracle.h'),1)}}
+        self.lines=[f'RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture={identity} reference=float32-strict candidate=float32-strict']
+        samples=98304
+        for case in fixture['cases']:
+            name=case['id'];kind=WAVE4_INPUTS[name];ih,oh=wave4_cache_hashes(code,kind)
+            plan['stimuli'].append({'kind':kind,'settings':{'kind':name},**{k:0. for k in ('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level')}})
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK INPUT fixture={identity} case={name} input_sha256={ih} input_bytes=131072 layout=float32_stereo_interleaved_le stimulus_kind={kind}')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK ORACLE fixture={identity} case={name} oracle_sha256={oh} oracle_bytes=131072 layout=float32_stereo_interleaved_le oracle_kind={WAVE4_KIND} max_abs_tolerance=0 max_cache_rounding_error=0 model=independent-binary32-operations-and-input-history rounding=once-binary32-per-output-operation model_code={code} observer_channel={observer}')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE fixture={identity} case={name} samples={samples} max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0')
+            for side in ('strict','optimized'):
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC fixture={identity} case={name} profile={side} semantic_kind={WAVE4_KIND} samples={samples} max_abs=0 max_model_error_bound=0 max_abs_tolerance=0 oracle_sha256={oh}')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_WAVE4_BITS fixture={identity} case={name} profile={side} oracle_sha256={oh} samples={samples} bit_different=0 zero_sign_different=0 observer_samples={samples//2 if code==8 else 0} observer_bit_different=0')
+                self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_PROFILE fixture={identity} case={name} profile={side} timed_blocks=96 process_us=960 peak_us=11')
+            self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_ROUNDING fixture={identity} case={name} samples={samples} float_bit_different=0 zero_sign_different=0')
+        self.lines.append(f'RNBO_OBJECT_BENCHMARK PASS fixture={identity} firmware_elf_sha256='+('c'*64)+' strict_module_sha256='+('a'*64)+' optimized_module_sha256='+('a'*64)+
+            f' host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 psram_before=123 psram_after=123 internal_before=42 internal_after=42 images=4 finalized_images=4 cases=3 rounds=3 blocks_per_pass=64 timing_exclude=32 warmup=4 seed=305419896 compared_samples=294912 input_cases=3 input_rechecks=27 pilot_sample_checks=0 oracle_cases=3 oracle_rechecks=27 semantic_sample_checks=589824 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 wave4_bit_sample_checks=589824 wave4_bit_differences=0 wave4_zero_sign_differences=0 observer_bit_sample_checks={294912 if code==8 else 0} observer_bit_differences=0')
+        self.seal()
+
+    def seal(self):
+        (self.build/'build-report.json').write_text(json.dumps(self.report));log=self.run/'test-serial.log';log.write_text('\n'.join(self.lines)+'\n')
+        (self.run/'hardware-test.json').write_text(json.dumps({'format':'rnbo-isolated-hardware-test','format_version':1,'board':'xiao','flash_bytes':8388608,'device_id':'ba:1e:48:12:34:56',
+            'result':'passed','restoration':{'result':'restored','status':{'board':'XIAO ESP32-S3'}},
+            'test_build_report_sha256':sha(self.build/'build-report.json'),'serial_log_sha256':sha(log),'pass_line':self.lines[-1],
+            'test_elf_sha256':'c'*64,'test_app_sha256':'d'*64}))
+
+    def change(self,prefix,old,new):
+        index=next(i for i,line in enumerate(self.lines)if line.startswith('RNBO_OBJECT_BENCHMARK '+prefix+' '))
+        self.lines[index]=self.lines[index].replace(old,new)
+
+    def rejected(self):
+        self.seal()
+        with self.assertRaises(ValueError):collect(self.build,self.run)
+
+    def test_all_thirteen_exact_surfaces_are_admitted_separately(self):
+        for identity in WAVE4_IDENTITIES:
+            with self.subTest(identity=identity):
+                self.fixture(identity);result=collect(self.build,self.run)
+                self.assertTrue(result['identical_artifact_control']);self.assertEqual(result['pass']['semantic_sample_checks'],589824)
+                surface=result['stimulus_provenance']['surface_identity']
+                self.assertFalse(surface['aliases_inherit_qualification'])
+                self.assertEqual(surface['exact_entries'],self.report['benchmark']['fixture']['exact_entries'])
+                self.assertEqual(result['pass']['observer_bit_sample_checks'],294912 if identity=='codebox-delta-state'else 0)
+
+    def test_input_and_oracle_complete_bytes_match_independent_native_models(self):
+        import importlib.util
+        directory=Path(__file__).resolve().parents[2]/'tests/fixtures/objects/wave4'
+        def module(name):
+            spec=importlib.util.spec_from_file_location('test_wave4_'+name,directory/(name+'.py'));value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
+        inputs=module('inputs');models=module('models')
+        for name,kind in WAVE4_INPUTS.items():
+            with self.subTest(input=name):
+                left,right=inputs.generate(name,16384);raw=b''.join(struct.pack('<ff',a,b)for a,b in zip(left,right))
+                self.assertEqual(wave4_input_bytes(kind),raw)
+                for code,model in enumerate(WAVE4_MODELS,1):
+                    expected,_=models.expected_outputs(model,left,right);wire=b''.join(struct.pack('<ff',a,b)for a,b in zip(*expected))
+                    self.assertEqual(wave4_oracle_bytes(code,kind),wire,(name,model))
+
+    def test_delta_vector_history_is_carried_and_wrong_reset_is_detectable(self):
+        data=wave4_input_bytes(14);continuous=wave4_oracle_bytes(8,14);wrong=bytearray()
+        for start in range(0,len(data),256*8):
+            previous=0.0
+            for x,y in struct.iter_unpack('<ff',data[start:start+256*8]):wrong.extend(struct.pack('<ff',x-previous,y));previous=x
+        self.assertNotEqual(continuous,bytes(wrong))
+        self.assertNotEqual(continuous[256*8:256*8+4],wrong[256*8:256*8+4])
+
+    def test_mutated_input_and_oracle_hashes_rejected(self):
+        for prefix,key in (('INPUT','input_sha256'),('ORACLE','oracle_sha256')):
+            with self.subTest(prefix=prefix):
+                self.fixture();index=next(i for i,line in enumerate(self.lines)if line.startswith('RNBO_OBJECT_BENCHMARK '+prefix+' '));old=fields(self.lines[index],'RNBO_OBJECT_BENCHMARK '+prefix+' ')[key]
+                self.lines[index]=self.lines[index].replace(old,'f'*64);self.rejected()
+
+    def test_original_surface_domain_model_and_event_metadata_cannot_change(self):
+        for mutation in ('alias','entries','domain','surface','model','observer','events','case-order','seed','blocks','rounds','tolerance'):
+            with self.subTest(mutation=mutation):
+                self.fixture();plan=self.report['benchmark'];f=plan['fixture']
+                if mutation=='alias':f['aliases_inherit_qualification']=True
+                elif mutation=='entries':f['exact_entries']=['patcher:delta~']
+                elif mutation=='domain':f['domain']['maximum']=2
+                elif mutation=='surface':f['surface']='patcher'
+                elif mutation=='model':f['verification']['model_code']=1
+                elif mutation=='observer':f['verification']['observer_channel']=2
+                elif mutation=='events':plan['events']=[{'block':0,'id':'x','index':0,'kind':1,'value':0}]
+                elif mutation=='case-order':f['cases'].reverse()
+                elif mutation=='seed':f['seed']=1
+                elif mutation=='blocks':plan['blocks']=65
+                elif mutation=='rounds':plan['rounds']=1
+                else:f['comparison_tolerance']['maximum_absolute_error']=1e-20
+                self.rejected()
+
+    def test_module_source_runtime_schema_profile_and_control_are_pinned(self):
+        for mutation in ('raw','prepared','runtime','schema','patch','params','profile','adaptation','different-image','services','source-tree','class','version'):
+            with self.subTest(mutation=mutation):
+                self.fixture();m=self.report['modules']['strict'];export=m['report']['prepared_export'];manifest=export['manifest']
+                if mutation=='raw':export['provenance']['raw_files_sha256']['rnbo_source.h']='f'*64
+                elif mutation=='prepared':m['report']['prepared_snapshot']['prepared_files_sha256']['rnbo_source.h']='f'*64
+                elif mutation=='runtime':m['report']['prepared_snapshot']['prepared_files_sha256']['common/RNBO_Types.h']='f'*64
+                elif mutation=='schema':manifest['parameter_schema_sha256']='f'*64
+                elif mutation=='patch':manifest['editable_source_sha256']='f'*64
+                elif mutation=='params':manifest['parameter_count']=1
+                elif mutation=='profile':manifest['numerical_profile']='float32-audio-v1'
+                elif mutation=='adaptation':manifest['adaptations'].append('unreviewed')
+                elif mutation=='different-image':m['artifact_sha256']='b'*64
+                elif mutation=='source-tree':manifest['source_tree_sha256']='f'*64
+                elif mutation=='class':manifest['class_name']='other'
+                elif mutation=='version':manifest['rnbo_version']='1.4.3'
+                else:manifest['required_host_services']=['resource']
+                self.rejected()
+
+    def test_missing_partial_wrong_global_or_percase_bit_counters_rejected(self):
+        for before,after in [(' wave4_bit_differences=0',''),('wave4_bit_sample_checks=589824','wave4_bit_sample_checks=1'),
+                             ('wave4_zero_sign_differences=0','wave4_zero_sign_differences=1'),
+                             ('observer_bit_sample_checks=294912','observer_bit_sample_checks=0'),
+                             ('oracle_bit_sample_checks=0','oracle_bit_sample_checks=1')]:
+            with self.subTest(before=before):
+                self.fixture();self.lines[-1]=self.lines[-1].replace(before,after);self.rejected()
+
+    def test_only_operation_signed_zero_bit_differences_are_permitted(self):
+        self.fixture('minimum-alias-signal');self.change('CASE_WAVE4_BITS','bit_different=0 zero_sign_different=0','bit_different=1 zero_sign_different=1')
+        self.lines[-1]=self.lines[-1].replace('wave4_bit_differences=0','wave4_bit_differences=1').replace('wave4_zero_sign_differences=0','wave4_zero_sign_differences=1');self.seal()
+        r=collect(self.build,self.run);self.assertEqual(r['cases'][0]['wave4_bit_comparison']['strict']['zero_sign_different'],1)
+        self.change('CASE_WAVE4_BITS','bit_different=1 zero_sign_different=1','bit_different=2 zero_sign_different=1');self.rejected()
+
+    def test_observer_signed_zero_is_fatal_despite_zero_numerical_error(self):
+        self.change('CASE_WAVE4_BITS','observer_bit_different=0','observer_bit_different=1');self.rejected()
+        self.fixture();self.change('CASE_WAVE4_BITS','observer_samples=49152','observer_samples=0');self.rejected()
+
+    def test_nonzero_tiny_model_error_cannot_be_hidden_by_pair_equality(self):
+        self.change('CASE_SEMANTIC','max_abs=0 max_model_error_bound=0','max_abs=1.401298464324817e-45 max_model_error_bound=1.401298464324817e-45');self.rejected()
+
+    def test_oracle_rounding_model_observer_and_closed_fieldset_are_exact(self):
+        for before,after in [('max_cache_rounding_error=0','max_cache_rounding_error=1e-45'),
+                             ('model_code=8','model_code=1'),('observer_channel=1','observer_channel=2'),
+                             ('rounding=once-binary32-per-output-operation','rounding=once-float32'),
+                             ('model=independent-binary32-operations-and-input-history','model=observed-output'),
+                             ('observer_channel=1','observer_channel=1 extra=0')]:
+            with self.subTest(before=before):
+                self.fixture();self.change('ORACLE',before,after);self.rejected()
+
+    def test_missing_duplicate_bit_rows_and_same_pair_rounding_differences_rejected(self):
+        for mutation in ('missing-bits','duplicate-bits','missing-rounding','different-pair','missing-source','missing-budget'):
+            with self.subTest(mutation=mutation):
+                self.fixture();i=next(i for i,l in enumerate(self.lines)if ' CASE_WAVE4_BITS 'in l)
+                if mutation=='missing-bits':self.lines.pop(i)
+                elif mutation=='duplicate-bits':self.lines.insert(i,self.lines[i])
+                elif mutation=='missing-rounding':self.lines=[l for l in self.lines if ' CASE_ROUNDING 'not in l]
+                elif mutation=='different-pair':self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=1')
+                elif mutation=='missing-source':del self.report['source_files_sha256']['object-benchmark/main/wave4_oracle.h']
+                else:self.report['benchmark']['psram_budget']['oracle_cache_bytes']=0
+                self.rejected()
+
+    def test_legacy_modes_do_not_inherit_new_bit_or_observer_claims(self):
+        legacy=ObservationTests('test_observed_case_cost_and_identity');legacy.setUp();self.addCleanup(legacy.doCleanups)
+        original=list(legacy.lines);zero=' wave4_bit_sample_checks=0 wave4_bit_differences=0 wave4_zero_sign_differences=0 observer_bit_sample_checks=0 observer_bit_differences=0'
+        legacy.lines[-1]+=zero;legacy.seal();collect(legacy.build,legacy.run)
+        for extra in (' wave4_bit_differences=0',zero.replace('observer_bit_sample_checks=0','observer_bit_sample_checks=1')):
+            legacy.lines=list(original);legacy.lines[-1]+=extra;legacy.seal()
+            with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+        legacy.lines=list(original);legacy.lines.insert(0,'RNBO_OBJECT_BENCHMARK CASE_WAVE4_BITS fixture=unit case=default profile=strict samples=1 bit_different=0 zero_sign_different=0 observer_samples=0 observer_bit_different=0 oracle_sha256='+('a'*64));legacy.seal()
+        with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
 
 if __name__=='__main__':unittest.main()
