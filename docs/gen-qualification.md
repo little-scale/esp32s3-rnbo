@@ -100,9 +100,11 @@ and outputs are Float32, but actual Xtensa disassembly shows two Float32-to-doub
 conversions, a double multiply/add and a conversion back per sample. This is
 1,280 double-helper calls per 256-frame vector. The swap and rotation sample
 loops contain no corresponding double-helper calls; scheduler clock arithmetic
-remains separate. The next bounded optimisation is to remove this unnecessary
-promotion and compare a separately identified candidate against this retained
-baseline. No speedup or entirely-Float32 feedback execution is claimed here.
+remains separate. A separately identified
+[Float32 feedback profile](gen-feedback-float32.md) now removes this promotion:
+the fresh matched XIAO comparison uses 83.94% less callback time with exact
+output in the three authored cases. That result is separate from this retained
+baseline; changed-rounding native counterexamples remain explicit.
 
 These device tests establish the authored per-sample feedback/history ordering
 inside 256-frame callbacks and the listed block-boundary resets. They do not

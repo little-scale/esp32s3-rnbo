@@ -12,6 +12,7 @@ import tempfile
 import unittest
 from build_object_benchmark import configuration, ExportError
 from gen_history_contract import TARGET, IDENTITIES, witness_sha256
+import gen_feedback
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -91,6 +92,40 @@ class GenHistoryBenchmarkTests(unittest.TestCase):
         p = json.loads((self.directory / 'description.json').read_text()); p['parameters'][0]['paramId'] = 'reset'
         (self.directory / 'description.json').write_text(json.dumps(p))
         with self.assertRaisesRegex(ExportError, 'mode/model/input'): self.generate()
+
+    def test_separate_float32_profile_requires_exact_source_contract_and_matched_build(self):
+        self.catalog=json.loads((TARGET.parent/'feedback-f32/catalog.json').read_text())
+        self.select('history-feedback')
+        for module in self.modules.values():
+            module['report'].update({key:{} for key in ('compiler','dependencies','private_support_archives',
+                                                       'dynamic_abi','state_policy','allocation_accounting','source_files_sha256')},imports=[])
+        candidate=self.modules['optimized']; candidate['artifact_sha256']='b'*64
+        manifest=candidate['report']['prepared_export']['manifest']
+        manifest.update(numerical_profile=gen_feedback.PROFILE,base_numerical_profile='float32-strict',
+                        numerical_identity='changed-rounding-float32-gen-feedback-v1',
+                        gen_feedback_contract=copy.deepcopy(gen_feedback.MANIFEST_CONTRACT))
+        manifest['adaptations'].append(gen_feedback.ADAPTATION)
+        snapshot=candidate['report']['prepared_snapshot']['prepared_files_sha256']
+        snapshot.update({'rnbo_source.h':gen_feedback.OUTPUT,gen_feedback.CONTRACT_FILE:gen_feedback.sha(gen_feedback.CONTRACT),
+                         'patch_config.h':'846d7f320d28dbefa68954a2e91e49c939a385546df5bfda7b47cb1dc6f304a4'})
+        header,policy=self.generate()
+        self.assertIn('#define BENCH_GEN_FEEDBACK_F32 1u',header)
+        self.assertEqual(policy['fixture']['qualification_mode'],'float32-feedback-comparison-v1')
+        self.assertEqual(policy['fixture']['comparison_tolerance'],{'maximum_absolute_error':2e-6,'maximum_pcm_lsb_error':1,
+                                                                  'relative_rms_level_difference':1e-4})
+        for change in ('same-image','source','wrapper','profile','compiler','sdk','extra-prepared'):
+            original=copy.deepcopy(self.modules)
+            if change=='same-image':candidate['artifact_sha256']='a'*64
+            elif change=='source':snapshot['rnbo_source.h']='0'*64
+            elif change=='wrapper':snapshot[gen_feedback.CONTRACT_FILE]='0'*64
+            elif change=='profile':manifest['numerical_profile']='float32-strict'
+            elif change=='compiler':candidate['report']['compiler']={'different':True}
+            elif change=='sdk':candidate['report']['source_files_sha256']={'different':True}
+            else:snapshot['other.h']='0'*64
+            with self.subTest(change=change), self.assertRaises(ExportError):self.generate()
+            self.modules=original
+            candidate=self.modules['optimized'];manifest=candidate['report']['prepared_export']['manifest']
+            snapshot=candidate['report']['prepared_snapshot']['prepared_files_sha256']
 
     def test_production_preparation_and_run_pass_detect_an_ignored_rotation_reset(self):
         self.select('three-history-rotation'); header, policy = self.generate()

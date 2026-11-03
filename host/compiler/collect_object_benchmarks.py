@@ -643,6 +643,23 @@ def wave4_cache_hashes(model,kind,blocks=64):
 # Exact authored GenExpr programs only; this is not visual-Gen admission.
 GEN_KIND='gen-history-v1'
 GEN_INPUT='gen-history-dyadic-v1'
+GEN_FEEDBACK_MODE='float32-feedback-comparison-v1'
+GEN_FEEDBACK_PROFILE='float32-gen-feedback-v1'
+GEN_FEEDBACK_CATALOG_SHA='122febbdbe2ffacf7192b5b232134611b82457fe40fe496881ebb1598ecb5773'
+GEN_FEEDBACK_PIN={
+    'source':'db07a01a185f2bad594acba9f110f8c198dec9668fb3516112573d32752d7220',
+    'compile_contract':'99d6282834c2fe1e5337c491a19add3fb2d715124ac71f53d11962eb40b8ee3d',
+    'config':'846d7f320d28dbefa68954a2e91e49c939a385546df5bfda7b47cb1dc6f304a4',
+    'reference_config':'a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b',
+    'input_method':'c5392d96adb31def884394dc0e286faa9ab9530e422e384d0aee44d5a94be685',
+    'prepared_method':'7ac1c56f80f1b0f23a15f2ebf4b9cd4f4c63a7b6c2471a1daab9cd13210e88c5',
+    'input_map':'7cb084216600dab080984923569ddc45c2e6b8b3a73d8371877fc976069044b2',
+    'transformer':'fb40788acd39bf4d7ffb4e73f2f4ac89ef2ba6b3aa1701569dccc3643a03a0e9'}
+GEN_FEEDBACK_CONTRACT={'version':1,'context':'history-feedback','coefficient':.5,'operation':'binary32-multiply-then-add',
+    'state_storage':'unchanged-binary32','scheduler_time':'unchanged-binary64','bit_identity_claimed':False,
+    'signed_zero_identity_claimed':False,'nonfinite_qualified':False,'floating_environment_equivalence_claimed':False,
+    'input_domain':{'finite':True,'absolute_maximum':.5},'state_initial_and_reset':0.,'state_absolute_bound':1.,
+    'contraction':'disabled','qualification_scope':'original bounded history-feedback program and independently verified input/reset cases'}
 GEN_MODELS={'history-feedback':1,'two-history-swap':2,'three-history-rotation':3}
 GEN_SCHEMA=[{'paramId':'s3_reset','index':0,'minimum':0,'maximum':1,'initialValue':0,'exponent':1,'steps':0}]
 GEN_IDENTITIES={
@@ -723,6 +740,8 @@ def gen_cache_data(model,case_id):
 
 def gen_verification(fixture,case):
     identity=fixture.get('id');require(identity in GEN_MODELS,'Unknown exact Gen history fixture')
+    comparison=fixture.get('qualification_mode')==GEN_FEEDBACK_MODE
+    require('qualification_mode'not in fixture or comparison and identity=='history-feedback','Unknown or unreviewed Gen qualification mode')
     code=GEN_MODELS[identity];tail=2**-64 if code==1 else 0.;evaluation=2**-45 if code==1 else 0.
     expected={'arena_bytes':65536,'audio_inputs':2,'audio_outputs':2,'blocks':64,'cases':gen_cases(),
         'comparison_tolerance':{'maximum_absolute_error':0.,'maximum_pcm_lsb_error':0,'relative_rms_level_difference':0.},
@@ -732,6 +751,9 @@ def gen_verification(fixture,case):
             'rounding':'once-float32','witness_minimum_separation':8e-6},
         'stimulus':{'kind':GEN_INPUT},'verification':{'kind':GEN_KIND,'maximum_absolute_error':2e-6,'model_code':code},
         'warmup_blocks':4}
+    if comparison:
+        expected['qualification_mode']=GEN_FEEDBACK_MODE
+        expected['comparison_tolerance']={'maximum_absolute_error':2e-6,'maximum_pcm_lsb_error':1,'relative_rms_level_difference':1e-4}
     require(same_declaration(fixture,expected),'Gen requires the exact authored source/model/reset program contract')
     require(any(same_declaration(case,c)for c in gen_cases()),'Unknown Gen reset case')
     events=gen_events(case);_,mask,_=gen_cache_data(code,case['id'])
@@ -745,6 +767,9 @@ def gen_verification(fixture,case):
 def gen_identity(build,fixture,plan):
     gen_verification(fixture,fixture['cases'][0]);pin=GEN_IDENTITIES.get(fixture['id'])
     require(pin is not None,'Gen generated source identity is not frozen')
+    comparison=fixture.get('qualification_mode')==GEN_FEEDBACK_MODE
+    if comparison:
+        require(plan.get('catalog_sha256')==GEN_FEEDBACK_CATALOG_SHA,'Gen feedback comparison catalog differs')
     require(same_declaration(plan.get('parameter_schema'),GEN_SCHEMA),'Gen reset parameter schema differs')
     require(same_declaration(plan.get('events'),[e for c in gen_cases()for e in gen_events(c)]),'Gen actual reset event table differs')
     require(type(plan.get('blocks'))is int and plan['blocks']==64 and type(plan.get('rounds'))is int and plan['rounds']==3 and
@@ -753,23 +778,60 @@ def gen_identity(build,fixture,plan):
             plan.get('comparison_policy',{}).get('pcm_gain')==.25 and plan.get('event_order')=='stable-block-source-order-v1',
             'Gen block/round/arena/timing/PCM gain differs')
     require(plan.get('patch_sha256')==pin['patch'] and plan.get('description_sha256')==pin['description'],'Gen patch/description differs')
-    require(build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256'],'Gen requires same-artifact control')
-    for module in build['modules'].values():
+    equal=build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256']
+    require(not equal if comparison else equal,'Gen comparison/control image identity differs')
+    for profile,module in build['modules'].items():
+        require(profile in ('strict','optimized'),'Unknown Gen module slot')
+        candidate=comparison and profile=='optimized'
         report=module['report'];export=report['prepared_export'];manifest=export['manifest'];provenance=export.get('provenance',{})
         require(manifest.get('editable_source_sha256')==pin['patch'] and manifest.get('parameter_schema_sha256')==pin['schema'] and
                 manifest.get('source_tree_sha256')==pin['source_tree'],'Gen exact graph/schema differs')
         require(same_declaration({k:manifest.get(k)for k in ('parameter_count','role','audio_inputs','audio_outputs','sample_rate','block_frames',
                 'numerical_profile','scheduler_time','rnbo_version','class_name','voices','voice_topology','required_host_services','midi_output_ports','adaptations')},
                 {'parameter_count':1,'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
-                 'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
-                 'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,'adaptations':WAVE4_ADAPTATIONS}),
+                 'numerical_profile':GEN_FEEDBACK_PROFILE if candidate else 'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
+                 'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,
+                 'adaptations':WAVE4_ADAPTATIONS+(['rnbo-1.4.4-float32-gen-feedback-v1']if candidate else [])}),
                 'Gen strict generated module/ABI profile differs')
         require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==pin['source'],'Gen raw generated source differs')
         snapshot=report.get('prepared_snapshot',{}).get('prepared_files_sha256',{})
-        require(snapshot.get('rnbo_source.h')==pin['source'],'Gen strict prepared source differs')
+        require(snapshot.get('rnbo_source.h')==(GEN_FEEDBACK_PIN['source']if candidate else pin['source']),'Gen prepared source differs')
         runtime={k:v for k,v in snapshot.items()if k.startswith('common/')}
         require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
                 'Gen normal fixed runtime differs')
+        if comparison:
+            require(report.get('imports')==[],'Gen comparison requires zero-import modules')
+            require(snapshot==provenance.get('prepared_files_sha256'),'Gen comparison prepared snapshot/provenance differs')
+            require(snapshot.get('patch_config.h')==GEN_FEEDBACK_PIN['config'if candidate else'reference_config'],'Gen comparison compile config differs')
+            name='rnbo-1.4.4-float32-gen-feedback-v1'
+            records=[a for a in provenance.get('adaptations',[])if a.get('name')==name]
+            if candidate:
+                require(manifest.get('base_numerical_profile')=='float32-strict'and
+                        manifest.get('numerical_identity')=='changed-rounding-float32-gen-feedback-v1'and
+                        same_declaration(manifest.get('gen_feedback_contract'),GEN_FEEDBACK_CONTRACT),'Gen feedback numerical profile contract differs')
+                require(snapshot.get('rnbo_s3_gen_feedback_source.h')==GEN_FEEDBACK_PIN['compile_contract']and len(records)==1,'Gen feedback type contract/adaptation missing')
+                adaptation=records[0]
+                expected={'name':name,'file':'rnbo_source.h','method':'gen_01_perform','input_sha256':pin['source'],
+                    'prepared_sha256':GEN_FEEDBACK_PIN['source'],'input_method_sha256':GEN_FEEDBACK_PIN['input_method'],
+                    'prepared_method_sha256':GEN_FEEDBACK_PIN['prepared_method'],'inserted_bytes':1,'inverse_byte_identity':True,
+                    'runtime_tree_sha256':WAVE4_RUNTIME,'editable_source_sha256':pin['patch'],'description_file_sha256':pin['description'],
+                    'compile_contract_file':'rnbo_s3_gen_feedback_source.h','compile_contract_sha256':GEN_FEEDBACK_PIN['compile_contract'],
+                    'changed_rounding':True,'bit_identity_claimed':False,'scheduler_time_unchanged':True,'transformer_sha256':GEN_FEEDBACK_PIN['transformer']}
+                expected['input_map_sha256']=GEN_FEEDBACK_PIN['input_map']
+                require(all(same_declaration(adaptation.get(k),v)for k,v in expected.items()),'Gen feedback exact one-literal/inverse proof differs')
+            else:
+                require(not records and not any(k in manifest for k in ('gen_feedback_contract','base_numerical_profile','numerical_identity'))and
+                        'rnbo_s3_gen_feedback_source.h'not in snapshot,'Gen reference must remain original strict source')
+    if comparison:
+        left,right=(build['modules'][p]['report']for p in ('strict','optimized'))
+        for field in ('compiler','dependencies','private_support_archives','dynamic_abi','state_policy','allocation_accounting'):
+            require(isinstance(left.get(field),dict)and left[field]and left[field]==right.get(field),'Gen pair compiler/SDK/archive/state contract differs')
+        sdk=lambda r:{k:v for k,v in r.get('source_files_sha256',{}).items()if k.startswith('module-sdk/')}
+        require('module-sdk/dynamic/rnbo_s3_dynamic.cpp'in sdk(left)and sdk(left)==sdk(right),'Gen pair SDK sources differ')
+        files=lambda r:r['prepared_snapshot']['prepared_files_sha256']
+        lhs,rhs=files(left),files(right);extra='rnbo_s3_gen_feedback_source.h'
+        require(set(rhs)==set(lhs)|{extra}and all(rhs[k]==v for k,v in lhs.items()if k not in ('rnbo_source.h','patch_config.h')),
+                'Gen feedback changes unreviewed prepared files')
 
 
 def declared_stimulus(fixture,case):
@@ -975,6 +1037,10 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             provenance['limit']='Three exact authored GenExpr History programs;64 fixed256-frame vectors, four zero warmups and three rounds. Fixed module ABI only; no visual Gen, arbitrary history/operator, fenv or family transfer.'
             provenance['pilot']='No passthrough observer. Reset witness checks compare first output pair only at independently observable reset boundaries; period2 swap has no observable block-edge reset witness.'
             provenance['parameter_schema']=plan['parameter_schema'];provenance['events']=plan['events'];provenance['pcm_gain']=.25
+            if fixture.get('qualification_mode')==GEN_FEEDBACK_MODE:
+                provenance['qualification_mode']=GEN_FEEDBACK_MODE
+                provenance['limit']='Only the exact authored feedback GenExpr graph and reviewed Float32-literal profile;64 fixed256-frame vectors, four zero warmups and three rounds. No visual Gen, arbitrary operators, resources, nonfinite or fenv transfer.'
+                provenance['rounding_scope']='Reference retains original mixed arithmetic; candidate uses the reviewed Float32 feedback literal. Pair bits and signed-zero differences are diagnostics, with unchanged2e-6/PCM1/RMS1e-4 numerical gates; no universal bit identity.'
         elif wave4:
             provenance['generation']='Deterministic integer/binary32 programs; complete INPUT SHA independently regenerated on host.'
             provenance['oracle']='Independent host binary64 mathematical operations rounded once to binary32, min/max first-operand ties and explicit zero-initialized previous-input delta state. Complete oracle bytes independently hashed; no generated kernel imported.'
@@ -1279,15 +1345,19 @@ def collect(build_dir,run_dir):
                     'Invalid pair rounding sample coverage or counts')
             if declared['id']=='dense-quarter':
                 require(record['zero_sign_different']>0,'Dense quarter did not observe the expected signed-zero profile difference')
-            if wave4_mode or gen_mode:
+            if wave4_mode or gen_mode and fixture.get('qualification_mode')!=GEN_FEEDBACK_MODE:
                 require(record['float_bit_different']==record['zero_sign_different']==0,'Same-artifact pair must preserve all output bits')
+            if gen_mode and fixture.get('qualification_mode')==GEN_FEEDBACK_MODE:
+                require((case['max_abs']>0)==(record['float_bit_different']>record['zero_sign_different']),
+                        'Gen pair numerical and raw-bit diagnostics contradict')
             cases[-1]['rounding_comparison']=record
     if wave4_mode:
         require(all(passed[k]==total for k,total in wave4_totals.items()),'Wave4 per-case/PASS bit totals differ')
     if gen_mode:
         require(all(passed[k]==total for k,total in gen_totals.items()),'Gen per-case/PASS reset totals differ')
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
-    return {**(binding or {}),'fixture':name,'family':fixture['family'],'role':fixture['role'],
+    return {**(binding or {}),**({'qualification_mode':fixture['qualification_mode']}if 'qualification_mode'in fixture else {}),
+            'fixture':name,'family':fixture['family'],'role':fixture['role'],
             'numerical_profiles':numerical_profiles,
             'identical_artifact_control':passed['strict_module_sha256']==passed['optimized_module_sha256'],
             'scope':('Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.' if role=='main' else

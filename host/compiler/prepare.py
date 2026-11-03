@@ -23,7 +23,7 @@ SUPPORTED_VERSION = "1.4.4"
 MAX_SOURCE_BYTES = 16 * 1024 * 1024
 MAX_COMMON_BYTES = 16 * 1024 * 1024
 MAX_PARAMETERS = 128
-NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-scalar-powers-v1")
+NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-scalar-powers-v1", "float32-gen-feedback-v1")
 
 
 class ExportError(ValueError):
@@ -365,6 +365,13 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
             exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal):
         raise ExportError("Experimental bounded line ramps requires normal fixes, strict Main and no other optional adapters")
+    gen_feedback_profile = numerical_profile == "float32-gen-feedback-v1"
+    if gen_feedback_profile and (type(apply_fixes) is not bool or not apply_fixes or role != "fx" or
+            class_name != "rnbos3patch" or midi_output_policy != "reject" or filter_delay_max_ms is not None or
+            float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or compact_average_history or
+            float32_pink_output or correct_finite_wrap or exact_audio_delay44100 or hoist_filter_durations or
+            hoist_train_reciprocal or bounded_line_ramps or float32_onepole_clamp or stable_onepole):
+        raise ExportError("Gen feedback Float32 requires its reviewed FX context, normal fixes and no other optional adapters")
     scalar_power_profile = numerical_profile == "float32-scalar-powers-v1"
     if scalar_power_profile and (not apply_fixes or role != "fx" or midi_output_policy != "reject" or
             filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
@@ -422,7 +429,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     for name in ("generator.json", "source.rnbopat"):
         if (export_dir / name).exists():
             files[name] = read_regular(export_dir / name, 1024 * 1024)
-    if exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or stable_onepole:
+    if gen_feedback_profile or exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or stable_onepole:
         # This closed optional route admits the reviewed raw file set too,
         # rather than silently ignoring extra export files or linked aliases.
         for path in export_dir.rglob("*"):
@@ -477,6 +484,13 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(wrap_change)
+    if gen_feedback_profile:
+        from gen_feedback import transform as gen_feedback_transform
+        try:
+            files, gen_feedback_change = gen_feedback_transform(files, description, code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        changes.append(gen_feedback_change)
     if scalar_power_profile:
         from scalar_powers import scalar_powers
         try:
@@ -580,6 +594,11 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["hoist_cycle_conversions"] = True
     if float32_pink_output:
         manifest["float32_pink_output"] = True
+    if gen_feedback_profile:
+        from gen_feedback import MANIFEST_CONTRACT
+        manifest["base_numerical_profile"] = "float32-strict"
+        manifest["numerical_identity"] = "changed-rounding-float32-gen-feedback-v1"
+        manifest["gen_feedback_contract"] = dict(MANIFEST_CONTRACT)
     if scalar_power_profile:
         manifest["base_numerical_profile"] = "float32-strict"
         manifest["numerical_identity"] = "changed-rounding-float32-scalar-powers-v1"
@@ -607,7 +626,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               f"#define RNBO_S3_PATCH_ROLE {1 if role == 'main' else 2}\n"
               f"#define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT {1 if midi_output_policy == 'discard' else 0}\n"
               "#define RNBO_S3_PATCH_RATE 44100\n#define RNBO_S3_PATCH_BLOCK 256\n")
-    if scalar_power_profile:
+    if gen_feedback_profile:
+        from gen_feedback import CONTRACT_FILE
+        config += '#define RNBO_S3_PATCH_SOURCE "' + CONTRACT_FILE + '"\n'
+    elif scalar_power_profile:
         config += '#define RNBO_S3_PATCH_SOURCE "rnbo_s3_scalar_powers_source.h"\n'
     elif correct_finite_wrap:
         config += '#define RNBO_S3_PATCH_SOURCE "rnbo_s3_finite_wrap_source.h"\n'
@@ -768,7 +790,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": {name: digest((Path(__file__).parent.parent / "export" / name).read_bytes())
                                              for name in ("export.mjs", "patcher.mjs", "inspect_onepole_graph.mjs")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
@@ -808,7 +830,7 @@ def main() -> None:
                         help="Explicitly discard declared MIDI output; transmitting MIDI is unimplemented")
     parser.add_argument("--no-runtime-fixes", action="store_true", help="Explicit unmodified-runtime reference build")
     parser.add_argument("--numerical-profile",choices=NUMERICAL_PROFILES,default="float32-strict",
-                        help="Optional exact-guarded numerical profile; scalar-powers-v1 changes rounding in one nonlinear FX graph; strict stays default")
+                        help="Optional exact-guarded numerical profile; Gen feedback and scalar powers change expression rounding; strict stays default")
     parser.add_argument("--filter-delay-max-ms",type=float,
                         help="Explicit comb/allpass delay input maximum0..1000ms; retains Float64 storage and original conversion")
     parser.add_argument("--float32-delays", action="store_true", help="Explicitly convert reviewed internal comb/allpass/delay rings to float32 storage")

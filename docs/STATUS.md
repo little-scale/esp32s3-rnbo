@@ -9,8 +9,11 @@ verified drone restoration. Identical-module timings claim no gain. Other
 operators, visual Gen import and sample-offset target events remain pending;
 the RNBO table does not validate Gen. See [the Gen results](gen-qualification.md) and
 [the qualification requirements](qualification-scope.md).
-The feedback baseline also exposes an unnecessary double-literal promotion
-inside its sample loop; its replacement and measured optimisation are pending.
+The optional [Gen feedback Float32 profile](gen-feedback-float32.md) now removes
+the baseline's double-literal promotion. Its matched XIAO comparison uses 83.94%
+less whole-callback time with exact output in the three declared cases and
+unchanged state/memory behaviour. Native subnormal/zero-sign counterexamples
+retain the explicit changed-rounding contract; other Gen graphs remain pending.
 
 Systematic **XIAO object qualification** is now active. The first isolated
 oscillator control and comb/allpass duration-hoist comparisons passed, with

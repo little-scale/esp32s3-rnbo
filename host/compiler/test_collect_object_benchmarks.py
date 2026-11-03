@@ -13,9 +13,10 @@ from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_OR
     POWER_DESCRIPTION,POWER_CORRECTED,POWER_COMPOSED,POWER_COMPILE_CONTRACT,
     power_cases,power_events,power_schedule_sha,power_verification,power_input_data,
     WAVE2_ORACLES,WAVE4_KIND,WAVE4_MODELS,WAVE4_INPUTS,WAVE4_IDENTITIES,
-    WAVE4_SCHEMA,WAVE4_ADAPTATIONS,wave4_verification,wave4_input_bytes,
+    WAVE4_SCHEMA,WAVE4_RUNTIME,WAVE4_ADAPTATIONS,wave4_verification,wave4_input_bytes,
     wave4_oracle_bytes,wave4_cache_hashes,GEN_KIND,GEN_INPUT,GEN_MODELS,GEN_IDENTITIES,GEN_SCHEMA,
-    gen_cases,gen_events,gen_schedule_sha,gen_verification,gen_input_bytes,gen_cache_data)
+    gen_cases,gen_events,gen_schedule_sha,gen_verification,gen_input_bytes,gen_cache_data,
+    GEN_FEEDBACK_MODE,GEN_FEEDBACK_PROFILE,GEN_FEEDBACK_PIN,GEN_FEEDBACK_CONTRACT,GEN_FEEDBACK_CATALOG_SHA)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -1132,6 +1133,40 @@ class GenHistoryObservationTests(unittest.TestCase):
             'result':'passed','restoration':{'result':'restored','status':{'board':'XIAO ESP32-S3'}},'test_build_report_sha256':sha(self.build/'build-report.json'),
             'serial_log_sha256':sha(log),'pass_line':self.lines[-1],'test_elf_sha256':'c'*64,'test_app_sha256':'d'*64}))
 
+    def feedback_comparison(self):
+        self.fixture();plan=self.report['benchmark'];f=plan['fixture'];pin=GEN_IDENTITIES['history-feedback']
+        f['qualification_mode']=GEN_FEEDBACK_MODE
+        f['comparison_tolerance']={'maximum_absolute_error':2e-6,'maximum_pcm_lsb_error':1,'relative_rms_level_difference':1e-4}
+        plan['catalog_sha256']=GEN_FEEDBACK_CATALOG_SHA
+        plan['numerical_profiles']['optimized']=GEN_FEEDBACK_PROFILE
+        plan['verifications']=[gen_verification(f,c)for c in f['cases']]
+        for side in ('strict','optimized'):
+            module=self.report['modules'][side];report=module['report'];provenance=report['prepared_export']['provenance']
+            files=report['prepared_snapshot']['prepared_files_sha256']
+            files.update({'patch_config.h':GEN_FEEDBACK_PIN['reference_config'],'description.json':pin['description'],
+                          'source.rnbopat':pin['patch'],'generator.json':'5'*64,'RNBO-runtime-LICENSE':'6'*64})
+            provenance['prepared_files_sha256']=copy.deepcopy(files);provenance['adaptations']=[]
+            report.update(compiler={'version':'gcc14.2'},dependencies={'loader':'2.0.0'},private_support_archives={'libm':'7'*64},
+                dynamic_abi={'major':1,'minor':0},state_policy={'caller_owned':True,'maximum_arena_bytes':65536},
+                allocation_accounting={'allocator':'private-arena'},imports=[],
+                source_files_sha256={'module-sdk/dynamic/rnbo_s3_dynamic.cpp':'8'*64,'module-sdk/cmake/dynamic/main/CMakeLists.txt':'9'*64})
+        candidate=self.report['modules']['optimized'];candidate['artifact_sha256']='b'*64;r=candidate['report'];manifest=r['prepared_export']['manifest']
+        manifest.update(numerical_profile=GEN_FEEDBACK_PROFILE,base_numerical_profile='float32-strict',
+            numerical_identity='changed-rounding-float32-gen-feedback-v1',gen_feedback_contract=copy.deepcopy(GEN_FEEDBACK_CONTRACT))
+        manifest['adaptations'].append('rnbo-1.4.4-float32-gen-feedback-v1')
+        files=r['prepared_snapshot']['prepared_files_sha256'];files.update({'rnbo_source.h':GEN_FEEDBACK_PIN['source'],
+            'patch_config.h':GEN_FEEDBACK_PIN['config'],'rnbo_s3_gen_feedback_source.h':GEN_FEEDBACK_PIN['compile_contract']})
+        provenance=r['prepared_export']['provenance'];provenance['prepared_files_sha256']=copy.deepcopy(files)
+        provenance['adaptations']=[{'name':'rnbo-1.4.4-float32-gen-feedback-v1','file':'rnbo_source.h','method':'gen_01_perform',
+            'input_sha256':pin['source'],'prepared_sha256':GEN_FEEDBACK_PIN['source'],'input_method_sha256':GEN_FEEDBACK_PIN['input_method'],
+            'prepared_method_sha256':GEN_FEEDBACK_PIN['prepared_method'],'inserted_bytes':1,'inverse_byte_identity':True,
+            'input_map_sha256':GEN_FEEDBACK_PIN['input_map'],
+            'runtime_tree_sha256':WAVE4_RUNTIME,'editable_source_sha256':pin['patch'],'description_file_sha256':pin['description'],
+            'compile_contract_file':'rnbo_s3_gen_feedback_source.h','compile_contract_sha256':GEN_FEEDBACK_PIN['compile_contract'],
+            'changed_rounding':True,'bit_identity_claimed':False,'scheduler_time_unchanged':True,'transformer_sha256':GEN_FEEDBACK_PIN['transformer']}]
+        self.change('NUMERICAL_PROFILES','candidate=float32-strict','candidate='+GEN_FEEDBACK_PROFILE)
+        self.change('PASS','optimized_module_sha256='+('a'*64),'optimized_module_sha256='+('b'*64));self.seal()
+
     def change(self,prefix,old,new,case=None):
         index=next(i for i,line in enumerate(self.lines)if line.startswith('RNBO_OBJECT_BENCHMARK '+prefix+' ')and(case is None or ' case='+case+' 'in line))
         self.lines[index]=self.lines[index].replace(old,new)
@@ -1248,5 +1283,92 @@ class GenHistoryObservationTests(unittest.TestCase):
             with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
         legacy.lines=list(original);legacy.lines.insert(0,next(l for l in self.lines if ' CASE_GEN_RESET 'in l));legacy.seal()
         with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+
+    def test_feedback_comparison_mode_does_not_widen_old_control_admission(self):
+        f=self.report['benchmark']['fixture'];old=gen_verification(f,f['cases'][0])
+        f['qualification_mode']=GEN_FEEDBACK_MODE
+        with self.assertRaises(ValueError):gen_verification(f,f['cases'][0])
+        f['comparison_tolerance']={'maximum_absolute_error':2e-6,'maximum_pcm_lsb_error':1,'relative_rms_level_difference':1e-4}
+        self.assertEqual(gen_verification(f,f['cases'][0]),old)
+        self.rejected()  # An old same-ELF/strict-strict record cannot become a performance pair by relabelling.
+        for identity in ('two-history-swap','three-history-rotation'):
+            self.fixture(identity);f=self.report['benchmark']['fixture'];f['qualification_mode']=GEN_FEEDBACK_MODE
+            f['comparison_tolerance']={'maximum_absolute_error':2e-6,'maximum_pcm_lsb_error':1,'relative_rms_level_difference':1e-4}
+            with self.assertRaises(ValueError):gen_verification(f,f['cases'][0])
+        for mode in ('float32-feedback-comparison-v2',True,None):
+            self.fixture();f=self.report['benchmark']['fixture'];f['qualification_mode']=mode
+            with self.assertRaises(ValueError):gen_verification(f,f['cases'][0])
+
+    def test_feedback_profile_pair_accepts_bounded_rounding_diagnostics_without_bit_identity(self):
+        self.feedback_comparison()
+        self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=1')
+        self.seal();result=collect(self.build,self.run)
+        self.assertFalse(result['identical_artifact_control']);self.assertEqual(result['qualification_mode'],GEN_FEEDBACK_MODE)
+        self.assertEqual(result['numerical_profiles']['optimized'],GEN_FEEDBACK_PROFILE)
+        self.assertEqual(result['cases'][0]['rounding_comparison']['float_bit_different'],1)
+        self.assertEqual(result['pass']['gen_reset_witness_sample_checks'],828)
+        self.assertIn('no universal bit identity',result['stimulus_provenance']['rounding_scope'])
+
+    def test_feedback_profile_numeric_rounding_is_permitted_only_with_consistent_diagnostics(self):
+        self.feedback_comparison()
+        self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=2 zero_sign_different=1')
+        self.rejected()
+        self.change('CASE','max_abs=0','max_abs=1e-7')
+        self.change('CASE','max_pcm_lsb=0','max_pcm_lsb=1')
+        self.change('CASE','pcm_different=0','pcm_different=1')
+        i=next(i for i,l in enumerate(self.lines)if ' CASE_SEMANTIC 'in l and ' profile=optimized 'in l)
+        row=fields(self.lines[i],'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC ')
+        v=self.report['benchmark']['verifications'][0];rounding=gen_cache_data(1,'continuous')[2]
+        bound=((1e-7+rounding)+v['model_tail_bound'])+v['model_evaluation_bound']
+        old=next(t for t in self.lines[i].split()if t.startswith('max_model_error_bound='))
+        self.lines[i]=self.lines[i].replace('max_abs=0','max_abs=1e-7').replace(old,'max_model_error_bound='+format(bound,'.17g'))
+        self.seal();result=collect(self.build,self.run)
+        self.assertEqual(result['cases'][0]['output_comparison']['max_abs'],1e-7)
+        self.assertEqual(result['cases'][0]['output_comparison']['max_pcm_lsb'],1)
+        self.change('CASE_ROUNDING','float_bit_different=2 zero_sign_different=1','float_bit_different=1 zero_sign_different=1');self.rejected()
+
+    def test_feedback_profile_exact_source_contract_and_adaptation_are_pinned(self):
+        for mutation in ('source','config','type-header','missing-adaptation','inverse','bytes','method','clock','transformer','contract','unrelated-file','provenance-disagrees','reference-profile'):
+            with self.subTest(mutation=mutation):
+                self.feedback_comparison();r=self.report['modules']['optimized']['report'];m=r['prepared_export']['manifest'];p=r['prepared_export']['provenance'];files=r['prepared_snapshot']['prepared_files_sha256'];a=p['adaptations'][0]
+                if mutation=='source':files['rnbo_source.h']='1'*64
+                elif mutation=='config':files['patch_config.h']='1'*64
+                elif mutation=='type-header':files['rnbo_s3_gen_feedback_source.h']='1'*64
+                elif mutation=='missing-adaptation':p['adaptations']=[]
+                elif mutation=='inverse':a['inverse_byte_identity']=False
+                elif mutation=='bytes':a['inserted_bytes']=2
+                elif mutation=='method':a['prepared_method_sha256']='1'*64
+                elif mutation=='clock':a['scheduler_time_unchanged']=False
+                elif mutation=='transformer':a['transformer_sha256']='0'*64
+                elif mutation=='contract':m['gen_feedback_contract']['bit_identity_claimed']=True
+                elif mutation=='unrelated-file':files['unexpected.h']='1'*64;p['prepared_files_sha256']=copy.deepcopy(files)
+                elif mutation=='provenance-disagrees':p['prepared_files_sha256']['generator.json']='1'*64
+                else:self.report['modules']['strict']['report']['prepared_export']['manifest']['base_numerical_profile']='float32-strict'
+                self.rejected()
+
+    def test_feedback_pair_requires_matched_toolchain_sdk_and_memory_policy(self):
+        for field in ('compiler','dependencies','private_support_archives','dynamic_abi','state_policy','allocation_accounting','source_files_sha256','imports'):
+            with self.subTest(field=field):
+                self.feedback_comparison();r=self.report['modules']['optimized']['report']
+                if field=='imports':r[field]=['malloc']
+                elif field=='source_files_sha256':r[field]['module-sdk/dynamic/rnbo_s3_dynamic.cpp']='1'*64
+                else:r[field]['unreviewed']=True
+                self.rejected()
+        self.feedback_comparison();self.report['modules']['optimized']['artifact_sha256']='a'*64;self.rejected()
+
+    def test_feedback_comparison_numerical_and_diagnostic_limits_are_not_widened(self):
+        for mutation in ('absolute','pcm','rms','unknown-mode','case-error','semantic-error','witness-error','rounding-count','missing-rounding'):
+            with self.subTest(mutation=mutation):
+                self.feedback_comparison();f=self.report['benchmark']['fixture']
+                if mutation=='absolute':f['comparison_tolerance']['maximum_absolute_error']=2.1e-6
+                elif mutation=='pcm':f['comparison_tolerance']['maximum_pcm_lsb_error']=2
+                elif mutation=='rms':f['comparison_tolerance']['relative_rms_level_difference']=1.1e-4
+                elif mutation=='unknown-mode':f['qualification_mode']='float32-feedback-comparison-v2'
+                elif mutation=='case-error':self.change('CASE','max_abs=0','max_abs=3e-6')
+                elif mutation=='semantic-error':self.change('CASE_SEMANTIC','max_abs=0','max_abs=3e-6')
+                elif mutation=='witness-error':self.change('CASE_GEN_RESET','max_abs=0','max_abs=3e-6','boundary-resets')
+                elif mutation=='rounding-count':self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=2')
+                else:self.lines=[l for l in self.lines if ' CASE_ROUNDING 'not in l]
+                self.rejected()
 
 if __name__=='__main__':unittest.main()

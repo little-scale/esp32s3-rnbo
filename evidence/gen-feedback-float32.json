@@ -1,0 +1,2558 @@
+{
+  "all_Gen_objects_complete": false,
+  "all_Gen_structures_complete": false,
+  "before_record": {
+    "parameters": {
+      "comb-fb": {
+        "actual": 0.9,
+        "index": 3,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "comb-ff": {
+        "actual": 0.9,
+        "index": 2,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "delay-fb": {
+        "actual": 0.5,
+        "index": 5,
+        "maximum": 0.99,
+        "minimum": 0
+      },
+      "delay-time": {
+        "actual": 25,
+        "index": 4,
+        "maximum": 50,
+        "minimum": 0
+      },
+      "lfo-depth": {
+        "actual": 0.5,
+        "index": 1,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "lfo-rate": {
+        "actual": 0.1,
+        "index": 0,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "vib-depth": {
+        "actual": 0.1,
+        "index": 7,
+        "maximum": 2,
+        "minimum": 0
+      },
+      "vib-rate": {
+        "actual": 1,
+        "index": 6,
+        "maximum": 20,
+        "minimum": 0.1
+      }
+    },
+    "status": {
+      "allocation_fault": false,
+      "arena_capacity": 131072,
+      "arena_used": 99088,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "audio_heap_requested_bytes": 0,
+      "audio_stack_free": 12024,
+      "block_frames": 256,
+      "blocks": 469429,
+      "board": "XIAO ESP32-S3",
+      "channels": 2,
+      "clipped": 0,
+      "control_stack_free": 3656,
+      "dma_errors": 0,
+      "driver_elapsed_total_us": 912119144,
+      "driver_timing_scope": "wall time including I2S wait and internal capture",
+      "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+      "frames": 120173824,
+      "heap_guard": "audio-task-successful-heap-operations",
+      "internal_free_bytes": 302763,
+      "internal_largest_free_bytes": 229376,
+      "late_platform_allocations": 0,
+      "main_stack_free": 4616,
+      "module_errors": 0,
+      "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+      "nonfinite": 0,
+      "panic": false,
+      "peak_us": 4085,
+      "platform_allocations": 10,
+      "post_write_capture_elapsed_total_us": 0,
+      "post_write_capture_timed": false,
+      "psram_free_bytes": 8039396,
+      "psram_largest_free_bytes": 7995392,
+      "queue_errors": 0,
+      "rate": 44100,
+      "ready_to_resume": false,
+      "rebuilding": false,
+      "reconstruction_failed": false,
+      "render_busy_total_us": 1810461376,
+      "render_deadline_overruns": 0,
+      "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+      "render_us": 3581,
+      "runtime": "rnbo-esp32s3-bringup",
+      "source": "static-rnbo",
+      "uptime_us": 2725258515,
+      "volume": 50,
+      "write_errors": 0
+    }
+  },
+  "board": "xiao",
+  "candidate_profile": "float32-gen-feedback-v1",
+  "claims": {
+    "arithmetic": "One reviewed0.5\u21920.5f Gen feedback literal edit changes binary64 intermediates to explicit binary32 multiply then add. Graph/schema/runtime types and state storage are unchanged. Scheduler remains binary64.",
+    "counts": "Repeated slots/rounds count executions, not unique inputs. Native adversarial inputs are separate from these three supplied target programs. Full target waveforms were not downloaded.",
+    "performance": "Percentage is measured whole-feedback-fixture callback change for these3 rendered cases, not isolated mul/add cost, all Gen, application utilization or a hard deadline guarantee.",
+    "precision": "Actual linked-ELF audit separately binds5 per-sample Double helper calls in reference versus0 in candidate, with mul.s/add.s in candidate. This is not a whole-module zero-Double claim.",
+    "recovery": "Root-operated application-only test restored the identified instrument to compiled defaults, unpaused50. This publisher performs no device operation.",
+    "rounding": "Changed rounding and signed zero are permitted profile behavior. Target pair diagnostics are retained; native subnormal and normal-midpoint counterexamples prohibit general bit identity or fenv/nonfinite equivalence.",
+    "truth": "Both profiles retain the same independent bounded binary64 convolution, once-Float32 cache rounding, tail2^-64/evaluation2^-45, full input/oracle/mask/schedule hashes and observable reset checks under2e-6."
+  },
+  "collected": {
+    "board": "xiao",
+    "board_binding": {
+      "build_board": "xiao",
+      "device_identity": "runner-verified USB/backup identity; saved record consistency checked by collector",
+      "flash_bytes": 8388608,
+      "method": "explicit-runner-and-build-report",
+      "restored_status_board": "XIAO ESP32-S3",
+      "runner_board": "xiao",
+      "runner_device_id": "xiao-test-device-01"
+    },
+    "build_report": "build/object-benchmark-xiao-history-feedback-gen-feedback-f32-v1/build-report.json",
+    "build_report_sha256": "83128ad60c89b7ee76891f515b747e63d983d464703cd9a78b6cbb420d38e01d",
+    "cases": [
+      {
+        "case": "continuous",
+        "declared_case": {
+          "events": [],
+          "id": "continuous",
+          "parameters": {}
+        },
+        "gen_reset_comparison": {
+          "optimized": {
+            "case": "continuous",
+            "event_schedule_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+            "fixture": "history-feedback",
+            "max_abs": 0,
+            "max_abs_tolerance": 2e-06,
+            "oracle_sha256": "1fa1d01f17b6540e4410f94e1f6a7a9375531b523928d56edf5a0b9157383bac",
+            "profile": "optimized",
+            "reset_events": 0,
+            "reset_witness_sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+            "witness_differences": 0,
+            "witness_events": 0,
+            "witness_sample_checks": 0
+          },
+          "strict": {
+            "case": "continuous",
+            "event_schedule_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+            "fixture": "history-feedback",
+            "max_abs": 0,
+            "max_abs_tolerance": 2e-06,
+            "oracle_sha256": "1fa1d01f17b6540e4410f94e1f6a7a9375531b523928d56edf5a0b9157383bac",
+            "profile": "strict",
+            "reset_events": 0,
+            "reset_witness_sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+            "witness_differences": 0,
+            "witness_events": 0,
+            "witness_sample_checks": 0
+          }
+        },
+        "input": {
+          "case": "continuous",
+          "declared_settings": {
+            "kind": "gen-history-dyadic-v1"
+          },
+          "fixture": "history-feedback",
+          "input_bytes": 131072,
+          "input_sha256": "533d5464d875536411be53298bacdbffa960ef8c166158ef340ce501584978c5",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "continuous",
+            "event_schedule_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+            "fixture": "history-feedback",
+            "initial_epoch_frames": -1024,
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 2e-06,
+            "max_cache_rounding_error": 1.4901161193847656e-08,
+            "model": "fresh-float64-input-convolution-or-integer-cycle",
+            "model_code": 1,
+            "model_evaluation_bound": 2.842170943040401e-14,
+            "model_tail_bound": 5.421010862427522e-20,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-history-v1",
+            "oracle_sha256": "1fa1d01f17b6540e4410f94e1f6a7a9375531b523928d56edf5a0b9157383bac",
+            "reset_witness_sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+            "rounding": "once-float32",
+            "verification": {
+              "event_schedule": [],
+              "event_schedule_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+              "gate": "cache-error-plus-maximum-cache-rounding-error-plus-model-bounds",
+              "initial_epoch_frames": -1024,
+              "kind": "gen-history-v1",
+              "maximum_absolute_error": 2e-06,
+              "model": "fresh-float64-input-convolution-or-integer-cycle",
+              "model_code": 1,
+              "model_evaluation_bound": 2.842170943040401e-14,
+              "model_tail_bound": 5.421010862427522e-20,
+              "reset_witness_sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+              "rounding": "once-float32",
+              "witness_minimum_separation": 8e-06
+            },
+            "witness_minimum_separation": 8e-06
+          },
+          "stimulus_kind": 15
+        },
+        "observed_process_reduction_percent": 83.88628831106708,
+        "observed_speed_ratio": 6.205894826123833,
+        "output_comparison": {
+          "case": "continuous",
+          "fixture": "history-feedback",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "continuous",
+            "event_us": 0,
+            "fixture": "history-feedback",
+            "mean_process_us": 49.125,
+            "numerical_profile": "float32-gen-feedback-v1",
+            "peak": 0.5,
+            "peak_us": 56,
+            "prepare_us": 1281,
+            "process_us": 4716,
+            "profile": "optimized",
+            "rms": 0.268055738,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "continuous",
+            "event_us": 0,
+            "fixture": "history-feedback",
+            "mean_process_us": 304.8645833333333,
+            "numerical_profile": "float32-strict",
+            "peak": 0.5,
+            "peak_us": 315,
+            "prepare_us": 3101,
+            "process_us": 29267,
+            "profile": "strict",
+            "rms": 0.268055738,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "continuous",
+          "fixture": "history-feedback",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "continuous",
+            "fixture": "history-feedback",
+            "max_abs": 7.450580596923828e-09,
+            "max_abs_tolerance": 2e-06,
+            "max_model_error_bound": 2.2351770212535125e-08,
+            "oracle_sha256": "1fa1d01f17b6540e4410f94e1f6a7a9375531b523928d56edf5a0b9157383bac",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-history-v1"
+          },
+          "strict": {
+            "case": "continuous",
+            "fixture": "history-feedback",
+            "max_abs": 7.450580596923828e-09,
+            "max_abs_tolerance": 2e-06,
+            "max_model_error_bound": 2.2351770212535125e-08,
+            "oracle_sha256": "1fa1d01f17b6540e4410f94e1f6a7a9375531b523928d56edf5a0b9157383bac",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-history-v1"
+          }
+        }
+      },
+      {
+        "case": "boundary-resets",
+        "declared_case": {
+          "events": [
+            {
+              "block": 1,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 2,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 7,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 31,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 32,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 63,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            }
+          ],
+          "id": "boundary-resets",
+          "parameters": {}
+        },
+        "gen_reset_comparison": {
+          "optimized": {
+            "case": "boundary-resets",
+            "event_schedule_sha256": "7213efee849a089c9f7c154cadc44baab3e7d7019957f69acb4faa3f50a702f3",
+            "fixture": "history-feedback",
+            "max_abs": 0,
+            "max_abs_tolerance": 2e-06,
+            "oracle_sha256": "5608582bcbc87f48f422fcc9ed082a5c0d93fe89dbe153a0bb08e21bbb54e843",
+            "profile": "optimized",
+            "reset_events": 18,
+            "reset_witness_sha256": "e4509005c38cfa131dc9fa1d89eae8bfb242e5f42c5d3b968b65f3ea528d62a4",
+            "witness_differences": 0,
+            "witness_events": 18,
+            "witness_sample_checks": 36
+          },
+          "strict": {
+            "case": "boundary-resets",
+            "event_schedule_sha256": "7213efee849a089c9f7c154cadc44baab3e7d7019957f69acb4faa3f50a702f3",
+            "fixture": "history-feedback",
+            "max_abs": 0,
+            "max_abs_tolerance": 2e-06,
+            "oracle_sha256": "5608582bcbc87f48f422fcc9ed082a5c0d93fe89dbe153a0bb08e21bbb54e843",
+            "profile": "strict",
+            "reset_events": 18,
+            "reset_witness_sha256": "e4509005c38cfa131dc9fa1d89eae8bfb242e5f42c5d3b968b65f3ea528d62a4",
+            "witness_differences": 0,
+            "witness_events": 18,
+            "witness_sample_checks": 36
+          }
+        },
+        "input": {
+          "case": "boundary-resets",
+          "declared_settings": {
+            "kind": "gen-history-dyadic-v1"
+          },
+          "fixture": "history-feedback",
+          "input_bytes": 131072,
+          "input_sha256": "533d5464d875536411be53298bacdbffa960ef8c166158ef340ce501584978c5",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "boundary-resets",
+            "event_schedule_sha256": "7213efee849a089c9f7c154cadc44baab3e7d7019957f69acb4faa3f50a702f3",
+            "fixture": "history-feedback",
+            "initial_epoch_frames": -1024,
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 2e-06,
+            "max_cache_rounding_error": 1.4901161193847656e-08,
+            "model": "fresh-float64-input-convolution-or-integer-cycle",
+            "model_code": 1,
+            "model_evaluation_bound": 2.842170943040401e-14,
+            "model_tail_bound": 5.421010862427522e-20,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-history-v1",
+            "oracle_sha256": "5608582bcbc87f48f422fcc9ed082a5c0d93fe89dbe153a0bb08e21bbb54e843",
+            "reset_witness_sha256": "e4509005c38cfa131dc9fa1d89eae8bfb242e5f42c5d3b968b65f3ea528d62a4",
+            "rounding": "once-float32",
+            "verification": {
+              "event_schedule": [
+                {
+                  "block": 1,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 2,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 7,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 31,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 32,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 63,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                }
+              ],
+              "event_schedule_sha256": "7213efee849a089c9f7c154cadc44baab3e7d7019957f69acb4faa3f50a702f3",
+              "gate": "cache-error-plus-maximum-cache-rounding-error-plus-model-bounds",
+              "initial_epoch_frames": -1024,
+              "kind": "gen-history-v1",
+              "maximum_absolute_error": 2e-06,
+              "model": "fresh-float64-input-convolution-or-integer-cycle",
+              "model_code": 1,
+              "model_evaluation_bound": 2.842170943040401e-14,
+              "model_tail_bound": 5.421010862427522e-20,
+              "reset_witness_sha256": "e4509005c38cfa131dc9fa1d89eae8bfb242e5f42c5d3b968b65f3ea528d62a4",
+              "rounding": "once-float32",
+              "witness_minimum_separation": 8e-06
+            },
+            "witness_minimum_separation": 8e-06
+          },
+          "stimulus_kind": 15
+        },
+        "observed_process_reduction_percent": 83.91299887144763,
+        "observed_speed_ratio": 6.216198979591836,
+        "output_comparison": {
+          "case": "boundary-resets",
+          "fixture": "history-feedback",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "boundary-resets",
+            "event_us": 148,
+            "fixture": "history-feedback",
+            "mean_process_us": 49.0,
+            "numerical_profile": "float32-gen-feedback-v1",
+            "peak": 0.5,
+            "peak_us": 56,
+            "prepare_us": 1274,
+            "process_us": 4704,
+            "profile": "optimized",
+            "rms": 0.268063609,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "boundary-resets",
+            "event_us": 135,
+            "fixture": "history-feedback",
+            "mean_process_us": 304.59375,
+            "numerical_profile": "float32-strict",
+            "peak": 0.5,
+            "peak_us": 316,
+            "prepare_us": 3101,
+            "process_us": 29241,
+            "profile": "strict",
+            "rms": 0.268063609,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "boundary-resets",
+          "fixture": "history-feedback",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "boundary-resets",
+            "fixture": "history-feedback",
+            "max_abs": 7.450580596923828e-09,
+            "max_abs_tolerance": 2e-06,
+            "max_model_error_bound": 2.2351770212535125e-08,
+            "oracle_sha256": "5608582bcbc87f48f422fcc9ed082a5c0d93fe89dbe153a0bb08e21bbb54e843",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-history-v1"
+          },
+          "strict": {
+            "case": "boundary-resets",
+            "fixture": "history-feedback",
+            "max_abs": 7.450580596923828e-09,
+            "max_abs_tolerance": 2e-06,
+            "max_model_error_bound": 2.2351770212535125e-08,
+            "oracle_sha256": "5608582bcbc87f48f422fcc9ed082a5c0d93fe89dbe153a0bb08e21bbb54e843",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-history-v1"
+          }
+        }
+      },
+      {
+        "case": "retrigger-every-block",
+        "declared_case": {
+          "events": [
+            {
+              "block": 0,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 1,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 2,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 3,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 4,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 5,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 6,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 7,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 8,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 9,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 10,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 11,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 12,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 13,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 14,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 15,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 16,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 17,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 18,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 19,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 20,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 21,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 22,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 23,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 24,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 25,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 26,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 27,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 28,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 29,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 30,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 31,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 32,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 33,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 34,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 35,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 36,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 37,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 38,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 39,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 40,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 41,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 42,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 43,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 44,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 45,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 46,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 47,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 48,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 49,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 50,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 51,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 52,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 53,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 54,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 55,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 56,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 57,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 58,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 59,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 60,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 61,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 62,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            },
+            {
+              "block": 63,
+              "form": "actual",
+              "id": "s3_reset",
+              "value": 1.0
+            }
+          ],
+          "id": "retrigger-every-block",
+          "parameters": {}
+        },
+        "gen_reset_comparison": {
+          "optimized": {
+            "case": "retrigger-every-block",
+            "event_schedule_sha256": "4b620b3a002dd887c83a14ffda1e7c351c81d0810a0b577f46b597aad2455f45",
+            "fixture": "history-feedback",
+            "max_abs": 0,
+            "max_abs_tolerance": 2e-06,
+            "oracle_sha256": "36aa1a4bcc607cebed01dd75aaa8224ebaebf7cd423d726d68ff6cbd404e62b6",
+            "profile": "optimized",
+            "reset_events": 192,
+            "reset_witness_sha256": "0b6f7181c211aae5e14e1cc4d0dc0f0fedee936596f91110bb69bfe0455632a5",
+            "witness_differences": 0,
+            "witness_events": 189,
+            "witness_sample_checks": 378
+          },
+          "strict": {
+            "case": "retrigger-every-block",
+            "event_schedule_sha256": "4b620b3a002dd887c83a14ffda1e7c351c81d0810a0b577f46b597aad2455f45",
+            "fixture": "history-feedback",
+            "max_abs": 0,
+            "max_abs_tolerance": 2e-06,
+            "oracle_sha256": "36aa1a4bcc607cebed01dd75aaa8224ebaebf7cd423d726d68ff6cbd404e62b6",
+            "profile": "strict",
+            "reset_events": 192,
+            "reset_witness_sha256": "0b6f7181c211aae5e14e1cc4d0dc0f0fedee936596f91110bb69bfe0455632a5",
+            "witness_differences": 0,
+            "witness_events": 189,
+            "witness_sample_checks": 378
+          }
+        },
+        "input": {
+          "case": "retrigger-every-block",
+          "declared_settings": {
+            "kind": "gen-history-dyadic-v1"
+          },
+          "fixture": "history-feedback",
+          "input_bytes": 131072,
+          "input_sha256": "533d5464d875536411be53298bacdbffa960ef8c166158ef340ce501584978c5",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "retrigger-every-block",
+            "event_schedule_sha256": "4b620b3a002dd887c83a14ffda1e7c351c81d0810a0b577f46b597aad2455f45",
+            "fixture": "history-feedback",
+            "initial_epoch_frames": -1024,
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 2e-06,
+            "max_cache_rounding_error": 1.4901161193847656e-08,
+            "model": "fresh-float64-input-convolution-or-integer-cycle",
+            "model_code": 1,
+            "model_evaluation_bound": 2.842170943040401e-14,
+            "model_tail_bound": 5.421010862427522e-20,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-history-v1",
+            "oracle_sha256": "36aa1a4bcc607cebed01dd75aaa8224ebaebf7cd423d726d68ff6cbd404e62b6",
+            "reset_witness_sha256": "0b6f7181c211aae5e14e1cc4d0dc0f0fedee936596f91110bb69bfe0455632a5",
+            "rounding": "once-float32",
+            "verification": {
+              "event_schedule": [
+                {
+                  "block": 0,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 1,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 2,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 3,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 4,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 5,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 6,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 7,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 8,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 9,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 10,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 11,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 12,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 13,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 14,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 15,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 16,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 17,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 18,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 19,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 20,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 21,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 22,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 23,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 24,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 25,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 26,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 27,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 28,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 29,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 30,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 31,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 32,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 33,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 34,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 35,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 36,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 37,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 38,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 39,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 40,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 41,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 42,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 43,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 44,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 45,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 46,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 47,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 48,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 49,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 50,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 51,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 52,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 53,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 54,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 55,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 56,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 57,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 58,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 59,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 60,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 61,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 62,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                },
+                {
+                  "block": 63,
+                  "id": "s3_reset",
+                  "index": 0,
+                  "kind": 1,
+                  "value": 1.0
+                }
+              ],
+              "event_schedule_sha256": "4b620b3a002dd887c83a14ffda1e7c351c81d0810a0b577f46b597aad2455f45",
+              "gate": "cache-error-plus-maximum-cache-rounding-error-plus-model-bounds",
+              "initial_epoch_frames": -1024,
+              "kind": "gen-history-v1",
+              "maximum_absolute_error": 2e-06,
+              "model": "fresh-float64-input-convolution-or-integer-cycle",
+              "model_code": 1,
+              "model_evaluation_bound": 2.842170943040401e-14,
+              "model_tail_bound": 5.421010862427522e-20,
+              "reset_witness_sha256": "0b6f7181c211aae5e14e1cc4d0dc0f0fedee936596f91110bb69bfe0455632a5",
+              "rounding": "once-float32",
+              "witness_minimum_separation": 8e-06
+            },
+            "witness_minimum_separation": 8e-06
+          },
+          "stimulus_kind": 15
+        },
+        "observed_process_reduction_percent": 84.0170411598983,
+        "observed_speed_ratio": 6.2566638005159065,
+        "output_comparison": {
+          "case": "retrigger-every-block",
+          "fixture": "history-feedback",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "retrigger-every-block",
+            "event_us": 1254,
+            "fixture": "history-feedback",
+            "mean_process_us": 48.458333333333336,
+            "numerical_profile": "float32-gen-feedback-v1",
+            "peak": 0.5,
+            "peak_us": 54,
+            "prepare_us": 1267,
+            "process_us": 4652,
+            "profile": "optimized",
+            "rms": 0.268067505,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "retrigger-every-block",
+            "event_us": 1224,
+            "fixture": "history-feedback",
+            "mean_process_us": 303.1875,
+            "numerical_profile": "float32-strict",
+            "peak": 0.5,
+            "peak_us": 310,
+            "prepare_us": 3097,
+            "process_us": 29106,
+            "profile": "strict",
+            "rms": 0.268067505,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "retrigger-every-block",
+          "fixture": "history-feedback",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "retrigger-every-block",
+            "fixture": "history-feedback",
+            "max_abs": 7.450580596923828e-09,
+            "max_abs_tolerance": 2e-06,
+            "max_model_error_bound": 2.2351770212535125e-08,
+            "oracle_sha256": "36aa1a4bcc607cebed01dd75aaa8224ebaebf7cd423d726d68ff6cbd404e62b6",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-history-v1"
+          },
+          "strict": {
+            "case": "retrigger-every-block",
+            "fixture": "history-feedback",
+            "max_abs": 7.450580596923828e-09,
+            "max_abs_tolerance": 2e-06,
+            "max_model_error_bound": 2.2351770212535125e-08,
+            "oracle_sha256": "36aa1a4bcc607cebed01dd75aaa8224ebaebf7cd423d726d68ff6cbd404e62b6",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-history-v1"
+          }
+        }
+      }
+    ],
+    "device_id": "xiao-test-device-01",
+    "family": "gen-history",
+    "fixture": "history-feedback",
+    "flash_bytes": 8388608,
+    "hardware_report": "build/hardware/gen-feedback-f32-target-v1/hardware-test.json",
+    "hardware_report_sha256": "a721401e3eeeea14a9b9f18025026b04c88359dd6e4c54526c11737a5c922eac",
+    "identical_artifact_control": false,
+    "numerical_profiles": {
+      "optimized": "float32-gen-feedback-v1",
+      "strict": "float32-strict"
+    },
+    "pass": {
+      "blocks_per_pass": 64,
+      "cases": 3,
+      "compared_samples": 294912,
+      "dc_sample_checks": 0,
+      "finalized_images": 4,
+      "firmware_elf_sha256": "0798a684fc063e944b28dd6d0a164526ab2f15ad1a015fd3239cc5649bde2054",
+      "fixture": "history-feedback",
+      "gen_reset_events": 420,
+      "gen_reset_witness_differences": 0,
+      "gen_reset_witness_events": 414,
+      "gen_reset_witness_sample_checks": 828,
+      "host_heap_allocations": 0,
+      "host_heap_frees": 0,
+      "images": 4,
+      "input_cases": 3,
+      "input_rechecks": 27,
+      "internal_after": 315439,
+      "internal_before": 315439,
+      "local_late_allocations": 0,
+      "max_abs": 0,
+      "max_abs_tolerance": 2e-06,
+      "max_pcm_lsb": 0,
+      "max_pcm_lsb_tolerance": 1,
+      "optimized_module_sha256": "fee39cf9d4c47072714773263316eb28ba85cd027bd46a6e75c70c469f625dfc",
+      "optimized_peak_us": 56,
+      "optimized_process_us": 14072,
+      "optimized_timed_blocks": 288,
+      "oracle_bit_differences": 0,
+      "oracle_bit_sample_checks": 0,
+      "oracle_cases": 3,
+      "oracle_rechecks": 27,
+      "pcm_different": 0,
+      "pcm_gain": 0.25,
+      "pilot_sample_checks": 0,
+      "psram_after": 7988864,
+      "psram_before": 7988864,
+      "relative_rms_tolerance": 0.0001,
+      "rms_error": 0,
+      "rounds": 3,
+      "scope": "offline_no_i2s_ui_network",
+      "seed": 305419896,
+      "semantic_sample_checks": 589824,
+      "stack_margin": 19532,
+      "strict_module_sha256": "0ca5d30fa022f1c738c7aac2e45c3dfcbc7d3998dd6f4f3232b2c66057e3151f",
+      "strict_peak_us": 316,
+      "strict_process_us": 87614,
+      "strict_timed_blocks": 288,
+      "timing_exclude": 32,
+      "warmup": 4
+    },
+    "qualification_mode": "float32-feedback-comparison-v1",
+    "role": "fx",
+    "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+    "serial_log": "build/hardware/gen-feedback-f32-target-v1/test-serial.log",
+    "serial_log_sha256": "ce1db1636654bafd73c437a0e72c250ffbb2cee80a4fa944fb08a1653a6fd396",
+    "stimulus_provenance": {
+      "block_frames": 256,
+      "catalog_path": "tests/fixtures/gen/feedback-f32/catalog.json",
+      "catalog_sha256": "122febbdbe2ffacf7192b5b232134611b82457fe40fe496881ebb1598ecb5773",
+      "events": [
+        {
+          "block": 1,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 2,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 7,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 31,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 32,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 63,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 0,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 1,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 2,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 3,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 4,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 5,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 6,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 7,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 8,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 9,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 10,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 11,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 12,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 13,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 14,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 15,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 16,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 17,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 18,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 19,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 20,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 21,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 22,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 23,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 24,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 25,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 26,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 27,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 28,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 29,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 30,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 31,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 32,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 33,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 34,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 35,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 36,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 37,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 38,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 39,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 40,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 41,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 42,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 43,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 44,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 45,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 46,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 47,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 48,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 49,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 50,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 51,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 52,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 53,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 54,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 55,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 56,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 57,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 58,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 59,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 60,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 61,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 62,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        },
+        {
+          "block": 63,
+          "id": "s3_reset",
+          "index": 0,
+          "kind": 1,
+          "value": 1.0
+        }
+      ],
+      "generation": "Seven exact dyadic binary32 input values with independently shifted right plane; complete INPUT SHA regenerated on host.",
+      "generator_source_sha256": {
+        "object-benchmark/main/stimulus.c": "717a280c0d559a32e9aa14c96736f946cf2691c66b45dba47e027e1ae68f7ff7",
+        "object-benchmark/main/stimulus.h": "deea4f6b3f3f932c3899f5e98d92f57168528fa232055a0fefc87cbe9a741394"
+      },
+      "limit": "Only the exact authored feedback GenExpr graph and reviewed Float32-literal profile;64 fixed256-frame vectors, four zero warmups and three rounds. No visual Gen, arbitrary operators, resources, nonfinite or fenv transfer.",
+      "oracle": "Fresh independent fsum of at most64 weighted source inputs, or integer two/three-state phase; no generated recurrence. Both cached channel hashes independently regenerated.",
+      "oracle_source_sha256": {
+        "object-benchmark/main/gen_history_oracle.c": "9d88a2bc5b75bc29703cbca35490a2fb02def769df13009678e724061f230aaa",
+        "object-benchmark/main/gen_history_oracle.h": "9c21c30bdd0c30c45b9c513b3926856b187133aebc9249d24f0fddab8f35c4c6"
+      },
+      "parameter_schema": [
+        {
+          "exponent": 1,
+          "index": 0,
+          "initialValue": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "paramId": "s3_reset",
+          "steps": 0
+        }
+      ],
+      "patch_sha256": "cc73307e6aaad1f7f3636c28e7d79baffe15eae9d59ac14bdef64dafbae6990e",
+      "pcm_gain": 0.25,
+      "pilot": "No passthrough observer. Reset witness checks compare first output pair only at independently observable reset boundaries; period2 swap has no observable block-edge reset witness.",
+      "psram_budget": {
+        "arena_bytes": 131072,
+        "loaded_images_upper_bound_bytes": 67044,
+        "loader_heap_alignment_reserve_bytes": 524288,
+        "opaque_context_upper_bound_bytes": 2097152,
+        "oracle_cache_bytes": 131072,
+        "physical_psram_bytes": 8388608,
+        "required_upper_bound_bytes": 3216868,
+        "workspace_bytes": 266240
+      },
+      "qualification_mode": "float32-feedback-comparison-v1",
+      "rechecks": "Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint",
+      "rounding_scope": "Reference retains original mixed arithmetic; candidate uses the reviewed Float32 feedback literal. Pair bits and signed-zero differences are diagnostics, with unchanged2e-6/PCM1/RMS1e-4 numerical gates; no universal bit identity.",
+      "sample_rate": 44100,
+      "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+      "semantic_gate": "Output/cache error plus once-binary32 cache rounding plus independently declared tail and model-evaluation bounds must stay within2e-6.",
+      "timing": "Generator/oracle precomputation and cache copy excluded from process timers",
+      "verification_contract": {
+        "kind": "gen-history-v1",
+        "maximum_absolute_error": 2e-06,
+        "model_code": 1
+      }
+    }
+  },
+  "collector_sha256": "2e4f637511815b29f08f4a9db4b8e88f6de63b4818d0bbc4595f04f5e70e99ed",
+  "comparator_build": {
+    "bytes": 138042,
+    "path": "build/object-benchmark-xiao-history-feedback-gen-feedback-f32-v1/build-report.json",
+    "sha256": "83128ad60c89b7ee76891f515b747e63d983d464703cd9a78b6cbb420d38e01d"
+  },
+  "compiler_admission": true,
+  "default_enabled": false,
+  "device_id": "xiao-test-device-01",
+  "firmware_artifacts": {
+    "build/object-benchmark-xiao-history-feedback-gen-feedback-f32-v1/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+    },
+    "build/object-benchmark-xiao-history-feedback-gen-feedback-f32-v1/rnbo_object_benchmark.bin": {
+      "bytes": 351904,
+      "sha256": "d5390255f37e141f8e14eb4fc842d7425e781956d0ba3ebaadfedffd4cb6fb30"
+    },
+    "build/object-benchmark-xiao-history-feedback-gen-feedback-f32-v1/rnbo_object_benchmark.elf": {
+      "bytes": 4451276,
+      "sha256": "0798a684fc063e944b28dd6d0a164526ab2f15ad1a015fd3239cc5649bde2054"
+    }
+  },
+  "fixture": "history-feedback",
+  "format": "rnbo-gen-feedback-float32-hardware-comparison",
+  "format_version": 1,
+  "local_proof_directory": "build/hardware/xiao-gen-feedback-f32-proof-v1",
+  "method": {
+    "arena_capacity_is_peak_claim": false,
+    "arena_capacity_per_image": 65536,
+    "audio_inputs": 2,
+    "audio_outputs": 2,
+    "block_frames": 256,
+    "blocks_per_pass": 64,
+    "compiler_flags": {
+      "comparator": {
+        "compile_commands": {
+          "bytes": 3406773,
+          "path": "build/object-benchmark-xiao-history-feedback-gen-feedback-f32-v1/compile_commands.json",
+          "sha256": "f1f299014be835fcc54b89b36a76a1f8f5946f486e734c691ef29aa9e7d5ee8a"
+        },
+        "contraction": "off",
+        "fast_math": false,
+        "optimization": "O2",
+        "scope": "actual authored audio translation unit; not every prebuilt library",
+        "strict_aliasing": false
+      },
+      "optimized": {
+        "compile_commands": {
+          "bytes": 2495414,
+          "path": "build/research/gen-feedback-profile-v2/modules/candidate/compile_commands.json",
+          "sha256": "552a4d4a83633b245ba1932f8d7e8e74ac2375da4381fa45effa6e1f7ec2e903"
+        },
+        "contraction": "off",
+        "fast_math": false,
+        "optimization": "O2",
+        "scope": "actual authored audio translation unit; not every prebuilt library",
+        "strict_aliasing": false
+      },
+      "strict": {
+        "compile_commands": {
+          "bytes": 2495414,
+          "path": "build/research/gen-feedback-profile-v2/modules/reference/compile_commands.json",
+          "sha256": "4b0d5bbfd67e55c3cc2b48afb97e61cce22af344cf38deb8f643f21e4fd873f3"
+        },
+        "contraction": "off",
+        "fast_math": false,
+        "optimization": "O2",
+        "scope": "actual authored audio translation unit; not every prebuilt library",
+        "strict_aliasing": false
+      }
+    },
+    "cpu_mhz": 240,
+    "input_program": "gen-history-dyadic-v1",
+    "model_maximum_absolute_error": 2e-06,
+    "pair_limits": {
+      "maximum_absolute_error": 2e-06,
+      "maximum_pcm_lsb_error": 1,
+      "relative_rms_level_difference": 0.0001
+    },
+    "pcm_gain": 0.25,
+    "psram_mhz": 80,
+    "role": "fx",
+    "rounds": 3,
+    "sample_rate": 44100,
+    "seed": 305419896,
+    "timing_exclude_blocks": 32,
+    "timing_scope": "matched complete authored process callbacks on core1; generator/oracle work, cache copy/hash, events and prepare excluded; no I2S/UI/network",
+    "warmup_zero_blocks": 4
+  },
+  "module_artifacts": {
+    "optimized": {
+      "bytes": 38700,
+      "path": "build/research/gen-feedback-profile-v2/modules/candidate/rnbo_s3_dynamic.app.elf",
+      "sha256": "fee39cf9d4c47072714773263316eb28ba85cd027bd46a6e75c70c469f625dfc"
+    },
+    "strict": {
+      "bytes": 38700,
+      "path": "build/research/gen-feedback-profile-v2/modules/reference/rnbo_s3_dynamic.app.elf",
+      "sha256": "0ca5d30fa022f1c738c7aac2e45c3dfcbc7d3998dd6f4f3232b2c66057e3151f"
+    }
+  },
+  "module_reports": {
+    "optimized": {
+      "bytes": 34836,
+      "path": "build/research/gen-feedback-profile-v2/modules/candidate/build-report.json",
+      "sha256": "753947b6ae583a1b7eade615ad455eac70c66de293f212f680e6bac048c04a7c"
+    },
+    "strict": {
+      "bytes": 32235,
+      "path": "build/research/gen-feedback-profile-v2/modules/reference/build-report.json",
+      "sha256": "52761233d7f46164d3c6e1b4bfa36a34ff8bf35bfc0145d3aff1eaa608cb3134"
+    }
+  },
+  "native_evidence_separate": {
+    "adversarial_native_only": true,
+    "case_builds": 36,
+    "contexts": 72,
+    "host_libc_libm_not_target_ELF_execution": true,
+    "host_model_words": 2359296,
+    "included_in_target_totals": false,
+    "public_native_seal": {
+      "bytes": 145516,
+      "path": "build/research/gen-feedback-public-native-v1/seal.json",
+      "sha256": "af488528acbc32de7636f95652288c9cfafb174752cd3eb7847fdf89de73018b"
+    }
+  },
+  "one_frame_module_ABI_qualified": false,
+  "option": "--numerical-profile float32-gen-feedback-v1",
+  "precision_audit": {
+    "bytes": 42853,
+    "path": "build/audit/gen-feedback-f32-v1/report.json",
+    "sha256": "822c8d5a61452bbfb5280ff5773347eac7ed16666ce0ae01fb57399d4c1a3015"
+  },
+  "prior_same_image_control_record": {
+    "bytes": 248903,
+    "path": "evidence/xiao-gen-history.json",
+    "sha256": "f7d75378b7b1247da7fda1da85f29c09792dc842f94736e95e8c5ccafc861146"
+  },
+  "public_metadata_policy": {
+    "backup": "Private recovery digest withheld.",
+    "device": "Nonunique xiao-test-device-01 replaces unique device identities.",
+    "integrity": "Only metadata strings change; all numerical measurements, limits and non-backup artifact hashes are retained.",
+    "paths": "Repository paths relative, personal/toolchain/port strings withheld."
+  },
+  "publication_validation": {
+    "compiler": {
+      "observed_outcome": "passed",
+      "raw_log": {
+        "bytes": 101,
+        "path": "build/hardware/xiao-gen-feedback-f32-proof-v1/saved-test-logs/compiler.log",
+        "sha256": "fff1c1b7885ad517019a215555707865dc5351e30c08dc0a1f446a75e2ece064"
+      },
+      "tests": 428
+    },
+    "tools": {
+      "observed_outcome": "passed",
+      "raw_log": {
+        "bytes": 303,
+        "path": "build/hardware/xiao-gen-feedback-f32-proof-v1/saved-test-logs/tools.log",
+        "sha256": "516cbd2afd9304d3479656e952b13d3f1a871aaaf623fc73067da1c87b6c4c7d"
+      },
+      "tests": 125
+    }
+  },
+  "qualification_mode": "float32-feedback-comparison-v1",
+  "raw_records": {
+    "before.json": {
+      "bytes": 2527,
+      "path": "build/hardware/gen-feedback-f32-target-v1/before.json",
+      "sha256": "22364e53c06198fff59ef4d06980e91ef3cb773e58eeb3d4e1bf5d1d5a41bac8"
+    },
+    "flash-test.log": {
+      "bytes": 980,
+      "path": "build/hardware/gen-feedback-f32-target-v1/flash-test.log",
+      "sha256": "c85f600ad8c5a378ac8f5f5af914c36f42ec153d03e3277ce2803136af7d6814"
+    },
+    "hardware-test.json": {
+      "bytes": 5214,
+      "path": "build/hardware/gen-feedback-f32-target-v1/hardware-test.json",
+      "sha256": "a721401e3eeeea14a9b9f18025026b04c88359dd6e4c54526c11737a5c922eac"
+    },
+    "restore-instrument.log": {
+      "bytes": 980,
+      "path": "build/hardware/gen-feedback-f32-target-v1/restore-instrument.log",
+      "sha256": "3c22024600e48609bf1166721e05aefd8de91fa5b1c30228a6dac60674894cb6"
+    },
+    "test-serial.log": {
+      "bytes": 12751,
+      "path": "build/hardware/gen-feedback-f32-target-v1/test-serial.log",
+      "sha256": "ce1db1636654bafd73c437a0e72c250ffbb2cee80a4fa944fb08a1653a6fd396"
+    }
+  },
+  "reference_profile": "float32-strict",
+  "runner_record": {
+    "backup_sha256": "withheld-private-backup-digest",
+    "board": "xiao",
+    "completed_at_utc": "2026-11-03T17:14:46.874371+00:00",
+    "device_id": "xiao-test-device-01",
+    "error": null,
+    "flash_bytes": 8388608,
+    "format": "rnbo-isolated-hardware-test",
+    "format_version": 1,
+    "pass_line": "RNBO_OBJECT_BENCHMARK PASS fixture=history-feedback firmware_elf_sha256=0798a684fc063e944b28dd6d0a164526ab2f15ad1a015fd3239cc5649bde2054 strict_module_sha256=0ca5d30fa022f1c738c7aac2e45c3dfcbc7d3998dd6f4f3232b2c66057e3151f optimized_module_sha256=fee39cf9d4c47072714773263316eb28ba85cd027bd46a6e75c70c469f625dfc cases=3 rounds=3 blocks_per_pass=64 warmup=4 seed=305419896 timing_exclude=32 compared_samples=294912 max_abs=0 rms_error=0 pcm_different=0 max_pcm_lsb=0 max_abs_tolerance=2e-06 max_pcm_lsb_tolerance=1 relative_rms_tolerance=0.0001 strict_timed_blocks=288 strict_process_us=87614 strict_peak_us=316 optimized_timed_blocks=288 optimized_process_us=14072 optimized_peak_us=56 psram_before=7988864 psram_after=7988864 internal_before=315439 internal_after=315439 host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 images=4 finalized_images=4 input_cases=3 input_rechecks=27 pilot_sample_checks=0 oracle_cases=3 oracle_rechecks=27 semantic_sample_checks=589824 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 stack_margin=19532 scope=offline_no_i2s_ui_network gen_reset_events=420 gen_reset_witness_events=414 gen_reset_witness_sample_checks=828 gen_reset_witness_differences=0 pcm_gain=0.25",
+    "restoration": {
+      "instance_phase_restored": false,
+      "parameter_readback_available": true,
+      "parameters": {
+        "comb-fb": {
+          "actual": 0.9,
+          "index": 3,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "comb-ff": {
+          "actual": 0.9,
+          "index": 2,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "delay-fb": {
+          "actual": 0.5,
+          "index": 5,
+          "maximum": 0.99,
+          "minimum": 0
+        },
+        "delay-time": {
+          "actual": 25,
+          "index": 4,
+          "maximum": 50,
+          "minimum": 0
+        },
+        "lfo-depth": {
+          "actual": 0.5,
+          "index": 1,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "lfo-rate": {
+          "actual": 0.1,
+          "index": 0,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "vib-depth": {
+          "actual": 0.1,
+          "index": 7,
+          "maximum": 2,
+          "minimum": 0
+        },
+        "vib-rate": {
+          "actual": 1,
+          "index": 6,
+          "maximum": 20,
+          "minimum": 0.1
+        }
+      },
+      "result": "restored",
+      "startup50_audible": true,
+      "status": {
+        "allocation_fault": false,
+        "arena_capacity": 131072,
+        "arena_used": 99088,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "audio_heap_requested_bytes": 0,
+        "audio_stack_free": 12024,
+        "block_frames": 256,
+        "blocks": 19,
+        "board": "XIAO ESP32-S3",
+        "channels": 2,
+        "clipped": 0,
+        "control_stack_free": 3656,
+        "dma_errors": 0,
+        "driver_elapsed_total_us": 50712,
+        "driver_timing_scope": "wall time including I2S wait and internal capture",
+        "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+        "frames": 4864,
+        "heap_guard": "audio-task-successful-heap-operations",
+        "internal_free_bytes": 302983,
+        "internal_largest_free_bytes": 229376,
+        "late_platform_allocations": 0,
+        "main_stack_free": 4616,
+        "module_errors": 0,
+        "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+        "nonfinite": 0,
+        "panic": false,
+        "peak_us": 3200,
+        "platform_allocations": 10,
+        "post_write_capture_elapsed_total_us": 0,
+        "post_write_capture_timed": false,
+        "psram_free_bytes": 8039396,
+        "psram_largest_free_bytes": 7995392,
+        "queue_errors": 0,
+        "rate": 44100,
+        "ready_to_resume": false,
+        "rebuilding": false,
+        "reconstruction_failed": false,
+        "render_busy_total_us": 59414,
+        "render_deadline_overruns": 0,
+        "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+        "render_us": 3196,
+        "runtime": "rnbo-esp32s3-bringup",
+        "source": "static-rnbo",
+        "uptime_us": 340566,
+        "volume": 50,
+        "write_errors": 0
+      }
+    },
+    "restore_build_report_sha256": "3b21b4d55088e5e835122ffba82bd1d54dd3b75dd69490a7b41e6f46ea0b0cf2",
+    "restore_module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+    "restore_policy": "running-defaults-startup50",
+    "result": "passed",
+    "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+    "serial_log_sha256": "ce1db1636654bafd73c437a0e72c250ffbb2cee80a4fa944fb08a1653a6fd396",
+    "started_at_utc": "2026-11-03T17:14:29.094801+00:00",
+    "test_app_sha256": "d5390255f37e141f8e14eb4fc842d7425e781956d0ba3ebaadfedffd4cb6fb30",
+    "test_build_report_sha256": "83128ad60c89b7ee76891f515b747e63d983d464703cd9a78b6cbb420d38e01d",
+    "test_elf_sha256": "0798a684fc063e944b28dd6d0a164526ab2f15ad1a015fd3239cc5649bde2054"
+  },
+  "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+  "runtime_resource_profiles": {
+    "optimized": {
+      "arena_capacity": 65536,
+      "arena_high_water": 0,
+      "blocks": 576,
+      "clipped": 0,
+      "code_bytes": 31244,
+      "context_bytes": 12736,
+      "event_us": 1402,
+      "events": 210,
+      "fixture": "history-feedback",
+      "max_arena_requests": 0,
+      "max_cpp_new_calls": 0,
+      "peak": 0.5,
+      "peak_us": 56,
+      "prepare_us": 3822,
+      "process_us": 14072,
+      "profile": "optimized",
+      "rms": 0.268062284,
+      "timed_blocks": 288
+    },
+    "strict": {
+      "arena_capacity": 65536,
+      "arena_high_water": 0,
+      "blocks": 576,
+      "clipped": 0,
+      "code_bytes": 31676,
+      "context_bytes": 12736,
+      "event_us": 1359,
+      "events": 210,
+      "fixture": "history-feedback",
+      "max_arena_requests": 0,
+      "max_cpp_new_calls": 0,
+      "peak": 0.5,
+      "peak_us": 316,
+      "prepare_us": 9299,
+      "process_us": 87614,
+      "profile": "strict",
+      "rms": 0.268062284,
+      "timed_blocks": 288
+    }
+  },
+  "snapshot_date": "2026-11-04",
+  "static_ELF_resources": {
+    "candidate": {
+      "elf_bytes": 38700,
+      "elf_sha256": "fee39cf9d4c47072714773263316eb28ba85cd027bd46a6e75c70c469f625dfc",
+      "imports": [],
+      "loaded_data_upper_bound_bytes": 1494,
+      "loaded_text_span_bytes": 31812,
+      "loaded_total_upper_bound_bytes": 33306,
+      "state_policy": {
+        "alignment": 16,
+        "caller_owned": true,
+        "context_bytes": "reported by allocation-free DESCRIBE",
+        "maximum_arena_bytes": 65536,
+        "minimum_arena_bytes": 4096,
+        "minimum_arena_is_structural_not_measured": true
+      },
+      "text_section_bytes": 31243
+    },
+    "reference": {
+      "elf_bytes": 38700,
+      "elf_sha256": "0ca5d30fa022f1c738c7aac2e45c3dfcbc7d3998dd6f4f3232b2c66057e3151f",
+      "imports": [],
+      "loaded_data_upper_bound_bytes": 1494,
+      "loaded_text_span_bytes": 32244,
+      "loaded_total_upper_bound_bytes": 33738,
+      "state_policy": {
+        "alignment": 16,
+        "caller_owned": true,
+        "context_bytes": "reported by allocation-free DESCRIBE",
+        "maximum_arena_bytes": 65536,
+        "minimum_arena_bytes": 4096,
+        "minimum_arena_is_structural_not_measured": true
+      },
+      "text_section_bytes": 31675
+    }
+  },
+  "target_aggregate": {
+    "CPU_time_change_measured": true,
+    "all_module_heaps_recovered_exactly": true,
+    "candidate_mean_callback_us": 48.861111111111114,
+    "case_programs": 3,
+    "compared_samples": 294912,
+    "finalized_images": 4,
+    "images": 4,
+    "instrument_restoration_verified": true,
+    "maximum_model_error_bound": 2.2351770212535125e-08,
+    "maximum_pair_error": 0,
+    "maximum_pcm_lsb_error": 0,
+    "optimized_process_us": 14072,
+    "pair_float_bit_differences": 0,
+    "pair_zero_sign_differences": 0,
+    "reference_mean_callback_us": 304.21527777777777,
+    "reset_events": 420,
+    "reset_witness_differences": 0,
+    "reset_witness_events": 414,
+    "reset_witness_sample_checks": 828,
+    "same_artifact_control": false,
+    "semantic_sample_checks": 589824,
+    "strict_process_us": 87614,
+    "timed_vectors_per_profile": 288,
+    "whole_fixture_process_reduction_percent": 83.93863994338804
+  },
+  "visual_Gen_qualified": false
+}

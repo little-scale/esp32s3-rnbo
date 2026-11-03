@@ -154,7 +154,8 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
         object_gen_history_oracle gen;
         if(active_verification->kind==OBJECT_GEN_HISTORY_KIND){
             CHECK(BENCH_GEN_HISTORY && BENCH_BLOCKS==64 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==3 && BENCH_PARAMETER_COUNT==1);
-            CHECK(!strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256));
+            CHECK(BENCH_GEN_FEEDBACK_F32?strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256)!=0:!strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256));
+            if(BENCH_GEN_FEEDBACK_F32)CHECK(active_verification->window==OBJECT_GEN_HISTORY_FEEDBACK && BENCH_MAX_ABS==2e-6 && BENCH_MAX_PCM_LSB==1 && BENCH_MAX_RELATIVE_RMS==1e-4);
             CHECK(active_stimulus->kind==OBJECT_STIMULUS_GEN_HISTORY && active_verification->initial_available==0 && active_verification->maximum_error==2e-6 && active_verification->exponent==0);
             for(unsigned i=0;i<5;++i)CHECK(active_verification->coefficients[i]==0);
             CHECK(object_gen_history_oracle_init(&gen,active_verification->window,BENCH_WARMUP));
@@ -451,7 +452,7 @@ static void worker(void *unused)
         if(active_verification->kind==OBJECT_WAVE2_POWER_MODES || active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_HISTORY_KIND){
             printf("RNBO_OBJECT_BENCHMARK CASE_ROUNDING fixture=%s case=%s samples=%"PRIu64" float_bit_different=%"PRIu64" zero_sign_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,comparison.samples,comparison.float_bit_different,comparison.zero_sign_different);fflush(stdout);
             CHECK(comparison.zero_sign_different<=comparison.float_bit_different && comparison.float_bit_different<=comparison.samples);
-            if(active_verification->kind==OBJECT_WAVE4_KIND || active_verification->kind==OBJECT_GEN_HISTORY_KIND)CHECK(comparison.float_bit_different==0);
+            if(active_verification->kind==OBJECT_WAVE4_KIND || (active_verification->kind==OBJECT_GEN_HISTORY_KIND && !BENCH_GEN_FEEDBACK_F32))CHECK(comparison.float_bit_different==0);
         }
         if(active_verification->kind){
             for(unsigned p=0;p<2;++p){

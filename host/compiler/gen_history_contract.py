@@ -17,6 +17,9 @@ IDENTITIES = TARGET / 'identities.json'
 KIND = 'gen-history-v1'
 INPUT = 'gen-history-dyadic-v1'
 FORMAT = 'rnbo-original-gen-history-target-v1'
+OPT_FORMAT = 'rnbo-original-gen-feedback-float32-v1'
+OPT_MODE = 'float32-feedback-comparison-v1'
+OPT_CATALOG_SHA256 = '1d675213ea10e730873febc9bf1d055122999345035a0e7c1d91eeae6ed2adc6'
 CATALOG_SHA256 = '0cc8b831ae41fed2725a4f4ebcbcc2529318ae9c4f5e761b15ab7f948e283b9b'
 
 
@@ -25,7 +28,8 @@ def canonical(value):
 
 
 def benchmark_fixture(catalog, directory: Path, identity: str):
-    if catalog.get('format') != FORMAT or hashlib.sha256(canonical(catalog)).hexdigest() != CATALOG_SHA256:
+    expected = {FORMAT: CATALOG_SHA256, OPT_FORMAT: OPT_CATALOG_SHA256}.get(catalog.get('format'))
+    if expected is None or hashlib.sha256(canonical(catalog)).hexdigest() != expected:
         raise ValueError('Gen history catalog differs from the reviewed original programs and schedules')
     selected = [f for f in catalog['fixtures'] if f['id'] == identity]
     if len(selected) != 1:
@@ -41,24 +45,35 @@ def benchmark_fixture(catalog, directory: Path, identity: str):
     return {**fixture, 'family': 'gen-history'}
 
 
-def admit_module(fixture, module):
+def admit_module(fixture, module, *, candidate=False):
     pins = json.loads(IDENTITIES.read_text())
     expected = pins['entries'][fixture['id']]
+    optimized = fixture.get('qualification_mode') == OPT_MODE
+    from gen_feedback import PROFILE, ADAPTATION, OUTPUT, CONTRACT_FILE, CONTRACT, MANIFEST_CONTRACT, sha
     exported = module['report']['prepared_export']
     manifest = exported['manifest']
     for key in ('rnbo_version', 'numerical_profile', 'class_name', 'role',
                 'audio_inputs', 'audio_outputs', 'parameter_count', 'adaptations'):
-        if manifest.get(key) != pins[key]:
+        value = PROFILE if candidate and key == 'numerical_profile' else (pins[key] + [ADAPTATION]) if candidate and key == 'adaptations' else pins[key]
+        if manifest.get(key) != value:
             raise ValueError('Gen history strict module contract differs: ' + key)
     for key in ('editable_source_sha256', 'parameter_schema_sha256', 'source_tree_sha256'):
         if manifest.get(key) != expected[key]:
             raise ValueError('Gen history exact graph/schema/source identity differs: ' + key)
+    if candidate and (not optimized or fixture['id'] != 'history-feedback' or
+            manifest.get('base_numerical_profile') != 'float32-strict' or
+            manifest.get('numerical_identity') != 'changed-rounding-float32-gen-feedback-v1' or
+            canonical(manifest.get('gen_feedback_contract')) != canonical(MANIFEST_CONTRACT)):
+        raise ValueError('Gen feedback candidate profile contract differs')
     raw = exported.get('provenance', {}).get('raw_files_sha256', {})
     snapshot = module['report'].get('prepared_snapshot', {}).get('prepared_files_sha256', {})
     if (raw.get('rnbo_source.h') != expected['raw_source_sha256'] or
-            snapshot.get('rnbo_source.h') != expected['prepared_source_sha256'] or
+            snapshot.get('rnbo_source.h') != (OUTPUT if candidate else expected['prepared_source_sha256']) or
             {k: v for k, v in snapshot.items() if k.startswith('common/')} != pins['runtime_files_sha256']):
         raise ValueError('Gen history generated header or runtime identity differs')
+    if candidate and (snapshot.get(CONTRACT_FILE) != sha(CONTRACT) or
+            snapshot.get('patch_config.h') != '846d7f320d28dbefa68954a2e91e49c939a385546df5bfda7b47cb1dc6f304a4'):
+        raise ValueError('Gen feedback compile contract or configuration differs')
 
 
 def verification(fixture, case, parameters, warmup, blocks):

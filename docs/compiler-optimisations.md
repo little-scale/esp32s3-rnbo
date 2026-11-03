@@ -17,6 +17,11 @@ changes rounding for exponents 2, 4 and 0.25 and retains the original fallback
 for every other scalar exponent. Fresh native and target comparisons preserve
 the declared accuracy gates; the strict default remains unchanged.
 
+The [Gen feedback Float32 profile](gen-feedback-float32.md) separately admits
+one original history-feedback program and changes a single literal suffix.
+Its matched XIAO comparison measures 83.94% less complete callback time, while
+native adversarial cases retain an explicit changed-rounding contract.
+
 The [exact signal-delay conversion option](exact-delay44100-compiler.md) retains
 strict arithmetic identity in the reviewed 44.1 kHz/cap40 Main graph, replacing
 only the two per-sample duration conversions with their exact integer route.

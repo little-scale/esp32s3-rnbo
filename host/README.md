@@ -242,6 +242,18 @@ Its historical four-case comparison observed 12.70% less complete callback
 time with zero numerical output difference and exact PCM. No new hardware run,
 general filter/rate claim or current-drone change is implied.
 
+## Optional Gen feedback numerical profile
+
+`--numerical-profile float32-gen-feedback-v1` admits only the original
+`history-feedback` GenExpr FX program. It removes the generated double-literal
+promotion while preserving Float32 state and binary64 clocks. Full graph,
+source, metadata and runtime pins guard the one-character transformation;
+other programs and optional adapters are rejected. The
+[qualified profile and XIAO measurements](../docs/gen-feedback-float32.md)
+record 83.94% less callback time for the declared cases. Subnormal and signed-
+zero native counterexamples keep this explicitly changed-rounding; the strict
+default is retained.
+
 ## Optional scalar-power numerical profile
 
 `--numerical-profile float32-scalar-powers-v1` admits only the exact authored

@@ -23,7 +23,7 @@ from build_loader_spike import inventory, tree_digest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "host/compiler"))
 from prepare import ExportError, NUMERICAL_PROFILES, read_json, read_regular
-from gen_history_contract import KIND as GEN_KIND, INPUT as GEN_INPUT, FORMAT as GEN_FORMAT, FIXTURES as GEN_FIXTURES, benchmark_fixture as gen_fixture, verification as gen_verification, admit_module as gen_admit_module, witness_sha256 as gen_witness_sha
+from gen_history_contract import KIND as GEN_KIND, INPUT as GEN_INPUT, FORMAT as GEN_FORMAT, OPT_FORMAT as GEN_OPT_FORMAT, OPT_MODE as GEN_OPT_MODE, FIXTURES as GEN_FIXTURES, benchmark_fixture as gen_fixture, verification as gen_verification, admit_module as gen_admit_module, witness_sha256 as gen_witness_sha
 from wave4_contract import KIND as WAVE4_KIND, INPUTS as WAVE4_INPUTS, benchmark_fixture as wave4_fixture, verification as wave4_verification, admit_module as wave4_admit_module
 
 _WAVE2_IDENTITIES = {
@@ -245,7 +245,8 @@ def configuration(args, modules):
     require(catalog.get("sample_rate")==44100 and catalog.get("block_frames")==256, "Wrong catalog audio profile")
     matches = [f for f in catalog.get("fixtures",[]) if f.get("id")==args.fixture_id]
     require(len(matches)==1, "Fixture ID must occur exactly once")
-    gen = catalog.get('format') == GEN_FORMAT
+    gen = catalog.get('format') in (GEN_FORMAT,GEN_OPT_FORMAT)
+    gen_optimized = catalog.get('format') == GEN_OPT_FORMAT
     require(gen or matches[0].get('verification', {}).get('kind') != GEN_KIND,
             'Gen history verification requires the original Gen history catalog format')
     wave4 = catalog.get('format') == 'rnbo-original-wave4-fixtures-v1'
@@ -264,10 +265,22 @@ def configuration(args, modules):
     role = fixture.get("role")
     if gen:
         try:
-            for module in modules.values():gen_admit_module(fixture,module)
+            for side,module in modules.items():gen_admit_module(fixture,module,candidate=gen_optimized and side=='optimized')
         except ValueError as exc:raise ExportError(str(exc)) from exc
-        require(modules['strict']['artifact_sha256']==modules['optimized']['artifact_sha256'],
-                'Initial Gen history qualification requires an identical-module control')
+        require((modules['strict']['artifact_sha256']!=modules['optimized']['artifact_sha256']) if gen_optimized else
+                (modules['strict']['artifact_sha256']==modules['optimized']['artifact_sha256']),
+                'Gen comparison requires distinct artifacts' if gen_optimized else 'Initial Gen history qualification requires an identical-module control')
+        if gen_optimized:
+            for key in ('compiler','dependencies','private_support_archives','dynamic_abi','state_policy','allocation_accounting','source_files_sha256'):
+                require(key in modules['strict']['report'] and modules['strict']['report'][key]==modules['optimized']['report'].get(key),
+                        'Gen comparison requires a matched compiler, SDK and state policy: '+key)
+            require(all(module['report'].get('imports')==[] for module in modules.values()),
+                    'Gen comparison requires zero unresolved imports')
+            left=modules['strict']['report']['prepared_snapshot']['prepared_files_sha256']
+            right=modules['optimized']['report']['prepared_snapshot']['prepared_files_sha256']
+            omitted={'rnbo_source.h','patch_config.h','rnbo_s3_gen_feedback_source.h'}
+            require({k:v for k,v in left.items()if k not in omitted}=={k:v for k,v in right.items()if k not in omitted},
+                    'Gen comparison changes files beyond its source and compile contract')
         require(args.rounds==3 and args.timing_exclude_blocks==32 and args.arena_bytes==65536,
                 'Gen history requires the reviewed rounds, timing exclusion and arena capacity')
     if wave4:
@@ -386,7 +399,9 @@ def configuration(args, modules):
     if reviewed:require(maximum<=2e-6 and pcm<=1 and relative<=1e-4,"Reviewed wave2 pair limits cannot be widened")
     if power_modes:require(maximum==2e-6 and pcm==1 and relative==1e-4,'Power pair tolerances must remain2e-6/PCM1/RMS1e-4')
     if raw_wrap:require(maximum==pcm==relative==0,"Raw wrap control requires exact pair tolerances")
-    if gen:require(maximum==pcm==relative==0 and fixture['pcm_gain']==.25,'Gen history controls require exact pair gates and quarter-scale PCM')
+    if gen:
+        require((maximum,pcm,relative)==((2e-6,1,1e-4) if gen_optimized else (0,0,0)) and fixture['pcm_gain']==.25,
+                'Gen history comparison/control gates and quarter-scale PCM must remain fixed')
     if wave4:require(maximum==pcm==relative==0,'Wave4 control requires exact numerical/PCM/RMS pair gates')
     oracle_bytes=blocks*256*2*4 if any(verifications) else 0
     buffers=blocks*256*2*4*(2 if role=="fx" else 1)+4*256*4
@@ -401,7 +416,7 @@ def configuration(args, modules):
            f"#define BENCH_FIXTURE {c_string(args.fixture_id)}",f"#define BENCH_ROLE {1 if role=='main' else 2}u",
            f"#define BENCH_BLOCKS {blocks}u", f"#define BENCH_WARMUP {warmup}u",f"#define BENCH_SEED {seed}u",
            f"#define BENCH_ROUNDS {args.rounds}u",f"#define BENCH_TIMING_EXCLUDE {args.timing_exclude_blocks}u",
-           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u",
+           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u", f"#define BENCH_GEN_FEEDBACK_F32 {1 if gen_optimized else 0}u",
            f"#define BENCH_ARENA_BYTES {args.arena_bytes}u",f"#define BENCH_HAS_ORACLE {1 if oracle_bytes else 0}u",f"#define BENCH_CASE_COUNT {len(cases)}u",f"#define BENCH_PARAMETER_COUNT {len(parameters)}u",
            f"#define BENCH_MAX_ABS {maximum.hex()}",f"#define BENCH_MAX_RELATIVE_RMS {relative.hex()}",f"#define BENCH_MAX_PCM_LSB {pcm}u",
            f"#define BENCH_STRICT_SHA256 {c_string(modules['strict']['artifact_sha256'])}",
@@ -450,12 +465,12 @@ def configuration(args, modules):
 def sources():
     paths=[Path(__file__).resolve(),ROOT/"tools/build_rnbo_loader_test.py",ROOT/"tools/build_loader_spike.py",ROOT/"loader-spike/dependencies.json",
            ROOT/"host/compiler/build.py",ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",
-           ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
+           ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/gen_feedback.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
            ROOT/"tests/fixtures/objects/wave4/recipes.json",ROOT/"tests/fixtures/objects/wave4/inputs.py",
            ROOT/"tests/fixtures/objects/wave4/models.py",ROOT/"tests/fixtures/objects/wave4/identities.json"]
     for identity in ('history-feedback','two-history-swap','three-history-rotation'):
         paths.extend(GEN_FIXTURES/(identity+suffix) for suffix in ('.rnbopat','.genexpr'))
-    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target"):
+    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target", ROOT/"tests/fixtures/gen/feedback-f32"):
         paths.extend(p for p in sorted(directory.rglob("*")) if p.is_file() and "__pycache__" not in p.parts)
     return {p.relative_to(ROOT).as_posix():sha(p) for p in paths}
 
