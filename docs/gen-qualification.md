@@ -5,6 +5,11 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 `codebox~`. A matching name does not transfer a result between those contexts.
 See the [full requirements](qualification-scope.md).
 
+Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The first numeric batch adds 15 executed scenarios and one compiler rejection,
+with round/denormal mismatches retained. These basic checks do not inherit the
+broader guarantees of the older native/target qualification batches below.
+
 ## What works so far
 
 The public exporter now admits authored GenExpr code in a `gen~` box, using the

@@ -1,5 +1,14 @@
 # XIAO object qualification
 
+## Fast coverage runs
+
+The current priority is short hardware functionality checks with CPU timing,
+batching many objects into one upload and leaving the test firmware installed
+between batches. The [first fast batch](hardware-smoke.md) records 15 device
+scenarios (10 pass, 5 output mismatches) and one compilation rejection.
+[CPU outliers are queued](cpu-review-backlog.md) for future optimisation.
+These smoke checks are distinct from the deeper historical tests below.
+
 The active goal is to test every inventoried RNBO object, operation and structure
 on the XIAO ESP32-S3 and record compatibility, resource use and performance.
 The user has also explicitly included Gen/`gen~` operators and single-sample
