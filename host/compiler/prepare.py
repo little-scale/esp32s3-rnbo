@@ -295,7 +295,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             hoist_cycle_conversions: bool = False, compact_average_history: bool = False,
             float32_pink_output: bool = False, correct_finite_wrap: bool = False,
             exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False,
-            hoist_train_reciprocal: bool = False, bounded_line_ramps: bool = False) -> dict:
+            hoist_train_reciprocal: bool = False, bounded_line_ramps: bool = False,
+            float32_onepole_clamp: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -324,6 +325,14 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("hoist train reciprocal must be a boolean")
     if type(bounded_line_ramps) is not bool:
         raise ExportError("bounded line ramps must be a boolean")
+    if type(float32_onepole_clamp) is not bool:
+        raise ExportError("Float32 onepole clamp must be a boolean")
+    if float32_onepole_clamp and (type(apply_fixes) is not bool or not apply_fixes or
+            numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
+            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps):
+        raise ExportError("Float32 onepole clamp requires normal fixes, strict audio and no other optional adapters")
     if exact_audio_delay44100 and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             type(filter_delay_max_ms) not in (int, float) or filter_delay_max_ms != 40 or
@@ -522,6 +531,15 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(table_change)
+    if float32_onepole_clamp:
+        from onepole_clamp import transform as onepole_clamp_transform
+        try:
+            files["rnbo_source.h"], onepole_clamp_change = onepole_clamp_transform(
+                files["rnbo_source.h"], code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        onepole_clamp_change["transformer_sha256"] = digest(Path(__file__).with_name("onepole_clamp.py").read_bytes())
+        changes.append(onepole_clamp_change)
     schema = [{key: p.get(key) for key in ("paramId", "index", "name", "displayName", "unit", "minimum", "maximum", "initialValue", "exponent", "steps")}
               for p in params]
     manifest = {"format": "rnbo-esp32s3-prepared-export", "format_version": 1,
@@ -536,6 +554,14 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                 "source_tree_sha256": digest(canonical(raw_hashes)),
                 "editable_source_sha256": digest(files["source.rnbopat"]) if "source.rnbopat" in files else None,
                 "adaptations": [change["name"] for change in changes]}
+    if float32_onepole_clamp:
+        manifest["float32_onepole_clamp"] = True
+        manifest["float32_onepole_clamp_contract"] = {
+            "version": 1, "rounding": "nearest-even", "input_and_store": "ordinary finite binary32 float",
+            "scope": "exact generated onepole clamp statement, with per-statement actual-type assertions",
+            "coefficient_and_recurrence": "unchanged", "scheduler_time": "unchanged binary64",
+            "baseline_accuracy_failures_repaired": False, "target_cpu_gain_claimed": False,
+            "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
     if filter_delay_max_ms is not None:
         manifest["filter_delay_max_ms"] = filter_delay_max_ms
     if float32_delay_storage:
@@ -690,7 +716,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -750,6 +776,8 @@ def main() -> None:
                         help="Hoist the original Float32 reciprocal in the reviewed scalar phase-pulse strict Main graph; preserves bypasses/Double floor/state")
     parser.add_argument("--bounded-line-ramps", action="store_true",
                         help="Experimental bounded relative line timing in the reviewed two-item-pack Main graph; changes rounding, no target CPU claim")
+    parser.add_argument("--float32-onepole-clamp", action="store_true",
+                        help="Use Float32 literals in type-checked onepole clamps; preserves finite stored values, not fenv/NaN payloads; coefficient/recurrence unchanged")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -759,7 +787,8 @@ def main() -> None:
                            hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
                            float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
                            exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations,
-                           hoist_train_reciprocal=args.hoist_train_reciprocal,bounded_line_ramps=args.bounded_line_ramps)
+                           hoist_train_reciprocal=args.hoist_train_reciprocal,bounded_line_ramps=args.bounded_line_ramps,
+                           float32_onepole_clamp=args.float32_onepole_clamp)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

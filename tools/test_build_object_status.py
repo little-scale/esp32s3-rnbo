@@ -132,7 +132,7 @@ class ObjectStatusTests(unittest.TestCase):
                 self.assertEqual(row['working']['status'],state)
                 self.assertFalse(row['board_evidence'])
                 self.assertIsNone(row['performance'])
-                self.assertEqual(row['optimisation']['status'],'none')
+                self.assertEqual(row['optimisation']['status'],'experimental' if name=='onepole~' else 'none')
                 self.assertTrue(any(s['url'].endswith('/evidence/wave3-stateful.json') for s in row['sources']))
         self.assertIn('five exceed',rows['patcher:onepole~']['working']['detail'])
         self.assertIn('one long signed-rate',rows['patcher:slide~']['working']['detail'])
@@ -152,6 +152,27 @@ class ObjectStatusTests(unittest.TestCase):
             elif kind=='evidence_hash':forged['sources']['evidence/wave3-stateful.json']['sha256']='0'*64
             else:record['qualification'][0]['source']='evidence/nonexistent-wave3.json'
             with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'[Bb]oard|Qualification evidence'):
+                make_status(self.inventory,forged)
+
+    def test_onepole_clamp_option_binds_public_pair_without_repair_or_cpu_credit(self):
+        record=next(r for r in self.coverage['objects'] if r['id']=='patcher:onepole~')
+        option=next(o for o in record['optimisations'] if o['id']=='float32-onepole-clamp')
+        self.assertEqual(option['state'],'experimental')
+        self.assertEqual(option['flag'],'--float32-onepole-clamp')
+        row=next(r for r in make_status(self.inventory,self.coverage)['objects'] if r['id']==record['id'])
+        self.assertFalse(row['board_evidence'])
+        self.assertEqual(row['working']['status'],'partial')
+        self.assertIsNone(row['performance'])
+        self.assertIn('five exceed',row['working']['detail'])
+        self.assertIn('recurrence unchanged',row['optimisation']['detail'])
+        for kind in ('flag','candidate','reference','historical_only'):
+            forged=copy.deepcopy(self.coverage)
+            changed=next(r for r in forged['objects'] if r['id']==record['id'])['optimisations'][0]
+            if kind=='flag':changed['flag']='--stable-onepole-not-admitted'
+            elif kind=='candidate':changed['candidate_module_sha256']='0'*64
+            elif kind=='reference':changed['reference_module_sha256']='0'*64
+            else:changed['compiler_admission_source']='evidence/wave3-stateful.json'
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Experimental compiler admission'):
                 make_status(self.inventory,forged)
 
     def test_exact_delay_availability_requires_the_measured_image_and_option(self):

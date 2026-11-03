@@ -1,5 +1,11 @@
 # Local export and static compilation
 
+`--float32-onepole-clamp` is an experimental, default-off local comparison
+option for exact generated onepole clamps. It preserves finite stored values
+under nearest-even rounding, while excluding floating flags/traps and NaN
+payload equivalence. Coefficients, recurrence, clocks and the known accuracy
+failures remain unchanged. See the [proof, use and separate numerical study](../docs/onepole-float32.md).
+
 The [wave3 stateful qualification driver](../tests/fixtures/objects/wave3/native/README.md)
 reproduces the 45 native `onepole~`, `slide~`, `delta~` and `sah~` programs through
 the production dynamic C ABI. Its current complete baseline intentionally exits

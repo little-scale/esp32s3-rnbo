@@ -1,5 +1,12 @@
 # RNBO object optimisation matrix
 
+The experimental [Float32 onepole clamp option](onepole-float32.md) removes
+Double comparisons while preserving finite stored values and the original
+five accuracy failures. Fresh public modules reproduce the reviewed private
+images. A separate compensated Float32 study improves bounded-input accuracy,
+but its extreme-input counterexample prevents general admission. Neither result
+adds a target CPU percentage.
+
 The [wave3 stateful checks](wave3-stateful.md) add `onepole~`, `slide~`,
 `delta~` and the exact `sah~` spelling. All 45 native programs are healthy;
 39 pass the independent accuracy gates and six retain numerical failures.

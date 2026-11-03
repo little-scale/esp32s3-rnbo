@@ -61,6 +61,15 @@ target results need their own later sealed records.
 
 ## What the evidence establishes, and what remains
 
+The [onepole Float32 study](onepole-float32.md) now supplies an experimental
+comparison-only compiler option with a local stored-value proof. It leaves
+the baseline numerical failures intact. A private stable coefficient plus
+compensated recurrence passes the original and additional bounded native
+programs without adding state storage, but an actual large-finite-input fault
+requires an overflow-safe update or enforced domain before admission. Its
+extra sample arithmetic and cheaper coefficient updates need separate target
+measurements; compiled helper removal is not a CPU percentage.
+
 | Area | Existing evidence | Remaining material checks |
 | --- | --- | --- |
 | Cycle, saw, mtof, mapping/arithmetic | Selected native semantic/profile comparisons; selected Main/FX target timings; exact pure-hoist comparisons; actual-drone qualification | Other constants, mixed scalar/signal inlets and meaningful parameter domains; independent phase/frequency changes; new modes need new admission/proof. Static callsites are not per-sample counts. |
