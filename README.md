@@ -152,3 +152,5 @@ separate milestones. See
 [technical handover](RNBO_ESP32S3_TECHNICAL_HANDOVER.md).
 
 Systematic XIAO object testing is under way: [results and remaining scope](docs/xiao-qualification.md). Board measurements remain separate from AMOLED results.
+
+Gen/`gen~` operators and single-sample behaviour are explicitly in scope. See [Gen qualification](docs/gen-qualification.md) for the first native History tests and the remaining hardware work.

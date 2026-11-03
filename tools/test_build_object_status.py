@@ -42,6 +42,30 @@ class ObjectStatusTests(unittest.TestCase):
                 self.assertAlmostEqual(measurement['cpu_time_saved_percent'],expected,places=10)
             else:self.assertIsNone(measurement['cpu_time_saved_percent'])
 
+    def test_xiao_wave4_exact_entries_have_board_scope_and_no_control_gain(self):
+        data=json.loads((ROOT/'evidence/xiao-wave4.json').read_text())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        identities={identity for observation in data['observations']
+                    for identity in observation['exact_surface']['exact_entries']}
+        self.assertEqual(len(identities),15)
+        for identity in identities:
+            row=rows[identity]
+            self.assertEqual(row['working']['status'],'board')
+            self.assertIn('XIAO ESP32-S3',row['working']['detail'])
+            self.assertIsNone(row['performance'])
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertTrue(any(s['url'].endswith('/evidence/xiao-wave4.json') for s in row['sources']))
+        for identity in ('codebox:add','codebox:sub','codebox-member:delta.reset','patcher:abs'):
+            self.assertEqual(rows[identity]['working']['status'],'unverified')
+
+    def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
+        forged=copy.deepcopy(self.coverage)
+        record=next(r for r in forged['objects'] if r['id']=='patcher:min~')
+        qualification=next(q for q in record['qualification'] if q.get('evidence_kind')=='xiao-wave4-model-output')
+        qualification['selector']='/observations/0'
+        with self.assertRaisesRegex(ValueError,'exact source/surface'):
+            make_status(self.inventory,forged)
+
     def test_power_primary_uses_composed_reference_and_fallbacks_claim_no_gain(self):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
         row=rows['patcher:pow~']

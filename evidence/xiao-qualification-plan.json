@@ -16,14 +16,14 @@
     "codebox_top_level_spellings": 506,
     "core_installed_spellings": 1209,
     "distinct_exact_entries_with_fixture_model_candidate": 26,
-    "existing_scoped_site_entries": 43,
+    "existing_scoped_site_entries": 58,
     "existing_status_counts": {
-      "board": 16,
+      "board": 31,
       "in_patch": 17,
       "native": 3,
       "not_applicable": 5,
       "partial": 7,
-      "unverified": 1407
+      "unverified": 1392
     },
     "fixed_array_constructors": 17,
     "host_editor_not_applicable": 5,
@@ -34,15 +34,16 @@
     "patcher_canonical_groups": 549,
     "pending_categories": {
       "expand_other_biquad_modes_and_coefficient_domains": 1,
+      "expand_other_modes_and_domains_after_scoped_wave4_pass": 15,
       "host_editor_not_applicable": 5,
       "pending_codebox_constant_or_query": 133,
       "pending_codebox_lifecycle_hook": 3,
       "pending_codebox_list_method": 11,
-      "pending_codebox_stateful_member": 207,
-      "pending_codebox_stateful_operator": 85,
-      "pending_codebox_stateless_operator": 288,
+      "pending_codebox_stateful_member": 206,
+      "pending_codebox_stateful_operator": 84,
+      "pending_codebox_stateless_operator": 286,
       "pending_constant_or_dynamic_query_output": 49,
-      "pending_dsp_or_math_mode_model": 486,
+      "pending_dsp_or_math_mode_model": 475,
       "pending_event_control_model": 90,
       "pending_event_io_adapter_and_model": 35,
       "pending_hierarchy_or_language_route": 6,
@@ -53,9 +54,11 @@
     },
     "reference_only_unresolved": 1,
     "site_rows": 1455,
-    "xiao_independent_object_qualified": 1,
+    "xiao_independent_object_qualified": 16,
     "xiao_whole_graph_presence_only_entries": 20,
-    "xiao_independent_object_qualification_scope": "One exact spelling with a scoped three-case FX model pass; no whole-domain or alias qualification."
+    "xiao_independent_object_qualification_scope": "Scoped exact names/forms: biquad three-case FX and arithmetic/codebox wave4; no whole-domain or alias inheritance.",
+    "additional_wave4_authored_fixtures": 13,
+    "additional_wave4_case_programs": 39
   },
   "source_plan_sha256": "a5ea17b6d8cac879c1ad34fb4a7ccb0cae78bd7d9bafe3775e5471fe405cd6f4",
   "inventory_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
@@ -428,11 +431,28 @@
       "exact_name": "+",
       "canonical_group": "codebox:add",
       "is_alias": true,
-      "next_category": "pending_codebox_stateless_operator",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "codebox-arithmetic",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "patcher:+",
@@ -500,11 +520,28 @@
       "exact_name": "-",
       "canonical_group": "codebox:sub",
       "is_alias": true,
-      "next_category": "pending_codebox_stateless_operator",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "codebox-arithmetic",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "patcher:-",
@@ -524,11 +561,28 @@
       "exact_name": "-~",
       "canonical_group": "patcher:sub~",
       "is_alias": true,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "subtract-alias-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:/",
@@ -704,11 +758,28 @@
       "exact_name": "<~",
       "canonical_group": "patcher:lt~",
       "is_alias": true,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "less-alias-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:==",
@@ -776,11 +847,28 @@
       "exact_name": "==~",
       "canonical_group": "patcher:eq~",
       "is_alias": true,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "equal-alias-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:>",
@@ -1064,11 +1152,28 @@
       "exact_name": "abs~",
       "canonical_group": "patcher:abs~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "absolute-signal-stereo",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:accum",
@@ -5062,11 +5167,28 @@
       "exact_name": "delta",
       "canonical_group": "codebox:delta",
       "is_alias": false,
-      "next_category": "pending_codebox_stateful_operator",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "codebox-delta-state",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "patcher:delta",
@@ -5086,11 +5208,28 @@
       "exact_name": "delta.next()",
       "canonical_group": null,
       "is_alias": false,
-      "next_category": "pending_codebox_stateful_member",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "codebox-delta-state",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox-member:delta.reset",
@@ -6370,11 +6509,28 @@
       "exact_name": "eq~",
       "canonical_group": "patcher:eq~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "equal-canonical-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:exp",
@@ -10966,11 +11122,28 @@
       "exact_name": "lt~",
       "canonical_group": "patcher:lt~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "less-canonical-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "patcher:makenote",
@@ -11050,11 +11223,28 @@
       "exact_name": "maximum~",
       "canonical_group": "patcher:maximum~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "maximum-canonical-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "patcher:max~",
@@ -11062,11 +11252,28 @@
       "exact_name": "max~",
       "canonical_group": "patcher:maximum~",
       "is_alias": true,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "maximum-alias-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:mc_channel",
@@ -11362,11 +11569,28 @@
       "exact_name": "minimum~",
       "canonical_group": "patcher:minimum~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "minimum-canonical-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:minus",
@@ -11410,11 +11634,28 @@
       "exact_name": "min~",
       "canonical_group": "patcher:minimum~",
       "is_alias": true,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "minimum-alias-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:mix",
@@ -15658,11 +15899,28 @@
       "exact_name": "sub~",
       "canonical_group": "patcher:sub~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_modes_and_domains_after_scoped_wave4_pass",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "subtract-canonical-signal",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "signed-grid-v1",
+          "dense-binary32-v1",
+          "vector-boundaries-v1"
+        ],
+        "input_domain": "finite binary32 [-1,1]",
+        "model_absolute_error_tolerance": 0,
+        "source": "evidence/xiao-wave4.json",
+        "full_object_domain_qualified": false,
+        "aliases_inherit_qualification": false,
+        "performance_scope": "Whole authored fixture; no isolated per-object time or optimisation gain."
+      }
     },
     {
       "id": "codebox:svf",
@@ -17694,6 +17952,25 @@
     }
   ],
   "subsequent_hardware_observations": [
-    "evidence/xiao-biquad-control.json"
-  ]
+    "evidence/xiao-biquad-control.json",
+    "evidence/xiao-wave4.json"
+  ],
+  "Gen_scope": {
+    "required": true,
+    "separate_inventory": "site/data/gen-inventory.json",
+    "native_program_evidence": "evidence/gen-single-sample-native.json",
+    "hardware_qualified": false,
+    "RNBO_rows_are_not_Gen_evidence": true
+  },
+  "initial_site_snapshot_counts": {
+    "scoped_entries": 43,
+    "working_statuses": {
+      "board": 16,
+      "in_patch": 17,
+      "native": 3,
+      "not_applicable": 5,
+      "partial": 7,
+      "unverified": 1407
+    }
+  }
 }

@@ -152,7 +152,8 @@ def inventory_rows(inventory):
     return rows
 
 
-def public_sources(record,coverage,root):
+def public_sources(record,coverage,root,evidence_cache=None):
+    if evidence_cache is None:evidence_cache={}
     result={}
     for item in record.get('qualification',[])+record.get('optimisations',[]):
         source=item.get('source')
@@ -162,6 +163,23 @@ def public_sources(record,coverage,root):
                     path.is_file() and not (root/source).is_symlink(),'Qualification evidence must be a public regular file')
             entry=coverage['sources'].get(source)
             require(entry is not None and digest(path)==entry['sha256'],'Qualification evidence changed: '+source)
+            if item.get('evidence_kind')=='xiao-wave4-model-output':
+                if source not in evidence_cache:evidence_cache[source]=load(path)
+                data=evidence_cache[source];observation=pointer(data,item['selector'])
+                require(data.get('format')=='rnbo-xiao-wave4-hardware-observations' and
+                        data.get('Gen_qualification_claimed') is False and
+                        observation.get('independent_on_device_oracle') is True and
+                        record['id'] in observation['exact_surface']['exact_entries'] and
+                        observation['exact_surface']['surface']==record['surface'],
+                        'XIAO qualification selector differs from the exact source/surface')
+                passed=observation['collected']['pass'];aggregate=data['target_aggregate']
+                require(observation['collected']['board']=='xiao' and passed['semantic_sample_checks']>0 and
+                        passed['wave4_bit_sample_checks']==passed['semantic_sample_checks'] and
+                        passed['wave4_bit_differences']==passed['observer_bit_differences']==0 and
+                        aggregate['maximum_numerical_model_error']==0 and
+                        aggregate['all_restorations_verified'] is True and
+                        observation['CPU_savings_claimed'] is False and observation['cpu_time_saved_percent'] is None,
+                        'XIAO scoped output-model or recovery evidence differs')
         if not source or not source.startswith(('docs/','evidence/')) or not (root/source).is_file():continue
         label=Path(source).stem.replace('-',' ')
         label+=' — documentation' if source.startswith('docs/') else ' — evidence'
@@ -194,7 +212,7 @@ def make_status(inventory,coverage,root=ROOT):
     require(coverage['format']=='curated-RNBO-exact-spelling-status-mapping-v1','Unknown coverage format')
     require(coverage['merge_policy']['patcher_aliases_inherit'] is False and coverage['merge_policy']['codebox_inherits'] is False,'Coverage must not propagate through aliases')
     rows=inventory_rows(inventory);measurements=checked_measurements(coverage,root)
-    seen=set()
+    seen=set();qualification_cache={}
     for record in coverage['objects']:
         identity=record['id'];require(identity in rows and identity not in seen,'Unknown or repeated coverage identity: '+identity);seen.add(identity)
         row=rows[identity];require(row['name']==record['spelling'],'Coverage spelling differs')
@@ -221,7 +239,7 @@ def make_status(inventory,coverage,root=ROOT):
         row['optimisation']={'status':opt,'label':OPT_LABELS[opt],
                              'short':next((o['flag'] for o in options if o.get('flag') and o.get('state')==opt),''),
                              'detail':' '.join(o['note'] for o in options)}
-        row['sources']=public_sources(record,coverage,root)
+        row['sources']=public_sources(record,coverage,root,qualification_cache)
         group=PRIMARY_GROUPS.get(identity)
         if group:
             selected=[m for m in measurements.values() if m['group_id']==group and m['case']=='aggregate']

@@ -1,8 +1,10 @@
 # Implementation status — 4 November 2026
 
 The active scope also includes **Gen/`gen~` and its single-sample processing**.
-Gen inventory, export-route checks and execution qualification are being added
-separately; the current RNBO table does not validate Gen. See
+Gen has a separate metadata inventory, guarded GenExpr export admission and two
+native History programs with sample-level feedback/reset/partition tests.
+Gen hardware, other operators and visual Gen import remain pending; the RNBO
+table does not validate Gen. See [the Gen results](gen-qualification.md) and
 [the qualification requirements](qualification-scope.md).
 
 Systematic **XIAO object qualification** is now active. The first isolated
@@ -15,6 +17,13 @@ A subsequent biquad stereo FX control passes 4,718,592 independent output-model
 checks and 18 settled-level checks, with zero pair differences and full memory
 recovery. Its same-module timing claims no optimisation gain. See
 [the board-specific results and remaining scope](xiao-qualification.md).
+
+Thirteen additional arithmetic/comparison/RNBO-codebox fixtures now pass on XIAO:
+3,833,856 pair comparisons, 7,667,712 independent model checks, exact observer
+bits, recovered memory and restored drone defaults. Their absolute callback
+times and exact source scopes are recorded separately; identical-module controls
+claim no optimisation gain. This adds 15 scoped exact names to the dashboard, without Gen coverage or new
+optimisation percentages.
 
 The **XIAO ESP32-S3 headless profile** now has initial 3sawsDrone hardware
 validation. It uses the same prepared patch as AMOLED and starts automatically,

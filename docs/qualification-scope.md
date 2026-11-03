@@ -52,5 +52,7 @@ scope. No arbitrary user program or unbounded feedback domain is established
 by a finite fixture corpus.
 
 The [XIAO results](xiao-qualification.md) retain the current RNBO measurements.
-Gen inventory and execution qualification are pending; no RNBO result is
-transferred to Gen by association.
+The Gen inventory and first native History-program evidence are now recorded
+in [the Gen qualification record](gen-qualification.md). Gen hardware and the
+remaining named operators/forms remain pending; no RNBO result transfers to
+Gen by association.

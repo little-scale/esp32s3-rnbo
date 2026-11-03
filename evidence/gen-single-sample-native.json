@@ -1,0 +1,410 @@
+{
+  "CPU_time_saved_us": null,
+  "aliases_inherit_qualification": false,
+  "all_GenExpr_operations_qualified": false,
+  "all_Gen_objects_qualified": false,
+  "compiler_frontend_admission": true,
+  "direct_native_producer": {
+    "additional_force_prepare_before_samples": [
+      257,
+      1300
+    ],
+    "channels": 2,
+    "counts_note": "The private executable field named reconstructions=13 counts all constructed instances; the public projection distinguishes1 first instance +12 subsequent constructions. Explicit reset counters exclude startup initialization.",
+    "event_boundary_fragments": "Nominal partitions are shortened when necessary to hit an authored reset/prepare sample exactly.",
+    "frames_per_constructed_instance": 4096,
+    "generator": "private-genexpr-variable-block-test-v1",
+    "inner_state_inspected_or_injected": false,
+    "maximum_prepared_block_frames": 256,
+    "mixed_partition_pattern": [
+      1,
+      2,
+      7,
+      255,
+      256,
+      3,
+      17
+    ],
+    "module_ABI": "Separate from the production fixed256 module C ABI. No variable-block module or device claim.",
+    "nominal_partitions": [
+      1,
+      2,
+      7,
+      255,
+      256
+    ],
+    "producer_fixedblocksize": 0,
+    "reset_before_samples": [
+      513,
+      1024,
+      2051,
+      3001
+    ],
+    "reset_route": "The authored param reset -> set reset -> Gen reset action invokes declared history initializers, including three repeated identical value1 calls after the first call.",
+    "sample_rate": 44100
+  },
+  "format": "rnbo-genexpr-single-sample-native-v1",
+  "format_version": 1,
+  "frontend_tests": {
+    "existing_tests": 3,
+    "external_Buffer_metadata_preserved": true,
+    "external_Buffer_prepare_rejection_atomic": true,
+    "failed": 0,
+    "log": {
+      "bytes": 1344,
+      "path": "build/research/gen-scope-v1/production-source-v2/tests.log",
+      "sha256": "a284a54e8c050a900a166c0c2bd12793587e657fa39cb70e4021db3f844dd3cf"
+    },
+    "new_Gen_tests": 8,
+    "noise_execution_qualified": false,
+    "passed": 11,
+    "public_Main_zero_to_two_constant_and_noise_export_and_prepare": true,
+    "public_fixed256_history_export_and_prepare": true,
+    "skipped": 0,
+    "total": 11,
+    "unsupported_forms": [
+      "visual embedded Gen patchers",
+      "file/title forms",
+      "converted gencode",
+      "exposeparams",
+      "unknown Gen box options",
+      "zero-output side-effect-only forms"
+    ],
+    "zero_input_policy": "Saved signal-input count0 is allowed; RNBO Gen metadata retains a base control inlet."
+  },
+  "hardware_executed": false,
+  "independent_models": {
+    "history-feedback": {
+      "analytic_scope": "Finite supplied dyadic input words with magnitude<=0.5, history initially0.",
+      "binary64_model_evaluation_conservative_absolute_bound": 2.842170943040401e-14,
+      "bound_derivation": "|history|<=1 is invariant. A local Float32 rounding error bounded by2^-24 and recurrence contraction0.5 give accumulated error<=2^-23; the2^-45 allowance conservatively covers binary64 model evaluation and its omitted tail. This bound explains this supplied bounded recurrence, not all Gen algorithms.",
+      "conditional_recursive_Float32_roundoff_bound": 1.1920931797249068e-07,
+      "equation": "y[n]=x[n]+0.5*y[n-1]; output2 is previous y, history initially/reset0",
+      "fixed_maximum_absolute_error_gate": 2e-06,
+      "gate_widened_from_observation": false,
+      "input_pattern": [
+        0.25,
+        -0.125,
+        0.5,
+        0,
+        -0.25,
+        0.125,
+        -0.5
+      ],
+      "omitted_convolution_tail_upper_bound": 5.421010862427522e-20,
+      "reference": "Closed-form weighted input convolution since the last reset; at most64 previous terms, evaluated in binary64. It does not replay the generated recursive update."
+    },
+    "two-history-swap": {
+      "claim_about_a_equals_b_then_b_equals_a": false,
+      "equation": "a[0]=1,b[0]=2; out=(a,b); next(a,b)=(old b,old a)",
+      "fixed_maximum_absolute_error_gate": 2e-06,
+      "observed_maximum_absolute_error": 0,
+      "old_state_temporaries_explicitly_authored": true,
+      "reference": "Exact alternating integer values, restarted at each declared reset."
+    }
+  },
+  "inventory": {
+    "216_name_union_is_not_complete_GenExpr_grammar": true,
+    "Gen_Jitter": "Separate non-audio context, outside the current DSP Gen execution qualification.",
+    "inventory_pending_labels_are_not_a_qualification_join": true,
+    "named_metadata_only": true,
+    "path": "site/data/gen-inventory.json",
+    "sha256": "394d841aef2080d464f8f3a2293e2988bf01be13108867a7dfdac752b758acef"
+  },
+  "limits": [
+    "Native host execution only; no Gen device timing, CPU saving, loaded target module, DMA or audio hardware result.",
+    "The direct producer uses regular host RNBO runtime allocation; no allocation-free or arena-usage proof is claimed.",
+    "The normal export/prepare acceptance tests do not execute every named operation or qualify Gen aliases, visual patches, resources or arbitrary code.",
+    "The two supplied History programs do not establish arbitrary GenExpr assignment ordering or all structural/control-flow semantics."
+  ],
+  "module_C_ABI_variable_blocks_qualified": false,
+  "named_surface_evidence": [
+    {
+      "aliases_inherit": false,
+      "declared_initial_values": [
+        0,
+        1,
+        2
+      ],
+      "exact_name": "History",
+      "fixture_names": [
+        "history-feedback",
+        "two-history-swap"
+      ],
+      "functional_history_spelling_qualified": false,
+      "qualification": "scoped-native",
+      "surface": "genexpr-declaration",
+      "visual_history_object_qualified": false
+    }
+  ],
+  "optimisation": false,
+  "performance_gain_percent": null,
+  "precision": {
+    "allocation_instrumented": false,
+    "audio": "RNBO_USE_FLOAT32",
+    "contraction": "ffp-contract=off",
+    "nonfinite_inputs_qualified": false,
+    "reference": "Independent binary64 closed-form convolution or exact alternating integers",
+    "rounding": "Default native nearest/even; other rounding modes and floating exception equivalence unqualified"
+  },
+  "private_records": {
+    "final_route_report": {
+      "bytes": 36787,
+      "path": "build/research/gen-scope-v1/production-route-report-v2.json",
+      "sha256": "778aa3802ee544ad5dc623d399c044edf2d5efbd622ef6e453ca9b1481a772f2"
+    },
+    "verification_script": {
+      "bytes": 1044,
+      "path": "build/research/gen-scope-v1/verify_production.py",
+      "sha256": "eda4f13245dfc639daf31dd9ac1a43410134b5822317e6cfa16ec3f604b6cd9c"
+    }
+  },
+  "programs": [
+    {
+      "GenExpr_source": {
+        "bytes": 66,
+        "path": "tests/fixtures/gen/history-feedback.genexpr",
+        "sha256": "503accf2f7bdb3b232125f1ec79b73c509536aef51144a77417b04839c925aee"
+      },
+      "builds": [
+        {
+          "additional_force_prepare_calls": 26,
+          "constructed_instances": 13,
+          "executable": {
+            "bytes": 84648,
+            "path": "build/research/gen-scope-v1/production-native-v4/history-feedback/probe-O3",
+            "sha256": "4f4e4e8579f4f7991d1514913ef90d8d8209be3a46b312658f89be9f1ef1ffd2"
+          },
+          "explicit_post_start_reset_actions": 52,
+          "initial_prepare_calls": 13,
+          "maximum_ideal_error": 1.4901161193847656e-08,
+          "mode": "O3",
+          "model_checked_channel_words": 106496,
+          "partition_bit_differences": 0,
+          "partition_compared_channel_words": 98304,
+          "reconstruction_runs_after_first_instance": 12
+        },
+        {
+          "additional_force_prepare_calls": 26,
+          "constructed_instances": 13,
+          "executable": {
+            "bytes": 141048,
+            "path": "build/research/gen-scope-v1/production-native-v4/history-feedback/probe-UBSan",
+            "sha256": "74788d7f37a1098af47ec0bde52fa50c40ffb5f429a338bf307a0e85b99eb4d2"
+          },
+          "explicit_post_start_reset_actions": 52,
+          "initial_prepare_calls": 13,
+          "maximum_ideal_error": 1.4901161193847656e-08,
+          "mode": "UBSan",
+          "model_checked_channel_words": 106496,
+          "partition_bit_differences": 0,
+          "partition_compared_channel_words": 98304,
+          "reconstruction_runs_after_first_instance": 12
+        }
+      ],
+      "capture_O3_UBSan_bit_differences": 0,
+      "capture_cross_build_compared_channel_words": 8192,
+      "declared_history_initial_values": [
+        0
+      ],
+      "fixture": "history-feedback",
+      "generated_source_identity": {
+        "bytes": 20087,
+        "path": "build/research/gen-scope-v1/production-native-v4/history-feedback/export/rnbo_source.h",
+        "sha256": "e0ba5bbec1f0e0702050826da75d4e38e4f9c3b5d54f0a99a1280fe3db7fb56e"
+      },
+      "generator_record": {
+        "bytes": 993,
+        "path": "build/research/gen-scope-v1/production-native-v4/history-feedback/export/generator.json",
+        "sha256": "351a0c095f1626443dbc68e32f6f6a99dfbcf3b3fd550229458969098ad09b8b"
+      },
+      "native_captures": [
+        {
+          "bytes": 32768,
+          "path": "build/research/gen-scope-v1/production-native-v4/history-feedback/output-O3.f32",
+          "sha256": "04c0ce389e23512d674fad19d65be9664e15819772e8507897151b0e9d64e84d"
+        },
+        {
+          "bytes": 32768,
+          "path": "build/research/gen-scope-v1/production-native-v4/history-feedback/output-UBSan.f32",
+          "sha256": "04c0ce389e23512d674fad19d65be9664e15819772e8507897151b0e9d64e84d"
+        }
+      ],
+      "source": {
+        "bytes": 3280,
+        "path": "tests/fixtures/gen/history-feedback.rnbopat",
+        "sha256": "cc73307e6aaad1f7f3636c28e7d79baffe15eae9d59ac14bdef64dafbae6990e"
+      }
+    },
+    {
+      "GenExpr_source": {
+        "bytes": 110,
+        "path": "tests/fixtures/gen/two-history-swap.genexpr",
+        "sha256": "aaa452c8711f4a321b8a9f0c106e6a1158e71a8a3e8297c9e1f239736664fbae"
+      },
+      "builds": [
+        {
+          "additional_force_prepare_calls": 26,
+          "constructed_instances": 13,
+          "executable": {
+            "bytes": 84472,
+            "path": "build/research/gen-scope-v1/production-native-v4/two-history-swap/probe-O3",
+            "sha256": "720d854b6b9a3af401a712aa5180ed915f37aac0a746a205d5a64483e20b0d33"
+          },
+          "explicit_post_start_reset_actions": 52,
+          "initial_prepare_calls": 13,
+          "maximum_ideal_error": 0,
+          "mode": "O3",
+          "model_checked_channel_words": 106496,
+          "partition_bit_differences": 0,
+          "partition_compared_channel_words": 98304,
+          "reconstruction_runs_after_first_instance": 12
+        },
+        {
+          "additional_force_prepare_calls": 26,
+          "constructed_instances": 13,
+          "executable": {
+            "bytes": 157864,
+            "path": "build/research/gen-scope-v1/production-native-v4/two-history-swap/probe-UBSan",
+            "sha256": "7b3f603dc03a1c2570f2cf0e2966cd479885faae6343a4b5f52e6e1a3541d666"
+          },
+          "explicit_post_start_reset_actions": 52,
+          "initial_prepare_calls": 13,
+          "maximum_ideal_error": 0,
+          "mode": "UBSan",
+          "model_checked_channel_words": 106496,
+          "partition_bit_differences": 0,
+          "partition_compared_channel_words": 98304,
+          "reconstruction_runs_after_first_instance": 12
+        }
+      ],
+      "capture_O3_UBSan_bit_differences": 0,
+      "capture_cross_build_compared_channel_words": 8192,
+      "declared_history_initial_values": [
+        1,
+        2
+      ],
+      "fixture": "two-history-swap",
+      "generated_source_identity": {
+        "bytes": 20611,
+        "path": "build/research/gen-scope-v1/production-native-v4/two-history-swap/export/rnbo_source.h",
+        "sha256": "cafd6bcbf1d8d331af00604bdfeb24dc7529bf30488508c4e3f631b739a204ff"
+      },
+      "generator_record": {
+        "bytes": 993,
+        "path": "build/research/gen-scope-v1/production-native-v4/two-history-swap/export/generator.json",
+        "sha256": "a76618c31d4a582d160ca5c2ef51bbb08a33d37359cebdcd4e9c35a88b366ec2"
+      },
+      "native_captures": [
+        {
+          "bytes": 32768,
+          "path": "build/research/gen-scope-v1/production-native-v4/two-history-swap/output-O3.f32",
+          "sha256": "64256a1011f404eceac6e18ecc0a652976c16db40132125ead758e867f5c52c8"
+        },
+        {
+          "bytes": 32768,
+          "path": "build/research/gen-scope-v1/production-native-v4/two-history-swap/output-UBSan.f32",
+          "sha256": "64256a1011f404eceac6e18ecc0a652976c16db40132125ead758e867f5c52c8"
+        }
+      ],
+      "source": {
+        "bytes": 3327,
+        "path": "tests/fixtures/gen/two-history-swap.rnbopat",
+        "sha256": "8302cae732b243f6198c12b690a3e479ab179983c249e028784c336cc67571aa"
+      }
+    }
+  ],
+  "route": "authored GenExpr code on the first-party RNBO1.4.4 gen~ class",
+  "source_epoch": [
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/host/export/patcher.mjs",
+      "bytes": 7105,
+      "path": "host/export/patcher.mjs",
+      "sha256": "56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/host/export/test_genexpr.mjs",
+      "bytes": 13224,
+      "path": "host/export/test_genexpr.mjs",
+      "sha256": "208e9f45931a6f97491780560399577be927d307eb488bd4cfed76a2c8739445"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/host/export/export.mjs",
+      "bytes": 6114,
+      "path": "host/export/export.mjs",
+      "sha256": "8dc0a039abe5e45f0e86f8d13142db1592b89cce802559e38adbbc317c4b6c20"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/host/export/test_patcher.mjs",
+      "bytes": 5888,
+      "path": "host/export/test_patcher.mjs",
+      "sha256": "fa951060d844ddb43d7caac7f0ccaeb53e28b3775b0e5e10179fa37b6a4ad908"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/tests/fixtures/gen/README.md",
+      "bytes": 1952,
+      "path": "tests/fixtures/gen/README.md",
+      "sha256": "00e451d8dfd853006e72eec1cf09997c4c0345e61e78744c801ec0ccc5db9b5c"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/tests/fixtures/gen/history-feedback.genexpr",
+      "bytes": 66,
+      "path": "tests/fixtures/gen/history-feedback.genexpr",
+      "sha256": "503accf2f7bdb3b232125f1ec79b73c509536aef51144a77417b04839c925aee"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/tests/fixtures/gen/history-feedback.rnbopat",
+      "bytes": 3280,
+      "path": "tests/fixtures/gen/history-feedback.rnbopat",
+      "sha256": "cc73307e6aaad1f7f3636c28e7d79baffe15eae9d59ac14bdef64dafbae6990e"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/tests/fixtures/gen/native/probe.cpp",
+      "bytes": 6262,
+      "path": "tests/fixtures/gen/native/probe.cpp",
+      "sha256": "e154083c5bda7020e0ef970cee6a90c5b73f0480a158dd2dc3b22fb5dde4d274"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/tests/fixtures/gen/two-history-swap.genexpr",
+      "bytes": 110,
+      "path": "tests/fixtures/gen/two-history-swap.genexpr",
+      "sha256": "aaa452c8711f4a321b8a9f0c106e6a1158e71a8a3e8297c9e1f239736664fbae"
+    },
+    {
+      "archive": "build/research/gen-scope-v1/production-source-v2/snapshot/tests/fixtures/gen/two-history-swap.rnbopat",
+      "bytes": 3327,
+      "path": "tests/fixtures/gen/two-history-swap.rnbopat",
+      "sha256": "8302cae732b243f6198c12b690a3e479ab179983c249e028784c336cc67571aa"
+    }
+  ],
+  "status": "scoped-native-pass",
+  "target_compiled_in_this_record": false,
+  "target_execution": false,
+  "tools": {
+    "Cxx_executable_basename": "c++",
+    "Cxx_version": "Apple clang version 17.0.0 (clang-1700.6.3.2)",
+    "Node_version": "v26.7.0",
+    "host": "Darwin/arm64",
+    "native_modes": [
+      "O3",
+      "O2+UBSan+float-cast-overflow"
+    ]
+  },
+  "totals": {
+    "additional_force_prepare_calls": 104,
+    "authored_GenExpr_programs": 2,
+    "constructed_instances": 52,
+    "cross_build_capture_bit_differences": 0,
+    "cross_build_capture_compared_channel_words": 16384,
+    "explicit_post_start_reset_actions": 208,
+    "initial_prepare_calls": 52,
+    "maximum_ideal_error": 1.4901161193847656e-08,
+    "model_checked_channel_words": 425984,
+    "partition_bit_differences": 0,
+    "partition_compared_channel_words": 393216,
+    "program_builds": 4,
+    "reconstruction_runs_after_first_per_build": 48
+  },
+  "visual_gendsp_import_qualified": false,
+  "working_scope": "Two authored GenExpr History programs, direct host-generated Float32 sample kernels. Frontend tests separately accept fixed-256 module preparation."
+}

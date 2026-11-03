@@ -42,3 +42,10 @@ Review the served page, search/filter controls, row details and evidence links.
 Commit the source data and generated `data/status.json` together. The Pages
 workflow rejects stale output or invalid timing evidence before deployment.
 It requires no RNBO installation, credentials, private build artifacts or board.
+
+XIAO wave4 qualifications bind exact observation selectors in committed evidence.
+They update working status for only the 15 executed spellings/member forms and
+add no saved-time percentages. Existing AMOLED measurements remain unchanged.
+`data/gen-inventory.json` records the separate Gen/GenExpr metadata scope; it is
+not merged into this RNBO table. The Gen guide links its first native History
+program evidence and clearly marks Gen hardware and other operators pending.

@@ -4,7 +4,7 @@ The active goal is to test every inventoried RNBO object, operation and structur
 on the XIAO ESP32-S3 and record compatibility, resource use and performance.
 The user has also explicitly included Gen/`gen~` operators and single-sample
 processing; see the [full qualification scope](qualification-scope.md). Gen
-qualification is separate and pending.
+hardware qualification is separate and pending.
 The first hardware batch passed on 4 November 2026. The drone was restored,
 unpaused at 50%, with all eight compiled parameter defaults after each run.
 A final 4,096-frame internal stereo capture contained nonzero output.
@@ -66,10 +66,57 @@ cases. Other coefficients, overloads, modes, reset paths and related exact
 spellings remain separate pending work. See [the complete model and raw target
 observations](../evidence/xiao-biquad-control.json).
 
-Thirteen new original arithmetic/comparison/codebox fixtures and their models
-are [ready for execution testing](../tests/fixtures/objects/wave4/README.md).
-Fresh export/preparation and compiler syntax checks pass; their native and
-XIAO execution results remain pending.
+## Arithmetic and RNBO codebox results
+
+All 13 [original wave4 fixtures](../tests/fixtures/objects/wave4/README.md)
+passed on XIAO: 39 case programs, 3,833,856 exact pair comparisons and
+7,667,712 independent model checks. Numerical, PCM and raw-word differences
+were all zero. The stateful delta program also passed 294,912 exact raw-bit
+checks on its unchanged right-channel observer. Its previous-input state
+continues across vector boundaries and is reconstructed fresh per pass.
+
+| Exact authored form | Mean callback µs, reference slot |
+| --- | ---: |
+| `abs~` | 68.37 |
+| `minimum~` | 53.52 |
+| `min~` | 53.57 |
+| `maximum~` | 53.41 |
+| `max~` | 53.41 |
+| `sub~` | 55.58 |
+| `-~` | 55.55 |
+| `eq~` | 55.62 |
+| `==~` | 55.57 |
+| `lt~` | 55.64 |
+| `<~` | 55.61 |
+| RNBO codebox `+`, `-` | 45.72 |
+| RNBO codebox `delta`, `delta.next` | 46.86 |
+
+These are strict identical-module controls; no optimisation gain is claimed.
+Times belong to each complete stereo FX fixture: patcher graphs contain two
+operator instances, while codebox arithmetic emits sum/difference and the
+delta program contains one stateful operator plus an observer. They are not
+isolated per-operator costs. Each case has 64 rendered vectors, four zero-input
+warmup vectors and three paired rounds; the first 32 rendered vectors per pass
+are excluded from timing. This is a short observed workload, not a deadline or
+worst-case bound.
+
+The three shared deterministic input programs cover bounded binary32 values in
+`[-1,1]`, subnormals, signed zero, equality/adjacent values and vector edges.
+The host independently regenerates complete input and expected-output cache
+hashes and matches the actual target hashes. Repeated passes are not millions
+of distinct inputs. Zero signs of operation outputs have a separate diagnostic
+policy; the unchanged observer and identical-module pair require exact bits.
+No unsupported rounding mode, arbitrary domain or overload is established.
+
+All 52 loaded images were finalised, internal RAM/PSRAM recovered, and callback
+heap/late allocation counts stayed zero. Each isolated run restored the drone
+at 50% with its eight compiled defaults. Full records, per-case timing/resource
+profiles and raw serial logs are in [the XIAO wave4 evidence](../evidence/xiao-wave4.json).
+The earlier native O3/UBSan corpus separately passed 5,111,808 model checks;
+those host checks are not counted as XIAO execution.
+
+RNBO codebox is distinct from GenExpr. See the [separate Gen work](gen-qualification.md)
+for the first native single-sample tests and the remaining Gen hardware scope.
 
 ## Measurement and recovery method
 
@@ -98,7 +145,8 @@ artifact hashes. Full float output buffers were compared internally; the
 benchmark does not download those complete buffers. The retained final drone
 capture checks post-restoration signal presence, not benchmark waveform truth.
 
-The [main dashboard](https://little-scale.github.io/esp32s3-rnbo/) retains the
-existing AMOLED/native evidence. Its prior percentages are not XIAO results;
-this board's observations remain separate until the dashboard can express
-board-specific qualification without merging measurements.
+The [main dashboard](https://little-scale.github.io/esp32s3-rnbo/) now includes
+these 15 exact XIAO working-status entries with their board and mode scope in
+the row details. Its prior timing percentages remain AMOLED measurements;
+XIAO callback times and controls are recorded here without merging measurements.
+Gen has its own inventory and native test record.
