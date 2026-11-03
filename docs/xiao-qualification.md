@@ -19,6 +19,7 @@ execution evidence; whole-drone presence does not qualify an individual object.
 | --- | --- | --- | --- |
 | `cycle-scalar`, four frequency/phase cases | 3,145,728 samples; zero Float32 and PCM differences | 472.68 / 472.98 µs | Not applicable: identical-module control |
 | `filters-scalar`, impulse and 0–40 ms delay cases | 2,359,296 samples; zero Float32 and PCM differences | 1,736.12 / 1,232.09 µs | 29.03% |
+| `biquad-response`, three stereo FX cases | 2,359,296 pair comparisons; 4,718,592 independent-model checks | 84.43 / 84.42 µs | Not applicable: identical-module control |
 
 The filter comparison changes duration-conversion hoisting only. Both modules
 retain Float64 delay storage and the same strict numerical profile. This is a
@@ -27,20 +28,45 @@ excitation code. It is not a separate cost for either filter, or an improvement
 measurement for the live drone. The oscillator control measures repeatability;
 its timing difference is not an optimisation gain.
 
-Both runs loaded and finalised four module images, recovered internal RAM and
+The first two Main runs each loaded and finalised four module images, recovered internal RAM and
 PSRAM to the recorded baselines, and reported no callback heap operations or
 late module allocations. These are dynamic Main-module observations on XIAO.
-FX, MIDI, live replacement and the other object/mode combinations still need
+Other FX forms, MIDI, live replacement and other object/mode combinations need
 separate qualification.
 
 These first Main tests compare complete on-device reference/candidate outputs
 and check finite values, PCM differences, lifecycle and resources. They do
 **not** run an independent waveform model on the board: both logs explicitly
 record zero semantic-oracle checks. Existing native mathematical tests remain
-separate evidence. The next batches add independent target output models,
-external stereo FX inputs, arithmetic/comparison spellings, codebox state and
+separate evidence. The subsequent biquad FX batch below adds independent target output truth.
+Further batches cover arithmetic/comparison spellings, codebox state and
 language structures. A matching pair alone cannot establish that both outputs
 are mathematically correct.
+
+## Independent biquad FX check
+
+The next hardware batch exercises `biquad~` with disjoint stereo input planes
+and default, identity and slow-pole coefficient cases. A fresh Float64 difference
+equation generates a separately cached Float32 expected output. Both module
+passes are checked against this model, including the cache-rounding error bound.
+All 4,718,592 semantic sample checks and 18 settled-level checks pass the declared
+3e-6 tolerance. The largest observed conservative model-error bound is
+1.416e-7. Reference/candidate output comparisons also have zero numerical and
+PCM differences.
+
+The two passes use the same module, so their approximately 84.43 µs callback
+time is an absolute fixture measurement, with no optimisation gain claimed.
+Four images are finalised, internal RAM/PSRAM return to baseline, and callback
+heap/late allocation counters stay zero. The drone is restored at 50%.
+This qualifies the declared strict two-channel FX form and three coefficient
+cases. Other coefficients, overloads, modes, reset paths and related exact
+spellings remain separate pending work. See [the complete model and raw target
+observations](../evidence/xiao-biquad-control.json).
+
+Thirteen new original arithmetic/comparison/codebox fixtures and their models
+are [ready for execution testing](../tests/fixtures/objects/wave4/README.md).
+Fresh export/preparation and compiler syntax checks pass; their native and
+XIAO execution results remain pending.
 
 ## Measurement and recovery method
 

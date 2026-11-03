@@ -6,7 +6,10 @@ oscillator control and comb/allpass duration-hoist comparisons passed, with
 and verified restoration to the drone at 50%. The filter fixture used 29.03%
 less callback time; the identical-module oscillator control claims no gain.
 Neither first-batch Main test runs an independent on-device semantic oracle.
-See [the board-specific results and remaining scope](xiao-qualification.md).
+A subsequent biquad stereo FX control passes 4,718,592 independent output-model
+checks and 18 settled-level checks, with zero pair differences and full memory
+recovery. Its same-module timing claims no optimisation gain. See
+[the board-specific results and remaining scope](xiao-qualification.md).
 
 The **XIAO ESP32-S3 headless profile** now has initial 3sawsDrone hardware
 validation. It uses the same prepared patch as AMOLED and starts automatically,

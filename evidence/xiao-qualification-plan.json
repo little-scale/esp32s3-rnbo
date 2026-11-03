@@ -33,6 +33,7 @@
     "patcher_aliases": 154,
     "patcher_canonical_groups": 549,
     "pending_categories": {
+      "expand_other_biquad_modes_and_coefficient_domains": 1,
       "host_editor_not_applicable": 5,
       "pending_codebox_constant_or_query": 133,
       "pending_codebox_lifecycle_hook": 3,
@@ -41,7 +42,7 @@
       "pending_codebox_stateful_operator": 85,
       "pending_codebox_stateless_operator": 288,
       "pending_constant_or_dynamic_query_output": 49,
-      "pending_dsp_or_math_mode_model": 487,
+      "pending_dsp_or_math_mode_model": 486,
       "pending_event_control_model": 90,
       "pending_event_io_adapter_and_model": 35,
       "pending_hierarchy_or_language_route": 6,
@@ -52,12 +53,13 @@
     },
     "reference_only_unresolved": 1,
     "site_rows": 1455,
-    "xiao_independent_object_qualified": 0,
-    "xiao_whole_graph_presence_only_entries": 20
+    "xiao_independent_object_qualified": 1,
+    "xiao_whole_graph_presence_only_entries": 20,
+    "xiao_independent_object_qualification_scope": "One exact spelling with a scoped three-case FX model pass; no whole-domain or alias qualification."
   },
   "source_plan_sha256": "a5ea17b6d8cac879c1ad34fb4a7ccb0cae78bd7d9bafe3775e5471fe405cd6f4",
   "inventory_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
-  "claim": "Inventory and pending-work snapshot. Whole-graph presence is not per-object independent truth. First hardware comparator observations are recorded separately; no aliases inherit execution status.",
+  "claim": "Inventory and pending-work snapshot. Whole-graph presence is not per-object independent truth. First hardware comparator observations are recorded separately; no aliases inherit execution status. Subsequent biquad FX evidence adds one scoped independent-model pass; other forms remain pending.",
   "first_hardware_observations": "evidence/xiao-object-batch1.json",
   "entries": [
     {
@@ -2094,11 +2096,25 @@
       "exact_name": "biquad~",
       "canonical_group": "patcher:biquad~",
       "is_alias": false,
-      "next_category": "pending_dsp_or_math_mode_model",
-      "xiao_status": "pending",
+      "next_category": "expand_other_biquad_modes_and_coefficient_domains",
+      "xiao_status": "scoped_independent_output_model_pass",
       "xiao_whole_graph_source": null,
-      "independent_XIAO_semantics_qualified": false,
-      "per_object_CPU_time_us": null
+      "independent_XIAO_semantics_qualified": true,
+      "per_object_CPU_time_us": null,
+      "qualified_scope": {
+        "fixture": "biquad-response",
+        "role": "fx",
+        "channels": 2,
+        "profile": "float32-strict",
+        "cases": [
+          "default",
+          "identity",
+          "slow-pole"
+        ],
+        "model_absolute_error_tolerance": 3e-06,
+        "source": "evidence/xiao-biquad-control.json",
+        "full_object_domain_qualified": false
+      }
     },
     {
       "id": "codebox:blackman",
@@ -17676,5 +17692,8 @@
       "on_XIAO_executed": false,
       "status": "pending_finite_structure_corpus"
     }
+  ],
+  "subsequent_hardware_observations": [
+    "evidence/xiao-biquad-control.json"
   ]
 }
