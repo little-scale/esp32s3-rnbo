@@ -164,6 +164,18 @@ checks the admitted contexts on the board: bounded output preservation and
 whole-chain measurement observes 0.276% extra CPU, with unchanged context and
 arena costs. This is a correctness repair; it establishes no CPU saving.
 
+## Optional train reciprocal hoisting
+
+`--hoist-train-reciprocal` admits only the reviewed `phase-pulse` Main graph
+with normal fixes and `float32-strict`. It caches the original Float32 train
+reciprocal once per active-width vector while retaining width-endpoint bypass,
+Double floor, state and clocks. Other optional adapters and profiles reject.
+
+The saved 12-case target comparison observes 39.06% less complete callback
+time; division-free endpoint cases remain controls. The inherited warm-start
+duty-check failure remains recorded, so working status stays partial. See
+[scope, use and compiler evidence](../docs/train-reciprocal-compiler.md).
+
 ## Optional scalar filter-duration hoisting
 
 `--hoist-filter-durations` requires the exact reviewed `filters-scalar` Main

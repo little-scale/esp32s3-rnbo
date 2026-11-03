@@ -30,6 +30,12 @@ separate strict cap40 scalar context reproduces both modules from the older
 29.03% callback comparison using the current corrected runtime. It is off by
 default and rejects signal/fixed/storage/profile compositions.
 
+The [train reciprocal option](train-reciprocal-compiler.md) caches unchanged
+Float32 division once per active-width vector in the reviewed strict phase/pulse
+Main graph. It preserves the original Double floor, state and clocks. The
+saved 12-case comparison observes 39.06% less callback time; endpoint controls
+claim no individual gain and the inherited warm-start duty failure remains.
+
 | Selection | Default | Effect and admission scope |
 | --- | --- | --- |
 | Defined integer wrap | On with normal runtime fixes | Replaces the reviewed `rnbo_imul` signed product with defined modulo 2^32 arithmetic and a safe signed mapping. Matching pink-noise generators also receive a defined unsigned affine multiply/add. Other signed arithmetic is outside this fix's claim. |

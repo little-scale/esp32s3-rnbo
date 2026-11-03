@@ -506,7 +506,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion and scalar duration-hoist availability reuse historical timings only after exact public executable identity; scalar hoisting also binds its refreshed reference. These admissions add no physical measurement records.",
+  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -1804,10 +1804,13 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "id": "train-scalar-reciprocal-private",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -1820,7 +1823,7 @@
       },
       "not_isolated_operator_cost": true,
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "per_case_cpu_time_saved_percent_range": [
         33.77285718839317,
         45.903701818496124
@@ -1834,7 +1837,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "source": "evidence/train-reciprocal-hoist.json",
       "source_build_report": "build/object-benchmark-amoled-phase-pulse-train-reciprocal-private-v1/build-report.json",
@@ -12487,13 +12490,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 39.05835132291203,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:aggregate",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12507,7 +12513,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12520,7 +12526,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/pass/optimized_process_us",
@@ -12561,13 +12567,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 45.88859925784045,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:default",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12581,7 +12590,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12594,7 +12603,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/0/profiles/optimized/process_us",
@@ -12635,13 +12644,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 45.886737001839215,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:negative",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12655,7 +12667,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12668,7 +12680,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/1/profiles/optimized/process_us",
@@ -12709,13 +12721,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 45.903701818496124,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:zero",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12729,7 +12744,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12742,7 +12757,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/2/profiles/optimized/process_us",
@@ -12783,13 +12798,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 40.80789838574388,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:short-period",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12803,7 +12821,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12816,7 +12834,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/3/profiles/optimized/process_us",
@@ -12857,13 +12875,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": false,
       "cpu_time_saved_percent": null,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:zero-width",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12877,7 +12898,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "unchanged-division-bypass-control",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12890,7 +12911,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/4/profiles/optimized/process_us",
@@ -12931,13 +12952,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": false,
       "cpu_time_saved_percent": null,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:full-width",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -12951,7 +12975,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "unchanged-division-bypass-control",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -12964,7 +12988,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/5/profiles/optimized/process_us",
@@ -13005,13 +13029,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 40.174873446847684,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:minimum-period-high-frequency",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -13025,7 +13052,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -13038,7 +13065,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/6/profiles/optimized/process_us",
@@ -13079,13 +13106,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 45.33466428496374,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:maximum-period-near-full",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -13099,7 +13129,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -13112,7 +13142,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/7/profiles/optimized/process_us",
@@ -13153,13 +13183,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 40.73568722351659,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:tiny-width-negative-zero",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -13173,7 +13206,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -13186,7 +13219,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/8/profiles/optimized/process_us",
@@ -13227,13 +13260,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 45.86284216237498,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:fractional-period-adjacent-width",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -13247,7 +13283,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -13260,7 +13296,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/9/profiles/optimized/process_us",
@@ -13301,13 +13337,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 33.77285718839317,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:warm-freeze-and-release",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -13321,7 +13360,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -13334,7 +13373,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/10/profiles/optimized/process_us",
@@ -13375,13 +13414,16 @@
         "warm-sparse-switches"
       ],
       "catalog_source": "build/audit/phasor-train-next-v1/target-v1/catalog.json",
+      "compiler_admission_source": "evidence/train-reciprocal-compiler.json",
       "cpu_time_change_measured": true,
       "cpu_time_saved_percent": 37.914919936774105,
+      "equivalent_public_option": "--hoist-train-reciprocal",
       "firmware_elf_sha256": "4d0dc701ddfdfb1dbb4bdb529101253c09c9146f3d48df96539ecbefc0dadd1c",
       "fixture": "phase-pulse",
       "graph_source": "tests/fixtures/objects/wave2/phase-pulse.rnbopat",
       "group_id": "train-scalar-reciprocal-private",
       "id": "train-scalar-reciprocal-private:warm-sparse-switches",
+      "measurement_origin": "historical-target-pair-with-public-exact-image-binding",
       "module_artifacts": {
         "optimized": {
           "artifact_source": "build/audit/phasor-train-next-v1/module-train-hoist/rnbo_s3_dynamic.app.elf",
@@ -13395,7 +13437,7 @@
       "not_isolated_operator_cost": true,
       "observation_class": "paired-S3-callback",
       "optimization_id": "train-scalar-reciprocal-hoist-private",
-      "optimization_state": "experimental",
+      "optimization_state": "available",
       "primary_objects": [
         "patcher:train~"
       ],
@@ -13408,7 +13450,7 @@
       "rounds": 3,
       "same_artifact_control": false,
       "sample_rate": 44100,
-      "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+      "scope": "Complete authored Main fixture including phasor, train and clock work; process callback only, preparation/events excluded; no I2S/UI/network.",
       "seed": 305419896,
       "selectors": {
         "candidate_process_us": "/target/cases/11/profiles/optimized/process_us",
@@ -14436,7 +14478,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -15228,7 +15270,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -16109,7 +16151,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -16743,7 +16785,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         },
@@ -16907,7 +16949,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
@@ -17491,7 +17533,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -17529,7 +17571,7 @@
         "The inherited maximum-period near-full-width full-window duty check fails after warmup; a separate source-derived stationary suffix passes without dropping startup samples from pair comparisons.",
         "No independent target duty/absolute-phase/reset oracle or target IEEE-bit equality gate.",
         "Only finite scalar period16..2048/width0..1 with exclusive callbacks is reviewed; no signal-rate or full fenv/transport claim.",
-        "Private experiment only; no preparer flag available."
+        "Public option admits only the exact strict phase/pulse Main context; other graphs, modes and optional compositions reject."
       ],
       "observed_in": [
         {
@@ -17545,26 +17587,31 @@
           ]
         }
       ],
-      "optimisation_state": "experimental",
+      "optimisation_state": "available",
       "optimisations": [
         {
-          "flag": null,
+          "flag": "--hoist-train-reciprocal",
           "id": "train-scalar-reciprocal-hoist-private",
-          "note": "Original Float32 reciprocal cached once per active-width vector; original Double floor/state/clock arithmetic retained. Saved12-case callback time reduced39.06%; division-free endpoint timings are controls. No public compiler option.",
-          "source": "docs/train-reciprocal-hoist.md",
-          "state": "experimental"
+          "note": "Public build reproduces both complete measured modules. Original Float32 reciprocal cached once per active-width vector; Double floor/state/clock arithmetic retained. Saved12-case callback time reduced39.06%; endpoint timings remain controls. Inherited warm-start duty failure is unchanged.",
+          "source": "docs/train-reciprocal-compiler.md",
+          "state": "available"
         }
       ],
       "qualification": [
         {
-          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         },
         {
-          "conditions": "SavedS3:12 warm4 Main workloads,512blocks\u00d73rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle.",
+          "conditions": "SavedS3:12 warm4 Main workloads,512blocks×3rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle.",
           "level": "S3-exact-numeric-pair-private-train-hoist",
           "source": "evidence/train-reciprocal-hoist.json"
+        },
+        {
+          "conditions": "Fresh public export/preparation and both entire module images reproduce the saved target pair; same compiler/SDK/archives/ABI/state policy, no new hardware execution. Inherited duty failure and target oracle gaps retained.",
+          "level": "public-compiler-exact-image-binding",
+          "source": "evidence/train-reciprocal-compiler.json"
         }
       ],
       "registry_context": {
@@ -17663,12 +17710,12 @@
           "source": "evidence/wrap-finite-target.json"
         },
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
         {
-          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; \u00b12^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
+          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; ±2^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
           "level": "private-native-known-failure",
           "source": "evidence/wrap-finite.json"
         }
@@ -18758,11 +18805,18 @@
       "sha256": "12e33b1adaac17a948bd0ec4514d09a597655d95d3d291be2c2565e25b84c23d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/scalar-powers.md"
     },
+    "docs/train-reciprocal-compiler.md": {
+      "bytes": 5487,
+      "path": "docs/train-reciprocal-compiler.md",
+      "publication": "included-with-status-snapshot",
+      "sha256": "3265e29dc79900badeed4cfdb60f85b113d9dd4aa28970a1386b1cda87f3c4a7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/train-reciprocal-compiler.md"
+    },
     "docs/train-reciprocal-hoist.md": {
-      "bytes": 5183,
+      "bytes": 5482,
       "path": "docs/train-reciprocal-hoist.md",
       "publication": "included-with-status-snapshot",
-      "sha256": "ac98b488a1a1b66509f7e930420f6604c7437f290d6ca9d51eda4389e08760b4",
+      "sha256": "9646cb7a530a4112eef23542bfd53c0c0e6da878e633ccf8b210deee120b6ed1",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/train-reciprocal-hoist.md"
     },
     "docs/unused-mtof-table.md": {
@@ -18967,6 +19021,13 @@
       "publication": "included-with-status-snapshot",
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
+    },
+    "evidence/train-reciprocal-compiler.json": {
+      "bytes": 401129,
+      "path": "evidence/train-reciprocal-compiler.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "8ac33bcf7ecafb0d9577a3df6d75d49d6bd2f00545cf3dfdac4de8924b1d8f28",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/train-reciprocal-compiler.json"
     },
     "evidence/train-reciprocal-hoist.json": {
       "bytes": 231631,

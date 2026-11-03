@@ -17,13 +17,13 @@ the three original cases and 15.66% across 15 expanded cases. Changed rounding
 and signed-zero differences remain explicit; this is not a general bit-identity
 transformation.
 
-The [private train reciprocal hoist](train-reciprocal-hoist.md) preserves the
+The [train reciprocal compiler option](train-reciprocal-compiler.md) preserves the
 original arithmetic and conditional Double floor while moving invariant
 Float32 division outside the sample loop. Its 12 saved target cases observe
 39.06% less whole-callback time with zero numerical Float32 difference and exact
-PCM. It remains experimental with no preparer flag; phasor is unchanged and
-receives no optimisation credit. The inherited warm-start duty observation
-remains explicit.
+PCM. Fresh public builds reproduce both complete measured images; phasor is
+unchanged and receives no optimisation credit. The inherited warm-start duty
+failure remains explicit and working status stays partial.
 
 The separate [pink-noise Float32 output review](noise-float32-normalisation.md)
 records its measured target improvement and exact-context compiler option.

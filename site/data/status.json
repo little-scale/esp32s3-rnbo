@@ -34057,10 +34057,10 @@
       "is_alias": false,
       "name": "train~",
       "optimisation": {
-        "detail": "Original Float32 reciprocal cached once per active-width vector; original Double floor/state/clock arithmetic retained. Saved12-case callback time reduced39.06%; division-free endpoint timings are controls. No public compiler option.",
-        "label": "Experimental",
-        "short": "",
-        "status": "experimental"
+        "detail": "Public build reproduces both complete measured modules. Original Float32 reciprocal cached once per active-width vector; Double floor/state/clock arithmetic retained. Saved12-case callback time reduced39.06%; endpoint timings remain controls. Inherited warm-start duty failure is unchanged.",
+        "label": "Yes — available",
+        "short": "--hoist-train-reciprocal",
+        "status": "available"
       },
       "performance": {
         "detail": "Only the scalar train reciprocal is hoisted; phasor, Double floor, state and clock arithmetic are unchanged. All12 warm Main workloads including bypass controls; no isolated train or full-player deadline claim. Reference: float32-strict; candidate: PRIVATE-train-scalar-reciprocal-hoist-v1. Aggregate matched process times: 2,304,575→1,404,446µs over 17,280 vectors per profile. Cases: default: 45.9%; negative: 45.9%; zero: 45.9%; short-period: 40.8%; zero-width: control (no gain claimed); full-width: control (no gain claimed); minimum-period-high-frequency: 40.2%; maximum-period-near-full: 45.3%; tiny-width-negative-zero: 40.7%; fractional-period-adjacent-width: 45.9%; warm-freeze-and-release: 33.8%; warm-sparse-switches: 37.9%.",
@@ -34068,7 +34068,7 @@
         "label": "39.1%",
         "measurement_id": "train-scalar-reciprocal-private:aggregate",
         "percent": 39.05835132291203,
-        "phase": "experimental",
+        "phase": "available",
         "scope": "Whole test patch"
       },
       "reference_url": "https://rnbo.cycling74.com/objects/ref/train~?v=1.4.4",
@@ -34082,13 +34082,17 @@
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/train-reciprocal-hoist.json"
         },
         {
-          "label": "train reciprocal hoist — documentation",
-          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/train-reciprocal-hoist.md"
+          "label": "train reciprocal compiler — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/train-reciprocal-compiler.json"
+        },
+        {
+          "label": "train reciprocal compiler — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/train-reciprocal-compiler.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Saved target12-case callback comparison preserves numerical Float32 output and exact PCM; native raw-bit/event proof is separate. Warm-start duty and reset/oracle scope remain open. Phasor±440/0; train period441/17 samples and width0/.25/1. SavedS3:12 warm4 Main workloads,512blocks×3rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle. Remaining scope: The inherited maximum-period near-full-width full-window duty check fails after warmup; a separate source-derived stationary suffix passes without dropping startup samples from pair comparisons. No independent target duty/absolute-phase/reset oracle or target IEEE-bit equality gate. Only finite scalar period16..2048/width0..1 with exclusive callbacks is reviewed; no signal-rate or full fenv/transport claim. Private experiment only; no preparer flag available.",
+        "detail": "Saved target12-case callback comparison preserves numerical Float32 output and exact PCM; native raw-bit/event proof is separate. Warm-start duty and reset/oracle scope remain open. Phasor±440/0; train period441/17 samples and width0/.25/1. SavedS3:12 warm4 Main workloads,512blocks×3rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle. Fresh public export/preparation and both entire module images reproduce the saved target pair; same compiler/SDK/archives/ABI/state policy, no new hardware execution. Inherited duty failure and target oracle gaps retained. Remaining scope: The inherited maximum-period near-full-width full-window duty check fails after warmup; a separate source-derived stationary suffix passes without dropping startup samples from pair comparisons. No independent target duty/absolute-phase/reset oracle or target IEEE-bit equality gate. Only finite scalar period16..2048/width0..1 with exclusive callbacks is reviewed; no signal-rate or full fenv/transport claim. Public option admits only the exact strict phase/pulse Main context; other graphs, modes and optional compositions reject.",
         "label": "Partial / known gaps",
         "short": "Open scope / accuracy checks",
         "status": "partial"
@@ -36159,8 +36163,8 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "612a8e2143d4fe959bc695739bfa04470dec4a4fbcb76d587029cab8d24d1f53",
-    "coverage_source_sha256": "05723cc3c2b4465e15be7aad11db93338980a4a754edf32ea4e333d541aa29b6",
+    "coverage_canonical_sha256": "dee4158ccd3ae1c3cddf2134abe23bd57caf27d5f6574915df096d72b71bb770",
+    "coverage_source_sha256": "dee4158ccd3ae1c3cddf2134abe23bd57caf27d5f6574915df096d72b71bb770",
     "exact_coverage_entries": 39,
     "generator_sha256": "a95040bd954ee3f1c1993c8a6bad4a05b63ff40f6bfd73dd5a122409cb580acd",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",

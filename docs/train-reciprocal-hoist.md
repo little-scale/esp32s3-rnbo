@@ -1,5 +1,10 @@
 # Private train reciprocal hoist
 
+The [public compiler option](train-reciprocal-compiler.md) now admits this exact
+strict context and reproduces both complete measured modules. This document
+records the original private experiment; its saved measurements and limitations
+remain unchanged.
+
 A private `train~` experiment caches the original Float32 reciprocal once per
 256-frame vector, instead of repeating the same software division inside the
 active-width sample loop. The scalar interval and width are copied by value;
@@ -7,8 +12,8 @@ the denominator, rounding and original width-bypass predicate are unchanged.
 Width zero or one still performs no reciprocal. The original Double floor
 expression, phase/pulse state, output order, events and clocks are retained.
 
-This is an **experimental transformation with no public preparer option**.
-Its closed context is the reviewed RNBO 1.4.4 phase/pulse Main graph,
+The original experiment had no public preparer option. Its closed context is
+the reviewed RNBO 1.4.4 phase/pulse Main graph,
 44,100 Hz/256 frames, scalar period 16..2048 samples and width 0..1. It assumes
 exclusive event/process ownership and no within-block floating-environment
 changes. Signal-rate controls, arbitrary graphs and complete reset/sync modes
@@ -86,5 +91,6 @@ callsites are not invocation counts or measured costs by themselves.
 
 The [sealed saved-record evidence](../evidence/train-reciprocal-hoist.json)
 binds source inverses, native artifacts, compiled modules, actual logs, resource
-counts and historical control restoration. Public compiler admission remains
-separate work. No new device access is required to review these saved records.
+counts and historical control restoration. The separate public admission binds
+its new source/type guards and actual pipeline to this exact pair. No new device
+access is required to review or reuse these saved records.

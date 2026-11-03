@@ -294,7 +294,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             float32_delay_storage: bool = False, omit_unused_mtof_table: bool = False,
             hoist_cycle_conversions: bool = False, compact_average_history: bool = False,
             float32_pink_output: bool = False, correct_finite_wrap: bool = False,
-            exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False) -> dict:
+            exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False,
+            hoist_train_reciprocal: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -319,18 +320,26 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("exact audio delay44100 must be a boolean")
     if type(hoist_filter_durations) is not bool:
         raise ExportError("hoist filter durations must be a boolean")
+    if type(hoist_train_reciprocal) is not bool:
+        raise ExportError("hoist train reciprocal must be a boolean")
     if exact_audio_delay44100 and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             type(filter_delay_max_ms) not in (int, float) or filter_delay_max_ms != 40 or
             float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or
-            compact_average_history or float32_pink_output or correct_finite_wrap or hoist_filter_durations):
+            compact_average_history or float32_pink_output or correct_finite_wrap or hoist_filter_durations or hoist_train_reciprocal):
         raise ExportError("Exact audio delay44100 requires normal fixes, strict Main, cap40, no storage change and no other optional adapters")
     if hoist_filter_durations and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             type(filter_delay_max_ms) not in (int, float) or filter_delay_max_ms != 40 or
             float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or
-            compact_average_history or float32_pink_output or correct_finite_wrap or exact_audio_delay44100):
+            compact_average_history or float32_pink_output or correct_finite_wrap or exact_audio_delay44100 or hoist_train_reciprocal):
         raise ExportError("Filter duration hoisting requires normal fixes, strict Main, cap40, no storage change and no other optional adapters")
+    if hoist_train_reciprocal and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
+            numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
+            exact_audio_delay44100 or hoist_filter_durations):
+        raise ExportError("Train reciprocal hoisting requires normal fixes, strict Main and no other optional adapters")
     scalar_power_profile = numerical_profile == "float32-scalar-powers-v1"
     if scalar_power_profile and (not apply_fixes or role != "fx" or midi_output_policy != "reject" or
             filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
@@ -388,12 +397,12 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     for name in ("generator.json", "source.rnbopat"):
         if (export_dir / name).exists():
             files[name] = read_regular(export_dir / name, 1024 * 1024)
-    if exact_audio_delay44100 or hoist_filter_durations:
+    if exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal:
         # This closed optional route admits the reviewed raw file set too,
         # rather than silently ignoring extra export files or linked aliases.
         for path in export_dir.rglob("*"):
             if path.is_symlink() or (path.is_file() and path.relative_to(export_dir).as_posix() not in files):
-                raise ExportError("Guarded filter options reject unknown files or symbolic links in the export")
+                raise ExportError("Guarded optimisations reject unknown files or symbolic links in the export")
     if "generator.json" in files:
         generated = read_json(files["generator.json"], "generator.json")
         if generated.get("rnbo_version") != SUPPORTED_VERSION or generated.get("generated_sha256") != digest(files["rnbo_source.h"]):
@@ -616,11 +625,36 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             "scheduler_time": "binary64", "ring_storage": "original internal Float64",
             "ownership": "exclusive opaque callbacks; no aliases, external resource replacement or concurrent prepare",
             "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
+    if hoist_train_reciprocal:
+        from hoist_train_reciprocal import transform as hoist_train_transform
+        options = {"rnbo_version": SUPPORTED_VERSION, "apply_fixes": apply_fixes, "role": role,
+                   "sample_rate": manifest["sample_rate"], "block_frames": manifest["block_frames"],
+                   "audio_inputs": manifest["audio_inputs"], "audio_outputs": manifest["audio_outputs"],
+                   "numerical_profile": numerical_profile, "filter_delay_max_ms": filter_delay_max_ms,
+                   "float32_delay_storage": float32_delay_storage,
+                   "required_host_services": manifest["required_host_services"], "other_optimizations": []}
+        try:
+            files, hoist_train_change = hoist_train_transform(files, description, options, code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        hoist_train_change["transformer_sha256"] = digest(Path(__file__).with_name("hoist_train_reciprocal.py").read_bytes())
+        changes.append(hoist_train_change)
+        manifest["adaptations"].append(hoist_train_change["name"])
+        manifest["hoist_train_reciprocal"] = True
+        manifest["hoist_train_reciprocal_contract"] = {
+            "version": 1, "context": "phase-pulse", "sample_rate": 44100, "block_frames": 256,
+            "interval_samples": [16, 2048], "width": [0, 1], "input": "by-value binary32 scalars",
+            "reciprocal": "original Float32 expression, once per active-width vector",
+            "width_endpoints": "original division-free bypasses", "floor_and_scheduler_time": "original binary64",
+            "rounding": "nearest-even", "state": "original phase/pulse update order",
+            "ownership": "exclusive opaque callbacks; no aliases, external resources or concurrent prepare",
+            "inherited_full_window_duty_failure_retained": True,
+            "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
     prepared_hashes = {name: digest(data) for name, data in sorted(files.items())}
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -676,6 +710,8 @@ def main() -> None:
                         help="Exact fixed44100 signal-delay conversion in the reviewed cap40 strict Main graph; preserves Double fallback/rings/clocks")
     parser.add_argument("--hoist-filter-durations", action="store_true",
                         help="Hoist unchanged Double scalar-delay conversions in the reviewed cap40 strict Main graph; other forms/options reject")
+    parser.add_argument("--hoist-train-reciprocal", action="store_true",
+                        help="Hoist the original Float32 reciprocal in the reviewed scalar phase-pulse strict Main graph; preserves bypasses/Double floor/state")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -684,7 +720,8 @@ def main() -> None:
                            float32_delay_storage=args.float32_delays,omit_unused_mtof_table=args.omit_unused_mtof_table,
                            hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
                            float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
-                           exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations)
+                           exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations,
+                           hoist_train_reciprocal=args.hoist_train_reciprocal)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

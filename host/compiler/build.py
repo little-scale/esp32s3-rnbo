@@ -59,7 +59,8 @@ def build(export: Path, build_dir: Path, cmake: str = "cmake") -> Path:
                            root / "host/compiler/compact_average.py", root / "host/compiler/pink_output.py",
                            root / "host/compiler/wrap_finite.py", root / "host/compiler/wrap_finite.h",
                            root / "host/compiler/scalar_powers.py", root / "host/compiler/exact_delay44100.py",
-                           root / "host/compiler/exact_delay44100.h", root / "host/compiler/hoist_filter_durations.py"]
+                           root / "host/compiler/exact_delay44100.h", root / "host/compiler/hoist_filter_durations.py",
+                           root / "host/compiler/hoist_train_reciprocal.py"]
     integration_hashes = snapshot_files(root, integration_files)
     compiler_tool_hashes = snapshot_files(root, compiler_tool_files)
     build_dir = build_dir.resolve()

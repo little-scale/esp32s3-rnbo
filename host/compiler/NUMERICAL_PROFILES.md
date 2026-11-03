@@ -69,3 +69,10 @@ keeps the strict profile and uses its own explicit manifest flag and versioned
 contract. It retains Double evaluation and the original Float32 return while
 hoisting only the reviewed scalar conversions. This is separate from the
 per-sample exact signal-delay option; the two cannot be combined.
+
+[`--hoist-train-reciprocal`](../../docs/train-reciprocal-compiler.md) retains
+`float32-strict` with an explicit flag and versioned contract. Its reviewed
+scalar train reciprocal keeps the same Float32 expression and branch bypass,
+evaluated once per active-width vector. Double floor, phase/pulse state and
+time are unchanged. Other optional transformations cannot be combined with it.
+The preserved warm-start duty-check limitation remains part of qualification.

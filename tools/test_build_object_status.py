@@ -60,7 +60,7 @@ class ObjectStatusTests(unittest.TestCase):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
         row=rows['patcher:train~']
         self.assertEqual(row['working']['status'],'partial')
-        self.assertEqual(row['optimisation']['status'],'experimental')
+        self.assertEqual(row['optimisation']['status'],'available')
         self.assertEqual(row['performance']['measurement_id'],'train-scalar-reciprocal-private:aggregate')
         self.assertAlmostEqual(row['performance']['percent'],39.05835132291203)
         self.assertIn('zero-width: control (no gain claimed)',row['performance']['detail'])
@@ -71,6 +71,25 @@ class ObjectStatusTests(unittest.TestCase):
         control=next(m for m in forged['measurements'] if m['id']=='train-scalar-reciprocal-private:zero-width')
         control['CPU_savings_claimed']=True
         with self.assertRaisesRegex(ValueError,'Controls must have no savings claim'):checked_measurements(forged,ROOT)
+
+    def test_train_public_option_requires_the_saved_pair_and_admission(self):
+        record=next(r for r in self.coverage['objects'] if r['id']=='patcher:train~')
+        option=next(o for o in record['optimisations'] if o['id']=='train-scalar-reciprocal-hoist-private')
+        self.assertEqual(option['flag'],'--hoist-train-reciprocal')
+        self.assertEqual(option['state'],'available')
+        self.assertTrue(any('duty check fails' in gap for gap in record['known_gaps']))
+        group=next(g for g in self.coverage['measurement_groups'] if g['id']=='train-scalar-reciprocal-private')
+        self.assertEqual(group['role'],'main')
+        self.assertIn('Main fixture',group['scope'])
+        for kind in ('candidate','reference','private_record_only'):
+            forged=copy.deepcopy(self.coverage)
+            measurement=next(m for m in forged['measurements'] if m['id']=='train-scalar-reciprocal-private:aggregate')
+            altered_group=next(g for g in forged['measurement_groups'] if g['id']==group['id'])
+            if kind=='candidate':measurement['candidate_module_sha256']='0'*64
+            elif kind=='reference':measurement['reference_module_sha256']='0'*64
+            else:altered_group['compiler_admission_source']='evidence/train-reciprocal-hoist.json'
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Compiler admission'):
+                checked_measurements(forged,ROOT)
 
     def test_exact_delay_availability_requires_the_measured_image_and_option(self):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}

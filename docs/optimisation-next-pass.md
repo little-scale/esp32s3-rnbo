@@ -109,10 +109,12 @@ double work automatically.
    now admits the strict cap40 signal fixture and reproduces its complete
    previously measured ELF. Its four saved target cases show 12.70% less
    callback time; new rates, graphs and option compositions need their own proof.
-   The subsequent [train reciprocal experiment](train-reciprocal-hoist.md)
+   The subsequent [train reciprocal compiler option](train-reciprocal-compiler.md)
    removes repeated scalar Float32 division while retaining Double floor/state
    semantics. Its saved 12-case target comparison observes 39.06% less complete
-   callback time with unchanged numerical output; public admission is pending.
+   callback time with unchanged numerical output; fresh public builds reproduce
+   both complete measured images. Its inherited warm-start duty failure remains
+   explicit and working status stays partial.
    Phasor wrapping already compiles to Float32 instructions, so its source
    literals alone establish no Double-removal benefit. Current implementation
    work is computer-only and can reuse saved measurements only after exact
