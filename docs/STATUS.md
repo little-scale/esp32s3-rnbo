@@ -1,5 +1,13 @@
 # Implementation status — 3 November 2026
 
+The **XIAO ESP32-S3 headless profile** now has initial 3sawsDrone hardware
+validation. It uses the same prepared patch as AMOLED and starts automatically,
+unpaused at 50% volume. Stereo buffer capture, USB parameter control,
+Pause/Resume and watchdog-reboot startup checks pass with zero reported audio
+faults. The user confirmed hearing the drone through the existing I²S DAC.
+This is whole-patch bring-up; per-object qualification remains separate.
+See the [headless guide](headless.md).
+
 The **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** has been qualified running the supplied
 `3sawsDrone3` patch with an FM1-style graph, a 40 ms comb limit and optional
 float32 delay storage/audio arithmetic. The user confirmed audio and touch
@@ -146,5 +154,5 @@ Next comes integration of loaded RNBO images with the live audio/UI lifecycle.
 Persistent `.rnbos3` packages,
 known-good recovery, independent Main/FX lifecycle, authenticated Wi-Fi/group
 deployment, full browser conversion and broader RNBO/Gen coverage remain later
-work. XIAO has independent compiled profiles but has not been tested on hardware
-in this session.
+work. The new XIAO whole-patch bring-up is described above; comprehensive
+per-object XIAO hardware qualification remains open.

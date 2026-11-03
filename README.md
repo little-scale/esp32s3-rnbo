@@ -2,8 +2,9 @@
 
 An initial native compilation toolchain and runtime shell for RNBO 1.4.4.
 The primary board is **Waveshare ESP32-S3 Touch AMOLED 1.8 V2**, with 16 MiB
-flash, 8 MiB PSRAM and the ES8311 mono speaker path. XIAO ESP32S3 remains an
-independent secondary profile with stereo I²S.
+flash, 8 MiB PSRAM and the ES8311 mono speaker path. The **XIAO ESP32S3 headless
+profile** uses the same core runtime with stereo I²S and has initial hardware
+validation with 3sawsDrone. See the [headless guide](docs/headless.md).
 
 See [implementation status and validation](docs/STATUS.md) for the completed
 builds, test evidence and remaining physical gates.
@@ -96,6 +97,9 @@ components are excluded from the XIAO graph:
 ```sh
 python3 tools/build_firmware.py xiao --export-dir build/prepared/sine
 ```
+
+XIAO builds start automatically, unpaused at **50% volume** by default. The
+AMOLED default remains 100%; `--initial-volume` selects another startup level.
 
 Omit `--export-dir` for the independent stereo tone bring-up fixture. Static RNBO
 and tone builds use separate directories. Build reports record board, actual

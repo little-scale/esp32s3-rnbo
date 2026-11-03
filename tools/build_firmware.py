@@ -91,9 +91,12 @@ def main() -> int:
     parser.add_argument("--variant", type=variant_name, help="Safe label for an independent generated build directory")
     parser.add_argument("--patch-title",default="RNBO Patch",help="Title for the AMOLED patch view")
     parser.add_argument("--arena-bytes",type=int,default=1048576,help="Explicit RNBO arena budget (4096..4194304; default 1 MiB)")
-    parser.add_argument('--initial-volume',type=int,default=100,help='Startup speaker volume percent (0..100)')
+    parser.add_argument('--initial-volume',type=int,default=None,
+                        help='Startup volume percent (0..100; default XIAO50, AMOLED100)')
     parser.add_argument("--clean", action="store_true", help="Remove only this board's generated build/config")
     args = parser.parse_args()
+    if args.initial_volume is None:
+        args.initial_volume = 50 if args.board == 'xiao' else 100
     if not 4096<=args.arena_bytes<=4194304:
         parser.error('--arena-bytes must be between 4096 and 4194304')
     if not 0<=args.initial_volume<=100:
