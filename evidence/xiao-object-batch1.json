@@ -1,0 +1,1324 @@
+{
+  "format": "rnbo-xiao-object-hardware-batch",
+  "format_version": 1,
+  "snapshot_date": "2026-11-04",
+  "all_objects_complete": false,
+  "all_structures_complete": false,
+  "goal_status": "active; inventory qualification incomplete",
+  "board": "xiao",
+  "device_id": "xiao-test-device-01",
+  "method": {
+    "rate": 44100,
+    "block_frames": 256,
+    "cpu_mhz": 240,
+    "psram_mhz": 80,
+    "rounds": 3,
+    "blocks_per_pass": 512,
+    "warmup_blocks": 4,
+    "timing_exclude_blocks": 32,
+    "seed": 305419896,
+    "timing_scope": "offline complete Main process callback; no I2S, display or network; event/prepare costs excluded"
+  },
+  "collector_sha256": "b60e4e163614f4b83c92cf80eb24bac8696ba8c8ec683f636920574dc090ff5b",
+  "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+  "claims": {
+    "output_comparison": "Complete on-device reference/candidate buffers compared; Float32 numerical and PCM differences zero. Raw float buffers were not downloaded.",
+    "truth_scope": "No independent semantic oracle in either target Main fixture; native independent tests are separate evidence.",
+    "optimization_scope": "Filter duration conversion hoisting in the complete authored comb/allpass graph. Float64 delay storage retained. Identical-module oscillator control has no gain claim.",
+    "recovery": "Application-only writes; pinned drone restored unpaused50 with runner-verified compiled defaults. The parameters field contains declared values verified by runner, not raw readback replies. Oscillator/filter phase restarts.",
+    "coverage": "These two fixture observations do not qualify all modes, exact aliases, codebox operations, FX, MIDI or the entire inventory."
+  },
+  "observations": [
+    {
+      "fixture": "cycle-scalar",
+      "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+      "reference_mean_callback_us": 472.67899305555557,
+      "candidate_mean_callback_us": 472.98298611111113,
+      "cpu_time_saved_percent": null,
+      "CPU_savings_claimed": false,
+      "independent_on_device_oracle": false,
+      "collected": {
+        "board": "xiao",
+        "flash_bytes": 8388608,
+        "device_id": "xiao-test-device-01",
+        "board_binding": {
+          "method": "explicit-runner-and-build-report",
+          "build_board": "xiao",
+          "runner_board": "xiao",
+          "flash_bytes": 8388608,
+          "runner_device_id": "xiao-test-device-01",
+          "restored_status_board": "XIAO ESP32-S3",
+          "device_identity": "runner-verified USB/backup identity; saved record consistency checked by collector"
+        },
+        "fixture": "cycle-scalar",
+        "family": "cycle",
+        "role": "main",
+        "numerical_profiles": {
+          "strict": "float32-strict",
+          "optimized": "float32-strict"
+        },
+        "identical_artifact_control": true,
+        "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+        "stimulus_provenance": null,
+        "build_report": "build/object-benchmark-xiao-cycle-scalar-batch1-control-v1/build-report.json",
+        "build_report_sha256": "a0400276cb53a7964360f254b583e96f8c05e2b55135cddb8261372c1a2b8887",
+        "hardware_report": "build/hardware/xiao-object-batch1-control-20261104/hardware-test.json",
+        "hardware_report_sha256": "67103d02f8a282c8dba73260f844fc38cbc6bc6460f0ba2c3d29425ee11ee0db",
+        "serial_log": "build/hardware/xiao-object-batch1-control-20261104/test-serial.log",
+        "serial_log_sha256": "d15157a41bffcf6016ea6a08312d652a00c1ac6234b49c9eaa639aae7fcba7aa",
+        "pass": {
+          "fixture": "cycle-scalar",
+          "firmware_elf_sha256": "89d6f0d2d1cdc0624d2a23361ee9c7d267f36692aa21ba631c024925b33db613",
+          "strict_module_sha256": "7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8",
+          "optimized_module_sha256": "7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8",
+          "cases": 4,
+          "rounds": 3,
+          "blocks_per_pass": 512,
+          "warmup": 4,
+          "seed": 305419896,
+          "timing_exclude": 32,
+          "compared_samples": 3145728,
+          "max_abs": 0,
+          "rms_error": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0,
+          "max_abs_tolerance": 2e-06,
+          "max_pcm_lsb_tolerance": 1,
+          "relative_rms_tolerance": 0.0001,
+          "strict_timed_blocks": 5760,
+          "strict_process_us": 2722631,
+          "strict_peak_us": 633,
+          "optimized_timed_blocks": 5760,
+          "optimized_process_us": 2724382,
+          "optimized_peak_us": 631,
+          "psram_before": 7333512,
+          "psram_after": 7333512,
+          "internal_before": 315975,
+          "internal_after": 315975,
+          "host_heap_allocations": 0,
+          "host_heap_frees": 0,
+          "local_late_allocations": 0,
+          "images": 4,
+          "finalized_images": 4,
+          "input_cases": 0,
+          "input_rechecks": 0,
+          "pilot_sample_checks": 0,
+          "oracle_cases": 0,
+          "oracle_rechecks": 0,
+          "semantic_sample_checks": 0,
+          "dc_sample_checks": 0,
+          "oracle_bit_sample_checks": 0,
+          "oracle_bit_differences": 0,
+          "stack_margin": 20260,
+          "scope": "offline_no_i2s_ui_network"
+        },
+        "cases": [
+          {
+            "case": "default",
+            "declared_case": {
+              "id": "default",
+              "parameters": {}
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "cycle-scalar",
+              "case": "default",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "cycle-scalar",
+                "case": "default",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 658133,
+                "peak_us": 474,
+                "event_us": 0,
+                "prepare_us": 580609,
+                "rms": 0.645576677,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 457.03680555555553
+              },
+              "optimized": {
+                "fixture": "cycle-scalar",
+                "case": "default",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 659069,
+                "peak_us": 476,
+                "event_us": 0,
+                "prepare_us": 580681,
+                "rms": 0.645576677,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 457.68680555555557
+              }
+            },
+            "observed_speed_ratio": 0.9985798148600525,
+            "observed_process_reduction_percent": -0.1422204934261151
+          },
+          {
+            "case": "phase-boundary",
+            "declared_case": {
+              "id": "phase-boundary",
+              "parameters": {
+                "phase": 0.99
+              }
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "cycle-scalar",
+              "case": "phase-boundary",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "cycle-scalar",
+                "case": "phase-boundary",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 881970,
+                "peak_us": 633,
+                "event_us": 33,
+                "prepare_us": 580625,
+                "rms": 0.645562815,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 612.4791666666666
+              },
+              "optimized": {
+                "fixture": "cycle-scalar",
+                "case": "phase-boundary",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 882822,
+                "peak_us": 631,
+                "event_us": 34,
+                "prepare_us": 580696,
+                "rms": 0.645562815,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 613.0708333333333
+              }
+            },
+            "observed_speed_ratio": 0.9990349130402277,
+            "observed_process_reduction_percent": -0.096601925235551
+          },
+          {
+            "case": "low",
+            "declared_case": {
+              "id": "low",
+              "parameters": {
+                "frequency": 20
+              }
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "cycle-scalar",
+              "case": "low",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "cycle-scalar",
+                "case": "low",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 618434,
+                "peak_us": 442,
+                "event_us": 30,
+                "prepare_us": 580600,
+                "rms": 0.645249256,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 429.46805555555557
+              },
+              "optimized": {
+                "fixture": "cycle-scalar",
+                "case": "low",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 617928,
+                "peak_us": 441,
+                "event_us": 32,
+                "prepare_us": 580672,
+                "rms": 0.645249256,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 429.1166666666667
+              }
+            },
+            "observed_speed_ratio": 1.000818865628358,
+            "observed_process_reduction_percent": 0.08181956360743259
+          },
+          {
+            "case": "high",
+            "declared_case": {
+              "id": "high",
+              "parameters": {
+                "frequency": 10000
+              }
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "cycle-scalar",
+              "case": "high",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "cycle-scalar",
+                "case": "high",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 564094,
+                "peak_us": 404,
+                "event_us": 29,
+                "prepare_us": 580833,
+                "rms": 0.645402073,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 391.7319444444444
+              },
+              "optimized": {
+                "fixture": "cycle-scalar",
+                "case": "high",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 564563,
+                "peak_us": 406,
+                "event_us": 39,
+                "prepare_us": 581079,
+                "rms": 0.645402073,
+                "peak": 1,
+                "arena_high_water": 65600,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 392.0576388888889
+              }
+            },
+            "observed_speed_ratio": 0.9991692689744102,
+            "observed_process_reduction_percent": -0.08314217134024471
+          }
+        ]
+      },
+      "runner_record": {
+        "format": "rnbo-isolated-hardware-test",
+        "format_version": 1,
+        "result": "passed",
+        "error": null,
+        "board": "xiao",
+        "flash_bytes": 8388608,
+        "restore_policy": "running-defaults-startup50",
+        "backup_sha256": "private recovery backup hash withheld",
+        "restore_module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+        "device_id": "xiao-test-device-01",
+        "started_at_utc": "2026-11-03T13:42:22.955728+00:00",
+        "completed_at_utc": "2026-11-03T13:43:02.183403+00:00",
+        "test_build_report_sha256": "a0400276cb53a7964360f254b583e96f8c05e2b55135cddb8261372c1a2b8887",
+        "test_elf_sha256": "89d6f0d2d1cdc0624d2a23361ee9c7d267f36692aa21ba631c024925b33db613",
+        "test_app_sha256": "35dc6b8e421aba4879ea16148e022a0db0ff855a5cb060d7ee58b5335e6f302e",
+        "pass_line": "RNBO_OBJECT_BENCHMARK PASS fixture=cycle-scalar firmware_elf_sha256=89d6f0d2d1cdc0624d2a23361ee9c7d267f36692aa21ba631c024925b33db613 strict_module_sha256=7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8 optimized_module_sha256=7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8 cases=4 rounds=3 blocks_per_pass=512 warmup=4 seed=305419896 timing_exclude=32 compared_samples=3145728 max_abs=0 rms_error=0 pcm_different=0 max_pcm_lsb=0 max_abs_tolerance=2e-06 max_pcm_lsb_tolerance=1 relative_rms_tolerance=0.0001 strict_timed_blocks=5760 strict_process_us=2722631 strict_peak_us=633 optimized_timed_blocks=5760 optimized_process_us=2724382 optimized_peak_us=631 psram_before=7333512 psram_after=7333512 internal_before=315975 internal_after=315975 host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 images=4 finalized_images=4 input_cases=0 input_rechecks=0 pilot_sample_checks=0 oracle_cases=0 oracle_rechecks=0 semantic_sample_checks=0 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 stack_margin=20260 scope=offline_no_i2s_ui_network",
+        "restoration": {
+          "result": "restored",
+          "status": {
+            "runtime": "rnbo-esp32s3-bringup",
+            "board": "XIAO ESP32-S3",
+            "source": "static-rnbo",
+            "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+            "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+            "rate": 44100,
+            "block_frames": 256,
+            "channels": 2,
+            "frames": 4864,
+            "panic": false,
+            "volume": 50,
+            "render_us": 3196,
+            "peak_us": 3200,
+            "nonfinite": 0,
+            "clipped": 0,
+            "write_errors": 0,
+            "dma_errors": 0,
+            "queue_errors": 0,
+            "audio_stack_free": 12024,
+            "module_errors": 0,
+            "audio_heap_allocations": 0,
+            "audio_heap_frees": 0,
+            "audio_heap_requested_bytes": 0,
+            "allocation_fault": false,
+            "blocks": 19,
+            "render_busy_total_us": 59443,
+            "render_deadline_overruns": 0,
+            "driver_elapsed_total_us": 50683,
+            "post_write_capture_elapsed_total_us": 0,
+            "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+            "driver_timing_scope": "wall time including I2S wait and internal capture",
+            "post_write_capture_timed": false,
+            "internal_free_bytes": 302983,
+            "internal_largest_free_bytes": 229376,
+            "psram_free_bytes": 8039396,
+            "psram_largest_free_bytes": 7995392,
+            "control_stack_free": 3656,
+            "main_stack_free": 4616,
+            "uptime_us": 340660,
+            "heap_guard": "audio-task-successful-heap-operations",
+            "rebuilding": false,
+            "ready_to_resume": false,
+            "reconstruction_failed": false,
+            "arena_used": 99088,
+            "arena_capacity": 131072,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0
+          },
+          "parameters": {
+            "lfo-rate": {
+              "index": 0,
+              "actual": 0.1,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "lfo-depth": {
+              "index": 1,
+              "actual": 0.5,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "comb-ff": {
+              "index": 2,
+              "actual": 0.9,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "comb-fb": {
+              "index": 3,
+              "actual": 0.9,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "delay-time": {
+              "index": 4,
+              "actual": 25,
+              "minimum": 0,
+              "maximum": 50
+            },
+            "delay-fb": {
+              "index": 5,
+              "actual": 0.5,
+              "minimum": 0,
+              "maximum": 0.99
+            },
+            "vib-rate": {
+              "index": 6,
+              "actual": 1,
+              "minimum": 0.1,
+              "maximum": 20
+            },
+            "vib-depth": {
+              "index": 7,
+              "actual": 0.1,
+              "minimum": 0,
+              "maximum": 2
+            }
+          },
+          "parameter_readback_available": true,
+          "instance_phase_restored": false,
+          "startup50_audible": true
+        },
+        "restore_build_report_sha256": "3b21b4d55088e5e835122ffba82bd1d54dd3b75dd69490a7b41e6f46ea0b0cf2",
+        "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+        "serial_log_sha256": "d15157a41bffcf6016ea6a08312d652a00c1ac6234b49c9eaa639aae7fcba7aa"
+      },
+      "raw_serial_log": "I (2438) main_task: Returned from app_main()\nRNBO_OBJECT_BENCHMARK START fixture=cycle-scalar firmware_elf_sha256=89d6f0d2d1cdc0624d2a23361ee9c7d267f36692aa21ba631c024925b33db613 strict_module_sha256=7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8 optimized_module_sha256=7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8\nRNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture=cycle-scalar reference=float32-strict candidate=float32-strict\nI (2443) ELF: ELF loader version: 2.0.0\nI (2445) ELF: elf->entry=0x42156d08\nI (2446) ELF: ELF loader version: 2.0.0\nI (2448) ELF: elf->entry=0x42264780\nI (2839) ELF: ELF loader version: 2.0.0\nI (2842) ELF: elf->entry=0x42156d08\nI (2843) ELF: ELF loader version: 2.0.0\nI (2846) ELF: elf->entry=0x42264780\nRNBO_OBJECT_BENCHMARK CASE fixture=cycle-scalar case=default samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=default profile=strict timed_blocks=1440 process_us=658133 peak_us=474 event_us=0 prepare_us=580609 rms=0.645576677 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=default profile=optimized timed_blocks=1440 process_us=659069 peak_us=476 event_us=0 prepare_us=580681 rms=0.645576677 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE fixture=cycle-scalar case=phase-boundary samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=phase-boundary profile=strict timed_blocks=1440 process_us=881970 peak_us=633 event_us=33 prepare_us=580625 rms=0.645562815 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=phase-boundary profile=optimized timed_blocks=1440 process_us=882822 peak_us=631 event_us=34 prepare_us=580696 rms=0.645562815 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE fixture=cycle-scalar case=low samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=low profile=strict timed_blocks=1440 process_us=618434 peak_us=442 event_us=30 prepare_us=580600 rms=0.645249256 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=low profile=optimized timed_blocks=1440 process_us=617928 peak_us=441 event_us=32 prepare_us=580672 rms=0.645249256 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE fixture=cycle-scalar case=high samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=high profile=strict timed_blocks=1440 process_us=564094 peak_us=404 event_us=29 prepare_us=580833 rms=0.645402073 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=cycle-scalar case=high profile=optimized timed_blocks=1440 process_us=564563 peak_us=406 event_us=39 prepare_us=581079 rms=0.645402073 peak=1 arena_high_water=65600\nRNBO_OBJECT_BENCHMARK PROFILE fixture=cycle-scalar profile=strict blocks=6144 timed_blocks=5760 process_us=2722631 peak_us=633 event_us=92 events=9 prepare_us=2322667 rms=0.645447719 peak=1 clipped=0 context_bytes=12816 arena_capacity=1048576 arena_high_water=65600 code_bytes=39100 max_cpp_new_calls=1 max_arena_requests=2\nRNBO_OBJECT_BENCHMARK PROFILE fixture=cycle-scalar profile=optimized blocks=6144 timed_blocks=5760 process_us=2724382 peak_us=631 event_us=105 events=9 prepare_us=2323128 rms=0.645447719 peak=1 clipped=0 context_bytes=12816 arena_capacity=1048576 arena_high_water=65600 code_bytes=39100 max_cpp_new_calls=1 max_arena_requests=2\nRNBO_OBJECT_BENCHMARK PASS fixture=cycle-scalar firmware_elf_sha256=89d6f0d2d1cdc0624d2a23361ee9c7d267f36692aa21ba631c024925b33db613 strict_module_sha256=7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8 optimized_module_sha256=7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8 cases=4 rounds=3 blocks_per_pass=512 warmup=4 seed=305419896 timing_exclude=32 compared_samples=3145728 max_abs=0 rms_error=0 pcm_different=0 max_pcm_lsb=0 max_abs_tolerance=2e-06 max_pcm_lsb_tolerance=1 relative_rms_tolerance=0.0001 strict_timed_blocks=5760 strict_process_us=2722631 strict_peak_us=633 optimized_timed_blocks=5760 optimized_process_us=2724382 optimized_peak_us=631 psram_before=7333512 psram_after=7333512 internal_before=315975 internal_after=315975 host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 images=4 finalized_images=4 input_cases=0 input_rechecks=0 pilot_sample_checks=0 oracle_cases=0 oracle_rechecks=0 semantic_sample_checks=0 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 stack_margin=20260 scope=offline_no_i2s_ui_network\n",
+      "raw_serial_log_sha256": "d15157a41bffcf6016ea6a08312d652a00c1ac6234b49c9eaa639aae7fcba7aa",
+      "build_metadata": {
+        "format": "rnbo-esp32s3-object-benchmark-build",
+        "format_version": 1,
+        "board": "xiao",
+        "compiler": {
+          "path": "xtensa-esp32s3-elf-gcc",
+          "version": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+        },
+        "idf_version": "5.5.0",
+        "idf_git_revision": "v5.5",
+        "sdkconfig_sha256": "2d9b19d4a5fffb78c4122d68c7ea87206a6ca2e016f6bd63e54cb7b202db5989",
+        "artifacts": {
+          "build/object-benchmark-xiao-cycle-scalar-batch1-control-v1/rnbo_object_benchmark.elf": {
+            "bytes": 4304268,
+            "sha256": "89d6f0d2d1cdc0624d2a23361ee9c7d267f36692aa21ba631c024925b33db613"
+          },
+          "build/object-benchmark-xiao-cycle-scalar-batch1-control-v1/rnbo_object_benchmark.bin": {
+            "bytes": 339296,
+            "sha256": "35dc6b8e421aba4879ea16148e022a0db0ff855a5cb060d7ee58b5335e6f302e"
+          },
+          "build/object-benchmark-xiao-cycle-scalar-batch1-control-v1/partition_table/partition-table.bin": {
+            "bytes": 3072,
+            "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+          }
+        },
+        "source_files_sha256": {
+          "tools/build_object_benchmark.py": "7465d161226f00bb237a9f77e324b166bf42ab07edded951104914578b54d8c6",
+          "tools/build_rnbo_loader_test.py": "ec52acbddd14b6cfed6115a2f310fa42ba50ec2597d1415d1e684d89ac3c2852",
+          "tools/build_loader_spike.py": "4651e07a6d8ed93471bb2e6326702d75e083ce9bc04d327aa1695e372c499a15",
+          "loader-spike/dependencies.json": "4ee1562c3172768a71eba14046398ec61c64e28d74289c91a2d8ea556ce9e98b",
+          "host/compiler/build.py": "7af68469394675e17cc2e16e9d74d9a47d0f76368c490c43c4c7017cf4b68dd6",
+          "host/compiler/prepare.py": "1e1c26a4528471a1a6126b801bc79fc15f8be87f7508473d160da96aef639531",
+          "host/compiler/inspect_module.py": "1eecc31d6b3ef0f0faee15317d3d9c3486582d8f45c25331fe7cbd1283b828a8",
+          "object-benchmark/CMakeLists.txt": "6dc6ea01359a539ecf28dac51c9315524c55e14f3448610d62775b5ee0d4b88f",
+          "object-benchmark/README.md": "94acbb88540b7b938ac308248edc72d5525878a926141a738123ab389faa2156",
+          "object-benchmark/main/CMakeLists.txt": "f8fdcc7ed76c9555f443a54bca25ae10cc6693a6374ef38b01db3aa321975d30",
+          "object-benchmark/main/allocation_probe.c": "bba318d215a737617295d248e66d3c5c3c2f05b05111a5d0618241a5b95d42ac",
+          "object-benchmark/main/allocation_probe.h": "cecfb85cde7f2b6c4d5ebdf916332a50c8f966053d3768194f36b8bbf7366f59",
+          "object-benchmark/main/average_oracle.c": "2df0d20763f99f4d4a70aca7392fa9b3530f7476db88e10bc05c0a53ad1ef58a",
+          "object-benchmark/main/average_oracle.h": "c2237267cc0e03899575a37982e16cc0321d123d1fe4e148e8ab9cd2a8bafdab",
+          "object-benchmark/main/bench_check.h": "f7fd0154159e293837b18a631783d0e2a93ed64d2c0779a309cf22b57ff514bc",
+          "object-benchmark/main/benchmark.c": "94d6707b0aa9f604ece6c17671e5387e9b5839272aa71b327e3c0176a60a540b",
+          "object-benchmark/main/mapped_range.h": "7ae99af3b7de7a4e7910c0a06ced5099d820a9fddc5c46404b8f26d380cad64f",
+          "object-benchmark/main/module_host.c": "588554dafddd07ee36bab1f02a24586da30eff7b2e168dbb8d9169d517b585f4",
+          "object-benchmark/main/module_host.h": "be8bd2a94dc3962a4fb72112c6f24a65263c065c89e85f0100a521938658c16e",
+          "object-benchmark/main/stimulus.c": "a5d40d4b5a5811f5135509018d5eb953f0fb260f0691c587f2f9f00acef19a8a",
+          "object-benchmark/main/stimulus.h": "f0786c2cf55c2e85ba5b6128a9cc5a09923860aff41d1eaa6ace003e937a87c7",
+          "object-benchmark/main/wave2_oracle.c": "2533af1d54c54cba2eec552e61b395f65786d134929797463ee80e601855f591",
+          "object-benchmark/main/wave2_oracle.h": "9637e3796f36ae85664f2da75e8160e338ad805a244ac6323df532d461dfa1fe",
+          "object-benchmark/partitions-amoled.csv": "bab235d2ced37d4aaf671badaf4c78518719de25eeb60bbfead09242ba4ae147",
+          "object-benchmark/partitions-xiao.csv": "516cd514d279411eb4347aeef7fccaaa08ce6d4d841f646628a4c380bf8ca1f0",
+          "object-benchmark/sdkconfig.amoled.defaults": "305aa5965eaedcae61a506f85d1ed70ef874154f6f010c21abdc78295c011e70",
+          "object-benchmark/sdkconfig.defaults": "2cdf62c62033a782c5a8d3da4ff0978f45b52d2775e36bc7d5afde866a0b70eb",
+          "object-benchmark/sdkconfig.xiao.defaults": "d9d48346d9ad07dde52b1d9257c0a37f49d3cac7dfdd9f079041d2cd0050c28c",
+          "module-sdk/cmake/dynamic/CMakeLists.txt": "05594b22ceb0e0ed2e7b8f80ff4be881163cf838c2fa220ce252945e3a2d9fe7",
+          "module-sdk/cmake/dynamic/main/CMakeLists.txt": "a24bee7f0cc6342aa87e2408f26ec7f4c8edce6661bab9857416c5d79c75e3ce",
+          "module-sdk/cmake/dynamic/sdkconfig.defaults": "6183137b61986eb89be01ebbd42da1e9565c59ae5d34ec0993036daea684d199",
+          "module-sdk/dynamic/README.md": "229880bb4acfaab9f5b505e933d5012a83b100a0369bf243c77dde79a53fb487",
+          "module-sdk/dynamic/arena.cpp": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3",
+          "module-sdk/dynamic/arena.hpp": "d5cefdf593c534ead4f910231a5f57c2bd5b180938eb59e6877fb63d8f80dbe2",
+          "module-sdk/dynamic/integer_abs.cpp": "62a15f1d353b1ba202b26db342ca0708ec935853acd8f5624efdfbd0ebb885da",
+          "module-sdk/dynamic/integer_abs.hpp": "d2c98318b45a765aa1473fd0214356d5e43a674f8474b07dddc76688ef963e9b",
+          "module-sdk/dynamic/lifecycle.cpp": "3fabb00f4caf698c11b503de11f889623d30e32da2b633c37b6991b7eaa39911",
+          "module-sdk/dynamic/lifecycle.hpp": "72e2552ff411e833d52997cae3f71be14b2af67e05db61447fa0d1659b77d062",
+          "module-sdk/dynamic/rnbo_s3_dynamic.cpp": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e",
+          "module-sdk/dynamic/support.cpp": "f937333a547e6a19504a5e6b70c90c4fa6de683f08d19877cdcec4479160bb6b",
+          "module-sdk/include/rnbo_s3_dynamic.h": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4",
+          "module-sdk/include/rnbo_s3_module.h": "e70447b3b5337fa533434b1bf1ece4a1efbb8ff1342c0e466b55e70cbce50604",
+          "module-sdk/wrapper/rnbo_s3_static.cpp": "1178b37dcd255bedd50c3c01c55c77a590e07cee9d9ff4a2d6530c63ba7f99ed"
+        },
+        "qualification_scope": "offline core1 process callbacks; no I2S/UI/network; no full application deadline claim"
+      },
+      "fixture_contract": {
+        "blocks": 512,
+        "cases": [
+          {
+            "id": "default",
+            "parameters": {}
+          },
+          {
+            "id": "phase-boundary",
+            "parameters": {
+              "phase": 0.99
+            }
+          },
+          {
+            "id": "low",
+            "parameters": {
+              "frequency": 20
+            }
+          },
+          {
+            "id": "high",
+            "parameters": {
+              "frequency": 10000
+            }
+          }
+        ],
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        },
+        "family": "cycle",
+        "float32_delay_storage": false,
+        "id": "cycle-scalar",
+        "patch": "cycle-scalar.rnbopat",
+        "role": "main",
+        "seed": 305419896,
+        "semantic": {
+          "analytic_maximum_absolute_error": 2e-06,
+          "frequency_default": 440,
+          "kind": "cycle",
+          "phase_channel": 1,
+          "phase_waveform": "cosine",
+          "wave_channel": 0
+        },
+        "warmup_blocks": 4
+      },
+      "module_artifacts": {
+        "strict": {
+          "artifact_sha256": "7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8",
+          "artifact_bytes": 46980,
+          "report_sha256": "a5c4c89c77c1f1df236358010c007d4e78fd442addcbab8db966a557a0731009"
+        },
+        "optimized": {
+          "artifact_sha256": "7d0459e01cd0dd62dddfd5587c375c7b77f7fe79a07c8cd332fb098cc6ed56c8",
+          "artifact_bytes": 46980,
+          "report_sha256": "a5c4c89c77c1f1df236358010c007d4e78fd442addcbab8db966a557a0731009"
+        }
+      }
+    },
+    {
+      "fixture": "filters-scalar",
+      "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+      "reference_mean_callback_us": 1736.1159722222221,
+      "candidate_mean_callback_us": 1232.09375,
+      "cpu_time_saved_percent": 29.03159871152361,
+      "CPU_savings_claimed": true,
+      "independent_on_device_oracle": false,
+      "collected": {
+        "board": "xiao",
+        "flash_bytes": 8388608,
+        "device_id": "xiao-test-device-01",
+        "board_binding": {
+          "method": "explicit-runner-and-build-report",
+          "build_board": "xiao",
+          "runner_board": "xiao",
+          "flash_bytes": 8388608,
+          "runner_device_id": "xiao-test-device-01",
+          "restored_status_board": "XIAO ESP32-S3",
+          "device_identity": "runner-verified USB/backup identity; saved record consistency checked by collector"
+        },
+        "fixture": "filters-scalar",
+        "family": "filters",
+        "role": "main",
+        "numerical_profiles": {
+          "strict": "float32-strict",
+          "optimized": "float32-strict"
+        },
+        "identical_artifact_control": false,
+        "scope": "Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.",
+        "stimulus_provenance": null,
+        "build_report": "build/object-benchmark-xiao-filters-scalar-batch1-hoist-v1/build-report.json",
+        "build_report_sha256": "43390391c8723d532a6f0f0f3ee561c48c2275c1ecbb2013421786714f525a45",
+        "hardware_report": "build/hardware/xiao-object-batch1-hoist-20261104/hardware-test.json",
+        "hardware_report_sha256": "69a608deb284baee24c52a956c8b445030cc40989d6296bf85bc0b2fa69fa8ad",
+        "serial_log": "build/hardware/xiao-object-batch1-hoist-20261104/test-serial.log",
+        "serial_log_sha256": "8e004f1638d1a149e7f7726c9a57e9859aea1c229f15b9ca293e6a47e8b32e2e",
+        "pass": {
+          "fixture": "filters-scalar",
+          "firmware_elf_sha256": "28a67620f9ebeff6c07e018b810000ad640261e08766f700a34c15f5a4fa9609",
+          "strict_module_sha256": "7117c0ccd9b0b9342b8e18f1e7d75741e60e582c77d2549350f52331a414fa9d",
+          "optimized_module_sha256": "e24f0298e3927c8824c6144344503c415dbc854982cfea0c3a6089046ef23468",
+          "cases": 3,
+          "rounds": 3,
+          "blocks_per_pass": 512,
+          "warmup": 4,
+          "seed": 305419896,
+          "timing_exclude": 32,
+          "compared_samples": 2359296,
+          "max_abs": 0,
+          "rms_error": 0,
+          "pcm_different": 0,
+          "max_pcm_lsb": 0,
+          "max_abs_tolerance": 2e-06,
+          "max_pcm_lsb_tolerance": 1,
+          "relative_rms_tolerance": 0.0001,
+          "strict_timed_blocks": 4320,
+          "strict_process_us": 7500021,
+          "strict_peak_us": 1962,
+          "optimized_timed_blocks": 4320,
+          "optimized_process_us": 5322645,
+          "optimized_peak_us": 1380,
+          "psram_before": 7333512,
+          "psram_after": 7333512,
+          "internal_before": 315975,
+          "internal_after": 315975,
+          "host_heap_allocations": 0,
+          "host_heap_frees": 0,
+          "local_late_allocations": 0,
+          "images": 4,
+          "finalized_images": 4,
+          "input_cases": 0,
+          "input_rechecks": 0,
+          "pilot_sample_checks": 0,
+          "oracle_cases": 0,
+          "oracle_rechecks": 0,
+          "semantic_sample_checks": 0,
+          "dc_sample_checks": 0,
+          "oracle_bit_sample_checks": 0,
+          "oracle_bit_differences": 0,
+          "stack_margin": 20260,
+          "scope": "offline_no_i2s_ui_network"
+        },
+        "cases": [
+          {
+            "case": "impulse",
+            "declared_case": {
+              "id": "impulse",
+              "parameters": {
+                "trigger": 1
+              }
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "filters-scalar",
+              "case": "impulse",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "filters-scalar",
+                "case": "impulse",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 2695190,
+                "peak_us": 1962,
+                "event_us": 44,
+                "prepare_us": 32492,
+                "rms": 0.00261544364,
+                "peak": 0.630102515,
+                "arena_high_water": 65792,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 1871.6597222222222
+              },
+              "optimized": {
+                "fixture": "filters-scalar",
+                "case": "impulse",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 1850227,
+                "peak_us": 1380,
+                "event_us": 42,
+                "prepare_us": 25783,
+                "rms": 0.00261544364,
+                "peak": 0.630102515,
+                "arena_high_water": 65792,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 1284.879861111111
+              }
+            },
+            "observed_speed_ratio": 1.4566807207980426,
+            "observed_process_reduction_percent": 31.350776754143496
+          },
+          {
+            "case": "minimum-delay",
+            "declared_case": {
+              "id": "minimum-delay",
+              "parameters": {
+                "delay": 0,
+                "trigger": 1
+              }
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "filters-scalar",
+              "case": "minimum-delay",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "filters-scalar",
+                "case": "minimum-delay",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 2234069,
+                "peak_us": 1570,
+                "event_us": 62,
+                "prepare_us": 32948,
+                "rms": 0.0036076098,
+                "peak": 1.04999995,
+                "arena_high_water": 65792,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 1551.4368055555556
+              },
+              "optimized": {
+                "fixture": "filters-scalar",
+                "case": "minimum-delay",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 1744725,
+                "peak_us": 1232,
+                "event_us": 65,
+                "prepare_us": 26160,
+                "rms": 0.0036076098,
+                "peak": 1.04999995,
+                "arena_high_water": 65792,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 1211.6145833333333
+              }
+            },
+            "observed_speed_ratio": 1.2804705612632363,
+            "observed_process_reduction_percent": 21.903710225601813
+          },
+          {
+            "case": "maximum-delay",
+            "declared_case": {
+              "id": "maximum-delay",
+              "parameters": {
+                "delay": 40,
+                "trigger": 1
+              }
+            },
+            "input": null,
+            "semantic_comparison": {},
+            "output_comparison": {
+              "fixture": "filters-scalar",
+              "case": "maximum-delay",
+              "samples": 786432,
+              "max_abs": 0,
+              "rms_error": 0,
+              "relative_rms": 0,
+              "pcm_different": 0,
+              "max_pcm_lsb": 0
+            },
+            "profiles": {
+              "strict": {
+                "fixture": "filters-scalar",
+                "case": "maximum-delay",
+                "profile": "strict",
+                "timed_blocks": 1440,
+                "process_us": 2570762,
+                "peak_us": 1814,
+                "event_us": 61,
+                "prepare_us": 33104,
+                "rms": 0.0036076098,
+                "peak": 1.04999995,
+                "arena_high_water": 65792,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 1785.2513888888889
+              },
+              "optimized": {
+                "fixture": "filters-scalar",
+                "case": "maximum-delay",
+                "profile": "optimized",
+                "timed_blocks": 1440,
+                "process_us": 1727693,
+                "peak_us": 1236,
+                "event_us": 57,
+                "prepare_us": 26066,
+                "rms": 0.0036076098,
+                "peak": 1.04999995,
+                "arena_high_water": 65792,
+                "numerical_profile": "float32-strict",
+                "mean_process_us": 1199.7868055555555
+              }
+            },
+            "observed_speed_ratio": 1.487973847205493,
+            "observed_process_reduction_percent": 32.79451773443049
+          }
+        ]
+      },
+      "runner_record": {
+        "format": "rnbo-isolated-hardware-test",
+        "format_version": 1,
+        "result": "passed",
+        "error": null,
+        "board": "xiao",
+        "flash_bytes": 8388608,
+        "restore_policy": "running-defaults-startup50",
+        "backup_sha256": "private recovery backup hash withheld",
+        "restore_module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+        "device_id": "xiao-test-device-01",
+        "started_at_utc": "2026-11-03T13:43:20.361390+00:00",
+        "completed_at_utc": "2026-11-03T13:43:55.241086+00:00",
+        "test_build_report_sha256": "43390391c8723d532a6f0f0f3ee561c48c2275c1ecbb2013421786714f525a45",
+        "test_elf_sha256": "28a67620f9ebeff6c07e018b810000ad640261e08766f700a34c15f5a4fa9609",
+        "test_app_sha256": "717984e7cb7cc4f5308fc596df4d2ceb8dc1dcdd4089cac58a4eea815fd4b486",
+        "pass_line": "RNBO_OBJECT_BENCHMARK PASS fixture=filters-scalar firmware_elf_sha256=28a67620f9ebeff6c07e018b810000ad640261e08766f700a34c15f5a4fa9609 strict_module_sha256=7117c0ccd9b0b9342b8e18f1e7d75741e60e582c77d2549350f52331a414fa9d optimized_module_sha256=e24f0298e3927c8824c6144344503c415dbc854982cfea0c3a6089046ef23468 cases=3 rounds=3 blocks_per_pass=512 warmup=4 seed=305419896 timing_exclude=32 compared_samples=2359296 max_abs=0 rms_error=0 pcm_different=0 max_pcm_lsb=0 max_abs_tolerance=2e-06 max_pcm_lsb_tolerance=1 relative_rms_tolerance=0.0001 strict_timed_blocks=4320 strict_process_us=7500021 strict_peak_us=1962 optimized_timed_blocks=4320 optimized_process_us=5322645 optimized_peak_us=1380 psram_before=7333512 psram_after=7333512 internal_before=315975 internal_after=315975 host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 images=4 finalized_images=4 input_cases=0 input_rechecks=0 pilot_sample_checks=0 oracle_cases=0 oracle_rechecks=0 semantic_sample_checks=0 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 stack_margin=20260 scope=offline_no_i2s_ui_network",
+        "restoration": {
+          "result": "restored",
+          "status": {
+            "runtime": "rnbo-esp32s3-bringup",
+            "board": "XIAO ESP32-S3",
+            "source": "static-rnbo",
+            "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+            "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+            "rate": 44100,
+            "block_frames": 256,
+            "channels": 2,
+            "frames": 4864,
+            "panic": false,
+            "volume": 50,
+            "render_us": 3196,
+            "peak_us": 3200,
+            "nonfinite": 0,
+            "clipped": 0,
+            "write_errors": 0,
+            "dma_errors": 0,
+            "queue_errors": 0,
+            "audio_stack_free": 12056,
+            "module_errors": 0,
+            "audio_heap_allocations": 0,
+            "audio_heap_frees": 0,
+            "audio_heap_requested_bytes": 0,
+            "allocation_fault": false,
+            "blocks": 19,
+            "render_busy_total_us": 59449,
+            "render_deadline_overruns": 0,
+            "driver_elapsed_total_us": 50676,
+            "post_write_capture_elapsed_total_us": 0,
+            "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+            "driver_timing_scope": "wall time including I2S wait and internal capture",
+            "post_write_capture_timed": false,
+            "internal_free_bytes": 302983,
+            "internal_largest_free_bytes": 229376,
+            "psram_free_bytes": 8039396,
+            "psram_largest_free_bytes": 7995392,
+            "control_stack_free": 3656,
+            "main_stack_free": 4616,
+            "uptime_us": 340568,
+            "heap_guard": "audio-task-successful-heap-operations",
+            "rebuilding": false,
+            "ready_to_resume": false,
+            "reconstruction_failed": false,
+            "arena_used": 99088,
+            "arena_capacity": 131072,
+            "platform_allocations": 10,
+            "late_platform_allocations": 0
+          },
+          "parameters": {
+            "lfo-rate": {
+              "index": 0,
+              "actual": 0.1,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "lfo-depth": {
+              "index": 1,
+              "actual": 0.5,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "comb-ff": {
+              "index": 2,
+              "actual": 0.9,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "comb-fb": {
+              "index": 3,
+              "actual": 0.9,
+              "minimum": 0,
+              "maximum": 1
+            },
+            "delay-time": {
+              "index": 4,
+              "actual": 25,
+              "minimum": 0,
+              "maximum": 50
+            },
+            "delay-fb": {
+              "index": 5,
+              "actual": 0.5,
+              "minimum": 0,
+              "maximum": 0.99
+            },
+            "vib-rate": {
+              "index": 6,
+              "actual": 1,
+              "minimum": 0.1,
+              "maximum": 20
+            },
+            "vib-depth": {
+              "index": 7,
+              "actual": 0.1,
+              "minimum": 0,
+              "maximum": 2
+            }
+          },
+          "parameter_readback_available": true,
+          "instance_phase_restored": false,
+          "startup50_audible": true
+        },
+        "restore_build_report_sha256": "3b21b4d55088e5e835122ffba82bd1d54dd3b75dd69490a7b41e6f46ea0b0cf2",
+        "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+        "serial_log_sha256": "8e004f1638d1a149e7f7726c9a57e9859aea1c229f15b9ca293e6a47e8b32e2e"
+      },
+      "raw_serial_log": "I (2440) main_task: Returned from app_main()\nRNBO_OBJECT_BENCHMARK START fixture=filters-scalar firmware_elf_sha256=28a67620f9ebeff6c07e018b810000ad640261e08766f700a34c15f5a4fa9609 strict_module_sha256=7117c0ccd9b0b9342b8e18f1e7d75741e60e582c77d2549350f52331a414fa9d optimized_module_sha256=e24f0298e3927c8824c6144344503c415dbc854982cfea0c3a6089046ef23468\nRNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture=filters-scalar reference=float32-strict candidate=float32-strict\nI (2445) ELF: ELF loader version: 2.0.0\nI (2448) ELF: elf->entry=0x42157b18\nI (2449) ELF: ELF loader version: 2.0.0\nI (2452) ELF: elf->entry=0x42267954\nI (2479) ELF: ELF loader version: 2.0.0\nI (2482) ELF: elf->entry=0x42157b18\nI (2483) ELF: ELF loader version: 2.0.0\nI (2486) ELF: elf->entry=0x42267954\nRNBO_OBJECT_BENCHMARK CASE fixture=filters-scalar case=impulse samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=filters-scalar case=impulse profile=strict timed_blocks=1440 process_us=2695190 peak_us=1962 event_us=44 prepare_us=32492 rms=0.00261544364 peak=0.630102515 arena_high_water=65792\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=filters-scalar case=impulse profile=optimized timed_blocks=1440 process_us=1850227 peak_us=1380 event_us=42 prepare_us=25783 rms=0.00261544364 peak=0.630102515 arena_high_water=65792\nRNBO_OBJECT_BENCHMARK CASE fixture=filters-scalar case=minimum-delay samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=filters-scalar case=minimum-delay profile=strict timed_blocks=1440 process_us=2234069 peak_us=1570 event_us=62 prepare_us=32948 rms=0.0036076098 peak=1.04999995 arena_high_water=65792\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=filters-scalar case=minimum-delay profile=optimized timed_blocks=1440 process_us=1744725 peak_us=1232 event_us=65 prepare_us=26160 rms=0.0036076098 peak=1.04999995 arena_high_water=65792\nRNBO_OBJECT_BENCHMARK CASE fixture=filters-scalar case=maximum-delay samples=786432 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=filters-scalar case=maximum-delay profile=strict timed_blocks=1440 process_us=2570762 peak_us=1814 event_us=61 prepare_us=33104 rms=0.0036076098 peak=1.04999995 arena_high_water=65792\nRNBO_OBJECT_BENCHMARK CASE_PROFILE fixture=filters-scalar case=maximum-delay profile=optimized timed_blocks=1440 process_us=1727693 peak_us=1236 event_us=57 prepare_us=26066 rms=0.0036076098 peak=1.04999995 arena_high_water=65792\nRNBO_OBJECT_BENCHMARK PROFILE fixture=filters-scalar profile=strict blocks=4608 timed_blocks=4320 process_us=7500021 peak_us=1962 event_us=167 events=15 prepare_us=98544 rms=0.0033100978 peak=1.04999995 clipped=0 context_bytes=15136 arena_capacity=1048576 arena_high_water=65792 code_bytes=47016 max_cpp_new_calls=4 max_arena_requests=8\nRNBO_OBJECT_BENCHMARK PROFILE fixture=filters-scalar profile=optimized blocks=4608 timed_blocks=4320 process_us=5322645 peak_us=1380 event_us=164 events=15 prepare_us=78009 rms=0.0033100978 peak=1.04999995 clipped=0 context_bytes=15136 arena_capacity=1048576 arena_high_water=65792 code_bytes=47052 max_cpp_new_calls=4 max_arena_requests=8\nRNBO_OBJECT_BENCHMARK PASS fixture=filters-scalar firmware_elf_sha256=28a67620f9ebeff6c07e018b810000ad640261e08766f700a34c15f5a4fa9609 strict_module_sha256=7117c0ccd9b0b9342b8e18f1e7d75741e60e582c77d2549350f52331a414fa9d optimized_module_sha256=e24f0298e3927c8824c6144344503c415dbc854982cfea0c3a6089046ef23468 cases=3 rounds=3 blocks_per_pass=512 warmup=4 seed=305419896 timing_exclude=32 compared_samples=2359296 max_abs=0 rms_error=0 pcm_different=0 max_pcm_lsb=0 max_abs_tolerance=2e-06 max_pcm_lsb_tolerance=1 relative_rms_tolerance=0.0001 strict_timed_blocks=4320 strict_process_us=7500021 strict_peak_us=1962 optimized_timed_blocks=4320 optimized_process_us=5322645 optimized_peak_us=1380 psram_before=7333512 psram_after=7333512 internal_before=315975 internal_after=315975 host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 images=4 finalized_images=4 input_cases=0 input_rechecks=0 pilot_sample_checks=0 oracle_cases=0 oracle_rechecks=0 semantic_sample_checks=0 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 stack_margin=20260 scope=offline_no_i2s_ui_network\n",
+      "raw_serial_log_sha256": "8e004f1638d1a149e7f7726c9a57e9859aea1c229f15b9ca293e6a47e8b32e2e",
+      "build_metadata": {
+        "format": "rnbo-esp32s3-object-benchmark-build",
+        "format_version": 1,
+        "board": "xiao",
+        "compiler": {
+          "path": "xtensa-esp32s3-elf-gcc",
+          "version": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+        },
+        "idf_version": "5.5.0",
+        "idf_git_revision": "v5.5",
+        "sdkconfig_sha256": "2d9b19d4a5fffb78c4122d68c7ea87206a6ca2e016f6bd63e54cb7b202db5989",
+        "artifacts": {
+          "build/object-benchmark-xiao-filters-scalar-batch1-hoist-v1/rnbo_object_benchmark.elf": {
+            "bytes": 4320620,
+            "sha256": "28a67620f9ebeff6c07e018b810000ad640261e08766f700a34c15f5a4fa9609"
+          },
+          "build/object-benchmark-xiao-filters-scalar-batch1-hoist-v1/rnbo_object_benchmark.bin": {
+            "bytes": 355680,
+            "sha256": "717984e7cb7cc4f5308fc596df4d2ceb8dc1dcdd4089cac58a4eea815fd4b486"
+          },
+          "build/object-benchmark-xiao-filters-scalar-batch1-hoist-v1/partition_table/partition-table.bin": {
+            "bytes": 3072,
+            "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+          }
+        },
+        "source_files_sha256": {
+          "tools/build_object_benchmark.py": "7465d161226f00bb237a9f77e324b166bf42ab07edded951104914578b54d8c6",
+          "tools/build_rnbo_loader_test.py": "ec52acbddd14b6cfed6115a2f310fa42ba50ec2597d1415d1e684d89ac3c2852",
+          "tools/build_loader_spike.py": "4651e07a6d8ed93471bb2e6326702d75e083ce9bc04d327aa1695e372c499a15",
+          "loader-spike/dependencies.json": "4ee1562c3172768a71eba14046398ec61c64e28d74289c91a2d8ea556ce9e98b",
+          "host/compiler/build.py": "7af68469394675e17cc2e16e9d74d9a47d0f76368c490c43c4c7017cf4b68dd6",
+          "host/compiler/prepare.py": "1e1c26a4528471a1a6126b801bc79fc15f8be87f7508473d160da96aef639531",
+          "host/compiler/inspect_module.py": "1eecc31d6b3ef0f0faee15317d3d9c3486582d8f45c25331fe7cbd1283b828a8",
+          "object-benchmark/CMakeLists.txt": "6dc6ea01359a539ecf28dac51c9315524c55e14f3448610d62775b5ee0d4b88f",
+          "object-benchmark/README.md": "94acbb88540b7b938ac308248edc72d5525878a926141a738123ab389faa2156",
+          "object-benchmark/main/CMakeLists.txt": "f8fdcc7ed76c9555f443a54bca25ae10cc6693a6374ef38b01db3aa321975d30",
+          "object-benchmark/main/allocation_probe.c": "bba318d215a737617295d248e66d3c5c3c2f05b05111a5d0618241a5b95d42ac",
+          "object-benchmark/main/allocation_probe.h": "cecfb85cde7f2b6c4d5ebdf916332a50c8f966053d3768194f36b8bbf7366f59",
+          "object-benchmark/main/average_oracle.c": "2df0d20763f99f4d4a70aca7392fa9b3530f7476db88e10bc05c0a53ad1ef58a",
+          "object-benchmark/main/average_oracle.h": "c2237267cc0e03899575a37982e16cc0321d123d1fe4e148e8ab9cd2a8bafdab",
+          "object-benchmark/main/bench_check.h": "f7fd0154159e293837b18a631783d0e2a93ed64d2c0779a309cf22b57ff514bc",
+          "object-benchmark/main/benchmark.c": "94d6707b0aa9f604ece6c17671e5387e9b5839272aa71b327e3c0176a60a540b",
+          "object-benchmark/main/mapped_range.h": "7ae99af3b7de7a4e7910c0a06ced5099d820a9fddc5c46404b8f26d380cad64f",
+          "object-benchmark/main/module_host.c": "588554dafddd07ee36bab1f02a24586da30eff7b2e168dbb8d9169d517b585f4",
+          "object-benchmark/main/module_host.h": "be8bd2a94dc3962a4fb72112c6f24a65263c065c89e85f0100a521938658c16e",
+          "object-benchmark/main/stimulus.c": "a5d40d4b5a5811f5135509018d5eb953f0fb260f0691c587f2f9f00acef19a8a",
+          "object-benchmark/main/stimulus.h": "f0786c2cf55c2e85ba5b6128a9cc5a09923860aff41d1eaa6ace003e937a87c7",
+          "object-benchmark/main/wave2_oracle.c": "2533af1d54c54cba2eec552e61b395f65786d134929797463ee80e601855f591",
+          "object-benchmark/main/wave2_oracle.h": "9637e3796f36ae85664f2da75e8160e338ad805a244ac6323df532d461dfa1fe",
+          "object-benchmark/partitions-amoled.csv": "bab235d2ced37d4aaf671badaf4c78518719de25eeb60bbfead09242ba4ae147",
+          "object-benchmark/partitions-xiao.csv": "516cd514d279411eb4347aeef7fccaaa08ce6d4d841f646628a4c380bf8ca1f0",
+          "object-benchmark/sdkconfig.amoled.defaults": "305aa5965eaedcae61a506f85d1ed70ef874154f6f010c21abdc78295c011e70",
+          "object-benchmark/sdkconfig.defaults": "2cdf62c62033a782c5a8d3da4ff0978f45b52d2775e36bc7d5afde866a0b70eb",
+          "object-benchmark/sdkconfig.xiao.defaults": "d9d48346d9ad07dde52b1d9257c0a37f49d3cac7dfdd9f079041d2cd0050c28c",
+          "module-sdk/cmake/dynamic/CMakeLists.txt": "05594b22ceb0e0ed2e7b8f80ff4be881163cf838c2fa220ce252945e3a2d9fe7",
+          "module-sdk/cmake/dynamic/main/CMakeLists.txt": "a24bee7f0cc6342aa87e2408f26ec7f4c8edce6661bab9857416c5d79c75e3ce",
+          "module-sdk/cmake/dynamic/sdkconfig.defaults": "6183137b61986eb89be01ebbd42da1e9565c59ae5d34ec0993036daea684d199",
+          "module-sdk/dynamic/README.md": "229880bb4acfaab9f5b505e933d5012a83b100a0369bf243c77dde79a53fb487",
+          "module-sdk/dynamic/arena.cpp": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3",
+          "module-sdk/dynamic/arena.hpp": "d5cefdf593c534ead4f910231a5f57c2bd5b180938eb59e6877fb63d8f80dbe2",
+          "module-sdk/dynamic/integer_abs.cpp": "62a15f1d353b1ba202b26db342ca0708ec935853acd8f5624efdfbd0ebb885da",
+          "module-sdk/dynamic/integer_abs.hpp": "d2c98318b45a765aa1473fd0214356d5e43a674f8474b07dddc76688ef963e9b",
+          "module-sdk/dynamic/lifecycle.cpp": "3fabb00f4caf698c11b503de11f889623d30e32da2b633c37b6991b7eaa39911",
+          "module-sdk/dynamic/lifecycle.hpp": "72e2552ff411e833d52997cae3f71be14b2af67e05db61447fa0d1659b77d062",
+          "module-sdk/dynamic/rnbo_s3_dynamic.cpp": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e",
+          "module-sdk/dynamic/support.cpp": "f937333a547e6a19504a5e6b70c90c4fa6de683f08d19877cdcec4479160bb6b",
+          "module-sdk/include/rnbo_s3_dynamic.h": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4",
+          "module-sdk/include/rnbo_s3_module.h": "e70447b3b5337fa533434b1bf1ece4a1efbb8ff1342c0e466b55e70cbce50604",
+          "module-sdk/wrapper/rnbo_s3_static.cpp": "1178b37dcd255bedd50c3c01c55c77a590e07cee9d9ff4a2d6530c63ba7f99ed"
+        },
+        "qualification_scope": "offline core1 process callbacks; no I2S/UI/network; no full application deadline claim"
+      },
+      "fixture_contract": {
+        "blocks": 512,
+        "cases": [
+          {
+            "id": "impulse",
+            "parameters": {
+              "trigger": 1
+            }
+          },
+          {
+            "id": "minimum-delay",
+            "parameters": {
+              "delay": 0,
+              "trigger": 1
+            }
+          },
+          {
+            "id": "maximum-delay",
+            "parameters": {
+              "delay": 40,
+              "trigger": 1
+            }
+          }
+        ],
+        "comparison_tolerance": {
+          "maximum_absolute_error": 2e-06,
+          "maximum_pcm_lsb_error": 1,
+          "relative_rms_level_difference": 0.0001
+        },
+        "family": "filters",
+        "filter_delay_max_ms": 40,
+        "float32_delay_storage": false,
+        "id": "filters-scalar",
+        "patch": "filters-scalar.rnbopat",
+        "role": "main",
+        "seed": 305419896,
+        "semantic": {
+          "allpass_channel": 1,
+          "comb_channel": 0,
+          "excitation": "single unit impulse from trigger1 event after warmup",
+          "kind": "filters",
+          "maximum_peak": 4
+        },
+        "warmup_blocks": 4
+      },
+      "module_artifacts": {
+        "strict": {
+          "artifact_sha256": "7117c0ccd9b0b9342b8e18f1e7d75741e60e582c77d2549350f52331a414fa9d",
+          "artifact_bytes": 55172,
+          "report_sha256": "2b69adede5cd8b13a14b2eb8fff137cc94addcc621de1d8a9ec69ac7bb39ffa1"
+        },
+        "optimized": {
+          "artifact_sha256": "e24f0298e3927c8824c6144344503c415dbc854982cfea0c3a6089046ef23468",
+          "artifact_bytes": 55172,
+          "report_sha256": "c1c89c9895e1e19a530fc155db5debdb4545bafcb74629b6d746b5cb55e7795d"
+        }
+      }
+    }
+  ],
+  "final_drone_capture": {
+    "summary": {
+      "captured_frames": 4096,
+      "volume": 50,
+      "panic": false,
+      "peak_absolute_pcm": 9434,
+      "note": "An earlier capture completed but its save call rejected a directory without .wav; this fresh saved capture is the retained observation."
+    },
+    "status": {
+      "runtime": "rnbo-esp32s3-bringup",
+      "board": "XIAO ESP32-S3",
+      "source": "static-rnbo",
+      "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+      "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+      "rate": 44100,
+      "block_frames": 256,
+      "channels": 2,
+      "frames": 7093504,
+      "panic": false,
+      "volume": 50,
+      "render_us": 3947,
+      "peak_us": 4066,
+      "nonfinite": 0,
+      "clipped": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "queue_errors": 0,
+      "audio_stack_free": 12024,
+      "module_errors": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "audio_heap_requested_bytes": 0,
+      "allocation_fault": false,
+      "blocks": 27709,
+      "render_busy_total_us": 106810488,
+      "render_deadline_overruns": 0,
+      "driver_elapsed_total_us": 53895586,
+      "post_write_capture_elapsed_total_us": 0,
+      "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+      "driver_timing_scope": "wall time including I2S wait and internal capture",
+      "post_write_capture_timed": false,
+      "internal_free_bytes": 302763,
+      "internal_largest_free_bytes": 229376,
+      "psram_free_bytes": 8039396,
+      "psram_largest_free_bytes": 7995392,
+      "control_stack_free": 3656,
+      "main_stack_free": 4616,
+      "uptime_us": 161080411,
+      "heap_guard": "audio-task-successful-heap-operations",
+      "rebuilding": false,
+      "ready_to_resume": false,
+      "reconstruction_failed": false,
+      "arena_used": 99088,
+      "arena_capacity": 131072,
+      "platform_allocations": 10,
+      "late_platform_allocations": 0
+    },
+    "metadata": {
+      "board": "XIAO ESP32-S3",
+      "capture_after_download": {
+        "bytes": 16384,
+        "capture_id": 2983497850,
+        "channels": 2,
+        "frames": 4096,
+        "max_chunk_bytes": 1024,
+        "rate": 44100,
+        "requested": 4096,
+        "state": 2
+      },
+      "capture_complete": {
+        "bytes": 16384,
+        "capture_id": 2983497850,
+        "channels": 2,
+        "frames": 4096,
+        "max_chunk_bytes": 1024,
+        "rate": 44100,
+        "requested": 4096,
+        "state": 2
+      },
+      "capture_id": 2983497850,
+      "capture_tool_sha256": "854ffe416b847b99598498a409ab4ed0c3711474d088b00c594b4534c7ee04c0",
+      "channels": 2,
+      "evidence_kind": "device-post-volume-pcm-buffer",
+      "external_audio_verified": false,
+      "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+      "format": "rnbo-esp32s3-pcm-capture-evidence",
+      "format_version": 1,
+      "frames": 4096,
+      "host_python": "3.13.9",
+      "identity_limitations": [],
+      "max_chunk_bytes": 1024,
+      "module_source_identity_state": "advertised",
+      "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+      "pcm_bytes": 16384,
+      "pcm_sha256": "efb3ff36916baa6a117683f105323f3975e5a5aec20efc6375e1a65866e99aab",
+      "read_chunk_bytes": 1024,
+      "read_chunks": 16,
+      "recorded_at_utc": "2026-11-03T13:46:36.363832+00:00",
+      "runtime": "rnbo-esp32s3-bringup",
+      "sample_format": "pcm_s16le",
+      "sample_rate": 44100,
+      "serial_port": "USB serial port (local path omitted)",
+      "source": "static-rnbo",
+      "status_after": {
+        "allocation_fault": false,
+        "arena_capacity": 131072,
+        "arena_used": 99088,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "audio_heap_requested_bytes": 0,
+        "audio_stack_free": 12024,
+        "block_frames": 256,
+        "blocks": 27777,
+        "board": "XIAO ESP32-S3",
+        "channels": 2,
+        "clipped": 0,
+        "control_stack_free": 3656,
+        "dma_errors": 0,
+        "driver_elapsed_total_us": 54026857,
+        "driver_timing_scope": "wall time including I2S wait and internal capture",
+        "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+        "frames": 7110912,
+        "heap_guard": "audio-task-successful-heap-operations",
+        "internal_free_bytes": 302763,
+        "internal_largest_free_bytes": 229376,
+        "late_platform_allocations": 0,
+        "main_stack_free": 4616,
+        "module_errors": 0,
+        "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+        "nonfinite": 0,
+        "panic": false,
+        "peak_us": 4066,
+        "platform_allocations": 10,
+        "post_write_capture_elapsed_total_us": 0,
+        "post_write_capture_timed": false,
+        "psram_free_bytes": 8039396,
+        "psram_largest_free_bytes": 7995392,
+        "queue_errors": 0,
+        "rate": 44100,
+        "ready_to_resume": false,
+        "rebuilding": false,
+        "reconstruction_failed": false,
+        "render_busy_total_us": 107073527,
+        "render_deadline_overruns": 0,
+        "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+        "render_us": 3963,
+        "runtime": "rnbo-esp32s3-bringup",
+        "source": "static-rnbo",
+        "uptime_us": 161475509,
+        "volume": 50,
+        "write_errors": 0
+      },
+      "status_before": {
+        "allocation_fault": false,
+        "arena_capacity": 131072,
+        "arena_used": 99088,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "audio_heap_requested_bytes": 0,
+        "audio_stack_free": 12024,
+        "block_frames": 256,
+        "blocks": 27711,
+        "board": "XIAO ESP32-S3",
+        "channels": 2,
+        "clipped": 0,
+        "control_stack_free": 3656,
+        "dma_errors": 0,
+        "driver_elapsed_total_us": 53899235,
+        "driver_timing_scope": "wall time including I2S wait and internal capture",
+        "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+        "frames": 7094016,
+        "heap_guard": "audio-task-successful-heap-operations",
+        "internal_free_bytes": 302763,
+        "internal_largest_free_bytes": 229376,
+        "late_platform_allocations": 0,
+        "main_stack_free": 4616,
+        "module_errors": 0,
+        "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+        "nonfinite": 0,
+        "panic": false,
+        "peak_us": 4066,
+        "platform_allocations": 10,
+        "post_write_capture_elapsed_total_us": 0,
+        "post_write_capture_timed": false,
+        "psram_free_bytes": 8039396,
+        "psram_largest_free_bytes": 7995392,
+        "queue_errors": 0,
+        "rate": 44100,
+        "ready_to_resume": false,
+        "rebuilding": false,
+        "reconstruction_failed": false,
+        "render_busy_total_us": 106818438,
+        "render_deadline_overruns": 0,
+        "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+        "render_us": 3985,
+        "runtime": "rnbo-esp32s3-bringup",
+        "source": "static-rnbo",
+        "uptime_us": 161093661,
+        "volume": 50,
+        "write_errors": 0
+      },
+      "wav_file": "restored-drone.wav",
+      "wav_sha256": "00a6183a93952b9aabb18cc38caaf4fbbc81a888ffaf5208b3f0f66f612b5b72"
+    },
+    "wav_sha256": "00a6183a93952b9aabb18cc38caaf4fbbc81a888ffaf5208b3f0f66f612b5b72"
+  },
+  "local_proof_directory": "build/hardware/xiao-object-batch1-proof-20261104",
+  "plan": "evidence/xiao-qualification-plan.json",
+  "public_metadata_policy": {
+    "personal_paths_and_unique_device_identity_removed": true,
+    "original_local_wrapper_sha256": "9307599695f7d82c16e2c41c4832c7a38d2a49dc0d413d72fd93ae1be345b464",
+    "relative_paths": "Repository-relative build locations; source report hashes still identify original local records.",
+    "toolchain_identity": "Executable basename and exact compiler version retained; personal installation path omitted.",
+    "serial_identity": "Stable public device label replaces unique MAC; transient port omitted. Exact identity checks remain in private proof.",
+    "backup_identity": "Private full-flash backup digest withheld; validated locally by executed runner."
+  }
+}

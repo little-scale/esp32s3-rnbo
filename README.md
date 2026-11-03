@@ -150,3 +150,5 @@ separate milestones. See
 [docs/architecture-review.md](docs/architecture-review.md),
 [UPSTREAM.json](UPSTREAM.json), and the original
 [technical handover](RNBO_ESP32S3_TECHNICAL_HANDOVER.md).
+
+Systematic XIAO object testing is under way: [results and remaining scope](docs/xiao-qualification.md). Board measurements remain separate from AMOLED results.

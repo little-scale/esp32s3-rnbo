@@ -8,7 +8,7 @@ from pathlib import Path
 import tempfile
 import struct
 import unittest
-from collect_object_benchmarks import (collect,fields,sha,WRAP_ORACLE,WRAP_STIMULI,
+from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_ORACLE,WRAP_STIMULI,
     wrap_cache_hashes,wrap_input_coverage,exact_wrap_word,POWER_KIND,POWER_DENSE,
     POWER_DESCRIPTION,POWER_CORRECTED,POWER_COMPOSED,POWER_COMPILE_CONTRACT,
     power_cases,power_events,power_schedule_sha,power_verification,power_input_data,
@@ -49,6 +49,131 @@ class ObservationTests(unittest.TestCase):
         self.lines.insert(0,'RNBO_OBJECT_BENCHMARK INPUT fixture=unit case=default input_sha256='+('9'*64)+' input_bytes=4096 layout=float32_stereo_interleaved_le stimulus_kind=1')
         self.lines[-1]+=' input_cases=1 input_rechecks=9 pilot_sample_checks=3072'
         self.seal()
+
+    def explicit_board(self,board='xiao',device='ba:1e:48:12:34:56'):
+        self.report['board']=board
+        self.report['artifacts']={'build/unit.elf':{'bytes':123,'sha256':'c'*64},
+            'build/unit.bin':{'bytes':456,'sha256':'d'*64},
+            'build/partition_table/partition-table.bin':{'bytes':3072,'sha256':'e'*64}}
+        self.seal()
+        path=self.run/'hardware-test.json';run=json.loads(path.read_text())
+        run.update(format='rnbo-isolated-hardware-test',format_version=1,board=board,device_id=device,
+                   flash_bytes={'xiao':0x800000,'amoled':0x1000000}[board],test_app_sha256='d'*64)
+        run['restoration']['status']={'board':{'xiao':'XIAO ESP32-S3','amoled':'Waveshare AMOLED 1.8 V2'}[board]}
+        path.write_text(json.dumps(run));return path,run
+
+    def test_explicit_xiao_board_and_device_are_bound(self):
+        self.explicit_board();result=collect(self.build,self.run)
+        self.assertEqual(result['board'],'xiao');self.assertEqual(result['device_id'],'ba:1e:48:12:34:56')
+        self.assertEqual(result['board_binding']['restored_status_board'],'XIAO ESP32-S3')
+        self.assertEqual(result['cases'][0]['observed_process_reduction_percent'],50)
+
+    def test_explicit_amoled_board_and_device_are_bound(self):
+        self.explicit_board('amoled','28:84:85:3a:d3:90');result=collect(self.build,self.run)
+        self.assertEqual(result['board'],'amoled')
+        self.assertEqual(result['board_binding']['build_board'],'amoled')
+
+    def test_legacy_amoled_output_is_not_relabelled(self):
+        original=collect(self.build,self.run)
+        self.report['board']='amoled';self.seal();result=collect(self.build,self.run)
+        # Adding build metadata changes its hash and the runner report hash;
+        # historical numeric/semantic output and its field shape stay intact.
+        provenance={'build_report_sha256','hardware_report_sha256'}
+        self.assertEqual({k:v for k,v in result.items()if k not in provenance},
+                         {k:v for k,v in original.items()if k not in provenance})
+        for field in ('board','device_id','board_binding'):self.assertNotIn(field,result)
+
+    def test_xiao_cannot_use_legacy_runner_without_board(self):
+        self.report['board']='xiao';self.seal()
+        with self.assertRaisesRegex(ValueError,'explicit runner board'):collect(self.build,self.run)
+
+    def test_explicit_runner_build_board_mismatch_rejected(self):
+        path,run=self.explicit_board();self.report['board']='amoled'
+        (self.build/'build-report.json').write_text(json.dumps(self.report));run['test_build_report_sha256']=sha(self.build/'build-report.json');path.write_text(json.dumps(run))
+        with self.assertRaisesRegex(ValueError,'Runner/build board'):collect(self.build,self.run)
+
+    def test_explicit_board_requires_build_board(self):
+        path,run=self.explicit_board();del self.report['board']
+        (self.build/'build-report.json').write_text(json.dumps(self.report));run['test_build_report_sha256']=sha(self.build/'build-report.json');path.write_text(json.dumps(run))
+        with self.assertRaisesRegex(ValueError,'Runner/build board'):collect(self.build,self.run)
+
+    def test_unknown_or_partial_explicit_boards_rejected(self):
+        _,run=self.explicit_board()
+        for board in (None,True,'','XIAO','other',{},[]):
+            with self.subTest(board=board):
+                altered=copy.deepcopy(run);altered['board']=board
+                with self.assertRaisesRegex(ValueError,'Unknown explicit runner board'):board_evidence(self.report,altered)
+
+    def test_explicit_board_requires_exact_device_identity(self):
+        _,run=self.explicit_board()
+        for device in (None,False,'','ba1e4812345','ba:1e:48:12:34','ba:1e:48:12:34:zz',{},' ba1e48123456'):
+            with self.subTest(device=device):
+                altered=copy.deepcopy(run);altered['device_id']=device
+                with self.assertRaisesRegex(ValueError,'exact runner device identity'):board_evidence(self.report,altered)
+
+    def test_restored_status_board_mismatch_rejected(self):
+        path,run=self.explicit_board();run['restoration']['status']['board']='Waveshare AMOLED 1.8 V2';path.write_text(json.dumps(run))
+        with self.assertRaisesRegex(ValueError,'Restored status board'):collect(self.build,self.run)
+
+    def test_explicit_board_requires_restored_status(self):
+        _,run=self.explicit_board()
+        for status in (None,{},[],{'board':'xiao'}):
+            with self.subTest(status=status):
+                altered=copy.deepcopy(run);altered['restoration']['status']=status
+                with self.assertRaisesRegex(ValueError,'Restored status board'):board_evidence(self.report,altered)
+
+    def test_restored_device_if_present_must_match_exact_identity(self):
+        _,run=self.explicit_board();run['restoration']['status']['device_id']='BA:1E:48:12:34:56'
+        self.assertEqual(board_evidence(self.report,run)['device_id'],'ba:1e:48:12:34:56')
+        run['restoration']['status']['device_id']='28:84:85:3a:d3:90'
+        with self.assertRaisesRegex(ValueError,'Restored status device'):board_evidence(self.report,run)
+
+    def test_compact_runner_and_restored_device_forms_normalize_exactly(self):
+        path,run=self.explicit_board(device='BA1E48123456')
+        run['restoration']['status']['device_id']='ba:1e:48:12:34:56';path.write_text(json.dumps(run))
+        result=collect(self.build,self.run)
+        self.assertEqual(result['device_id'],'ba:1e:48:12:34:56')
+        self.assertEqual(result['board_binding']['runner_device_id'],'BA1E48123456')
+        run['device_id']='ba:1e:48:12:34:56';run['restoration']['status']['device_id']='BA1E48123456'
+        self.assertEqual(board_evidence(self.report,run)['device_id'],'ba:1e:48:12:34:56')
+        run['restoration']['status']['device_id']='ba1e48123457'
+        with self.assertRaisesRegex(ValueError,'Restored status device'):board_evidence(self.report,run)
+
+    def test_explicit_board_requires_recognized_runner_format(self):
+        _,run=self.explicit_board()
+        for fields in ({'format':None},{'format':'other'},{'format_version':True},{'format_version':2}):
+            with self.subTest(fields=fields):
+                altered=copy.deepcopy(run);altered.update(fields)
+                with self.assertRaisesRegex(ValueError,'hardware runner record format'):board_evidence(self.report,altered)
+
+    def test_explicit_board_flash_size_must_match_exactly(self):
+        _,run=self.explicit_board()
+        for size in (None,True,0,0x1000000,float(0x800000),'8388608'):
+            with self.subTest(size=size):
+                altered=copy.deepcopy(run);altered['flash_bytes']=size
+                with self.assertRaisesRegex(ValueError,'flash size'):board_evidence(self.report,altered)
+
+    def test_explicit_firmware_hashes_must_match_build_artifacts(self):
+        _,run=self.explicit_board()
+        for field in ('test_elf_sha256','test_app_sha256'):
+            for value in (None,'f'*64,'invalid',True):
+                with self.subTest(field=field,value=value):
+                    altered=copy.deepcopy(run);altered[field]=value
+                    with self.assertRaisesRegex(ValueError,'identity differs from build artifact'):board_evidence(self.report,altered)
+
+    def test_explicit_board_rejects_missing_ambiguous_or_malformed_artifacts(self):
+        _,run=self.explicit_board();base=copy.deepcopy(self.report)
+        for mutation in ('missing','no-elf','no-app','two-elf','two-app','bad-sha','bad-bytes'):
+            with self.subTest(mutation=mutation):
+                report=copy.deepcopy(base);artifacts=report['artifacts']
+                if mutation=='missing':del report['artifacts']
+                elif mutation=='no-elf':del artifacts['build/unit.elf']
+                elif mutation=='no-app':del artifacts['build/unit.bin']
+                elif mutation=='two-elf':artifacts['build/other.elf']=dict(artifacts['build/unit.elf'])
+                elif mutation=='two-app':artifacts['build/other.bin']=dict(artifacts['build/unit.bin'])
+                elif mutation=='bad-sha':artifacts['build/unit.elf']['sha256']='not-a-hash'
+                else:artifacts['build/unit.bin']['bytes']=True
+                with self.assertRaises(ValueError):board_evidence(report,run)
     def test_fx_input_and_stimulus_provenance(self):
         self.fx();result=collect(self.build,self.run)
         self.assertEqual(result['role'],'fx')

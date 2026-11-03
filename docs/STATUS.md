@@ -1,4 +1,12 @@
-# Implementation status — 3 November 2026
+# Implementation status — 4 November 2026
+
+Systematic **XIAO object qualification** is now active. The first isolated
+oscillator control and comb/allpass duration-hoist comparisons passed, with
+5,505,024 exact reference/candidate sample comparisons, complete memory recovery
+and verified restoration to the drone at 50%. The filter fixture used 29.03%
+less callback time; the identical-module oscillator control claims no gain.
+Neither first-batch Main test runs an independent on-device semantic oracle.
+See [the board-specific results and remaining scope](xiao-qualification.md).
 
 The **XIAO ESP32-S3 headless profile** now has initial 3sawsDrone hardware
 validation. It uses the same prepared patch as AMOLED and starts automatically,
@@ -47,9 +55,9 @@ trial of the preceding wide-bar build confirmed easier continuous dragging.
 The newer single-button installation restored the freshly saved 25% volume,
 paused state and all eight parameter values, with no observed faults. This is
 the last verified RNBO snapshot, not a guarantee of current live settings.
-Work is now computer-only; the board may run other firmware. Future hardware
-work needs fresh identification and recovery evidence for the then-current
-image. Cold startup uses zero speaker volume; controls remain RAM state. The preceding
+The subsequent XIAO bring-up and object-test goal authorise scoped hardware
+work on that identified board. Fresh identification and recovery evidence remain
+required before replacing any other current image. Cold startup uses zero speaker volume; controls remain RAM state. The preceding
 GUIv3 image and its recovery observations remain historical evidence.
 See [the current GUI installation evidence](../evidence/amoled-gui-v4.json) and
 [the table-omission review](unused-mtof-table.md).

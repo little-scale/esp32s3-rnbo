@@ -26,9 +26,16 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.out = self.root / "output"
         self.device = "28:84:85:3a:d3:90"
         self.calls = []
+        self.board = 'amoled'
+        self.running_defaults = False
+        self.fail_log = False
+        self.duplicate_usb = False
+        self.bad_fault_after_flash = False
         self.control_failure = False
         self.flash_failure = False
         self.bad_pass_identity = False
+        self.pass_identity_suffix = ""
+        self.duplicate_pass_identity = False
         self.original_volume = 37
         self.volume = self.original_volume
         self.panic = False
@@ -55,6 +62,8 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.backup = private / "original.bin"
         with self.backup.open("wb") as output:
             output.truncate(0x1000000)
+            output.seek(0x8000)
+            output.write((self.restore / 'partition_table/partition-table.bin').read_bytes())
         (private / "backup.json").write_text(json.dumps({
             "mac": self.device, "backup_sha256": runner.sha(self.backup)}))
         self.restore_elf = runner.sha(self.restore / "restore.elf")
@@ -67,17 +76,26 @@ class HardwareRecoveryTests(unittest.TestCase):
                  directory / "partition_table/partition-table.bin"]
         for path in paths:
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(bytes(3072) if "partition-table" in path.name else label.encode())
+            if 'partition-table' in path.name:
+                path.write_bytes(struct.pack('<HBBII16sI', 0x50aa, 0, 0, 0x10000, 0x300000, b'factory', 0) + b'\xff' * (3072 - 32))
+            elif path.suffix == '.bin':
+                path.write_bytes(b'\xe9\x00\x00\x40' + label.encode())
+            else:
+                path.write_bytes(label.encode())
         artifacts = {str(p.relative_to(self.root)): {"bytes": p.stat().st_size, "sha256": runner.sha(p)} for p in paths}
         (directory / "build-report.json").write_text(json.dumps({"board": "amoled", 'initial_volume_percent':0,"artifacts": artifacts}))
         return directory
 
     def status(self):
-        return {"runtime": "rnbo-esp32s3-bringup", "board": "Waveshare AMOLED 1.8 V2",
+        result = {"runtime": "rnbo-esp32s3-bringup", "board": "XIAO ESP32-S3" if self.board == 'xiao' else "Waveshare AMOLED 1.8 V2",
                 "source": "static-rnbo", "rate": 44100, "block_frames": 256,
-                "channels": 1, "frames": 1024, "firmware_elf_sha256": self.restore_elf,
+                "channels": 2 if self.board == 'xiao' else 1, "frames": 1024, "firmware_elf_sha256": self.restore_elf,
                 "module_source_sha256": "a" * 64, "volume": self.volume,
-                "panic": self.panic, "allocation_fault": False,'ready_to_resume':self.panic}
+                "panic": self.panic, "allocation_fault": False, 'ready_to_resume':self.panic, 'uptime_us':1000000}
+        result.update({field: 0 for field in runner.FAULT_COUNTERS})
+        if self.bad_fault_after_flash and any(k == 'flash' for k, _ in self.calls):
+            result['dma_errors'] = 1
+        return result
 
     def request(self, command):
         self.calls.append(("command", command))
@@ -105,7 +123,7 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.calls.append(("flash", image.name))
         if image.name == "test.bin" and self.flash_failure:
             raise subprocess.CalledProcessError(2, arguments)
-        self.volume = 100
+        self.volume = 50 if self.running_defaults else 100
         self.panic = False
         self.values={0:440.0,1:0.2}
         return subprocess.CompletedProcess(arguments, 0)
@@ -115,7 +133,10 @@ class HardwareRecoveryTests(unittest.TestCase):
         class Connection:
             def __init__(self):
                 identity = "0" * 64 if outer.bad_pass_identity else outer.test_elf
-                self.data = f"TEST PASS firmware_elf_sha256={identity}\n".encode()
+                identity += outer.pass_identity_suffix
+                extra = f" firmware_elf_sha256={identity}" if outer.duplicate_pass_identity else ""
+                self.data = (("RNBO_OBJECT_BENCHMARK FAIL comparison\n" if outer.fail_log else "") +
+                             f"TEST PASS firmware_elf_sha256={identity}{extra}\n").encode()
             @property
             def in_waiting(self): return len(self.data)
             def read(self, size):
@@ -126,15 +147,16 @@ class HardwareRecoveryTests(unittest.TestCase):
         serial_module.SerialException = OSError
         tools_module = types.ModuleType("serial.tools")
         tools_module.list_ports = types.SimpleNamespace(comports=lambda: [
-            types.SimpleNamespace(device="/dev/fake", serial_number=self.device)])
+            types.SimpleNamespace(device="/dev/fake", serial_number=self.device)] * (2 if self.duplicate_usb else 1))
         arguments = ["run_hardware_test.py", "--device-id", self.device,
                      "--test-build", str(self.test), "--restore-build", str(self.restore),
                      "--restore-prepared", str(self.prepared), "--restore-param", "frequency=440",
                      "--restore-param", "level=0.2", "--backup", str(self.backup),
                      "--pass-token", "TEST PASS ", "--out", str(self.out)]
-        if self.live:
+        arguments.extend(['--board', self.board])
+        if self.live or self.running_defaults:
             at=arguments.index('--restore-param');del arguments[at:at+4]
-            arguments.append('--restore-live-controls')
+            arguments.append('--restore-running-defaults' if self.running_defaults else '--restore-live-controls')
         with patch.dict(sys.modules, {"serial": serial_module, "serial.tools": tools_module}), \
              patch.object(runner, "ROOT", self.root), patch.object(sys, "argv", arguments), \
              patch.object(runner, "open_serial", side_effect=lambda *args: Connection()), \
@@ -201,6 +223,151 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.assertEqual(result['restoration']['result'],'not needed; no mutation attempted')
         self.assertFalse(any(k=='flash' or v.startswith('volume ') or v=='panic' for k,v in self.calls))
         self.assertEqual(self.volume,self.original_volume)
+
+
+    def enable_xiao(self):
+        self.board = 'xiao'
+        self.running_defaults = True
+        self.volume = self.original_volume = 50
+        description = json.loads((self.prepared / 'description.json').read_text())
+        for param in description['parameters']:
+            param['initialValue'] = self.values[param['index']]
+        raw = json.dumps(description).encode()
+        (self.prepared / 'description.json').write_bytes(raw)
+        manifest = {'format': 'prepared-test', 'source_tree_sha256': 'a' * 64}
+        (self.prepared / 'manifest.json').write_text(json.dumps(manifest))
+        for directory, label in ((self.test, 'test'), (self.restore, 'restore')):
+            app = directory / (label + '.bin')
+            app.write_bytes(b'\xe9\x00\x00\x30' + label.encode())
+            path = directory / 'build-report.json'
+            report = json.loads(path.read_text())
+            report.update(board='xiao', initial_volume_percent=50)
+            report['artifacts'][str(app.relative_to(self.root))] = {'bytes': app.stat().st_size, 'sha256': runner.sha(app)}
+            if label == 'restore':
+                report['prepared_export'] = {'manifest': manifest, 'provenance': {
+                    'prepared_files_sha256': {'description.json': hashlib.sha256(raw).hexdigest()}}}
+            path.write_text(json.dumps(report))
+        with self.backup.open('wb') as output:
+            output.truncate(0x800000)
+            output.seek(0x8000)
+            output.write((self.restore / 'partition_table/partition-table.bin').read_bytes())
+        (self.backup.parent / 'backup.json').write_text(json.dumps({
+            'device_mac': self.device, 'backup_sha256': runner.sha(self.backup),
+            'backup_bytes': 0x800000, 'application_write_offset': 0x10000}))
+
+    def test_xiao_auto_start_defaults_restore_without_parameter_replay(self):
+        self.enable_xiao()
+        result = self.run_case()
+        self.assertEqual(result['result'], 'passed')
+        self.assertEqual(result['board'], 'xiao')
+        self.assertEqual(result['flash_bytes'], 0x800000)
+        self.assertEqual(result['restore_policy'], 'running-defaults-startup50')
+        self.assertEqual(self.volume, 50)
+        self.assertFalse(self.panic)
+        self.assertFalse(any(k == 'command' and v.startswith('param ') for k, v in self.calls))
+        self.assertTrue(result['restoration']['parameter_readback_available'])
+
+    def test_xiao_failed_flash_restores_running_defaults(self):
+        self.enable_xiao()
+        self.flash_failure = True
+        result = self.run_case()
+        self.assertEqual(result['result'], 'failed')
+        self.assertEqual(result['restoration']['result'], 'restored')
+        self.assertEqual(self.volume, 50)
+        self.assertFalse(self.panic)
+
+    def test_xiao_changed_parameter_rejected_before_mutation(self):
+        self.enable_xiao()
+        self.values[0] = 333
+        with self.assertRaisesRegex(RuntimeError, 'differ from compiled'):
+            self.run_case()
+        self.assertFalse(any(k == 'flash' or v.startswith('volume ') or v == 'panic' for k, v in self.calls))
+
+    def test_xiao_audible_restore_cannot_bypass_explicit_defaults_mode(self):
+        self.enable_xiao()
+        self.running_defaults = False
+        with self.assertRaisesRegex(ValueError, 'explicit --restore-running-defaults'):
+            self.run_case()
+        self.assertFalse(self.calls)
+
+    def test_xiao_wrong_startup_volume_rejected_before_mutation(self):
+        self.enable_xiao()
+        self.volume = 25
+        with self.assertRaisesRegex(RuntimeError, 'startup50'):
+            self.run_case()
+        self.assertFalse(any(k == 'flash' for k, _ in self.calls))
+
+    def test_xiao_bad_restored_defaults_fail_and_mute(self):
+        self.enable_xiao()
+        self.bad_readback = True
+        result = self.run_case()
+        self.assertEqual(result['result'], 'failed')
+        self.assertEqual(result['restoration']['result'], 'failed')
+        self.assertEqual(self.volume, 0)
+        self.assertTrue(self.panic)
+
+    def test_xiao_restored_dma_fault_fail_and_mute(self):
+        self.enable_xiao()
+        self.bad_fault_after_flash = True
+        result = self.run_case()
+        self.assertEqual(result['result'], 'failed')
+        self.assertIn('dma_errors', result['restoration']['error'])
+        self.assertEqual(self.volume, 0)
+
+    def test_pass_elf_identity_suffix_is_rejected_and_restored(self):
+        self.pass_identity_suffix = 'suffix'
+        result = self.run_case()
+        self.assertEqual(result['result'], 'failed')
+        self.assertEqual(result['restoration']['result'], 'restored')
+
+    def test_duplicate_pass_elf_identity_is_rejected_and_restored(self):
+        self.duplicate_pass_identity = True
+        result = self.run_case()
+        self.assertEqual(result['result'], 'failed')
+        self.assertEqual(result['restoration']['result'], 'restored')
+
+    def test_failure_precedes_pass_in_same_usb_read(self):
+        self.fail_log = True
+        result = self.run_case()
+        self.assertEqual(result['result'], 'failed')
+        self.assertIn('reported a fault', result['error'])
+        self.assertEqual(result['restoration']['result'], 'restored')
+
+    def test_duplicate_usb_identity_never_writes(self):
+        self.duplicate_usb = True
+        with self.assertRaisesRegex(RuntimeError, 'Multiple USB'):
+            self.run_case()
+        self.assertFalse(self.calls)
+
+    def test_cross_board_build_never_writes(self):
+        self.enable_xiao()
+        path = self.test / 'build-report.json'
+        report = json.loads(path.read_text());report['board'] = 'amoled'
+        path.write_text(json.dumps(report))
+        with self.assertRaisesRegex(ValueError, 'selected xiao'):
+            self.run_case()
+        self.assertFalse(self.calls)
+
+    def test_mislabeled_executable_flash_size_never_writes(self):
+        self.enable_xiao()
+        path = self.test / 'test.bin'
+        path.write_bytes(b'\xe9\x00\x00\x40test')
+        report_path = self.test / 'build-report.json'
+        report = json.loads(report_path.read_text())
+        report['artifacts'][str(path.relative_to(self.root))] = {'bytes': path.stat().st_size, 'sha256': runner.sha(path)}
+        report_path.write_text(json.dumps(report))
+        with self.assertRaisesRegex(ValueError, 'flash size'):
+            self.run_case()
+        self.assertFalse(self.calls)
+
+    def test_conflicting_backup_identity_never_writes(self):
+        self.enable_xiao()
+        path = self.backup.parent / 'backup.json'
+        report = json.loads(path.read_text());report['mac'] = '11:22:33:44:55:66'
+        path.write_text(json.dumps(report))
+        with self.assertRaisesRegex(ValueError, 'backup does not match'):
+            self.run_case()
+        self.assertFalse(self.calls)
 
 
 class LiveParameterBoundsTests(unittest.TestCase):

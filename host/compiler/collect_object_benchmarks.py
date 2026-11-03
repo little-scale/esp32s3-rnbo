@@ -5,6 +5,8 @@
 Reports whole-fixture process timings. Main fixtures include their excitation
 objects; declared FX generators are outside the process timer. Neither scope
 establishes a universal isolated-operator or application deadline bound.
+New XIAO observations require an explicit matching runner/build board and
+device identity. Historical AMOLED records retain their original output shape.
 """
 import argparse
 from functools import lru_cache
@@ -629,10 +631,73 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
     return evidence,provenance
 
 
+def device_identity(value):
+    """The runner accepts either exact 48-bit MAC spelling, without guesses."""
+    require(type(value) is str and re.fullmatch(r'(?:[0-9a-fA-F]{12}|[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5})',value) is not None,
+            'Explicit board requires the exact runner device identity')
+    compact=value.replace(':','').lower()
+    return ':'.join(compact[i:i+2] for i in range(0,12,2))
+
+
+def board_evidence(build,run):
+    """Bind new observations without relabelling historical AMOLED fixtures.
+
+    The runner performs the physical USB/backup identity checks. This collector
+    checks the saved assertions and their hash-bound report; it does not access
+    a device or establish that a caller-authored report is authentic.
+    """
+    build_board=build.get('board')
+    if 'board' not in run:
+        # Earlier builder versions always targeted AMOLED. Some historical
+        # synthetic reports omit its board key; preserve those legacy tests
+        # and evidence without adding a retrospective board/device assertion.
+        require(build_board in (None,'amoled'),'XIAO evidence requires an explicit runner board')
+        return None
+    board=run['board']
+    names={'amoled':'Waveshare AMOLED 1.8 V2','xiao':'XIAO ESP32-S3'}
+    require(type(board) is str and board in names,'Unknown explicit runner board')
+    require(type(build_board) is str and build_board==board,'Runner/build board identity differs')
+    flash_bytes=run.get('flash_bytes')
+    require(type(flash_bytes) is int and flash_bytes=={'amoled':0x1000000,'xiao':0x800000}[board],
+            'Runner flash size differs from explicit board')
+    require(run.get('format')=='rnbo-isolated-hardware-test' and type(run.get('format_version')) is int and
+            run['format_version']==1,'Explicit board requires the hardware runner record format')
+    raw_device=run.get('device_id');device=device_identity(raw_device)
+    artifacts=build.get('artifacts')
+    require(type(artifacts) is dict and all(type(n) is str for n in artifacts),
+            'Explicit board requires build artifact identities')
+    elfs=[v for n,v in artifacts.items()if Path(n).suffix=='.elf' and 'bootloader' not in Path(n).parts]
+    apps=[v for n,v in artifacts.items()if Path(n).suffix=='.bin' and
+          Path(n).name not in ('partition-table.bin','bootloader.bin') and
+          not {'partition_table','bootloader'}.intersection(Path(n).parts)]
+    require(len(elfs)==len(apps)==1,'Explicit board requires exactly one app ELF and app binary')
+    for label,artifact,field in (('ELF',elfs[0],'test_elf_sha256'),('app',apps[0],'test_app_sha256')):
+        require(type(artifact) is dict and type(artifact.get('bytes')) is int and artifact['bytes']>0 and
+                type(artifact.get('sha256')) is str and re.fullmatch(r'[0-9a-fA-F]{64}',artifact['sha256']) is not None,
+                'Invalid explicit build '+label+' artifact identity')
+        reported=run.get(field)
+        require(type(reported) is str and re.fullmatch(r'[0-9a-fA-F]{64}',reported) is not None and
+                reported.lower()==artifact['sha256'].lower(),'Run '+label+' identity differs from build artifact')
+    restoration=run.get('restoration')
+    require(type(restoration) is dict,'Explicit board requires restored status metadata')
+    status=restoration.get('status')
+    require(type(status) is dict and status.get('board')==names[board],'Restored status board identity differs')
+    if 'device_id' in status:
+        restored_device=status['device_id']
+        require(device_identity(restored_device)==device,
+                'Restored status device identity differs')
+    return {'board':board,'flash_bytes':flash_bytes,'device_id':device,
+            'board_binding':{'method':'explicit-runner-and-build-report',
+                'build_board':build_board,'runner_board':board,'flash_bytes':flash_bytes,
+                'runner_device_id':raw_device,'restored_status_board':status['board'],
+                'device_identity':'runner-verified USB/backup identity; saved record consistency checked by collector'}}
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-test.json';log=run_dir/'test-serial.log'
     build=json.loads(build_path.read_text());run=json.loads(run_path.read_text())
     require(run['result']=='passed' and run['restoration']['result']=='restored','Test or instrument recovery did not pass')
+    binding=board_evidence(build,run)
     require(sha(build_path)==run['test_build_report_sha256'],'Build report changed after hardware test')
     require(sha(log)==run['serial_log_sha256'],'Serial log changed after hardware test')
     lines=log.read_text().splitlines();prefix='RNBO_OBJECT_BENCHMARK PASS '
@@ -759,7 +824,7 @@ def collect(build_dir,run_dir):
                 require(record['zero_sign_different']>0,'Dense quarter did not observe the expected signed-zero profile difference')
             cases[-1]['rounding_comparison']=record
     require(passed['compared_samples']==expected_samples*len(cases),'Total sample count differs')
-    return {'fixture':name,'family':fixture['family'],'role':fixture['role'],
+    return {**(binding or {}),'fixture':name,'family':fixture['family'],'role':fixture['role'],
             'numerical_profiles':numerical_profiles,
             'identical_artifact_control':passed['strict_module_sha256']==passed['optimized_module_sha256'],
             'scope':('Complete authored Main fixture including excitation; process callback only, no I2S/UI/network.' if role=='main' else
