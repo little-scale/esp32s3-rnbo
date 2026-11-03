@@ -169,6 +169,27 @@ def public_sources(record,coverage,root):
     return list(result.values())
 
 
+def checked_experimental_compiler_option(option,coverage,root):
+    source=option['compiler_admission_source'];path=(root/source).resolve()
+    require(source.startswith('evidence/') and '..' not in Path(source).parts and
+            path.is_relative_to(root.resolve()) and path.is_file() and not (root/source).is_symlink(),
+            'Experimental compiler admission must reference public evidence')
+    entry=coverage['sources'].get(source)
+    require(entry is not None and digest(path)==entry['sha256'],'Experimental compiler admission evidence changed')
+    admission=load(path)
+    require(isinstance(option.get('flag'),str) and option['flag'].startswith('--') and
+            option['state']=='experimental' and admission.get('compiler_admission') is True and
+            admission.get('default_enabled') is False and admission.get('experimental') is True and
+            admission.get('target_execution') is False and admission.get('option')==option.get('flag'),
+            'Experimental compiler admission scope or option differs')
+    for label,field in (('module_identity','candidate_module_sha256'),('reference_identity','reference_module_sha256')):
+        identity=admission.get(label,{})
+        expected=option.get(field)
+        require(isinstance(identity,dict) and isinstance(expected,str) and len(expected)==64 and all(c in '0123456789abcdef' for c in expected) and
+                identity.get('sha256')==expected and identity.get('complete_ELF_bytes_equal_public_and_private_prototype') is True,
+                'Experimental compiler admission module identity differs')
+
+
 def make_status(inventory,coverage,root=ROOT):
     require(coverage['format']=='curated-RNBO-exact-spelling-status-mapping-v1','Unknown coverage format')
     require(coverage['merge_policy']['patcher_aliases_inherit'] is False and coverage['merge_policy']['codebox_inherits'] is False,'Coverage must not propagate through aliases')
@@ -194,6 +215,9 @@ def make_status(inventory,coverage,root=ROOT):
             row['board_evidence']=record['board_evidence']
         else:row['board_evidence']=working in ('board','in_patch')
         options=record.get('optimisations',[])
+        for option in options:
+            if option.get('compiler_admission_source'):
+                checked_experimental_compiler_option(option,coverage,root)
         row['optimisation']={'status':opt,'label':OPT_LABELS[opt],
                              'short':next((o['flag'] for o in options if o.get('flag') and o.get('state')==opt),''),
                              'detail':' '.join(o['note'] for o in options)}

@@ -76,3 +76,12 @@ scalar train reciprocal keeps the same Float32 expression and branch bypass,
 evaluated once per active-width vector. Double floor, phase/pulse state and
 time are unchanged. Other optional transformations cannot be combined with it.
 The preserved warm-start duty-check limitation remains part of qualification.
+
+[`--bounded-line-ramps`](../../docs/bounded-line-ramps.md) is a default-off
+experimental correctness implementation for the pinned line/pack Main graph.
+It keeps the strict base mode but records a separate versioned correctness
+contract, changed rounding and lack of baseline bit identity. Float32 audio and
+original Double event conversion remain; timing/state become integer/relative
+and bounded. It cannot compose with other optional adapters. Native output and
+clock observations plus target compilation do not establish hardware execution
+or a performance percentage.

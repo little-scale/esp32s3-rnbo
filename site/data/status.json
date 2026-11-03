@@ -18720,10 +18720,10 @@
       "is_alias": false,
       "name": "line~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
-        "short": "",
-        "status": "unassessed"
+        "detail": "Experimental bounded replacement state with integer/relative timing and Float32 audio. Native programs and focused completion clocks pass; public module reproduces the reviewed prototype. Correctness and rounding change, no blanket baseline bit identity. No target execution or CPU percentage.",
+        "label": "Experimental",
+        "short": "--bounded-line-ramps",
+        "status": "experimental"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/line~?v=1.4.4",
@@ -18743,11 +18743,19 @@
         {
           "label": "line timing modes — documentation",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/line-timing-modes.md"
+        },
+        {
+          "label": "bounded line ramps — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/bounded-line-ramps.json"
+        },
+        {
+          "label": "bounded line ramps — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/bounded-line-ramps.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Expanded native programs retain valid-input late allocation and invalid-sample faults plus age-dependent ramp output. The five original gates still pass; no line target qualification or CPU gain is claimed. Five0/5/10ms slope/endpoint/interruption cases and hot/cold pack inlet ordering. Five authored/generated event-order cases; preserves duration-before-target. Not S3 execution. 43 actual dynamic-C-ABI programs; 41 complete and two faulting programs, identical O3/UBSan captures/traces/readbacks. Ten continuous-prefix translation comparisons fail; the independent ideal observation is separate and retains failures. Linked Xtensa sample loop is Float32; timestamp narrowing and cancellation storage need correctness work. Double event conversion retained; no optimisation adapter or target cost measurement from this audit. Remaining scope: Repeated target commands at one boundary cause a running Platform allocation and module fault; a tiny positive duration replacement can fault on an invalid sample. All ten measured native early/late program pairs exceed the unchanged comparison limit; absolute Float32 ramp ends lose timing precision. The separate ideal-ramp observation retains 14 complete-program failures and two incomplete fault programs; it does not replace the original five passing gates. No new hardware execution or target timing; broader list, curve, clock/reset and within-block event modes remain unqualified.",
+        "detail": "The default strict implementation retains native late allocation, invalid-sample and age-translation failures. The optional bounded implementation passes expanded native output/resource and focused clock checks, but has no hardware qualification. Five0/5/10ms slope/endpoint/interruption cases and hot/cold pack inlet ordering. Five authored/generated event-order cases; preserves duration-before-target. Not S3 execution. 43 actual dynamic-C-ABI programs; 41 complete and two faulting programs, identical O3/UBSan captures/traces/readbacks. Ten continuous-prefix translation comparisons fail; the independent ideal observation is separate and retains failures. Linked Xtensa sample loop is Float32; timestamp narrowing and cancellation storage need correctness work. Double event conversion retained; no optimisation adapter or target cost measurement from this audit. Default-off guarded compiler option; 43 reviewed native programs plus128 additional parameter programs retain fixed output/late-hold gates. Fourteen focused actual-clock programs preserve schedule/dispatch/bang records with transparent controls. Complete public target/reference images match their reviewed private prototypes; compiled only, no target execution. Remaining scope: Default strict baseline faults and original five passing gates remain recorded; the experimental adapter changes state and rounding in only one pinned line/pack graph. The separate 128-program output observation does not qualify every internal clock; tiny-output early timing remains explicitly unqualified by audio alone. No line hardware execution or CPU measurement; broader list, signal, curve, reset/transport modes and parent-clock limits remain open.",
         "label": "Partial / known gaps",
         "short": "Open scope / accuracy checks",
         "status": "partial"
@@ -36171,10 +36179,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "7c2525b418c48e95430eb33c7a89292c25333257a3a8f8d940c2b029c5ceb024",
-    "coverage_source_sha256": "7c2525b418c48e95430eb33c7a89292c25333257a3a8f8d940c2b029c5ceb024",
+    "coverage_canonical_sha256": "2be93c51af59fe31633506a4228bd6609c657734d9833aa171b41694a8f58714",
+    "coverage_source_sha256": "2be93c51af59fe31633506a4228bd6609c657734d9833aa171b41694a8f58714",
     "exact_coverage_entries": 39,
-    "generator_sha256": "28ae5c0a787d6149b278a44426816f242e550361c3089145a9547cc3d979d59a",
+    "generator_sha256": "a7eb3cd1e892a379dab7850c52d125594d8bb28e6ab84d6398d0386731359ccc",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

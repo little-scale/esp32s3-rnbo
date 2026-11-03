@@ -7,6 +7,12 @@ loop already uses Float32; timestamp precision, cancellation storage and tiny
 durations need correctness work before another numerical adapter is admitted.
 No target timing or performance improvement is inferred from these checks.
 
+The subsequent [experimental bounded line implementation](bounded-line-ramps.md)
+addresses those faults in the exact authored context while retaining Float32
+audio. It passes expanded native output/resource and focused clock checks, and
+its public target module reproduces the reviewed prototype. It remains
+experimental with no target execution or CPU improvement claim.
+
 The optional [finite Float32 wrap correction](wrap-finite-target.md) is now
 qualified in two reviewed FX contexts. Direct target outputs match the exact
 modulo oracle, including signed zero and large finite values. The bounded

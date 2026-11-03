@@ -125,6 +125,12 @@ double work automatically.
    valid-input programs fault on late allocation or an invalid sample. Compare
    bounded state with Double timestamps versus integer/relative timing; retain
    the original event conversion and measure any new target cost separately.
+   The [default-off bounded-line option](bounded-line-ramps.md) now supplies the
+   selected integer/relative implementation for that exact graph. Expanded
+   native output/resource programs and focused clock observations pass; the
+   actual public module reproduces the reviewed target prototype. Hardware
+   output/timing, broader line/list/reset modes and parent-clock limits remain
+   before promotion beyond experimental status.
 4. **Expand a mode-aware support inventory.** Derive the wider candidate set
    from the pinned generator/builtin surface and its service constraints, then
    add original fixtures for missing families and modes. For each record source

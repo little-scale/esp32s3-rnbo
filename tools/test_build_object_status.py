@@ -97,7 +97,7 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertEqual(row['working']['status'],'partial')
         self.assertFalse(row['board_evidence'])
         self.assertIsNone(row['performance'])
-        self.assertEqual(row['optimisation']['status'],'unassessed')
+        self.assertEqual(row['optimisation']['status'],'experimental')
         self.assertIn('late allocation',row['working']['detail'])
         for kind in ('board','missing_location','evidence_hash'):
             forged=copy.deepcopy(self.coverage)
@@ -106,6 +106,21 @@ class ObjectStatusTests(unittest.TestCase):
             elif kind=='missing_location':del record['board_evidence']
             else:forged['sources']['evidence/line-timing-modes.json']['sha256']='0'*64
             with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'[Bb]oard|Qualification evidence'):
+                make_status(self.inventory,forged)
+
+    def test_bounded_line_experimental_option_requires_its_actual_public_pair(self):
+        record=next(r for r in self.coverage['objects'] if r['id']=='patcher:line~')
+        option=next(o for o in record['optimisations'] if o['id']=='bounded-line-ramps')
+        self.assertEqual(option['flag'],'--bounded-line-ramps')
+        self.assertEqual(option['state'],'experimental')
+        for kind in ('flag','reference','candidate','historical_only'):
+            forged=copy.deepcopy(self.coverage)
+            changed=next(r for r in forged['objects'] if r['id']==record['id'])['optimisations'][0]
+            if kind=='flag':changed['flag']='--unreviewed-line-option'
+            elif kind=='reference':changed['reference_module_sha256']='0'*64
+            elif kind=='candidate':changed['candidate_module_sha256']='0'*64
+            else:changed['compiler_admission_source']='evidence/line-timing-modes.json'
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Experimental compiler admission'):
                 make_status(self.inventory,forged)
 
     def test_exact_delay_availability_requires_the_measured_image_and_option(self):

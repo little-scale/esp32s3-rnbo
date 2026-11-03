@@ -506,7 +506,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none.",
+  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none. The bounded-line compiler option is experimental with native output/clock evidence and exact public/private target-image binding only. Its target execution flag is false and no CPU measurement is added; it does not reuse physical-original identity flags.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -15294,10 +15294,9 @@
       "cpu_measurement_ids": [],
       "id": "patcher:line~",
       "known_gaps": [
-        "Repeated target commands at one boundary cause a running Platform allocation and module fault; a tiny positive duration replacement can fault on an invalid sample.",
-        "All ten measured native early/late program pairs exceed the unchanged comparison limit; absolute Float32 ramp ends lose timing precision.",
-        "The separate ideal-ramp observation retains 14 complete-program failures and two incomplete fault programs; it does not replace the original five passing gates.",
-        "No new hardware execution or target timing; broader list, curve, clock/reset and within-block event modes remain unqualified."
+        "Default strict baseline faults and original five passing gates remain recorded; the experimental adapter changes state and rounding in only one pinned line/pack graph.",
+        "The separate 128-program output observation does not qualify every internal clock; tiny-output early timing remains explicitly unqualified by audio alone.",
+        "No line hardware execution or CPU measurement; broader list, signal, curve, reset/transport modes and parent-clock limits remain open."
       ],
       "observed_in": [
         {
@@ -15313,8 +15312,19 @@
           ]
         }
       ],
-      "optimisation_state": "unassessed",
-      "optimisations": [],
+      "optimisation_state": "experimental",
+      "optimisations": [
+        {
+          "candidate_module_sha256": "8ad0b7c3b3c92e90c8f9d1217c428c7cba8e75c9a42e9ccd773e0988ce90aa5f",
+          "compiler_admission_source": "evidence/bounded-line-ramps.json",
+          "flag": "--bounded-line-ramps",
+          "id": "bounded-line-ramps",
+          "note": "Experimental bounded replacement state with integer/relative timing and Float32 audio. Native programs and focused completion clocks pass; public module reproduces the reviewed prototype. Correctness and rounding change, no blanket baseline bit identity. No target execution or CPU percentage.",
+          "reference_module_sha256": "7f267f52143239331166ac575218871728538228c321f7342d99182ec875f407",
+          "source": "docs/bounded-line-ramps.md",
+          "state": "experimental"
+        }
+      ],
       "qualification": [
         {
           "conditions": "Five0/5/10ms slope/endpoint/interruption cases and hot/cold pack inlet ordering.",
@@ -15335,6 +15345,11 @@
           "conditions": "Linked Xtensa sample loop is Float32; timestamp narrowing and cancellation storage need correctness work. Double event conversion retained; no optimisation adapter or target cost measurement from this audit.",
           "level": "native-and-compiled-layout-scope",
           "source": "docs/line-timing-modes.md"
+        },
+        {
+          "conditions": "Default-off guarded compiler option; 43 reviewed native programs plus128 additional parameter programs retain fixed output/late-hold gates. Fourteen focused actual-clock programs preserve schedule/dispatch/bang records with transparent controls. Complete public target/reference images match their reviewed private prototypes; compiled only, no target execution.",
+          "level": "native-experimental-compiler-and-exact-image-binding",
+          "source": "evidence/bounded-line-ramps.json"
         }
       ],
       "registry_context": {
@@ -15345,7 +15360,7 @@
       },
       "spelling": "line~",
       "surface": "patcher",
-      "working_note": "Expanded native programs retain valid-input late allocation and invalid-sample faults plus age-dependent ramp output. The five original gates still pass; no line target qualification or CPU gain is claimed.",
+      "working_note": "The default strict implementation retains native late allocation, invalid-sample and age-translation failures. The optional bounded implementation passes expanded native output/resource and focused clock checks, but has no hardware qualification.",
       "working_state": "partial"
     },
     {
@@ -18702,6 +18717,13 @@
       "sha256": "72353213625df4eaf33be349249aece94c26e386b773e794165e25fa1cc607e1",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/average-neumaier.md"
     },
+    "docs/bounded-line-ramps.md": {
+      "bytes": 7011,
+      "path": "docs/bounded-line-ramps.md",
+      "publication": "included-with-status-snapshot",
+      "sha256": "d8949d01dd334514af765d036c549f966463c850a12aea02752bfc217ec70415",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/bounded-line-ramps.md"
+    },
     "docs/bringup.md": {
       "bytes": 7042,
       "path": "docs/bringup.md",
@@ -18876,6 +18898,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "d705c9df0381bbf7239c24fa71c4acc249b7f2db6c45cbd4667d239e35b92295",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/evidence/average-neumaier.json"
+    },
+    "evidence/bounded-line-ramps.json": {
+      "bytes": 1116559,
+      "path": "evidence/bounded-line-ramps.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "1ff616de1a085f45bca65c8f75eb29d96afe2543d4b5898adeeb17da3be1d808",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/bounded-line-ramps.json"
     },
     "evidence/compiler-optimisations.json": {
       "bytes": 295707,
@@ -19261,6 +19290,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "14767e122198c7509ca9479852e3417e81796dd8d72adc585449f011381976cd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/tests/fixtures/objects/wave2/catalog.json"
+    },
+    "tests/fixtures/objects/wave2/line-bounded-domain.json": {
+      "bytes": 276169,
+      "path": "tests/fixtures/objects/wave2/line-bounded-domain.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "0d74b7d2542c70e5eddf9e46999b808f809db6f0eaf51692f69816a940d11830",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave2/line-bounded-domain.json"
     },
     "tests/fixtures/objects/wave2/line-timing-modes.json": {
       "bytes": 75653,

@@ -164,6 +164,20 @@ checks the admitted contexts on the board: bounded output preservation and
 whole-chain measurement observes 0.276% extra CPU, with unchanged context and
 arena costs. This is a correctness repair; it establishes no CPU saving.
 
+## Experimental bounded line ramps
+
+`--bounded-line-ramps` replaces timestamp and cancellation state in the exact
+reviewed `line-timing` Main graph. It keeps Float32 audio, uses integer/relative
+timing and bounded replacement state, and retains the original Double event
+conversion and completion-clock policy. It requires normal fixes,
+`float32-strict`, ABI 1.0 and fixed-list capacity 16, with no other options.
+
+Native checks cover the original fault programs, long prefixes, additional
+parameter combinations and focused actual clocks. The complete public target
+module reproduces the reviewed prototype, but has not run on ESP32-S3. The
+option is experimental; no CPU percentage is claimed. See
+[use, changed rounding and qualification scope](../docs/bounded-line-ramps.md).
+
 ## Optional train reciprocal hoisting
 
 `--hoist-train-reciprocal` admits only the reviewed `phase-pulse` Main graph

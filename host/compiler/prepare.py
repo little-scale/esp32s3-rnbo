@@ -295,7 +295,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             hoist_cycle_conversions: bool = False, compact_average_history: bool = False,
             float32_pink_output: bool = False, correct_finite_wrap: bool = False,
             exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False,
-            hoist_train_reciprocal: bool = False) -> dict:
+            hoist_train_reciprocal: bool = False, bounded_line_ramps: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -322,24 +322,32 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("hoist filter durations must be a boolean")
     if type(hoist_train_reciprocal) is not bool:
         raise ExportError("hoist train reciprocal must be a boolean")
+    if type(bounded_line_ramps) is not bool:
+        raise ExportError("bounded line ramps must be a boolean")
     if exact_audio_delay44100 and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             type(filter_delay_max_ms) not in (int, float) or filter_delay_max_ms != 40 or
             float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or
-            compact_average_history or float32_pink_output or correct_finite_wrap or hoist_filter_durations or hoist_train_reciprocal):
+            compact_average_history or float32_pink_output or correct_finite_wrap or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps):
         raise ExportError("Exact audio delay44100 requires normal fixes, strict Main, cap40, no storage change and no other optional adapters")
     if hoist_filter_durations and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             type(filter_delay_max_ms) not in (int, float) or filter_delay_max_ms != 40 or
             float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or
-            compact_average_history or float32_pink_output or correct_finite_wrap or exact_audio_delay44100 or hoist_train_reciprocal):
+            compact_average_history or float32_pink_output or correct_finite_wrap or exact_audio_delay44100 or hoist_train_reciprocal or bounded_line_ramps):
         raise ExportError("Filter duration hoisting requires normal fixes, strict Main, cap40, no storage change and no other optional adapters")
     if hoist_train_reciprocal and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
             numerical_profile != "float32-strict" or midi_output_policy != "reject" or
             filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
             hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
-            exact_audio_delay44100 or hoist_filter_durations):
+            exact_audio_delay44100 or hoist_filter_durations or bounded_line_ramps):
         raise ExportError("Train reciprocal hoisting requires normal fixes, strict Main and no other optional adapters")
+    if bounded_line_ramps and (type(apply_fixes) is not bool or not apply_fixes or role != "main" or
+            numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
+            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal):
+        raise ExportError("Experimental bounded line ramps requires normal fixes, strict Main and no other optional adapters")
     scalar_power_profile = numerical_profile == "float32-scalar-powers-v1"
     if scalar_power_profile and (not apply_fixes or role != "fx" or midi_output_policy != "reject" or
             filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
@@ -397,7 +405,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     for name in ("generator.json", "source.rnbopat"):
         if (export_dir / name).exists():
             files[name] = read_regular(export_dir / name, 1024 * 1024)
-    if exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal:
+    if exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps:
         # This closed optional route admits the reviewed raw file set too,
         # rather than silently ignoring extra export files or linked aliases.
         for path in export_dir.rglob("*"):
@@ -650,11 +658,39 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             "ownership": "exclusive opaque callbacks; no aliases, external resources or concurrent prepare",
             "inherited_full_window_duty_failure_retained": True,
             "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
+    if bounded_line_ramps:
+        from bounded_line_ramps import transform as bounded_line_transform
+        options = {"rnbo_version": SUPPORTED_VERSION, "apply_fixes": apply_fixes, "role": role,
+                   "sample_rate": manifest["sample_rate"], "block_frames": manifest["block_frames"],
+                   "audio_inputs": manifest["audio_inputs"], "audio_outputs": manifest["audio_outputs"],
+                   "numerical_profile": numerical_profile, "filter_delay_max_ms": filter_delay_max_ms,
+                   "float32_delay_storage": float32_delay_storage,
+                   "required_host_services": manifest["required_host_services"], "other_optimizations": []}
+        try:
+            files, bounded_line_change = bounded_line_transform(files, description, options, code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        bounded_line_change["transformer_sha256"] = digest(Path(__file__).with_name("bounded_line_ramps.py").read_bytes())
+        changes.append(bounded_line_change)
+        manifest["adaptations"].append(bounded_line_change["name"])
+        manifest["bounded_line_ramps"] = True
+        manifest["bounded_line_ramps_contract"] = {
+            "version": 1, "experimental": True, "correctness_profile": "bounded-line-ramps-v1",
+            "context": "line-timing", "sample_rate": 44100, "block_frames": 256,
+            "target_range": [-1, 1], "milliseconds_range": [0, 100], "route": "ordered hot target/cold duration two-item pack",
+            "line_timing": "UInt64 anchor, bounded UInt32 age, Float32 relative duration",
+            "audio_and_increment": "Float32 with intentional per-block reanchor", "event_time": "original binary64",
+            "completion_clock": "original callback and next-vector timestamp policy; queued completions retained",
+            "abi_revision_required": [1, 0], "abi_assertions_establish_ownership": False,
+            "ownership": "exclusive actual boundary callbacks; no aliases, external resources or concurrent prepare",
+            "rounding": "nearest-even", "baseline_bit_identity_claimed": False,
+            "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False,
+            "target_cpu_gain_claimed": False}
     prepared_hashes = {name: digest(data) for name, data in sorted(files.items())}
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -712,6 +748,8 @@ def main() -> None:
                         help="Hoist unchanged Double scalar-delay conversions in the reviewed cap40 strict Main graph; other forms/options reject")
     parser.add_argument("--hoist-train-reciprocal", action="store_true",
                         help="Hoist the original Float32 reciprocal in the reviewed scalar phase-pulse strict Main graph; preserves bypasses/Double floor/state")
+    parser.add_argument("--bounded-line-ramps", action="store_true",
+                        help="Experimental bounded relative line timing in the reviewed two-item-pack Main graph; changes rounding, no target CPU claim")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -721,7 +759,7 @@ def main() -> None:
                            hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
                            float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
                            exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations,
-                           hoist_train_reciprocal=args.hoist_train_reciprocal)
+                           hoist_train_reciprocal=args.hoist_train_reciprocal,bounded_line_ramps=args.bounded_line_ramps)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

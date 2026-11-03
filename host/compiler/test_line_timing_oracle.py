@@ -115,6 +115,21 @@ class LineTimingOracleTests(unittest.TestCase):
         self.assertTrue(result["cycles"][0]["passed"])
         self.assertFalse(result["cycles"][1]["passed"])
 
+    def test_tiny_ramp_output_cannot_qualify_early_clock_timing(self):
+        tiny = struct.unpack('<f', struct.pack('<I', 1))[0]
+        case = ramp_case(10, tiny)
+        result = analyse(case, capture([tiny] * 1024, [tiny] * 1024))
+        self.assertTrue(result['passed'])
+        self.assertFalse(result['internal_completion_clock_qualified'])
+        endpoint = result['cycles'][0]['endpoints'][0]
+        self.assertFalse(endpoint['early_timing_qualified'])
+        self.assertTrue(endpoint['late_target_hold_passed'])
+        late = capture([0] * 450 + [tiny] * 574, [tiny] * 1024)
+        self.assertFalse(analyse(case, late)['passed'])
+        large = analyse(ramp_case(), capture([1] * 1024, [1] * 1024))
+        self.assertFalse(large['passed'])
+        self.assertTrue(large['cycles'][0]['endpoints'][0]['early_timing_qualified'])
+
     def test_invalid_inputs_missing_words_and_widened_gates_reject(self):
         case = ramp_case()
         for value in (True, None, math.inf, math.nan, 10**1000):

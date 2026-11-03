@@ -184,15 +184,24 @@ def analyse(case, raw, *, maximum_absolute_error=2e-5, endpoint_allowance=1):
             if segment.initial == segment.target or stop <= expected + endpoint_allowance:
                 continue  # No observable endpoint, or interrupted before settling.
             observed = max(segment.start, last_mismatch.get(index, segment.start - 1) + 1)
+            critical = expected - endpoint_allowance - 1
+            observable = critical >= segment.start and abs(segment.at(critical) - segment.target) > maximum_absolute_error
+            reason = ("Observable outside the fixed amplitude budget" if observable else
+                      "No disallowed early sample exists" if critical < segment.start else
+                      "Early target equality is inside the fixed amplitude budget")
+            late_hold = observed <= expected + endpoint_allowance
             endpoints.append({"start": segment.start, "expected_settled_frame": expected,
                               "observed_settled_frame": observed, "difference": observed - expected,
-                              "passed": abs(observed - expected) <= endpoint_allowance})
+                              "early_timing_qualified": observable, "early_timing_reason": reason,
+                              "late_target_hold_passed": late_hold,
+                              "passed": late_hold and (not observable or observed >= expected - endpoint_allowance)})
         results.append({"cycle": cycle, "words": frames * 2, "maximum_absolute_ideal_error": maximum,
                         "first_failure": first_failure, "observer_word_errors": observer_errors,
                         "nonfinite_frames": nonfinite, "endpoints": endpoints,
                         "passed": first_failure is None and observer_errors == 0 and all(e["passed"] for e in endpoints)})
-    return {"kind": "independent-line-piecewise-ramp-v1", "hardware_executed": False,
+    return {"kind": "independent-line-piecewise-ramp-v2", "hardware_executed": False,
             "maximum_absolute_error_limit": maximum_absolute_error, "endpoint_allowance_samples": endpoint_allowance,
+            "internal_completion_clock_qualified": False,
             "absolute_timestamps_rounded_to_float32": False, "conversions": conversions,
             "cycles": results, "passed": all(r["passed"] for r in results) and all(c["conversion_agrees"] for c in conversions)}
 
