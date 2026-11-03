@@ -1,0 +1,3144 @@
+{
+  "format": "line-timing-modes-plan-v1",
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "seed": 305419896,
+  "cases": [
+    {
+      "id": "original-ramp-up",
+      "blocks": 512,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        }
+      ]
+    },
+    {
+      "id": "original-ramp-down",
+      "blocks": 512,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "initial-command"
+        }
+      ]
+    },
+    {
+      "id": "original-zero-time",
+      "blocks": 512,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        }
+      ]
+    },
+    {
+      "id": "original-interrupt",
+      "blocks": 512,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "original-change-duration",
+      "blocks": 512,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 5.0,
+          "value_bits": "40a00000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "duration-zero",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-zero"
+    },
+    {
+      "id": "duration-subnormal",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 1.401298464324817e-45,
+          "value_bits": "00000001",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-subnormal"
+    },
+    {
+      "id": "duration-half-sample",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.011337868869304657,
+          "value_bits": "3c39c278",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-half-sample"
+    },
+    {
+      "id": "duration-below-one-sample",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.022675735875964165,
+          "value_bits": "3cb9c277",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-below-one-sample"
+    },
+    {
+      "id": "duration-one-sample",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-one-sample"
+    },
+    {
+      "id": "duration-above-one-sample",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.022675739601254463,
+          "value_bits": "3cb9c279",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-above-one-sample"
+    },
+    {
+      "id": "duration-one-half-samples",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-one-half-samples"
+    },
+    {
+      "id": "duration-255-samples",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 5.782312870025635,
+          "value_bits": "40b908b5",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-255-samples"
+    },
+    {
+      "id": "duration-256-samples",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 5.804988861083984,
+          "value_bits": "40b9c278",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-256-samples"
+    },
+    {
+      "id": "duration-257-samples",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 5.827664375305176,
+          "value_bits": "40ba7c3a",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-257-samples"
+    },
+    {
+      "id": "duration-1ms",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-1ms"
+    },
+    {
+      "id": "duration-10ms",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-10ms"
+    },
+    {
+      "id": "duration-100ms",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-100ms"
+    },
+    {
+      "id": "negative-start-zero-target",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "order-duration-before-target",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "order-target-before-duration",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "repeat-active-target",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "duration-only-active",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "duration-only-control",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "zero-time-mid-ramp",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "same-block-three-targets",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.75,
+          "value_bits": "3f400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "same-block-64-cancellations",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "per-block-128-cancellations",
+      "blocks": 160,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 7,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 8,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 9,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 10,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 11,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 12,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 13,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 14,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 15,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 16,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 17,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 18,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 19,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 20,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 21,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 22,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 23,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 24,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 25,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 26,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 27,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 28,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 29,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 30,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 31,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 32,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 33,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 34,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 35,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 36,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 37,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 38,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 39,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 40,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 41,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 42,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 43,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 44,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 45,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 46,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 47,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 48,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 49,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 50,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 51,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 52,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 53,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 54,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 55,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 56,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 57,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 58,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 59,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 60,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 61,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 62,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 63,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 64,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 65,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 66,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 67,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 68,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 69,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 70,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 71,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 72,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 73,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 74,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 75,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 76,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 77,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 78,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 79,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 80,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 81,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 82,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 83,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 84,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 85,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 86,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 87,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 88,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 89,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 90,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 91,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 92,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 93,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 94,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 95,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 96,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 97,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 98,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 99,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 100,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 101,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 102,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 103,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 104,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 105,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 106,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 107,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 108,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 109,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 110,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 111,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 112,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 113,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 114,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 115,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 116,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 117,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 118,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 119,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 120,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 121,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 122,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 123,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 124,
+          "id": "target",
+          "value": -1.0,
+          "value_bits": "bf800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 125,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 126,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 127,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "tiny-same-block-replacement-cold",
+      "blocks": 24,
+      "warmup_blocks": 0,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 1.401298464324817e-45,
+          "value_bits": "00000001",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "tiny-same-block-replacement-warm",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 1.401298464324817e-45,
+          "value_bits": "00000001",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "cold-duration-one",
+      "blocks": 24,
+      "warmup_blocks": 0,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "cold-long-interrupt",
+      "blocks": 32,
+      "warmup_blocks": 0,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 0.5,
+          "value_bits": "3f000000",
+          "origin": "authored-event"
+        }
+      ]
+    },
+    {
+      "id": "translation-master-early",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 0,
+      "lifecycles": 2,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -0.75,
+          "value_bits": "bf400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "master"
+    },
+    {
+      "id": "translation-master-2p23-before",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 32762,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -0.75,
+          "value_bits": "bf400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "master",
+      "matched_early_case": "translation-master-early",
+      "absolute_first_capture_sample": 8388096
+    },
+    {
+      "id": "translation-master-2p24-before",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 65530,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -0.75,
+          "value_bits": "bf400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "master",
+      "matched_early_case": "translation-master-early",
+      "absolute_first_capture_sample": 16776704
+    },
+    {
+      "id": "translation-master-2p25-before",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 131066,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -0.75,
+          "value_bits": "bf400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "master",
+      "matched_early_case": "translation-master-early",
+      "absolute_first_capture_sample": 33553920
+    },
+    {
+      "id": "translation-master-2p26-before",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 262138,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -0.75,
+          "value_bits": "bf400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "master",
+      "matched_early_case": "translation-master-early",
+      "absolute_first_capture_sample": 67108352
+    },
+    {
+      "id": "translation-master-2p27-before",
+      "blocks": 32,
+      "warmup_blocks": 4,
+      "prefix_blocks": 524282,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "authored-event"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "authored-event"
+        },
+        {
+          "block": 2,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 3,
+          "id": "target",
+          "value": 0.0,
+          "value_bits": "00000000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 4,
+          "id": "target",
+          "value": -0.75,
+          "value_bits": "bf400000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 5,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "authored-event"
+        },
+        {
+          "block": 6,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "master",
+      "matched_early_case": "translation-master-early",
+      "absolute_first_capture_sample": 134217216
+    },
+    {
+      "id": "translation-one-sample-2p26-after",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 262141,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.022675737738609314,
+          "value_bits": "3cb9c278",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-one-sample",
+      "matched_early_case": "duration-one-sample",
+      "absolute_first_capture_sample": 67109120
+    },
+    {
+      "id": "translation-one-half-samples-2p26-after",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 262141,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 0.03401360660791397,
+          "value_bits": "3d0b51da",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-one-half-samples",
+      "matched_early_case": "duration-one-half-samples",
+      "absolute_first_capture_sample": 67109120
+    },
+    {
+      "id": "translation-10ms-2p26-after",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 262141,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 10.0,
+          "value_bits": "41200000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-10ms",
+      "matched_early_case": "duration-10ms",
+      "absolute_first_capture_sample": 67109120
+    },
+    {
+      "id": "translation-1ms-2p26-after",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 262141,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-1ms",
+      "matched_early_case": "duration-1ms",
+      "absolute_first_capture_sample": 67109120
+    },
+    {
+      "id": "translation-100ms-2p26-after",
+      "blocks": 24,
+      "warmup_blocks": 4,
+      "prefix_blocks": 262141,
+      "lifecycles": 1,
+      "events": [
+        {
+          "block": 0,
+          "id": "milliseconds",
+          "value": 100.0,
+          "value_bits": "42c80000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 0,
+          "id": "target",
+          "value": 1.0,
+          "value_bits": "3f800000",
+          "origin": "initial-command"
+        },
+        {
+          "block": 1,
+          "id": "target",
+          "value": -0.5,
+          "value_bits": "bf000000",
+          "origin": "authored-event"
+        }
+      ],
+      "time_translation_group": "duration-100ms",
+      "matched_early_case": "duration-100ms",
+      "absolute_first_capture_sample": 67109120
+    }
+  ],
+  "ordering": "Unified explicit event list; no parameter-map reordering; same-block commands kept in listed order",
+  "prefix_policy": "Every silent prefix vector crosses actual C ABI process and finite/allocation checks; no position jump/private-state injection; only tail outputs persisted",
+  "scope": "Actual authored pack hot target/cold duration; no general line lists/reset/signal inlets"
+}

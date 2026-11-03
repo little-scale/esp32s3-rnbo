@@ -506,7 +506,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure.",
+  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -14195,6 +14195,7 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": true,
       "cpu_measurement_ids": [
         "average-compact-history:aggregate",
         "average-compact-history:default",
@@ -14429,6 +14430,7 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": true,
       "cpu_measurement_ids": [
         "nonlinear-oracle-control:aggregate",
         "nonlinear-oracle-control:fourth",
@@ -15288,12 +15290,14 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": false,
       "cpu_measurement_ids": [],
       "id": "patcher:line~",
       "known_gaps": [
-        "Property tests fit slopes/use observed interruption state, not a full independent sample oracle.",
-        "Long uptime and broader queue/list/curve modes are unverified.",
-        "Native event-order regression is not line target timing qualification."
+        "Repeated target commands at one boundary cause a running Platform allocation and module fault; a tiny positive duration replacement can fault on an invalid sample.",
+        "All ten measured native early/late program pairs exceed the unchanged comparison limit; absolute Float32 ramp ends lose timing precision.",
+        "The separate ideal-ramp observation retains 14 complete-program failures and two incomplete fault programs; it does not replace the original five passing gates.",
+        "No new hardware execution or target timing; broader list, curve, clock/reset and within-block event modes remain unqualified."
       ],
       "observed_in": [
         {
@@ -15321,6 +15325,16 @@
           "conditions": "Five authored/generated event-order cases; preserves duration-before-target. Not S3 execution.",
           "level": "native-only-event-order-regression",
           "source": "evidence/parameter-event-order.json"
+        },
+        {
+          "conditions": "43 actual dynamic-C-ABI programs; 41 complete and two faulting programs, identical O3/UBSan captures/traces/readbacks. Ten continuous-prefix translation comparisons fail; the independent ideal observation is separate and retains failures.",
+          "level": "native-only-mode-and-failure-observations",
+          "source": "evidence/line-timing-modes.json"
+        },
+        {
+          "conditions": "Linked Xtensa sample loop is Float32; timestamp narrowing and cancellation storage need correctness work. Double event conversion retained; no optimisation adapter or target cost measurement from this audit.",
+          "level": "native-and-compiled-layout-scope",
+          "source": "docs/line-timing-modes.md"
         }
       ],
       "registry_context": {
@@ -15331,8 +15345,8 @@
       },
       "spelling": "line~",
       "surface": "patcher",
-      "working_note": "Authored ramp/pack modes have native property checks; no line target qualification.",
-      "working_state": "native"
+      "working_note": "Expanded native programs retain valid-input late allocation and invalid-sample faults plus age-dependent ramp output. The five original gates still pass; no line target qualification or CPU gain is claimed.",
+      "working_state": "partial"
     },
     {
       "aliases_inherit_status": false,
@@ -17551,6 +17565,7 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": true,
       "cpu_measurement_ids": [
         "train-scalar-reciprocal-private:aggregate",
         "train-scalar-reciprocal-private:default",
@@ -17627,6 +17642,7 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": true,
       "cpu_measurement_ids": [
         "nonlinear-oracle-control:aggregate",
         "nonlinear-oracle-control:fourth",
@@ -18749,6 +18765,13 @@
       "sha256": "563ab5f3bc313e388c33b111b1b6a0b8bba6c5467f3fa6724c7bc4c548b20d53",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/float32-audio.md"
     },
+    "docs/line-timing-modes.md": {
+      "bytes": 6181,
+      "path": "docs/line-timing-modes.md",
+      "publication": "included-with-status-snapshot",
+      "sha256": "ecdce21ab432d3923d51255a1a595108d5884246822791faa9c0d52c24d8d799",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/line-timing-modes.md"
+    },
     "docs/noise-float32-normalisation.md": {
       "bytes": 3424,
       "path": "docs/noise-float32-normalisation.md",
@@ -18951,6 +18974,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "762211ddff17596d6bdad34e1a34517682f47edf9a30392256ed63e1cb1bc3bf",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/evidence/initial-validation.json"
+    },
+    "evidence/line-timing-modes.json": {
+      "bytes": 404027,
+      "path": "evidence/line-timing-modes.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "1a12064a1d3121a0957f3fe9b30c20a27636a16902b41d3b9c5278195f6b295f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/line-timing-modes.json"
     },
     "evidence/mtof-table-omission.json": {
       "bytes": 31603,
@@ -19231,6 +19261,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "14767e122198c7509ca9479852e3417e81796dd8d72adc585449f011381976cd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/tests/fixtures/objects/wave2/catalog.json"
+    },
+    "tests/fixtures/objects/wave2/line-timing-modes.json": {
+      "bytes": 75653,
+      "path": "tests/fixtures/objects/wave2/line-timing-modes.json",
+      "publication": "included-with-status-snapshot",
+      "sha256": "38e1817308f37e960652b4e47b9a915898d347fcaea99554c920429df336de4c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave2/line-timing-modes.json"
     },
     "tests/fixtures/objects/wave2/line-timing.rnbopat": {
       "bytes": 3335,

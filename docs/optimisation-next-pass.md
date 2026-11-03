@@ -57,7 +57,7 @@ target results need their own later sealed records.
 | --- | --- | --- |
 | Cycle, saw, mtof, mapping/arithmetic | Selected native semantic/profile comparisons; selected Main/FX target timings; exact pure-hoist comparisons; actual-drone qualification | Other constants, mixed scalar/signal inlets and meaningful parameter domains; independent phase/frequency changes; new modes need new admission/proof. Static callsites are not per-sample counts. |
 | Comb/allpass/delay/feedback | Reviewed caps/storage, tight profile comparisons and selected target fixtures; private scalar-duration hoist preserves output | Arbitrary allpass gain with fractional input, long feedback tails, fractional delay boundaries, all admitted interpolation/reset modes, and isolated feedback~ latency/state. The new filter double duration conversion remains justified by observed error when removed. |
-| Envelope, MIDI and time | Authored MIDI envelope at 1/2/4 voices, target four-voice routing/release/sustain/stealing and stress; line's five native timing cases | Full envelope curves/retrigger modes, clock/cancellation/queue-pressure behavior, long uptime and event jitter. Current public C ABI deliberately delivers boundary events; it has no qualified external within-block event API. |
+| Envelope, MIDI and time | Authored MIDI envelope at 1/2/4 voices, target four-voice routing/release/sustain/stealing and stress; [expanded line native checks](line-timing-modes.md) preserve the five original gates but expose age-dependent output and two valid-input fault programs | Fix line's absolute Float32 timestamps, replacement storage and tiny-duration state before admitting an adapter. Full envelope curves/retrigger modes, broader clocks/lists and target timing remain open. Current public C ABI deliberately delivers boundary events; it has no qualified external within-block event API. |
 | Average | Compact-history native identity/resource proof; strict cancellation failure retained. The [private Neumaier experiment](average-neumaier.md) passes 17 native cases and eight frozen-window target oracle cases, with measured extra CPU cost and reviewed reset policy | Neumaier remains PRIVATE/unadmitted: its dyadic target workload uses 28.85% more callback time. Target long runs/window events and broader inputs/caller graphs remain open. Compaction alone does not repair accuracy. History subtraction has a separate [bounded corner-domain observation](float32-corners.md), not universal floating-environment equivalence. |
 | Biquad, phasor/train and nonlinear math | Declared native difference-equation/domain/timing checks | Target CPU, active helper calls, state/initialisation peaks, coefficient/phase/domain boundaries and a justified optional precision profile. Existing audio-v2 attempts for these wave2 methods are rejected. |
 | Noise | Bounded native statistics and explicit white-seed observations; defined-integer adapter oracle/UBSan plus target stream preservation and memory recovery; exact-context Float32 pink output option reproduces the measured module | Broader generated forms and row counts remain outside the output option. Per-object seed and clock policy must be described; create seed alone does not prove control of pink's systemticks-seeded state. |
@@ -119,6 +119,12 @@ double work automatically.
    literals alone establish no Double-removal benefit. Current implementation
    work is computer-only and can reuse saved measurements only after exact
    source/image binding.
+   The [line timing audit](line-timing-modes.md) additionally finds that its
+   sample loop already uses Float32, while absolute Float32 ramp ends lose
+   timing precision. Ten actual sequential-prefix comparisons fail, and two
+   valid-input programs fault on late allocation or an invalid sample. Compare
+   bounded state with Double timestamps versus integer/relative timing; retain
+   the original event conversion and measure any new target cost separately.
 4. **Expand a mode-aware support inventory.** Derive the wider candidate set
    from the pinned generator/builtin surface and its service constraints, then
    add original fixtures for missing families and modes. For each record source

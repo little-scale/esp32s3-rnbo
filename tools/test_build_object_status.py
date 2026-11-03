@@ -91,6 +91,23 @@ class ObjectStatusTests(unittest.TestCase):
             with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Compiler admission'):
                 checked_measurements(forged,ROOT)
 
+    def test_native_line_failures_stay_partial_without_board_or_cpu_claims(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        row=rows['patcher:line~']
+        self.assertEqual(row['working']['status'],'partial')
+        self.assertFalse(row['board_evidence'])
+        self.assertIsNone(row['performance'])
+        self.assertEqual(row['optimisation']['status'],'unassessed')
+        self.assertIn('late allocation',row['working']['detail'])
+        for kind in ('board','missing_location','evidence_hash'):
+            forged=copy.deepcopy(self.coverage)
+            record=next(r for r in forged['objects'] if r['id']=='patcher:line~')
+            if kind=='board':record['board_evidence']=True
+            elif kind=='missing_location':del record['board_evidence']
+            else:forged['sources']['evidence/line-timing-modes.json']['sha256']='0'*64
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'[Bb]oard|Qualification evidence'):
+                make_status(self.inventory,forged)
+
     def test_exact_delay_availability_requires_the_measured_image_and_option(self):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
         for name in ('patcher:comb~','patcher:allpass~'):

@@ -156,6 +156,12 @@ def public_sources(record,coverage,root):
     result={}
     for item in record.get('qualification',[])+record.get('optimisations',[]):
         source=item.get('source')
+        if source and source.startswith('evidence/'):
+            path=(root/source).resolve()
+            require('..' not in Path(source).parts and path.is_relative_to(root.resolve()) and
+                    path.is_file() and not (root/source).is_symlink(),'Qualification evidence must be a public regular file')
+            entry=coverage['sources'].get(source)
+            require(entry is not None and digest(path)==entry['sha256'],'Qualification evidence changed: '+source)
         if not source or not source.startswith(('docs/','evidence/')) or not (root/source).is_file():continue
         label=Path(source).stem.replace('-',' ')
         label+=' — documentation' if source.startswith('docs/') else ' — evidence'
@@ -181,7 +187,12 @@ def make_status(inventory,coverage,root=ROOT):
         if gaps:detail+=' Remaining scope: '+' '.join(gaps)
         row['working']={'status':working,'label':WORKING_LABELS[working],'detail':detail,
                         'short':'Tested modes only' if working=='board' else 'Composition coverage' if working=='in_patch' else 'Open scope / accuracy checks' if working=='partial' else 'Not a board qualification'}
-        row['board_evidence']=working in ('board','in_patch','partial')
+        if working=='partial':
+            require(type(record.get('board_evidence')) is bool,'Partial qualification requires explicit board-evidence location')
+            require(not record['board_evidence'] or any(q.get('level','').startswith('S3-') for q in record.get('qualification',[])),
+                    'Native-only partial qualification cannot claim board evidence')
+            row['board_evidence']=record['board_evidence']
+        else:row['board_evidence']=working in ('board','in_patch')
         options=record.get('optimisations',[])
         row['optimisation']={'status':opt,'label':OPT_LABELS[opt],
                              'short':next((o['flag'] for o in options if o.get('flag') and o.get('state')==opt),''),

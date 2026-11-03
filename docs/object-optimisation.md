@@ -1,5 +1,12 @@
 # RNBO object optimisation matrix
 
+The [expanded line timing checks](line-timing-modes.md) retain the five original
+native gates while exposing age-dependent output and two valid-input fault
+programs. `line~` is now marked partial with native evidence only. The sample
+loop already uses Float32; timestamp precision, cancellation storage and tiny
+durations need correctness work before another numerical adapter is admitted.
+No target timing or performance improvement is inferred from these checks.
+
 The optional [finite Float32 wrap correction](wrap-finite-target.md) is now
 qualified in two reviewed FX contexts. Direct target outputs match the exact
 modulo oracle, including signed zero and large finite values. The bounded

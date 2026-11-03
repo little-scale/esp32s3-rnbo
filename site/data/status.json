@@ -18735,14 +18735,22 @@
         {
           "label": "parameter event order — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/parameter-event-order.json"
+        },
+        {
+          "label": "line timing modes — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/line-timing-modes.json"
+        },
+        {
+          "label": "line timing modes — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/line-timing-modes.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Authored ramp/pack modes have native property checks; no line target qualification. Five0/5/10ms slope/endpoint/interruption cases and hot/cold pack inlet ordering. Five authored/generated event-order cases; preserves duration-before-target. Not S3 execution. Remaining scope: Property tests fit slopes/use observed interruption state, not a full independent sample oracle. Long uptime and broader queue/list/curve modes are unverified. Native event-order regression is not line target timing qualification.",
-        "label": "Native tests only",
-        "short": "Not a board qualification",
-        "status": "native"
+        "detail": "Expanded native programs retain valid-input late allocation and invalid-sample faults plus age-dependent ramp output. The five original gates still pass; no line target qualification or CPU gain is claimed. Five0/5/10ms slope/endpoint/interruption cases and hot/cold pack inlet ordering. Five authored/generated event-order cases; preserves duration-before-target. Not S3 execution. 43 actual dynamic-C-ABI programs; 41 complete and two faulting programs, identical O3/UBSan captures/traces/readbacks. Ten continuous-prefix translation comparisons fail; the independent ideal observation is separate and retains failures. Linked Xtensa sample loop is Float32; timestamp narrowing and cancellation storage need correctness work. Double event conversion retained; no optimisation adapter or target cost measurement from this audit. Remaining scope: Repeated target commands at one boundary cause a running Platform allocation and module fault; a tiny positive duration replacement can fault on an invalid sample. All ten measured native early/late program pairs exceed the unchanged comparison limit; absolute Float32 ramp ends lose timing precision. The separate ideal-ramp observation retains 14 complete-program failures and two incomplete fault programs; it does not replace the original five passing gates. No new hardware execution or target timing; broader list, curve, clock/reset and within-block event modes remain unqualified.",
+        "label": "Partial / known gaps",
+        "short": "Open scope / accuracy checks",
+        "status": "partial"
       }
     },
     {
@@ -36163,10 +36171,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "dee4158ccd3ae1c3cddf2134abe23bd57caf27d5f6574915df096d72b71bb770",
-    "coverage_source_sha256": "dee4158ccd3ae1c3cddf2134abe23bd57caf27d5f6574915df096d72b71bb770",
+    "coverage_canonical_sha256": "7c2525b418c48e95430eb33c7a89292c25333257a3a8f8d940c2b029c5ceb024",
+    "coverage_source_sha256": "7c2525b418c48e95430eb33c7a89292c25333257a3a8f8d940c2b029c5ceb024",
     "exact_coverage_entries": 39,
-    "generator_sha256": "a95040bd954ee3f1c1993c8a6bad4a05b63ff40f6bfd73dd5a122409cb580acd",
+    "generator_sha256": "28ae5c0a787d6149b278a44426816f242e550361c3089145a9547cc3d979d59a",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
