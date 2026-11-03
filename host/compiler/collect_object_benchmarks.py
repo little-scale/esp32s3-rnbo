@@ -835,6 +835,24 @@ def gen_identity(build,fixture,plan):
 
 
 GEN_ARITH_KIND='gen-arithmetic-v1'
+GEN_ABS_MODE='gen-abs-intrinsic-comparison-v1'
+GEN_ABS_BOUNDARIES='finite-magnitude-boundaries-v1'
+GEN_ABS_PIN={
+    'catalog':'a7481d471f65f6203150e41b3870065df8e12fbb2d0fb9256a226c92791d83d5',
+    'source':'3df5fb401c1d1e04470e318f3aa1f4704ff38d17845ece0f7dacf74defa93943',
+    'contract_file':'rnbo_s3_gen_abs_source.h',
+    'compile_contract':'9d7729ee5494685f5af4d94a6cd776bf630b933ed2069a1fc62afb74475d044b',
+    'config':'f6ac5f77e0492f986a983c1ee31e1dafe9899b0aceabe2ef591fbfa43c40cdcf',
+    'reference_config':'a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b',
+    'input_map':'ccccfd54d10f46b83705c7b315e27fd4e83b5ae3dccb525f1a65ceb863c2d8f4',
+    'input_method':'2177cbb70c6451d2e2367c48bc1d7c63c9b3569a2459286873b9739c7c9aee4a',
+    'prepared_method':'78cfc29273918e63b0490c42b59272ae0f44be267fcdb8b7179cd02400ae3176',
+    'transformer':'c013826b069504ce222ac340d1e52b36a02d25fe5c331f05011c877554921871'}
+GEN_ABS_CONTRACT={'version':1,'context':'abs-call','operation':'explicit-binary32-absolute-builtin',
+    'input_domain':'finite-binary32','finite_bit_identity_claimed':True,'zero_sign':'negative-zero-maps-to-positive-zero',
+    'state_and_layout':'unchanged','scheduler_time':'unchanged-binary64','math_runtime':'unchanged',
+    'nonfinite_qualified':False,'floating_environment_equivalence_claimed':False,
+    'errno_identity_claimed':False,'floating_trap_identity_claimed':False}
 GEN_ARITH_MODELS={'abs-call':1,'min-call':2,'minimum-call':2,'max-call':3,'maximum-call':3,
     'sub-call':4,'subtract-infix':4,'eq-call':5,'equal-infix':5,'lt-call':6,'less-infix':6,
     'add-call':9,'add-infix':9,'mul-call':10,'mul-infix':10}
@@ -965,7 +983,14 @@ GEN_ARITH_IDENTITIES={
 def gen_arith_verification(fixture,case):
     identity=fixture.get('id');require(identity in GEN_ARITH_MODELS,'Unknown exact Gen arithmetic fixture')
     pin=GEN_ARITH_IDENTITIES.get(identity);require(pin is not None,'Gen arithmetic source identity is not frozen')
-    original={k:v for k,v in fixture.items()if k!='family'}
+    comparison=fixture.get('qualification_mode')==GEN_ABS_MODE
+    require('qualification_mode'not in fixture or comparison and identity=='abs-call','Unknown Gen arithmetic comparison mode/context')
+    original={k:v for k,v in fixture.items()if k not in ('family','qualification_mode')}
+    if comparison:
+        boundary={'id':GEN_ABS_BOUNDARIES,'parameters':{},'events':[],'stimulus':{'kind':GEN_ABS_BOUNDARIES}}
+        require(isinstance(original.get('cases'),list)and len(original['cases'])==4 and
+                same_declaration(original['cases'][-1],boundary),'Gen abs comparison requires the exact fourth finite boundary case')
+        original['cases']=original['cases'][:3]
     try:original_sha=hashlib.sha256((json.dumps(original,sort_keys=True,indent=2,allow_nan=False)+'\n').encode()).hexdigest()
     except (TypeError,ValueError):original_sha=None
     require(original_sha==pin['fixture'],'Gen arithmetic original source/surface/domain/cases differ')
@@ -975,20 +1000,28 @@ def gen_arith_verification(fixture,case):
             'Gen arithmetic model declaration differs')
     require(any(same_declaration(case,c)for c in fixture['cases']),'Unknown Gen arithmetic case')
     return {**expected,'observer_channel':2,'model':'independent-binary32-operations',
-        'rounding':'once-binary32-per-output-operation','gate':'numeric-exact-plus-signed-zero-only-operation-bits',
-        'operation_zero_sign':'diagnostic-only'}
+        'rounding':'once-binary32-per-output-operation',
+        'gate':'raw-binary32-absolute-bits'if comparison else'numeric-exact-plus-signed-zero-only-operation-bits',
+        'operation_zero_sign':'positive-zero-required'if comparison else'diagnostic-only'}
 
 
 def gen_arith_identity(build,fixture,plan):
     gen_arith_verification(fixture,fixture['cases'][0]);pin=GEN_ARITH_IDENTITIES[fixture['id']]
+    comparison=fixture.get('qualification_mode')==GEN_ABS_MODE
+    if comparison:
+        require(GEN_ABS_PIN['transformer']is not None,'Gen abs intrinsic identity is not frozen')
+        require(plan.get('catalog_sha256')==GEN_ABS_PIN['catalog'],'Gen abs intrinsic catalog differs')
     require(same_declaration(plan.get('parameter_schema'),[])and same_declaration(plan.get('events'),[]),'Gen arithmetic parameters/events are unqualified')
     require(type(plan.get('blocks'))is int and plan['blocks']==64 and type(plan.get('rounds'))is int and plan['rounds']==3 and
             type(plan.get('timing_exclude_blocks'))is int and plan['timing_exclude_blocks']==32 and
             type(plan.get('arena_bytes'))is int and plan['arena_bytes']==4096 and plan.get('comparison_policy',{}).get('pcm_gain')==.5,
             'Gen arithmetic blocks/rounds/timing/arena/gain differ')
     require(plan.get('patch_sha256')==pin['patch']and plan.get('description_sha256')==pin['description'],'Gen arithmetic patch/description differs')
-    require(build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256'],'Gen arithmetic requires same-image control')
-    for module in build['modules'].values():
+    same_image=build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256']
+    require(not same_image if comparison else same_image,'Gen arithmetic comparison/control image identity differs')
+    for profile,module in build['modules'].items():
+        require(profile in ('strict','optimized'),'Unknown Gen arithmetic module slot')
+        candidate=comparison and profile=='optimized'
         report=module['report'];manifest=report['prepared_export']['manifest'];provenance=report['prepared_export'].get('provenance',{})
         require(manifest.get('editable_source_sha256')==pin['patch']and manifest.get('parameter_schema_sha256')==pin['schema']and
                 manifest.get('source_tree_sha256')==pin['source_tree'],'Gen arithmetic exact graph/schema/source differs')
@@ -996,22 +1029,69 @@ def gen_arith_identity(build,fixture,plan):
             'numerical_profile','scheduler_time','rnbo_version','class_name','voices','voice_topology','required_host_services','midi_output_ports','adaptations')},
             {'parameter_count':0,'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
              'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
-             'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,'adaptations':WAVE4_ADAPTATIONS}),
+             'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,
+             'adaptations':WAVE4_ADAPTATIONS+(['rnbo-1.4.4-gen-abs-intrinsic-v1']if candidate else [])}),
             'Gen arithmetic strict ABI/profile differs')
         require(report.get('imports')==[],'Gen arithmetic module has unapproved imports')
         require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==pin['source'],'Gen arithmetic raw source differs')
         files=report.get('prepared_snapshot',{}).get('prepared_files_sha256',{})
-        require(files.get('rnbo_source.h')==pin['source'],'Gen arithmetic strict prepared source differs')
+        require(files.get('rnbo_source.h')==(GEN_ABS_PIN['source']if candidate else pin['source']),'Gen arithmetic prepared source differs')
         runtime={k:v for k,v in files.items()if k.startswith('common/')}
         require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
                 'Gen arithmetic fixed runtime differs')
-        require(set(files)==set(runtime)|{'RNBO-runtime-LICENSE','description.json','generator.json','patch_config.h','rnbo_source.h','source.rnbopat'}and
+        expected_files=set(runtime)|{'RNBO-runtime-LICENSE','description.json','generator.json','patch_config.h','rnbo_source.h','source.rnbopat'}
+        if candidate:expected_files.add(GEN_ABS_PIN['contract_file'])
+        require(set(files)==expected_files and
                 files.get('description.json')==pin['description']and files.get('source.rnbopat')==pin['patch']and
-                files.get('patch_config.h')=='a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b',
+                files.get('patch_config.h')==(GEN_ABS_PIN['config']if candidate else GEN_ABS_PIN['reference_config']),
                 'Gen arithmetic normal strict file/config composition differs')
+        if comparison:
+            require(files==provenance.get('prepared_files_sha256'),'Gen abs snapshot/provenance differs')
+            records=[a for a in provenance.get('adaptations',[])if a.get('name')=='rnbo-1.4.4-gen-abs-intrinsic-v1']
+            if candidate:
+                require(manifest.get('gen_abs_intrinsic')is True and same_declaration(manifest.get('gen_abs_intrinsic_contract'),GEN_ABS_CONTRACT),
+                        'Gen abs finite-bit identity contract differs')
+                require(not any(k in manifest for k in ('base_numerical_profile','numerical_identity')),
+                        'Gen abs intrinsic must remain the strict finite-bit-identity option')
+                require(files.get(GEN_ABS_PIN['contract_file'])==GEN_ABS_PIN['compile_contract']and len(records)==1,'Gen abs type contract/adaptation missing')
+                expected={'name':'rnbo-1.4.4-gen-abs-intrinsic-v1','file':'rnbo_source.h','method':'gen_01_perform',
+                    'input_sha256':pin['source'],'prepared_sha256':GEN_ABS_PIN['source'],'input_map_sha256':GEN_ABS_PIN['input_map'],
+                    'input_method_sha256':GEN_ABS_PIN['input_method'],'prepared_method_sha256':GEN_ABS_PIN['prepared_method'],
+                    'callee_replacements':2,'inverse_byte_identity':True,'finite_bit_identity_claimed':True,
+                    'editable_source_sha256':pin['patch'],'description_file_sha256':pin['description'],'runtime_tree_sha256':WAVE4_RUNTIME,
+                    'compile_contract_file':GEN_ABS_PIN['contract_file'],'compile_contract_sha256':GEN_ABS_PIN['compile_contract'],
+                    'scheduler_time_unchanged':True,'transformer_sha256':GEN_ABS_PIN['transformer']}
+                require(all(same_declaration(records[0].get(k),v)for k,v in expected.items()),'Gen abs exact two-callee/inverse proof differs')
+            else:
+                require(not records and not any(k in manifest for k in ('gen_abs_intrinsic','gen_abs_intrinsic_contract')),
+                        'Gen abs reference must remain default strict')
+    if comparison:
+        left,right=(build['modules'][p]['report']for p in ('strict','optimized'))
+        for field in ('compiler','dependencies','private_support_archives','dynamic_abi','state_policy','allocation_accounting'):
+            require(isinstance(left.get(field),dict)and left[field]and left[field]==right.get(field),'Gen abs toolchain/ABI/archive/state contract differs')
+        sdk=lambda r:{k:v for k,v in r.get('source_files_sha256',{}).items()if k.startswith('module-sdk/')}
+        require('module-sdk/dynamic/rnbo_s3_dynamic.cpp'in sdk(left)and sdk(left)==sdk(right),'Gen abs module SDK sources differ')
+        require(left.get('source_files_sha256')==right.get('source_files_sha256')and
+                left['source_files_sha256'].get('host/compiler/gen_abs_intrinsic.py')==GEN_ABS_PIN['transformer'],
+                'Gen abs current compiler/helper source epochs differ')
+        lhs=left['prepared_snapshot']['prepared_files_sha256'];rhs=right['prepared_snapshot']['prepared_files_sha256']
+        require(set(rhs)==set(lhs)|{GEN_ABS_PIN['contract_file']}and
+                all(rhs[k]==v for k,v in lhs.items()if k not in ('rnbo_source.h','patch_config.h')),'Gen abs changed unreviewed prepared files')
 
 
-@lru_cache(maxsize=24,typed=True)
+@lru_cache(maxsize=4,typed=True)
+def gen_arith_input_bytes(kind):
+    require(type(kind)is int and kind in (12,13,14,16),'Unknown Gen arithmetic input family')
+    if kind!=16:return wave4_input_bytes(kind,64)
+    magnitudes=(0,1,2,0x3fffff,0x400000,0x7ffffe,0x7fffff,0x800000,0x800001,
+                0xffffff,0x1000000,0x3e800000,0x3effffff,0x3f000000,0x3f000001,0x3f7ffffe,0x3f7fffff,0x3f800000)
+    result=bytearray()
+    for frame in range(16384):
+        for lane in (frame,frame+17):result.extend(struct.pack('<I',magnitudes[(lane//2)%18]|((lane&1)<<31)))
+    return bytes(result)
+
+
+@lru_cache(maxsize=25,typed=True)
 def gen_arith_oracle_bytes(model,kind):
     """Independent binary64 arithmetic over exact binary32 operands, once rounded.
 
@@ -1019,7 +1099,7 @@ def gen_arith_oracle_bytes(model,kind):
     even for two binary32 subnormals. No generated Gen/RNBO kernel is imported.
     """
     require(type(model)is int and model in (1,2,3,4,5,6,9,10),'Unknown Gen arithmetic operation')
-    data=wave4_input_bytes(kind,64);result=bytearray()
+    data=gen_arith_input_bytes(kind);result=bytearray()
     for x,y in struct.iter_unpack('<ff',data):
         if model==1:a,b=abs(x),abs(y)
         elif model==2:a,b=(x if x<=y else y),(y if y<=x else x)
@@ -1034,7 +1114,7 @@ def gen_arith_oracle_bytes(model,kind):
 
 
 def declared_stimulus(fixture,case):
-    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,POWER_DENSE:11,GEN_INPUT:15,**WRAP_STIMULI,**WAVE4_INPUTS}
+    wave2={'impulse-step-v1':4,'mixed-tone-v1':5,'nonlinear-grid-v1':6,POWER_DENSE:11,GEN_INPUT:15,GEN_ABS_BOUNDARIES:16,**WRAP_STIMULI,**WAVE4_INPUTS}
     base=fixture.get('stimulus');override=case.get('stimulus',{})
     require(isinstance(base,dict) and isinstance(override,dict),'FX stimulus declaration missing')
     if base.get('kind') in wave2:
@@ -1064,7 +1144,7 @@ def declared_verification(fixture,case):
     declaration=fixture.get('verification')
     kind=(fixture.get('stimulus',{})|case.get('stimulus',{})).get('kind')
     if declaration is None:
-        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',POWER_DENSE,GEN_INPUT,*WRAP_STIMULI,*WAVE4_INPUTS),'Missing explicit verification contract')
+        require(kind not in ('impulse-step-v1','mixed-tone-v1','nonlinear-grid-v1',POWER_DENSE,GEN_INPUT,GEN_ABS_BOUNDARIES,*WRAP_STIMULI,*WAVE4_INPUTS),'Missing explicit verification contract')
         return None
     if isinstance(declaration,dict) and declaration.get('kind')==GEN_KIND:
         return gen_verification(fixture,case)
@@ -1172,7 +1252,7 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             expected_oracle=hashlib.sha256(cache).hexdigest()
             require(record['input_sha256']==expected_input,'Gen deterministic input SHA differs')
         if gen_arith:
-            expected_input=hashlib.sha256(wave4_input_bytes(expected['kind'],64)).hexdigest()
+            expected_input=hashlib.sha256(gen_arith_input_bytes(expected['kind'])).hexdigest()
             expected_oracle=hashlib.sha256(gen_arith_oracle_bytes(verification['model_code'],expected['kind'])).hexdigest()
             require(record['input_sha256']==expected_input,'Gen arithmetic deterministic input SHA differs')
         evidence[case['id']]={**record,'declared_settings':expected['settings']}
@@ -1249,6 +1329,11 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             provenance['pilot']='No direct observer; both output channels are the declared arithmetic operations.'
             provenance['parameter_schema']=plan['parameter_schema'];provenance['events']=plan['events'];provenance['pcm_gain']=.5
             provenance['surface_identity']={key:fixture[key]for key in ('source','exact_entries','aliases_inherit_qualification')}
+            if fixture.get('qualification_mode')==GEN_ABS_MODE:
+                provenance['qualification_mode']=GEN_ABS_MODE
+                provenance['generation']='Four fixed input families, including36 signed finite boundary words repeated with an independent17-frame right-lane offset; full INPUT SHA independently regenerated.'
+                provenance['semantic_gate']='Every output binary32 word must equal the independent canonical absolute-value cache, including positive zero. Numeric/cache-rounding error and all operation/pair bit differences must be zero.'
+                provenance['limit']='Only the exact abs-call GenExpr source and reviewed two-callee intrinsic substitution,64 fixed256-frame vectors/four zero warmups/three rounds. Finite-bit identity only; no errno, trapping/fenv, nonfinite, other abs types or Gen-family transfer.'
         elif gen:
             provenance['generation']='Seven exact dyadic binary32 input values with independently shifted right plane; complete INPUT SHA regenerated on host.'
             provenance['oracle']='Fresh independent fsum of at most64 weighted source inputs, or integer two/three-state phase; no generated recurrence. Both cached channel hashes independently regenerated.'
@@ -1505,6 +1590,8 @@ def collect(build_dir,run_dir):
                             'Invalid Gen arithmetic bit count type')
                     require(record['samples']==expected_samples and 0<=record['bit_different']==record['zero_sign_different']<=expected_samples,
                             'Gen arithmetic bit differences must be zero-sign changes only')
+                    if fixture.get('qualification_mode')==GEN_ABS_MODE:
+                        require(record['bit_different']==record['zero_sign_different']==0,'Gen abs intrinsic requires exact canonical positive-zero output bits')
                     gen_arith_comparison[profile]=record
                     for counter,field in (('gen_arith_bit_sample_checks','samples'),('gen_arith_bit_differences','bit_different'),
                                           ('gen_arith_zero_sign_differences','zero_sign_different')):

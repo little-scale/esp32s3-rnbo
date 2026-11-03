@@ -156,3 +156,4 @@ Systematic XIAO object testing is under way: [results and remaining scope](docs/
 Gen/`gen~` operators and single-sample behaviour are explicitly in scope. See [Gen qualification](docs/gen-qualification.md) for native sample/partition tests, the first three XIAO history programs and the remaining operator work.
 The optional [Gen feedback Float32 profile](docs/gen-feedback-float32.md) now measures 83.94% less callback time in its matched XIAO test; broader Gen optimisation remains pending.
 Fifteen [GenExpr arithmetic spellings](docs/gen-arithmetic-qualification.md) also pass individual XIAO output, timing and memory checks; their identical-module controls claim no optimisation gain.
+The separate [Gen abs intrinsic comparison](docs/gen-abs-intrinsic.md) now measures 36.19% less callback time with exact finite magnitude bits in four XIAO cases.

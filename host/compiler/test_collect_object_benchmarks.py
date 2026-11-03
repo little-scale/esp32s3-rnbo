@@ -17,7 +17,8 @@ from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_OR
     wave4_oracle_bytes,wave4_cache_hashes,GEN_KIND,GEN_INPUT,GEN_MODELS,GEN_IDENTITIES,GEN_SCHEMA,
     gen_cases,gen_events,gen_schedule_sha,gen_verification,gen_input_bytes,gen_cache_data,
     GEN_FEEDBACK_MODE,GEN_FEEDBACK_PROFILE,GEN_FEEDBACK_PIN,GEN_FEEDBACK_CONTRACT,GEN_FEEDBACK_CATALOG_SHA,
-    GEN_ARITH_KIND,GEN_ARITH_MODELS,GEN_ARITH_IDENTITIES,gen_arith_verification,gen_arith_oracle_bytes)
+    GEN_ARITH_KIND,GEN_ARITH_MODELS,GEN_ARITH_IDENTITIES,gen_arith_verification,gen_arith_oracle_bytes,
+    GEN_ABS_MODE,GEN_ABS_BOUNDARIES,GEN_ABS_PIN,GEN_ABS_CONTRACT,gen_arith_input_bytes)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -1526,5 +1527,115 @@ class GenArithmeticObservationTests(unittest.TestCase):
             with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
         legacy.lines=list(original);legacy.lines.insert(0,next(l for l in self.lines if ' CASE_GEN_ARITH_BITS 'in l));legacy.seal()
         with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+
+    def intrinsic_comparison(self):
+        self.fixture('abs-call');plan=self.report['benchmark'];pin=GEN_ARITH_IDENTITIES['abs-call']
+        directory=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/abs-intrinsic'
+        f=copy.deepcopy(json.loads((directory/'catalog.json').read_text())['fixtures'][0]);f['family']='gen-arithmetic';plan['fixture']=f
+        plan['catalog_sha256']=sha(directory/'catalog.json');plan['verifications']=[gen_arith_verification(f,c)for c in f['cases']]
+        plan['stimuli'].append({'kind':16,'settings':{'kind':GEN_ABS_BOUNDARIES},**dict.fromkeys(('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level'),0.)})
+        common='fixture=abs-call case='+GEN_ABS_BOUNDARIES;raw=gen_arith_input_bytes(16);ih=hashlib.sha256(raw).hexdigest();oh=hashlib.sha256(gen_arith_oracle_bytes(1,16)).hexdigest()
+        lines=[f'RNBO_OBJECT_BENCHMARK INPUT {common} input_sha256={ih} input_bytes=131072 layout=float32_stereo_interleaved_le stimulus_kind=16',
+            f'RNBO_OBJECT_BENCHMARK ORACLE {common} oracle_sha256={oh} oracle_bytes=131072 layout=float32_stereo_interleaved_le oracle_kind={GEN_ARITH_KIND} max_abs_tolerance=0 max_cache_rounding_error=0 model=independent-binary32-operations rounding=once-binary32-per-output-operation model_code=1 observer_channel=2',
+            f'RNBO_OBJECT_BENCHMARK CASE {common} samples=98304 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0']
+        for side in ('strict','optimized'):
+            lines.extend([f'RNBO_OBJECT_BENCHMARK CASE_SEMANTIC {common} profile={side} semantic_kind={GEN_ARITH_KIND} samples=98304 max_abs=0 max_model_error_bound=0 max_abs_tolerance=0 oracle_sha256={oh}',
+                f'RNBO_OBJECT_BENCHMARK CASE_GEN_ARITH_BITS {common} profile={side} oracle_sha256={oh} samples=98304 bit_different=0 zero_sign_different=0',
+                f'RNBO_OBJECT_BENCHMARK CASE_PROFILE {common} profile={side} timed_blocks=96 process_us=960 peak_us=11'])
+        lines.append(f'RNBO_OBJECT_BENCHMARK CASE_ROUNDING {common} samples=98304 float_bit_different=0 zero_sign_different=0')
+        self.lines[-1:-1]=lines
+        for before,after in [('cases=3','cases=4'),('compared_samples=294912','compared_samples=393216'),('input_cases=3','input_cases=4'),
+            ('input_rechecks=27','input_rechecks=36'),('oracle_cases=3','oracle_cases=4'),('oracle_rechecks=27','oracle_rechecks=36'),
+            ('semantic_sample_checks=589824','semantic_sample_checks=786432'),('gen_arith_bit_sample_checks=589824','gen_arith_bit_sample_checks=786432')]:self.change('PASS',before,after)
+        for side in ('strict','optimized'):
+            r=self.report['modules'][side]['report'];p=r['prepared_export']['provenance'];files=r['prepared_snapshot']['prepared_files_sha256']
+            p['prepared_files_sha256']=copy.deepcopy(files);p['adaptations']=[]
+            r.update(compiler={'version':'gcc14.2'},dependencies={'loader':'2.0.0'},private_support_archives={'libm':'7'*64},
+                dynamic_abi={'major':1,'minor':0},state_policy={'caller_owned':True,'maximum_arena_bytes':4096},
+                allocation_accounting={'allocator':'private-arena'},source_files_sha256={
+                    'module-sdk/dynamic/rnbo_s3_dynamic.cpp':'8'*64,'host/compiler/gen_abs_intrinsic.py':GEN_ABS_PIN['transformer']})
+        candidate=self.report['modules']['optimized'];candidate['artifact_sha256']='b'*64;r=candidate['report'];m=r['prepared_export']['manifest']
+        m['gen_abs_intrinsic']=True;m['gen_abs_intrinsic_contract']=copy.deepcopy(GEN_ABS_CONTRACT);m['adaptations'].append('rnbo-1.4.4-gen-abs-intrinsic-v1')
+        files=r['prepared_snapshot']['prepared_files_sha256'];files.update({'rnbo_source.h':GEN_ABS_PIN['source'],'patch_config.h':GEN_ABS_PIN['config'],GEN_ABS_PIN['contract_file']:GEN_ABS_PIN['compile_contract']})
+        p=r['prepared_export']['provenance'];p['prepared_files_sha256']=copy.deepcopy(files)
+        p['adaptations']=[{'name':'rnbo-1.4.4-gen-abs-intrinsic-v1','file':'rnbo_source.h','method':'gen_01_perform',
+            'input_sha256':pin['source'],'prepared_sha256':GEN_ABS_PIN['source'],'input_map_sha256':GEN_ABS_PIN['input_map'],
+            'input_method_sha256':GEN_ABS_PIN['input_method'],'prepared_method_sha256':GEN_ABS_PIN['prepared_method'],
+            'callee_replacements':2,'inverse_byte_identity':True,'finite_bit_identity_claimed':True,
+            'editable_source_sha256':pin['patch'],'description_file_sha256':pin['description'],'runtime_tree_sha256':WAVE4_RUNTIME,
+            'compile_contract_file':GEN_ABS_PIN['contract_file'],'compile_contract_sha256':GEN_ABS_PIN['compile_contract'],
+            'scheduler_time_unchanged':True,'transformer_sha256':GEN_ABS_PIN['transformer']}]
+        self.change('PASS','optimized_module_sha256='+('a'*64),'optimized_module_sha256='+('b'*64));self.seal()
+
+    def test_abs_intrinsic_four_case_different_image_comparison_is_explicit(self):
+        self.intrinsic_comparison();value=collect(self.build,self.run)
+        self.assertFalse(value['identical_artifact_control']);self.assertEqual(value['qualification_mode'],GEN_ABS_MODE)
+        self.assertEqual(len(value['cases']),4);self.assertEqual(value['pass']['compared_samples'],393216)
+        self.assertEqual(value['pass']['gen_arith_bit_sample_checks'],786432)
+        self.assertTrue(all(v['gate']=='raw-binary32-absolute-bits'and v['operation_zero_sign']=='positive-zero-required'for v in self.report['benchmark']['verifications']))
+
+    def test_finite_boundary_words_and_positive_zero_cache_have_independent_integer_truth(self):
+        import importlib.util
+        path=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/abs-intrinsic/inputs.py'
+        spec=importlib.util.spec_from_file_location('independent_abs_boundary_words',path);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+        raw=gen_arith_input_bytes(16);self.assertEqual(raw,m.interleaved())
+        chunked=b''.join(m.interleaved(256,first_frame=n)for n in range(0,16384,256));self.assertEqual(raw,chunked)
+        words=[x[0]for x in struct.iter_unpack('<I',raw)];self.assertEqual(len(set(words)),36)
+        self.assertIn(0x80000000,words);self.assertIn(1,words);self.assertIn(0x80000001,words)
+        self.assertIn(0x7fffff,words);self.assertIn(0x800000,words)
+        expected=b''.join(struct.pack('<I',word&0x7fffffff)for word in words)
+        self.assertEqual(gen_arith_oracle_bytes(1,16),expected)
+        self.assertNotIn(0x80000000,[x[0]for x in struct.iter_unpack('<I',expected)])
+
+    def test_intrinsic_mode_cannot_relabel_old_controls_or_drop_the_boundary_case(self):
+        for identity in ('abs-call','min-call'):
+            self.fixture(identity);self.report['benchmark']['fixture']['qualification_mode']=GEN_ABS_MODE;self.rejected()
+        for mutation in ('drop','wrong-kind','parameter','old-gate','same-image','unknown-mode'):
+            with self.subTest(mutation=mutation):
+                self.intrinsic_comparison();p=self.report['benchmark'];f=p['fixture']
+                if mutation=='drop':f['cases'].pop()
+                elif mutation=='wrong-kind':f['cases'][-1]['stimulus']['kind']='dense-binary32-v1'
+                elif mutation=='parameter':f['cases'][-1]['parameters']={'gain':1}
+                elif mutation=='old-gate':p['verifications'][-1]['operation_zero_sign']='diagnostic-only'
+                elif mutation=='same-image':self.report['modules']['optimized']['artifact_sha256']='a'*64
+                else:f['qualification_mode']='gen-abs-intrinsic-comparison-v2'
+                self.rejected()
+
+    def test_intrinsic_mode_requires_exact_option_callee_contract_and_public_configuration(self):
+        for mutation in ('flag','contract','source','wrapper','config','transformer','inverse','callees','clock','private-profile','changed-rounding','unknown-file','reference-option'):
+            with self.subTest(mutation=mutation):
+                self.intrinsic_comparison();r=self.report['modules']['optimized']['report'];m=r['prepared_export']['manifest'];p=r['prepared_export']['provenance'];files=r['prepared_snapshot']['prepared_files_sha256'];a=p['adaptations'][0]
+                if mutation=='flag':m['gen_abs_intrinsic']=1
+                elif mutation=='contract':m['gen_abs_intrinsic_contract']['nonfinite_qualified']=True
+                elif mutation=='source':files['rnbo_source.h']='1'*64
+                elif mutation=='wrapper':files[GEN_ABS_PIN['contract_file']]='1'*64
+                elif mutation=='config':files['patch_config.h']=GEN_ABS_PIN['reference_config']
+                elif mutation=='transformer':a['transformer_sha256']='1'*64
+                elif mutation=='inverse':a['inverse_byte_identity']=False
+                elif mutation=='callees':a['callee_replacements']=1
+                elif mutation=='clock':a['scheduler_time_unchanged']=False
+                elif mutation=='private-profile':m['numerical_profile']='PRIVATE-gen-abs-intrinsic-v1'
+                elif mutation=='changed-rounding':m['numerical_identity']='changed-rounding'
+                elif mutation=='unknown-file':files['unexpected.h']='1'*64;p['prepared_files_sha256']=copy.deepcopy(files)
+                else:self.report['modules']['strict']['report']['prepared_export']['manifest']['gen_abs_intrinsic']=True
+                self.rejected()
+
+    def test_intrinsic_exact_zero_sign_gate_and_four_case_hashes_cannot_be_weakened(self):
+        for mutation in ('negative-zero','pair-sign','boundary-input','boundary-cache','counter','model-error'):
+            with self.subTest(mutation=mutation):
+                self.intrinsic_comparison()
+                if mutation=='negative-zero':
+                    self.change('CASE_GEN_ARITH_BITS','bit_different=0 zero_sign_different=0','bit_different=1 zero_sign_different=1',GEN_ABS_BOUNDARIES)
+                    self.change('PASS','gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0','gen_arith_bit_differences=1 gen_arith_zero_sign_differences=1')
+                elif mutation=='pair-sign':self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=1')
+                elif mutation=='boundary-input':self.change('INPUT','input_sha256=','input_sha256=0',GEN_ABS_BOUNDARIES)
+                elif mutation=='boundary-cache':self.change('ORACLE','oracle_sha256=','oracle_sha256=0',GEN_ABS_BOUNDARIES)
+                elif mutation=='counter':self.change('PASS','gen_arith_bit_sample_checks=786432','gen_arith_bit_sample_checks=589824')
+                else:self.change('CASE_SEMANTIC','max_abs=0 max_model_error_bound=0','max_abs=1.401298464324817e-45 max_model_error_bound=1.401298464324817e-45')
+                self.rejected()
+
+    def test_intrinsic_comparison_requires_matched_sdk_toolchain_archive_and_state(self):
+        for field in ('compiler','dependencies','private_support_archives','dynamic_abi','state_policy','allocation_accounting','source_files_sha256'):
+            self.intrinsic_comparison();r=self.report['modules']['optimized']['report'];r[field]['unknown']=True;self.rejected()
 
 if __name__=='__main__':unittest.main()

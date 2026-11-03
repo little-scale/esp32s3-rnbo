@@ -1,0 +1,1237 @@
+{
+  "all_Gen_objects_complete": false,
+  "all_Gen_structures_complete": false,
+  "before_record": {
+    "parameters": {
+      "comb-fb": {
+        "actual": 0.9,
+        "index": 3,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "comb-ff": {
+        "actual": 0.9,
+        "index": 2,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "delay-fb": {
+        "actual": 0.5,
+        "index": 5,
+        "maximum": 0.99,
+        "minimum": 0
+      },
+      "delay-time": {
+        "actual": 25,
+        "index": 4,
+        "maximum": 50,
+        "minimum": 0
+      },
+      "lfo-depth": {
+        "actual": 0.5,
+        "index": 1,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "lfo-rate": {
+        "actual": 0.1,
+        "index": 0,
+        "maximum": 1,
+        "minimum": 0
+      },
+      "vib-depth": {
+        "actual": 0.1,
+        "index": 7,
+        "maximum": 2,
+        "minimum": 0
+      },
+      "vib-rate": {
+        "actual": 1,
+        "index": 6,
+        "maximum": 20,
+        "minimum": 0.1
+      }
+    },
+    "status": {
+      "allocation_fault": false,
+      "arena_capacity": 131072,
+      "arena_used": 99088,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "audio_heap_requested_bytes": 0,
+      "audio_stack_free": 12024,
+      "block_frames": 256,
+      "blocks": 497959,
+      "board": "XIAO ESP32-S3",
+      "channels": 2,
+      "clipped": 0,
+      "control_stack_free": 3656,
+      "dma_errors": 0,
+      "driver_elapsed_total_us": 967650468,
+      "driver_timing_scope": "wall time including I2S wait and internal capture",
+      "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+      "frames": 127477504,
+      "heap_guard": "audio-task-successful-heap-operations",
+      "internal_free_bytes": 302763,
+      "internal_largest_free_bytes": 229376,
+      "late_platform_allocations": 0,
+      "main_stack_free": 4616,
+      "module_errors": 0,
+      "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+      "nonfinite": 0,
+      "panic": false,
+      "peak_us": 4084,
+      "platform_allocations": 10,
+      "post_write_capture_elapsed_total_us": 0,
+      "post_write_capture_timed": false,
+      "psram_free_bytes": 8039396,
+      "psram_largest_free_bytes": 7995392,
+      "queue_errors": 0,
+      "rate": 44100,
+      "ready_to_resume": false,
+      "rebuilding": false,
+      "reconstruction_failed": false,
+      "render_busy_total_us": 1920400138,
+      "render_deadline_overruns": 0,
+      "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+      "render_us": 3684,
+      "runtime": "rnbo-esp32s3-bringup",
+      "source": "static-rnbo",
+      "uptime_us": 2890878407,
+      "volume": 50,
+      "write_errors": 0
+    }
+  },
+  "board": "xiao",
+  "candidate_implementation": "explicit-binary32-absolute-builtin",
+  "candidate_profile": "float32-strict",
+  "claims": {
+    "counts": "Repeated slots/rounds are execution checks, not unique values. Full target waveforms were not downloaded.",
+    "identity": "Both target slots match the independent positive-magnitude binary32 cache in all four supplied programs, including signed zero and subnormal boundaries. This is separate from broader representative native finite-strata and the source/bit-clear argument; target sampling is not exhaustive over all finite encodings.",
+    "limits": "No nonfinite, errno, trapping/fenv, integer/Double abs, arbitrary graph, RNBO patcher/codebox, visual Gen or family/alias transfer.",
+    "performance": "Measured percentage describes this complete two-plane Gen abs fixture, including unchanged callback/clock overhead, across the four cases. Not isolated instruction cost, all Gen abs graphs, whole-instrument utilization or a deadline guarantee.",
+    "precision": "Actual public full ELF bytes equal the private audited pair. Three alternative named/live/warm copies show reference512fabsf calls per complete stereo256 vector versus candidate0 with two abs.s sites per sample loop. Clock/event Double remains outside these loops; static counts are not a measured per-call cost.",
+    "recovery": "Root-operated application-only comparison restored the identified instrument to compiled defaults, unpaused50. This publisher performs no device operation.",
+    "source": "Only two rnbo_abs callee tokens in the exact reviewed GenExpr abs-call header become __builtin_fabsf. Graph, runtime, state/layout and scheduler bytes remain unchanged; the compiled type guard adds no DSP code. Other abs forms are not admitted by this flag."
+  },
+  "collected": {
+    "board": "xiao",
+    "board_binding": {
+      "build_board": "xiao",
+      "device_identity": "runner-verified USB/backup identity; saved record consistency checked by collector",
+      "flash_bytes": 8388608,
+      "method": "explicit-runner-and-build-report",
+      "restored_status_board": "XIAO ESP32-S3",
+      "runner_board": "xiao",
+      "runner_device_id": "xiao-test-device-01"
+    },
+    "build_report": "build/object-benchmark-xiao-abs-call-gen-abs-intrinsic-v1/build-report.json",
+    "build_report_sha256": "97d93a6809561d403148d7d05340d49bb89427a5b1ce9d43432ec9c1ea7682a9",
+    "cases": [
+      {
+        "case": "signed-grid-v1",
+        "declared_case": {
+          "events": [],
+          "id": "signed-grid-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "signed-grid-v1"
+          }
+        },
+        "gen_arith_bit_comparison": {
+          "optimized": {
+            "bit_different": 0,
+            "case": "signed-grid-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "ed8ab6f901d9a091f8961e080997aa8c210a2906af0e6ef4fc762d7f01b87347",
+            "profile": "optimized",
+            "samples": 98304,
+            "zero_sign_different": 0
+          },
+          "strict": {
+            "bit_different": 0,
+            "case": "signed-grid-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "ed8ab6f901d9a091f8961e080997aa8c210a2906af0e6ef4fc762d7f01b87347",
+            "profile": "strict",
+            "samples": 98304,
+            "zero_sign_different": 0
+          }
+        },
+        "input": {
+          "case": "signed-grid-v1",
+          "declared_settings": {
+            "kind": "signed-grid-v1"
+          },
+          "fixture": "abs-call",
+          "input_bytes": 131072,
+          "input_sha256": "07cd7860a445a1ae758aabae4286f832eb84d5bbb756b8edac2c20d190ae9a47",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "signed-grid-v1",
+            "fixture": "abs-call",
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 0,
+            "max_cache_rounding_error": 0,
+            "model": "independent-binary32-operations",
+            "model_code": 1,
+            "observer_channel": 2,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-arithmetic-v1",
+            "oracle_sha256": "ed8ab6f901d9a091f8961e080997aa8c210a2906af0e6ef4fc762d7f01b87347",
+            "rounding": "once-binary32-per-output-operation",
+            "verification": {
+              "gate": "raw-binary32-absolute-bits",
+              "kind": "gen-arithmetic-v1",
+              "maximum_absolute_error": 0.0,
+              "model": "independent-binary32-operations",
+              "model_code": 1,
+              "observer_channel": 2,
+              "operation_zero_sign": "positive-zero-required",
+              "rounding": "once-binary32-per-output-operation"
+            }
+          },
+          "stimulus_kind": 12
+        },
+        "observed_process_reduction_percent": 36.42711667151586,
+        "observed_speed_ratio": 1.5729977116704805,
+        "output_comparison": {
+          "case": "signed-grid-v1",
+          "fixture": "abs-call",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "signed-grid-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 45.520833333333336,
+            "numerical_profile": "float32-strict",
+            "peak": 1,
+            "peak_us": 51,
+            "prepare_us": 1147,
+            "process_us": 4370,
+            "profile": "optimized",
+            "rms": 0.645997383,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "signed-grid-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 71.60416666666667,
+            "numerical_profile": "float32-strict",
+            "peak": 1,
+            "peak_us": 78,
+            "prepare_us": 1347,
+            "process_us": 6874,
+            "profile": "strict",
+            "rms": 0.645997383,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "signed-grid-v1",
+          "fixture": "abs-call",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "signed-grid-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "ed8ab6f901d9a091f8961e080997aa8c210a2906af0e6ef4fc762d7f01b87347",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          },
+          "strict": {
+            "case": "signed-grid-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "ed8ab6f901d9a091f8961e080997aa8c210a2906af0e6ef4fc762d7f01b87347",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          }
+        }
+      },
+      {
+        "case": "dense-binary32-v1",
+        "declared_case": {
+          "events": [],
+          "id": "dense-binary32-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "dense-binary32-v1"
+          }
+        },
+        "gen_arith_bit_comparison": {
+          "optimized": {
+            "bit_different": 0,
+            "case": "dense-binary32-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "c0dece7084c8f5c21c43b29e2ad58c95bb0b5f02c9ccc0df46cc4933279b2ea8",
+            "profile": "optimized",
+            "samples": 98304,
+            "zero_sign_different": 0
+          },
+          "strict": {
+            "bit_different": 0,
+            "case": "dense-binary32-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "c0dece7084c8f5c21c43b29e2ad58c95bb0b5f02c9ccc0df46cc4933279b2ea8",
+            "profile": "strict",
+            "samples": 98304,
+            "zero_sign_different": 0
+          }
+        },
+        "input": {
+          "case": "dense-binary32-v1",
+          "declared_settings": {
+            "kind": "dense-binary32-v1"
+          },
+          "fixture": "abs-call",
+          "input_bytes": 131072,
+          "input_sha256": "1c2143d9c945402bc70d6be57e3f69638c35d7faaf36219b1197cf1fab81b406",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "dense-binary32-v1",
+            "fixture": "abs-call",
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 0,
+            "max_cache_rounding_error": 0,
+            "model": "independent-binary32-operations",
+            "model_code": 1,
+            "observer_channel": 2,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-arithmetic-v1",
+            "oracle_sha256": "c0dece7084c8f5c21c43b29e2ad58c95bb0b5f02c9ccc0df46cc4933279b2ea8",
+            "rounding": "once-binary32-per-output-operation",
+            "verification": {
+              "gate": "raw-binary32-absolute-bits",
+              "kind": "gen-arithmetic-v1",
+              "maximum_absolute_error": 0.0,
+              "model": "independent-binary32-operations",
+              "model_code": 1,
+              "observer_channel": 2,
+              "operation_zero_sign": "positive-zero-required",
+              "rounding": "once-binary32-per-output-operation"
+            }
+          },
+          "stimulus_kind": 13
+        },
+        "observed_process_reduction_percent": 36.12771541040969,
+        "observed_speed_ratio": 1.565624286692536,
+        "output_comparison": {
+          "case": "dense-binary32-v1",
+          "fixture": "abs-call",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "dense-binary32-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 45.635416666666664,
+            "numerical_profile": "float32-strict",
+            "peak": 0.999341488,
+            "peak_us": 51,
+            "prepare_us": 1130,
+            "process_us": 4381,
+            "profile": "optimized",
+            "rms": 0.0763589989,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "dense-binary32-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 71.44791666666667,
+            "numerical_profile": "float32-strict",
+            "peak": 0.999341488,
+            "peak_us": 78,
+            "prepare_us": 1337,
+            "process_us": 6859,
+            "profile": "strict",
+            "rms": 0.0763589989,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "dense-binary32-v1",
+          "fixture": "abs-call",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "dense-binary32-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "c0dece7084c8f5c21c43b29e2ad58c95bb0b5f02c9ccc0df46cc4933279b2ea8",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          },
+          "strict": {
+            "case": "dense-binary32-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "c0dece7084c8f5c21c43b29e2ad58c95bb0b5f02c9ccc0df46cc4933279b2ea8",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          }
+        }
+      },
+      {
+        "case": "vector-boundaries-v1",
+        "declared_case": {
+          "events": [],
+          "id": "vector-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "vector-boundaries-v1"
+          }
+        },
+        "gen_arith_bit_comparison": {
+          "optimized": {
+            "bit_different": 0,
+            "case": "vector-boundaries-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "cdd80815ae5fdbe6f0418363f1d50b6100a05b31a0b704c90897b3974c128966",
+            "profile": "optimized",
+            "samples": 98304,
+            "zero_sign_different": 0
+          },
+          "strict": {
+            "bit_different": 0,
+            "case": "vector-boundaries-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "cdd80815ae5fdbe6f0418363f1d50b6100a05b31a0b704c90897b3974c128966",
+            "profile": "strict",
+            "samples": 98304,
+            "zero_sign_different": 0
+          }
+        },
+        "input": {
+          "case": "vector-boundaries-v1",
+          "declared_settings": {
+            "kind": "vector-boundaries-v1"
+          },
+          "fixture": "abs-call",
+          "input_bytes": 131072,
+          "input_sha256": "f4a0f8cfebf8a91c79273db63bfec95dc7fc9101012242aeca08c80a8488e1db",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "vector-boundaries-v1",
+            "fixture": "abs-call",
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 0,
+            "max_cache_rounding_error": 0,
+            "model": "independent-binary32-operations",
+            "model_code": 1,
+            "observer_channel": 2,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-arithmetic-v1",
+            "oracle_sha256": "cdd80815ae5fdbe6f0418363f1d50b6100a05b31a0b704c90897b3974c128966",
+            "rounding": "once-binary32-per-output-operation",
+            "verification": {
+              "gate": "raw-binary32-absolute-bits",
+              "kind": "gen-arithmetic-v1",
+              "maximum_absolute_error": 0.0,
+              "model": "independent-binary32-operations",
+              "model_code": 1,
+              "observer_channel": 2,
+              "operation_zero_sign": "positive-zero-required",
+              "rounding": "once-binary32-per-output-operation"
+            }
+          },
+          "stimulus_kind": 14
+        },
+        "observed_process_reduction_percent": 36.171453564659586,
+        "observed_speed_ratio": 1.566697121973504,
+        "output_comparison": {
+          "case": "vector-boundaries-v1",
+          "fixture": "abs-call",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "vector-boundaries-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 45.604166666666664,
+            "numerical_profile": "float32-strict",
+            "peak": 0.75,
+            "peak_us": 51,
+            "prepare_us": 1132,
+            "process_us": 4378,
+            "profile": "optimized",
+            "rms": 0.267742023,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "vector-boundaries-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 71.44791666666667,
+            "numerical_profile": "float32-strict",
+            "peak": 0.75,
+            "peak_us": 78,
+            "prepare_us": 1336,
+            "process_us": 6859,
+            "profile": "strict",
+            "rms": 0.267742023,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "vector-boundaries-v1",
+          "fixture": "abs-call",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "vector-boundaries-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "cdd80815ae5fdbe6f0418363f1d50b6100a05b31a0b704c90897b3974c128966",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          },
+          "strict": {
+            "case": "vector-boundaries-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "cdd80815ae5fdbe6f0418363f1d50b6100a05b31a0b704c90897b3974c128966",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          }
+        }
+      },
+      {
+        "case": "finite-magnitude-boundaries-v1",
+        "declared_case": {
+          "events": [],
+          "id": "finite-magnitude-boundaries-v1",
+          "parameters": {},
+          "stimulus": {
+            "kind": "finite-magnitude-boundaries-v1"
+          }
+        },
+        "gen_arith_bit_comparison": {
+          "optimized": {
+            "bit_different": 0,
+            "case": "finite-magnitude-boundaries-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "4e9a6001cfa06f57af267b8f20de4d36cc584d0fcd40b29bc790f7e75fc8f412",
+            "profile": "optimized",
+            "samples": 98304,
+            "zero_sign_different": 0
+          },
+          "strict": {
+            "bit_different": 0,
+            "case": "finite-magnitude-boundaries-v1",
+            "fixture": "abs-call",
+            "oracle_sha256": "4e9a6001cfa06f57af267b8f20de4d36cc584d0fcd40b29bc790f7e75fc8f412",
+            "profile": "strict",
+            "samples": 98304,
+            "zero_sign_different": 0
+          }
+        },
+        "input": {
+          "case": "finite-magnitude-boundaries-v1",
+          "declared_settings": {
+            "kind": "finite-magnitude-boundaries-v1"
+          },
+          "fixture": "abs-call",
+          "input_bytes": 131072,
+          "input_sha256": "2acd3b7b5c70eaf24be4ce43c6bb25df78cdd48c57496fafa6ff9ef8def4693a",
+          "layout": "float32_stereo_interleaved_le",
+          "oracle": {
+            "case": "finite-magnitude-boundaries-v1",
+            "fixture": "abs-call",
+            "layout": "float32_stereo_interleaved_le",
+            "max_abs_tolerance": 0,
+            "max_cache_rounding_error": 0,
+            "model": "independent-binary32-operations",
+            "model_code": 1,
+            "observer_channel": 2,
+            "oracle_bytes": 131072,
+            "oracle_kind": "gen-arithmetic-v1",
+            "oracle_sha256": "4e9a6001cfa06f57af267b8f20de4d36cc584d0fcd40b29bc790f7e75fc8f412",
+            "rounding": "once-binary32-per-output-operation",
+            "verification": {
+              "gate": "raw-binary32-absolute-bits",
+              "kind": "gen-arithmetic-v1",
+              "maximum_absolute_error": 0.0,
+              "model": "independent-binary32-operations",
+              "model_code": 1,
+              "observer_channel": 2,
+              "operation_zero_sign": "positive-zero-required",
+              "rounding": "once-binary32-per-output-operation"
+            }
+          },
+          "stimulus_kind": 16
+        },
+        "observed_process_reduction_percent": 36.04379562043797,
+        "observed_speed_ratio": 1.563569961196074,
+        "output_comparison": {
+          "case": "finite-magnitude-boundaries-v1",
+          "fixture": "abs-call",
+          "max_abs": 0,
+          "max_pcm_lsb": 0,
+          "pcm_different": 0,
+          "relative_rms": 0,
+          "rms_error": 0,
+          "samples": 98304
+        },
+        "profiles": {
+          "optimized": {
+            "arena_high_water": 0,
+            "case": "finite-magnitude-boundaries-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 45.635416666666664,
+            "numerical_profile": "float32-strict",
+            "peak": 1,
+            "peak_us": 53,
+            "prepare_us": 1129,
+            "process_us": 4381,
+            "profile": "optimized",
+            "rms": 0.460167173,
+            "timed_blocks": 96
+          },
+          "strict": {
+            "arena_high_water": 0,
+            "case": "finite-magnitude-boundaries-v1",
+            "event_us": 0,
+            "fixture": "abs-call",
+            "mean_process_us": 71.35416666666667,
+            "numerical_profile": "float32-strict",
+            "peak": 1,
+            "peak_us": 78,
+            "prepare_us": 1334,
+            "process_us": 6850,
+            "profile": "strict",
+            "rms": 0.460167173,
+            "timed_blocks": 96
+          }
+        },
+        "rounding_comparison": {
+          "case": "finite-magnitude-boundaries-v1",
+          "fixture": "abs-call",
+          "float_bit_different": 0,
+          "samples": 98304,
+          "zero_sign_different": 0
+        },
+        "semantic_comparison": {
+          "optimized": {
+            "case": "finite-magnitude-boundaries-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "4e9a6001cfa06f57af267b8f20de4d36cc584d0fcd40b29bc790f7e75fc8f412",
+            "profile": "optimized",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          },
+          "strict": {
+            "case": "finite-magnitude-boundaries-v1",
+            "fixture": "abs-call",
+            "max_abs": 0,
+            "max_abs_tolerance": 0,
+            "max_model_error_bound": 0,
+            "oracle_sha256": "4e9a6001cfa06f57af267b8f20de4d36cc584d0fcd40b29bc790f7e75fc8f412",
+            "profile": "strict",
+            "samples": 98304,
+            "semantic_kind": "gen-arithmetic-v1"
+          }
+        }
+      }
+    ],
+    "device_id": "xiao-test-device-01",
+    "family": "gen-arithmetic",
+    "fixture": "abs-call",
+    "flash_bytes": 8388608,
+    "hardware_report": "build/hardware/gen-abs-intrinsic-target-v1/hardware-test.json",
+    "hardware_report_sha256": "7c92bb53dd77a5fb92ca20468e1637534ae94e7abbcf8ca494278d8db4ce2333",
+    "identical_artifact_control": false,
+    "numerical_profiles": {
+      "optimized": "float32-strict",
+      "strict": "float32-strict"
+    },
+    "pass": {
+      "blocks_per_pass": 64,
+      "cases": 4,
+      "compared_samples": 393216,
+      "dc_sample_checks": 0,
+      "finalized_images": 4,
+      "firmware_elf_sha256": "9c08fb24fe04a9b44c26fb90eaa7d880df22b058f25e23dc18142cc11f70b10a",
+      "fixture": "abs-call",
+      "gen_arith_bit_differences": 0,
+      "gen_arith_bit_sample_checks": 786432,
+      "gen_arith_zero_sign_differences": 0,
+      "host_heap_allocations": 0,
+      "host_heap_frees": 0,
+      "images": 4,
+      "input_cases": 4,
+      "input_rechecks": 36,
+      "internal_after": 315423,
+      "internal_before": 315423,
+      "local_late_allocations": 0,
+      "max_abs": 0,
+      "max_abs_tolerance": 0,
+      "max_pcm_lsb": 0,
+      "max_pcm_lsb_tolerance": 0,
+      "optimized_module_sha256": "03884d596595d53b4eafbae6dbeefc13efb3a5c0e720e59229c25a4526910954",
+      "optimized_peak_us": 53,
+      "optimized_process_us": 17510,
+      "optimized_timed_blocks": 384,
+      "oracle_bit_differences": 0,
+      "oracle_bit_sample_checks": 0,
+      "oracle_cases": 4,
+      "oracle_rechecks": 36,
+      "pcm_different": 0,
+      "pilot_sample_checks": 0,
+      "psram_after": 7988864,
+      "psram_before": 7988864,
+      "relative_rms_tolerance": 0,
+      "rms_error": 0,
+      "rounds": 3,
+      "scope": "offline_no_i2s_ui_network",
+      "seed": 305419896,
+      "semantic_sample_checks": 786432,
+      "stack_margin": 20076,
+      "strict_module_sha256": "7ee79ad2228cc65325ed6cad36334fa3cf15393e846bd718a985b6702721c579",
+      "strict_peak_us": 78,
+      "strict_process_us": 27442,
+      "strict_timed_blocks": 384,
+      "timing_exclude": 32,
+      "warmup": 4
+    },
+    "qualification_mode": "gen-abs-intrinsic-comparison-v1",
+    "role": "fx",
+    "scope": "Complete authored FX fixture with declared external signals; process callback only, generator/cache copy excluded; no I2S/UI/network.",
+    "serial_log": "build/hardware/gen-abs-intrinsic-target-v1/test-serial.log",
+    "serial_log_sha256": "32ec7be98004324a364b6841df4d5129e6dd72a027cf3d9ba7b19273a3a8cdf1",
+    "stimulus_provenance": {
+      "block_frames": 256,
+      "catalog_path": "tests/fixtures/gen/abs-intrinsic/catalog.json",
+      "catalog_sha256": "a7481d471f65f6203150e41b3870065df8e12fbb2d0fb9256a226c92791d83d5",
+      "events": [],
+      "generation": "Four fixed input families, including36 signed finite boundary words repeated with an independent17-frame right-lane offset; full INPUT SHA independently regenerated.",
+      "generator_source_sha256": {
+        "object-benchmark/main/stimulus.c": "5c16abbd04b2b9d5f34fa1998416b96040dc246006381b7acab46a8230b6454f",
+        "object-benchmark/main/stimulus.h": "d8e9a08c4c0ddc5b25d1a026bc6f294ee2e59427d6e3ca5a8b402f2327a43ad1"
+      },
+      "limit": "Only the exact abs-call GenExpr source and reviewed two-callee intrinsic substitution,64 fixed256-frame vectors/four zero warmups/three rounds. Finite-bit identity only; no errno, trapping/fenv, nonfinite, other abs types or Gen-family transfer.",
+      "oracle": "Independent binary64 arithmetic/comparisons over binary32 operands, rounded once per output operation. Product has at most48 significant bits, including binary32 underflow inputs. Complete canonical ORACLE SHA independently regenerated; min/max choose the first operand on ties.",
+      "oracle_source_sha256": {
+        "object-benchmark/main/gen_arithmetic_oracle.c": "1c6b5042df59a8f5e30aaab02a08d27a95ef6346fb281a4b55eabadefd9944c6",
+        "object-benchmark/main/gen_arithmetic_oracle.h": "457eb96491529a031410e2e475e9f178923a4d3776c21a0b431db349cefbecdd"
+      },
+      "parameter_schema": [],
+      "patch_sha256": "c2878ab82152020b8a26f006c96e22b7a4837ecfe9005ca9768bcaf9bbba39c6",
+      "pcm_gain": 0.5,
+      "pilot": "No direct observer; both output channels are the declared arithmetic operations.",
+      "psram_budget": {
+        "arena_bytes": 8192,
+        "loaded_images_upper_bound_bytes": 57160,
+        "loader_heap_alignment_reserve_bytes": 524288,
+        "opaque_context_upper_bound_bytes": 2097152,
+        "oracle_cache_bytes": 131072,
+        "physical_psram_bytes": 8388608,
+        "required_upper_bound_bytes": 3084104,
+        "workspace_bytes": 266240
+      },
+      "qualification_mode": "gen-abs-intrinsic-comparison-v1",
+      "rechecks": "Cached INPUT and declared ORACLE SHA before/after every pass; shared adjacent-pass checkpoint",
+      "sample_rate": 44100,
+      "sample_time": "Zero-based rendered frame n/44100 after zero-input warmup",
+      "semantic_gate": "Every output binary32 word must equal the independent canonical absolute-value cache, including positive zero. Numeric/cache-rounding error and all operation/pair bit differences must be zero.",
+      "surface_identity": {
+        "aliases_inherit_qualification": false,
+        "exact_entries": [
+          "rnbo-genexpr:abs"
+        ],
+        "source": {
+          "arity": 1,
+          "canonical": "abs",
+          "exact_name": "abs",
+          "inventory_id": "rnbo-genexpr:abs",
+          "surface": "genexpr",
+          "syntax": "call"
+        }
+      },
+      "timing": "Generator/oracle precomputation and cache copy excluded from process timers",
+      "verification_contract": {
+        "kind": "gen-arithmetic-v1",
+        "maximum_absolute_error": 0.0,
+        "model_code": 1
+      }
+    }
+  },
+  "collector_sha256": "4468f3bd0b4cf6e3bf99165f20cfdde13e5a7618061c99047dea8b02afaa7c7b",
+  "comparator_build": {
+    "bytes": 113599,
+    "path": "build/object-benchmark-xiao-abs-call-gen-abs-intrinsic-v1/build-report.json",
+    "sha256": "97d93a6809561d403148d7d05340d49bb89427a5b1ce9d43432ec9c1ea7682a9"
+  },
+  "compiler_admission": true,
+  "default_enabled": false,
+  "device_id": "xiao-test-device-01",
+  "finite_bit_identity_claimed": true,
+  "firmware_artifacts": {
+    "build/object-benchmark-xiao-abs-call-gen-abs-intrinsic-v1/partition_table/partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+    },
+    "build/object-benchmark-xiao-abs-call-gen-abs-intrinsic-v1/rnbo_object_benchmark.bin": {
+      "bytes": 340416,
+      "sha256": "ad368ddfe74c14c91b8db1c34ee6435fafc2d745d17fd7d56af457c0359b3815"
+    },
+    "build/object-benchmark-xiao-abs-call-gen-abs-intrinsic-v1/rnbo_object_benchmark.elf": {
+      "bytes": 4444780,
+      "sha256": "9c08fb24fe04a9b44c26fb90eaa7d880df22b058f25e23dc18142cc11f70b10a"
+    }
+  },
+  "fixture": "abs-call",
+  "floating_environment_equivalence_claimed": false,
+  "format": "rnbo-gen-abs-intrinsic-hardware-comparison",
+  "format_version": 1,
+  "local_proof_directory": "build/hardware/xiao-gen-abs-intrinsic-proof-v1",
+  "method": {
+    "arena_capacity_is_peak_claim": false,
+    "arena_capacity_per_image": 4096,
+    "audio_inputs": 2,
+    "audio_outputs": 2,
+    "block_frames": 256,
+    "blocks_per_pass": 64,
+    "compiler_flags": {
+      "comparator": {
+        "compile_commands": {
+          "bytes": 3399648,
+          "path": "build/object-benchmark-xiao-abs-call-gen-abs-intrinsic-v1/compile_commands.json",
+          "sha256": "c37f6896cdf8fa089f47f2f8d4766b654d9b1df82e4a5a5be8918186345485a2"
+        },
+        "contraction": "off",
+        "fast_math": false,
+        "optimization": "O2",
+        "scope": "actual authored audio translation unit; not every prebuilt library",
+        "strict_aliasing": false
+      },
+      "optimized": {
+        "compile_commands": {
+          "bytes": 2485995,
+          "path": "build/research/gen-abs-public-v1/modules/candidate/compile_commands.json",
+          "sha256": "4678c99b043ed322f8f18875a7c6cd401f2b70603bc3b527905a32c409eb86b7"
+        },
+        "contraction": "off",
+        "fast_math": false,
+        "optimization": "O2",
+        "scope": "actual authored audio translation unit; not every prebuilt library",
+        "strict_aliasing": false
+      },
+      "strict": {
+        "compile_commands": {
+          "bytes": 2485995,
+          "path": "build/research/gen-abs-public-v1/modules/reference/compile_commands.json",
+          "sha256": "4ebe156fe2bfbe51bfc1b7e87d9a5ad092ad9238f8e24b49fe7871312990d201"
+        },
+        "contraction": "off",
+        "fast_math": false,
+        "optimization": "O2",
+        "scope": "actual authored audio translation unit; not every prebuilt library",
+        "strict_aliasing": false
+      }
+    },
+    "cpu_mhz": 240,
+    "input_programs": [
+      "signed-grid-v1",
+      "dense-binary32-v1",
+      "vector-boundaries-v1",
+      "finite-magnitude-boundaries-v1"
+    ],
+    "model_and_pair_raw_bit_error_limit": 0,
+    "pair_PCM_error_limit": 0,
+    "pair_and_model_numeric_error_limit": 0,
+    "pcm_gain": 0.5,
+    "psram_mhz": 80,
+    "role": "fx",
+    "rounds": 3,
+    "sample_rate": 44100,
+    "seed": 305419896,
+    "target_domain": "finite binary32[-1,1], including36 explicit signed magnitude boundary words",
+    "timing_exclude_blocks": 32,
+    "timing_scope": "matched complete authored process callbacks on core1; input/oracle/cache work, events and prepare excluded; no I2S/UI/network",
+    "warmup_zero_blocks": 4,
+    "zero_sign": "negative zero maps to canonical positive zero"
+  },
+  "module_artifacts": {
+    "optimized": {
+      "bytes": 32796,
+      "path": "build/research/gen-abs-public-v1/modules/candidate/rnbo_s3_dynamic.app.elf",
+      "sha256": "03884d596595d53b4eafbae6dbeefc13efb3a5c0e720e59229c25a4526910954"
+    },
+    "strict": {
+      "bytes": 32980,
+      "path": "build/research/gen-abs-public-v1/modules/reference/rnbo_s3_dynamic.app.elf",
+      "sha256": "7ee79ad2228cc65325ed6cad36334fa3cf15393e846bd718a985b6702721c579"
+    }
+  },
+  "module_reports": {
+    "optimized": {
+      "bytes": 34719,
+      "path": "build/research/gen-abs-public-v1/modules/candidate/build-report.json",
+      "sha256": "6bb7a18fdbb62482d223aee60d01dde4b3440b0b53364b0b5e7330cce3acb3be"
+    },
+    "strict": {
+      "bytes": 32432,
+      "path": "build/research/gen-abs-public-v1/modules/reference/build-report.json",
+      "sha256": "e5aa717727045c55746b0a9cc6c4fb132e7764b929e65b421d5a63187f8e73c3"
+    }
+  },
+  "native_evidence_separate": {
+    "case_builds": 20,
+    "case_programs": 5,
+    "contexts": 40,
+    "extreme_PCM_saturation_per_cycle_expected": 63339,
+    "host_libc_libm_not_target_ELF_execution": true,
+    "included_in_target_totals": false,
+    "native_arena_used": 0,
+    "native_context_bytes": 14880,
+    "paired_float_PCM_words": 1048576,
+    "public_native_seal": {
+      "bytes": 53632,
+      "path": "build/research/gen-abs-public-native-v1/seal.json",
+      "sha256": "909c1ca53547b66c2ff371cddc300ee46e18a58e3d87f7f0460dad558cbb59eb"
+    },
+    "raw_magnitude_model_checks": 2097152,
+    "representative_full_finite_strata_not_exhaustive": true,
+    "saturation_does_not_hide_raw_float_bit_model_checks": true
+  },
+  "nonfinite_qualified": false,
+  "one_frame_module_ABI_qualified": false,
+  "option": "--gen-abs-intrinsic",
+  "precision_audit": {
+    "bytes": 144094,
+    "path": "build/audit/gen-abs-public-v1/report.json",
+    "sha256": "0197c2b5ef73d848154d0144f14e7d3a85dd7b13dca7770704fec7c1f1ef2ace"
+  },
+  "prior_same_image_control_record": {
+    "bytes": 568940,
+    "path": "evidence/xiao-gen-arithmetic.json",
+    "sha256": "ad09b7dcf24741710be73a8bd8e93e95e995403fe6245304eaecee221a75e85d"
+  },
+  "public_metadata_policy": {
+    "backup": "Private backup digest withheld; originals retained locally.",
+    "device": "Unique identities replaced by nonunique xiao-test-device-01.",
+    "integrity": "Only metadata strings change; all measurements, bounds, counts and non-backup artifact identities are retained.",
+    "paths": "Repository paths relative; personal toolchain/port strings withheld."
+  },
+  "publication_validation": {
+    "compiler": {
+      "observed_outcome": "passed",
+      "raw_log": {
+        "bytes": 101,
+        "path": "build/hardware/xiao-gen-abs-intrinsic-proof-v1/saved-test-logs/compiler.log",
+        "sha256": "7f963352351c6dd602fbf622d415cfa363980671445ba3af6c50623ca63071d5"
+      },
+      "tests": 454
+    },
+    "tools": {
+      "observed_outcome": "passed",
+      "raw_log": {
+        "bytes": 303,
+        "path": "build/hardware/xiao-gen-abs-intrinsic-proof-v1/saved-test-logs/tools.log",
+        "sha256": "6a373de665ac4618b9814b058eab29546cbde858f3c4cff9068a55950694c51f"
+      },
+      "tests": 135
+    }
+  },
+  "qualification_mode": "gen-abs-intrinsic-comparison-v1",
+  "raw_records": {
+    "before.json": {
+      "bytes": 2527,
+      "path": "build/hardware/gen-abs-intrinsic-target-v1/before.json",
+      "sha256": "78b25fe66fb887106c38c788155f76632d505ccf9828a20af6d20acaf88812e6"
+    },
+    "flash-test.log": {
+      "bytes": 980,
+      "path": "build/hardware/gen-abs-intrinsic-target-v1/flash-test.log",
+      "sha256": "df76ab39c5e5c5ef15516c218bbc0ba487f5a4b3663d5ef35cd0660f1f9ffa03"
+    },
+    "hardware-test.json": {
+      "bytes": 5161,
+      "path": "build/hardware/gen-abs-intrinsic-target-v1/hardware-test.json",
+      "sha256": "7c92bb53dd77a5fb92ca20468e1637534ae94e7abbcf8ca494278d8db4ce2333"
+    },
+    "restore-instrument.log": {
+      "bytes": 980,
+      "path": "build/hardware/gen-abs-intrinsic-target-v1/restore-instrument.log",
+      "sha256": "ee4aae007491fe96360c582756dfeddf1afa1b84833ce068bb2a6ee083e23afa"
+    },
+    "test-serial.log": {
+      "bytes": 11995,
+      "path": "build/hardware/gen-abs-intrinsic-target-v1/test-serial.log",
+      "sha256": "32ec7be98004324a364b6841df4d5129e6dd72a027cf3d9ba7b19273a3a8cdf1"
+    }
+  },
+  "reference_profile": "float32-strict",
+  "runner_record": {
+    "backup_sha256": "withheld-private-backup-digest",
+    "board": "xiao",
+    "completed_at_utc": "2026-11-03T18:49:17.897627+00:00",
+    "device_id": "xiao-test-device-01",
+    "error": null,
+    "flash_bytes": 8388608,
+    "format": "rnbo-isolated-hardware-test",
+    "format_version": 1,
+    "pass_line": "RNBO_OBJECT_BENCHMARK PASS fixture=abs-call firmware_elf_sha256=9c08fb24fe04a9b44c26fb90eaa7d880df22b058f25e23dc18142cc11f70b10a strict_module_sha256=7ee79ad2228cc65325ed6cad36334fa3cf15393e846bd718a985b6702721c579 optimized_module_sha256=03884d596595d53b4eafbae6dbeefc13efb3a5c0e720e59229c25a4526910954 cases=4 rounds=3 blocks_per_pass=64 warmup=4 seed=305419896 timing_exclude=32 compared_samples=393216 max_abs=0 rms_error=0 pcm_different=0 max_pcm_lsb=0 max_abs_tolerance=0 max_pcm_lsb_tolerance=0 relative_rms_tolerance=0 strict_timed_blocks=384 strict_process_us=27442 strict_peak_us=78 optimized_timed_blocks=384 optimized_process_us=17510 optimized_peak_us=53 psram_before=7988864 psram_after=7988864 internal_before=315423 internal_after=315423 host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 images=4 finalized_images=4 input_cases=4 input_rechecks=36 pilot_sample_checks=0 oracle_cases=4 oracle_rechecks=36 semantic_sample_checks=786432 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 stack_margin=20076 scope=offline_no_i2s_ui_network gen_arith_bit_sample_checks=786432 gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0",
+    "restoration": {
+      "instance_phase_restored": false,
+      "parameter_readback_available": true,
+      "parameters": {
+        "comb-fb": {
+          "actual": 0.9,
+          "index": 3,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "comb-ff": {
+          "actual": 0.9,
+          "index": 2,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "delay-fb": {
+          "actual": 0.5,
+          "index": 5,
+          "maximum": 0.99,
+          "minimum": 0
+        },
+        "delay-time": {
+          "actual": 25,
+          "index": 4,
+          "maximum": 50,
+          "minimum": 0
+        },
+        "lfo-depth": {
+          "actual": 0.5,
+          "index": 1,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "lfo-rate": {
+          "actual": 0.1,
+          "index": 0,
+          "maximum": 1,
+          "minimum": 0
+        },
+        "vib-depth": {
+          "actual": 0.1,
+          "index": 7,
+          "maximum": 2,
+          "minimum": 0
+        },
+        "vib-rate": {
+          "actual": 1,
+          "index": 6,
+          "maximum": 20,
+          "minimum": 0.1
+        }
+      },
+      "result": "restored",
+      "startup50_audible": true,
+      "status": {
+        "allocation_fault": false,
+        "arena_capacity": 131072,
+        "arena_used": 99088,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "audio_heap_requested_bytes": 0,
+        "audio_stack_free": 12024,
+        "block_frames": 256,
+        "blocks": 19,
+        "board": "XIAO ESP32-S3",
+        "channels": 2,
+        "clipped": 0,
+        "control_stack_free": 3656,
+        "dma_errors": 0,
+        "driver_elapsed_total_us": 50681,
+        "driver_timing_scope": "wall time including I2S wait and internal capture",
+        "firmware_elf_sha256": "b52370462df3e55ad1fa62023b1bc74c417d3603fd2cb3dff94944184f8a6764",
+        "frames": 4864,
+        "heap_guard": "audio-task-successful-heap-operations",
+        "internal_free_bytes": 302983,
+        "internal_largest_free_bytes": 229376,
+        "late_platform_allocations": 0,
+        "main_stack_free": 4616,
+        "module_errors": 0,
+        "module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+        "nonfinite": 0,
+        "panic": false,
+        "peak_us": 3200,
+        "platform_allocations": 10,
+        "post_write_capture_elapsed_total_us": 0,
+        "post_write_capture_timed": false,
+        "psram_free_bytes": 8039396,
+        "psram_largest_free_bytes": 7995392,
+        "queue_errors": 0,
+        "rate": 44100,
+        "ready_to_resume": false,
+        "rebuilding": false,
+        "reconstruction_failed": false,
+        "render_busy_total_us": 59446,
+        "render_deadline_overruns": 0,
+        "render_timing_scope": "owner-through-PCM; excludes driver and post-write capture",
+        "render_us": 3196,
+        "runtime": "rnbo-esp32s3-bringup",
+        "source": "static-rnbo",
+        "uptime_us": 340761,
+        "volume": 50,
+        "write_errors": 0
+      }
+    },
+    "restore_build_report_sha256": "3b21b4d55088e5e835122ffba82bd1d54dd3b75dd69490a7b41e6f46ea0b0cf2",
+    "restore_module_source_sha256": "8cb2c9e63aa652f1f234ad92d1a1153b7be6c4a8b604b6e99738eb97bdb1a0d6",
+    "restore_policy": "running-defaults-startup50",
+    "result": "passed",
+    "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+    "serial_log_sha256": "32ec7be98004324a364b6841df4d5129e6dd72a027cf3d9ba7b19273a3a8cdf1",
+    "started_at_utc": "2026-11-03T18:49:04.247265+00:00",
+    "test_app_sha256": "ad368ddfe74c14c91b8db1c34ee6435fafc2d745d17fd7d56af457c0359b3815",
+    "test_build_report_sha256": "97d93a6809561d403148d7d05340d49bb89427a5b1ce9d43432ec9c1ea7682a9",
+    "test_elf_sha256": "9c08fb24fe04a9b44c26fb90eaa7d880df22b058f25e23dc18142cc11f70b10a"
+  },
+  "runner_sha256": "d7925f53c3db79181010a018d2b28f5c2d643fee290f4127195fe869624d19dc",
+  "runtime_resource_profiles": {
+    "optimized": {
+      "arena_capacity": 4096,
+      "arena_high_water": 0,
+      "blocks": 768,
+      "clipped": 0,
+      "code_bytes": 26496,
+      "context_bytes": 12720,
+      "event_us": 0,
+      "events": 0,
+      "fixture": "abs-call",
+      "max_arena_requests": 0,
+      "max_cpp_new_calls": 0,
+      "peak": 1,
+      "peak_us": 53,
+      "prepare_us": 4538,
+      "process_us": 17510,
+      "profile": "optimized",
+      "rms": 0.420292438,
+      "timed_blocks": 384
+    },
+    "strict": {
+      "arena_capacity": 4096,
+      "arena_high_water": 0,
+      "blocks": 768,
+      "clipped": 0,
+      "code_bytes": 26668,
+      "context_bytes": 12720,
+      "event_us": 0,
+      "events": 0,
+      "fixture": "abs-call",
+      "max_arena_requests": 0,
+      "max_cpp_new_calls": 0,
+      "peak": 1,
+      "peak_us": 78,
+      "prepare_us": 5354,
+      "process_us": 27442,
+      "profile": "strict",
+      "rms": 0.420292438,
+      "timed_blocks": 384
+    }
+  },
+  "snapshot_date": "2026-11-04",
+  "static_ELF_resources": {
+    "optimized": {
+      "elf_bytes": 32796,
+      "elf_sha256": "03884d596595d53b4eafbae6dbeefc13efb3a5c0e720e59229c25a4526910954",
+      "loaded_data_upper_bound_bytes": 1478,
+      "loaded_text_span_bytes": 27016,
+      "text_section_bytes": 26495
+    },
+    "strict": {
+      "elf_bytes": 32980,
+      "elf_sha256": "7ee79ad2228cc65325ed6cad36334fa3cf15393e846bd718a985b6702721c579",
+      "loaded_data_upper_bound_bytes": 1478,
+      "loaded_text_span_bytes": 27188,
+      "text_section_bytes": 26667
+    }
+  },
+  "target_aggregate": {
+    "CPU_time_change_measured": true,
+    "all_module_heaps_recovered_exactly": true,
+    "candidate_mean_callback_us": 45.598958333333336,
+    "case_programs": 4,
+    "compared_samples": 393216,
+    "finalized_images": 4,
+    "images": 4,
+    "instrument_restoration_verified": true,
+    "maximum_PCM_lsb_error": 0,
+    "maximum_model_error": 0,
+    "maximum_pair_error": 0,
+    "optimized_process_us": 17510,
+    "pair_float_bit_differences": 0,
+    "pair_zero_sign_differences": 0,
+    "raw_model_bit_differences": 0,
+    "raw_model_bit_sample_checks": 786432,
+    "reference_mean_callback_us": 71.46354166666667,
+    "same_artifact_control": false,
+    "semantic_sample_checks": 786432,
+    "speed_ratio": 1.5672187321530553,
+    "strict_process_us": 27442,
+    "timed_vectors_per_profile": 384,
+    "whole_fixture_process_reduction_percent": 36.192697325267844
+  },
+  "visual_Gen_qualified": false
+}

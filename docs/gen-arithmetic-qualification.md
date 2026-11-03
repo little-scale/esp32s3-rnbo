@@ -9,7 +9,7 @@ including aliases that lower to identical code.
 
 | Exact GenExpr form | XIAO output checks | Mean callback µs | Optimisation comparison | Gain |
 | --- | --- | ---: | --- | --- |
-| `abs(in1)` | Pass | 71.56 | Not yet | — |
+| `abs(in1)` | Pass | 71.56 | [Intrinsic comparison passed](gen-abs-intrinsic.md) | 36.19% less callback time |
 | `min(in1, in2)` | Pass | 48.88 | Not yet | — |
 | `minimum(in1, in2)` | Pass | 48.89 | Not yet | — |
 | `max(in1, in2)` | Pass | 49.02 | Not yet | — |
@@ -32,6 +32,10 @@ observations, with no optimisation gain claimed. Input generation, mathematical
 cache construction, preparation, analysis, I²S, display and networking are not
 inside the process timer. These are not isolated-operation costs or application
 deadline guarantees.
+
+The abs optimisation column links a separate fresh four-case comparison,
+71.46 → 45.60 µs. Its percentage does not use the historical control timing
+shown in the baseline column or transfer to another arithmetic spelling.
 
 ## What was checked
 
@@ -76,8 +80,9 @@ live module callback and preparation warmup are checked separately. Abs uses
 two Float32 `fabsf` calls per frame, or 512 entries per 256-frame invocation;
 the other seven operation loops have no helper calls. Binary64 clock arithmetic
 remains outside those loops. These static counts do not measure a helper's
-cost or establish an optimisation gain. Replacing the abs calls with an exact,
-guarded intrinsic is a subsequent candidate to test.
+cost or establish an optimisation gain. A subsequent
+[guarded abs intrinsic comparison](gen-abs-intrinsic.md) now measures that
+candidate separately on the XIAO, including exact subnormal and zero-sign checks.
 
 ## Compile failures kept separate
 

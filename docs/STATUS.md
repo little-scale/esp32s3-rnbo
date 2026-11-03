@@ -22,6 +22,12 @@ callback times are [recorded per exact source](gen-arithmetic-qualification.md);
 same-image controls claim no optimisation gain. Three unbound, non-registry
 function-call probes are kept as compile failures rather than working objects.
 
+The optional [Gen abs intrinsic](gen-abs-intrinsic.md) now passes four matched
+XIAO cases with exact finite magnitude bits, including subnormals and zero
+signs. Callback time falls from 71.46 to 45.60 µs (36.19% less); Float32 calls
+become Float32 instructions and scheduler precision is unchanged. The drone is
+restored at 50%. Final local checks pass 454 compiler and 135 tool tests.
+
 Systematic **XIAO object qualification** is now active. The first isolated
 oscillator control and comb/allpass duration-hoist comparisons passed, with
 5,505,024 exact reference/candidate sample comparisons, complete memory recovery

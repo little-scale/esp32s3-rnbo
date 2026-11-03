@@ -23,7 +23,7 @@ from build_loader_spike import inventory, tree_digest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "host/compiler"))
 from prepare import ExportError, NUMERICAL_PROFILES, read_json, read_regular
-from gen_arithmetic_contract import KIND as GEN_ARITH_KIND, FORMAT as GEN_ARITH_FORMAT, benchmark_fixture as gen_arith_fixture, verification as gen_arith_verification, admit_module as gen_arith_admit_module
+from gen_arithmetic_contract import KIND as GEN_ARITH_KIND, FORMAT as GEN_ARITH_FORMAT, ABS_FORMAT as GEN_ABS_FORMAT, ABS_INPUT as GEN_ABS_INPUT, FIXTURES as GEN_ARITH_FIXTURES, benchmark_fixture as gen_arith_fixture, verification as gen_arith_verification, admit_module as gen_arith_admit_module
 from gen_history_contract import KIND as GEN_KIND, INPUT as GEN_INPUT, FORMAT as GEN_FORMAT, OPT_FORMAT as GEN_OPT_FORMAT, OPT_MODE as GEN_OPT_MODE, FIXTURES as GEN_FIXTURES, benchmark_fixture as gen_fixture, verification as gen_verification, admit_module as gen_admit_module, witness_sha256 as gen_witness_sha
 from wave4_contract import KIND as WAVE4_KIND, INPUTS as WAVE4_INPUTS, benchmark_fixture as wave4_fixture, verification as wave4_verification, admit_module as wave4_admit_module
 
@@ -109,7 +109,7 @@ def stimulus_contract(fixture, case):
     require(isinstance(base,dict) and isinstance(override,dict), "FX requires explicit stimulus settings")
     wave2={"impulse-step-v1":4,"mixed-tone-v1":5,"nonlinear-grid-v1":6,'nonlinear-dense-binary32-v1':11,
            **{name:7+i for i,(_,name) in enumerate(_WRAP_CASES)},
-           **{name:12+i for i,name in enumerate(WAVE4_INPUTS)}, GEN_INPUT:15}
+           **{name:12+i for i,name in enumerate(WAVE4_INPUTS)}, GEN_INPUT:15,GEN_ABS_INPUT:16}
     if base.get("kind") in wave2:
         require(set(base)=={"kind"} and set(override)<={"kind"},"Unknown wave2 stimulus settings")
         settings=base|override;require(settings.get("kind") in wave2,"Unknown wave2 stimulus kind")
@@ -214,7 +214,7 @@ def verification_contract(fixture,case,by_id,warmup,blocks=512):
     if isinstance(declaration,dict) and declaration.get('kind')==WAVE4_KIND:
         try:return wave4_verification(fixture,case,by_id,warmup,blocks)
         except ValueError as exc:raise ExportError(str(exc)) from exc
-    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in (GEN_INPUT,*WAVE4_INPUTS,"impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1","nonlinear-dense-binary32-v1",*(name for _,name in _WRAP_CASES))
+    new_input=(fixture.get("stimulus",{})|case.get("stimulus",{})).get("kind") in (GEN_ABS_INPUT,GEN_INPUT,*WAVE4_INPUTS,"impulse-step-v1","mixed-tone-v1","nonlinear-grid-v1","nonlinear-dense-binary32-v1",*(name for _,name in _WRAP_CASES))
     if declaration is None:
         require(not new_input,"Wave2 stimulus requires an explicit verification contract")
         return None
@@ -249,7 +249,8 @@ def configuration(args, modules):
     require(catalog.get("sample_rate")==44100 and catalog.get("block_frames")==256, "Wrong catalog audio profile")
     matches = [f for f in catalog.get("fixtures",[]) if f.get("id")==args.fixture_id]
     require(len(matches)==1, "Fixture ID must occur exactly once")
-    gen_arith = catalog.get('format') == GEN_ARITH_FORMAT
+    gen_abs = catalog.get('format') == GEN_ABS_FORMAT
+    gen_arith = catalog.get('format') in (GEN_ARITH_FORMAT,GEN_ABS_FORMAT)
     require(gen_arith or matches[0].get('verification', {}).get('kind') != GEN_ARITH_KIND,
             'Gen arithmetic requires the original Gen arithmetic catalog format')
     gen = catalog.get('format') in (GEN_FORMAT,GEN_OPT_FORMAT)
@@ -275,10 +276,21 @@ def configuration(args, modules):
     role = fixture.get("role")
     if gen_arith:
         try:
-            for module in modules.values():gen_arith_admit_module(fixture,module)
+            for side,module in modules.items():gen_arith_admit_module(fixture,module,candidate=gen_abs and side=='optimized')
         except ValueError as exc:raise ExportError(str(exc)) from exc
-        require(modules['strict']['artifact_sha256']==modules['optimized']['artifact_sha256'],
-                'Initial Gen arithmetic qualification requires an identical-module control')
+        require((modules['strict']['artifact_sha256']!=modules['optimized']['artifact_sha256'])if gen_abs else
+                (modules['strict']['artifact_sha256']==modules['optimized']['artifact_sha256']),
+                'Gen abs comparison requires distinct artifacts'if gen_abs else'Initial Gen arithmetic qualification requires an identical-module control')
+        if gen_abs:
+            for key in ('compiler','dependencies','private_support_archives','dynamic_abi','state_policy','allocation_accounting','source_files_sha256'):
+                require(key in modules['strict']['report'] and modules['strict']['report'][key]==modules['optimized']['report'].get(key),
+                        'Gen abs comparison requires matched compiler, SDK and state policy: '+key)
+            require(all(m['report'].get('imports')==[]for m in modules.values()),'Gen abs comparison requires zero imports')
+            omitted={'rnbo_source.h','patch_config.h','rnbo_s3_gen_abs_source.h'}
+            left=modules['strict']['report']['prepared_snapshot']['prepared_files_sha256']
+            right=modules['optimized']['report']['prepared_snapshot']['prepared_files_sha256']
+            require({k:v for k,v in left.items()if k not in omitted}=={k:v for k,v in right.items()if k not in omitted},
+                    'Gen abs comparison changes files beyond source/config/type contract')
         require(args.rounds==3 and args.timing_exclude_blocks==32 and args.arena_bytes==4096,
                 'Gen arithmetic requires reviewed rounds, timing exclusion and arena capacity')
     if gen:
@@ -320,7 +332,7 @@ def configuration(args, modules):
     require(all(isinstance(p,str) and re.fullmatch(r"[A-Za-z0-9_.-]{1,96}",p) for p in numerical_profiles.values()),"Unsafe numerical profile identity")
     patch=Path(fixture["patch"])
     require(not patch.is_absolute() and ".." not in patch.parts, "Unsafe catalog patch path")
-    patch=(GEN_FIXTURES if gen else args.catalog.parent)/patch
+    patch=(GEN_FIXTURES if gen else GEN_ARITH_FIXTURES if gen_abs else args.catalog.parent)/patch
     require(sha(patch)==manifest["editable_source_sha256"], "Module source differs from catalog patch")
     require(not manifest["required_host_services"] and not candidate["required_host_services"], "Host services unsupported")
     description_path = Path(modules["strict"]["export_path"])/"description.json"
@@ -435,7 +447,7 @@ def configuration(args, modules):
            f"#define BENCH_FIXTURE {c_string(args.fixture_id)}",f"#define BENCH_ROLE {1 if role=='main' else 2}u",
            f"#define BENCH_BLOCKS {blocks}u", f"#define BENCH_WARMUP {warmup}u",f"#define BENCH_SEED {seed}u",
            f"#define BENCH_ROUNDS {args.rounds}u",f"#define BENCH_TIMING_EXCLUDE {args.timing_exclude_blocks}u",
-           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u", f"#define BENCH_GEN_FEEDBACK_F32 {1 if gen_optimized else 0}u", f"#define BENCH_GEN_ARITH {1 if gen_arith else 0}u",
+           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u", f"#define BENCH_GEN_FEEDBACK_F32 {1 if gen_optimized else 0}u", f"#define BENCH_GEN_ARITH {1 if gen_arith else 0}u", f"#define BENCH_GEN_ABS_INTRINSIC {1 if gen_abs else 0}u",
            f"#define BENCH_ARENA_BYTES {args.arena_bytes}u",f"#define BENCH_HAS_ORACLE {1 if oracle_bytes else 0}u",f"#define BENCH_CASE_COUNT {len(cases)}u",f"#define BENCH_PARAMETER_COUNT {len(parameters)}u",
            f"#define BENCH_MAX_ABS {maximum.hex()}",f"#define BENCH_MAX_RELATIVE_RMS {relative.hex()}",f"#define BENCH_MAX_PCM_LSB {pcm}u",
            f"#define BENCH_STRICT_SHA256 {c_string(modules['strict']['artifact_sha256'])}",
@@ -486,12 +498,12 @@ def configuration(args, modules):
 def sources():
     paths=[Path(__file__).resolve(),ROOT/"tools/build_rnbo_loader_test.py",ROOT/"tools/build_loader_spike.py",ROOT/"loader-spike/dependencies.json",
            ROOT/"host/compiler/build.py",ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",
-           ROOT/"host/compiler/gen_arithmetic_contract.py",ROOT/"host/compiler/generate_gen_arithmetic_fixtures.py",ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/gen_feedback.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
+           ROOT/"host/compiler/gen_abs_intrinsic.py",ROOT/"host/compiler/gen_arithmetic_contract.py",ROOT/"host/compiler/generate_gen_arithmetic_fixtures.py",ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/gen_feedback.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
            ROOT/"tests/fixtures/objects/wave4/recipes.json",ROOT/"tests/fixtures/objects/wave4/inputs.py",
            ROOT/"tests/fixtures/objects/wave4/models.py",ROOT/"tests/fixtures/objects/wave4/identities.json"]
     for identity in ('history-feedback','two-history-swap','three-history-rotation'):
         paths.extend(GEN_FIXTURES/(identity+suffix) for suffix in ('.rnbopat','.genexpr'))
-    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target", ROOT/"tests/fixtures/gen/feedback-f32", ROOT/"tests/fixtures/gen/arithmetic"):
+    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target", ROOT/"tests/fixtures/gen/feedback-f32", ROOT/"tests/fixtures/gen/arithmetic", ROOT/"tests/fixtures/gen/abs-intrinsic"):
         paths.extend(p for p in sorted(directory.rglob("*")) if p.is_file() and "__pycache__" not in p.parts)
     return {p.relative_to(ROOT).as_posix():sha(p) for p in paths}
 

@@ -129,6 +129,12 @@ These same-image controls record absolute callback costs, with no optimisation
 gain. Three additional unbound function-call probes fail C++ compilation;
 frontend/prepare acceptance is explicitly kept separate from execution.
 
+The separate [abs intrinsic option](gen-abs-intrinsic.md) now passes a matched
+four-case XIAO comparison: 71.46 → 45.60 µs, or 36.19% less whole-callback time.
+Both profiles have exact numerical, PCM and raw magnitude bits, including
+subnormal and signed-zero boundaries. This removes Float32 library calls;
+it does not change the clock precision or qualify other Gen operations.
+
 The [metadata inventory](../site/data/gen-inventory.json) records:
 
 - 164 audio-capable names from installed Max common/DSP Gen references.

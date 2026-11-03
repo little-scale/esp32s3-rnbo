@@ -74,7 +74,16 @@ static bool wave4_input(uint32_t kind,uint32_t first,uint32_t frames,float *ster
 }
 bool object_stimulus_fill(const object_stimulus *s,uint32_t first_frame,uint32_t frames,float *stereo)
 {
-    if(!s || !stereo || !frames || first_frame>1024u*256u || frames>1024u*256u-first_frame || s->kind<OBJECT_STIMULUS_MIDI || s->kind>OBJECT_STIMULUS_GEN_HISTORY)return false;
+    if(!s || !stereo || !frames || first_frame>1024u*256u || frames>1024u*256u-first_frame || s->kind<OBJECT_STIMULUS_MIDI || s->kind>OBJECT_STIMULUS_ABS_BOUNDARIES)return false;
+    if(s->kind==OBJECT_STIMULUS_ABS_BOUNDARIES){
+        static const uint32_t magnitude[]={0,1,2,0x3fffff,0x400000,0x7ffffe,0x7fffff,0x800000,0x800001,
+            0xffffff,0x1000000,0x3e800000,0x3effffff,0x3f000000,0x3f000001,0x3f7ffffe,0x3f7fffff,0x3f800000};
+        for(uint32_t n=0;n<frames;++n)for(unsigned c=0;c<2;++c){
+            uint32_t lane=first_frame+n+(c?17u:0u),word=magnitude[(lane/2u)%18u]|((lane&1u)<<31u);
+            __builtin_memcpy(stereo+2u*n+c,&word,4);
+        }
+        return true;
+    }
     if(s->kind==OBJECT_STIMULUS_GEN_HISTORY){
         static const float pattern[]={.25f,-.125f,.5f,0.f,-.25f,.125f,-.5f};
         if(first_frame>16384u || frames>16384u-first_frame)return false;

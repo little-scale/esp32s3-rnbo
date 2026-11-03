@@ -156,9 +156,10 @@ static void prepare_stimulus(unsigned test,char fingerprint[65],char oracle_sha[
         object_wave4_oracle wave4;
         object_gen_history_oracle gen;
         if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
-            CHECK(BENCH_GEN_ARITH && BENCH_BLOCKS==64 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==3 && BENCH_PARAMETER_COUNT==0);
-            CHECK(!strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256));
-            CHECK(active_stimulus->kind==OBJECT_STIMULUS_WAVE4_GRID+test && bench_cases[test].event_count==0);
+            CHECK(BENCH_GEN_ARITH && BENCH_BLOCKS==64 && BENCH_WARMUP==4 && BENCH_SEED==0x12345678u && BENCH_CASE_COUNT==(BENCH_GEN_ABS_INTRINSIC?4u:3u) && BENCH_PARAMETER_COUNT==0);
+            CHECK(BENCH_GEN_ABS_INTRINSIC?strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256)!=0:!strcmp(BENCH_STRICT_SHA256,BENCH_OPTIMIZED_SHA256));
+            CHECK(active_stimulus->kind==(test<3u?OBJECT_STIMULUS_WAVE4_GRID+test:OBJECT_STIMULUS_ABS_BOUNDARIES) && bench_cases[test].event_count==0);
+            if(BENCH_GEN_ABS_INTRINSIC)CHECK(active_verification->window==OBJECT_GEN_ARITH_ABS);
             CHECK(active_verification->initial_available==0 && active_verification->maximum_error==0 && active_verification->exponent==0);
             for(unsigned i=0;i<5;++i)CHECK(active_verification->coefficients[i]==0);
             CHECK(object_gen_arithmetic_model(active_verification->window));
@@ -496,6 +497,7 @@ static void worker(void *unused)
                 if(active_verification->kind==OBJECT_GEN_ARITH_KIND){
                     printf("RNBO_OBJECT_BENCHMARK CASE_GEN_ARITH_BITS fixture=%s case=%s profile=%s oracle_sha256=%s samples=%"PRIu64" bit_different=%"PRIu64" zero_sign_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,p?"optimized":"strict",oracle_sha,semantic[p].samples,semantic[p].bit_different,semantic[p].zero_sign_different);fflush(stdout);
                     CHECK(semantic[p].bit_different==semantic[p].zero_sign_different && semantic[p].bit_different<=semantic[p].samples);
+                    if(BENCH_GEN_ABS_INTRINSIC)CHECK(semantic[p].bit_different==0);
                 }
                 if(active_verification->kind==OBJECT_WAVE4_KIND){
                     printf("RNBO_OBJECT_BENCHMARK CASE_WAVE4_BITS fixture=%s case=%s profile=%s oracle_sha256=%s samples=%"PRIu64" bit_different=%"PRIu64" zero_sign_different=%"PRIu64" observer_samples=%"PRIu64" observer_bit_different=%"PRIu64"\n",BENCH_FIXTURE,bench_cases[c].name,p?"optimized":"strict",oracle_sha,semantic[p].samples,semantic[p].bit_different,semantic[p].zero_sign_different,semantic[p].observer_samples,semantic[p].observer_bit_different);fflush(stdout);

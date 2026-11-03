@@ -296,7 +296,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             float32_pink_output: bool = False, correct_finite_wrap: bool = False,
             exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False,
             hoist_train_reciprocal: bool = False, bounded_line_ramps: bool = False,
-            float32_onepole_clamp: bool = False, stable_onepole: bool = False) -> dict:
+            float32_onepole_clamp: bool = False, stable_onepole: bool = False, gen_abs_intrinsic: bool = False) -> dict:
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -305,6 +305,15 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("midi-output must be reject or discard")
     if numerical_profile not in NUMERICAL_PROFILES:
         raise ExportError(f"numerical-profile must be one of {NUMERICAL_PROFILES}")
+    if type(gen_abs_intrinsic) is not bool:
+        raise ExportError("Gen abs intrinsic must be a boolean")
+    if gen_abs_intrinsic and (type(apply_fixes) is not bool or not apply_fixes or role != "fx" or
+            class_name != "rnbos3patch" or numerical_profile != "float32-strict" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
+            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or
+            float32_onepole_clamp or stable_onepole):
+        raise ExportError("Gen abs intrinsic requires its reviewed strict FX context, normal fixes and no other optional adapters")
     if type(float32_delay_storage) is not bool:
         raise ExportError("float32 delay storage must be a boolean")
     if type(omit_unused_mtof_table) is not bool:
@@ -429,7 +438,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     for name in ("generator.json", "source.rnbopat"):
         if (export_dir / name).exists():
             files[name] = read_regular(export_dir / name, 1024 * 1024)
-    if gen_feedback_profile or exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or stable_onepole:
+    if gen_abs_intrinsic or gen_feedback_profile or exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or stable_onepole:
         # This closed optional route admits the reviewed raw file set too,
         # rather than silently ignoring extra export files or linked aliases.
         for path in export_dir.rglob("*"):
@@ -484,6 +493,13 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(wrap_change)
+    if gen_abs_intrinsic:
+        from gen_abs_intrinsic import transform as gen_abs_transform
+        try:
+            files, gen_abs_change = gen_abs_transform(files, description, code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        changes.append(gen_abs_change)
     if gen_feedback_profile:
         from gen_feedback import transform as gen_feedback_transform
         try:
@@ -594,6 +610,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["hoist_cycle_conversions"] = True
     if float32_pink_output:
         manifest["float32_pink_output"] = True
+    if gen_abs_intrinsic:
+        from gen_abs_intrinsic import MANIFEST_CONTRACT
+        manifest["gen_abs_intrinsic"] = True
+        manifest["gen_abs_intrinsic_contract"] = dict(MANIFEST_CONTRACT)
     if gen_feedback_profile:
         from gen_feedback import MANIFEST_CONTRACT
         manifest["base_numerical_profile"] = "float32-strict"
@@ -626,7 +646,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               f"#define RNBO_S3_PATCH_ROLE {1 if role == 'main' else 2}\n"
               f"#define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT {1 if midi_output_policy == 'discard' else 0}\n"
               "#define RNBO_S3_PATCH_RATE 44100\n#define RNBO_S3_PATCH_BLOCK 256\n")
-    if gen_feedback_profile:
+    if gen_abs_intrinsic:
+        from gen_abs_intrinsic import CONTRACT_FILE
+        config += '#define RNBO_S3_PATCH_SOURCE "' + CONTRACT_FILE + '"\n'
+    elif gen_feedback_profile:
         from gen_feedback import CONTRACT_FILE
         config += '#define RNBO_S3_PATCH_SOURCE "' + CONTRACT_FILE + '"\n'
     elif scalar_power_profile:
@@ -790,7 +813,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": {name: digest((Path(__file__).parent.parent / "export" / name).read_bytes())
                                              for name in ("export.mjs", "patcher.mjs", "inspect_onepole_graph.mjs")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
@@ -856,6 +879,8 @@ def main() -> None:
                         help="Use Float32 literals in type-checked onepole clamps; preserves finite stored values, not fenv/NaN payloads; coefficient/recurrence unchanged")
     parser.add_argument("--stable-onepole", action="store_true",
                         help="Experimental stable Float32 onepole coefficient/recurrence; reviewed FX fixtures or freshly regenerated eligible Main/FX graphs; changes rounding, no target CPU claim")
+    parser.add_argument("--gen-abs-intrinsic", action="store_true",
+                        help="Use explicit Float32 absolute builtins in the exact Gen abs FX program; preserves finite value bits, not fenv/nonfinite semantics")
     args = parser.parse_args()
     try:
         manifest = prepare(args.export_dir, args.output_dir, args.class_name, args.role,
@@ -866,7 +891,7 @@ def main() -> None:
                            float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
                            exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations,
                            hoist_train_reciprocal=args.hoist_train_reciprocal,bounded_line_ramps=args.bounded_line_ramps,
-                           float32_onepole_clamp=args.float32_onepole_clamp,stable_onepole=args.stable_onepole)
+                           float32_onepole_clamp=args.float32_onepole_clamp,stable_onepole=args.stable_onepole,gen_abs_intrinsic=args.gen_abs_intrinsic)
     except (ExportError, OSError, UnicodeError) as exc:
         parser.exit(1, f"Export rejected: {exc}\n")
     print(json.dumps({"prepared_export": str(args.output_dir.resolve()), "manifest": manifest}, indent=2))

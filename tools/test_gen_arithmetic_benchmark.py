@@ -11,6 +11,7 @@ import unittest
 from build_object_benchmark import configuration, ExportError
 from generate_gen_arithmetic_fixtures import authored_files
 from gen_arithmetic_contract import IDENTITIES
+import gen_abs_intrinsic
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -87,6 +88,38 @@ class GenArithmeticBenchmarkTests(unittest.TestCase):
             else:r['prepared_snapshot']['prepared_files_sha256']['rnbo_source.h'if key=='prepared'else'common/RNBO_Types.h']='0'*64
             with self.assertRaises(ExportError):self.generate()
             self.modules=original
+
+    def test_abs_comparison_requires_four_cases_exact_bits_and_closed_candidate_context(self):
+        self.catalog=json.loads((ROOT/'tests/fixtures/gen/abs-intrinsic/catalog.json').read_bytes())
+        for module in self.modules.values():
+            module['report'].update({k:{}for k in ('compiler','dependencies','private_support_archives','dynamic_abi',
+                                                  'state_policy','allocation_accounting','source_files_sha256')},imports=[])
+        candidate=self.modules['optimized'];candidate['artifact_sha256']='b'*64
+        manifest=candidate['report']['prepared_export']['manifest']
+        manifest.update(gen_abs_intrinsic=True,gen_abs_intrinsic_contract=copy.deepcopy(gen_abs_intrinsic.MANIFEST_CONTRACT))
+        manifest['adaptations'].append(gen_abs_intrinsic.ADAPTATION)
+        snapshot=candidate['report']['prepared_snapshot']['prepared_files_sha256']
+        snapshot.update({'rnbo_source.h':gen_abs_intrinsic.OUTPUT,
+                         gen_abs_intrinsic.CONTRACT_FILE:gen_abs_intrinsic.sha(gen_abs_intrinsic.CONTRACT),
+                         'patch_config.h':'f6ac5f77e0492f986a983c1ee31e1dafe9899b0aceabe2ef591fbfa43c40cdcf'})
+        header,policy=self.generate()
+        self.assertIn('#define BENCH_GEN_ABS_INTRINSIC 1u',header)
+        self.assertEqual([s['kind']for s in policy['stimuli']],[12,13,14,16])
+        self.assertEqual({v['gate']for v in policy['verifications']},{'raw-binary32-absolute-bits'})
+        self.assertEqual({v['operation_zero_sign']for v in policy['verifications']},{'positive-zero-required'})
+        for mutation in ('same-image','source','contract','config','profile','clock','extra-file'):
+            original=copy.deepcopy(self.modules)
+            if mutation=='same-image':candidate['artifact_sha256']='a'*64
+            elif mutation=='source':snapshot['rnbo_source.h']='0'*64
+            elif mutation=='contract':snapshot[gen_abs_intrinsic.CONTRACT_FILE]='0'*64
+            elif mutation=='config':snapshot['patch_config.h']='0'*64
+            elif mutation=='profile':manifest['numerical_profile']='float32-gen-feedback-v1'
+            elif mutation=='clock':candidate['report']['source_files_sha256']={'different':True}
+            else:snapshot['other.h']='0'*64
+            with self.subTest(mutation=mutation),self.assertRaises(ExportError):self.generate()
+            self.modules=original;candidate=self.modules['optimized']
+            manifest=candidate['report']['prepared_export']['manifest']
+            snapshot=candidate['report']['prepared_snapshot']['prepared_files_sha256']
 
     def test_actual_run_pass_separates_zero_sign_diagnostics_from_numeric_errors(self):
         source=(ROOT/'object-benchmark/main/benchmark.c').read_text()

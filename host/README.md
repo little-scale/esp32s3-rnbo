@@ -254,6 +254,17 @@ record 83.94% less callback time for the declared cases. Subnormal and signed-
 zero native counterexamples keep this explicitly changed-rounding; the strict
 default is retained.
 
+## Optional Gen abs intrinsic
+
+`--gen-abs-intrinsic` selects explicit Float32 absolute builtins only in the
+reviewed original `abs-call` GenExpr FX export. It preserves finite magnitude
+bits, including subnormals and negative-zero conversion to positive zero;
+nonfinite and floating-environment equivalence remain outside its contract.
+Source/runtime/type guards reject other graphs and optional adapter combinations.
+The default strict path is unchanged. The
+[matched XIAO comparison](../docs/gen-abs-intrinsic.md) records 36.19% less
+callback time with exact device outputs in four input families.
+
 ## Optional scalar-power numerical profile
 
 `--numerical-profile float32-scalar-powers-v1` admits only the exact authored
