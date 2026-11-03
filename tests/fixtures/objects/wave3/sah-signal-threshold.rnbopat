@@ -1,0 +1,146 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1120,
+      720
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "data",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "data",
+          "patching_rect": [
+            20,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "trigger",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "trigger",
+          "patching_rect": [
+            290,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "hold",
+          "maxclass": "newobj",
+          "text": "sah~",
+          "rnbo_uniqueid": "hold",
+          "patching_rect": [
+            560,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left-output",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left-output",
+          "patching_rect": [
+            830,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right-output",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right-output",
+          "patching_rect": [
+            20,
+            125,
+            250,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "data",
+            0
+          ],
+          "destination": [
+            "hold",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "trigger",
+            0
+          ],
+          "destination": [
+            "hold",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "hold",
+            0
+          ],
+          "destination": [
+            "left-output",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "data",
+            0
+          ],
+          "destination": [
+            "right-output",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "data",
+            0
+          ],
+          "destination": [
+            "hold",
+            2
+          ]
+        }
+      }
+    ]
+  }
+}

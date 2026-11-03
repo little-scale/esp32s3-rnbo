@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 get_filename_component(sdk_root "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
-idf_component_register(SRCS "${sdk_root}/dynamic/rnbo_s3_dynamic.cpp" "${sdk_root}/dynamic/arena.cpp" "${sdk_root}/dynamic/lifecycle.cpp" "${sdk_root}/dynamic/support.cpp"
+idf_component_register(SRCS "${sdk_root}/dynamic/rnbo_s3_dynamic.cpp" "${sdk_root}/dynamic/arena.cpp" "${sdk_root}/dynamic/lifecycle.cpp" "${sdk_root}/dynamic/support.cpp" "${sdk_root}/dynamic/integer_abs.cpp"
   INCLUDE_DIRS "${sdk_root}/include" "${sdk_root}/dynamic" "${RNBO_S3_EXPORT_DIR}" "${RNBO_S3_EXPORT_DIR}/common")
 target_compile_definitions(${COMPONENT_LIB} PRIVATE RNBO_S3_DYNAMIC_MAX_ARENA_BYTES=${RNBO_S3_MAX_ARENA_BYTES}u)
 target_compile_options(${COMPONENT_LIB} PRIVATE -fno-fast-math -ffp-contract=off -fno-strict-aliasing

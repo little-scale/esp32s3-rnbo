@@ -1,5 +1,12 @@
 # Local export and static compilation
 
+The [wave3 stateful qualification driver](../tests/fixtures/objects/wave3/native/README.md)
+reproduces the 45 native `onepole~`, `slide~`, `delta~` and `sah~` programs through
+the production dynamic C ABI. Its current complete baseline intentionally exits
+with a qualification failure because six mathematical accuracy gates fail;
+runtime health and compiler admission are recorded separately. See the
+[results and precision audit](../docs/wave3-stateful.md). It requires no board.
+
 This first compiler route uses the installed RNBO 1.4.4 generator or a manually
 exported **Minimal C++ Export**. It prepares trusted C++ for a native host render
 tool and for static ESP-IDF builds. Dynamic `.rnbos3` packages and device uploads

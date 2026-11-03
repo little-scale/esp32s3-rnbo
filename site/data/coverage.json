@@ -482,6 +482,130 @@
       "not_an_execution_proof": true,
       "source": "build/object-optimisation/wave2-target-v1/fixtures/nonlinear-domains.rnbopat",
       "structural_audio_ancestors": 9
+    },
+    {
+      "boxes": 6,
+      "cords": 4,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:onepole~",
+        "patcher:out~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/onepole-fixed-stereo.rnbopat",
+      "structural_audio_ancestors": 6
+    },
+    {
+      "boxes": 7,
+      "cords": 6,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:onepole~",
+        "patcher:out~",
+        "patcher:param"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/onepole-scalar-stereo.rnbopat",
+      "structural_audio_ancestors": 7
+    },
+    {
+      "boxes": 5,
+      "cords": 4,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:onepole~",
+        "patcher:out~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/onepole-signal-cutoff.rnbopat",
+      "structural_audio_ancestors": 5
+    },
+    {
+      "boxes": 6,
+      "cords": 4,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:out~",
+        "patcher:slide~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/slide-fixed-stereo.rnbopat",
+      "structural_audio_ancestors": 6
+    },
+    {
+      "boxes": 8,
+      "cords": 8,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:out~",
+        "patcher:param",
+        "patcher:slide~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/slide-scalar-stereo.rnbopat",
+      "structural_audio_ancestors": 8
+    },
+    {
+      "boxes": 8,
+      "cords": 8,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:out~",
+        "patcher:param",
+        "patcher:slide~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/slide-signal-controls.rnbopat",
+      "structural_audio_ancestors": 8
+    },
+    {
+      "boxes": 6,
+      "cords": 4,
+      "distinct_exact_entries": [
+        "patcher:delta~",
+        "patcher:in~",
+        "patcher:out~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/delta-stereo.rnbopat",
+      "structural_audio_ancestors": 6
+    },
+    {
+      "boxes": 5,
+      "cords": 4,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:out~",
+        "patcher:sah~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/sah-fixed-threshold.rnbopat",
+      "structural_audio_ancestors": 5
+    },
+    {
+      "boxes": 6,
+      "cords": 5,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:out~",
+        "patcher:param",
+        "patcher:sah~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/sah-scalar-threshold.rnbopat",
+      "structural_audio_ancestors": 6
+    },
+    {
+      "boxes": 5,
+      "cords": 5,
+      "distinct_exact_entries": [
+        "patcher:in~",
+        "patcher:out~",
+        "patcher:sah~"
+      ],
+      "not_an_execution_proof": true,
+      "source": "tests/fixtures/objects/wave3/sah-signal-threshold.rnbopat",
+      "structural_audio_ancestors": 5
     }
   ],
   "excluded_from_CPU_savings": [
@@ -506,7 +630,7 @@
   ],
   "format": "curated-RNBO-exact-spelling-status-mapping-v1",
   "hardware_access": false,
-  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none. The bounded-line compiler option is experimental with native output/clock evidence and exact public/private target-image binding only. Its target execution flag is false and no CPU measurement is added; it does not reuse physical-original identity flags.",
+  "later_publication_notes": "The initial revision covers the original mapping. Later evidence is content-hash bound. Exact signal conversion, scalar duration hoisting and train reciprocal hoisting reuse historical timings only after exact public executable identity. Scalar-filter and train admissions bind both reference and candidate. These admissions add no physical measurement records. Train remains partially qualified with its inherited warm-start duty failure. Expanded line-mode observations are native-only, preserve baseline faults and original passes, and add no target measurements. Partial working status now records board-evidence location explicitly; line has none. The bounded-line compiler option is experimental with native output/clock evidence and exact public/private target-image binding only. Its target execution flag is false and no CPU measurement is added; it does not reuse physical-original identity flags. Wave3 adds four exact native-only spellings: onepole~ and slide~ retain six mathematical accuracy failures, while delta~ and sah~ pass their declared independent gates. Ten target forms compile; none executed. The isolated integer abs runtime fix adds no DSP adapter or CPU measurement. Canonical sah and codebox sah remain unverified.",
   "limits": [
     "No complete-object/mode compatibility inferred from this finite corpus.",
     "Named registry enumeration is separate and supplied by design_review; unmapped exact spellings stay unverified.",
@@ -15039,6 +15163,64 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": false,
+      "cpu_measurement_ids": [],
+      "id": "patcher:delta~",
+      "known_gaps": [
+        "Finite tested inputs and the declared fresh-history forms only; other modes and compositions remain open.",
+        "Compiled target admission is not target execution or a CPU measurement."
+      ],
+      "observed_in": [
+        {
+          "audio_ancestor_ids": [
+            "left-object",
+            "right-object"
+          ],
+          "forms": [
+            "delta~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/delta-stereo.rnbopat",
+          "node_ids": [
+            "left-object",
+            "right-object"
+          ]
+        }
+      ],
+      "optimisation_state": "none",
+      "optimisations": [
+        {
+          "flag": null,
+          "id": "wave3-stateful-precision-audit",
+          "note": "Linked sample arithmetic is Float32; no DSP rewrite or measured CPU change.",
+          "source": "docs/wave3-stateful.md",
+          "state": "none"
+        }
+      ],
+      "qualification": [
+        {
+          "conditions": "Stereo independent previous-input histories, cold/warm starts, impulse/step/mixed inputs and fresh reconstruction at 44.1 kHz/256 frames.",
+          "level": "native-only-independent-stateful-models",
+          "source": "evidence/wave3-stateful.json"
+        },
+        {
+          "conditions": "All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort.",
+          "level": "compiled-target-only-no-execution",
+          "source": "docs/wave3-stateful.md"
+        }
+      ],
+      "registry_context": {
+        "authored_spelling_is_alias": false,
+        "canonical_id": "patcher:delta~",
+        "qualification_inherits_to_canonical_or_other_aliases": false,
+        "source": "site/data/inventory.json"
+      },
+      "spelling": "delta~",
+      "surface": "patcher",
+      "working_note": "All four native programs pass the independent difference oracle, resource gates and O3/UBSan compatibility checks.",
+      "working_state": "native"
+    },
+    {
+      "aliases_inherit_status": false,
       "cpu_measurement_ids": [],
       "id": "patcher:feedback~",
       "known_gaps": [
@@ -15671,6 +15853,90 @@
       "surface": "patcher",
       "working_note": "Selected behavior works in the authored MIDI envelope graph, not every mode.",
       "working_state": "board"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": false,
+      "cpu_measurement_ids": [],
+      "id": "patcher:onepole~",
+      "known_gaps": [
+        "Five numerical failures remain: long DC at zero/.05/1 Hz, ordered frequency events and signal slow-control grid.",
+        "No other coefficient modes, arbitrary compositions, target execution or CPU measurements are qualified."
+      ],
+      "observed_in": [
+        {
+          "audio_ancestor_ids": [
+            "left-object",
+            "right-object"
+          ],
+          "forms": [
+            "onepole~ 1000"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/onepole-fixed-stereo.rnbopat",
+          "node_ids": [
+            "left-object",
+            "right-object"
+          ]
+        },
+        {
+          "audio_ancestor_ids": [
+            "left-object",
+            "right-object"
+          ],
+          "forms": [
+            "onepole~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/onepole-scalar-stereo.rnbopat",
+          "node_ids": [
+            "left-object",
+            "right-object"
+          ]
+        },
+        {
+          "audio_ancestor_ids": [
+            "filter"
+          ],
+          "forms": [
+            "onepole~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/onepole-signal-cutoff.rnbopat",
+          "node_ids": [
+            "filter"
+          ]
+        }
+      ],
+      "optimisation_state": "none",
+      "optimisations": [
+        {
+          "flag": null,
+          "id": "wave3-stateful-precision-audit",
+          "note": "Sample recurrence is Float32. Coefficient updates still use Double exponential arithmetic and comparisons; no DSP rewrite or measured CPU change.",
+          "source": "docs/wave3-stateful.md",
+          "state": "none"
+        }
+      ],
+      "qualification": [
+        {
+          "conditions": "Fixed, scalar-event and signal cutoff forms at 44.1 kHz/256 frames; low-cutoff DC and ordered/signal-control failures remain recorded.",
+          "level": "native-only-independent-stateful-models",
+          "source": "evidence/wave3-stateful.json"
+        },
+        {
+          "conditions": "All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort.",
+          "level": "compiled-target-only-no-execution",
+          "source": "docs/wave3-stateful.md"
+        }
+      ],
+      "registry_context": {
+        "authored_spelling_is_alias": false,
+        "canonical_id": "patcher:onepole~",
+        "qualification_inherits_to_canonical_or_other_aliases": false,
+        "source": "site/data/inventory.json"
+      },
+      "spelling": "onepole~",
+      "surface": "patcher",
+      "working_note": "All 15 native programs run without processing allocations or runtime faults; five exceed the fixed independent 3e-6 absolute-error gate.",
+      "working_state": "partial"
     },
     {
       "aliases_inherit_status": false,
@@ -17101,6 +17367,86 @@
     },
     {
       "aliases_inherit_status": false,
+      "board_evidence": false,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sah~",
+      "known_gaps": [
+        "Only the exact authored sah~ alias is qualified. Canonical patcher sah and codebox sah receive no inherited status.",
+        "Finite tested inputs and declared zero histories only; broader modes/compositions, target execution and CPU measurements remain open."
+      ],
+      "observed_in": [
+        {
+          "audio_ancestor_ids": [
+            "hold"
+          ],
+          "forms": [
+            "sah~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/sah-fixed-threshold.rnbopat",
+          "node_ids": [
+            "hold"
+          ]
+        },
+        {
+          "audio_ancestor_ids": [
+            "hold"
+          ],
+          "forms": [
+            "sah~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/sah-scalar-threshold.rnbopat",
+          "node_ids": [
+            "hold"
+          ]
+        },
+        {
+          "audio_ancestor_ids": [
+            "hold"
+          ],
+          "forms": [
+            "sah~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/sah-signal-threshold.rnbopat",
+          "node_ids": [
+            "hold"
+          ]
+        }
+      ],
+      "optimisation_state": "none",
+      "optimisations": [
+        {
+          "flag": null,
+          "id": "wave3-stateful-precision-audit",
+          "note": "Linked sample comparisons/storage are Float32; no DSP rewrite or measured CPU change.",
+          "source": "docs/wave3-stateful.md",
+          "state": "none"
+        }
+      ],
+      "qualification": [
+        {
+          "conditions": "Fixed, scalar-event and signal thresholds; crossing compares both previous and current trigger against the current threshold. Held/equality and ordered-control cases pass.",
+          "level": "native-only-independent-stateful-models",
+          "source": "evidence/wave3-stateful.json"
+        },
+        {
+          "conditions": "All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort.",
+          "level": "compiled-target-only-no-execution",
+          "source": "docs/wave3-stateful.md"
+        }
+      ],
+      "registry_context": {
+        "authored_spelling_is_alias": true,
+        "canonical_id": "patcher:sah",
+        "qualification_inherits_to_canonical_or_other_aliases": false,
+        "source": "site/data/inventory.json"
+      },
+      "spelling": "sah~",
+      "surface": "patcher",
+      "working_note": "All 12 native programs preserve exact source-word captures and pass the independent crossing oracle, resource gates and O3/UBSan compatibility checks.",
+      "working_state": "native"
+    },
+    {
+      "aliases_inherit_status": false,
       "cpu_measurement_ids": [
         "saw-fx-audio-v1:aggregate",
         "saw-fx-audio-v1:default",
@@ -17510,6 +17856,92 @@
       "surface": "patcher",
       "working_note": "Signal plumbing participates in native semantic and qualified S3 fixtures.",
       "working_state": "in_patch"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": false,
+      "cpu_measurement_ids": [],
+      "id": "patcher:slide~",
+      "known_gaps": [
+        "The large-signed-rates long-run numerical failure remains.",
+        "The runtime helper defines an INT_MIN extension; it does not make every rate/value domain or composition qualified. No target execution or CPU measurements."
+      ],
+      "observed_in": [
+        {
+          "audio_ancestor_ids": [
+            "left-object",
+            "right-object"
+          ],
+          "forms": [
+            "slide~ 8 32"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/slide-fixed-stereo.rnbopat",
+          "node_ids": [
+            "left-object",
+            "right-object"
+          ]
+        },
+        {
+          "audio_ancestor_ids": [
+            "left-object",
+            "right-object"
+          ],
+          "forms": [
+            "slide~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/slide-scalar-stereo.rnbopat",
+          "node_ids": [
+            "left-object",
+            "right-object"
+          ]
+        },
+        {
+          "audio_ancestor_ids": [
+            "left-object",
+            "right-object"
+          ],
+          "forms": [
+            "slide~"
+          ],
+          "graph_source": "tests/fixtures/objects/wave3/slide-signal-controls.rnbopat",
+          "node_ids": [
+            "left-object",
+            "right-object"
+          ]
+        }
+      ],
+      "optimisation_state": "none",
+      "optimisations": [
+        {
+          "flag": null,
+          "id": "wave3-stateful-precision-audit",
+          "note": "Float32 smoothing and reciprocal arithmetic retained. A private integer abs helper closes the fixed-literal link gap; no DSP rewrite or measured CPU change.",
+          "source": "docs/wave3-stateful.md",
+          "state": "none"
+        }
+      ],
+      "qualification": [
+        {
+          "conditions": "Fixed integer literals, scalar-event and signal controls; direction is selected against the previous output. The long signed-rate failure is retained.",
+          "level": "native-only-independent-stateful-models",
+          "source": "evidence/wave3-stateful.json"
+        },
+        {
+          "conditions": "All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort.",
+          "level": "compiled-target-only-no-execution",
+          "source": "docs/wave3-stateful.md"
+        }
+      ],
+      "registry_context": {
+        "authored_spelling_is_alias": false,
+        "canonical_id": "patcher:slide~",
+        "qualification_inherits_to_canonical_or_other_aliases": false,
+        "source": "site/data/inventory.json"
+      },
+      "spelling": "slide~",
+      "surface": "patcher",
+      "working_note": "All 14 native programs run without processing allocations or runtime faults; one long signed-rate case exceeds the fixed independent 3e-6 absolute-error gate.",
+      "working_state": "partial"
     },
     {
       "aliases_inherit_status": false,
@@ -18871,6 +19303,13 @@
       "sha256": "f59805c5637896d074dca7a5585ec0cf3a8818e944e86d203f9ad75366f5bb16",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/unused-mtof-table.md"
     },
+    "docs/wave3-stateful.md": {
+      "bytes": 8968,
+      "path": "docs/wave3-stateful.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f41c8f847fb8df6e33f1c8f1e3d2715dcc991556e0be1019ab4c604d236e680d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/wave3-stateful.md"
+    },
     "docs/wrap-finite-target.md": {
       "bytes": 4201,
       "path": "docs/wrap-finite-target.md",
@@ -19101,6 +19540,13 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "4942c083109f7cc14c8c9839c1da9f5d8d7fdcf94591ed373e7a5fa0eda55edf",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/evidence/wave2-target-oracles.json"
+    },
+    "evidence/wave3-stateful.json": {
+      "bytes": 1354325,
+      "path": "evidence/wave3-stateful.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2aab3c1c1e9d14d5aff3f0475d256ad84f3ff82e9764906a5d0b1ad00039c3b3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave3-stateful.json"
     },
     "evidence/wrap-finite-target.json": {
       "bytes": 137242,
@@ -19339,6 +19785,83 @@
       "publication": "verified-remote-commit-and-local-blob",
       "sha256": "3024d04561a74b0877311b1e977ec5a61d0a9e0046a0e6ebf5f47a995a43441d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/tests/fixtures/objects/wave2/target-oracles.json"
+    },
+    "tests/fixtures/objects/wave3/catalog.json": {
+      "bytes": 29356,
+      "path": "tests/fixtures/objects/wave3/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "62ae485b86743b1b603a70a153d90f2cfc59fcc300727acb37ce6be2164e09ba",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/catalog.json"
+    },
+    "tests/fixtures/objects/wave3/delta-stereo.rnbopat": {
+      "bytes": 2701,
+      "path": "tests/fixtures/objects/wave3/delta-stereo.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "edfad913fb6999a727bb5648d6ff0c6d1a421313620a6c05a9af00fa256196f0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/delta-stereo.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/onepole-fixed-stereo.rnbopat": {
+      "bytes": 2715,
+      "path": "tests/fixtures/objects/wave3/onepole-fixed-stereo.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "165243833244cfc7be886ddd73b69dacb70c7096000b2a4b32aac1218e0f266c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/onepole-fixed-stereo.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/onepole-scalar-stereo.rnbopat": {
+      "bytes": 3416,
+      "path": "tests/fixtures/objects/wave3/onepole-scalar-stereo.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "93af0c651e74cceb5d2b72594e3f10d10ad1ee5be53b79f1b86090990431f4a8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/onepole-scalar-stereo.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/onepole-signal-cutoff.rnbopat": {
+      "bytes": 2359,
+      "path": "tests/fixtures/objects/wave3/onepole-signal-cutoff.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4fb35c91af67ba8f4fa3fd712ae804b7687448736fcd699e3f65811638f00386",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/onepole-signal-cutoff.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/sah-fixed-threshold.rnbopat": {
+      "bytes": 2339,
+      "path": "tests/fixtures/objects/wave3/sah-fixed-threshold.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bb9288ef3413e51fef50059235c6bb55b41e1262c18278b755fd5c29ae03b721",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/sah-fixed-threshold.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/sah-scalar-threshold.rnbopat": {
+      "bytes": 2844,
+      "path": "tests/fixtures/objects/wave3/sah-scalar-threshold.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "47193a6a05bee698d65bd180c2dfa991b84e8adc76231f8960e21985797d3493",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/sah-scalar-threshold.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/sah-signal-threshold.rnbopat": {
+      "bytes": 2531,
+      "path": "tests/fixtures/objects/wave3/sah-signal-threshold.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7b6fa8aec8682ecd85fb337125280a21176562c36142cdeb5a7a8a54923cf547",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/sah-signal-threshold.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/slide-fixed-stereo.rnbopat": {
+      "bytes": 2711,
+      "path": "tests/fixtures/objects/wave3/slide-fixed-stereo.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "33e8ad20512fa444bf73d69c00bdd8c6282c8a1bc14ad4042c5e2ff56cc9233d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/slide-fixed-stereo.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/slide-scalar-stereo.rnbopat": {
+      "bytes": 4080,
+      "path": "tests/fixtures/objects/wave3/slide-scalar-stereo.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c831dd57323b0a0d3da5ebcd0e61db19d4aa39d1e29eb3f90b556471c189fa6a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/slide-scalar-stereo.rnbopat"
+    },
+    "tests/fixtures/objects/wave3/slide-signal-controls.rnbopat": {
+      "bytes": 4043,
+      "path": "tests/fixtures/objects/wave3/slide-signal-controls.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d5393f8b2d6ab979e69e19e342e23534af9810f6c262be9632bb4b315376bc4f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/slide-signal-controls.rnbopat"
     }
   },
   "verified_public_revision": {

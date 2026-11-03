@@ -1,5 +1,11 @@
 # RNBO object optimisation matrix
 
+The [wave3 stateful checks](wave3-stateful.md) add `onepole~`, `slide~`,
+`delta~` and the exact `sah~` spelling. All 45 native programs are healthy;
+39 pass the independent accuracy gates and six retain numerical failures.
+The ten graph forms compile for the target after a private integer `abs` link
+fix. This is computer-only evidence, with no target execution or CPU percentage.
+
 The [expanded line timing checks](line-timing-modes.md) retain the five original
 native gates while exposing age-dependent output and two valid-input fault
 programs. `line~` is now marked partial with native evidence only. The sample

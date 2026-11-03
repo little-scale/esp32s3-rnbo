@@ -10607,18 +10607,29 @@
       "is_alias": false,
       "name": "delta~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
-        "status": "unassessed"
+        "detail": "Linked sample arithmetic is Float32; no DSP rewrite or measured CPU change.",
+        "label": "No measured change",
+        "short": "",
+        "status": "none"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/delta~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "wave3 stateful — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave3-stateful.json"
+        },
+        {
+          "label": "wave3 stateful — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/wave3-stateful.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "All four native programs pass the independent difference oracle, resource gates and O3/UBSan compatibility checks. Stereo independent previous-input histories, cold/warm starts, impulse/step/mixed inputs and fresh reconstruction at 44.1 kHz/256 frames. All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort. Remaining scope: Finite tested inputs and the declared fresh-history forms only; other modes and compositions remain open. Compiled target admission is not target execution or a CPU measurement.",
+        "label": "Native tests only",
+        "short": "Not a board qualification",
+        "status": "native"
       }
     },
     {
@@ -25449,18 +25460,29 @@
       "is_alias": false,
       "name": "onepole~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
-        "status": "unassessed"
+        "detail": "Sample recurrence is Float32. Coefficient updates still use Double exponential arithmetic and comparisons; no DSP rewrite or measured CPU change.",
+        "label": "No measured change",
+        "short": "",
+        "status": "none"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/onepole~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "wave3 stateful — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave3-stateful.json"
+        },
+        {
+          "label": "wave3 stateful — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/wave3-stateful.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "All 15 native programs run without processing allocations or runtime faults; five exceed the fixed independent 3e-6 absolute-error gate. Fixed, scalar-event and signal cutoff forms at 44.1 kHz/256 frames; low-cutoff DC and ordered/signal-control failures remain recorded. All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort. Remaining scope: Five numerical failures remain: long DC at zero/.05/1 Hz, ordered frequency events and signal slow-control grid. No other coefficient modes, arbitrary compositions, target execution or CPU measurements are qualified.",
+        "label": "Partial / known gaps",
+        "short": "Open scope / accuracy checks",
+        "status": "partial"
       }
     },
     {
@@ -29459,18 +29481,29 @@
       "is_alias": true,
       "name": "sah~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
-        "status": "unassessed"
+        "detail": "Linked sample comparisons/storage are Float32; no DSP rewrite or measured CPU change.",
+        "label": "No measured change",
+        "short": "",
+        "status": "none"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sah~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "wave3 stateful — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave3-stateful.json"
+        },
+        {
+          "label": "wave3 stateful — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/wave3-stateful.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "All 12 native programs preserve exact source-word captures and pass the independent crossing oracle, resource gates and O3/UBSan compatibility checks. Fixed, scalar-event and signal thresholds; crossing compares both previous and current trigger against the current threshold. Held/equality and ordered-control cases pass. All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort. Remaining scope: Only the exact authored sah~ alias is qualified. Canonical patcher sah and codebox sah receive no inherited status. Finite tested inputs and declared zero histories only; broader modes/compositions, target execution and CPU measurements remain open.",
+        "label": "Native tests only",
+        "short": "Not a board qualification",
+        "status": "native"
       }
     },
     {
@@ -30987,18 +31020,29 @@
       "is_alias": false,
       "name": "slide~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
-        "status": "unassessed"
+        "detail": "Float32 smoothing and reciprocal arithmetic retained. A private integer abs helper closes the fixed-literal link gap; no DSP rewrite or measured CPU change.",
+        "label": "No measured change",
+        "short": "",
+        "status": "none"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/slide~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "wave3 stateful — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave3-stateful.json"
+        },
+        {
+          "label": "wave3 stateful — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/wave3-stateful.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "All 14 native programs run without processing allocations or runtime faults; one long signed-rate case exceeds the fixed independent 3e-6 absolute-error gate. Fixed integer literals, scalar-event and signal controls; direction is selected against the previous output. The long signed-rate failure is retained. All ten declared graph forms pass strict preparation and target module admission after the isolated integer helper fix; no target has executed this cohort. Remaining scope: The large-signed-rates long-run numerical failure remains. The runtime helper defines an INT_MIN extension; it does not make every rate/value domain or composition qualified. No target execution or CPU measurements.",
+        "label": "Partial / known gaps",
+        "short": "Open scope / accuracy checks",
+        "status": "partial"
       }
     },
     {
@@ -36179,9 +36223,9 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "2be93c51af59fe31633506a4228bd6609c657734d9833aa171b41694a8f58714",
-    "coverage_source_sha256": "2be93c51af59fe31633506a4228bd6609c657734d9833aa171b41694a8f58714",
-    "exact_coverage_entries": 39,
+    "coverage_canonical_sha256": "e909ff6335788c9c5ad472e0863b49cae8c883eb6452a3e3059a74a733f679ae",
+    "coverage_source_sha256": "e909ff6335788c9c5ad472e0863b49cae8c883eb6452a3e3059a74a733f679ae",
+    "exact_coverage_entries": 43,
     "generator_sha256": "a7eb3cd1e892a379dab7850c52d125594d8bb28e6ab84d6398d0386731359ccc",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",

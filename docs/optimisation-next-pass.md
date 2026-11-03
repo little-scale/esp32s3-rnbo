@@ -28,6 +28,14 @@ it is not 39 independently qualified DSP families. The first Main catalogue has
 12 forms/39 cases, direct-input FX has 3 forms/12 cases, and wave2 has 6 forms/23
 cases. Repeated runs of these cases do not expand their operator/mode coverage.
 
+The later [wave3 stateful catalogue](wave3-stateful.md) adds ten graph forms
+and 45 programs for four further exact spellings: `onepole~`, `slide~`,
+`delta~` and `sah~`. All programs run healthily; six independent mathematical
+accuracy failures remain in onepole/slide. All ten target modules compile, but
+none has executed on the target. The private integer `abs` runtime fix preserves
+the entire bytes of nine previously admitted wave3 modules and eight sampled
+legacy modules. It adds no DSP optimisation option or CPU measurement.
+
 | Observed group | Exact operators in the inventoried graphs |
 | --- | --- |
 | Oscillation and pitch | cycle~, saw~, phasor~, train~, mtof~, mtof |

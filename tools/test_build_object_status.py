@@ -123,6 +123,37 @@ class ObjectStatusTests(unittest.TestCase):
             with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'Experimental compiler admission'):
                 make_status(self.inventory,forged)
 
+    def test_stateful_native_accuracy_and_alias_boundaries_remain_visible(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        for name,state in (('onepole~','partial'),('slide~','partial'),
+                           ('delta~','native'),('sah~','native')):
+            with self.subTest(name=name):
+                row=rows['patcher:'+name]
+                self.assertEqual(row['working']['status'],state)
+                self.assertFalse(row['board_evidence'])
+                self.assertIsNone(row['performance'])
+                self.assertEqual(row['optimisation']['status'],'none')
+                self.assertTrue(any(s['url'].endswith('/evidence/wave3-stateful.json') for s in row['sources']))
+        self.assertIn('five exceed',rows['patcher:onepole~']['working']['detail'])
+        self.assertIn('one long signed-rate',rows['patcher:slide~']['working']['detail'])
+        self.assertTrue(rows['patcher:sah~']['is_alias'])
+        for identity in ('patcher:sah','codebox:sah'):
+            self.assertEqual(rows[identity]['working']['status'],'unverified')
+            self.assertIsNone(rows[identity]['performance'])
+        self.assertEqual(rows['patcher:comb~']['performance']['measurement_id'],
+                         'filters-scalar-v2-storage:aggregate')
+
+    def test_stateful_partial_cannot_claim_board_or_unbound_evidence(self):
+        for kind in ('board','missing_location','evidence_hash','missing_evidence'):
+            forged=copy.deepcopy(self.coverage)
+            record=next(r for r in forged['objects'] if r['id']=='patcher:onepole~')
+            if kind=='board':record['board_evidence']=True
+            elif kind=='missing_location':del record['board_evidence']
+            elif kind=='evidence_hash':forged['sources']['evidence/wave3-stateful.json']['sha256']='0'*64
+            else:record['qualification'][0]['source']='evidence/nonexistent-wave3.json'
+            with self.subTest(kind=kind),self.assertRaisesRegex(ValueError,'[Bb]oard|Qualification evidence'):
+                make_status(self.inventory,forged)
+
     def test_exact_delay_availability_requires_the_measured_image_and_option(self):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
         for name in ('patcher:comb~','patcher:allpass~'):

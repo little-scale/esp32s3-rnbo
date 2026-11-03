@@ -1,0 +1,1215 @@
+{
+  "format": "rnbo-original-wave3-stateful-fixtures-v1",
+  "format_version": 1,
+  "license": "MIT",
+  "sample_rate": 44100,
+  "block_frames": 256,
+  "fixtures": [
+    {
+      "id": "onepole-fixed-stereo",
+      "object_spelling": "onepole~",
+      "surface": "rnbo_patcher_object",
+      "mode": "fixed",
+      "patch": "onepole-fixed-stereo.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [],
+      "semantic": {
+        "kind": "onepole-hz",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "cutoff": {
+              "kind": "literal",
+              "value": 1000
+            }
+          },
+          {
+            "channel": 1,
+            "data_channel": 1,
+            "cutoff": {
+              "kind": "literal",
+              "value": 1000
+            }
+          }
+        ],
+        "initial": 0
+      },
+      "cases": [
+        {
+          "id": "impulse",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "boundary-step",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "mixed",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-mixed-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "cold-impulse",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 3e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "onepole-scalar-stereo",
+      "object_spelling": "onepole~",
+      "surface": "rnbo_patcher_object",
+      "mode": "scalar",
+      "patch": "onepole-scalar-stereo.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [
+        {
+          "id": "cutoff",
+          "initial": 1000,
+          "minimum": -1000,
+          "maximum": 100000
+        }
+      ],
+      "semantic": {
+        "kind": "onepole-hz",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "cutoff": {
+              "kind": "parameter",
+              "id": "cutoff"
+            }
+          },
+          {
+            "channel": 1,
+            "data_channel": 1,
+            "cutoff": {
+              "kind": "parameter",
+              "id": "cutoff"
+            }
+          }
+        ],
+        "initial": 0
+      },
+      "cases": [
+        {
+          "id": "default-mixed",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-mixed-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "zero-clamp-long-dc",
+          "blocks": 512,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-long-dc-step-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": 0,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "negative-clamp-long-impulse",
+          "blocks": 512,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": -1000,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "low-clamp-long-dc",
+          "blocks": 512,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-long-dc-step-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": 0.05,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "low-frequency-long-dc",
+          "blocks": 512,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-long-dc-step-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": 1,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "high-clamp",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": 100000,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "ordered-frequency-events",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": 20,
+              "form": "actual"
+            },
+            {
+              "block": 1,
+              "id": "cutoff",
+              "value": 1000,
+              "form": "actual"
+            },
+            {
+              "block": 2,
+              "id": "cutoff",
+              "value": 0,
+              "form": "actual"
+            },
+            {
+              "block": 3,
+              "id": "cutoff",
+              "value": 100000,
+              "form": "actual"
+            },
+            {
+              "block": 31,
+              "id": "cutoff",
+              "value": -0.5,
+              "form": "actual"
+            },
+            {
+              "block": 32,
+              "id": "cutoff",
+              "value": 20000,
+              "form": "actual"
+            },
+            {
+              "block": 63,
+              "id": "cutoff",
+              "value": 1000,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "cold-negative",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "cutoff",
+              "value": -1000,
+              "form": "actual"
+            }
+          ]
+        }
+      ],
+      "independent_absolute_error_limit": 3e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "onepole-signal-cutoff",
+      "object_spelling": "onepole~",
+      "surface": "rnbo_patcher_object",
+      "mode": "signal",
+      "patch": "onepole-signal-cutoff.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [],
+      "semantic": {
+        "kind": "onepole-hz",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "cutoff": {
+              "kind": "input",
+              "channel": 1
+            }
+          },
+          {
+            "channel": 1,
+            "copy_input": 0
+          }
+        ],
+        "initial": 0
+      },
+      "cases": [
+        {
+          "id": "slow-control-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "onepole-signal-v1",
+            "hold_frames": 257
+          },
+          "events": []
+        },
+        {
+          "id": "audio-rate-control-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "onepole-signal-v1",
+            "hold_frames": 1
+          },
+          "events": []
+        },
+        {
+          "id": "cold-audio-control",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "onepole-signal-v1",
+            "hold_frames": 1
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 3e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "slide-fixed-stereo",
+      "object_spelling": "slide~",
+      "surface": "rnbo_patcher_object",
+      "mode": "fixed",
+      "patch": "slide-fixed-stereo.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [],
+      "semantic": {
+        "kind": "slide",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "up": {
+              "kind": "literal",
+              "value": 8
+            },
+            "down": {
+              "kind": "literal",
+              "value": 32
+            }
+          },
+          {
+            "channel": 1,
+            "data_channel": 1,
+            "up": {
+              "kind": "literal",
+              "value": 8
+            },
+            "down": {
+              "kind": "literal",
+              "value": 32
+            }
+          }
+        ],
+        "initial": 0
+      },
+      "cases": [
+        {
+          "id": "direction-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "mixed",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-mixed-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "cold-impulse",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 3e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "slide-scalar-stereo",
+      "object_spelling": "slide~",
+      "surface": "rnbo_patcher_object",
+      "mode": "scalar",
+      "patch": "slide-scalar-stereo.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [
+        {
+          "id": "up",
+          "initial": 8,
+          "minimum": -256,
+          "maximum": 256
+        },
+        {
+          "id": "down",
+          "initial": 32,
+          "minimum": -256,
+          "maximum": 256
+        }
+      ],
+      "semantic": {
+        "kind": "slide",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "up": {
+              "kind": "parameter",
+              "id": "up"
+            },
+            "down": {
+              "kind": "parameter",
+              "id": "down"
+            }
+          },
+          {
+            "channel": 1,
+            "data_channel": 1,
+            "up": {
+              "kind": "parameter",
+              "id": "up"
+            },
+            "down": {
+              "kind": "parameter",
+              "id": "down"
+            }
+          }
+        ],
+        "initial": 0
+      },
+      "cases": [
+        {
+          "id": "default-direction",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "zero-rates",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": 0,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": 0,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "signed-unit-rates",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": -1,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": 1,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "fractional-rates",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-mixed-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": -0.5,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": 0.5,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "large-signed-rates-long",
+          "blocks": 512,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-long-dc-step-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": 256,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": -256,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "ordered-rate-events",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": 2,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": -8,
+              "form": "actual"
+            },
+            {
+              "block": 1,
+              "id": "up",
+              "value": -256,
+              "form": "actual"
+            },
+            {
+              "block": 2,
+              "id": "down",
+              "value": 0,
+              "form": "actual"
+            },
+            {
+              "block": 3,
+              "id": "up",
+              "value": 0,
+              "form": "actual"
+            },
+            {
+              "block": 31,
+              "id": "up",
+              "value": 8,
+              "form": "actual"
+            },
+            {
+              "block": 31,
+              "id": "down",
+              "value": 32,
+              "form": "actual"
+            },
+            {
+              "block": 63,
+              "id": "down",
+              "value": -1,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "cold-large-rates",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": 256,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": 256,
+              "form": "actual"
+            }
+          ]
+        }
+      ],
+      "independent_absolute_error_limit": 3e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "slide-signal-controls",
+      "object_spelling": "slide~",
+      "surface": "rnbo_patcher_object",
+      "mode": "mixed signal/scalar",
+      "patch": "slide-signal-controls.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [
+        {
+          "id": "up",
+          "initial": 8,
+          "minimum": -256,
+          "maximum": 256
+        },
+        {
+          "id": "down",
+          "initial": 32,
+          "minimum": -256,
+          "maximum": 256
+        }
+      ],
+      "semantic": {
+        "kind": "slide",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "up": {
+              "kind": "input",
+              "channel": 1
+            },
+            "down": {
+              "kind": "parameter",
+              "id": "down"
+            }
+          },
+          {
+            "channel": 1,
+            "data_channel": 0,
+            "up": {
+              "kind": "parameter",
+              "id": "up"
+            },
+            "down": {
+              "kind": "input",
+              "channel": 1
+            }
+          }
+        ],
+        "initial": 0
+      },
+      "cases": [
+        {
+          "id": "slow-control-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "slide-signal-v1",
+            "hold_frames": 31
+          },
+          "events": []
+        },
+        {
+          "id": "audio-control-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "slide-signal-v1",
+            "hold_frames": 1
+          },
+          "events": []
+        },
+        {
+          "id": "signal-and-scalar-events",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "slide-signal-v1",
+            "hold_frames": 17
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "up",
+              "value": 256,
+              "form": "actual"
+            },
+            {
+              "block": 0,
+              "id": "down",
+              "value": -256,
+              "form": "actual"
+            },
+            {
+              "block": 1,
+              "id": "up",
+              "value": 0,
+              "form": "actual"
+            },
+            {
+              "block": 2,
+              "id": "down",
+              "value": -1,
+              "form": "actual"
+            },
+            {
+              "block": 31,
+              "id": "up",
+              "value": -8,
+              "form": "actual"
+            },
+            {
+              "block": 32,
+              "id": "down",
+              "value": 0.5,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "cold-control",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "slide-signal-v1",
+            "hold_frames": 1
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 3e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "delta-stereo",
+      "object_spelling": "delta~",
+      "surface": "rnbo_patcher_object",
+      "mode": "direct stereo signal",
+      "patch": "delta-stereo.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [],
+      "semantic": {
+        "kind": "delta",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0
+          },
+          {
+            "channel": 1,
+            "data_channel": 1
+          }
+        ],
+        "previous_input_initial": 0
+      },
+      "cases": [
+        {
+          "id": "edge255-256",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-step-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "impulse",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-impulse-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "mixed",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-mixed-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "cold-first-sample",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "audio-long-dc-step-v1"
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 2e-06,
+      "raw_copy_required": false,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "sah-fixed-threshold",
+      "object_spelling": "sah~",
+      "surface": "rnbo_patcher_object",
+      "mode": "fixed",
+      "patch": "sah-fixed-threshold.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [],
+      "semantic": {
+        "kind": "sah",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "trigger_channel": 1,
+            "threshold": {
+              "kind": "literal",
+              "value": 0
+            }
+          },
+          {
+            "channel": 1,
+            "copy_input": 0
+          }
+        ],
+        "held_initial": 0,
+        "previous_trigger_initial": 0,
+        "comparison": "prevTrigger<=CURRENTthreshold and currentTrigger>CURRENTthreshold",
+        "exact_authored_spelling": "sah~"
+      },
+      "cases": [
+        {
+          "id": "crossing-equality-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "plateau-moving-data",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-plateau-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "cold-first-trigger-zero",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 0,
+      "raw_copy_required": true,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "sah-scalar-threshold",
+      "object_spelling": "sah~",
+      "surface": "rnbo_patcher_object",
+      "mode": "scalar",
+      "patch": "sah-scalar-threshold.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [
+        {
+          "id": "threshold",
+          "initial": 0.5,
+          "minimum": -1,
+          "maximum": 1
+        }
+      ],
+      "semantic": {
+        "kind": "sah",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "trigger_channel": 1,
+            "threshold": {
+              "kind": "parameter",
+              "id": "threshold"
+            }
+          },
+          {
+            "channel": 1,
+            "copy_input": 0
+          }
+        ],
+        "held_initial": 0,
+        "previous_trigger_initial": 0,
+        "comparison": "prevTrigger<=CURRENTthreshold and currentTrigger>CURRENTthreshold",
+        "exact_authored_spelling": "sah~"
+      },
+      "cases": [
+        {
+          "id": "crossing-equality-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "plateau-moving-data",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-plateau-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "cold-first-trigger-zero",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "threshold-only-plateau",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-plateau-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "threshold",
+              "value": 0.75,
+              "form": "actual"
+            },
+            {
+              "block": 1,
+              "id": "threshold",
+              "value": 0.25,
+              "form": "actual"
+            },
+            {
+              "block": 2,
+              "id": "threshold",
+              "value": 0.5,
+              "form": "actual"
+            },
+            {
+              "block": 3,
+              "id": "threshold",
+              "value": -0.5,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "cold-negative-threshold",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "threshold",
+              "value": -0.5,
+              "form": "actual"
+            }
+          ]
+        },
+        {
+          "id": "threshold-extrema",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": [
+            {
+              "block": 0,
+              "id": "threshold",
+              "value": -1,
+              "form": "actual"
+            },
+            {
+              "block": 1,
+              "id": "threshold",
+              "value": 1,
+              "form": "actual"
+            },
+            {
+              "block": 2,
+              "id": "threshold",
+              "value": 0,
+              "form": "actual"
+            },
+            {
+              "block": 31,
+              "id": "threshold",
+              "value": 0.5,
+              "form": "actual"
+            }
+          ]
+        }
+      ],
+      "independent_absolute_error_limit": 0,
+      "raw_copy_required": true,
+      "alias_or_codebox_inference": false
+    },
+    {
+      "id": "sah-signal-threshold",
+      "object_spelling": "sah~",
+      "surface": "rnbo_patcher_object",
+      "mode": "signal",
+      "patch": "sah-signal-threshold.rnbopat",
+      "role": "fx",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "arena_bytes": 4096,
+      "seed": 305419896,
+      "parameters": [],
+      "semantic": {
+        "kind": "sah",
+        "output_models": [
+          {
+            "channel": 0,
+            "data_channel": 0,
+            "trigger_channel": 1,
+            "threshold": {
+              "kind": "input",
+              "channel": 0
+            }
+          },
+          {
+            "channel": 1,
+            "copy_input": 0
+          }
+        ],
+        "held_initial": 0,
+        "previous_trigger_initial": 0,
+        "comparison": "prevTrigger<=CURRENTthreshold and currentTrigger>CURRENTthreshold",
+        "exact_authored_spelling": "sah~"
+      },
+      "cases": [
+        {
+          "id": "crossing-equality-grid",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "plateau-moving-data",
+          "blocks": 64,
+          "warmup_blocks": 4,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-plateau-v1"
+          },
+          "events": []
+        },
+        {
+          "id": "cold-first-trigger-zero",
+          "blocks": 64,
+          "warmup_blocks": 0,
+          "lifecycles": 2,
+          "input": {
+            "kind": "sah-grid-v1"
+          },
+          "events": []
+        }
+      ],
+      "independent_absolute_error_limit": 0,
+      "raw_copy_required": true,
+      "alias_or_codebox_inference": false
+    }
+  ],
+  "ordering": "Case events are an explicit ordered boundary list, including all initial parameter commands; preserve listed same-block order",
+  "warmup_input": "Both input planes contain Float32zero for detached warmup only; all histories beginfrom documentedzeroinitialization, no operatorreset messages",
+  "input_format": "IEEE754binary32 littleendian interleavedstereo; persisted inputs are authoritative; each input definition is original and fully bounded",
+  "qualification": "No automatic inheritance to aliases/canonicalname/codebox or untested reset/modes; no optimisation/targetexecution/CPUclaim"
+}

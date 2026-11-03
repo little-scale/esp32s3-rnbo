@@ -1,0 +1,224 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1120,
+      720
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "left-input",
+          "maxclass": "newobj",
+          "text": "in~ 1",
+          "rnbo_uniqueid": "left-input",
+          "patching_rect": [
+            20,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right-input",
+          "maxclass": "newobj",
+          "text": "in~ 2",
+          "rnbo_uniqueid": "right-input",
+          "patching_rect": [
+            290,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left-object",
+          "maxclass": "newobj",
+          "text": "slide~",
+          "rnbo_uniqueid": "left-object",
+          "patching_rect": [
+            560,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right-object",
+          "maxclass": "newobj",
+          "text": "slide~",
+          "rnbo_uniqueid": "right-object",
+          "patching_rect": [
+            830,
+            25,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left-output",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "rnbo_uniqueid": "left-output",
+          "patching_rect": [
+            20,
+            125,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right-output",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "rnbo_uniqueid": "right-output",
+          "patching_rect": [
+            290,
+            125,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "up",
+          "maxclass": "newobj",
+          "text": "param up 8 @min -256 @max 256",
+          "rnbo_uniqueid": "up",
+          "patching_rect": [
+            560,
+            125,
+            250,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "down",
+          "maxclass": "newobj",
+          "text": "param down 32 @min -256 @max 256",
+          "rnbo_uniqueid": "down",
+          "patching_rect": [
+            830,
+            125,
+            250,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "left-input",
+            0
+          ],
+          "destination": [
+            "left-object",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "right-input",
+            0
+          ],
+          "destination": [
+            "right-object",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "left-object",
+            0
+          ],
+          "destination": [
+            "left-output",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "right-object",
+            0
+          ],
+          "destination": [
+            "right-output",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "up",
+            0
+          ],
+          "destination": [
+            "left-object",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "up",
+            0
+          ],
+          "destination": [
+            "right-object",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "down",
+            0
+          ],
+          "destination": [
+            "left-object",
+            2
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "down",
+            0
+          ],
+          "destination": [
+            "right-object",
+            2
+          ]
+        }
+      }
+    ]
+  }
+}
