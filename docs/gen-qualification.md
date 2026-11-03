@@ -119,6 +119,19 @@ other 41 input files and generated guarded DSP headers are unchanged. The final
 417 compiler tests and 124 tool tests pass; the target binaries retain their
 archived original build epoch.
 
+## Comparison and logic batch
+
+Twenty additional exact forms now pass native and XIAO tests, covering
+comparisons, Boolean logic, sign and conditional selection. Their 80 device
+case programs pass 7,864,320 exact pair comparisons and 15,728,640 independent
+numerical/bit checks, with full memory recovery and drone restoration. A
+separate `step` test fails the documented argument-order model on both native
+and XIAO execution; it remains a recorded discrepancy. `sign(-0)` becomes `+0`.
+The [per-form output and timing table](gen-logic-qualification.md) records
+these limits, the precision audit and two retained recovery-check failures.
+Same-image controls claim no optimisation gain. This does not extend the
+one-frame production module ABI or visual Gen qualification.
+
 ## Inventory and remaining work
 
 Fifteen [exact GenExpr arithmetic spellings](gen-arithmetic-qualification.md)
@@ -151,6 +164,8 @@ in its three programs (target initial values 0, 1, 2 and 3); the fifteen arithme
 spellings above have separate source-specific evidence. Neither qualifies a
 visual `history` box, another syntax/arity, an untested alias or a complete Gen
 object family. Inventory pending labels are metadata, not a qualification join.
+The comparison/logic batch has its own exact source identities and observed
+step/sign limits; it does not qualify visual boxes or other overloads.
 The remaining operator/form outcomes
 and the remaining Gen XIAO execution/performance tests remain pending.
 

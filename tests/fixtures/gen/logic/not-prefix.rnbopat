@@ -1,0 +1,132 @@
+{
+  "patcher": {
+    "boxes": [
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            20,
+            30,
+            130,
+            22
+          ],
+          "rnbo_uniqueid": "left",
+          "text": "in~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            160,
+            30,
+            130,
+            22
+          ],
+          "rnbo_uniqueid": "right",
+          "text": "in~ 2"
+        }
+      },
+      {
+        "box": {
+          "id": "gen",
+          "maxclass": "newobj",
+          "patching_rect": [
+            300,
+            30,
+            130,
+            22
+          ],
+          "rnbo_extra_attributes": {
+            "expr": "out1 = !in1;\nout2 = !in2;\n",
+            "geninlets": 2,
+            "genoutlets": 2
+          },
+          "rnbo_uniqueid": "gen",
+          "text": "gen~"
+        }
+      },
+      {
+        "box": {
+          "id": "ol",
+          "maxclass": "newobj",
+          "patching_rect": [
+            440,
+            30,
+            130,
+            22
+          ],
+          "rnbo_uniqueid": "ol",
+          "text": "out~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "or",
+          "maxclass": "newobj",
+          "patching_rect": [
+            580,
+            30,
+            130,
+            22
+          ],
+          "rnbo_uniqueid": "or",
+          "text": "out~ 2"
+        }
+      }
+    ],
+    "classnamespace": "rnbo",
+    "lines": [
+      {
+        "patchline": {
+          "destination": [
+            "gen",
+            0
+          ],
+          "source": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "gen",
+            1
+          ],
+          "source": [
+            "right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "ol",
+            0
+          ],
+          "source": [
+            "gen",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "or",
+            0
+          ],
+          "source": [
+            "gen",
+            1
+          ]
+        }
+      }
+    ]
+  }
+}

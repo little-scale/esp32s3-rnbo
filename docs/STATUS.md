@@ -1,5 +1,13 @@
 # Implementation status — 4 November 2026
 
+The latest [Gen comparison/logic batch](gen-logic-qualification.md) adds twenty
+native/XIAO passes with per-form timing, exact outputs and full memory recovery.
+The twenty-first form, `step`, fails the unchanged documented argument-order
+model on native and target execution; the failure is retained. `sign(-0)` is
+observed as `+0`. Two interrupted recovery checks are preserved separately;
+fresh runs pass after adding a command-free boot phase. Final local checks pass
+463 compiler, 141 tool and 31 recovery-runner tests. The drone is restored at 50%.
+
 The active scope also includes **Gen/`gen~` and its single-sample processing**.
 Gen has a separate metadata inventory, guarded GenExpr export admission and two
 native History programs with sample-level feedback/reset/partition tests.

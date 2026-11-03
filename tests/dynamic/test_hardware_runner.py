@@ -18,6 +18,77 @@ runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
 
 
+class RestoredStatusTests(unittest.TestCase):
+    def test_command_free_boot_phase_drains_bytes_and_waits_before_returning(self):
+        clock=[0.];events=[];raw=bytearray();operations=[]
+        class Connection:
+            in_waiting=4
+            def read(self,size):operations.append(('read',size));clock[0]+=.5;return b'boot'
+            def write(self,_):raise AssertionError('No command permitted during boot phase')
+        connection=Connection()
+        result=runner.connect_restored_console(lambda:connection,raw,events,
+            clock=lambda:clock[0],sleep=lambda _:None)
+        self.assertIs(result,connection);self.assertEqual(clock[0],2.)
+        self.assertEqual(raw,b'boot'*4)
+        self.assertEqual(events,[{'event':'command-free-boot-read','elapsed_seconds':2.}])
+
+    def test_boot_disconnect_reopens_but_oversized_output_stops(self):
+        clock=[0.];events=[];closed=[];attempt=[0]
+        class Connection:
+            in_waiting=1
+            def read(self,size):clock[0]+=1;return b'x'
+            def close(self):closed.append(True)
+        def connect():
+            attempt[0]+=1;clock[0]+=.1
+            if attempt[0]==1:raise OSError('USB re-enumerating')
+            return Connection()
+        raw=bytearray()
+        runner.connect_restored_console(connect,raw,events,clock=lambda:clock[0],sleep=lambda _:None)
+        self.assertEqual(attempt[0],2)
+        self.assertEqual(events[0]['event'],'boot-io-disconnect')
+        with self.assertRaisesRegex(runner.CaptureError,'output limit'):
+            runner.connect_restored_console(lambda:Connection(),bytearray(b'x'*65536),[],
+                clock=lambda:clock[0],sleep=lambda _:None)
+        self.assertEqual(closed,[True])
+
+    def test_missing_first_reply_retries_read_only_status_then_checks_audio(self):
+        events=[];clock=[0.];calls=[]
+        def query():
+            calls.append('status');clock[0]+=5
+            if len(calls)==1:raise runner.CaptureError('Timed out waiting for response to status')
+            return {'frames':1024}
+        result=runner.wait_restored_audio(query,events,clock=lambda:clock[0],sleep=lambda _:None)
+        self.assertEqual(result,{'frames':1024})
+        self.assertEqual(calls,['status','status'])
+        self.assertEqual(events,[{'event':'status-response-timeout','remaining_seconds':10.}])
+
+    def test_slow_boot_connection_cannot_bypass_settle_deadline(self):
+        clock=[0.];closed=[]
+        class Connection:
+            def close(self):closed.append(True)
+        def connect():clock[0]=14.;return Connection()
+        with self.assertRaisesRegex(RuntimeError,'boot connection deadline'):
+            runner.connect_restored_console(connect,bytearray(),[],clock=lambda:clock[0],sleep=lambda _:None)
+        self.assertEqual(closed,[True])
+
+    def test_fault_identity_or_malformed_response_never_retries(self):
+        for failure in (RuntimeError('Current instrument identity differs'),
+                        RuntimeError('Instrument fault'),runner.CaptureError('Malformed JSON response')):
+            calls=[]
+            def query():calls.append('status');raise failure
+            with self.assertRaises(type(failure)):
+                runner.wait_restored_audio(query,[],sleep=lambda _:None)
+            self.assertEqual(calls,['status'])
+
+    def test_missing_replies_stop_at_deadline_and_keep_timeout_observations(self):
+        events=[];clock=[0.]
+        def query():clock[0]+=5;raise runner.CaptureError('Timed out waiting for response to status')
+        with self.assertRaisesRegex(runner.CaptureError,'Timed out'):
+            runner.wait_restored_audio(query,events,clock=lambda:clock[0],sleep=lambda _:None)
+        self.assertEqual(len(events),3)
+        self.assertEqual(events[-1]['remaining_seconds'],0)
+
+
 class HardwareRecoveryTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -33,6 +104,7 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.bad_fault_after_flash = False
         self.control_failure = False
         self.flash_failure = False
+        self.missing_restore_status = 0
         self.bad_pass_identity = False
         self.pass_identity_suffix = ""
         self.duplicate_pass_identity = False
@@ -100,6 +172,9 @@ class HardwareRecoveryTests(unittest.TestCase):
     def request(self, command):
         self.calls.append(("command", command))
         if command == "status":
+            if self.missing_restore_status and any(k=='flash' and v=='restore.bin' for k,v in self.calls):
+                self.missing_restore_status-=1
+                raise runner.CaptureError('Timed out waiting for response to status')
             return self.status()
         if command=='parameter-values':
             values=dict(self.values)
@@ -161,11 +236,13 @@ class HardwareRecoveryTests(unittest.TestCase):
              patch.object(runner, "ROOT", self.root), patch.object(sys, "argv", arguments), \
              patch.object(runner, "open_serial", side_effect=lambda *args: Connection()), \
              patch.object(runner, "JsonLineTransport", side_effect=lambda *args: types.SimpleNamespace(request=self.request)), \
+             patch.object(runner, "connect_restored_console", side_effect=lambda connect,*args:connect()) as boot_phase, \
              patch.object(runner.subprocess, "run", side_effect=self.flash), patch.object(runner.time, "sleep"):
             try:
                 runner.main()
             except SystemExit as error:
                 self.assertEqual(error.code, 1)
+            self.boot_phase_calls=boot_phase.call_count
         return json.loads((self.out / "hardware-test.json").read_text())
 
     def test_pass_restores_volume_and_parameters_after_test_image(self):
@@ -175,6 +252,16 @@ class HardwareRecoveryTests(unittest.TestCase):
         self.assertEqual([name for kind, name in self.calls if kind == "flash"], ["test.bin", "restore.bin"])
         self.assertEqual(self.volume, self.original_volume)
         self.assertIn(("command", "param 0 440"), self.calls)
+
+    def test_restoration_retries_one_missing_status_without_reflashing_or_replaying_controls(self):
+        self.missing_restore_status=1
+        result=self.run_case()
+        self.assertEqual(result['result'],'passed')
+        self.assertEqual(result['restoration']['result'],'restored')
+        self.assertEqual(self.boot_phase_calls,1)
+        self.assertEqual(len(result['restoration_status_events']),1)
+        self.assertEqual([v for k,v in self.calls if k=='flash'],['test.bin','restore.bin'])
+        self.assertEqual(self.calls.count(('command','param 0 440')),1)
 
     def test_failed_test_flash_still_restores_instrument(self):
         self.flash_failure = True

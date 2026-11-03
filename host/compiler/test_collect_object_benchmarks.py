@@ -18,7 +18,8 @@ from collect_object_benchmarks import (collect,fields,sha,board_evidence,WRAP_OR
     gen_cases,gen_events,gen_schedule_sha,gen_verification,gen_input_bytes,gen_cache_data,
     GEN_FEEDBACK_MODE,GEN_FEEDBACK_PROFILE,GEN_FEEDBACK_PIN,GEN_FEEDBACK_CONTRACT,GEN_FEEDBACK_CATALOG_SHA,
     GEN_ARITH_KIND,GEN_ARITH_MODELS,GEN_ARITH_IDENTITIES,gen_arith_verification,gen_arith_oracle_bytes,
-    GEN_ABS_MODE,GEN_ABS_BOUNDARIES,GEN_ABS_PIN,GEN_ABS_CONTRACT,gen_arith_input_bytes)
+    GEN_ABS_MODE,GEN_ABS_BOUNDARIES,GEN_ABS_PIN,GEN_ABS_CONTRACT,gen_arith_input_bytes,
+    GEN_LOGIC_MODELS,GEN_LOGIC_IDENTITIES,GEN_LOGIC_CATALOG,gen_logic_pair)
 
 class ObservationTests(unittest.TestCase):
     def setUp(self):
@@ -1379,19 +1380,21 @@ class GenArithmeticObservationTests(unittest.TestCase):
     change=GenHistoryObservationTests.change
     rejected=GenHistoryObservationTests.rejected
 
-    def fixture(self,identity='mul-infix'):
-        directory=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/arithmetic'
+    def fixture(self,identity='mul-infix',*,logic=False):
+        directory=Path(__file__).resolve().parents[2]/('tests/fixtures/gen/logic'if logic else'tests/fixtures/gen/arithmetic')
         catalog=json.loads((directory/'catalog.json').read_text());fixture=copy.deepcopy(next(f for f in catalog['fixtures']if f['id']==identity));fixture['family']='gen-arithmetic'
-        pins=json.loads((directory/'identities.json').read_text());pin=GEN_ARITH_IDENTITIES[identity];code=GEN_ARITH_MODELS[identity]
+        pins=json.loads((directory/'identities.json').read_text());pin=(GEN_LOGIC_IDENTITIES if logic else GEN_ARITH_IDENTITIES)[identity];code=(GEN_LOGIC_MODELS if logic else GEN_ARITH_MODELS)[identity]
+        families={**WAVE4_INPUTS,**({GEN_ABS_BOUNDARIES:16}if logic else{})}
         manifest={'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,'parameter_count':0,
             'parameter_schema_sha256':pin['schema'],'editable_source_sha256':pin['patch'],'source_tree_sha256':pin['source_tree'],
             'numerical_profile':'float32-strict','scheduler_time':'float64','rnbo_version':'1.4.4','class_name':'rnbos3patch',
             'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,'adaptations':list(WAVE4_ADAPTATIONS)}
+        if logic:manifest.update(defined_int32_wrap=True,execution='static-development',format='rnbo-esp32s3-prepared-export',format_version=1,midi_output_policy='reject')
         plan={'fixture':fixture,'rounds':3,'blocks':64,'timing_exclude_blocks':32,'arena_bytes':4096,
             'catalog_path':'/synthetic/gen/arithmetic/catalog.json','catalog_sha256':sha(directory/'catalog.json'),
             'patch_sha256':pin['patch'],'description_sha256':pin['description'],'parameter_schema':[],'events':[],
             'comparison_policy':{'pcm_gain':.5},'numerical_profiles':dict.fromkeys(('strict','optimized'),'float32-strict'),
-            'stimuli':[{'kind':kind,'settings':{'kind':name},**dict.fromkeys(('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level'),0.)}for name,kind in WAVE4_INPUTS.items()],
+            'stimuli':[{'kind':kind,'settings':{'kind':name},**dict.fromkeys(('base','depth','rate','pilot_frequency','pilot_amplitude','excitation','level'),0.)}for name,kind in families.items()],
             'verifications':[gen_arith_verification(fixture,c)for c in fixture['cases']]}
         budget={'workspace_bytes':266240,'oracle_cache_bytes':131072,'arena_bytes':8192,'opaque_context_upper_bound_bytes':2097152,
             'loaded_images_upper_bound_bytes':131072,'loader_heap_alignment_reserve_bytes':524288,'physical_psram_bytes':8388608}
@@ -1403,9 +1406,12 @@ class GenArithmeticObservationTests(unittest.TestCase):
                         'patch_config.h':'a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b',
                         'description.json':pin['description'],'source.rnbopat':pin['patch'],'RNBO-runtime-LICENSE':'4'*64,'generator.json':'5'*64}}}}for side in ('strict','optimized')},
             'source_files_sha256':{f'object-benchmark/main/{name}':str(i)*64 for i,name in enumerate(('stimulus.c','stimulus.h','gen_arithmetic_oracle.c','gen_arithmetic_oracle.h'),1)}}
+        if logic:
+            for module in self.report['modules'].values():
+                module['report']['prepared_snapshot']['prepared_files_sha256']=copy.deepcopy(pins['entries'][identity]['prepared_files_sha256'])
         self.lines=[f'RNBO_OBJECT_BENCHMARK NUMERICAL_PROFILES fixture={identity} reference=float32-strict candidate=float32-strict']
-        for name,kind in WAVE4_INPUTS.items():
-            common=f'fixture={identity} case={name}';ih=hashlib.sha256(wave4_input_bytes(kind)).hexdigest();oh=hashlib.sha256(gen_arith_oracle_bytes(code,kind)).hexdigest()
+        for name,kind in families.items():
+            common=f'fixture={identity} case={name}';ih=hashlib.sha256(gen_arith_input_bytes(kind)).hexdigest();oh=hashlib.sha256(gen_arith_oracle_bytes(code,kind)).hexdigest()
             self.lines.append(f'RNBO_OBJECT_BENCHMARK INPUT {common} input_sha256={ih} input_bytes=131072 layout=float32_stereo_interleaved_le stimulus_kind={kind}')
             self.lines.append(f'RNBO_OBJECT_BENCHMARK ORACLE {common} oracle_sha256={oh} oracle_bytes=131072 layout=float32_stereo_interleaved_le oracle_kind={GEN_ARITH_KIND} max_abs_tolerance=0 max_cache_rounding_error=0 model=independent-binary32-operations rounding=once-binary32-per-output-operation model_code={code} observer_channel=2')
             self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE {common} samples=98304 max_abs=0 rms_error=0 relative_rms=0 pcm_different=0 max_pcm_lsb=0')
@@ -1416,6 +1422,10 @@ class GenArithmeticObservationTests(unittest.TestCase):
             self.lines.append(f'RNBO_OBJECT_BENCHMARK CASE_ROUNDING {common} samples=98304 float_bit_different=0 zero_sign_different=0')
         self.lines.append(f'RNBO_OBJECT_BENCHMARK PASS fixture={identity} firmware_elf_sha256='+('c'*64)+' strict_module_sha256='+('a'*64)+' optimized_module_sha256='+('a'*64)+
             ' host_heap_allocations=0 host_heap_frees=0 local_late_allocations=0 psram_before=123 psram_after=123 internal_before=42 internal_after=42 images=4 finalized_images=4 cases=3 rounds=3 blocks_per_pass=64 timing_exclude=32 warmup=4 seed=305419896 compared_samples=294912 input_cases=3 input_rechecks=27 pilot_sample_checks=0 oracle_cases=3 oracle_rechecks=27 semantic_sample_checks=589824 dc_sample_checks=0 oracle_bit_sample_checks=0 oracle_bit_differences=0 gen_arith_bit_sample_checks=589824 gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0')
+        if logic:
+            for before,after in [('cases=3','cases=4'),('compared_samples=294912','compared_samples=393216'),('input_cases=3','input_cases=4'),
+                ('input_rechecks=27','input_rechecks=36'),('oracle_cases=3','oracle_cases=4'),('oracle_rechecks=27','oracle_rechecks=36'),
+                ('semantic_sample_checks=589824','semantic_sample_checks=786432'),('gen_arith_bit_sample_checks=589824','gen_arith_bit_sample_checks=786432')]:self.change('PASS',before,after)
         self.seal()
 
     def test_fifteen_exact_source_contexts_are_individually_admitted(self):
@@ -1437,7 +1447,7 @@ class GenArithmeticObservationTests(unittest.TestCase):
                     pairs=list(struct.iter_unpack('<ff',wave4_input_bytes(kind)));planes=tuple(tuple(p[i]for p in pairs)for i in (0,1))
                     self.assertEqual(gen_arith_oracle_bytes(code,kind),m.cache_bytes(m.expected_outputs(code,planes)));count+=1
         self.assertEqual(count,45)
-        for unsupported in (0,7,8,11,True):
+        for unsupported in (0,7,8,23,True):
             with self.assertRaises(ValueError):gen_arith_oracle_bytes(unsupported,12)
 
     def test_product_underflow_matches_independent_exact_rational_rounding(self):
@@ -1527,6 +1537,101 @@ class GenArithmeticObservationTests(unittest.TestCase):
             with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
         legacy.lines=list(original);legacy.lines.insert(0,next(l for l in self.lines if ' CASE_GEN_ARITH_BITS 'in l));legacy.seal()
         with self.assertRaises(ValueError):collect(legacy.build,legacy.run)
+
+    def test_twenty_one_logic_contexts_keep_exact_spelling_and_four_case_contracts(self):
+        self.assertEqual(len(GEN_LOGIC_IDENTITIES),21)
+        for identity in GEN_LOGIC_MODELS:
+            with self.subTest(identity=identity):
+                self.fixture(identity,logic=True);result=collect(self.build,self.run)
+                self.assertTrue(result['identical_artifact_control'])
+                self.assertEqual(result['pass']['compared_samples'],393216)
+                self.assertEqual(result['pass']['semantic_sample_checks'],786432)
+                self.assertEqual(result['stimulus_provenance']['surface_identity'],{k:self.report['benchmark']['fixture'][k]for k in ('source','exact_entries','aliases_inherit_qualification')})
+        self.fixture('conditional-infix',logic=True);source=self.report['benchmark']['fixture']['source']
+        self.assertEqual((source['exact_name'],source['registry_lookup'],source['inventory_id']),('?:','?','rnbo-genexpr:?'))
+
+    def test_all_48_logic_operation_caches_match_separate_python_math(self):
+        import importlib.util
+        path=Path(__file__).resolve().parents[2]/'tests/fixtures/gen/logic/models.py'
+        spec=importlib.util.spec_from_file_location('independent_Gen_logic_math',path);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+        count=0
+        for model in range(11,23):
+            for kind in (12,13,14,16):
+                with self.subTest(model=model,kind=kind):
+                    pairs=list(struct.iter_unpack('<ff',gen_arith_input_bytes(kind)));planes=tuple(tuple(p[i]for p in pairs)for i in (0,1))
+                    self.assertEqual(gen_arith_oracle_bytes(model,kind),m.cache_bytes(m.expected_outputs(model,planes)));count+=1
+        self.assertEqual(count,48)
+        for unsupported in (0,7,8,23,True):
+            with self.assertRaises(ValueError):gen_arith_oracle_bytes(unsupported,16)
+
+    def test_logic_truthiness_signed_zero_and_subnormal_boundaries(self):
+        tiny=struct.unpack('<f',struct.pack('<I',1))[0]
+        for x,y in ((-0.,0.),(tiny,0.),(-tiny,tiny),(tiny,-tiny),(-1.,1.)):
+            for model in (15,16,17,18,19):
+                truth=lambda v:bool(struct.unpack('<I',struct.pack('<f',v))[0]&0x7fffffff)
+                tx,ty=truth(x),truth(y)
+                expected={15:(tx and ty,ty and tx),16:(tx or ty,ty or tx),17:(tx!=ty,ty!=tx),18:(not tx,not ty),19:(tx,ty)}[model]
+                self.assertEqual(gen_logic_pair(model,x,y),tuple(map(float,expected)))
+        self.assertEqual(struct.pack('<ff',*gen_logic_pair(21,-0.,0.)),bytes(8))
+        self.assertEqual(gen_logic_pair(21,-tiny,tiny),(-1.,1.))
+        with self.assertRaises(ValueError):gen_logic_pair(True,0.,0.)
+        for bad in (float('nan'),float('inf'),1.0001):
+            with self.assertRaises(ValueError):gen_logic_pair(19,bad,0.)
+
+    def test_documented_step_operand_order_is_not_fitted_to_reversed_producer(self):
+        self.assertEqual(gen_logic_pair(20,.25,-.125),(1.,0.))
+        self.assertEqual(gen_logic_pair(20,-.125,.25),(0.,1.))
+        self.assertEqual(gen_logic_pair(20,-0.,0.),(1.,1.))
+        for kind in (12,13,14,16):
+            raw=gen_arith_input_bytes(kind)
+            reversed_cache=b''.join(struct.pack('<ff',float(y>=x),float(x>=y))for x,y in struct.iter_unpack('<ff',raw))
+            self.assertNotEqual(gen_arith_oracle_bytes(20,kind),reversed_cache)
+        self.fixture('step-call',logic=True)
+        reversed_sha=hashlib.sha256(reversed_cache).hexdigest()
+        row=next(l for l in self.lines if ' ORACLE 'in l and 'case='+GEN_ABS_BOUNDARIES+' 'in l)
+        old=hashlib.sha256(gen_arith_oracle_bytes(20,16)).hexdigest()
+        self.change('ORACLE','oracle_sha256='+old,'oracle_sha256='+reversed_sha,GEN_ABS_BOUNDARIES);self.rejected()
+
+    def test_switch_condition_lane_order_and_zero_sign_are_canonical(self):
+        tiny=struct.unpack('<f',struct.pack('<I',1))[0]
+        self.assertEqual(gen_logic_pair(22,0.,.5),(-.5,-0.))
+        self.assertEqual(struct.pack('<ff',*gen_logic_pair(22,-0.,-0.)),bytes(8))
+        self.assertEqual(gen_logic_pair(22,tiny,-.5),(-.5,tiny))
+        self.assertEqual(gen_logic_pair(22,-.5,tiny),(tiny,-.5))
+        self.fixture('conditional-infix',logic=True)
+        self.change('ORACLE','model_code=22','model_code=19');self.rejected()
+
+    def test_logic_closed_source_runtime_manifest_and_case_table_cannot_be_forged(self):
+        for mutation in ('lookup','inventory','arity','alias','case','case-order','mode','catalog','raw','schema','optional','extra-manifest','bool-format','config','license','generator','different-image'):
+            with self.subTest(mutation=mutation):
+                self.fixture('conditional-infix',logic=True);p=self.report['benchmark'];f=p['fixture'];r=self.report['modules']['optimized']['report'];m=r['prepared_export']['manifest']
+                if mutation=='lookup':f['source']['registry_lookup']='?:'
+                elif mutation=='inventory':f['exact_entries']=['rnbo-genexpr:?:']
+                elif mutation=='arity':f['source']['arity']=2
+                elif mutation=='alias':f['aliases_inherit_qualification']=True
+                elif mutation=='case':f['cases'].pop()
+                elif mutation=='case-order':f['cases'].reverse()
+                elif mutation=='mode':f['qualification_mode']=GEN_ABS_MODE
+                elif mutation=='catalog':p['catalog_sha256']='1'*64
+                elif mutation=='raw':r['prepared_export']['provenance']['raw_files_sha256']['rnbo_source.h']='1'*64
+                elif mutation=='schema':m['parameter_schema_sha256']='1'*64
+                elif mutation=='optional':m['gen_abs_intrinsic']=True
+                elif mutation=='extra-manifest':m['unreviewed']=False
+                elif mutation=='bool-format':m['format_version']=True
+                elif mutation=='config':r['prepared_snapshot']['prepared_files_sha256']['patch_config.h']='1'*64
+                elif mutation=='license':r['prepared_snapshot']['prepared_files_sha256']['RNBO-runtime-LICENSE']='1'*64
+                elif mutation=='generator':r['prepared_snapshot']['prepared_files_sha256']['generator.json']='1'*64
+                else:self.report['modules']['optimized']['artifact_sha256']='b'*64
+                self.rejected()
+
+    def test_logic_zero_sign_diagnostic_cannot_allow_nonzero_errors_or_pair_bits(self):
+        self.fixture('sign-call',logic=True)
+        self.change('CASE_GEN_ARITH_BITS','bit_different=0 zero_sign_different=0','bit_different=1 zero_sign_different=1')
+        self.change('PASS','gen_arith_bit_differences=0 gen_arith_zero_sign_differences=0','gen_arith_bit_differences=1 gen_arith_zero_sign_differences=1')
+        self.seal();self.assertEqual(collect(self.build,self.run)['pass']['gen_arith_zero_sign_differences'],1)
+        self.change('CASE_GEN_ARITH_BITS','bit_different=1 zero_sign_different=1','bit_different=2 zero_sign_different=1');self.rejected()
+        self.fixture('bool-call',logic=True);self.change('CASE_ROUNDING','float_bit_different=0 zero_sign_different=0','float_bit_different=1 zero_sign_different=1');self.rejected()
+        self.fixture('neq-call',logic=True);self.change('CASE_SEMANTIC','max_abs=0 max_model_error_bound=0','max_abs=1.401298464324817e-45 max_model_error_bound=1.401298464324817e-45');self.rejected()
 
     def intrinsic_comparison(self):
         self.fixture('abs-call');plan=self.report['benchmark'];pin=GEN_ARITH_IDENTITIES['abs-call']

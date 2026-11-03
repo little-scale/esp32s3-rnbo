@@ -11,7 +11,7 @@ _Static_assert(FLT_RADIX==2 && FLT_MANT_DIG==24 && FLT_MAX_EXP==128 && sizeof(fl
 bool object_gen_arithmetic_model(uint32_t model)
 {
     return (model>=OBJECT_GEN_ARITH_ABS && model<=OBJECT_GEN_ARITH_LT) ||
-        model==OBJECT_GEN_ARITH_SUM || model==OBJECT_GEN_ARITH_PRODUCT;
+        (model>=OBJECT_GEN_ARITH_SUM && model<=OBJECT_GEN_ARITH_SWITCH);
 }
 static bool overlaps(const void *a,size_t an,const void *b,size_t bn)
 {
@@ -35,6 +35,21 @@ static float operation(uint32_t model,float left,float right)
     case OBJECT_GEN_ARITH_LT:value=x<y?1:0;break;
     case OBJECT_GEN_ARITH_SUM:value=x+y;break;
     case OBJECT_GEN_ARITH_PRODUCT:value=x*y;break;
+    case OBJECT_GEN_ARITH_NEQ:value=x!=y?1:0;break;
+    case OBJECT_GEN_ARITH_GT:value=x>y?1:0;break;
+    case OBJECT_GEN_ARITH_GTE:value=x>=y?1:0;break;
+    case OBJECT_GEN_ARITH_LTE:value=x<=y?1:0;break;
+    case OBJECT_GEN_ARITH_AND:value=(x!=0 && y!=0)?1:0;break;
+    case OBJECT_GEN_ARITH_OR:value=(x!=0 || y!=0)?1:0;break;
+    case OBJECT_GEN_ARITH_XOR:value=((x!=0)!=(y!=0))?1:0;break;
+    case OBJECT_GEN_ARITH_NOT:value=x==0?1:0;break;
+    case OBJECT_GEN_ARITH_BOOL:value=x!=0?1:0;break;
+    /* The documented first-argument ordering is deliberate. A producer that
+     * reverses step's arguments must fail, rather than redefine the oracle. */
+    case OBJECT_GEN_ARITH_STEP:value=x>=y?1:0;break;
+    /* Canonical +0 is diagnostic, as in the existing min/max cache policy. */
+    case OBJECT_GEN_ARITH_SIGN:value=x>0?1:x<0?-1:0;break;
+    case OBJECT_GEN_ARITH_SWITCH:value=x!=0?y:-y;break;
     }
     return (float)value;
 }

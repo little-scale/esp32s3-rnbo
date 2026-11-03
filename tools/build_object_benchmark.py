@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "host/compiler"))
 from prepare import ExportError, NUMERICAL_PROFILES, read_json, read_regular
 from gen_arithmetic_contract import KIND as GEN_ARITH_KIND, FORMAT as GEN_ARITH_FORMAT, ABS_FORMAT as GEN_ABS_FORMAT, ABS_INPUT as GEN_ABS_INPUT, FIXTURES as GEN_ARITH_FIXTURES, benchmark_fixture as gen_arith_fixture, verification as gen_arith_verification, admit_module as gen_arith_admit_module
+from gen_arithmetic_contract import LOGIC_FORMAT as GEN_LOGIC_FORMAT
 from gen_history_contract import KIND as GEN_KIND, INPUT as GEN_INPUT, FORMAT as GEN_FORMAT, OPT_FORMAT as GEN_OPT_FORMAT, OPT_MODE as GEN_OPT_MODE, FIXTURES as GEN_FIXTURES, benchmark_fixture as gen_fixture, verification as gen_verification, admit_module as gen_admit_module, witness_sha256 as gen_witness_sha
 from wave4_contract import KIND as WAVE4_KIND, INPUTS as WAVE4_INPUTS, benchmark_fixture as wave4_fixture, verification as wave4_verification, admit_module as wave4_admit_module
 
@@ -250,7 +251,8 @@ def configuration(args, modules):
     matches = [f for f in catalog.get("fixtures",[]) if f.get("id")==args.fixture_id]
     require(len(matches)==1, "Fixture ID must occur exactly once")
     gen_abs = catalog.get('format') == GEN_ABS_FORMAT
-    gen_arith = catalog.get('format') in (GEN_ARITH_FORMAT,GEN_ABS_FORMAT)
+    gen_logic = catalog.get('format') == GEN_LOGIC_FORMAT
+    gen_arith = catalog.get('format') in (GEN_ARITH_FORMAT,GEN_ABS_FORMAT,GEN_LOGIC_FORMAT)
     require(gen_arith or matches[0].get('verification', {}).get('kind') != GEN_ARITH_KIND,
             'Gen arithmetic requires the original Gen arithmetic catalog format')
     gen = catalog.get('format') in (GEN_FORMAT,GEN_OPT_FORMAT)
@@ -447,7 +449,7 @@ def configuration(args, modules):
            f"#define BENCH_FIXTURE {c_string(args.fixture_id)}",f"#define BENCH_ROLE {1 if role=='main' else 2}u",
            f"#define BENCH_BLOCKS {blocks}u", f"#define BENCH_WARMUP {warmup}u",f"#define BENCH_SEED {seed}u",
            f"#define BENCH_ROUNDS {args.rounds}u",f"#define BENCH_TIMING_EXCLUDE {args.timing_exclude_blocks}u",
-           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u", f"#define BENCH_GEN_FEEDBACK_F32 {1 if gen_optimized else 0}u", f"#define BENCH_GEN_ARITH {1 if gen_arith else 0}u", f"#define BENCH_GEN_ABS_INTRINSIC {1 if gen_abs else 0}u",
+           f"#define BENCH_WAVE4 {1 if wave4 else 0}u", f"#define BENCH_GEN_HISTORY {1 if gen else 0}u", f"#define BENCH_GEN_FEEDBACK_F32 {1 if gen_optimized else 0}u", f"#define BENCH_GEN_ARITH {1 if gen_arith else 0}u", f"#define BENCH_GEN_ABS_INTRINSIC {1 if gen_abs else 0}u", f"#define BENCH_GEN_LOGIC {1 if gen_logic else 0}u",
            f"#define BENCH_ARENA_BYTES {args.arena_bytes}u",f"#define BENCH_HAS_ORACLE {1 if oracle_bytes else 0}u",f"#define BENCH_CASE_COUNT {len(cases)}u",f"#define BENCH_PARAMETER_COUNT {len(parameters)}u",
            f"#define BENCH_MAX_ABS {maximum.hex()}",f"#define BENCH_MAX_RELATIVE_RMS {relative.hex()}",f"#define BENCH_MAX_PCM_LSB {pcm}u",
            f"#define BENCH_STRICT_SHA256 {c_string(modules['strict']['artifact_sha256'])}",
@@ -498,12 +500,12 @@ def configuration(args, modules):
 def sources():
     paths=[Path(__file__).resolve(),ROOT/"tools/build_rnbo_loader_test.py",ROOT/"tools/build_loader_spike.py",ROOT/"loader-spike/dependencies.json",
            ROOT/"host/compiler/build.py",ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",
-           ROOT/"host/compiler/gen_abs_intrinsic.py",ROOT/"host/compiler/gen_arithmetic_contract.py",ROOT/"host/compiler/generate_gen_arithmetic_fixtures.py",ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/gen_feedback.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
+           ROOT/"host/compiler/gen_abs_intrinsic.py",ROOT/"host/compiler/gen_arithmetic_contract.py",ROOT/"host/compiler/generate_gen_arithmetic_fixtures.py",ROOT/"host/compiler/generate_gen_logic_fixtures.py",ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/gen_feedback.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
            ROOT/"tests/fixtures/objects/wave4/recipes.json",ROOT/"tests/fixtures/objects/wave4/inputs.py",
            ROOT/"tests/fixtures/objects/wave4/models.py",ROOT/"tests/fixtures/objects/wave4/identities.json"]
     for identity in ('history-feedback','two-history-swap','three-history-rotation'):
         paths.extend(GEN_FIXTURES/(identity+suffix) for suffix in ('.rnbopat','.genexpr'))
-    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target", ROOT/"tests/fixtures/gen/feedback-f32", ROOT/"tests/fixtures/gen/arithmetic", ROOT/"tests/fixtures/gen/abs-intrinsic"):
+    for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target", ROOT/"tests/fixtures/gen/feedback-f32", ROOT/"tests/fixtures/gen/arithmetic", ROOT/"tests/fixtures/gen/abs-intrinsic", ROOT/"tests/fixtures/gen/logic"):
         paths.extend(p for p in sorted(directory.rglob("*")) if p.is_file() and "__pycache__" not in p.parts)
     return {p.relative_to(ROOT).as_posix():sha(p) for p in paths}
 

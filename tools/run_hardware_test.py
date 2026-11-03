@@ -159,6 +159,63 @@ def same_parameter_values(expected, actual):
     return all(struct.pack('<f',p['actual'])==struct.pack('<f',actual[k]['actual']) for k,p in expected.items())
 
 
+def connect_restored_console(connect, boot_bytes, events, *, settle_seconds=2,
+                             timeout=15, clock=None, sleep=None):
+    """Read startup output without transmitting commands while USB/app settles.
+
+    A watchdog-reset return and USB enumeration do not prove that the console
+    task exists. Reopen only on an I/O disconnect during this boot phase. Raw
+    bytes are retained; subsequent status parsing and identity checks stay strict.
+    """
+    clock=clock or time.monotonic;sleep=sleep or time.sleep
+    deadline=clock()+timeout
+    while True:
+        connection=None
+        try:
+            if clock()>=deadline:raise RuntimeError('Restoration boot connection deadline exceeded')
+            connection=connect();started=clock()
+            if started+settle_seconds>deadline:
+                raise RuntimeError('Restoration boot connection deadline exceeded')
+            while clock()-started<settle_seconds:
+                waiting=max(0,int(connection.in_waiting))
+                chunk=connection.read(min(waiting or 1,4096))
+                boot_bytes.extend(chunk)
+                if len(boot_bytes)>65536:raise CaptureError('Restoration boot output limit exceeded')
+                if not chunk:sleep(.01)
+            events.append({'event':'command-free-boot-read','elapsed_seconds':clock()-started})
+            return connection
+        except OSError as exc:
+            if connection:connection.close()
+            events.append({'event':'boot-io-disconnect','exception':type(exc).__name__})
+            if clock()>=deadline:raise
+            sleep(.05)
+        except BaseException:
+            if connection:connection.close()
+            raise
+
+
+def wait_restored_audio(query, events, *, timeout=15, clock=None, sleep=None):
+    """Retry only a missing read-only status reply during the boot window.
+
+    Query must perform the full identity and health validation. Malformed
+    replies, wrong firmware and health faults propagate immediately. A single
+    already-started transport request can finish after the retry deadline.
+    """
+    clock=clock or time.monotonic;sleep=sleep or time.sleep
+    deadline=clock()+timeout
+    while True:
+        try:
+            result=query()
+        except CaptureError as exc:
+            if str(exc)!='Timed out waiting for response to status':raise
+            events.append({'event':'status-response-timeout','remaining_seconds':max(0,deadline-clock())})
+            if clock()>=deadline:raise
+        else:
+            if result['frames']>=512:return result
+            if clock()>=deadline:raise RuntimeError('Restored audio did not start')
+        sleep(.1)
+
+
 def main():
     import serial
     from serial.tools import list_ports
@@ -286,6 +343,8 @@ def main():
     error = None
     pass_line = None
     restored = {"result": "not attempted"}
+    restoration_status_events=[]
+    restoration_boot_bytes=bytearray();restoration_boot_events=[]
     restore_required = False
     try:
         connection = connect()
@@ -355,17 +414,10 @@ def main():
                 restored = {"result": "not needed; no mutation attempted"}
                 raise StopIteration
             flash(restore, "restore-instrument.log")
-            connection = connect()
+            connection = connect_restored_console(connect,restoration_boot_bytes,restoration_boot_events)
             try:
                 transport = JsonLineTransport(connection, 5)
-                deadline = time.monotonic() + 15
-                while True:
-                    after = status(transport)
-                    if after["frames"] >= 512:
-                        break
-                    if time.monotonic() >= deadline:
-                        raise RuntimeError("Restored audio did not start")
-                    time.sleep(0.1)
+                after=wait_restored_audio(lambda:status(transport),restoration_status_events)
                 if running_defaults:
                     check_defaults(transport, after)
                 else:
@@ -415,6 +467,8 @@ def main():
             restored = {"result": "failed", "error": f"{type(failure).__name__}: {failure}"}
             if error is None:
                 error = "Test passed but restoration could not be verified"
+        boot_log=output/'restore-boot.log'
+        if restore_required:boot_log.write_bytes(restoration_boot_bytes)
         report = {"format": "rnbo-isolated-hardware-test", "format_version": 1,
                   "result": "passed" if error is None else "failed", "error": error,
                   "board": args.board, "flash_bytes": FLASH_BYTES[args.board],
@@ -425,6 +479,9 @@ def main():
                   "test_build_report_sha256": test["report_sha256"],
                   "test_elf_sha256": test["elf_sha256"], "test_app_sha256": sha(test["app"]),
                   "pass_line": pass_line, "restoration": restored,
+                  "restoration_status_events":restoration_status_events,
+                  "restoration_boot_events":restoration_boot_events,
+                  "restoration_boot_log_sha256":sha(boot_log) if boot_log.exists() else None,
                   "restore_build_report_sha256": restore["report_sha256"],
                   "runner_sha256": source_hash,
                   "serial_log_sha256": sha(output / "test-serial.log") if (output / "test-serial.log").exists() else None}

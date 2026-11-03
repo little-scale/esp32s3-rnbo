@@ -73,8 +73,9 @@ build/host-sine/rnbo_render --output build/sine.wav --float-output build/sine.f3
 
 Output directories must be new. See [host/README.md](host/README.md) for manual
 Minimal C++ imports, the supported flat `.rnbopat` route, polyphony options,
-explicit MIDI-output policy, and provenance. Gen, arbitrary Max projects,
-external assets and a full browser converter remain later work.
+explicit MIDI-output policy, and provenance. Explicit GenExpr in `gen~` is
+admitted; visual Gen patchers, arbitrary Max projects, external assets and a
+full browser converter remain later work.
 
 ## Build for the AMOLED V2
 
@@ -157,3 +158,4 @@ Gen/`gen~` operators and single-sample behaviour are explicitly in scope. See [G
 The optional [Gen feedback Float32 profile](docs/gen-feedback-float32.md) now measures 83.94% less callback time in its matched XIAO test; broader Gen optimisation remains pending.
 Fifteen [GenExpr arithmetic spellings](docs/gen-arithmetic-qualification.md) also pass individual XIAO output, timing and memory checks; their identical-module controls claim no optimisation gain.
 The separate [Gen abs intrinsic comparison](docs/gen-abs-intrinsic.md) now measures 36.19% less callback time with exact finite magnitude bits in four XIAO cases.
+Twenty additional [Gen comparison/logic forms](docs/gen-logic-qualification.md) pass individual XIAO checks; `step` retains a documented-order mismatch and `sign(-0)` is observed as `+0`.

@@ -979,10 +979,210 @@ GEN_ARITH_IDENTITIES={
   }
 }
 
+# Independent closed identities for the 21 authored logic syntax contexts.
+# Step intentionally follows the documented first >= second comparison; the
+# pinned producer's reversed step expression is retained as a baseline failure.
+GEN_LOGIC_CATALOG='d5e14427a78f94f8f9593402fdb82e9dd1a71af29faf00fafb543d6bca3635ae'
+GEN_LOGIC_MODELS={'neq-call': 11, 'not-equal-infix': 11, 'gt-call': 12, 'greater-infix': 12, 'gte-call': 13, 'greater-equal-infix': 13, 'lte-call': 14, 'less-equal-infix': 14, 'and-call': 15, 'and-infix': 15, 'or-call': 16, 'or-infix': 16, 'xor-call': 17, 'xor-infix': 17, 'not-call': 18, 'not-prefix': 18, 'bool-call': 19, 'step-call': 20, 'sign-call': 21, 'switch-call': 22, 'conditional-infix': 22}
+GEN_LOGIC_IDENTITIES={
+  "and-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "c88327ec548b5f65b91b7a1b09788dc2fcc992fedb56a5bb46f52a17f70b9b58",
+    "patch": "fa16570a321e19a25255779ce5067be3c5cfb3a2eca827fc0de9be18c4e321eb",
+    "prepared_map": "f5bd409418971601b608f82f28c0b501ec283228235e5213b4bc980984788d98",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "8cfc4b5a29a0828edcf10e15e1bfafdee387782cda2792c395a3c6c34c4a045b",
+    "source_tree": "581fd7c643f192ef9720770eb1e5e6a71946d40521390aaa848842344f517304"
+  },
+  "and-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "62e3d1caae862236baa951fd4d4252a56d798b75fa8cf6bd3dc0e1ad40c29848",
+    "patch": "d95aa4c156e1a45167b3335a3117e53c81e641b1701107219ad2a4d040e927e7",
+    "prepared_map": "0eb648a7bacd4dd46bdade0e28940d2cf78ccfd3b9c013a119c219facbe4965a",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "8cfc4b5a29a0828edcf10e15e1bfafdee387782cda2792c395a3c6c34c4a045b",
+    "source_tree": "45072b48509cf7efb8d0923e3e9f0ece07f1714fc87aff71618ca2551108d86d"
+  },
+  "bool-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "677110d2829f3d70c40a560e5d08169f1c678c58e463d14442e69498f4ce1368",
+    "patch": "11272f037bfe23759ceb4ef2af2c499156b61eee83af02993262f08862e607c5",
+    "prepared_map": "1560ac762c6ff64e5f5926444703ab92f89d2717c10cd0bb73f4b70f50f330eb",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "76f584b84b824b5d0ed0124440f7dfc7713e207dc730a65e9de57e494a6d9c75",
+    "source_tree": "8efe545b81523046d60be5adef83d1e31921086707355af6e9751b92aeb10855"
+  },
+  "conditional-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "7ea9543b30fce020d437698b91572e50e3fbbe32bfb41720725170521c245eba",
+    "patch": "1e62e107314c1bdf7bbacd1128d42f86ca7fec6dac1d5e35664ec86768fe40fd",
+    "prepared_map": "b1bda65e053506b33a8ecfa9e8a8da5e305c429a6b748f818aa718ce7823dc01",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "9fd89b8c0821baf9ec65ad6c4397f2b7aee1944300dd03e49029532e84168047",
+    "source_tree": "f0af29f888be783313ffd4286c77d5b135d04c835a39ae82c0e37e0d0fb33e27"
+  },
+  "greater-equal-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "544b63eb90e296a6c49f37a1bb09cd7bcc7fda8c6262127bd9236512fba845e5",
+    "patch": "764b09d62dfa8032374346937b80cf84cf3b35781b42f3a35f9893e57b5db4ee",
+    "prepared_map": "57b43037905e6835498211a16040dc4726bcd49457dd72a1519cf5d1d061b697",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "6d0e035f82008dd85d6407b9272d42fbcf32c2741caad048c5dff86e1d59024b",
+    "source_tree": "66a96ffa2099baa74ae9377f3ab77b2c10d546148158c527bf82d44d43510322"
+  },
+  "greater-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "8db4e56cfb990865edae65963b05ab14b691dcf75ac99a562d27934d2bbd3bf0",
+    "patch": "8d6a9cdf5edf41ade86623541e687e783430115854c36520d57c3b9003ad724b",
+    "prepared_map": "34f0249fcc681c8f491f43fe9c150c0fe6f386e11ea26e12814ac6a801d5eebd",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "a88d72afb382297019f6bc05b06ca34a35b0cc01de54acc0b488c12bd7265bcf",
+    "source_tree": "cf951e0b419210dbc25ae71b5ec0a300525b4116e9969b996e859319e16dd026"
+  },
+  "gt-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "85a2e365a6f152e9918dc8795bdd7ba2f8bb9459cbf740a283e11641b4f76eb2",
+    "patch": "af4a56ab62c8064e8a120f2dca550f6224b49dd413a61d2ba51a65967b575d50",
+    "prepared_map": "7ec66ee621987dd10cca1ea62002a341e544ef11c2d4b81bde911c3b9d031fa0",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "a88d72afb382297019f6bc05b06ca34a35b0cc01de54acc0b488c12bd7265bcf",
+    "source_tree": "c0722679acf1a3f778cac14ab81ea4b6acd2f6688ee745e3c2b017d80c00abc6"
+  },
+  "gte-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "12da189bf8d3428b4173cf95444b1f694350fda927c7e012292c38f2af9d0af0",
+    "patch": "864554a0b4613de711d40cf67154d0de8ea3dd1bb8f404ae6c0230fe2e47d7a1",
+    "prepared_map": "9438ef4fb8e30ba7422a6ca2a15dedbcc22ab3eb36c91af870b6e5220ed71128",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "6d0e035f82008dd85d6407b9272d42fbcf32c2741caad048c5dff86e1d59024b",
+    "source_tree": "8ac006c2ddd7e873b23aa65df677cc96cc0bcd9a7136a8939c43244895630f29"
+  },
+  "less-equal-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "a0088b37dc6a5605bc09d2b8c584356969c3da2cf50dbe3b9735ffcc37ac309f",
+    "patch": "fae13f49cd8cecfe5d923fabcad63ffb1f97961eeaf565302cb8d90d6c2a8656",
+    "prepared_map": "1d701139a5127fef9dbf8612515217cade366efdc00461fbd2e771295e8e937d",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "b97b5ffba5bb498c5f4ac2c8e68a371cdc51c80d1c4985f4e93fe88bb8dbe3ea",
+    "source_tree": "8470844781bb973577f54578ffff46fc18dfe7cc24c8ec9a1df3058f26456bf2"
+  },
+  "lte-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "c12c5c45692ad6dca154cff17bddcd1cffa73ec860a6e5edce3d57f2251bfae6",
+    "patch": "1797d634000fddc000e758372b0efc7a252e5143bb86903c3fb1b993dd8dd68e",
+    "prepared_map": "0df27df2ad036741c1887fb911a86a4d095fbf725277bb714dff2c623eb8ab04",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "b97b5ffba5bb498c5f4ac2c8e68a371cdc51c80d1c4985f4e93fe88bb8dbe3ea",
+    "source_tree": "02410ce65e3f72f4e9e1772e2894b8dc2ab58c768df351a8e65e3ab64713d57b"
+  },
+  "neq-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "2b496dd76495e453d538effbcb566a69ab1f7981d6470a52503f4e52a9a6bcf6",
+    "patch": "3c091ca63b8129da12649040fa6477d79193ebfaaed015421dc5852e09047998",
+    "prepared_map": "47de4e63fba4a4167a240230671fb4b4e25dc884d5049c479b0f1151f518a0a3",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "446c4f1242559638b540b7cb4abc2cd3fa184a95cd689159ca0b09502b67a8ba",
+    "source_tree": "5e977f5fd6b3c6d0d606840d445b413bbfacbbfcf4b95bc063192b25fffd79e0"
+  },
+  "not-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "bdfd3147762722b7c6e85b83f53014aeb9635b75ce5e84ba0677a5e4ac6432f8",
+    "patch": "d847d74ac036a5c0775770a7327eb187c2d4a665750d29efe04592f229624583",
+    "prepared_map": "3318c32b8b40cee060665d387250258c35fa2c0b4ed0e58207015315df10856b",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "88a962bea508ac9f50c8272dbbb6ada8284123d400120e7b4557a405011c203e",
+    "source_tree": "bd6ca1bcad52f565cedc900c6e02a3a8ddac71df98b8ef32446052eb1b9bbe6e"
+  },
+  "not-equal-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "c371ad896489c6dcf3414cc9bb16f2482fb6508455cef73f833dc8485fb922c6",
+    "patch": "63b714a76cdc58384072cf704d860a7b927cf3908c2f49cf856c9b58214cf635",
+    "prepared_map": "4bd12331a961bfe3131155d704a0d7d316e48378aebf8c4458321a204ab69988",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "446c4f1242559638b540b7cb4abc2cd3fa184a95cd689159ca0b09502b67a8ba",
+    "source_tree": "5940043a429fb9c0ac48209604366a81827ba935f0e4a4a8f20678b58cb87557"
+  },
+  "not-prefix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "0dfba40ac75e84e0f492ef8cf226770da1ee05f649aa96d9280f5f881ff5f951",
+    "patch": "08adfd3372f826b5865f1a1dbfc849952f3c7c388d66322ddcf60f2c0919e8f7",
+    "prepared_map": "49a0e2b050c319b79da34a8971bf08992589e5d33998a540ffd39f6e282d892a",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "9a699c88bbbedc06c49bbc901c6b4e7a9255e40cd1a8c8b189a1b02314297bf4",
+    "source_tree": "5bda9ff036a294cc152b59a4e6841512f8ea58a5faa0e95360b69b3de0bf1945"
+  },
+  "or-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "0c26e8345e9d4496dee332e3105992c6434b6084badefa144eb789d49d8ba7eb",
+    "patch": "712eb2d28a5bed16c12a3ec21f618485a4b27687d9617f4f32964dc37aad1fbc",
+    "prepared_map": "793cd781852d0706380db099bf81e041cd47f28cf91714230b3416cfcd5c029b",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "ccfc86741b63175358426ea237e1aad730cb8be561dfc0629e20072443f4243b",
+    "source_tree": "fac246b1886e70bff55c7131cd56b50a2351ce565d7abe0f45f1d7a30d6d6089"
+  },
+  "or-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "7847c65557d4c79040104ca0a1454be628cb34a9985ecd5d6f2ff279a2e88b71",
+    "patch": "552090b20103e1421e867dc7ac5dd8f0aefbd19d02e0117241ce06ea86cfcb27",
+    "prepared_map": "764953b6cf5706889e6ba4e87e881da731f4c091be3abe48c2d650f731f2a50b",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "ccfc86741b63175358426ea237e1aad730cb8be561dfc0629e20072443f4243b",
+    "source_tree": "92a714ba34974e1e66f0843e948c3537f1efd9c408c7d777b637a50acef56a91"
+  },
+  "sign-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "f4d3d91252123c3db17b6814694dc4cba516d10b6a00e6deba3cc5d665a62f8f",
+    "patch": "33a7db06460916d798435699f740aa84d517b10841be83de3bd72f0c2648ffcf",
+    "prepared_map": "4d88e05705c0aac35822d4605897d6ec3c83e982205f4e7baf761bf1349b681b",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "c66807e6b24f1be638cda82f38f4f155b94ebc055c217ea134aaeb29165ce387",
+    "source_tree": "560d1da0a5b0668be0eee787760c00a3cbbc59c296f34afd7c198db64f1832ec"
+  },
+  "step-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "30bd3627b5e085a48f104ef813c6771cc5389282f2f5e3bb22e9daf88bdd0486",
+    "patch": "e27141146a42393512229af56e11f55616a54a57eb62953865bcc0b880183315",
+    "prepared_map": "40a30c3ee7e198bcdfd6da133ca36531097a699d4cabc4d45a37500a6d04484c",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "210acebe7c33bdee5c1a8ec524f7771c1cf03d39cf61d2ab6cb39a1f91b73ded",
+    "source_tree": "0e5c62764eafcb4aaab00273ccfc78d3cbd4fa5b56650130d37489e6c1247924"
+  },
+  "switch-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "cd82ad2969b60f0c375a784cdcec953fbb4c069fb9cc2e9ca9b040d24bc546af",
+    "patch": "0e12de748e9f783d12253467ee6f922c62192c6b3b68f7302fad90d341ebcfb3",
+    "prepared_map": "2891a921a6ebe14f772198008e3cc3b5ac630a1c1e69528138067728ee6e7214",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "a7dd6b19d370b70666133a1eaa08fee95cfe8db2221098383e7d6ddeefa37c2f",
+    "source_tree": "759afc06366a8fd407e619ba79cd78cc6265b889e6693ca2112fff920c9660ce"
+  },
+  "xor-call": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "85084819630ebe76c10558900e311c6fbaf4a09fc61f60a4b0d08dc7c36f7cc4",
+    "patch": "b8ced2f361544c3f782865485776739a033a9621bda2b9f3451081f4c190d9da",
+    "prepared_map": "a0f3df2545d1d857b9f30522ceecbb89b77f80170f1dd4e52cd8c6bc54572f55",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "e1d182ccec7246a0adf1d2f3132db9234add5b187e56c646b0aacb2d36b2fa9e",
+    "source_tree": "cab3bf66b1c5412da85fe59d96f0aafe90c43093ffd601c68fce3cc45529edc5"
+  },
+  "xor-infix": {
+    "description": "85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314",
+    "fixture": "f63e23b0ce9bcd9a98f32c183aa5defb392a6c896cabd8007124445f1f767b8b",
+    "patch": "e1aff014f5fcd80da9493ecd29a4eb56b618e180d564e63fbecae6148e0f0840",
+    "prepared_map": "d7985eb704256518d8319995ec00c3113b4a816b7c3a4d8f94ca7a42389ab14f",
+    "schema": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "source": "351874a59f6e3ac35f35e60a6c69b7faa3de751cbbe7a6ee2c79f5d1f96f1621",
+    "source_tree": "d66b970fe70c81383f981c9a64d36c3aac044e251b38b1f71111fc8e7cdf68a9"
+  }
+}
+
 
 def gen_arith_verification(fixture,case):
-    identity=fixture.get('id');require(identity in GEN_ARITH_MODELS,'Unknown exact Gen arithmetic fixture')
-    pin=GEN_ARITH_IDENTITIES.get(identity);require(pin is not None,'Gen arithmetic source identity is not frozen')
+    identity=fixture.get('id');logic=identity in GEN_LOGIC_MODELS
+    models=GEN_LOGIC_MODELS if logic else GEN_ARITH_MODELS
+    require(identity in models,'Unknown exact Gen arithmetic fixture')
+    pin=(GEN_LOGIC_IDENTITIES if logic else GEN_ARITH_IDENTITIES).get(identity)
+    require(pin is not None,'Gen arithmetic source identity is not frozen')
     comparison=fixture.get('qualification_mode')==GEN_ABS_MODE
     require('qualification_mode'not in fixture or comparison and identity=='abs-call','Unknown Gen arithmetic comparison mode/context')
     original={k:v for k,v in fixture.items()if k not in ('family','qualification_mode')}
@@ -995,7 +1195,7 @@ def gen_arith_verification(fixture,case):
     except (TypeError,ValueError):original_sha=None
     require(original_sha==pin['fixture'],'Gen arithmetic original source/surface/domain/cases differ')
     require(fixture.get('family')=='gen-arithmetic'and fixture.get('role')=='fx','Gen arithmetic family/role differs')
-    expected={'kind':GEN_ARITH_KIND,'model_code':GEN_ARITH_MODELS[identity],'maximum_absolute_error':0.}
+    expected={'kind':GEN_ARITH_KIND,'model_code':models[identity],'maximum_absolute_error':0.}
     require(same_declaration(fixture.get('semantic'),expected)and same_declaration(fixture.get('verification'),expected),
             'Gen arithmetic model declaration differs')
     require(any(same_declaration(case,c)for c in fixture['cases']),'Unknown Gen arithmetic case')
@@ -1006,7 +1206,9 @@ def gen_arith_verification(fixture,case):
 
 
 def gen_arith_identity(build,fixture,plan):
-    gen_arith_verification(fixture,fixture['cases'][0]);pin=GEN_ARITH_IDENTITIES[fixture['id']]
+    gen_arith_verification(fixture,fixture['cases'][0]);logic=fixture['id']in GEN_LOGIC_MODELS
+    pin=(GEN_LOGIC_IDENTITIES if logic else GEN_ARITH_IDENTITIES)[fixture['id']]
+    if logic:require(plan.get('catalog_sha256')==GEN_LOGIC_CATALOG,'Gen logic authored catalog differs')
     comparison=fixture.get('qualification_mode')==GEN_ABS_MODE
     if comparison:
         require(GEN_ABS_PIN['transformer']is not None,'Gen abs intrinsic identity is not frozen')
@@ -1032,9 +1234,21 @@ def gen_arith_identity(build,fixture,plan):
              'voices':1,'voice_topology':'single-export','required_host_services':[],'midi_output_ports':0,
              'adaptations':WAVE4_ADAPTATIONS+(['rnbo-1.4.4-gen-abs-intrinsic-v1']if candidate else [])}),
             'Gen arithmetic strict ABI/profile differs')
+        if logic:
+            known={'adaptations','audio_inputs','audio_outputs','block_frames','class_name','defined_int32_wrap',
+                'editable_source_sha256','execution','format','format_version','midi_output_policy','midi_output_ports',
+                'numerical_profile','parameter_count','parameter_schema_sha256','required_host_services','rnbo_version',
+                'role','sample_rate','scheduler_time','source_tree_sha256','voice_topology','voices'}
+            context={'defined_int32_wrap':True,'execution':'static-development','format':'rnbo-esp32s3-prepared-export',
+                'format_version':1,'midi_output_policy':'reject'}
+            require(set(manifest)==known and same_declaration({k:manifest.get(k)for k in context},context),
+                    'Gen logic requires exactly the normal strict manifest without optional adapters')
         require(report.get('imports')==[],'Gen arithmetic module has unapproved imports')
         require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==pin['source'],'Gen arithmetic raw source differs')
         files=report.get('prepared_snapshot',{}).get('prepared_files_sha256',{})
+        if logic:
+            require(hashlib.sha256((json.dumps(files,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==pin['prepared_map'],
+                    'Gen logic complete 42-file prepared source/metadata map differs')
         require(files.get('rnbo_source.h')==(GEN_ABS_PIN['source']if candidate else pin['source']),'Gen arithmetic prepared source differs')
         runtime={k:v for k,v in files.items()if k.startswith('common/')}
         require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
@@ -1091,14 +1305,37 @@ def gen_arith_input_bytes(kind):
     return bytes(result)
 
 
-@lru_cache(maxsize=25,typed=True)
+def gen_logic_pair(model,x,y):
+    """Finite IEEE inputs, documented comparisons and numeric truthiness.
+
+    Signed zeros are false, and every nonzero subnormal is true. Sign's
+    canonical zero is +0; actual operation zero-sign differences are reported
+    separately. Step's documented operand order is never fitted to the export.
+    """
+    require(type(model)is int and 11<=model<=22,'Unknown Gen logic operation')
+    require(all(math.isfinite(v)and -1<=v<=1 for v in (x,y)),'Gen logic requires bounded finite inputs')
+    tx,ty=x!=0.,y!=0.
+    if model==11:return float(x!=y),float(y!=x)
+    if model==12:return float(x>y),float(y>x)
+    if model in (13,20):return float(x>=y),float(y>=x)
+    if model==14:return float(x<=y),float(y<=x)
+    if model==15:return float(tx and ty),float(ty and tx)
+    if model==16:return float(tx or ty),float(ty or tx)
+    if model==17:return float(tx!=ty),float(ty!=tx)
+    if model==18:return float(not tx),float(not ty)
+    if model==19:return float(tx),float(ty)
+    if model==21:return float((x>0)-(x<0)),float((y>0)-(y<0))
+    return (y if tx else -y),(x if ty else -x)
+
+
+@lru_cache(maxsize=80,typed=True)
 def gen_arith_oracle_bytes(model,kind):
     """Independent binary64 arithmetic over exact binary32 operands, once rounded.
 
     A product has at most48 significant bits and remains normal in binary64
     even for two binary32 subnormals. No generated Gen/RNBO kernel is imported.
     """
-    require(type(model)is int and model in (1,2,3,4,5,6,9,10),'Unknown Gen arithmetic operation')
+    require(type(model)is int and model in (1,2,3,4,5,6,9,10,*range(11,23)),'Unknown Gen arithmetic operation')
     data=gen_arith_input_bytes(kind);result=bytearray()
     for x,y in struct.iter_unpack('<ff',data):
         if model==1:a,b=abs(x),abs(y)
@@ -1108,7 +1345,8 @@ def gen_arith_oracle_bytes(model,kind):
         elif model==5:a=b=float(x==y)
         elif model==6:a,b=float(x<y),float(y<x)
         elif model==9:a,b=x+y,y+x
-        else:a,b=x*y,y*x
+        elif model==10:a,b=x*y,y*x
+        else:a,b=gen_logic_pair(model,x,y)
         result.extend(struct.pack('<ff',a,b))
     return bytes(result)
 
@@ -1329,6 +1567,10 @@ def input_evidence(build,fixture,plan,passed,lines,expected_samples):
             provenance['pilot']='No direct observer; both output channels are the declared arithmetic operations.'
             provenance['parameter_schema']=plan['parameter_schema'];provenance['events']=plan['events'];provenance['pcm_gain']=.5
             provenance['surface_identity']={key:fixture[key]for key in ('source','exact_entries','aliases_inherit_qualification')}
+            if fixture['id']in GEN_LOGIC_MODELS:
+                provenance['generation']='Four deterministic integer/binary32 input families, including signed finite magnitude boundaries; complete INPUT SHA independently regenerated on host.'
+                provenance['oracle']='Independent documented binary64 comparisons and numeric nonzero truthiness over exact binary32 inputs, with canonical Boolean/sign zeros and conditional lane selection; once-rounded output cache SHA independently regenerated. Step uses first >= second, including equality, rather than the reversed producer expression.'
+                provenance['limit']='Only the 21 exact authored GenExpr logic call/infix/prefix contexts and supplied finite binary32 programs in[-1,1],64 fixed256-frame vectors/four zero warmups/three rounds. No RNBO, alias/canonical, visual Gen, other overload/event, nonfinite or fenv transfer.'
             if fixture.get('qualification_mode')==GEN_ABS_MODE:
                 provenance['qualification_mode']=GEN_ABS_MODE
                 provenance['generation']='Four fixed input families, including36 signed finite boundary words repeated with an independent17-frame right-lane offset; full INPUT SHA independently regenerated.'

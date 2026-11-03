@@ -42,9 +42,11 @@ Each output directory must be new. Generated C++ and runtime headers stay inside
 ignored `build/` directories with their original notices.
 
 The first `.rnbopat` importer supports **flat, self-contained RNBO graphs** made
-of `newobj` boxes, comments, and panels. Embedded subpatches, Gen, external
-abstractions, presets, external sample assets, and arbitrary Max `.maxpat` input
-are not admitted. This is a deliberately narrower input route than the upstream
+of `newobj` boxes, comments, and panels. Explicit GenExpr inside `gen~` is also
+admitted; see the [Gen qualification record](../docs/gen-qualification.md).
+Embedded subpatches, visual Gen patchers, external abstractions, presets,
+external sample assets, and arbitrary Max `.maxpat` input are not admitted.
+This is a deliberately narrower input route than the upstream
 FM1 converter. The original example patch designs in `examples/` use this route.
 
 For a manual export, select a fixed sample rate of **44100**, fixed vector of
