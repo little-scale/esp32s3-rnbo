@@ -2,6 +2,9 @@
 
 The active goal is to test every inventoried RNBO object, operation and structure
 on the XIAO ESP32-S3 and record compatibility, resource use and performance.
+The user has also explicitly included Gen/`gen~` operators and single-sample
+processing; see the [full qualification scope](qualification-scope.md). Gen
+qualification is separate and pending.
 The first hardware batch passed on 4 November 2026. The drone was restored,
 unpaused at 50%, with all eight compiled parameter defaults after each run.
 A final 4,096-frame internal stereo capture contained nonzero output.

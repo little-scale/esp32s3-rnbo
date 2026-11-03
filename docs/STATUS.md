@@ -1,5 +1,10 @@
 # Implementation status — 4 November 2026
 
+The active scope also includes **Gen/`gen~` and its single-sample processing**.
+Gen inventory, export-route checks and execution qualification are being added
+separately; the current RNBO table does not validate Gen. See
+[the qualification requirements](qualification-scope.md).
+
 Systematic **XIAO object qualification** is now active. The first isolated
 oscillator control and comb/allpass duration-hoist comparisons passed, with
 5,505,024 exact reference/candidate sample comparisons, complete memory recovery
