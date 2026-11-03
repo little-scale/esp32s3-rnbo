@@ -23,5 +23,9 @@ jobs:
         run: |
           python tools/build_object_status.py --check
           node --check site/app.js
+      - name: Check exporter source and optional licensed frontend tests
+        run: |
+          node --check host/export/patcher.mjs
+          node --test host/export/test_*.mjs
       # Real exports require the user's local licensed RNBO installation.
       # These checks do not claim an ESP32 build or hardware qualification.

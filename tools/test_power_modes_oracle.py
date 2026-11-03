@@ -128,6 +128,7 @@ class PowerModesTests(unittest.TestCase):
 #include <math.h>
 #include "stimulus.h"
 #include "wave2_oracle.h"
+#include "wave4_oracle.h"
 #include "average_oracle.h"
 #define CHECK(x) assert(x)
 #define RNBO_S3_FX 2
@@ -155,7 +156,7 @@ float excitation_sample(unsigned frame,unsigned channel){return source_cache[fra
         path=self.directory/'prepare.c';library=self.directory/'prepare.dylib';path.write_text(program)
         subprocess.run(['cc','-std=c11','-O2','-fno-fast-math','-ffp-contract=off','-UNDEBUG','-shared','-fPIC',
             '-I'+str(ROOT/'object-benchmark/main'),str(path),str(ROOT/'object-benchmark/main/stimulus.c'),
-            str(ROOT/'object-benchmark/main/wave2_oracle.c'),str(ROOT/'object-benchmark/main/average_oracle.c'),'-o',str(library),'-lm'],check=True)
+            str(ROOT/'object-benchmark/main/wave2_oracle.c'),str(ROOT/'object-benchmark/main/wave4_oracle.c'),str(ROOT/'object-benchmark/main/average_oracle.c'),'-o',str(library),'-lm'],check=True)
         lib=C.CDLL(str(library));lib.precompute.argtypes=[C.c_uint,C.POINTER(C.c_uint8)];lib.precompute.restype=C.c_uint
         for name in ('cached','excitation_sample'):
             getattr(lib,name).argtypes=[C.c_uint,C.c_uint];getattr(lib,name).restype=C.c_float
@@ -185,6 +186,7 @@ float excitation_sample(unsigned frame,unsigned channel){return source_cache[fra
 #include <math.h>
 #include "stimulus.h"
 #include "wave2_oracle.h"
+#include "wave4_oracle.h"
 #define CHECK(x) assert(x)
 #define BENCH_ROLE 1
 #define RNBO_S3_FX 1
@@ -197,9 +199,10 @@ typedef struct { unsigned ignored; } bench_case;
 '''+types+r'''
 static float reference[BENCH_BLOCKS*512],oracle_cache[BENCH_BLOCKS*512];
 static float planar[4][256],*outputs[2]={planar[0],planar[1]},*inputs[2]={planar[2],planar[3]};
-static struct { unsigned kind; } verification={OBJECT_WAVE2_POWER_MODES},*active_verification=&verification;
+static struct { unsigned kind,window; } verification={OBJECT_WAVE2_POWER_MODES},*active_verification=&verification;
 static object_stimulus stimulus,*active_stimulus=&stimulus;
 static uint64_t dc_sample_checks,semantic_sample_checks,pilot_sample_checks,oracle_bit_sample_checks,oracle_bit_differences;
+static uint64_t wave4_bit_sample_checks,wave4_bit_differences,wave4_zero_sign_differences,observer_bit_sample_checks,observer_bit_differences;
 static int64_t benchmark_started;static double dc_expected;static bool changed;
 static int64_t esp_timer_get_time(void){return 1;}
 static void vTaskDelay(int n){(void)n;}

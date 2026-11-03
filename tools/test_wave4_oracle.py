@@ -5,6 +5,7 @@ import array
 import ctypes as C
 import hashlib
 import importlib.util
+import re
 from pathlib import Path
 import struct
 import subprocess
@@ -84,6 +85,73 @@ class TargetWave4OracleTests(unittest.TestCase):
         for first,count,capacity in ((1,1,2),(0,3,6),(0,2,3),(0,0,0)):
             self.assertFalse(self.lib.object_wave4_oracle_fill(C.byref(state),source,2,first,count,out,capacity))
         self.assertFalse(self.lib.object_wave4_oracle_fill(C.byref(state),source,2,0,2,source,4))
+
+    def test_actual_run_pass_counts_wrong_observer_zero_bits_with_zero_numeric_error(self):
+        source=(ROOT/'object-benchmark/main/benchmark.c').read_text()
+        begin=source.index('static void run_pass(');end=source.index('\nstatic void worker(',begin)
+        function=source[begin:end]
+        declarations=[re.search(r'typedef struct \{[^}]*\} '+name+r';',source,re.S)[0]
+                      for name in ('profile_metrics','compare_metrics','semantic_metrics')]
+        program=r'''
+#include <assert.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <math.h>
+#include <stddef.h>
+#include "stimulus.h"
+#include "wave2_oracle.h"
+#include "wave4_oracle.h"
+#define CHECK(x) assert(x)
+#define BENCH_ROLE 2
+#define RNBO_S3_FX 2
+#define RNBO_S3_BLOCK_FRAMES 256
+#define BENCH_BLOCKS 64
+#define BENCH_WARMUP 4
+#define BENCH_SEED 0x12345678u
+typedef struct { uint64_t position; } object_image;
+typedef struct { unsigned ignored; } bench_case;
+'''+ '\n'.join(declarations)+r'''
+static float reference[BENCH_BLOCKS*512],oracle_cache[BENCH_BLOCKS*512];
+static float planar[4][256],*outputs[2]={planar[0],planar[1]},*inputs[2]={planar[2],planar[3]};
+static struct { unsigned kind,window; } verification={OBJECT_WAVE4_KIND,OBJECT_WAVE4_DELTA},*active_verification=&verification;
+static object_stimulus stimulus,*active_stimulus=&stimulus;
+static uint64_t dc_sample_checks,semantic_sample_checks,pilot_sample_checks,oracle_bit_sample_checks,oracle_bit_differences;
+static uint64_t wave4_bit_sample_checks,wave4_bit_differences,wave4_zero_sign_differences,observer_bit_sample_checks,observer_bit_differences;
+static int64_t benchmark_started;static double dc_expected;
+static int64_t esp_timer_get_time(void){return 1;}
+static void vTaskDelay(int ticks){(void)ticks;}
+static void object_image_prepare(object_image *image,unsigned warmup,unsigned seed){assert(warmup==4&&seed==BENCH_SEED);image->position=0;}
+static void verify_parameters(object_image *image){(void)image;}
+static void dispatch(object_image *image,const bench_case *test,unsigned block,profile_metrics *metrics){(void)image;(void)test;(void)block;(void)metrics;}
+static void collect(object_image *image,profile_metrics *metrics){(void)image;(void)metrics;}
+static void object_image_destroy_context(object_image *image){(void)image;}
+static int16_t pcm(float value){return(int16_t)lrintf(value*.5f*32767.f);}
+static void step(object_image *image,unsigned block,profile_metrics *metrics,bool measured){
+ (void)metrics;(void)measured;
+ for(unsigned i=0;i<256;++i)for(unsigned c=0;c<2;++c)outputs[c][i]=oracle_cache[((size_t)block*256+i)*2+c];
+ /* Wrong unchanged observer: -0 becomes +0. Numeric comparison cannot see it. */
+ if(block==0)outputs[1][0]=0.0f;
+ image->position+=256;
+}
+'''+function+r'''
+int main(void){
+ for(unsigned n=0;n<BENCH_BLOCKS*256;++n){oracle_cache[2*n]=0;oracle_cache[2*n+1]=-0.0f;}
+ object_image image={0};bench_case test={0};compare_metrics comparison={0};double squares[2]={0};
+ profile_metrics metrics={0};semantic_metrics semantic={0},dc={0};
+ run_pass(&image,0,&test,true,&comparison,squares,&metrics,&semantic,&dc);
+ assert(semantic.max_abs==0 && semantic.samples==BENCH_BLOCKS*512u);
+ assert(semantic.bit_different==1 && semantic.zero_sign_different==1);
+ assert(semantic.observer_samples==BENCH_BLOCKS*256u && semantic.observer_bit_different==1);
+ assert(observer_bit_sample_checks==semantic.observer_samples && observer_bit_differences==1);
+ assert(wave4_bit_sample_checks==semantic.samples && wave4_bit_differences==1 && wave4_zero_sign_differences==1);
+}
+'''
+        directory=Path(self.temp.name);path=directory/'run-pass-observer.c';binary=directory/'run-pass-observer'
+        path.write_text(program)
+        subprocess.run(['cc','-std=c11','-O2','-fno-fast-math','-ffp-contract=off','-UNDEBUG',
+                        '-I'+str(ROOT/'object-benchmark/main'),str(path),'-o',str(binary),'-lm'],check=True)
+        subprocess.run([str(binary)],check=True,timeout=10)
+
     def test_model_and_warmup_admission_are_closed(self):
         for model,warmup in ((0,4),(9,4),(8,0),(8,3),(8,5)):
             state=State();self.assertFalse(self.lib.object_wave4_oracle_init(C.byref(state),model,warmup))
