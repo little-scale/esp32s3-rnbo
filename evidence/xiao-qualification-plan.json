@@ -17828,8 +17828,11 @@
       "contract": "0/1/N loop iterations, index endpoints, nested loops, break/continue",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:bounded-for",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
+      "observed_scope": "Typed bounded loop visits each list cell and computes index-weighted sum for the list return/mutation witnesses.",
+      "remaining_scope": "Zero-trip, one-trip, nested loops, break/continue and general loop endpoint cases remain untested."
     },
     {
       "contract": "while/do-while with statically bounded trip count; never deploy an unbounded loop",
@@ -17842,15 +17845,21 @@
       "contract": "custom calls, arguments, returns, local scoping; recursion separate pending domain",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:functions",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
+      "observed_scope": "Original score(values:list):number custom function, typed list argument, local accumulator, scalar return and calls inside the sample loop; complete outputs checked on XIAO.",
+      "remaining_scope": "Broader return types, recursion, scope/shadowing and arbitrary argument combinations remain untested."
     },
     {
       "contract": "empty/1/15/16/17 entries, reads/writes, output alias/copy, index bounds",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:list-literals-indexing",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
+      "observed_scope": "Fresh sample-dependent five-element lists, list indexing in scalar checksum function, nine passing exact methods; push/unshift returned-length programs reject at C++ compilation.",
+      "remaining_scope": "Empty/1/15/16/17-element boundaries, arbitrary growth and copy/alias domains remain untested. Constant-list vector hoisting and empty shift have separate native-only findings."
     },
     {
       "contract": "11 named list methods; fixed-list16 policy, setup allocation vs forbidden late growth",
@@ -17863,15 +17872,21 @@
       "contract": "17 constructor names, 0/1/odd/even lengths, signedness/range/index mutation",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:fixed-array-types",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
+      "observed_scope": "All17 exactconstructor names, length5 list initialization, typed0..4 indexed write/read, signed/unsigned bounded domains and integer truncation across20continuouscallbacks.",
+      "remaining_scope": "Zero/one/even lengths, arbitrary multidimensional indices and integer overflow/range endpoints remain untested."
     },
     {
       "contract": "@state persists sample/block, independent instances, reset and reconstruction",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:state-decorators",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
+      "observed_scope": "A separate @state five-cell array and typed cursor in each of17constructor programs persist over samples and20hostcallbacks, with explicit initialization.",
+      "remaining_scope": "Multiple interacting instances, explicit reset and reconstruction across repeated contexts remain untested in this batch."
     },
     {
       "contract": "@param metadata, actual/normalized maps, event ordering and repeated values",
@@ -17953,7 +17968,8 @@
   ],
   "subsequent_hardware_observations": [
     "evidence/xiao-biquad-control.json",
-    "evidence/xiao-wave4.json"
+    "evidence/xiao-wave4.json",
+    "evidence/xiao-smoke-rnbo-codebox-containers.json"
   ],
   "Gen_scope": {
     "required": true,
@@ -17972,5 +17988,14 @@
       "partial": 7,
       "unverified": 1407
     }
+  },
+  "latest_checkpoint": {
+    "date": "2026-11-05",
+    "goal_status": "active",
+    "exact_dashboard_entries_with_scoped_outcomes": 693,
+    "complete_goal_claimed": false,
+    "source": "evidence/xiao-smoke-rnbo-codebox-containers.json",
+    "gen_and_remaining_RNBO_scope_retained": true,
+    "snapshot_note": "Original4November inventory counts/entry plan remain a historical snapshot; latest checkpoint and structure-axis scoped observations record subsequent progress."
   }
 }

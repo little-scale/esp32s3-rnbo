@@ -10,6 +10,29 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Codebox containers: five queued contexts
+
+All 26 executable list/array programs pass their exact output references.
+Five list workloads trigger the median-cost rule, bringing the queue from 94
+to **99**. No new peak-spike flags trigger.
+
+| Whole codebox callback | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `list.shift()` | 865.5 | 866 | 14.91% | Review copies/mutation/checksum cost |
+| `list.concat()` | 737 | 738 | 12.70% | Review construction/copies/checksum cost |
+| `list.fill()` | 669 | 670 | 11.52% | Review fill/copies/checksum cost |
+| `list.splice()` | 673 | 674 | 11.59% | Review mutation/returned-list/checksum cost |
+| `list.reverse()` | 668 | 668 | 11.51% | Review mutation/copies/checksum cost |
+
+These callbacks include the sample-dependent list literal and authored checksum
+function. They do not isolate a single method. The fixed-array cases preserve
+their original storage, including explicit Float64 types; none triggers a CPU
+flag. The two length-return compile failures and native-only empty/constant-list
+findings are compatibility follow-ups, not CPU measurements. No optimisation
+or speedup is claimed.
+
+Source: [codebox container results](../evidence/xiao-smoke-rnbo-codebox-containers.json).
+
 The exact stereo [`dbtoa~` Float32 experiment](dbtoa-float32.md) now has a
 matched XIAO result: **91.64% less callback time**, with explicit changed
 rounding. Mean time falls from 15,869.50 to 1,326.51 µs across four bounded

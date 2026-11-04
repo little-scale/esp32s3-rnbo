@@ -1,15 +1,26 @@
 # Implementation status — 5 November 2026
 
+The qualification goal has **resumed**. The new
+[codebox container batch](hardware-smoke.md#rnbo-codebox-lists-and-fixed-arrays)
+passes all 26 executable programs on XIAO: all seventeen fixed-array
+constructors and nine list methods, **266,240 exact output checks**, continuous
+sample/block state and no late-allocation or memory-finalisation faults. Two
+documented length-return forms (`push`, `unshift`) fail C++ compilation and stay
+separate. Five whole list callbacks are queued for CPU review, bringing the
+backlog to **99**; no optimisation gain is claimed. The dashboard now maps
+**693 exact entries**, including scoped passes, gaps and rejected forms rather
+than 693 fully qualified objects. The quiet smoke firmware remains installed.
+
 **Follow-up requested: return to physical MIDI testing when hardware is
 available, UART first and USB host second.** The
 [return-to-test checklist](midi-inputs.md#return-to-test-checklist) records the
 required equipment, functional checks and CPU/error observations. No external
-MIDI hardware testing is running; the main qualification goal remains paused.
+MIDI hardware testing is running; the main qualification goal is active.
 
 The [MIDI-input tangent](midi-inputs.md) now has UART1 input on **XIAO
 D7/GPIO44**, saved off/UART selection in Studio, running status, MIDI clock and
-short system messages, plus bounded queue and held-note recovery. The updated
-standard player is installed. A silent monitor passed **206 delivered messages**,
+short system messages, plus bounded queue and held-note recovery. At that
+checkpoint the updated standard player was installed. A silent monitor passed **206 delivered messages**,
 including exact counts of 96 software clocks and 96 actual UART internal-loopback
 clocks, note/velocity readback, transport/system-common bytes, pause/resume
 releases and Active Sensing timeout. All audio/allocation fault counters stayed
@@ -24,7 +35,7 @@ flashed or tested with a USB controller. Standard XIAO, host XIAO and standard
 AMOLED builds pass, along with 526 compiler tests, 97 Studio tests, 25 frontend
 tests, the UBSan parser check and seven native monitor/contract tests. These
 transport checks do not promote RNBO object catalog entries. The main
-qualification goal remains **paused**.
+qualification goal remained paused at that checkpoint; it has now resumed above.
 
 Studio now offers explicit [Float32 Trial mode](float32-trial.md). It attempts
 eligible unreviewed DSP methods, compares default native output with Auto and
@@ -36,8 +47,8 @@ sample-error diagnostic failure is retained. No catalog entries were promoted.
 Reviewed EEE was restored at the observed 41% volume before releasing the board
 for the user's physical-input player installation.
 
-The object/hardware qualification goal is **paused** for the physical-input
-tangent. [Inline `@meta` input bindings](physical-inputs.md) now compile into
+The earlier physical-input tangent added
+[inline `@meta` input bindings](physical-inputs.md), which now compile into
 XIAO player packages, with analog smoothing, debounced digital gates and
 capacitive-touch calibration/hysteresis. Studio shows mappings and live input
 diagnostics. Both board player builds pass; installation is available through

@@ -25118,393 +25118,971 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedBigInt64Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedbigint64array-stateful",
+          "codebox_source_sha256": "b8ea5082642b3051a1904a97d3346d19809e46892bebbc60458f342087747afa",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "96dcee22349884eac795ca8b96295643fca1038d61bf9aa0cf97225f90e12ef9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 218.0,
+          "median_us": 217.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 222,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedBigInt64Array",
       "is_alias": false,
       "name": "FixedBigInt64Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 218.00µs, median 217.00µs, peak 222µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedBigUint64Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedbiguint64array-stateful",
+          "codebox_source_sha256": "472e54f8a15dd7cef6b0ba0c18e29a3a1acefb8b78474056fe9d2928ff124bb2",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "fa7c541c100a6479a214bdb74962ca9be96cb83015543158fe7ac3b5b77ec6dd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "53e09ed197b766ca7f8a25f6be7ab5c0cfb1ef10715737feb3d46cd4c7f5776d",
+          "max_absolute_error": 0.0,
+          "mean_us": 230.3125,
+          "median_us": 229.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 234,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedBigUint64Array",
       "is_alias": false,
       "name": "FixedBigUint64Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 230.31µs, median 229.00µs, peak 234µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedDoubleArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixeddoublearray-stateful",
+          "codebox_source_sha256": "18282c417b2dc8eeb90f43ea6c553cfed266c41967bd917f07eb79a709178dde",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 259.3125,
+          "median_us": 258.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 263,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedDoubleArray",
       "is_alias": false,
       "name": "FixedDoubleArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 259.31µs, median 258.00µs, peak 263µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedFloat32Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedfloat32array-stateful",
+          "codebox_source_sha256": "7e9a29689057df060e8650313a4dc6533fd0033a9995899697cf15180bf31ee6",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 97.1875,
+          "median_us": 97.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 101,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedFloat32Array",
       "is_alias": false,
       "name": "FixedFloat32Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 97.19µs, median 97.00µs, peak 101µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedFloat64Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedfloat64array-stateful",
+          "codebox_source_sha256": "654cbb9ee843aa497a8163a3d0c2ca2207536eb86ca7c78e8fcba88856d274b3",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 259.625,
+          "median_us": 258.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 263,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedFloat64Array",
       "is_alias": false,
       "name": "FixedFloat64Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 259.62µs, median 258.50µs, peak 263µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedFloatArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedfloatarray-stateful",
+          "codebox_source_sha256": "36fa0355c12daa228a6dea348c7bb42495c20a7832bf26f56166dcd77199309d",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 97.375,
+          "median_us": 97.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 101,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedFloatArray",
       "is_alias": false,
       "name": "FixedFloatArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 97.38µs, median 97.00µs, peak 101µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedInt16Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedint16array-stateful",
+          "codebox_source_sha256": "52845a8eeffce67fb7840989d72ab3748999e0deafdafcea0d8813e7bc754004",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "96dcee22349884eac795ca8b96295643fca1038d61bf9aa0cf97225f90e12ef9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 105.0,
+          "median_us": 104.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 109,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedInt16Array",
       "is_alias": false,
       "name": "FixedInt16Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 105.00µs, median 104.50µs, peak 109µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedInt32Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedint32array-stateful",
+          "codebox_source_sha256": "332577714321e275e61b73b87209a0c774d3e0ee2f782243865cdb4330ddc4c8",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "96dcee22349884eac795ca8b96295643fca1038d61bf9aa0cf97225f90e12ef9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 104.5,
+          "median_us": 104.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 105,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedInt32Array",
       "is_alias": false,
       "name": "FixedInt32Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 104.50µs, median 104.50µs, peak 105µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedInt8Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedint8array-stateful",
+          "codebox_source_sha256": "0505eb6f0873a91a35efcbb131e9884e96ed1cd126b3b944d3ab7f48e75d8132",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "96dcee22349884eac795ca8b96295643fca1038d61bf9aa0cf97225f90e12ef9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 107.125,
+          "median_us": 107.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 111,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedInt8Array",
       "is_alias": false,
       "name": "FixedInt8Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 107.12µs, median 107.00µs, peak 111µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedIntArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedintarray-stateful",
+          "codebox_source_sha256": "a26192565b9e7dec74e77f8b569c627ccfb608d8eb59fc8500b603ea25a7b522",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "96dcee22349884eac795ca8b96295643fca1038d61bf9aa0cf97225f90e12ef9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 104.8125,
+          "median_us": 104.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 109,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedIntArray",
       "is_alias": false,
       "name": "FixedIntArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 104.81µs, median 104.00µs, peak 109µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedNumberArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixednumberarray-stateful",
+          "codebox_source_sha256": "2ccf4f2b8165d46f0d93329234dc2a2a9c557eea61fb6ec5e32e5fa9cd295ebf",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 97.3125,
+          "median_us": 97.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 101,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedNumberArray",
       "is_alias": false,
       "name": "FixedNumberArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 97.31µs, median 97.00µs, peak 101µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedSampleArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedsamplearray-stateful",
+          "codebox_source_sha256": "2862afcadc50c3d65f3164bca4fc1fe129348c523aa2403ba3dea489907d445b",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 97.5,
+          "median_us": 97.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 102,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedSampleArray",
       "is_alias": false,
       "name": "FixedSampleArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 97.50µs, median 97.00µs, peak 102µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedTimeArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixedtimearray-stateful",
+          "codebox_source_sha256": "d1f97029ab89f89d237471319d146616ca51bb6620cc868882db7ac5205d6ce6",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97691ebde8beaae9fd6215b20e7204a463b949150b9b73cc734fb2e5bd7fb8a5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f0b86eb5eb2cfbea5be4c5bc9efb34f69a5be351b741ed667708f398f3bd86f6",
+          "max_absolute_error": 0.0,
+          "mean_us": 259.375,
+          "median_us": 258.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 263,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedTimeArray",
       "is_alias": false,
       "name": "FixedTimeArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "Recognized by the installed RNBO 1.4.4 type registry, but not listed in the official fixed-array guide. Compiler admission and output behavior remain unverified.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 259.38µs, median 258.00µs, peak 263µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedUint16Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixeduint16array-stateful",
+          "codebox_source_sha256": "cad42816f041f5dcb9b1a269d8e383e5bfb89d0105659a09ff4f773b911c4bca",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "fa7c541c100a6479a214bdb74962ca9be96cb83015543158fe7ac3b5b77ec6dd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "53e09ed197b766ca7f8a25f6be7ab5c0cfb1ef10715737feb3d46cd4c7f5776d",
+          "max_absolute_error": 0.0,
+          "mean_us": 104.6875,
+          "median_us": 104.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 109,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedUint16Array",
       "is_alias": false,
       "name": "FixedUint16Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 104.69µs, median 104.00µs, peak 109µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedUint32Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixeduint32array-stateful",
+          "codebox_source_sha256": "0f478eed0ce02b15ec91cc57195d11a15709d57b1baef9389c6794d8a9804649",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "fa7c541c100a6479a214bdb74962ca9be96cb83015543158fe7ac3b5b77ec6dd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "53e09ed197b766ca7f8a25f6be7ab5c0cfb1ef10715737feb3d46cd4c7f5776d",
+          "max_absolute_error": 0.0,
+          "mean_us": 104.625,
+          "median_us": 104.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 109,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedUint32Array",
       "is_alias": false,
       "name": "FixedUint32Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 104.62µs, median 104.00µs, peak 109µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedUint8Array",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixeduint8array-stateful",
+          "codebox_source_sha256": "72bf01744f599fa7fb045d0c2c8a7ffa1fa8c8692eaf762d947159b04d665a07",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "fa7c541c100a6479a214bdb74962ca9be96cb83015543158fe7ac3b5b77ec6dd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "53e09ed197b766ca7f8a25f6be7ab5c0cfb1ef10715737feb3d46cd4c7f5776d",
+          "max_absolute_error": 0.0,
+          "mean_us": 104.375,
+          "median_us": 104.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 105,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedUint8Array",
       "is_alias": false,
       "name": "FixedUint8Array",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 104.38µs, median 104.00µs, peak 105µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "FixedUIntArray",
       "category": "Fixed array constructor",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixeduintarray-stateful",
+          "codebox_source_sha256": "1482d3d8f7f0ce7b4a3ea8ffdb1f47e9874cc429eba291a5f832313211bc8c8e",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "fa7c541c100a6479a214bdb74962ca9be96cb83015543158fe7ac3b5b77ec6dd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "53e09ed197b766ca7f8a25f6be7ab5c0cfb1ef10715737feb3d46cd4c7f5776d",
+          "max_absolute_error": 0.0,
+          "mean_us": 105.125,
+          "median_us": 105.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 109,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-constructor:FixedUIntArray",
       "is_alias": false,
       "name": "FixedUIntArray",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#fixed-arrays",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "Recognized by the installed RNBO 1.4.4 type registry, but not listed in the official fixed-array guide. Compiler admission and output behavior remain unverified.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Five-cell arrays preserve the requested original storage type; other dimensions, numeric ranges and overflow behavior remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 105.12µs, median 105.00µs, peak 109µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32205,25 +32783,61 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.concat()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-concat",
+          "codebox_source_sha256": "0f534d84eb4b88f27053d985b38d82262ef2f31321598af6040566614f77b51f",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "f481d8a2f8e4b4e5d259a4d4e3997a3c1a06c06474a088142e06a09297e156db",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 736.0,
+          "median_us": 737.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 738,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:concat",
       "is_alias": false,
       "name": "list.concat()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 736.00µs, median 737.00µs, peak 738µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32352,25 +32966,61 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.fill()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-fill",
+          "codebox_source_sha256": "5e4d7eda4337faeeebfb7279c6c07fc7540a5e46bce6b5109eaf216475255b00",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "d01a42c0a6afa748605f4f2deb5fffca0983e623ec59411835f2c861d5e8aeaf",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 668.0625,
+          "median_us": 669.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 670,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:fill",
       "is_alias": false,
       "name": "list.fill()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 668.06µs, median 669.00µs, peak 670µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32449,25 +33099,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.includes()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-includes",
+          "codebox_source_sha256": "3d69ab34c0ac48aa6513f68618fcf9d1e291003197a5774216d3b5f63ccec88f",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "a6291279a071ab1c9c0cec47fdcaee189e4b7442fa5ca928a56713612677b8e0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 151.8125,
+          "median_us": 150.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 155,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:includes",
       "is_alias": false,
       "name": "list.includes()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 151.81µs, median 150.00µs, peak 155µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32548,25 +33232,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.indexOf()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-indexof",
+          "codebox_source_sha256": "84d7c747ec07d0cbfe4b185bc7d6fa3c39fad63b085e11cc925b000f31a52701",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "3700476132bff79fa10a6a2f7d6890ec6495d4b3dbbb2c02f5f1793911df9146",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 160.6875,
+          "median_us": 161.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 161,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:indexOf",
       "is_alias": false,
       "name": "list.indexOf()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 160.69µs, median 161.00µs, peak 161µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32871,25 +33589,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.pop()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-pop",
+          "codebox_source_sha256": "5c0570aef245060fafd9bc9326b3f83e4b1d8c90a69f82858ea08214cc5dcfe2",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "0435d83e5a90518c542718486e9b2f164e34efb6ed39e1bdc2f3b09478d2d32f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 58.6875,
+          "median_us": 58.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 63,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:pop",
       "is_alias": false,
       "name": "list.pop()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 58.69µs, median 58.00µs, peak 63µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32903,15 +33655,22 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
+        "detail": "The exported C++ rejects use of this method’s documented length return value; mutation-only use remains untested. Original generator output and current strict wrapper; C++ reports void value used as the returned length. No target execution or performance claim. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up.",
         "label": "Not yet verified",
+        "short": "Not a board qualification",
         "status": "unverified"
       }
     },
@@ -32989,25 +33748,61 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.reverse()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-reverse",
+          "codebox_source_sha256": "7b3ceb52205dfd05b513af499d09484a3d5bc4d6c8e269953302dcbaaa2ea4bb",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "84cbaf903a093395752b50ad14ec21caff74568eb34d087af926e8770029185a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 665.9375,
+          "median_us": 668.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 668,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:reverse",
       "is_alias": false,
       "name": "list.reverse()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 665.94µs, median 668.00µs, peak 668µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -33110,25 +33905,61 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.shift()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-shift",
+          "codebox_source_sha256": "477e5373cc148f06add1dcbf68f1d4555c0bc1f777e21e35f9520f275fbaf04c",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "d1e021672496f236c94bbb14dba9917e2f30003b7408bc78ad91dff26450e0e5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 865.25,
+          "median_us": 865.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 866,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:shift",
       "is_alias": false,
       "name": "list.shift()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 865.25µs, median 865.50µs, peak 866µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -33183,25 +34014,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.slice()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-slice",
+          "codebox_source_sha256": "848df30607d330730e97b6ed006d7d10cac5931b513b43b536eb450b70eb403f",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "6b174f753687b452bb9f0d37fe5eb05774125f2ee78234c338780851003baf8f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 373.5625,
+          "median_us": 372.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 377,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:slice",
       "is_alias": false,
       "name": "list.slice()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 373.56µs, median 372.00µs, peak 377µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -33256,25 +34121,61 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "list.splice()",
       "category": "List method",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "list-splice",
+          "codebox_source_sha256": "63bec5fb252308861fc47d796e3727fa172458a1817ab569b6a93d4db292d431",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "a0186bdb4295bc893dd565baf9aebe444086c35e9e57c6b6ecdc0a408a373dab",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77e1e842f0f183aef2c6088af985a3296bce9135d8cfad7c78da713a8c10788a",
+          "max_absolute_error": 0.0,
+          "mean_us": 671.5,
+          "median_us": 673.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 674,
+          "reference_policy": "independent-bounded-list-algebra-or-absolute-sample-age",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-list-member:splice",
       "is_alias": false,
       "name": "list.splice()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded list/array read-write and full continuous-stream scenario. Zero automatic preparation blocks; four checked warmups plus sixteen timed256-frame callbacks. Entire20-block streams use zero numeric tolerance; signed-zero differences are reported separately. CPU measures the whole authored container/checksum callback, without I2S/network/display or an optimisation comparison. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up. Short XIAO check (pass): one repeated stereo vector; mean 671.50µs, median 673.00µs, peak 674µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -33634,15 +34535,22 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#list-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox containers — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
+        "detail": "The exported C++ rejects use of this method’s documented length return value; mutation-only use remains untested. Original generator output and current strict wrapper; C++ reports void value used as the returned length. No target execution or performance claim. Remaining scope: Only this exact member or constructor and its authored bounded values/indices are checked; no alias or top-level object inherits status. Fresh sample-dependent lists, documented return/mutation observations and bounded lengths only; arbitrary growth, empty-list operations and constant-literal vector hoisting remain follow-up.",
         "label": "Not yet verified",
+        "short": "Not a board qualification",
         "status": "unverified"
       }
     },
@@ -56805,10 +57713,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "5e2f823475418442e5a840091d83d27092ceaed09c702148b2c857a7f95ae523",
-    "coverage_source_sha256": "a416c6ea5a99b628fe3e2d5c14c45c2c7bf7f26cdbe51a93fc763f46a0d7beb1",
-    "exact_coverage_entries": 665,
-    "generator_sha256": "5e47bc3bbcfe255678eae1ce9701015bea121261fa0c1a9011b0b0ceff3fb5e9",
+    "coverage_canonical_sha256": "29dc00d8144553bfa26befca818ddd47f961027abcb0da355f78d14107e6b67c",
+    "coverage_source_sha256": "0939f6e893d489588a012d3b9314cb2871e4f5f74be5a9d502e0bcc1c0b15503",
+    "exact_coverage_entries": 693,
+    "generator_sha256": "afb2c933db366d6ced0ed05cb31dabb4ee474a49bb81012b0624632adf2dd250",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

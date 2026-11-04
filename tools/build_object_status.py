@@ -212,15 +212,32 @@ def checked_boundary_events(case,data):
             'expected_block_count','expected_stream_sha256','strict_zero_sign_channels','strict_zero_sign_mismatches','parameter_event_scope','event_timing_scope')}
 
 
+def container_identity(case):
+    """Supplemental list members and types retain their own inventory IDs."""
+    identity=case.get('registry_lookup','');name=case.get('exact_name','')
+    members={'push','pop','shift','concat','fill','unshift','splice','slice','includes','indexOf','reverse'}
+    constructors={'FixedInt8Array','FixedUint8Array','FixedInt16Array','FixedUint16Array','FixedInt32Array',
+                  'FixedUint32Array','FixedFloat32Array','FixedFloat64Array','FixedBigInt64Array','FixedBigUint64Array',
+                  'FixedSampleArray','FixedNumberArray','FixedIntArray','FixedFloatArray','FixedDoubleArray','FixedUIntArray','FixedTimeArray'}
+    if identity.startswith('codebox-list-member:'):
+        member=identity.split(':',1)[1]
+        require(member in members and name=='list.'+member+'()'and case.get('syntax')=='list-member-call',
+                'Container list member identity differs')
+    else:
+        require(identity=='codebox-constructor:'+name and name in constructors and
+                case.get('syntax')=='fixed-array-constructor','Container constructor identity differs')
+    return identity
+
+
 def checked_short_smoke(record,item,data):
     """A short exact-spelling hardware observation, with no gain attribution."""
-    codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants')
+    codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants')
     surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants') and data.get('surface')==surface and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
-    if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
+    if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
         require(type(data.get('prepare_zero_warm_blocks'))is int and data['prepare_zero_warm_blocks']==0,
                 'Codebox numeric domains require zero automatic preparation blocks')
     if data.get('family')in('rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing'):
@@ -230,7 +247,8 @@ def checked_short_smoke(record,item,data):
     require(type(selector)is str and selector.startswith('/cases/') and selector[7:].isdigit(),'Short smoke selector must name an executed case')
     cases=data.get('cases');require(type(cases)is list and int(selector[7:])<len(cases),'Short smoke selector is outside executed cases')
     case=pointer(data,selector)
-    require(record['surface']==surface and record['id']==surface+':'+case.get('exact_name','') and
+    expected_id=container_identity(case) if data.get('family')=='rnbo-codebox-containers' else surface+':'+case.get('exact_name','')
+    require(record['surface']==surface and record['id']==expected_id and
             record['spelling']==case.get('exact_name'),'Short smoke exact spelling/surface differs')
     require(case.get('status') in ('pass','output_mismatch') and case.get('finalized') is True and
             type(case.get('samples_checked')) is int and case['samples_checked']==10240,
@@ -245,7 +263,7 @@ def checked_short_smoke(record,item,data):
                 'Codebox smoke requires an authored program identity')
         code_fields['codebox_source_sha256']=code_sha
     stream_fields={}
-    if data.get('family')in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-signal-stateful','rnbo-signal-state-followup'):
+    if data.get('family')in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-signal-stateful','rnbo-signal-state-followup'):
         policy=('Fresh prepared signal state; twenty continuous256-frame callbacks without resets'if data['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else
                 'Fresh prepared codebox state; twenty continuous256-frame callbacks without resets')
         stream_sha=case.get('expected_stream_sha256')
@@ -286,7 +304,7 @@ def checked_short_smoke(record,item,data):
                 'Boundary smoke requires strict right zero signs')
         strict=case['strict_zero_sign_mismatches']
         event_fields=checked_boundary_events(case,data)
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants')or present==numeric_keys),
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -339,13 +357,14 @@ def checked_short_smoke(record,item,data):
 def checked_codebox_build_failure(record,item,data):
     """Keep a rejected exact codebox form visible without hardware qualification."""
     require(data.get('format')=='rnbo-hardware-smoke-results-v1'and
-            data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants')and data.get('surface')=='codebox',
+            data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants')and data.get('surface')=='codebox',
             'Codebox build failure requires its own source surface')
     selector=item.get('selector','');parts=selector.split('/')if type(selector)is str else[]
     require(len(parts)==3 and parts[0]==''and parts[1]in('compile_failures','admission_failures')and parts[2].isdigit(),
             'Codebox build failure selector differs')
     failure=pointer(data,selector)
-    require(record.get('surface')=='codebox'and record.get('id')=='codebox:'+failure.get('exact_name','')and
+    expected_id=container_identity(failure) if data.get('family')=='rnbo-codebox-containers' else 'codebox:'+failure.get('exact_name','')
+    require(record.get('surface')=='codebox'and record.get('id')==expected_id and
             record.get('spelling')==failure.get('exact_name')and record.get('working_state')=='unverified'and
             record.get('board_evidence')is False and not record.get('cpu_measurement_ids')and
             record.get('optimisation_state')=='unassessed'and not record.get('optimisations'),

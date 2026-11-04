@@ -13,9 +13,46 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
-After this checkpoint the reviewed player has been restored with the saved Main
-patch, Wi-Fi pairing and silent startup. Individual run records still describe
-the test firmware left installed at the moment each batch completed.
+Before the resumed container batch, the MIDI-capable player ran the saved Main
+patch. Its settings were saved privately, audio was muted and paused, and USB
+was released before installing the quiet test application. The container smoke
+firmware is now left installed. Main package storage and Wi-Fi settings were
+not erased. Earlier run records retain their own restoration/installation state.
+
+## RNBO codebox lists and fixed arrays
+
+The resumed batch covers all seventeen installed fixed-array constructor names
+and eleven documented list member names. **26 executable cases pass**, with
+**266,240 bit-exact output checks** across twenty continuous callbacks. Both
+native preflight and target use the same input and full expected-stream hashes.
+Zero automatic preparation blocks preserve the constructor epoch, followed by
+four checked warmups and sixteen timed callbacks. All images finalise and pass
+allocation/memory gates; fixed arrays preserve their requested original types.
+
+Each sample-dependent list exposes the returned scalar/list plus original-list
+mutation through weighted checksums. Five-cell arrays expose current writes,
+initial values and four-sample-old cells across every host block boundary.
+Explicit list result types follow the codebox guide. The `push` and `unshift`
+length-return programs reach C++ but fail because their generated runtime calls
+return `void`; they are compile failures, with no device or CPU claim.
+
+List medians range from 58 to 865.5 µs, peaks from 63 to 866 µs. `shift`,
+`concat`, `fill`, `splice` and `reverse` exceed the 10%-of-block review threshold,
+bringing the CPU queue from 94 to **99**; no peak-spike rule triggers. Array
+medians are 97–258.5 µs, peaks 101–263 µs, with no flags. All timings cover the
+authored callback and its construction/copy/checksum or indexing work, not an
+isolated method or optimisation comparison. The dashboard maps **693 exact
+entries**, with the two rejected source forms kept unverified.
+
+Earlier native-only constant-list experiments retain a separate vector-hoisting/
+empty-list follow-up; no unsafe prototype was flashed. Arbitrary growth,
+dimensions, integer overflow, mutation-only push/unshift, generic language
+structures and Gen remain outside this scoped result.
+
+See [target evidence](../evidence/xiao-smoke-rnbo-codebox-containers.json),
+[native evidence](../evidence/codebox-containers-native.json),
+[original sources and detailed table](../tests/fixtures/smoke/rnbo-codebox-containers/README.md)
+and [CPU review backlog](cpu-review-backlog.md).
 
 The latest signal routing and interpolation batch passes **all 20 scenarios**,
 checking **204,800 output values**. `cubicinterp~` takes 3,367 µs median

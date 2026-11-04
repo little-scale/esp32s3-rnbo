@@ -1,5 +1,15 @@
 # XIAO object qualification
 
+Qualification resumed on 5 November after the physical-input/MIDI tangents.
+The [codebox list/array batch](hardware-smoke.md#rnbo-codebox-lists-and-fixed-arrays)
+adds **26 passing device scenarios and 266,240 exact output checks**, including
+all seventeen fixed-array constructor spellings and nine list methods. Two
+length-return source forms fail compilation; five whole callback costs are
+queued for review, bringing the backlog to 99. The dashboard maps 693 exact
+entries with scoped outcomes, not full qualification. The XIAO is currently
+quiet with the completed smoke test application installed. External MIDI tests
+remain deferred; broader RNBO, Gen and structure coverage remains active work.
+
 ## Fast coverage runs
 
 The latest [signal-stateful and miscellaneous codebox checks](hardware-smoke.md#rnbo-signal-state-across-callback-boundaries)

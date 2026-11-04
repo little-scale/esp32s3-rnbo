@@ -1,0 +1,7 @@
+@state memory = new FixedBigInt64Array([1, 2, 3, 4, 5]);
+@state cursor: Int = 0;
+memory[cursor] = in1;
+out1 = memory[cursor];
+let next: Int = (cursor + 1) % 5;
+out2 = memory[next] + 0*in2;
+cursor = next;
