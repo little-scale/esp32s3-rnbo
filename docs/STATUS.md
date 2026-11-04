@@ -1,5 +1,11 @@
 # Implementation status — 5 November 2026
 
+**Follow-up requested: return to physical MIDI testing when hardware is
+available, UART first and USB host second.** The
+[return-to-test checklist](midi-inputs.md#return-to-test-checklist) records the
+required equipment, functional checks and CPU/error observations. No external
+MIDI hardware testing is running; the main qualification goal remains paused.
+
 The [MIDI-input tangent](midi-inputs.md) now has UART1 input on **XIAO
 D7/GPIO44**, saved off/UART selection in Studio, running status, MIDI clock and
 short system messages, plus bounded queue and held-note recovery. The updated

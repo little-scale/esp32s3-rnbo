@@ -1,5 +1,26 @@
 # MIDI input on the XIAO player
 
+## Return-to-test checklist
+
+**Deferred at the user's request, 5 November 2026.** Return when an external
+MIDI source and receiver/host hardware are available. Complete UART testing
+first, then USB host. Internal loopback results below remain separate from
+physical-interface validation.
+
+- [ ] **UART:** connect a suitable receiver to D7/GPIO44; verify notes, velocity,
+  channels, CC, pitch bend, running status, clock and Start/Continue/Stop through
+  the corresponding RNBO objects.
+- [ ] Verify held-note release on pause/resume, Active Sensing timeout where
+  supported, UART enable/disable and reboot persistence. Check D7 binding conflicts.
+- [ ] Record CPU percentage, peak callback time, queue drops/overflows and audio
+  faults during sustained MIDI traffic; flag unexpected costs for optimisation.
+- [ ] **USB host:** prepare adapter, suitable VBUS power and paired Wi-Fi; install
+  the experimental host variant and verify enumeration, MIDI delivery, clock,
+  unplug/reconnect and held-note recovery with a real controller.
+- [ ] Save hardware evidence and update validation claims only for checks that
+  actually pass. Restore the user's selected patch/settings and agreed player
+  variant afterward.
+
 The Main patch receives MIDI through its ordinary RNBO objects: `midiin`,
 `notein`, `ctlin`, `bendin`, and other MIDI parsers included in that patch.
 There is no parameter-name or `@meta` convention for MIDI. Physical parameter
