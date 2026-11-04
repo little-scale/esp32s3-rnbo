@@ -313,3 +313,12 @@ unchanged limits. Both target contexts/arenas are unchanged, with 436 more ELF
 bytes. These are bounded whole-fixture observations, not general power or
 full-player timing claims. No fast-math, clock, buffer or allocator change is
 enabled.
+
+`--numerical-profile float32-dbtoa-v1` is a separate exact-graph experiment for
+the original stereo `dbtoa~` FX fixture. It changes only the local power base
+and exponent coefficient to Float32, with complete source-map/method guards
+and a checked byte inverse. The matched XIAO comparison uses 91.64% less
+callback time on its four finite [-24,6] dB vectors. Rounding differences are
+explicit; native PCM pairs are identical for that corpus, while target
+pairwise PCM is untested. CLI strict and Studio Auto remain unchanged. See
+[the measured profile and limits](../docs/dbtoa-float32.md).

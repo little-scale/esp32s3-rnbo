@@ -51,31 +51,75 @@ MANIFEST_KEYS = {
 }
 
 
+DBTOA_PROFILE = 'float32-dbtoa-v1'
+DBTOA_PATCH = '5c4fc8729b6fc245d6613cca27922cd323ffc59530ca68e4317a62419975ca8d'
+DBTOA_SOURCE_TREE = '7b15ac0016ce18a4031e5bb8133c3ab77a094ec9d0f6ec491fd0df843039e08a'
+DBTOA_CONTRACT = {'absolute_error_limit': 2e-06, 'audio': 'binary32', 'bit_identity_claimed': False, 'build_requirements': ['no-fast-math', 'no-excess-evaluation-precision', 'fp-contract-off', 'standard-math'], 'context': 'dbtoa-signal', 'errno_identity_claimed': False, 'floating_environment_equivalence_claimed': False, 'floating_trap_identity_claimed': False, 'input_domain_db': [-24, 6], 'math_runtime': 'unchanged', 'mathematical_reference': '10^(input/20)', 'nonfinite_qualified': False, 'operation': 'powf(10.0f, binary32(input * 0.05f))', 'rounding': 'nearest-even', 'scheduler_time': 'unchanged-binary64', 'state_layout_and_callers': 'unchanged', 'version': 1}
+DBTOA_MAPS = {'float32-strict': '75c2085d7b91b4b798507d87bbc6f271cd23b26e556095b0c0f5a4887780fb37', 'float32-dbtoa-v1': '5b3a50c6ec5ff5b8c6b7eb8a4e710a5d080b66546611d7cbe0f575147884b8c4'}
+DBTOA_ADAPTATION_SHA256 = 'e8f45323c798fad983037752ec39f3d15a2fc6c95cb94a6df2884b69a4992cb5'
+DBTOA_RAW_SOURCE = '36e3b6f7cfc220ff98783591bf65164aaad2661a01858409f07e331ca0d18b22'
+
+
+DBTOA_CATALOG_SHA = '873485039077ad60e4b1a7fd82ceb207d5d8c4057e30e00306e50ccd1087ced4'
+DBTOA_REFERENCE_SHA = '9b18e7971a3fb25239a7bc452a063f4e0fe3a32628241314ec2f2d806ce48729'
+DBTOA_PROFILE_PROOFS = {'A': {'numerical_profile': 'float32-strict', 'prepared_map_sha256': '75c2085d7b91b4b798507d87bbc6f271cd23b26e556095b0c0f5a4887780fb37', 'source_tree_sha256': '7b15ac0016ce18a4031e5bb8133c3ab77a094ec9d0f6ec491fd0df843039e08a', 'editable_source_sha256': '5c4fc8729b6fc245d6613cca27922cd323ffc59530ca68e4317a62419975ca8d', 'adaptation_sha256': None}, 'B': {'numerical_profile': 'float32-dbtoa-v1', 'prepared_map_sha256': '5b3a50c6ec5ff5b8c6b7eb8a4e710a5d080b66546611d7cbe0f575147884b8c4', 'source_tree_sha256': '7b15ac0016ce18a4031e5bb8133c3ab77a094ec9d0f6ec491fd0df843039e08a', 'editable_source_sha256': '5c4fc8729b6fc245d6613cca27922cd323ffc59530ca68e4317a62419975ca8d', 'adaptation_sha256': 'e8f45323c798fad983037752ec39f3d15a2fc6c95cb94a6df2884b69a4992cb5'}}
+
+
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_manifest(manifest: dict) -> None:
+def validate_manifest(manifest: dict, *, numerical_profile: str = "float32-strict") -> None:
     """Initial smoke subset; optional adapters/profiles need separate review."""
-    if type(manifest) is not dict or set(manifest) != MANIFEST_KEYS:
+    if numerical_profile not in ("float32-strict", DBTOA_PROFILE):
+        raise ExportError("Unsupported explicit smoke numerical profile")
+    candidate = numerical_profile == DBTOA_PROFILE
+    keys = MANIFEST_KEYS | {"base_numerical_profile", "numerical_identity", "dbtoa_contract"} if candidate else MANIFEST_KEYS
+    if type(manifest) is not dict or set(manifest) != keys:
         raise ExportError("Smoke modules require the normal strict manifest without optional adapters")
     expected = {
         "format": "rnbo-esp32s3-prepared-export", "format_version": 1,
         "rnbo_version": "1.4.4", "class_name": "rnbos3patch", "role": "fx",
         "sample_rate": 44100, "block_frames": 256, "audio_inputs": 2, "audio_outputs": 2,
         "voices": 1, "voice_topology": "single-export",
-        "numerical_profile": "float32-strict", "scheduler_time": "float64",
+        "numerical_profile": numerical_profile, "scheduler_time": "float64",
         "defined_int32_wrap": True, "required_host_services": [], "midi_output_ports": 0,
-        "midi_output_policy": "reject", "adaptations": ADAPTATIONS, "execution": "static-development",
+        "midi_output_policy": "reject", "adaptations": ADAPTATIONS + (["rnbo-1.4.4-" + DBTOA_PROFILE] if candidate else []), "execution": "static-development",
     }
     for key, value in expected.items():
         if type(manifest.get(key)) is not type(value) or manifest[key] != value:
             raise ExportError(f"Unsupported smoke-module profile field: {key}")
+    if candidate and (manifest.get("base_numerical_profile") != "float32-strict" or
+            manifest.get("numerical_identity") != "changed-rounding-float32-dbtoa-v1" or
+            canonical(manifest.get("dbtoa_contract")) != canonical(DBTOA_CONTRACT) or
+            type(manifest.get("parameter_count")) is not int or manifest["parameter_count"] != 0):
+        raise ExportError("Unsupported closed dbtoa profile contract")
     if type(manifest["parameter_count"]) is not int or not 0 <= manifest["parameter_count"] <= 32:
         raise ExportError("Smoke modules require an integer parameter_count from 0 through 32")
     for key in ("editable_source_sha256", "parameter_schema_sha256", "source_tree_sha256"):
         if type(manifest[key]) is not str or not re.fullmatch("[0-9a-f]{64}", manifest[key]):
             raise ExportError(f"Invalid prepared identity: {key}")
+
+
+def validate_dbtoa_prepared(provenance: dict, manifest: dict, snapshot: dict) -> dict:
+    """Exact prepared-source identity, not an assertion of DSP output identity."""
+    profile=manifest.get('numerical_profile')
+    validate_manifest(manifest,numerical_profile=profile)
+    files=snapshot.get('prepared_files_sha256',{})
+    digest=lambda value:hashlib.sha256(canonical(value)).hexdigest()
+    raw=provenance.get('raw_files_sha256',{})
+    if (profile not in DBTOA_MAPS or type(manifest.get('parameter_count'))is not int or manifest['parameter_count']!=0 or
+            manifest.get('editable_source_sha256')!=DBTOA_PATCH or manifest.get('source_tree_sha256')!=DBTOA_SOURCE_TREE or
+            raw.get('rnbo_source.h')!=DBTOA_RAW_SOURCE or digest(raw)!=DBTOA_SOURCE_TREE or
+            files!=provenance.get('prepared_files_sha256') or digest(files)!=DBTOA_MAPS[profile]):
+        raise ExportError('Unknown dbtoa source/metadata/runtime/configuration composition')
+    records=[r for r in provenance.get('adaptations',[])if r.get('name')=='rnbo-1.4.4-'+DBTOA_PROFILE]
+    if (profile==DBTOA_PROFILE and (len(records)!=1 or digest(records[0])!=DBTOA_ADAPTATION_SHA256) or
+            profile=='float32-strict' and records):
+        raise ExportError('Unknown dbtoa four-literal/inverse adaptation')
+    return {'numerical_profile':profile,'prepared_map_sha256':DBTOA_MAPS[profile],
+            'source_tree_sha256':DBTOA_SOURCE_TREE,'editable_source_sha256':DBTOA_PATCH,
+            'adaptation_sha256':DBTOA_ADAPTATION_SHA256 if profile==DBTOA_PROFILE else None}
 
 
 def assert_hashes(records: dict[str, str]) -> None:
@@ -229,10 +273,11 @@ def logged(command: list[str], path: Path, cwd: Path) -> float:
     return time.monotonic() - started
 
 
-def build_one(identity: str, export: Path, directory: Path, cache: dict, max_arena_bytes: int = 4096) -> dict:
+def build_one(identity: str, export: Path, directory: Path, cache: dict, max_arena_bytes: int = 4096, *, numerical_profile: str = "float32-strict") -> dict:
     max_arena_bytes = checked_arena_bytes(max_arena_bytes)
     provenance, manifest, snapshot = verify_prepared(export)
-    validate_manifest(manifest)
+    validate_manifest(manifest, numerical_profile=numerical_profile)
+    if numerical_profile == DBTOA_PROFILE: validate_dbtoa_prepared(provenance, manifest, snapshot)
     directory.mkdir()
     row = {"id": identity, "status": "pending", "imports": None, "commands": [], "timing_seconds": {},
            "prepared": {"path": str(export), "manifest": manifest, "snapshot": snapshot,
@@ -286,8 +331,10 @@ def build_one(identity: str, export: Path, directory: Path, cache: dict, max_are
     return row
 
 
-def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_bytes: int = 4096) -> dict:
+def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_bytes: int = 4096, *, numerical_profile: str = "float32-strict") -> dict:
     max_arena_bytes = checked_arena_bytes(max_arena_bytes)
+    if numerical_profile not in ("float32-strict", DBTOA_PROFILE):
+        raise ExportError("Unsupported explicit smoke numerical profile")
     prepared_root, base_build = prepared_root.resolve(), base_build.resolve()
     if out.exists() or out.is_symlink():
         raise ExportError("Use a new output directory")
@@ -300,8 +347,9 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_byte
         raise ExportError("Prepared root must contain named export directories only")
     snapshots = {}
     for export in entries:
-        _, manifest, snapshot = verify_prepared(export)
-        validate_manifest(manifest)
+        provenance, manifest, snapshot = verify_prepared(export)
+        validate_manifest(manifest, numerical_profile=numerical_profile)
+        if numerical_profile == DBTOA_PROFILE: validate_dbtoa_prepared(provenance, manifest, snapshot)
         snapshots[export.name] = snapshot
     cache = inspect_cache(base_build)
     out.mkdir(parents=True)
@@ -316,6 +364,7 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_byte
               "native_or_ELF_lifecycle_qualified": False,
               "tool_source_sha256": sha(Path(__file__)),
               "build_policy": "One wrapper compile/export, reused unchanged SDK objects, exact private project_elf link, existing normalized zero-import admission"}
+    if numerical_profile != "float32-strict": result["numerical_profile"] = numerical_profile
     control = build_one("cache-control", cache["old_export"], out / "cache-control", cache, 4096)
     result["cache_control"] = control
     if control["status"] != "built":
@@ -326,7 +375,7 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_byte
         raise ExportError("Recompiled cache control differs; use a new reviewed IDF base build")
     for export in entries:
         try:
-            row = build_one(export.name, export, out / export.name, cache, max_arena_bytes)
+            row = build_one(export.name, export, out / export.name, cache, max_arena_bytes, numerical_profile=numerical_profile)
         except (ExportError, ValueError, OSError, subprocess.SubprocessError) as failure:
             row = {"id": export.name, "status": "rejected", "error": f"{type(failure).__name__}: {failure}",
                    "prepared": {"path": str(export), "snapshot": snapshots[export.name]}}
@@ -357,9 +406,11 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--max-arena-bytes", type=int, choices=ARENA_CHOICES, default=4096,
                         help="Whole-batch module arena ceiling; cache control always remains 4096")
+    parser.add_argument("--numerical-profile", choices=("float32-strict", DBTOA_PROFILE), default="float32-strict",
+                        help="Explicit closed dbtoa candidate opt-in; ordinary smoke modules remain strict")
     args = parser.parse_args()
     try:
-        report = build_batch(args.prepared_root, args.base_build, args.out, args.max_arena_bytes)
+        report = build_batch(args.prepared_root, args.base_build, args.out, args.max_arena_bytes, numerical_profile=args.numerical_profile)
     except (ExportError, ValueError, OSError, subprocess.SubprocessError) as failure:
         parser.exit(1, f"Smoke module build rejected: {failure}\n")
     print(json.dumps({"result": report["result"], "built": report["built"], "failed": report["failed"],

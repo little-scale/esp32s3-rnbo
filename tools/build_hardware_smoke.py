@@ -17,7 +17,8 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from build import verify_prepared
-from build_smoke_modules import validate_manifest
+from build_smoke_modules import (validate_manifest,validate_dbtoa_prepared,DBTOA_PROFILE,
+                                DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA,DBTOA_PATCH)
 from inspect_module import inspect_module
 from prepare import canonical,ExportError,read_json,read_regular,validate_description
 from build_loader_spike import inventory,tree_digest
@@ -29,7 +30,8 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+    if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -142,6 +144,38 @@ def routing_contract(row,manifest=None):
             raise ExportError('Signal routing requires zero parameters')
 
 
+def comparison_contract(catalog,batch):
+    """Bind root's repeated ABBA rows to both unmodified compiler batches."""
+    if hashlib.sha256(canonical(catalog)).hexdigest()!=DBTOA_CATALOG_SHA:
+        raise ExportError('dbtoa comparison requires the exact four-vector three-round ABBA catalog')
+    reports=batch.get('comparison_source_reports',{})
+    if type(reports)is not dict or set(reports)!={'A','B'}:
+        raise ExportError('dbtoa comparison needs both original source batch reports')
+    originals={}
+    for phase,expected in (('A','float32-strict'),('B',DBTOA_PROFILE)):
+        binding=reports[phase];path=Path(binding['path'])
+        raw=read_regular(path,8*1024*1024)
+        if hashlib.sha256(raw).hexdigest()!=binding.get('sha256'):
+            raise ExportError('dbtoa original compiler batch changed')
+        source=read_json(raw,'dbtoa source batch')
+        if (source.get('format')!='rnbo-smoke-modules-v1' or source.get('cache_control_whole_ELF_equal')is not True or
+                source.get('source_cache_and_prepared_before_after_unchanged')is not True or
+                source.get('max_arena_bytes')!=1048576 or source.get('cache_control_max_arena_bytes')!=4096 or
+                len(source.get('modules',[]))!=1 or source['modules'][0].get('status')!='built' or
+                source['modules'][0]['prepared']['manifest'].get('numerical_profile')!=expected):
+            raise ExportError('dbtoa compiler batch profile/cache/arena differs')
+        originals[phase]=source
+    for field in ('source_files_sha256','compiler','private_support_archives','cache_inputs_sha256'):
+        if not originals['A'].get(field) or originals['A'].get(field)!=originals['B'].get(field):
+            raise ExportError('dbtoa compiler/SDK/archive/cache cohorts differ')
+    modules={r['id']:r for r in batch['modules']}
+    for row in catalog['cases']:
+        source=originals[row['comparison_phase']]['modules'][0]
+        if canonical(modules[row['id']])!=canonical(source|{'id':row['id']}):
+            raise ExportError('dbtoa merged module row differs from its original compiler batch')
+    return reports
+
+
 def prepare_plan(catalog_path,modules_path):
     catalog=read_json(read_regular(catalog_path,1024*1024),'smoke catalog')
     batch=read_json(read_regular(modules_path,8*1024*1024),'smoke modules')
@@ -150,6 +184,10 @@ def prepare_plan(catalog_path,modules_path):
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
     reference_source=reference_path(catalog)
+    comparison=catalog.get('family')=='dbtoa-f32-comparison'
+    if comparison:
+        comparison_reports=comparison_contract(catalog,batch)
+        if sha(reference_source)!=DBTOA_REFERENCE_SHA:raise ExportError('dbtoa mathematical reference changed')
     spec=importlib.util.spec_from_file_location('smoke_reference',reference_source)
     reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
     inputs=checked_words(reference.input_words(256))
@@ -188,20 +226,28 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
+        if comparison and manifest.get('numerical_profile')!=row['numerical_profile']:
+            raise ExportError('dbtoa phase label differs from actual prepared profile')
+        if not comparison and manifest.get('numerical_profile')==DBTOA_PROFILE:
+            raise ExportError('dbtoa candidate requires its explicit comparison family')
         if catalog['family']=='rnbo-signal-routing':routing_contract(row,manifest)
         if manifest.get('editable_source_sha256')!=source_hash:
             raise ExportError('Prepared module does not match authored patch: '+identity)
         prepared=Path(module['prepared']['path'])
-        _,actual_manifest,actual_snapshot=verify_prepared(prepared)
+        provenance,actual_manifest,actual_snapshot=verify_prepared(prepared)
         if actual_snapshot!=module['prepared']['snapshot']:
             raise ExportError('Prepared module changed: '+identity)
         if catalog['family']=='rnbo-signal-routing'and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
+        if comparison:
+            if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
+                raise ExportError('dbtoa prepared manifest/graph differs from comparison source')
+            profile_proof=validate_dbtoa_prepared(provenance,actual_manifest,actual_snapshot)
         if module['status']!='built':
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -215,11 +261,12 @@ def prepare_plan(catalog_path,modules_path):
             streams=tuple(checked_words(block)for block in reference.reference_blocks(row['model'],vector,call_count=20))
             if len(streams)!=20:raise ExportError('Stateful reference must supply twenty checked callback blocks')
             expected=streams[0]
-        else:expected=checked_words(reference.reference_words(row['model'],vector))
+        else:expected=checked_words(reference.reference_words(vector)if comparison else reference.reference_words(row['model'],vector))
         expected_hash=hashlib.sha256(struct.pack('<512I',*expected)).hexdigest()
         case={**row,'module_sha256':module['artifact']['sha256'],'module_bytes':len(data),
             'source_sha256':source_hash,**expression_info,
             'expected_words_sha256':expected_hash,'expected':expected}
+        if comparison:case['module_profile_contract']=profile_proof
         arena=module.get('arena_bytes_ceiling',4096)
         if type(arena)is not int or arena not in(4096,1048576,2097152):
             raise ExportError('Unsupported module arena tier: '+identity)
@@ -227,6 +274,9 @@ def prepare_plan(catalog_path,modules_path):
         if hasattr(reference,'case_input_words'):
             case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
                 absolute_tolerance=absolute_tolerance(reference,row['model']))
+        if comparison and (arena!=1048576 or case.get('absolute_tolerance')!=float32(2e-6) or
+                any(not -24<=struct.unpack('<f',struct.pack('<I',word))[0]<=6 for word in vector)):
+            raise ExportError('dbtoa comparison arena/input/error domain differs')
         if catalog['family']=='rnbo-signal-routing'and case.get('absolute_tolerance',0)>2e-6:
             raise ExportError('Signal routing supports exact or at most2e-6 absolute error')
         if streams is not None:
@@ -254,7 +304,12 @@ def prepare_plan(catalog_path,modules_path):
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+    if comparison:
+        plan.update(family='dbtoa-f32-comparison',surface='patcher',prepare_zero_warm_blocks=0,
+                    comparison_order='vector-outer-round-middle-ABBA-inner-v1',
+                    comparison_source_reports=comparison_reports,
+                    profile_comparison_scope='Complete bounded stereo FX callbacks; no direct target A/B sample comparison')
+    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         plan.update(family=catalog['family'],surface='codebox')
         if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):plan['prepare_zero_warm_blocks']=0
         if catalog['family']in('rnbo-codebox-stateful','rnbo-codebox-filters'):
@@ -280,8 +335,8 @@ def prepare_plan(catalog_path,modules_path):
         plan.update(family=catalog['family'],surface='genexpr',prepare_zero_warm_blocks=0)
     elif catalog['family']=='gen-math':
         plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
-    elif catalog['family']=='gen-stateful':
-        plan.update(family='gen-stateful',surface='genexpr',prepare_zero_warm_blocks=0,
+    elif catalog['family']in('gen-stateful','gen-state-boundaries'):
+        plan.update(family=catalog['family'],surface='genexpr',prepare_zero_warm_blocks=0,
             expected_stream_policy='Fresh prepared state, no automatic zero warmup; four checked manual warmups then sixteen timed callbacks without resets')
         if any('expected_blocks'not in c for c in cases):
             raise ExportError('Stateful cases require a continuous twenty-block reference')

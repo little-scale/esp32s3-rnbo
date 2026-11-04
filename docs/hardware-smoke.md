@@ -49,6 +49,67 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
 
+## Bounded Float32 dbtoa comparison
+
+The separately scoped [Float32 dbtoa experiment](dbtoa-float32.md) passes all
+48 matched target runs and 491,520 independent output checks. Four input vectors
+run in three ABBA rounds, with identical graph/compiler/SDK/ABI/arena limits.
+Across 384 timed callbacks per profile, mean time falls from 15,869.50 to
+1,326.51 µs: **91.64% less callback time**, or 273.38% → 22.85% of the audio
+block period. The maximum candidate numerical error is 1.1920928955078125e-7;
+changed rounding remains explicit. Native pairwise PCM identity is separate
+from target accuracy; no direct target A/B float/PCM comparison is claimed.
+
+This exact-graph CLI experiment does not change Studio Auto or qualify other
+objects, modes or surfaces. Its repeated CPU screens are not 48 new object
+contexts. See [all target case timings](../evidence/xiao-smoke-dbtoa-f32-comparison.json)
+and [combined evidence](../evidence/dbtoa-float32.json).
+
+## Gen clock, reset and delay boundaries
+
+Eight authored Gen programs are retained: **six compile and execute; one
+passes its declared reference and five retain output mismatches. Two delay
+programs fail C++ compilation before execution.** The six executed programs
+check 61,440 output values, using fresh preparation, zero automatic warm blocks
+and twenty continuous callbacks. No numerical limits are changed after output.
+
+| Program | Declared comparison result |
+| --- | --- |
+| Free dyadic `phasor` pair | Six differences; first at callback 4, word 0: actual 1 versus expected 0. |
+| Signal-reset `phasor` pair | One difference; first output is 0 versus the reference's initial phase 0.125. |
+| Odd-period `train` pair | 2,392 differences; first at callback 0, word 6: actual 0 versus expected 1. |
+| `train` with onset and changing widths | 2,667 differences; first at callback 0, word 12: actual 1 versus expected 0. |
+| Sync-off `rate`, multipliers 8/16 | 18 differences; first at callback 2, word 0: actual 1 versus expected 0. |
+| Nonzero-initialised `mulequals`, with resets | All 10,240 checks pass the zero-error reference. |
+
+The phase references declare capture, reset and wrap-endpoint policies; these
+failures do not by themselves prove state resets or broken objects. Their
+reference streams and first witnesses remain saved for separate review.
+Source review explains the phasor/rate endpoint samples as wrapping only above
+1, and the reset phasor's first sample as constructor phase 0 despite its
+configured phase attribute. The latter remains a possible initial-attribute
+semantic gap because primary documentation calls it an initial phase. Train
+increments before threshold/capture, and width endpoints bypass phase advance.
+A source-derived replay reproduces the five counts and first witnesses; this
+is a diagnosis, not a replacement independent oracle or full target capture.
+The [separate source-review record](../evidence/gen-state-boundaries-review.json)
+binds those observations to the actual prepared source and saved target results.
+`rate` multipliers were resolved from primary documentation and changed to
+8/16 before any DSP execution, giving dyadic 512-sample phase periods. Train
+periods 7/11 are explicitly in samples in the Gen documentation.
+
+Both explicit maximum-16-sample `Delay` declaration/method programs export and
+prepare, but generated constant-versus-boolean delay clamps trigger GCC
+`-Werror=bool-compare`. Their unchanged compiler failures are retained. There
+is no hardware one-sample delay or feedback-delay pass from this batch, and no
+standalone `delay`, `read` or `write` operator qualification follows.
+
+Executed callback medians span 90–161 µs, with peaks 94–166 µs; no CPU-review
+flag triggers. All six images finalise and pass memory/allocation checks,
+with zero measured arena high-water use. Fixed-256 processing remains distinct
+from a one-frame host ABI. See [the saved results](../evidence/xiao-smoke-gen-state-boundaries.json)
+and [original programs and predeclared references](../tests/fixtures/smoke/gen-state-boundaries/README.md).
+
 ## RNBO signal routing and interpolation
 
 All **20 exact spellings pass** their independent references on XIAO. The six

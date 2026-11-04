@@ -1,0 +1,58 @@
+{
+  "all_five_replays_agree_with_saved_counts_and_first_witnesses": true,
+  "artifacts_sha256": {
+    "build/hardware-smoke-gen-state-boundaries-v3/smoke-plan.json": "c0cc1b3d3d2b2b7db9814cbdff050f8d653a218f892d456b2d64dee9e208de67",
+    "build/hardware/gen-state-boundaries-inputs-v3/prepared/mulequals-nonzero-init-post-reset/rnbo_source.h": "3755d6728b281556f73e5028b8ecb6a8e348c6f196af9da807f537eeb8dc9269",
+    "build/hardware/gen-state-boundaries-inputs-v3/prepared/phasor-free-dyadic/rnbo_source.h": "b95aa8de1e16b5224cc8a2ba587c2a7a90b8e62f76eb8c5a6b1c6e47c0ed72e7",
+    "build/hardware/gen-state-boundaries-inputs-v3/prepared/phasor-signal-reset/rnbo_source.h": "2af32e27c1e9cd7261179f226e516b5252dac456c41b7cf45ddd8c715f28efb5",
+    "build/hardware/gen-state-boundaries-inputs-v3/prepared/rate-sync-off/rnbo_source.h": "988c8282f859205ee5995c7b8aede8d3b387b479f889443924f8941089819280",
+    "build/hardware/gen-state-boundaries-inputs-v3/prepared/train-odd-periods/rnbo_source.h": "e2d1b465c907df4f060c024003ce579325b2ddcc50cfd8ff7626cd32942a2a50",
+    "build/hardware/gen-state-boundaries-inputs-v3/prepared/train-onset-variable-width/rnbo_source.h": "0c5927dea3179d546011ac0d249cc1de225ecb177d719a0d377e1b1b8361b41f",
+    "build/hardware/gen-state-boundaries-smoke-modules-v3/batch-report.json": "935042a851d5db97de91943979f7dd45ab3a16396f4702ba70ec5250aad71eba",
+    "build/hardware/gen-state-boundaries-smoke-modules-v3/delay-one-and-three-samples/compile.log": "a26d0f0213ebd77cc6c2a767e09ffe47d51613c51a6f805b5810764c788cfaa8",
+    "build/hardware/gen-state-boundaries-smoke-modules-v3/delay-three-sample-feedback/compile.log": "e7afde844551aac04e472155753003cf81e4c79d0b6c069a6794980273e68909",
+    "build/hardware/gen-state-boundaries-target-run-v3/test-serial.log": "9611f0fc8b9fd4b1725f7d9d6ad438dbfb7f6c67538017b42ba51001df52b357",
+    "evidence/xiao-smoke-gen-state-boundaries.json": "6fb7abfa47875a4bc0debb3fc6d7f61b1c693ebdf96950e603d991b91f0767ea",
+    "tests/fixtures/smoke/gen-state-boundaries/reference.py": "c8f36e97add54e70dc51e71fa0b15482dfdc69fdc55c1013f89ca748cbce55a7"
+  },
+  "diagnosis": {
+    "phasor-free-dyadic": {
+      "classification": "closed-versus-half-open wrap endpoint policy; no evidence of callback state reset",
+      "finding": "The source wraps only for phase>1, so exact1 is emitted; modulo reference emits0. Six such endpoints: four left period1024 boundaries and two right period2048 boundaries.",
+      "primary_limit": "Primary phasor prose does not settle whether the exact upper endpoint is emitted."
+    },
+    "phasor-signal-reset": {
+      "classification": "initial attribute versus explicit reset semantics, not failed reset propagation or repeated vector reset",
+      "finding": "The source initializer/reset helper sets state0 regardless of phase attribute. A positive reset assigns configured0.125/0.375. Left first input0 therefore emits0 vs declared initial0.125; later explicit resets match. Right resets on sample0 and matches immediately.",
+      "primary_limit": "Registry phase attribute explicitly says initial phase, so initial0 despite authored0.125 is a plausible producer/admission semantic gap, scoped to this source."
+    },
+    "rate-sync-off": {
+      "classification": "closed-versus-half-open wrap endpoint policy; continuity across callbacks is supported by the source and observations",
+      "finding": "Source correctly uses reciprocal8/16 and integrates phase deltas continuously, but wraps only for currentPhase>1. Exact1 is emitted at each512sample boundary. Nine endpoints per lane yield18 differences versus modulo reference0.",
+      "primary_limit": "Primary rate time-scale direction matches the corrected division model; exact endpoint convention remains unspecified."
+    },
+    "train-odd-periods": {
+      "classification": "sample capture/threshold state-machine policy plus finite phase evolution; discrepancy is not merely a first-sample shift and is not explained by callback resets",
+      "finding": "Generated state machine advances binary32 phase before comparing strict thresholds and returns new on/off state; on the falling transition it conditionally subtracts floor(1+phase-p2). This differs from the declared ordinal-n circular pulse window. First left sample3 is already0 where ordinal3/7 still lies below0.5.",
+      "primary_limit": "Gen registry explicitly period(samples); sample units remain correct. Prose does not completely specify first capture or threshold endpoint behavior."
+    },
+    "train-onset-variable-width": {
+      "classification": "endpoint-width clock-freeze versus continuously advancing declared phase; no evidence of constructor or vector state reset",
+      "finding": "In addition to the same threshold state machine, width<=0 and width>=1 branches force output0/1 without advancing phase at all. The declared model keeps its ordinal clock running through these endpoints. This creates stateful clock/mask differences with variable width, not only rounding.",
+      "primary_limit": "Width prose specifies pulse width but does not explicitly document pausing phase at width endpoints; retain the scoped mismatch rather than inventing a universal contract."
+    }
+  },
+  "format": "private-gen-state-boundaries-source-diagnosis-v1",
+  "hardware_accessed_by_this_review": false,
+  "not_independent_validation": true,
+  "original_target_outcomes_unchanged": true,
+  "primary_metadata_sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54",
+  "private_report_sha256": "f648b1f269b8c5c5382fa9606c671fb192dbe4fb5769a79131d63652aa9b5e64",
+  "production_files_modified": false,
+  "scope": "Read-only generated-source/primary-metadata diagnosis after actual HIL. Manual binary32 source replay is NOT an independent oracle and does not change any model, limit or failed result. Only aggregate counts and first witnesses were captured, not full target waveforms.",
+  "uncertainties": [
+    "Agreement of a source replay with counts/first witnesses is explanatory corroboration, not independent target mathematical qualification.",
+    "Exact wrap and train initial/threshold policies are incompletely specified by primary prose.",
+    "No generic reset, arbitrary frequency/width, one-frame host ABI or full-domain behavior claim is made."
+  ]
+}

@@ -8,10 +8,132 @@ unknown matched methods byte for byte and reports why they were skipped.
 """
 from __future__ import annotations
 import hashlib
+import json
 from pathlib import Path
 import re
 
 from bounded_filters import _method
+
+# A separate, closed signal-only experiment. Earlier profiles and Auto do not
+# inherit this kernel or its changed integer-base overload selection.
+DBTOA_PROFILE = "float32-dbtoa-v1"
+DBTOA_KERNEL = "ca7d30389cd8b2110fa2b3dc9f021d4718f1c5021a1c548a34e25f1ad8ec7c5b"
+DBTOA_SOURCE = "36e3b6f7cfc220ff98783591bf65164aaad2661a01858409f07e331ca0d18b22"
+DBTOA_INPUT_MAPS = frozenset({
+    "95657ed75688f991900f420882961b7deae9522d21e0062e67aedfcab3f03657",  # original producer
+    "75c2085d7b91b4b798507d87bbc6f271cd23b26e556095b0c0f5a4887780fb37",  # integer-UI producer
+})
+DBTOA_CONTRACT_FILE = "rnbo_s3_dbtoa_source.h"
+DBTOA_CONTRACT = b'''/* SPDX-License-Identifier: MIT */
+#pragma once
+#include <float.h>
+#include <type_traits>
+#include "rnbo_source.h"
+#if defined(__FAST_MATH__) || (defined(__FINITE_MATH_ONLY__) && __FINITE_MATH_ONLY__)
+#error "Float32 dbtoa requires strict floating arithmetic"
+#endif
+#if defined(RNBO_USE_APPROXIMATE_MATH) && RNBO_USE_APPROXIMATE_MATH
+#error "Float32 dbtoa requires standard powf, not approximate math"
+#endif
+#if !defined(RNBO_S3_ABI_MAJOR) || !defined(RNBO_S3_ABI_MINOR) || RNBO_S3_ABI_MAJOR != 1u || RNBO_S3_ABI_MINOR != 0u
+#error "Float32 dbtoa requires reviewed ABI 1.0"
+#endif
+static_assert(FLT_RADIX==2 && FLT_MANT_DIG==24 && FLT_MAX_EXP==128 &&
+              FLT_EVAL_METHOD==0 && sizeof(float)==4,
+              "dbtoa requires binary32 without excess evaluation precision");
+static_assert(std::is_same<RNBO::number,float>::value &&
+              std::is_same<RNBO::Sample,float>::value &&
+              std::is_same<RNBO::SampleValue,float>::value &&
+              std::is_same<decltype(RNBO::SampleValue{} * 0.05f),float>::value &&
+              std::is_same<decltype(RNBO_Math::rnbo_pow(10.0f, RNBO::SampleValue{} * 0.05f)),float>::value,
+              "dbtoa input, exponent product and output must remain Float32");
+static_assert(std::is_same<RNBO::MillisecondTime,double>::value && sizeof(double)==8 &&
+              DBL_MANT_DIG==53 && DBL_MAX_EXP==1024,
+              "dbtoa does not narrow the binary64 scheduler clock");
+'''
+DBTOA_MANIFEST_CONTRACT = {
+    "version": 1, "context": "dbtoa-signal", "input_domain_db": [-24, 6],
+    "mathematical_reference": "10^(input/20)", "absolute_error_limit": 2e-6,
+    "operation": "powf(10.0f, binary32(input * 0.05f))",
+    "rounding": "nearest-even", "audio": "binary32", "scheduler_time": "unchanged-binary64",
+    "build_requirements": ["no-fast-math", "no-excess-evaluation-precision", "fp-contract-off", "standard-math"],
+    "state_layout_and_callers": "unchanged", "math_runtime": "unchanged",
+    "bit_identity_claimed": False, "nonfinite_qualified": False,
+    "floating_environment_equivalence_claimed": False,
+    "errno_identity_claimed": False, "floating_trap_identity_claimed": False,
+}
+
+
+def _float32_dbtoa(source: bytes, *, code_mask) -> tuple[bytes, dict]:
+    text = source.decode(); masked = code_mask(text)
+    if type(masked) is not str or len(masked) != len(text):
+        raise ValueError("float32-dbtoa-v1: invalid lexical mask")
+    names = re.findall(r"\bvoid\s+(dspexpr_\d+_perform)\s*\(", masked)
+    if not names or len(names) != len(set(names)):
+        raise ValueError("float32-dbtoa-v1: no unique signal audio methods found")
+    edits = []; methods = []
+    for name in names:
+        start, end = _method(masked, name)
+        prefix = name.rsplit("_", 1)[0]
+        fingerprint = hashlib.sha256(re.sub(r"\s+", "", masked[start:end]).replace(prefix, "OBJECT").encode()).hexdigest()
+        if fingerprint != DBTOA_KERNEL:
+            raise ValueError(f"float32-dbtoa-v1: unsupported RNBO1.4.4 signal method {name} ({fingerprint})")
+        calls = list(re.finditer(r"\brnbo_pow\s*\(\s*(10)\s*,\s*in1\s*\[\s*\(\s*Index\s*\)\s*i\s*\]\s*\*\s*(0\.05)\s*\)", masked[start:end]))
+        if len(calls) != 1:
+            raise ValueError("float32-dbtoa-v1: expected one reviewed local pow call")
+        for group, replacement in ((1, "10.0f"), (2, "0.05f")):
+            a, b = calls[0].span(group)
+            edits.append({"method": name, "input_span": [start + a, start + b],
+                          "before": text[start + a:start + b], "after": replacement})
+        methods.append({"method": name, "kernel_sha256": fingerprint, "literal_replacements": 2})
+    offset = 0
+    for edit in sorted(edits, key=lambda x: x["input_span"]):
+        a, b = edit["input_span"]
+        edit["prepared_span"] = [a + offset, a + offset + len(edit["after"])]
+        offset += len(edit["after"]) - (b - a)
+    result = text
+    for edit in sorted(edits, key=lambda x: x["input_span"], reverse=True):
+        a, b = edit["input_span"]; result = result[:a] + edit["after"] + result[b:]
+    inverse = result
+    for edit in sorted(edits, key=lambda x: x["prepared_span"], reverse=True):
+        a, b = edit["prepared_span"]
+        if inverse[a:b] != edit["after"]:
+            raise ValueError("float32-dbtoa-v1: literal inverse differs")
+        inverse = inverse[:a] + edit["before"] + inverse[b:]
+    if inverse.encode() != source:
+        raise ValueError("float32-dbtoa-v1: whole-source inverse differs")
+    prepared = result.encode()
+    return prepared, {"name": "rnbo-1.4.4-float32-dbtoa-v1", "file": "rnbo_source.h",
+                      "input_sha256": hashlib.sha256(source).hexdigest(),
+                      "prepared_sha256": hashlib.sha256(prepared).hexdigest(),
+                      "transformer_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                      "methods": methods, "literal_replacement_count": len(edits), "edits": edits,
+                      "whole_source_inverse_verified": True,
+                      "unchanged": "all bytes outside declared literal spans, shared runtime, scheduler, setup, state and callers",
+                      "numerical_change": "Float32 exponent product and powf overload; changed rounding, not bit identity"}
+
+
+def prepare_dbtoa(files: dict[str, bytes], description: dict, *, code_mask) -> tuple[dict[str, bytes], dict]:
+    """Late pure-map admission after baseline config, before prepared hashes."""
+    if type(files) is not dict or not all(type(k) is str and type(v) is bytes for k, v in files.items()):
+        raise ValueError("float32-dbtoa-v1: immutable source map required")
+    canonical = lambda value: (json.dumps(value, sort_keys=True, indent=2, ensure_ascii=True, allow_nan=False) + "\n").encode()
+    input_map = hashlib.sha256(canonical({k: hashlib.sha256(v).hexdigest() for k, v in files.items()})).hexdigest()
+    if len(files) != 42 or input_map not in DBTOA_INPUT_MAPS:
+        raise ValueError("float32-dbtoa-v1: unknown graph/runtime/config/metadata composition or repeated application")
+    if type(description) is not dict or canonical(description) != canonical(json.loads(files["description.json"])):
+        raise ValueError("float32-dbtoa-v1: description object differs")
+    if hashlib.sha256(files["rnbo_source.h"]).hexdigest() != DBTOA_SOURCE:
+        raise ValueError("float32-dbtoa-v1: source identity differs")
+    source, record = _float32_dbtoa(files["rnbo_source.h"], code_mask=code_mask)
+    result = dict(files)
+    result["rnbo_source.h"] = source
+    result[DBTOA_CONTRACT_FILE] = DBTOA_CONTRACT
+    result["patch_config.h"] += ('#define RNBO_S3_PATCH_SOURCE "' + DBTOA_CONTRACT_FILE + '"\n').encode()
+    record.update({"input_map_sha256": input_map, "compile_contract_file": DBTOA_CONTRACT_FILE,
+                   "compile_contract_sha256": hashlib.sha256(DBTOA_CONTRACT).hexdigest(),
+                   "prepared_config_sha256": hashlib.sha256(result["patch_config.h"]).hexdigest()})
+    return result, record
 
 _CYCLE = {
     "0b43f9b8b1e43065f1edaae72d9c83b444a9addd54c34745881ec955d13c5d39",  # fixed .009, phase inlet
@@ -79,6 +201,8 @@ _DECIMAL = re.compile(r"(?<![\w.])(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?|\d+[eE]
 
 
 def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dict]:
+    if profile == DBTOA_PROFILE:
+        return _float32_dbtoa(source, code_mask=code_mask)
     if profile not in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1"):
         raise ValueError("Unsupported float32 audio profile")
     automatic = profile == "float32-auto-v1"

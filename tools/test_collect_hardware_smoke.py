@@ -192,6 +192,23 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.data['first_mismatch_call']='0'
         with self.assertRaisesRegex(ValueError,'Passing case'):self.result()
 
+    def test_gen_state_boundaries_keeps_all_twenty_continuous_callbacks(self):
+        self.plan.update(family='gen-state-boundaries',surface='genexpr')
+        result=self.result()
+        self.assertEqual(result['family'],'gen-state-boundaries')
+        self.assertEqual(result['surface'],'genexpr')
+        self.assertEqual(result['prepare_zero_warm_blocks'],0)
+        self.assertEqual(result['cases'][0]['expected_block_count'],20)
+        self.assertEqual(result['cases'][0]['first_mismatch_call'],6)
+        for mutation in ('missing-stream','automatic-warmup','wrong-surface','missing-policy'):
+            old=copy.deepcopy(self.plan)
+            if mutation=='missing-stream':self.expected.pop('expected_blocks')
+            elif mutation=='automatic-warmup':self.plan['prepare_zero_warm_blocks']=4
+            elif mutation=='wrong-surface':self.plan['surface']='codebox'
+            else:self.plan.pop('expected_stream_policy')
+            with self.subTest(mutation=mutation),self.assertRaises(ValueError):self.result()
+            self.plan.clear();self.plan.update(old);self.expected=self.plan['cases'][0]
+
     def constant(self):
         self.plan['family']='gen-math';self.plan.pop('expected_stream_policy')
         self.expected.pop('expected_blocks');self.expected.pop('expected_stream_sha256')

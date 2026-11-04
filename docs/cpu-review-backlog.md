@@ -10,6 +10,14 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+The exact stereo [`dbtoa~` Float32 experiment](dbtoa-float32.md) now has a
+matched XIAO result: **91.64% less callback time**, with explicit changed
+rounding. Mean time falls from 15,869.50 to 1,326.51 µs across four bounded
+vectors. This is an explicit exact-graph experiment; broader Auto, Main,
+codebox and Gen use remain pending. The candidate still uses 22.85% of the
+block period, so further review remains useful. Repeated benchmark screens do
+not create new object contexts; the recorded queue remains **93**.
+
 ## Signal routing and interpolation: one queued context
 
 All 20 supplied signal scenarios pass their output limits. The new flag is

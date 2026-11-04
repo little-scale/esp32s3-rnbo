@@ -23,7 +23,7 @@ SUPPORTED_VERSION = "1.4.4"
 MAX_SOURCE_BYTES = 16 * 1024 * 1024
 MAX_COMMON_BYTES = 16 * 1024 * 1024
 MAX_PARAMETERS = 128
-NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1", "float32-scalar-powers-v1", "float32-gen-feedback-v1")
+NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1", "float32-scalar-powers-v1", "float32-gen-feedback-v1", "float32-dbtoa-v1")
 
 
 class ExportError(ValueError):
@@ -305,6 +305,14 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         raise ExportError("midi-output must be reject or discard")
     if numerical_profile not in NUMERICAL_PROFILES:
         raise ExportError(f"numerical-profile must be one of {NUMERICAL_PROFILES}")
+    dbtoa_profile = numerical_profile == "float32-dbtoa-v1"
+    if dbtoa_profile and (type(apply_fixes) is not bool or not apply_fixes or role != "fx" or
+            class_name != "rnbos3patch" or midi_output_policy != "reject" or
+            filter_delay_max_ms is not None or float32_delay_storage or omit_unused_mtof_table or
+            hoist_cycle_conversions or compact_average_history or float32_pink_output or correct_finite_wrap or
+            exact_audio_delay44100 or hoist_filter_durations or hoist_train_reciprocal or bounded_line_ramps or
+            float32_onepole_clamp or stable_onepole or gen_abs_intrinsic):
+        raise ExportError("Float32 dbtoa requires its reviewed FX context, normal fixes and no optional adapters")
     if type(gen_abs_intrinsic) is not bool:
         raise ExportError("Gen abs intrinsic must be a boolean")
     if gen_abs_intrinsic and (type(apply_fixes) is not bool or not apply_fixes or role != "fx" or
@@ -663,6 +671,17 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                    '#error "Internal resource optimisation is reviewed only for opaque module C ABI 1.0"\n'
                    "#endif\n")
     files["patch_config.h"] = config.encode()
+    if dbtoa_profile:
+        from float32_audio import prepare_dbtoa, DBTOA_MANIFEST_CONTRACT
+        try:
+            files, dbtoa_change = prepare_dbtoa(files, description, code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        changes.append(dbtoa_change)
+        manifest["adaptations"].append(dbtoa_change["name"])
+        manifest["base_numerical_profile"] = "float32-strict"
+        manifest["numerical_identity"] = "changed-rounding-float32-dbtoa-v1"
+        manifest["dbtoa_contract"] = dict(DBTOA_MANIFEST_CONTRACT)
     # The closed42-file admission map includes this exact baseline config.
     # Run after creating it, without adding config macros or changing clocks.
     if exact_audio_delay44100:

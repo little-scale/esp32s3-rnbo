@@ -6,6 +6,16 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The [clock/reset/delay boundary batch](hardware-smoke.md#gen-clock-reset-and-delay-boundaries)
+retains eight programs: six execute, the nonzero-initialised `mulequals` case
+passes, five phase/pulse reference comparisons retain mismatches, and two
+explicit `Delay` declaration programs fail the compiler's boolean-comparison
+warning gate. All 61,440 executed output checks and first differences remain
+recorded; no reference or limit is fitted to output. Callback medians are
+90–161 µs with no CPU flags, and executed images pass memory/finalisation checks.
+The failed Delay builds do not establish one-sample delay or feedback behavior.
+See [the complete results](../evidence/xiao-smoke-gen-state-boundaries.json).
+
 The [named-constant batch](hardware-smoke.md#gen-named-constants-and-configuration-values)
 adds 32 passing bare-value scenarios and 327,680 bit-exact output checks.
 Twenty-eight mathematical spellings are individually authored; four configuration

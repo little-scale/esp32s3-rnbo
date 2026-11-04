@@ -1,0 +1,6 @@
+Delay feedbackDelay(16);
+previous = feedbackDelay.read(3, interp="none");
+current = in1 + 0.5*previous;
+out1 = current;
+out2 = in2;
+feedbackDelay.write(current);

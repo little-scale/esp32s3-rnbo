@@ -1,5 +1,14 @@
 # Implementation status — 5 November 2026
 
+The explicit [Float32 dbtoa experiment](dbtoa-float32.md) passes all 48 XIAO
+runs and 491,520 independent output checks. Its matched stereo callback uses
+**91.64% less time**: 15,869.50 → 1,326.51 µs mean, or 273.38% → 22.85% of
+the block period. Changed rounding is recorded separately; maximum target
+error is 1.1920928955078125e-7. Native PCM pairs are identical, while direct
+target pairwise PCM/float capture is untested. The option remains explicit and
+exact-graph; Studio Auto is unchanged. The status page shows this as an
+experimental measured optimisation for `dbtoa~` only.
+
 The player now supports [Wi-Fi scanning, USB pairing and wireless package loads](player-wifi.md).
 XIAO association, authenticated upload with no USB serial handle, wireless
 controls and failed-connection retry stability pass. An early system-event stack
@@ -27,6 +36,14 @@ are retained separately. The status page now maps 576 exact entries; this is
 scoped evidence, not complete-object qualification. Quiet smoke firmware is
 currently installed on XIAO; the previous player, package and private settings
 have a verified full-flash backup for later restoration.
+
+The [Gen clock/reset/delay boundary batch](hardware-smoke.md#gen-clock-reset-and-delay-boundaries)
+retains all eight programs. Six execute: `mulequals` passes and five phase/pulse
+comparisons retain mismatches against their declared policies. Two explicit
+Delay programs stop at a generated-code boolean-comparison compiler warning.
+All 61,440 executed output checks are saved; there are no CPU flags or memory
+faults. Delay and phase-policy follow-ups remain separate from the earlier
+passing Gen history/state evidence.
 
 The [parameter-driven event batch](hardware-smoke.md#rnbo-parameter-driven-event-batch)
 passes all 35 exact event spellings,735 updates/readbacks and 358,400 output checks.

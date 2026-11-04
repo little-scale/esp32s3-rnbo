@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 PRIMARY_GROUPS={
+    'patcher:dbtoa~':'dbtoa-float32-signal-v1',
     'patcher:mtof~':'mtof-fx-audio-v1',
     'patcher:reson~':'reson-fx-audio-v1',
     'patcher:cycle~':'cycle-scalar-hoist-strict',

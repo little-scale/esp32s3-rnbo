@@ -14579,12 +14579,20 @@
       "is_alias": false,
       "name": "dbtoa~",
       "optimisation": {
-        "detail": "",
-        "label": "Not assessed",
-        "short": "",
-        "status": "unassessed"
+        "detail": "Explicit closed stereo FX fixture only, finite [-24,6]dB corpus, changed rounding. Matched XIAO callbacks use 91.64% less time; CLI strict and Studio Auto remain unchanged. Other graphs and codebox/Gen are not admitted by this option.",
+        "label": "Experimental",
+        "short": "--numerical-profile float32-dbtoa-v1",
+        "status": "experimental"
       },
-      "performance": null,
+      "performance": {
+        "detail": "Exact stereo dbtoa~ FX fixture only: local Float32 exponent multiplication and powf overload. Changed rounding is explicit; finite [-24,6]dB four-vector corpus. Complete callbacks, no isolated primitive, general graph, Auto integration or full-player deadline claim. Reference: float32-strict; candidate: float32-dbtoa-v1. Aggregate matched process times: 6,093,889→509,378µs over 384 vectors per profile. Cases: published-musical-grid: 91.4%; boundary-neighbors: 92.0%; dense-sixteenth-db: 91.5%; output-midpoint-neighbors: 91.5%.",
+        "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/dbtoa-float32.json",
+        "label": "91.6%",
+        "measurement_id": "dbtoa-float32-signal-v1:aggregate",
+        "percent": 91.64116707737865,
+        "phase": "experimental",
+        "scope": "Whole test patch"
+      },
       "reference_url": "https://rnbo.cycling74.com/objects/ref/dbtoa~?v=1.4.4",
       "sources": [
         {
@@ -14594,11 +14602,19 @@
         {
           "label": "cpu review backlog — documentation",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        },
+        {
+          "label": "dbtoa float32 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/dbtoa-float32.json"
+        },
+        {
+          "label": "dbtoa float32 — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/dbtoa-float32.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. The measured two-instance stereo fixture takes 14.659 ms median, exceeding the 5.805 ms block period at 44.1 kHz; this short output pass does not establish realtime audio headroom. Optimisation review pending. Short XIAO check (pass): one repeated stereo vector; mean 14657.44µs, median 14659.00µs, peak 14660µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Four vectors in three ABBA rounds,384 timed callbacks per profile,491,520 target independent output checks. Target output limits pass; native pairwise float/PCM diagnostics are separate and do not establish target bit/PCM identity. Exact profiles/modules/compiler/arena and source graph are bound. The experiment remains explicit, exact-graph and changed-rounding; it is not enabled in Studio Auto. Remaining scope: Only the supplied bounded signal scenarios and exact experimental FX graph are checked; other domains, Main composition and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer. Target profiles are independently checked against the oracle; pairwise PCM identity is native-only. The strict original musical fixture takes 14.659 ms median, exceeding the 5.805 ms block period. The new matched Float32 experiment reduces its bounded four-vector mean to 1.327 ms, but is not an Auto integration or full-player deadline guarantee. Short XIAO check (pass): one repeated stereo vector; mean 14657.44µs, median 14659.00µs, peak 14660µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
         "label": "Short hardware check",
         "short": "One short hardware scenario",
         "status": "board",
@@ -53694,15 +53710,15 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "b4191bfb4a632e3b55db8ac0e26831e415df2af0e4401df5ad47076dd1d7a618",
-    "coverage_source_sha256": "8dadbf0f83b396559105f5aee14c9ae308ad11ade012da6b67f9b8e15012db1b",
+    "coverage_canonical_sha256": "4781761fb44202c8322e9aa7f079d802ee9c2a4ef5e79e161bbc79bbb2c0fd89",
+    "coverage_source_sha256": "68eabb6950831cac811a37d04ff0bc136e6c030f11835e205e39880fb20aa36d",
     "exact_coverage_entries": 576,
-    "generator_sha256": "c6816b37dd72d7d5680570bcfc9872dac00f23341af5acf12fc5027a58717883",
+    "generator_sha256": "bfa273b5ec5517733bb377944f52da717130f149f2f6840be34670da6aa6c834",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
     "later_evidence_policy": "Later additions are included with this snapshot and individually bound to public evidence content hashes; the initial revision identifies the original audited source set.",
-    "measurement_count": 154,
+    "measurement_count": 159,
     "primary_policy": "Representative matched aggregates, not best-case selection: explicit-input FX for mtof/reson, strict scalar hoist for cycle, combined filter/storage fixture, exact compact-average and pink-output fixtures, composed scalar powers on the original three-case grid, all12 private train workloads including bypass controls, and the bounded nonlinear callback for the finite-wrap correction. Expanded power workloads remain separately linked. Negative percentages record extra CPU time. Other results remain linked in source evidence."
   },
   "rnbo_version": "1.4.4",

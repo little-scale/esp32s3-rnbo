@@ -38,7 +38,7 @@ class ObjectStatusTests(unittest.TestCase):
 
     def test_all_percentages_recompute_from_exact_raw_evidence_and_vectors(self):
         checked=checked_measurements(self.coverage,ROOT)
-        self.assertEqual(len(checked),154)
+        self.assertEqual(len(checked),159)
         for measurement in checked.values():
             if measurement.get('cpu_time_change_measured',measurement['CPU_savings_claimed']):
                 expected=100*(1-measurement['candidate_process_us']/measurement['reference_process_us'])
@@ -108,6 +108,27 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertEqual({c['exact_name']for c in data['cases']if c['cpu_review_reasons']},{'cubicinterp~'})
         self.assertEqual(rows['patcher:gate']['working']['status'],'unverified')
 
+    def test_dbtoa_experiment_uses_only_matched_target_times_and_keeps_precision_scope(self):
+        data=json.loads((ROOT/'evidence/dbtoa-float32.json').read_bytes())
+        raw=json.loads((ROOT/'evidence/xiao-smoke-dbtoa-f32-comparison.json').read_bytes())
+        row={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}['patcher:dbtoa~']
+        self.assertEqual(row['optimisation']['status'],'experimental')
+        self.assertAlmostEqual(row['performance']['percent'],91.64116707737867)
+        target=data['target'];self.assertEqual(target['samples_checked'],491520)
+        self.assertFalse(target['pass']['direct_target_pairwise_outputs_checked'])
+        self.assertEqual(raw['summary']['passed'],48)
+        for case in [target['aggregate'],*target['cases']]:
+            selected=raw['cases']if 'model'not in case else[c for c in raw['cases']if c['model']==case['model']]
+            for phase,prefix in (('A','reference'),('B','candidate')):
+                times=[t for c in selected if c['comparison_phase']==phase for t in c['times_us']]
+                self.assertEqual(sum(times),case[prefix+'_process_us'])
+                self.assertEqual(len(times),case[prefix+'_timed_vectors'])
+            self.assertAlmostEqual(case['cpu_time_saved_percent'],100*(1-case['candidate_process_us']/case['reference_process_us']))
+        self.assertIn('changed rounding',row['optimisation']['detail'])
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertIsNone(rows['codebox:dbtoa']['performance'])
+        self.assertEqual(rows['codebox:dbtoa']['optimisation']['status'],'unassessed')
+
     def test_actual_numeric_smoke_keeps_mismatches_tolerances_and_cpu_review_visible(self):
         data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-numeric.json').read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
@@ -154,12 +175,15 @@ class ObjectStatusTests(unittest.TestCase):
                 reviewed.add(case['exact_name'])
                 self.assertIn('active CPU review queue',row['working']['detail'])
                 self.assertTrue(any(s['url'].endswith('/docs/cpu-review-backlog.md')for s in row['sources']))
-            if case['exact_name']not in('mtof~','tanh~'):
+            if case['exact_name']not in('mtof~','tanh~','dbtoa~'):
                 self.assertIsNone(row['performance']);self.assertEqual(row['optimisation']['status'],'unassessed')
                 self.assertEqual(row['working']['status'],'partial'if case['exact_name']=='fasttan~'else'board')
         self.assertEqual(reviewed,{'tanh~','atan2~','sinh~','cosh~','asinh~','acosh~','atanh~','mtof~','ftom~','atodb~','dbtoa~'})
         self.assertEqual(rows['patcher:mtof~']['optimisation']['status'],'available')
         self.assertEqual(rows['patcher:tanh~']['optimisation']['status'],'none')
+        self.assertEqual(rows['patcher:dbtoa~']['optimisation']['status'],'experimental')
+        self.assertEqual(rows['patcher:dbtoa~']['performance']['measurement_id'],
+                         'dbtoa-float32-signal-v1:aggregate')
         self.assertEqual(rows['patcher:mtof~']['working']['status'],'board')
         self.assertEqual(rows['patcher:tanh~']['working']['status'],'board')
         self.assertIn('high-water 262,416 bytes',rows['patcher:mtof~']['working']['detail'])
