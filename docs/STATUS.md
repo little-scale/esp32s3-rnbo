@@ -1,5 +1,12 @@
 # Implementation status — 4 November 2026
 
+The latest [RNBO functions/conversions batch](hardware-smoke.md#rnbo-functions-and-conversions-batch)
+executes 35 forms: 34 pass declared limits, `fasttan~` exceeds an explicitly
+chosen approximation threshold, and eleven CPU costs are queued. `dbtoa~`
+takes 14.659 ms median in the stereo fixture. An explicit one-MiB arena tier
+preserves default resources; `mtof~` peaks at 262,416 bytes and `ftom~` at 160.
+No DSP optimisation or timing gain is claimed by this infrastructure change.
+
 Testing now prioritises [fast batched hardware checks](hardware-smoke.md),
 with CPU-review flags retained for future optimisation. The latest numeric
 batch checks 33 RNBO signal forms: 30 pass, three have output mismatches

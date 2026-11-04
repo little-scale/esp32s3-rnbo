@@ -13,6 +13,94 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## RNBO functions and conversions batch
+
+**35 forms execute on XIAO: 34 pass their declared checks, and `fasttan~`
+exceeds the chosen ideal-reference limit.** All export and compile; eleven
+cases trigger CPU review. Memory/allocation gates pass and all images finalise.
+
+| Exact form | Short result | Median µs | Peak µs | CPU review |
+| --- | --- | ---: | ---: | --- |
+| `sin~` | Pass | 281.0 | 286 | No flag |
+| `cos~` | Pass | 285.5 | 290 | No flag |
+| `tan~` | Pass | 419.5 | 424 | No flag |
+| `tanh~` | Pass | 645.0 | 646 | Queued |
+| `asin~` | Pass | 532.0 | 533 | No flag |
+| `acos~` | Pass | 485.0 | 487 | No flag |
+| `atan~` | Pass | 344.0 | 347 | No flag |
+| `atan2~` | Pass | 681.0 | 682 | Queued |
+| `sinh~` | Pass | 694.0 | 695 | Queued |
+| `cosh~` | Pass | 643.5 | 646 | Queued |
+| `asinh~` | Pass | 756.5 | 757 | Queued |
+| `acosh~` | Pass | 828.0 | 828 | Queued |
+| `atanh~` | Pass | 772.0 | 772 | Queued |
+| `hypot~` | Pass | 224.0 | 229 | No flag |
+| `degrees~` | Pass | 50.0 | 50 | No flag |
+| `radians~` | Pass | 50.0 | 54 | No flag |
+| `radtodeg~` | Pass | 37.0 | 37 | No flag |
+| `RADTODEG~` | Pass | 37.0 | 42 | No flag |
+| `degtorad~` | Pass | 37.0 | 41 | No flag |
+| `DEGTORAD~` | Pass | 37.0 | 42 | No flag |
+| `mtof~` | Pass | 2392.0 | 2397 | Queued |
+| `ftom~` | Pass | 667.5 | 668 | Queued |
+| `atodb~` | Pass | 4875.0 | 4876 | Queued |
+| `dbtoa~` | Pass | 14659.0 | 14660 | Queued |
+| `mstosamps~` | Pass | 349.0 | 351 | No flag |
+| `sampstoms~` | Pass | 154.0 | 159 | No flag |
+| `hztoms~` | Pass | 157.0 | 157 | No flag |
+| `mstohz~` | Pass | 157.0 | 161 | No flag |
+| `hztosamps~` | Pass | 142.0 | 147 | No flag |
+| `sampstohz~` | Pass | 142.0 | 146 | No flag |
+| `fastsin~` | Pass | 147.0 | 148 | No flag |
+| `fastcos~` | Pass | 158.0 | 161 | No flag |
+| `fasttan~` | Exceeds declared test limit | 306.0 | 311 | No flag |
+| `cosT8~` | Pass | 492.0 | 495 | No flag |
+| `cosT8safe~` | Pass | 429.0 | 434 | No flag |
+
+Each fixture checks 10,240 output values over twenty callbacks, totalling
+**358,400 output checks**. Sixteen callbacks supply timing. Binary `atan2~` and
+`hypot~` reverse operands across the two lanes. The four `radtodeg~`/`degtorad~`
+spellings are zero-input constants (180/π and π/180), with declared but unused
+FX inputs; they are not converters. Constants and integer-rounded default
+`ftom~` outputs compare exactly. The aliases have separate source/device records.
+
+Limits and domains were chosen before execution. Ordinary mathematical cases
+use `2e-6` absolute error. MIDI conversion includes practical notes 36–84,
+quarter tones and A4=440 Hz, with a `5e-4` Hz limit for `mtof~`. Time/frequency
+conversions include ordinary block/sample counts, milliseconds and musical
+frequencies, using `5e-4` in the output units. Decibels use unity=0 dB.
+The fast sine/cosine/tangent cases use a declared `1e-3` ideal-math threshold;
+first-party prose does not promise that numerical accuracy.
+
+`fasttan~` returns finite values, but its maximum deviation from `tan(x)` on
+these inputs is about 0.01409, above the selected 0.001 threshold. This is a
+retained approximation-quality result, not a claim that the object universally
+malfunctions or violates a documented accuracy guarantee. Fast sine/cosine
+stay within their same predeclared threshold. Taylor-cosine checks use the
+listed small-angle and small-after-wrap domains, not all possible angles.
+
+The default converter resources are preserved. The fast compiler has an
+explicit one-MiB arena tier, changing only the wrapper's advertised maximum;
+its original four-KiB cache control still reproduces the entire reference ELF.
+Each fixture reserves 1,048,576 arena bytes for this run, which does not mean
+it consumes that amount. `mtof~` peaks at **262,416 bytes** (one shared 65,536
+Float32 lookup payload of 262,144 bytes, plus overhead); `ftom~` peaks at
+**160 bytes**. The other 33 cases use zero arena bytes in this scenario.
+These measurements do not establish minimum viable arena sizes for all modes.
+All resource initialization precedes audio processing, with no table omission,
+precision-profile change or DSP optimisation. Zero automatic audio warm-up
+blocks are followed by four checked valid-domain warmups and sixteen timed calls.
+
+Eleven costs are retained in [the CPU-review queue](cpu-review-backlog.md).
+The `dbtoa~` two-instance stereo fixture takes 14.659 ms median, about 2.53 times
+the 5.805 ms block period. `atodb~` takes 4.875 ms and `mtof~` 2.392 ms. These
+are whole-fixture costs, not isolated node timings or optimisation gains.
+Existing AMOLED optimisation percentages remain separate from these XIAO
+baseline observations.
+
+See [the compact results](../evidence/xiao-smoke-rnbo-functions.json) and
+[the original sources/reference](../tests/fixtures/smoke/rnbo-functions/README.md).
+
 ## Gen stateful and per-sample batch
 
 **All 12 programs pass on XIAO**, covering nine exact GenExpr spellings:
@@ -380,8 +468,8 @@ python3 tools/build_hardware_smoke.py \
   --cache-build-dir build/hardware-smoke-cache-xiao
 ```
 
-Supply normal prepared exports matching the selected catalog. The Gen numeric, mathematical and stateful catalogs, plus RNBO stateless
-and numeric catalogs, have separate independent references. Numeric cases carry their own input-vector hashes and
+Supply normal prepared exports matching the selected catalog. The Gen numeric, mathematical and stateful catalogs, plus RNBO stateless,
+numeric and function/conversion catalogs, have separate independent references. Numeric cases carry their own input-vector hashes and
 predeclared tolerances; older catalogs keep the original exact gate.
 The initial fast
 builder supports strict, self-contained two-input/two-output FX modules without
@@ -414,3 +502,10 @@ prepared state and carrying state through every warm-up and timed call. The
 collector checks the complete stream shape/hash and callback-specific mismatch
 witnesses. Reference data and module payloads share a two-MiB embedding budget;
 this leaves room for the framework in the application partition.
+
+`tools/build_smoke_modules.py --max-arena-bytes 1048576` builds the optional
+one-MiB resource ceiling while the default remains four KiB. The original cache
+control always compiles with its original four-KiB maximum and must match the
+whole cached ELF; only candidate wrapper compilations select the larger macro.
+The host then checks the actual module descriptor against the requested arena,
+and the result records reserved capacity separately from observed high-water.

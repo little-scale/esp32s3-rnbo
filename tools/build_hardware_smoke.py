@@ -28,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -97,7 +97,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful'):
+            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -116,6 +116,10 @@ def prepare_plan(catalog_path,modules_path):
         case={**row,'module_sha256':module['artifact']['sha256'],'module_bytes':len(data),
             'source_sha256':source_hash,**expression_info,
             'expected_words_sha256':expected_hash,'expected':expected}
+        arena=module.get('arena_bytes_ceiling',4096)
+        if type(arena)is not int or not 4096<=arena<=1048576:
+            raise ExportError('Unsupported module arena tier: '+identity)
+        if arena!=4096:case['arena_bytes']=arena
         if hasattr(reference,'case_input_words'):
             case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
                 absolute_tolerance=absolute_tolerance(reference,row['model']))
@@ -134,8 +138,9 @@ def prepare_plan(catalog_path,modules_path):
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family'] in ('rnbo-stateless','rnbo-numeric'):
+    if catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions'):
         plan.update(family=catalog['family'],surface='patcher')
+        if catalog['family']=='rnbo-functions':plan['prepare_zero_warm_blocks']=0
     elif catalog['family']=='gen-math':
         plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
     elif catalog['family']=='gen-stateful':
@@ -174,6 +179,7 @@ def generate_header(plan,inputs):
             extra='.input_words=smoke_case_inputs_%d,.absolute_tolerance=%sf,'%(index,float(tolerance).hex())
         if 'expected_blocks' in row:
             extra+='.expected_blocks=smoke_expected_blocks_%d,'%index
+        if 'arena_bytes' in row:extra+='.arena_bytes=%du,'%row['arena_bytes']
         lines.append('{.id=%s,.sha=%s,.reference_policy=%s,.payload_start=smoke_payload_%d_start,.payload_end=smoke_payload_%d_end,%s.expected={%s}},'%(
             json.dumps(row['id']),json.dumps(row['module_sha256']),json.dumps(policy),index,index,extra,words(row['expected'])))
     return '\n'.join(lines+['};','']),digest

@@ -53,6 +53,14 @@ class SmokeOutputPolicyTests(unittest.TestCase):
         self.assertEqual(result['absolute_tolerance'],tolerance)
         with self.assertRaises(ValueError):output_metrics(dict(data,max_absolute_error_bits='xyz'),{},'a'*64)
 
+    def test_largest_declared_tolerance_allows_its_binary32_rounding(self):
+        tolerance=struct.unpack('<f',struct.pack('<f',.001))[0]
+        data=self.record(bit_mismatches='20',within_tolerance_differences='20',
+            max_absolute_error='.0008',absolute_tolerance=str(tolerance))
+        self.assertEqual(output_metrics(data,{'absolute_tolerance':tolerance},'a'*64)['status'],'pass')
+        with self.assertRaises(ValueError):
+            output_metrics(dict(data,absolute_tolerance='.0011'),{'absolute_tolerance':.0011},'a'*64)
+
     def test_input_identity_tolerance_and_counter_partition_are_bound(self):
         original=self.record()
         for change in ({'input_words_sha256':'b'*64},{'absolute_tolerance':'2e-6'},

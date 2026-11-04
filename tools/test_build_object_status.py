@@ -81,7 +81,7 @@ class ObjectStatusTests(unittest.TestCase):
     def test_actual_numeric_smoke_keeps_mismatches_tolerances_and_cpu_review_visible(self):
         data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-numeric.json').read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
-        self.assertEqual(len(self.coverage['objects']),123)
+        self.assertGreaterEqual(len(self.coverage['objects']),123)
         self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':8,'executed':33,'output_mismatches':3,'passed':30})
         failed=set();reviewed=set()
         for case in data['cases']:
@@ -104,6 +104,42 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertEqual(rows['patcher:pow~']['performance']['measurement_id'],'scalar-powers-composed-original:aggregate')
         self.assertEqual(next(v for v in rows['patcher:expm1~']['hardware_smoke']if v['case']=='expm1-signal')['within_tolerance_differences'],640)
         self.assertEqual(next(v for v in rows['patcher:pow~']['hardware_smoke']if v['case']=='power-signal')['within_tolerance_differences'],400)
+
+    def test_actual_functions_smoke_retains_policy_memory_and_cpu_scope(self):
+        source='evidence/xiao-smoke-rnbo-functions.json';data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(len(self.coverage['objects']),156)
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':11,'executed':35,'output_mismatches':1,'passed':34})
+        reviewed=set()
+        for case in data['cases']:
+            row=rows['patcher:'+case['exact_name']]
+            observation=next(v for v in row['hardware_smoke']if v['case']==case['id'])
+            self.assertEqual(observation['arena_capacity'],1048576)
+            self.assertEqual(observation['arena_high_water'],case['arena_high_water'])
+            self.assertEqual(observation['absolute_tolerance'],case['absolute_tolerance'])
+            self.assertIsNone(observation['cpu_time_saved_percent'])
+            self.assertIn('Arena reserved 1,048,576 bytes',row['working']['detail'])
+            self.assertTrue(any(s['url'].endswith('/'+source)for s in row['sources']))
+            if case['cpu_review_reasons']:
+                reviewed.add(case['exact_name'])
+                self.assertIn('active CPU review queue',row['working']['detail'])
+                self.assertTrue(any(s['url'].endswith('/docs/cpu-review-backlog.md')for s in row['sources']))
+            if case['exact_name']not in('mtof~','tanh~'):
+                self.assertIsNone(row['performance']);self.assertEqual(row['optimisation']['status'],'unassessed')
+                self.assertEqual(row['working']['status'],'partial'if case['exact_name']=='fasttan~'else'board')
+        self.assertEqual(reviewed,{'tanh~','atan2~','sinh~','cosh~','asinh~','acosh~','atanh~','mtof~','ftom~','atodb~','dbtoa~'})
+        self.assertEqual(rows['patcher:mtof~']['optimisation']['status'],'available')
+        self.assertEqual(rows['patcher:tanh~']['optimisation']['status'],'none')
+        self.assertEqual(rows['patcher:mtof~']['working']['status'],'board')
+        self.assertEqual(rows['patcher:tanh~']['working']['status'],'board')
+        self.assertIn('high-water 262,416 bytes',rows['patcher:mtof~']['working']['detail'])
+        self.assertIn('high-water 160 bytes',rows['patcher:ftom~']['working']['detail'])
+        self.assertIn('14.659 ms median, exceeding the 5.805 ms block period',rows['patcher:dbtoa~']['working']['detail'])
+        failed=rows['patcher:fasttan~']['working']
+        self.assertEqual(failed['label'],'Short check / known gaps')
+        self.assertIn('not a documented accuracy guarantee',failed['detail'])
+        for name in('radtodeg~','RADTODEG~','degtorad~','DEGTORAD~'):
+            self.assertIn('zero-input constant source, not a signal converter',rows['patcher:'+name]['working']['detail'])
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -472,6 +508,38 @@ class ShortSmokeStatusTests(unittest.TestCase):
                 elif mutation=='wrong-status':case['status']='output_mismatch'
                 else:
                     for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs','max_absolute_error','absolute_tolerance','input_words_sha256'):case.pop(key)
+                with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+
+    def functions(self):
+        self.numeric();self.data['family']='rnbo-functions'
+        self.data['cases'][0].update(absolute_tolerance=0.0010000000474974513,
+            max_absolute_error=0.0005,arena_capacity=1048576,arena_high_water=262144)
+
+    def test_functions_allow_predeclared_unit_limits_and_distinguish_reserved_memory(self):
+        self.functions();row=self.result()['patcher:floor~'];observation=row['hardware_smoke'][0]
+        self.assertEqual(observation['absolute_tolerance'],0.0010000000474974513)
+        self.assertEqual(observation['arena_capacity'],1048576);self.assertEqual(observation['arena_high_water'],262144)
+        self.assertIn('reserved 1,048,576 bytes',row['working']['detail']);self.assertIn('observed high-water 262,144 bytes',row['working']['detail'])
+        self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+
+    def test_larger_function_limits_cannot_transfer_to_older_families(self):
+        self.functions()
+        for family in ('rnbo-stateless','rnbo-numeric'):
+            self.data['family']=family
+            with self.subTest(family=family),self.assertRaisesRegex(ValueError,'tolerance/error'):
+                checked_short_smoke(self.record,self.item,self.data)
+        self.data['family']='rnbo-functions';self.data['cases'][0]['absolute_tolerance']=0.0010001
+        with self.assertRaisesRegex(ValueError,'tolerance/error'):checked_short_smoke(self.record,self.item,self.data)
+
+    def test_functions_require_complete_counters_and_bounded_measured_arena(self):
+        for mutation in ('missing-numeric','missing-capacity','bool-capacity','over-capacity','negative-highwater'):
+            with self.subTest(mutation=mutation):
+                self.functions();case=self.data['cases'][0]
+                if mutation=='missing-numeric':case.pop('numeric_mismatches')
+                elif mutation=='missing-capacity':case.pop('arena_capacity')
+                elif mutation=='bool-capacity':case['arena_capacity']=True
+                elif mutation=='over-capacity':case['arena_high_water']=1048577
+                else:case['arena_high_water']=-1
                 with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
     def test_legacy_smoke_retains_the_exact_gate_and_output_shape(self):

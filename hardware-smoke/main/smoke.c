@@ -138,7 +138,9 @@ static void worker(void *unused)
         char actual_sha[65];digest_hex(test->payload_start,(size_t)(test->payload_end-test->payload_start),actual_sha);CHECK(!strcmp(actual_sha,test->sha));
         size_t psram_before=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
         size_t internal_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
-        object_image image;object_image_load(&image,test->payload_start,(size_t)(test->payload_end-test->payload_start),RNBO_S3_FX,SMOKE_ARENA_BYTES);++images;
+        uint32_t arena_bytes=test->arena_bytes?test->arena_bytes:SMOKE_ARENA_BYTES;
+        CHECK(arena_bytes>=4096u && arena_bytes<=1048576u);
+        object_image image;object_image_load(&image,test->payload_start,(size_t)(test->payload_end-test->payload_start),RNBO_S3_FX,arena_bytes);++images;
         object_image_prepare(&image,SMOKE_PREPARE_WARM_BLOCKS,SMOKE_SEED);CHECK(image.module.parameter_count(image.context)==0);
         output_checks checks={.first_mismatch=UINT32_MAX,.first_mismatch_call=UINT32_MAX};
         for(unsigned b=0;b<MANUAL_WARM_CALLS;++b)(void)process_once(&image,test,&checks);

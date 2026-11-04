@@ -2926,9 +2926,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "acosh~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "acosh-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "cc04d0ba571b5305a73cbc18e67aa9f5da8459505bc68f416034c5d6f2978e8c",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 827.3125,
+          "median_us": 828.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 828,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1920
+        }
+      ],
       "id": "patcher:acosh~",
       "inventory_group": "patcher:acosh~",
       "is_alias": false,
@@ -2936,23 +2962,59 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/acosh~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 827.31µs, median 828.00µs, peak 828µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1920; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "acos~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "acos-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 2.384185791015625e-07,
+          "mean_us": 484.6875,
+          "median_us": 485.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 487,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 640
+        }
+      ],
       "id": "patcher:acos~",
       "inventory_group": "patcher:acos~",
       "is_alias": false,
@@ -2960,16 +3022,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/acos~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 484.69µs, median 485.00µs, peak 487µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 2.38418579e-07; within-tolerance differences 640; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3508,9 +3578,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "asinh~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "asinh-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 755.5625,
+          "median_us": 756.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 757,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3840
+        }
+      ],
       "id": "patcher:asinh~",
       "inventory_group": "patcher:asinh~",
       "is_alias": false,
@@ -3518,23 +3614,59 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/asinh~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 755.56µs, median 756.50µs, peak 757µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 3840; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "asin~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "asin-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 530.375,
+          "median_us": 532.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 533,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:asin~",
       "inventory_group": "patcher:asin~",
       "is_alias": false,
@@ -3542,16 +3674,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/asin~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 530.38µs, median 532.00µs, peak 533µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3652,9 +3792,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atan2~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "atan2-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "ce788be774df623de19b5a5eecdde2f8f1a11808f51ac3b178af87bde72df3f9",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 679.625,
+          "median_us": 681.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 682,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 800
+        }
+      ],
       "id": "patcher:atan2~",
       "inventory_group": "patcher:atan2~",
       "is_alias": false,
@@ -3662,16 +3828,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/atan2~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 679.62µs, median 681.00µs, peak 682µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 800; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3724,9 +3902,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atanh~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "atanh-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "7d4dd2289373b535ab3a078b69df4d9794ad3dff85d6d425b0822b5923aa6edf",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 771.25,
+          "median_us": 772.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 772,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3840
+        }
+      ],
       "id": "patcher:atanh~",
       "inventory_group": "patcher:atanh~",
       "is_alias": false,
@@ -3734,23 +3938,59 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/atanh~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 771.25µs, median 772.00µs, peak 772µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 3840; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atan~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "atan-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 344.0,
+          "median_us": 344.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 347,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:atan~",
       "inventory_group": "patcher:atan~",
       "is_alias": false,
@@ -3758,16 +3998,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/atan~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 344.00µs, median 344.00µs, peak 347µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3820,9 +4068,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atodb~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "atodb-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "8df34eebe9f70d207750f0b9173e33422a5ae2f96e5b75ef9a7f3d2cbde3dba3",
+          "max_absolute_error": 4.76837158203125e-07,
+          "mean_us": 4874.25,
+          "median_us": 4875.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 4876,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 2560
+        }
+      ],
       "id": "patcher:atodb~",
       "inventory_group": "patcher:atodb~",
       "is_alias": false,
@@ -3830,16 +4104,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/atodb~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 4874.25µs, median 4875.00µs, peak 4876µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 4.76837158e-07; within-tolerance differences 2560; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -9268,9 +9554,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cosh~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "cosh-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 643.5625,
+          "median_us": 643.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 646,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:cosh~",
       "inventory_group": "patcher:cosh~",
       "is_alias": false,
@@ -9278,16 +9590,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/cosh~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 643.56µs, median 643.50µs, peak 646µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -9460,9 +9784,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cosT8safe~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "cos-t8-safe-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "92ade0e0cc8b56a869834668abac6dbf9bc1c066307a10fc518c9e8be50591be",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 431.0625,
+          "median_us": 429.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 434,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:cosT8safe~",
       "inventory_group": "patcher:cosT8safe~",
       "is_alias": false,
@@ -9470,23 +9818,55 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/cosT8safe~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 431.06µs, median 429.00µs, peak 434µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cosT8~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "cos-t8-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 492.1875,
+          "median_us": 492.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 495,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:cosT8~",
       "inventory_group": "patcher:cosT8~",
       "is_alias": false,
@@ -9494,23 +9874,55 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/cosT8~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 492.19µs, median 492.00µs, peak 495µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cos~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "cos-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 286.375,
+          "median_us": 285.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 290,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:cos~",
       "inventory_group": "patcher:cos~",
       "is_alias": false,
@@ -9518,16 +9930,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/cos~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 286.38µs, median 285.50µs, peak 290µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -10345,9 +10765,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "dbtoa~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "dbtoa-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "a576426a1cb9f58b06e6abd96e5c5efda62057ecb85264be4b88d305277c835d",
+          "max_absolute_error": 0.0,
+          "mean_us": 14657.4375,
+          "median_us": 14659.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 14660,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:dbtoa~",
       "inventory_group": "patcher:dbtoa~",
       "is_alias": false,
@@ -10355,16 +10801,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/dbtoa~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. The measured two-instance stereo fixture takes 14.659 ms median, exceeding the 5.805 ms block period at 44.1 kHz; this short output pass does not establish realtime audio headroom. Optimisation review pending. Short XIAO check (pass): one repeated stereo vector; mean 14657.44µs, median 14659.00µs, peak 14660µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -10605,9 +11063,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "degrees~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "degrees-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "eab84e57515fd5ed46d41f6c1268cccdc4273e8579db276684c48bbbb9e98fd1",
+          "max_absolute_error": 4.76837158203125e-07,
+          "mean_us": 49.9375,
+          "median_us": 50.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 50,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 8960
+        }
+      ],
       "id": "patcher:degrees~",
       "inventory_group": "patcher:degrees~",
       "is_alias": false,
@@ -10615,16 +11097,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/degrees~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 49.94µs, median 50.00µs, peak 50µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 4.76837158e-07; within-tolerance differences 8960; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -10735,9 +11225,33 @@
       "aliases": [
         "DEGTORAD~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "degtorad~",
       "category": "Constant",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "degtorad-uppercase-constant",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 37.625,
+          "median_us": 37.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 42,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:DEGTORAD~",
       "inventory_group": "patcher:degtorad~",
       "is_alias": true,
@@ -10745,25 +11259,57 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/degtorad~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference. Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Tested as a zero-input constant source, not a signal converter. Short XIAO check (pass): one repeated stereo vector; mean 37.62µs, median 37.00µs, peak 42µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [
         "DEGTORAD~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "degtorad~",
       "category": "Constant",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "degtorad-constant",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 37.3125,
+          "median_us": 37.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 41,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:degtorad~",
       "inventory_group": "patcher:degtorad~",
       "is_alias": false,
@@ -10771,16 +11317,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/degtorad~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference. Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Tested as a zero-input constant source, not a signal converter. Short XIAO check (pass): one repeated stereo vector; mean 37.31µs, median 37.00µs, peak 41µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -14397,9 +14951,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fastcos~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0010000000474974513,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "fastcos-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0006238222122192383,
+          "mean_us": 158.0625,
+          "median_us": 158.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 161,
+          "reference_policy": "approximation-smoke-threshold-not-guarantee",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 10240
+        }
+      ],
       "id": "patcher:fastcos~",
       "inventory_group": "patcher:fastcos~",
       "is_alias": false,
@@ -14407,16 +14985,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/fastcos~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. The predeclared approximation smoke threshold is an ideal-reference screening policy, not a documented accuracy guarantee. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 158.06µs, median 158.00µs, peak 161µs. Declared absolute tolerance 0.00100000005; maximum finite error 0.000623822212; within-tolerance differences 10240; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -14685,9 +15271,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fastsin~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0010000000474974513,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "fastsin-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0008241236209869385,
+          "mean_us": 147.125,
+          "median_us": 147.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 148,
+          "reference_policy": "approximation-smoke-threshold-not-guarantee",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 10240
+        }
+      ],
       "id": "patcher:fastsin~",
       "inventory_group": "patcher:fastsin~",
       "is_alias": false,
@@ -14695,16 +15305,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/fastsin~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. The predeclared approximation smoke threshold is an ideal-reference screening policy, not a documented accuracy guarantee. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 147.12µs, median 147.00µs, peak 148µs. Declared absolute tolerance 0.00100000005; maximum finite error 0.000824123621; within-tolerance differences 10240; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -14757,9 +15375,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fasttan~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0010000000474974513,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "fasttan-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.014090776443481445,
+          "mean_us": 306.8125,
+          "median_us": 306.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 7680,
+          "peak_us": 311,
+          "reference_policy": "approximation-smoke-threshold-not-guarantee",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 2560
+        }
+      ],
       "id": "patcher:fasttan~",
       "inventory_group": "patcher:fasttan~",
       "is_alias": false,
@@ -14767,16 +15409,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/fasttan~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: the finite fixture executes, but exceeds the predeclared ideal-reference approximation smoke threshold. This is not a documented accuracy guarantee or a universal broken-object verdict. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. The predeclared approximation smoke threshold is an ideal-reference screening policy, not a documented accuracy guarantee. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (output_mismatch): one repeated stereo vector; mean 306.81µs, median 306.00µs, peak 311µs. Declared absolute tolerance 0.00100000005; maximum finite error 0.0140907764; within-tolerance differences 2560; numeric mismatches 7680; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16439,9 +17089,35 @@
       "aliases": [
         "ftom~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ftom",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 1048576,
+          "arena_high_water": 160,
+          "case": "ftom-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "355fcdda38026a212406f17138ed5cb26fc16fc1ab1767d5e6a67b77ccedd72d",
+          "max_absolute_error": 0.0,
+          "mean_us": 666.0,
+          "median_us": 667.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 668,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:ftom~",
       "inventory_group": "patcher:ftom",
       "is_alias": true,
@@ -16449,16 +17125,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/ftom~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 666.00µs, median 667.50µs, peak 668µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 160 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -17837,9 +18525,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hypot~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "hypot-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 224.5625,
+          "median_us": 224.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 229,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hypot~",
       "inventory_group": "patcher:hypot~",
       "is_alias": false,
@@ -17847,16 +18559,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hypot~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 224.56µs, median 224.00µs, peak 229µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -17981,9 +18701,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztoms~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "hztoms-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "b21ac4efb6ec4be5cf527240c30448b1d60cd56a735d147a78cf424ec9bc4216",
+          "max_absolute_error": 0.0,
+          "mean_us": 156.5625,
+          "median_us": 157.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 157,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztoms~",
       "inventory_group": "patcher:hztoms~",
       "is_alias": false,
@@ -17991,16 +18735,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztoms~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 156.56µs, median 157.00µs, peak 157µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -18053,9 +18805,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztosamps~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "hztosamps-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "17fe04a673ce17429b3c921f408a4be4a308379ef3f9a6d9048a748af7f0b5fc",
+          "max_absolute_error": 0.0,
+          "mean_us": 142.125,
+          "median_us": 142.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 147,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztosamps~",
       "inventory_group": "patcher:hztosamps~",
       "is_alias": false,
@@ -18063,16 +18839,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztosamps~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 142.12µs, median 142.00µs, peak 147µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25283,9 +26067,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstohz~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "mstohz-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "539d20cf3ff1e5d998c4dbd0d0db7d9a4c041c5e77760bde0f442f454ffaf4fd",
+          "max_absolute_error": 0.0,
+          "mean_us": 156.9375,
+          "median_us": 157.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 161,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstohz~",
       "inventory_group": "patcher:mstohz~",
       "is_alias": false,
@@ -25293,16 +26101,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstohz~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 156.94µs, median 157.00µs, peak 161µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25355,9 +26171,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstosamps~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "mstosamps-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "51cc0df8d9ec5773ab512a1637aa9dbc564ec078b2e78a39c36d9b704d02fc85",
+          "max_absolute_error": 0.0,
+          "mean_us": 348.8125,
+          "median_us": 349.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 351,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstosamps~",
       "inventory_group": "patcher:mstosamps~",
       "is_alias": false,
@@ -25365,16 +26205,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstosamps~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 348.81µs, median 349.00µs, peak 351µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25661,6 +26509,32 @@
       "board_evidence": true,
       "canonical_name": "mtof",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 262416,
+          "case": "mtof-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "057ce8631087133254761bad7745e3c9dc8927dcaa84f8662e840667b3a820bd",
+          "max_absolute_error": 0.0001220703125,
+          "mean_us": 2393.3125,
+          "median_us": 2392.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 2397,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 4480
+        }
+      ],
       "id": "patcher:mtof~",
       "inventory_group": "patcher:mtof",
       "is_alias": true,
@@ -25687,6 +26561,14 @@
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/object-benchmarks-fx.json"
         },
         {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        },
+        {
           "label": "object optimisation — documentation",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/object-optimisation.md"
         },
@@ -25697,7 +26579,7 @@
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Selected direct-input and Main modes are S3-qualified, not the complete object domain. Three pitch or four resonance FX cases, plus separate Main excitation fixtures. Exact authored parameter/stimulus conditions are in measurement records. Remaining scope: No automatic coverage of aliases, codebox operations or arbitrary parameter/service modes.",
+        "detail": "Selected direct-input and Main modes are S3-qualified, not the complete object domain. Three pitch or four resonance FX cases, plus separate Main excitation fixtures. Exact authored parameter/stimulus conditions are in measurement records. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: No automatic coverage of aliases, codebox operations or arbitrary parameter/service modes. Short XIAO check (pass): one repeated stereo vector; mean 2393.31µs, median 2392.00µs, peak 2397µs. Declared absolute tolerance 0.000500000024; maximum finite error 0.000122070312; within-tolerance differences 4480; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 262,416 bytes. Callback timing flagged for later review.",
         "label": "Board verified",
         "short": "Tested modes only",
         "status": "board"
@@ -29579,9 +30461,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "radians~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "radians-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "c9c5ff1c3f171d0b108eab95a57df1ec7e0586d2065f4b631cf855173adc23c7",
+          "max_absolute_error": 0.0,
+          "mean_us": 50.4375,
+          "median_us": 50.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 54,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:radians~",
       "inventory_group": "patcher:radians~",
       "is_alias": false,
@@ -29589,16 +30495,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/radians~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 50.44µs, median 50.00µs, peak 54µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -29709,9 +30623,33 @@
       "aliases": [
         "RADTODEG~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "radtodeg~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "radtodeg-uppercase-constant",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 37.3125,
+          "median_us": 37.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 42,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:RADTODEG~",
       "inventory_group": "patcher:radtodeg~",
       "is_alias": true,
@@ -29719,25 +30657,57 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/radtodeg~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference. Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Tested as a zero-input constant source, not a signal converter. Short XIAO check (pass): one repeated stereo vector; mean 37.31µs, median 37.00µs, peak 42µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [
         "RADTODEG~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "radtodeg~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "radtodeg-constant",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 37.0,
+          "median_us": 37.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 37,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:radtodeg~",
       "inventory_group": "patcher:radtodeg~",
       "is_alias": false,
@@ -29745,16 +30715,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/radtodeg~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference. Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Tested as a zero-input constant source, not a signal converter. Short XIAO check (pass): one repeated stereo vector; mean 37.00µs, median 37.00µs, peak 37µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -31686,9 +32664,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstohz~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "sampstohz-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "10abd50f29ebabdea6be370e3f41436c430da13b61279954edbf7c13f139e1c7",
+          "max_absolute_error": 0.0,
+          "mean_us": 142.25,
+          "median_us": 142.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 146,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstohz~",
       "inventory_group": "patcher:sampstohz~",
       "is_alias": false,
@@ -31696,16 +32698,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstohz~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 142.25µs, median 142.00µs, peak 146µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -31758,9 +32768,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstoms~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "sampstoms-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3b93e113e0ea853c56c56391ac370ed5e50ba12569565ab48ae736d2903a6131",
+          "max_absolute_error": 0.0,
+          "mean_us": 155.4375,
+          "median_us": 154.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 159,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstoms~",
       "inventory_group": "patcher:sampstoms~",
       "is_alias": false,
@@ -31768,16 +32802,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstoms~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 155.44µs, median 154.00µs, peak 159µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -32742,9 +33784,35 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sinh~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "sinh-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 7.450580596923828e-09,
+          "mean_us": 692.25,
+          "median_us": 694.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 695,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:sinh~",
       "inventory_group": "patcher:sinh~",
       "is_alias": false,
@@ -32752,23 +33820,59 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sinh~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 692.25µs, median 694.00µs, peak 695µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 7.4505806e-09; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sin~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "sin-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 282.1875,
+          "median_us": 281.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 286,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:sin~",
       "inventory_group": "patcher:sin~",
       "is_alias": false,
@@ -32776,16 +33880,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sin~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 282.19µs, median 281.00µs, peak 286µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -35041,6 +36153,32 @@
       "board_evidence": true,
       "canonical_name": "tanh~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "tanh-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 7.450580596923828e-09,
+          "mean_us": 643.5625,
+          "median_us": 645.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 646,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:tanh~",
       "inventory_group": "patcher:tanh~",
       "is_alias": false,
@@ -35057,11 +36195,19 @@
         {
           "label": "wave2 target oracles — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wave2-target-oracles.json"
+        },
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Qualified within the authored nonlinear chain and original bounded grid, not the complete primitive domain. Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model. Remaining scope: Upper clip saturation is unreachable after correct wrapping. Negative-base fractional power/NaN repair and arbitrary finite wrap input are not established by this chain.",
+        "detail": "Qualified within the authored nonlinear chain and original bounded grid, not the complete primitive domain. Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending. Remaining scope: Upper clip saturation is unreachable after correct wrapping. Negative-base fractional power/NaN repair and arbitrary finite wrap input are not established by this chain. Short XIAO check (pass): one repeated stereo vector; mean 643.56µs, median 645.00µs, peak 646µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 7.4505806e-09; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
         "label": "Board verified",
         "short": "Tested modes only",
         "status": "board"
@@ -35069,9 +36215,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tan~",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 1048576,
+          "arena_high_water": 0,
+          "case": "tan-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "841acbcf720e2f9f851b01b0c65c2a6b4a373b4551750df9b9b4b356a45a09f2",
+          "max_absolute_error": 0.0,
+          "mean_us": 420.9375,
+          "median_us": 419.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 424,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:tan~",
       "inventory_group": "patcher:tan~",
       "is_alias": false,
@@ -35079,16 +36249,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tan~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo functions — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short signal check against the declared reference. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. Remaining scope: Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified. No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed. Short XIAO check (pass): one repeated stereo vector; mean 420.94µs, median 419.50µs, peak 424µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 1,048,576 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -38262,10 +39440,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "6469e7dd50901fb32ae49f8d11a77dc0d36e632fec2c6bd7e2d336506ebc9785",
-    "coverage_source_sha256": "6469e7dd50901fb32ae49f8d11a77dc0d36e632fec2c6bd7e2d336506ebc9785",
-    "exact_coverage_entries": 123,
-    "generator_sha256": "e2661576e6371c43cee3ff5dc7832aedfd310cf6cb19576cfb678dcc9ce644b1",
+    "coverage_canonical_sha256": "c29acaf911dd9e8e8e9fadb3223f580d48a3547a7841f5900e56148b82dabb77",
+    "coverage_source_sha256": "c29acaf911dd9e8e8e9fadb3223f580d48a3547a7841f5900e56148b82dabb77",
+    "exact_coverage_entries": 156,
+    "generator_sha256": "f32fb40e6f5ef8995ada0335b272bfa09d45abdc7700cdacde2e4513727118c3",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

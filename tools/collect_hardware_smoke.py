@@ -12,6 +12,7 @@ import struct
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+TOLERANCE_CEILING=struct.unpack('<f',struct.pack('<f',.001))[0]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from prepare import canonical
 
@@ -58,7 +59,7 @@ def output_metrics(data,expected,common_input_sha):
             error=float(data['max_absolute_error']);tolerance=float(data['absolute_tolerance'])
         require(0<=nonfinite<=numeric<=bits and 0<=within<=bits and numeric+within+zeros==bits,
             'Numerical comparison counters differ')
-        require(math.isfinite(tolerance) and 0<=tolerance<=.001 and tolerance==expected.get('absolute_tolerance',0) and
+        require(math.isfinite(tolerance) and 0<=tolerance<=TOLERANCE_CEILING and tolerance==expected.get('absolute_tolerance',0) and
                 math.isfinite(error) and error>=0 and (within==0 or tolerance>0),
                 'Predeclared error tolerance or observed error differs')
         require((numeric>0 or error<=tolerance) and (numeric==nonfinite or error>tolerance),
@@ -172,6 +173,10 @@ def collect(build_dir,run_dir):
             context_bytes=int(data['context_bytes']),arena_high_water=int(data['arena_high_water']),
             finalized=True,first_mismatch_word=None if first==0xffffffff else first)
         record.update(witness_metadata)
+        if 'arena_bytes' in expected:
+            require(int(data['arena_capacity'])==expected['arena_bytes'] and
+                0<=int(data['arena_high_water'])<=expected['arena_bytes'],'Device arena tier differs from the plan')
+            record['arena_capacity']=expected['arena_bytes']
         if first!=0xffffffff:record['witness']={k:data[k]for k in ('first_actual','first_expected')}
         records.append(record)
         if reasons:cpu.append({'id':record['id'],'median_us':med,'peak_us':peak,'reasons':reasons,'status':'pending-future-optimisation-review'})
@@ -194,7 +199,7 @@ def collect(build_dir,run_dir):
         'cpu_review_policy':{'timed_callbacks':16,'high_median_block_fraction':0.1,
             'peak_threshold':'greater than max(3*median, median+100us)',
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
-    if plan.get('family') in ('rnbo-stateless','rnbo-numeric') and plan.get('surface')=='patcher':
+    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('gen-math','gen-stateful')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')

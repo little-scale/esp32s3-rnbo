@@ -15766,6 +15766,18 @@
           "conditions": "Three pitch or four resonance FX cases, plus separate Main excitation fixtures. Exact authored parameter/stimulus conditions are in measurement records.",
           "level": "S3-declared-fixtures",
           "source": "evidence/object-benchmarks-fx.json"
+        },
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
         }
       ],
       "registry_context": {
@@ -18055,6 +18067,18 @@
           "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
+        },
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
         }
       ],
       "registry_context": {
@@ -21127,6 +21151,1178 @@
       "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sin~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sin~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/sin-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "sin~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cos~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cos~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/cos-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "cos~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:tan~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "tan~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/tan-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "tan~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:asin~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "asin~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/asin-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "asin~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:acos~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "acos~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/acos-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "acos~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atan~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atan~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/atan-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "atan~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atan2~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atan2~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/atan2-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "atan2~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sinh~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sinh~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/sinh-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "sinh~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosh~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosh~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/cosh-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "cosh~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:asinh~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "asinh~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/asinh-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "asinh~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:acosh~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "acosh~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/acosh-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "acosh~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atanh~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atanh~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/atanh-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "atanh~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:hypot~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "hypot~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/hypot-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "hypot~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:degrees~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "degrees~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/degrees-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "degrees~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:radians~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "radians~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/radians-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "radians~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:radtodeg~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed.",
+        "Tested as a zero-input constant source, not a signal converter."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "radtodeg~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/radtodeg-constant.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "radtodeg~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:RADTODEG~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed.",
+        "Tested as a zero-input constant source, not a signal converter."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "RADTODEG~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/radtodeg-uppercase-constant.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "RADTODEG~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:degtorad~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed.",
+        "Tested as a zero-input constant source, not a signal converter."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "degtorad~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/degtorad-constant.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "degtorad~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:DEGTORAD~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed.",
+        "Tested as a zero-input constant source, not a signal converter."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "DEGTORAD~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/degtorad-uppercase-constant.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero-input constant source, not a signal converter. Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "DEGTORAD~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short zero-input constant check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:ftom~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "ftom~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/ftom-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "ftom~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atodb~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atodb~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/atodb-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/22",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "atodb~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:dbtoa~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed.",
+        "The measured two-instance stereo fixture takes 14.659 ms median, exceeding the 5.805 ms block period at 44.1 kHz; this short output pass does not establish realtime audio headroom. Optimisation review pending."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "dbtoa~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/dbtoa-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/23",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        },
+        {
+          "conditions": "This measured whole stereo fixture is in the active CPU review queue; absolute callback timings are observations, not optimisation gains. Follow-up remains pending.",
+          "level": "documentation",
+          "source": "docs/cpu-review-backlog.md"
+        }
+      ],
+      "spelling": "dbtoa~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mstosamps~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mstosamps~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/mstosamps-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/24",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "mstosamps~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sampstoms~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sampstoms~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/sampstoms-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/25",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "sampstoms~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:hztoms~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "hztoms~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/hztoms-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/26",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "hztoms~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mstohz~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mstohz~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/mstohz-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/27",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "mstohz~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:hztosamps~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "hztosamps~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/hztosamps-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/28",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "hztosamps~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sampstohz~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sampstohz~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/sampstohz-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/29",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "sampstohz~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastsin~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastsin~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/fastsin-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. The predeclared approximation smoke threshold is an ideal-reference screening policy, not a documented accuracy guarantee.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/30",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "fastsin~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastcos~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastcos~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/fastcos-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. The predeclared approximation smoke threshold is an ideal-reference screening policy, not a documented accuracy guarantee.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/31",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "fastcos~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fasttan~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fasttan~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/fasttan-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified. The predeclared approximation smoke threshold is an ideal-reference screening policy, not a documented accuracy guarantee.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/32",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "fasttan~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: the finite fixture executes, but exceeds the predeclared ideal-reference approximation smoke threshold. This is not a documented accuracy guarantee or a universal broken-object verdict.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosT8~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosT8~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/cos-t8-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/33",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "cosT8~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosT8safe~",
+      "known_gaps": [
+        "Only the supplied short fixture and declared tolerance are checked; other domains, scalar/event overloads and complete-object semantics remain unqualified.",
+        "No alias/canonical, codebox or Gen status transfer; no CPU savings are claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosT8safe~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-functions/cos-t8-safe-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Short case-specific finite safe-domain fixture only: four manual warm calls and sixteen timed calls. Compared with the declared independent reference and absolute tolerance; zero-sign and within-tolerance differences remain diagnostics. Reserved arena capacity and measured high-water are distinct. Other domains, modes and optimisation gains are not qualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/34",
+          "source": "evidence/xiao-smoke-rnbo-functions.json"
+        }
+      ],
+      "spelling": "cosT8safe~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -22420,6 +23616,13 @@
       "publication": "included-with-status-site",
       "sha256": "9d4d24617678a02109cd14980d799ecf935581485e195994c0c7bd4ffc138a81",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wrap-finite.json"
+    },
+    "evidence/xiao-smoke-rnbo-functions.json": {
+      "bytes": 51313,
+      "path": "evidence/xiao-smoke-rnbo-functions.json",
+      "publication": "public-evidence",
+      "sha256": "6406276fa9e579ea63227ac8bff940ca98a6056726364b2f4b51bf403de34e3b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
     },
     "evidence/xiao-smoke-rnbo-numeric.json": {
       "bytes": 44123,

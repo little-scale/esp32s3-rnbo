@@ -33,6 +33,8 @@ ADAPTATIONS = [
     "rnbo-1.4.4-nested-clock-target-v1",
     "rnbo-1.4.4-defined-imul-v1",
 ]
+ARENA_CHOICES = (4096, 1048576)
+ARENA_MACRO = "RNBO_S3_DYNAMIC_MAX_ARENA_BYTES"
 MEMBERS = ["rnbo_s3_dynamic.cpp.obj", "arena.cpp.obj", "lifecycle.cpp.obj",
            "support.cpp.obj", "integer_abs.cpp.obj"]
 LINK_FLAGS = ["-nostartfiles", "-nostdlib", "-fPIC", "-shared", "-e", "app_main",
@@ -88,6 +90,22 @@ def rewrite_wrapper(command: list[str], old_export: Path, export: Path, output: 
     result = [replacements.get(argument, argument) for argument in command]
     result[result.index("-o") + 1] = str(output)
     return result
+
+
+def checked_arena_bytes(value: int) -> int:
+    if type(value) is not int or value not in ARENA_CHOICES:
+        raise ExportError("Smoke arena ceiling must be 4096 or 1048576 bytes")
+    return value
+
+
+def rewrite_arena_limit(command: list[str], maximum: int) -> list[str]:
+    """Only this wrapper macro changes; cached support objects are untouched."""
+    maximum = checked_arena_bytes(maximum)
+    prefix = "-D" + ARENA_MACRO + "="
+    flags = [argument for argument in command if argument.startswith(prefix)]
+    if flags != [prefix + "4096u"]:
+        raise ExportError("Cached wrapper must have exactly the original 4096-byte arena macro")
+    return [prefix + str(maximum) + "u" if argument == flags[0] else argument for argument in command]
 
 
 def link_recipe(ninja: str, compiler: Path, strip: Path, archives: dict) -> tuple[list[str], list[str]]:
@@ -209,18 +227,24 @@ def logged(command: list[str], path: Path, cwd: Path) -> float:
     return time.monotonic() - started
 
 
-def build_one(identity: str, export: Path, directory: Path, cache: dict) -> dict:
+def build_one(identity: str, export: Path, directory: Path, cache: dict, max_arena_bytes: int = 4096) -> dict:
+    max_arena_bytes = checked_arena_bytes(max_arena_bytes)
     provenance, manifest, snapshot = verify_prepared(export)
     validate_manifest(manifest)
     directory.mkdir()
     row = {"id": identity, "status": "pending", "imports": None, "commands": [], "timing_seconds": {},
            "prepared": {"path": str(export), "manifest": manifest, "snapshot": snapshot,
                         "provenance_sha256": sha(export / "provenance.json")},
-           "arena_bytes_ceiling": 4096, "arena_ceiling_is_structural_not_measured": True}
+           "arena_bytes_ceiling": max_arena_bytes, "arena_ceiling_is_structural_not_measured": True,
+           "wrapper_max_arena_macro_bytes": max_arena_bytes,
+           "dynamic_arena_contract": {"minimum_arena_bytes": 4096, "maximum_arena_bytes": max_arena_bytes,
+               "maximum_state_bytes": "context_bytes+maximum_arena_bytes",
+               "basis": "Exact wrapper compile macro and unchanged DESCRIBE source; runtime module_host checks actual info",
+               "descriptor_executed_offline": False}}
     target_archive = directory / "libmain.a"
     shutil.copyfile(cache["archive"], target_archive)
     output = directory / MEMBERS[0]
-    command = rewrite_wrapper(cache["command"], cache["old_export"], export, output)
+    command = rewrite_arena_limit(rewrite_wrapper(cache["command"], cache["old_export"], export, output), max_arena_bytes)
     row["commands"].append(command)
     try:
         row["timing_seconds"]["wrapper_compile"] = logged(command, directory / "compile.log", cache["base"])
@@ -260,7 +284,8 @@ def build_one(identity: str, export: Path, directory: Path, cache: dict) -> dict
     return row
 
 
-def build_batch(prepared_root: Path, base_build: Path, out: Path) -> dict:
+def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_bytes: int = 4096) -> dict:
+    max_arena_bytes = checked_arena_bytes(max_arena_bytes)
     prepared_root, base_build = prepared_root.resolve(), base_build.resolve()
     if out.exists() or out.is_symlink():
         raise ExportError("Use a new output directory")
@@ -281,6 +306,7 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path) -> dict:
     rows = []
     result = {"format": "rnbo-smoke-modules-v1", "base_build": str(base_build),
               "base_report_sha256": sha(base_build / "build-report.json"),
+              "max_arena_bytes": max_arena_bytes, "cache_control_max_arena_bytes": 4096,
               "source_files_sha256": cache["source_files_sha256"],
               "cache_inputs_sha256": cache["binding"], "compiler": {"path": str(cache["compiler"]), "version": cache["compiler_version"]},
               "private_support_archives": cache["archives"], "modules": rows,
@@ -288,7 +314,7 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path) -> dict:
               "native_or_ELF_lifecycle_qualified": False,
               "tool_source_sha256": sha(Path(__file__)),
               "build_policy": "One wrapper compile/export, reused unchanged SDK objects, exact private project_elf link, existing normalized zero-import admission"}
-    control = build_one("cache-control", cache["old_export"], out / "cache-control", cache)
+    control = build_one("cache-control", cache["old_export"], out / "cache-control", cache, 4096)
     result["cache_control"] = control
     if control["status"] != "built":
         raise ExportError("Cache control wrapper did not compile")
@@ -298,7 +324,7 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path) -> dict:
         raise ExportError("Recompiled cache control differs; use a new reviewed IDF base build")
     for export in entries:
         try:
-            row = build_one(export.name, export, out / export.name, cache)
+            row = build_one(export.name, export, out / export.name, cache, max_arena_bytes)
         except (ExportError, ValueError, OSError, subprocess.SubprocessError) as failure:
             row = {"id": export.name, "status": "rejected", "error": f"{type(failure).__name__}: {failure}",
                    "prepared": {"path": str(export), "snapshot": snapshots[export.name]}}
@@ -327,9 +353,11 @@ def main() -> None:
     parser.add_argument("--prepared-root", type=Path, required=True)
     parser.add_argument("--base-build", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--max-arena-bytes", type=int, choices=ARENA_CHOICES, default=4096,
+                        help="Whole-batch module arena ceiling; cache control always remains 4096")
     args = parser.parse_args()
     try:
-        report = build_batch(args.prepared_root, args.base_build, args.out)
+        report = build_batch(args.prepared_root, args.base_build, args.out, args.max_arena_bytes)
     except (ExportError, ValueError, OSError, subprocess.SubprocessError) as failure:
         parser.exit(1, f"Smoke module build rejected: {failure}\n")
     print(json.dumps({"result": report["result"], "built": report["built"], "failed": report["failed"],

@@ -10,6 +10,37 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## RNBO functions/conversions: eleven queued cases
+
+All eleven cases pass their output limits but exceed the median-cost threshold.
+These are complete two-instance stereo callbacks at 256 frames/44.1 kHz.
+
+| Exact form | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `tanh~` | 645.0 | 646 | 11.11% | Pending optimisation review |
+| `atan2~` | 681.0 | 682 | 11.73% | Pending optimisation review |
+| `sinh~` | 694.0 | 695 | 11.96% | Pending optimisation review |
+| `cosh~` | 643.5 | 646 | 11.09% | Pending optimisation review |
+| `asinh~` | 756.5 | 757 | 13.03% | Pending optimisation review |
+| `acosh~` | 828.0 | 828 | 14.26% | Pending optimisation review |
+| `atanh~` | 772.0 | 772 | 13.30% | Pending optimisation review |
+| `mtof~` | 2392.0 | 2397 | 41.21% | Pending optimisation review |
+| `ftom~` | 667.5 | 668 | 11.50% | Pending optimisation review |
+| `atodb~` | 4875.0 | 4876 | 83.98% | Pending optimisation review |
+| `dbtoa~` | 14659.0 | 14660 | 252.52% | Pending optimisation review |
+
+`dbtoa~` exceeds the block period by about 2.53 times in this stereo fixture;
+prioritise it alongside the separately measured RNBO/Gen `exp2` cases. Inspect
+math overloads/promotions and repeated conversion work when optimisation
+resumes. Preserve the default converter resource behaviour during any matched
+comparison. No performance change is claimed by the arena-capacity extension.
+All new flags are high median cost rather than isolated peaks. There are now
+32 queued exact-context cases across the three mathematical batches.
+
+Source: [function/conversion hardware result](../evidence/xiao-smoke-rnbo-functions.json).
+The `fasttan~` ideal-threshold exceedance is a separate approximation-quality
+outcome and did not trigger CPU review.
+
 ## Gen stateful batch: no new flags
 
 All twelve stateful programs pass their declared output limits. Medians range

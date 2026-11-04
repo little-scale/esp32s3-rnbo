@@ -2,9 +2,12 @@
 """Fail-closed smoke-cache/profile and output protection; no devices/RNBO required."""
 import copy
 import importlib.util
+import io
+from contextlib import redirect_stdout,redirect_stderr
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("smoke_modules", ROOT / "tools/build_smoke_modules.py")
@@ -45,6 +48,49 @@ class SmokeModuleTests(unittest.TestCase):
         self.assertEqual(command[1], "-I/old")
         with self.assertRaises(smoke.ExportError):
             smoke.rewrite_wrapper(command + ["-I/old"], Path("/old"), Path("/new"), Path("/new.o"))
+
+    def test_arena_tier_rewrites_only_one_wrapper_macro_and_never_the_input(self):
+        command=['compiler','-O2','-DRNBO_S3_DYNAMIC_MAX_ARENA_BYTES=4096u','-DOTHER=4096u','-c','wrapper.cpp']
+        original=command.copy()
+        self.assertEqual(smoke.rewrite_arena_limit(command,4096),command)
+        changed=smoke.rewrite_arena_limit(command,1048576)
+        self.assertEqual(changed,[*command[:2],'-DRNBO_S3_DYNAMIC_MAX_ARENA_BYTES=1048576u',*command[3:]])
+        self.assertEqual(command,original)
+        for bad in (True,0,8192,4194304,'1048576'):
+            with self.subTest(value=bad),self.assertRaises(smoke.ExportError):smoke.rewrite_arena_limit(command,bad)
+        for bad_command in (command[:2]+command[3:],command+['-DRNBO_S3_DYNAMIC_MAX_ARENA_BYTES=4096u'],
+                            [v.replace('=4096u','=1048576u')for v in command]):
+            with self.assertRaises(smoke.ExportError):smoke.rewrite_arena_limit(bad_command,1048576)
+
+    def test_cli_exposes_only_the_two_reviewed_tiers(self):
+        args=['tool','--prepared-root','/prepared','--base-build','/cache','--out','/new']
+        for choice in (None,4096,1048576):
+            argv=args+([]if choice is None else['--max-arena-bytes',str(choice)])
+            with mock.patch('sys.argv',argv),mock.patch.object(smoke,'build_batch',return_value={'result':'passed','built':1,'failed':0})as build,redirect_stdout(io.StringIO()):
+                with self.assertRaises(SystemExit)as exit:smoke.main()
+                self.assertEqual(exit.exception.code,0);self.assertEqual(build.call_args.args[-1],4096 if choice is None else choice)
+        with mock.patch('sys.argv',args+['--max-arena-bytes','8192']),redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit)as exit:smoke.main()
+            self.assertEqual(exit.exception.code,2)
+
+    def test_large_candidate_batch_keeps_original_4k_control_and_support_cache(self):
+        with tempfile.TemporaryDirectory()as temp:
+            root=Path(temp);prepared=root/'prepared';prepared.mkdir();(prepared/'candidate').mkdir()
+            base=root/'cache';base.mkdir();(base/'build-report.json').write_bytes(b'cached report')
+            artifact=base/'original.elf';artifact.write_bytes(b'unchanged control image')
+            snapshot={'prepared_files_sha256':{'rnbo_source.h':'a'*64}}
+            cache={'report':{'artifact':{'path':str(artifact)}},'source_files_sha256':{},'binding':{},
+                'compiler':Path('/compiler'),'compiler_version':'same','archives':{},'old_export':root/'original-export',
+                'old_prepared_snapshot':snapshot,'dependency_files':{},'dependencies_dir':root/'dependencies'}
+            outputs=[{'id':'cache-control','status':'built','artifact':{'path':str(artifact)}},
+                     {'id':'candidate','status':'built','artifact':{'path':'unused'}}]
+            with mock.patch.object(smoke,'verify_prepared',return_value=({},manifest(),snapshot)),                 mock.patch.object(smoke,'inspect_cache',return_value=cache),                 mock.patch.object(smoke,'sources',return_value={}),                 mock.patch.object(smoke,'build_one',side_effect=outputs)as build,redirect_stdout(io.StringIO()):
+                result=smoke.build_batch(prepared,base,root/'out',1048576)
+            self.assertTrue(result['cache_control_whole_ELF_equal'])
+            self.assertEqual(result['max_arena_bytes'],1048576);self.assertEqual(result['cache_control_max_arena_bytes'],4096)
+            self.assertEqual([call.args[-1]for call in build.call_args_list],[4096,1048576])
+            self.assertTrue(all(call.args[3]is cache for call in build.call_args_list))
+            self.assertEqual(artifact.read_bytes(),b'unchanged control image')
 
     def test_unknown_link_or_strip_flag_cannot_enter_replay(self):
         gcc, strip = Path("/tool/gcc"), Path("/tool/strip")

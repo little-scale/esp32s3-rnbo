@@ -4,7 +4,11 @@
 
 The current priority is short hardware functionality checks with CPU timing,
 batching many objects into one upload and leaving the test firmware installed
-between batches. The [latest numeric batch](hardware-smoke.md#rnbo-numeric-and-maths-batch)
+between batches. The [function/conversion batch](hardware-smoke.md#rnbo-functions-and-conversions-batch)
+executes 35 RNBO forms: 34 pass their declared limits, `fasttan~` exceeds the
+selected approximation threshold, and eleven CPU costs are queued. The default
+`mtof~` shared lookup is preserved and peaks at 262,416 arena bytes.
+The [earlier numeric batch](hardware-smoke.md#rnbo-numeric-and-maths-batch)
 checks 33 RNBO signal forms: 30 pass, three have output mismatches, and eight
 trigger CPU review. The previous arithmetic/logic batch checks 36 spellings:
 all pass. The earlier numeric Gen batch
@@ -174,3 +178,18 @@ these 15 exact XIAO working-status entries with their board and mode scope in
 the row details. Its prior timing percentages remain AMOLED measurements;
 XIAO callback times and controls are recorded here without merging measurements.
 Gen has its own inventory and native test record.
+
+## Event and parameter interface limits
+
+The current [event structure](../module-sdk/include/rnbo_s3_module.h) has no
+sample timestamp or offset. The [dynamic wrapper](../module-sdk/dynamic/rnbo_s3_dynamic.cpp)
+dispatches parameter/MIDI events at `RNBO::TimeNow`, advertises boundary events,
+and accepts only 256-frame process calls. Ordinary parameter control exists in
+the runtime and older parameterised fixtures, while the fast batch compiler
+currently admits only parameter-free exports.
+
+Those facts do not establish within-block host-event accuracy. A timed-event
+interface or a separately admitted scheduled-kernel route is required before
+such tests can qualify sample-offset controls; splitting this ABI into one-frame
+calls would be rejected rather than prove sample accuracy. Parameter-driven
+boundary tests and a timed-event extension remain pending work within the goal.
