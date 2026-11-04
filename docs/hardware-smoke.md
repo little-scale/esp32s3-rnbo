@@ -13,6 +13,10 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+After this checkpoint the reviewed player has been restored with the saved Main
+patch, Wi-Fi pairing and silent startup. Individual run records still describe
+the test firmware left installed at the moment each batch completed.
+
 The latest signal routing and interpolation batch passes **all 20 scenarios**,
 checking **204,800 output values**. `cubicinterp~` takes 3,367 µs median
 (58.00% of the audio block period) and is queued for later CPU review, bringing
@@ -48,6 +52,44 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 **737,280 output checks**. One additional Gen `gate` source is rejected before
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## Gen local Data and indexed storage
+
+All **eight programs pass**, checking **81,920 output values** across fresh
+preparation and twenty continuous 256-frame callbacks. They exercise a local
+`Data(7,2)` declaration and the separate `dim`, `channels`, `peek`, `poke`,
+`nearest` and `sample` function forms. Declaration evidence does not qualify a
+similarly named standalone operator or alias.
+
+The independent references check dimensions 7/2, zero-based channels, explicit
+sample indices, read-before-write seven-frame rings and same-sample write/read
+visibility. Two initialized tables support integer nearest reads and bounded
+quarter-sample linear interpolation; their authored initialization writes the
+14 cells only at the first sample. A separate seven-sample feedback program
+uses an independent 64-term input convolution. No automatic preparation blocks
+precede four checked manual warmups and sixteen timed callbacks.
+
+The seven non-feedback cases are raw-word exact, including zero signs. Feedback
+passes its unchanged 2e-6 limit with 2,178 within-limit word differences and
+maximum error 2.9802322387695312e-8. No reference, input or limit is fitted to
+the measured output.
+
+This producer lowers local Data to `SampleBuffer<SampleValue>`. In the ordinary
+Float32 backend its 7×2 cells contain 56 logical payload bytes; generic Gen
+64-bit prose is not a storage-equivalence claim for this export. The original
+producer representation is preserved, with no narrowing adapter. Each program
+measures 128 bytes of arena high-water under a 4 KiB ceiling, separately from
+its 12,784-byte opaque context. All eight images finalise and pass memory/
+allocation checks, with no external Buffer resource.
+
+Medians span 48–687 µs, peaks 52–688 µs. The whole Data feedback program is
+queued for CPU review at 687/688 µs, or 11.83%/11.85% of the block period. The
+queue reaches 94 contexts; this is not isolated Data-access cost or a measured
+optimisation gain. Variable sizes, arbitrary bounds/interpolation, overdub modes,
+external Buffer, visual Gen and a one-frame host ABI remain unqualified.
+
+See [the complete results](../evidence/xiao-smoke-gen-data-indexed.json) and
+[original programs, references and storage notes](../tests/fixtures/smoke/gen-data-indexed/README.md).
 
 ## RNBO character constants
 

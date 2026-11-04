@@ -16,7 +16,19 @@ rounding. Mean time falls from 15,869.50 to 1,326.51 µs across four bounded
 vectors. This is an explicit exact-graph experiment; broader Auto, Main,
 codebox and Gen use remain pending. The candidate still uses 22.85% of the
 block period, so further review remains useful. Repeated benchmark screens do
-not create new object contexts; the recorded queue remains **93**.
+not create new object contexts; the queue at that stage remained **93**.
+
+## Local Gen Data: one queued context
+
+All eight local-array programs pass their output limits. The seven-sample
+feedback declaration program takes **687 µs median / 688 µs peak**, or
+**11.83% / 11.85%** of the 256-frame period. This median-cost flag brings the
+recorded queue from 93 to **94**; no peak-spike flag triggers.
+
+The cost includes its complete indexed feedback, History index and copied
+pilot context, rather than an isolated Data access. The producer's original
+Float32 `SampleBuffer` representation remains; no storage conversion or CPU
+saving is claimed. See [the Gen Data results](../evidence/xiao-smoke-gen-data-indexed.json).
 
 ## Signal routing and interpolation: one queued context
 

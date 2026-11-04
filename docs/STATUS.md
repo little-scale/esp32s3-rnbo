@@ -1,5 +1,18 @@
 # Implementation status — 5 November 2026
 
+The reviewed player is restored on XIAO with the saved Main patch and Wi-Fi
+pairing preserved. Studio is connected over Wi-Fi, volume is 0% for the night,
+and startup remains silent. The original package with its previous startup
+volume is preserved separately. Running audio frames advance and all reported
+audio/error/allocation counters remain zero.
+
+The [local Gen Data batch](hardware-smoke.md#gen-local-data-and-indexed-storage)
+passes all eight programs and 81,920 output checks, including indexed history,
+same-sample writes/reads and seven-sample feedback across callback boundaries.
+Original Float32 storage is preserved; every program measures 128 bytes of
+arena high-water. Feedback's 687/688 µs median/peak adds one future CPU review,
+bringing the queue to **94**. Other modes and external Buffer remain pending.
+
 All [85 remaining RNBO character constants](hardware-smoke.md#rnbo-character-constants)
 pass on XIAO: **870,400 raw-word-exact output checks**, including strict signed-
 zero input copies. Combined with the earlier ten digits, all 95 printable-ASCII
@@ -53,9 +66,8 @@ passes all 20 exact spellings and 204,800 output checks. `cubicinterp~` records
 3,367 µs median/3,371 µs peak, around 58% of the block period, and brings the
 CPU-review queue to 93. Interpolation rounding and gate zero-sign differences
 are retained separately. The status page now maps 576 exact entries; this is
-scoped evidence, not complete-object qualification. Quiet smoke firmware is
-currently installed on XIAO; the previous player, package and private settings
-have a verified full-flash backup for later restoration.
+scoped evidence, not complete-object qualification. Those runs used quiet smoke firmware. A verified full-flash backup preserves
+the player, package and private settings; the player has since been restored silently.
 
 The [Gen clock/reset/delay boundary batch](hardware-smoke.md#gen-clock-reset-and-delay-boundaries)
 retains all eight programs. Six execute: `mulequals` passes and five phase/pulse

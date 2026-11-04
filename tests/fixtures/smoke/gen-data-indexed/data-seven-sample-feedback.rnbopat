@@ -1,0 +1,139 @@
+{
+  "patcher": {
+    "boxes": [
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "left",
+          "text": "in~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            200,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "right",
+          "text": "in~ 2"
+        }
+      },
+      {
+        "box": {
+          "id": "gen",
+          "maxclass": "newobj",
+          "patching_rect": [
+            370,
+            30,
+            150,
+            24
+          ],
+          "rnbo_extra_attributes": {
+            "expr": "Data memory(7, 2);\nHistory initialized(0);\nif (initialized == 0) {\n    poke(memory, 0, 0, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 1, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 2, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 3, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 4, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 5, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 6, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 0, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 1, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 2, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 3, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 4, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 5, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    poke(memory, 0, 6, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\n    initialized = 1;\n}\nHistory cursor(0);\nnextIndex = cursor >= 6 ? 0 : cursor + 1;\noldLeft, indexLeft = peek(memory, cursor, 0, channels=1, index=\"samples\", interp=\"none\", boundmode=\"ignore\", channelmode=\"ignore\");\noldRight, indexRight = peek(memory, cursor, 1, channels=1, index=\"samples\", interp=\"none\", boundmode=\"ignore\", channelmode=\"ignore\");\nnextLeft = in1 + 0.5*oldLeft;\nnextRight = in2 + 0.25*oldRight;\nout1 = nextLeft;\nout2 = nextRight;\npoke(memory, nextLeft, cursor, 0, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\npoke(memory, nextRight, cursor, 1, 0, index=\"samples\", boundmode=\"ignore\", channelmode=\"ignore\");\ncursor = nextIndex;\n",
+            "geninlets": 2,
+            "genoutlets": 2
+          },
+          "rnbo_uniqueid": "gen",
+          "text": "gen~"
+        }
+      },
+      {
+        "box": {
+          "id": "out-left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            540,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "out-left",
+          "text": "out~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "out-right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            710,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "out-right",
+          "text": "out~ 2"
+        }
+      }
+    ],
+    "classnamespace": "rnbo",
+    "fileversion": 1,
+    "lines": [
+      {
+        "patchline": {
+          "destination": [
+            "gen",
+            0
+          ],
+          "source": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "gen",
+            1
+          ],
+          "source": [
+            "right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-left",
+            0
+          ],
+          "source": [
+            "gen",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-right",
+            0
+          ],
+          "source": [
+            "gen",
+            1
+          ]
+        }
+      }
+    ],
+    "rect": [
+      0,
+      0,
+      1000,
+      300
+    ]
+  }
+}

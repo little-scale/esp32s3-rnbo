@@ -35,6 +35,16 @@ CHARACTER_CATALOG_SHA='27a6a6729ae43c1e5ffd43790badfdc8d82bf222f074f1e58eb1c97b1
 CHARACTER_REFERENCE_SHA='20f268ae5dfd17fc5307d5bffcc1c0f32d2641534760b4e0693240859b57a3e9'
 CHARACTER_PARTITIONS={1:'76178ac972c5f58a77d20f45d1438fb8ed79ed47e4aee597102bf94983d12e2b',
                       2:'7e3fca609c25f2d358f1592f78e347a2bc4537f11a505a241f1f87abe2c6fd29'}
+GEN_DATA_FAMILY='gen-data-indexed'
+GEN_DATA_CATALOG_SHA='ea5a4fffcd130f140ffe3e4728fd66f5a8c437d535ad5ca398c817bc27c01f2a'
+GEN_DATA_REFERENCE_SHA='aa4f5a7505cd853ea17accb4f0c691b7a6c3057fbe2f4d04cc517b68a44125a7'
+
+
+def gen_data_catalog(catalog):
+    if (catalog.get('family')!=GEN_DATA_FAMILY or
+            hashlib.sha256(canonical(catalog)).hexdigest()!=GEN_DATA_CATALOG_SHA):
+        raise ExportError('Gen indexed data requires the exact eight original declaration/function scenarios')
+    return {key:catalog[key]for key in ('producer_storage_view','storage_policy')}
 
 
 def character_catalog(catalog):
@@ -80,7 +90,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -233,6 +243,11 @@ def prepare_plan(catalog_path,modules_path):
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
     reference_source=reference_path(catalog)
+    gen_data=catalog.get('family')==GEN_DATA_FAMILY
+    if gen_data:
+        storage_labels=gen_data_catalog(catalog)
+        if sha(reference_source)!=GEN_DATA_REFERENCE_SHA:
+            raise ExportError('Gen local data independent reference changed')
     character=catalog.get('family')==CHARACTER_FAMILY
     if character:
         character_partition=character_catalog(catalog)
@@ -286,10 +301,10 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
-        if character:
+        if character or gen_data:
             validate_manifest(manifest)
             if manifest['parameter_count']!=0:
-                raise ExportError('Character constants require the strict parameter-free FX profile')
+                raise ExportError('This smoke family requires the strict parameter-free FX profile')
         if delay_rerun is None and GEN_DELAY_ADAPTATION in manifest.get('adaptations',[]):
             raise ExportError('Repaired Gen Delay modules require the exact marked two-case rerun')
         if comparison and manifest.get('numerical_profile')!=row['numerical_profile']:
@@ -310,7 +325,7 @@ def prepare_plan(catalog_path,modules_path):
             if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
                     module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
-        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character)and actual_manifest!=manifest:
+        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data)and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
@@ -320,7 +335,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -361,6 +376,10 @@ def prepare_plan(catalog_path,modules_path):
         if streams is not None:
             case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
                 struct.pack('<10240I',*(w for block in streams for w in block))).hexdigest())
+        if gen_data and (arena!=4096 or row.get('surface')!='genexpr' or row.get('role')!='fx' or
+                row.get('owner_kind')not in('declaration','function-call')or streams is None or
+                case.get('absolute_tolerance',0)>2e-6 or 'strict_zero_sign_channels'in case):
+            raise ExportError('Gen local data requires original storage and twenty continuous numeric references')
         if delay_rerun is not None and (arena!=4096 or any(case.get(key)!=value for key,value in
                 GEN_DELAY_REFERENCE_PROOFS[identity].items())):
             raise ExportError('Gen Delay rerun arena or original twenty-block reference changed')
@@ -420,7 +439,7 @@ def prepare_plan(catalog_path,modules_path):
         plan.update(family=catalog['family'],surface='genexpr',prepare_zero_warm_blocks=0)
     elif catalog['family']=='gen-math':
         plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
-    elif catalog['family']in('gen-stateful','gen-state-boundaries'):
+    elif catalog['family']in('gen-stateful','gen-state-boundaries','gen-data-indexed'):
         plan.update(family=catalog['family'],surface='genexpr',prepare_zero_warm_blocks=0,
             expected_stream_policy='Fresh prepared state, no automatic zero warmup; four checked manual warmups then sixteen timed callbacks without resets')
         if any('expected_blocks'not in c for c in cases):
@@ -428,6 +447,7 @@ def prepare_plan(catalog_path,modules_path):
     if hasattr(reference,'case_input_words'):
         plan['input_vector_policy']='per-case; top-level input hash identifies fallback vector only'
     if delay_rerun is not None:plan['rerun']=delay_rerun['rerun']
+    if gen_data:plan.update(storage_labels)
     if admission_failures:plan['admission_failures']=admission_failures
     return plan,inputs,payloads
 

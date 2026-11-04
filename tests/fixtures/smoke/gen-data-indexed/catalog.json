@@ -1,0 +1,323 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "data",
+      "exact_name": "Data",
+      "genexpr": "data-dimensions.genexpr",
+      "genexpr_sha256": "1e4116829ea4976aea0664ff2ac9296947ca1afeb83e1fa3421498c7d8747856",
+      "id": "data-dimensions",
+      "input_domains": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ]
+      ],
+      "maximum_absolute_error": 0,
+      "model": 950,
+      "owner_kind": "declaration",
+      "patch": "data-dimensions.rnbopat",
+      "patch_sha256": "99f5e65d8cd9dddbf6e44a1c256c2451ed60b21c189caed3353eb007c9458622",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "data",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "declaration"
+    },
+    {
+      "canonical_name": "dim",
+      "exact_name": "dim",
+      "genexpr": "dim-local.genexpr",
+      "genexpr_sha256": "4f409a750f1972127065d33877c9118f7a6dff6f597bd65bad63d1bb31b1ceeb",
+      "id": "dim-local",
+      "input_domains": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ]
+      ],
+      "maximum_absolute_error": 0,
+      "model": 951,
+      "owner_kind": "function-call",
+      "patch": "dim-local.rnbopat",
+      "patch_sha256": "58432389929ac6783ab313ec0ff67cbb3938936ab28aa45bbbfd0190b9346fc7",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "dim",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "channels",
+      "exact_name": "channels",
+      "genexpr": "channels-local.genexpr",
+      "genexpr_sha256": "892ea15710ad7b896e585d7e1be6ecf317a02fd2b76f5875170121354e819531",
+      "id": "channels-local",
+      "input_domains": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ]
+      ],
+      "maximum_absolute_error": 0,
+      "model": 952,
+      "owner_kind": "function-call",
+      "patch": "channels-local.rnbopat",
+      "patch_sha256": "a8733f5496a1ba7b92c45e7389b4be59bc770f66504b55593c851a95531de1b2",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "channels",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "peek",
+      "exact_name": "peek",
+      "genexpr": "peek-ring-read-before-write.genexpr",
+      "genexpr_sha256": "d00dcb57f7edc06ea43ccc6d139be6a8a8d36071f9443d242cbd52ea98599435",
+      "id": "peek-ring-read-before-write",
+      "input_domains": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ]
+      ],
+      "maximum_absolute_error": 0,
+      "model": 953,
+      "owner_kind": "function-call",
+      "patch": "peek-ring-read-before-write.rnbopat",
+      "patch_sha256": "bcd66df856ee59bda1608a92679852de62417bf0aee9be2e25de657bb0ac47c9",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "peek",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "poke",
+      "exact_name": "poke",
+      "genexpr": "poke-write-readback.genexpr",
+      "genexpr_sha256": "6f16626a8a082f5b0c00ede83e03941e02ed23eacf146215903d29f7314d9a88",
+      "id": "poke-write-readback",
+      "input_domains": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ]
+      ],
+      "maximum_absolute_error": 0,
+      "model": 954,
+      "owner_kind": "function-call",
+      "patch": "poke-write-readback.rnbopat",
+      "patch_sha256": "5e5bd6cb9d98e49f075724df7ce21ee375512c9083af6a28d412431decda6b65",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "poke",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "nearest",
+      "exact_name": "nearest",
+      "genexpr": "nearest-initialized-samples.genexpr",
+      "genexpr_sha256": "f5d6b99f6441936bf695db4bdd8b3abce9de81d650aedf01be93a0e08476876f",
+      "id": "nearest-initialized-samples",
+      "input_domains": [
+        [
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          6.0
+        ]
+      ],
+      "maximum_absolute_error": 0,
+      "model": 955,
+      "owner_kind": "function-call",
+      "patch": "nearest-initialized-samples.rnbopat",
+      "patch_sha256": "83443867b6764ff5b27216130420f341476810809c66dfa82c539b0895358f08",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "nearest",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "sample",
+      "exact_name": "sample",
+      "genexpr": "sample-initialized-linear.genexpr",
+      "genexpr_sha256": "afdc2a26943343f645de72cd44e6dbfe67774209581ddf69e561789b0257301d",
+      "id": "sample-initialized-linear",
+      "input_domains": [
+        [
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          6.0
+        ]
+      ],
+      "maximum_absolute_error": 2e-06,
+      "model": 956,
+      "owner_kind": "function-call",
+      "patch": "sample-initialized-linear.rnbopat",
+      "patch_sha256": "b8e63c87dee9961b73cf7350310dc53dcbb0033375c33438920d698b6f28b9ca",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "sample",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "data",
+      "exact_name": "Data",
+      "genexpr": "data-seven-sample-feedback.genexpr",
+      "genexpr_sha256": "a504296ce9ed8c9ce3d386fac02a795461593e4c16bbf4cce16734849785a7eb",
+      "id": "data-seven-sample-feedback",
+      "input_domains": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ]
+      ],
+      "maximum_absolute_error": 2e-06,
+      "model": 957,
+      "owner_kind": "declaration",
+      "patch": "data-seven-sample-feedback.rnbopat",
+      "patch_sha256": "ba9350dc0489ad050b7b734cd241347e896992486e6668504492b442a3051944",
+      "reference_policy": "independent-local-array-FIFO-or-convolution",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/genbo.js",
+          "sha256": "4f25ab3ef869ddc483a6eec0c5e79617882cf7a02ed2a3031edfb53175e8e3f3"
+        }
+      ],
+      "registry_lookup": "data",
+      "role": "fx",
+      "scope": "Exact original GenExpr source and explicit sample-index/channel modes; Data declaration is not a standalone lowercase data(...) call. History/init/poke/peek helpers do not inherit independent owner qualification. Twenty continuous fixed256 callbacks, no external Buffer and no storage conversion.",
+      "surface": "genexpr",
+      "syntax": "declaration-with-feedback-calls"
+    }
+  ],
+  "family": "gen-data-indexed",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "generator_sha256": "7c6a0cfe881969ce2598fcf644c0a0d58d397b38ad8cf4ad8b090888e804a6c7",
+  "license": "MIT; original source and independent mathematical references",
+  "manual_warmup_blocks": 4,
+  "producer_storage_view": "SampleBuffer<SampleValue>; ordinary Float32 target ABI gives Float32 cells, distinct from generic Gen64-bit prose.",
+  "reference_sha256": "aa4f5a7505cd853ea17accb4f0c691b7a6c3057fbe2f4d04cc517b68a44125a7",
+  "requested_module_max_arena_bytes": 4096,
+  "sample_rate": 44100,
+  "scope": "Eight local Data/indexed-storage scenarios; sample values observed, auxiliary returned read indices unobserved. Parser/prepare failures retained. No Gen visual, standalone alias, full-domain, variable-block ABI or optimisation gain claim.",
+  "storage_policy": "Preserve original local Data allocation/type; no external Buffer, narrowing profile, or unverified storage-layout assumption.",
+  "surface": "genexpr",
+  "timed_blocks": 16
+}

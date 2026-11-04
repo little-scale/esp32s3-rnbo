@@ -19,7 +19,8 @@ from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_RE
                                 gen_delay_catalog,GEN_DELAY_RERUN,GEN_DELAY_REFERENCE_SHA,
                                 GEN_DELAY_PROOFS,GEN_DELAY_REFERENCE_PROOFS)
 from build_hardware_smoke import (CHARACTER_FAMILY,CHARACTER_PARTITIONS,CHARACTER_REFERENCE_SHA,
-                                 character_catalog)
+                                 character_catalog,GEN_DATA_FAMILY,GEN_DATA_CATALOG_SHA,
+                                 GEN_DATA_REFERENCE_SHA,gen_data_catalog)
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -377,6 +378,29 @@ def character_plan(plan):
             'Character compiler rejection source differs')
 
 
+def gen_data_plan(plan):
+    path=ROOT/'tests/fixtures/smoke/gen-data-indexed/catalog.json'
+    catalog=json.loads(path.read_bytes());labels=gen_data_catalog(catalog)
+    require(plan.get('family')==GEN_DATA_FAMILY and plan.get('surface')=='genexpr'and
+        plan.get('catalog_sha256')==GEN_DATA_CATALOG_SHA and
+        plan.get('reference_source_sha256')==GEN_DATA_REFERENCE_SHA and
+        type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+        plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+        all(plan.get(key)==value for key,value in labels.items())and
+        plan.get('compile_failures')==[]and not plan.get('admission_failures')and
+        [row.get('id')for row in plan['cases']]==[row['id']for row in catalog['cases']],
+        'Gen data source/reference/fresh-state/storage contract differs')
+    for row,source in zip(plan['cases'],catalog['cases']):
+        require(canonical({key:row.get(key)for key in source})==canonical(source)and
+            row.get('source_sha256')==source['patch_sha256']and
+            row.get('genexpr_sha256')==source['genexpr_sha256']and
+            row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0]and
+            type(row.get('arena_bytes',4096))is int and row.get('arena_bytes',4096)==4096 and
+            not any(key in row for key in ('parameters','parameter_events','strict_zero_sign_channels')),
+            'Gen data declaration/function/source or numeric scope differs')
+        expected_stream(row,True)
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -388,6 +412,8 @@ def collect(build_dir,run_dir):
     if comparison:dbtoa_comparison_plan(plan)
     character=plan.get('family')==CHARACTER_FAMILY
     if character:character_plan(plan)
+    gen_data=plan.get('family')==GEN_DATA_FAMILY
+    if gen_data:gen_data_plan(plan)
     delay_rerun='rerun'in plan
     if delay_rerun:gen_delay_rerun_plan(plan)
     else:require(not any('gen_delay_fix_contract'in row for row in plan['cases']),
@@ -407,7 +433,7 @@ def collect(build_dir,run_dir):
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
@@ -453,6 +479,7 @@ def collect(build_dir,run_dir):
         if delay_rerun:record['gen_delay_fix_contract']=expected['gen_delay_fix_contract']
         if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
                                                          'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
+        if gen_data:record['owner_kind']=expected['owner_kind']
         if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
@@ -500,13 +527,16 @@ def collect(build_dir,run_dir):
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
-    elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants')and plan.get('surface')=='genexpr':
+    elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-range','gen-constants')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
     if character:
         result.update(partition=plan['partition'],strict_zero_sign_channels=2,raw_pilot_channel=1,
             scope='Exact bare RNBO codebox ASCII named values and finite raw right-word pilot; no call/patcher/Gen qualification')
+    if gen_data:
+        result.update({key:plan[key]for key in ('producer_storage_view','storage_policy')})
+        result['scope']='Eight local Data/indexed-storage source scenarios with original backend-default Float32 storage; Data declaration and function owners remain distinct, no standalone alias or Gen64 storage equivalence'
     if delay_rerun:
         result['rerun']=plan['rerun']
         result['scope']='Additive rerun of two original Delay declaration/read/write programs after the pinned bool-clamp repair; previous outcomes retained, no standalone method qualification'

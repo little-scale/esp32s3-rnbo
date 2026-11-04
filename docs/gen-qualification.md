@@ -6,6 +6,15 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The [local Data/indexed-storage batch](hardware-smoke.md#gen-local-data-and-indexed-storage)
+passes all eight programs and 81,920 output checks. It covers the local
+`Data(7,2)` declaration and separate `dim`, `channels`, `peek`, `poke`,
+`nearest` and `sample` forms, including same-sample write/read visibility and
+continuous seven-sample feedback. The producer's unchanged Float32 storage
+measures 128 bytes of arena high-water per program. Feedback passes 2e-6 with
+maximum error 2.9802322387695312e-8; its 687 µs median is queued for CPU review.
+Other sizes/modes, external Buffer, aliases and visual Gen remain pending.
+
 The [Gen Delay compiler fix and marked rerun](gen-delay-bool-clamp.md) now pass
 both original declaration/method programs, with 20,480 output checks. This
 includes a bit-exact one-sample delay and a bounded feedback comparison across

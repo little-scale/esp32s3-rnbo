@@ -1,0 +1,28 @@
+Data memory(7, 2);
+History initialized(0);
+if (initialized == 0) {
+    poke(memory, 0, 0, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 1, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 2, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 3, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 4, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 5, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 6, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 0, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 1, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 2, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 3, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 4, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 5, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    poke(memory, 0, 6, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+    initialized = 1;
+}
+History cursor(0);
+nextIndex = cursor >= 6 ? 0 : cursor + 1;
+oldLeft, indexLeft = peek(memory, cursor, 0, channels=1, index="samples", interp="none", boundmode="ignore", channelmode="ignore");
+oldRight, indexRight = peek(memory, cursor, 1, channels=1, index="samples", interp="none", boundmode="ignore", channelmode="ignore");
+out1 = oldLeft;
+out2 = oldRight;
+poke(memory, in1, cursor, 0, 0, index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory, in2, cursor, 1, 0, index="samples", boundmode="ignore", channelmode="ignore");
+cursor = nextIndex;
