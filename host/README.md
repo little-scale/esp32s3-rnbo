@@ -322,3 +322,10 @@ callback time on its four finite [-24,6] dB vectors. Rounding differences are
 explicit; native PCM pairs are identical for that corpus, while target
 pairwise PCM is untested. CLI strict and Studio Auto remain unchanged. See
 [the measured profile and limits](../docs/dbtoa-float32.md).
+
+Normal runtime fixes also include a guarded Gen Delay boolean-to-integer cast
+for the recognised one-/three-sample readers. It resolves a generated-code
+compiler warning without disabling the warning or changing numerical semantics,
+Float64 storage or processing order. The original delay and feedback programs
+now pass a [marked XIAO rerun](../docs/gen-delay-bool-clamp.md); unknown read
+forms remain untouched. No new flag or numerical profile is required.

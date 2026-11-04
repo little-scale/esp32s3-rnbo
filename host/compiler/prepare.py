@@ -244,6 +244,94 @@ def cpp_code_mask(source: str) -> str:
     return "".join(result)
 
 
+GEN_DELAY_BOOL_CLAMP_ADAPTATION = "rnbo-1.4.4-gen-delay-bool-clamp-v1"
+_GEN_DELAY_READ_KERNELS = {
+    "62cf23de9c7d0643ce45d1e8bdd4cd2cefdfba4cd54b3b1c79b64d896d336be2": 1,
+    "4ce71702b93a3becf30001e5644786e3613e4fdf97b01e749325e7ba979f46f2": 3,
+}
+_GEN_DELAY_TYPES_SHA256 = "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b"
+
+
+def gen_delay_bool_clamp(source: bytes, types: bytes) -> tuple[bytes, dict | None]:
+    """Make an existing bool-to-Int promotion explicit in two reviewed readers.
+
+    Positive integer taps already compare the bool as an integer 0 or 1.
+    Casting that one operand preserves the expression and evaluation count,
+    while avoiding GCC's bool-compare diagnostic. Unknown forms remain intact.
+    This is source compatibility, not a changed-rounding numerical profile.
+    """
+    if b"_read" not in source or digest(types) != _GEN_DELAY_TYPES_SHA256:
+        return source, None
+    try:
+        text = source.decode(); masked = cpp_code_mask(text)
+    except (UnicodeError, ValueError):
+        # This narrow fix does not newly admit or reject malformed C++.
+        return source, None
+    # The field declarations below must refer to the pinned primitive RNBO Int,
+    # not a class-local type or preprocessor replacement with possible effects.
+    if re.search(r"\busing\s+Int\s*=|\btypedef\b[^;{}]*\bInt\s*;|\b(?:class|struct|enum)\s+Int\b|^\s*#\s*define\s+Int\b", masked, re.M):
+        return source, None
+    names = re.findall(r"\bnumber\s+(gen_\d+_\w+_read)\s*\(", masked)
+    if not names:
+        return source, None
+    from bounded_filters import _method
+    edits = []; methods = []
+    for name in names:
+        if names.count(name) != 1:
+            continue
+        try:
+            start, end = _method(masked, name)
+        except ValueError:
+            continue
+        prefix = name[:-len("_read")]
+        fingerprint = digest(re.sub(r"\s+", "", masked[start:end]).replace(prefix, "DELAY").encode())
+        tap = _GEN_DELAY_READ_KERNELS.get(fingerprint)
+        if tap is None:
+            continue
+        fields = [prefix + "_reader", prefix + "_writer"]
+        if any(len(re.findall(r"^[ \t]*Int\s+" + re.escape(field) + r"\s*;[ \t]*$", masked, re.M)) != 1
+               or re.search(r"^\s*#\s*define\s+" + re.escape(field) + r"\b", masked, re.M)
+               for field in fields):
+            continue
+        comparison = (r"\b" + str(tap) + r"\s*<\s*(\(\s*this\s*->\s*" + re.escape(fields[0]) +
+                      r"\s*!=\s*this\s*->\s*" + re.escape(fields[1]) + r"\s*\))")
+        matches = list(re.finditer(comparison, masked[start:end]))
+        if len(matches) != 1:
+            continue
+        position = start + matches[0].start(1)
+        edits.append({"method": name, "input_span": [position, position],
+                      "before": "", "after": "static_cast<Int>"})
+        methods.append({"method": name, "kernel_sha256": fingerprint, "tap_samples": tap,
+                        "reader_writer_type": "nonvolatile primitive RNBO::Int", "casts": 1})
+    if not edits:
+        return source, None
+    offset = 0
+    for edit in sorted(edits, key=lambda e: e["input_span"]):
+        position = edit["input_span"][0]
+        edit["prepared_span"] = [position + offset, position + offset + len(edit["after"])]
+        offset += len(edit["after"])
+    result = text
+    for edit in sorted(edits, key=lambda e: e["input_span"], reverse=True):
+        position = edit["input_span"][0]
+        result = result[:position] + edit["after"] + result[position:]
+    inverse = result
+    for edit in sorted(edits, key=lambda e: e["prepared_span"], reverse=True):
+        a, b = edit["prepared_span"]
+        if inverse[a:b] != edit["after"]:
+            raise ExportError("Gen delay bool clamp inverse differs")
+        inverse = inverse[:a] + inverse[b:]
+    if inverse.encode() != source:
+        raise ExportError("Gen delay bool clamp changed bytes outside the cast insertions")
+    prepared = result.encode()
+    return prepared, {"name": GEN_DELAY_BOOL_CLAMP_ADAPTATION, "file": "rnbo_source.h",
+                      "input_sha256": digest(source), "prepared_sha256": digest(prepared),
+                      "runtime_types_sha256": digest(types), "cast_count": len(edits),
+                      "methods": methods, "edits": edits, "whole_source_inverse_verified": True,
+                      "transformer_sha256": digest(Path(__file__).read_bytes()),
+                      "numerical_semantics": "unchanged; explicit existing bool-to-Int promotion",
+                      "unchanged": "all other source bytes, evaluation counts, state, Float64 buffers, scheduler, setup and callers"}
+
+
 def float32_cycle(source: bytes) -> tuple[bytes, dict]:
     text=source.decode()
     masked=cpp_code_mask(text)
@@ -494,6 +582,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.extend(integer_changes)
+        delay_source, delay_change = gen_delay_bool_clamp(files["rnbo_source.h"], files.get("common/RNBO_Types.h", b""))
+        if delay_change is not None:
+            files["rnbo_source.h"] = delay_source
+            changes.append(delay_change)
     if correct_finite_wrap:
         from wrap_finite import correct_finite_wrap as adapt_finite_wrap
         try:

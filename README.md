@@ -169,6 +169,10 @@ Systematic XIAO object testing is under way: [results and remaining scope](docs/
 Gen/`gen~` operators and single-sample behaviour are explicitly in scope. See [Gen qualification](docs/gen-qualification.md) for native sample/partition tests, the first three XIAO history programs and the remaining operator work.
 The optional [Gen feedback Float32 profile](docs/gen-feedback-float32.md) now measures 83.94% less callback time in its matched XIAO test; broader Gen optimisation remains pending.
 
+The [Gen Delay source-compatibility fix](docs/gen-delay-bool-clamp.md) now lets
+the tested one-sample and feedback-delay programs compile and pass 20,480 XIAO
+output checks, with unchanged numerical semantics and compiler warning settings.
+
 The explicit [Float32 dbtoa experiment](docs/dbtoa-float32.md) measures 91.64%
 less XIAO callback time in its exact stereo test graph, with numerical
 differences recorded separately. It remains experimental; Studio Auto is unchanged.

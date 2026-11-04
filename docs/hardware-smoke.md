@@ -49,6 +49,23 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
 
+## Gen Delay compilation repair and rerun
+
+The two previously blocked Gen `Delay(16)` declaration/method programs now
+pass **20,480 output checks** with their original inputs, limits and continuous
+twenty-block references. One- and three-sample FIFO outputs are raw-word exact;
+the feedback case passes 2e-6 with maximum error 7.450580596923828e-9.
+Three guarded integer casts resolve the generated-code warning without
+disabling it or changing numerical semantics, Float64 rings or state order.
+
+Medians are 318/411 µs and peaks 320/415 µs, with no CPU flags. Both modules
+finalise and pass memory/allocation checks. This validates the tested per-sample
+delay inside fixed-256 callbacks, rather than a one-frame host API. The original
+failed builds and five other Gen mismatches remain preserved. See
+[the scoped repair and results](gen-delay-bool-clamp.md),
+[marked rerun](../evidence/xiao-smoke-gen-delay-boolcast.json) and
+[transformation evidence](../evidence/gen-delay-bool-clamp.json).
+
 ## Bounded Float32 dbtoa comparison
 
 The separately scoped [Float32 dbtoa experiment](dbtoa-float32.md) passes all

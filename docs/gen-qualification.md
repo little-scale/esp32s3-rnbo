@@ -6,6 +6,14 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The [Gen Delay compiler fix and marked rerun](gen-delay-bool-clamp.md) now pass
+both original declaration/method programs, with 20,480 output checks. This
+includes a bit-exact one-sample delay and a bounded feedback comparison across
+continuous callback boundaries. Default preparation inserts three guarded
+integer casts; compiler warnings, numerical semantics and Float64 rings remain
+unchanged. The original failed builds remain recorded, and the five phase/pulse
+mismatches are not altered by this repair.
+
 The [clock/reset/delay boundary batch](hardware-smoke.md#gen-clock-reset-and-delay-boundaries)
 retains eight programs: six execute, the nonzero-initialised `mulequals` case
 passes, five phase/pulse reference comparisons retain mismatches, and two

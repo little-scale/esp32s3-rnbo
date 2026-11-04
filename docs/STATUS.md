@@ -1,5 +1,12 @@
 # Implementation status — 5 November 2026
 
+The [Gen Delay compatibility fix and hardware rerun](gen-delay-bool-clamp.md)
+now pass both previously blocked programs: **20,480 output checks**, including
+one-sample delay and feedback across callback boundaries. Three guarded integer
+casts resolve the generated-code warning while preserving numerical semantics,
+Float64 storage and compiler warning settings. Original failures and the five
+phase/pulse mismatches remain saved separately; no speedup is claimed.
+
 The explicit [Float32 dbtoa experiment](dbtoa-float32.md) passes all 48 XIAO
 runs and 491,520 independent output checks. Its matched stereo callback uses
 **91.64% less time**: 15,869.50 → 1,326.51 µs mean, or 273.38% → 22.85% of
@@ -40,7 +47,8 @@ have a verified full-flash backup for later restoration.
 The [Gen clock/reset/delay boundary batch](hardware-smoke.md#gen-clock-reset-and-delay-boundaries)
 retains all eight programs. Six execute: `mulequals` passes and five phase/pulse
 comparisons retain mismatches against their declared policies. Two explicit
-Delay programs stop at a generated-code boolean-comparison compiler warning.
+Delay programs originally stopped at a generated-code boolean-comparison compiler warning;
+the marked two-program rerun above resolves those builds and passes their original references.
 All 61,440 executed output checks are saved; there are no CPU flags or memory
 faults. Delay and phase-policy follow-ups remain separate from the earlier
 passing Gen history/state evidence.

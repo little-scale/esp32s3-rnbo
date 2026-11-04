@@ -15,7 +15,9 @@ ROOT=Path(__file__).resolve().parents[1]
 TOLERANCE_CEILING=struct.unpack('<f',struct.pack('<f',.001))[0]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from prepare import canonical
-from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA)
+from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA,
+                                gen_delay_catalog,GEN_DELAY_RERUN,GEN_DELAY_REFERENCE_SHA,
+                                GEN_DELAY_PROOFS,GEN_DELAY_REFERENCE_PROOFS)
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -294,6 +296,37 @@ def dbtoa_comparison_times(records):
         'scope':'Matched ABBA complete stereo FX process callbacks; preparation/events/copy/I2S/network excluded'}
 
 
+def gen_delay_rerun_plan(plan):
+    """An additive rerun of two source forms, never replacement of the old batch."""
+    original=json.loads((ROOT/'tests/fixtures/smoke/gen-state-boundaries/catalog.json').read_bytes())
+    catalog=dict(original,cases=original['cases'][-2:],rerun=GEN_DELAY_RERUN)
+    gen_delay_catalog(catalog)
+    require(plan.get('rerun')==GEN_DELAY_RERUN and plan.get('family')=='gen-state-boundaries'and
+        plan.get('surface')=='genexpr'and type(plan.get('prepare_zero_warm_blocks'))is int and
+        plan['prepare_zero_warm_blocks']==0 and plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+        plan.get('catalog_sha256')==hashlib.sha256(canonical(catalog)).hexdigest()and
+        plan.get('reference_source_sha256')==GEN_DELAY_REFERENCE_SHA and
+        plan.get('compile_failures')==[]and not plan.get('admission_failures'),
+        'Gen Delay rerun catalog/reference/epoch differs')
+    require([row.get('id')for row in plan['cases']]==list(GEN_DELAY_REFERENCE_PROOFS),
+        'Gen Delay rerun requires exactly the two original programs')
+    for row,source in zip(plan['cases'],catalog['cases']):
+        identity=source['id'];pins=GEN_DELAY_REFERENCE_PROOFS[identity]
+        require(canonical({key:row.get(key)for key in source})==canonical(source)and
+            row.get('source_sha256')==source['patch_sha256']and
+            row.get('gen_delay_fix_contract')==GEN_DELAY_PROOFS.get(identity)and
+            GEN_DELAY_PROOFS.get(identity)is not None and
+            row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0]and
+            type(row.get('arena_bytes',4096))is int and row.get('arena_bytes',4096)==4096 and
+            not any(key in row for key in ('parameters','expected_parameter_count','parameter_events','expected_block_indices'))and
+            all(row.get(key)==value for key,value in pins.items())and
+            plan.get('input_words_sha256')==pins['input_words_sha256']and
+            valid_expected_block(row.get('input_words'))and
+            hashlib.sha256(struct.pack('<512I',*row['input_words'])).hexdigest()==pins['input_words_sha256'],
+            'Gen Delay rerun source/fixed map/original reference differs')
+        expected_stream(row,True)
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -303,6 +336,10 @@ def collect(build_dir,run_dir):
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
     comparison=plan.get('family')=='dbtoa-f32-comparison'
     if comparison:dbtoa_comparison_plan(plan)
+    delay_rerun='rerun'in plan
+    if delay_rerun:gen_delay_rerun_plan(plan)
+    else:require(not any('gen_delay_fix_contract'in row for row in plan['cases']),
+                 'Repaired Gen Delay requires its marked original two-case rerun')
     if plan.get('family')in('rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing'):
         require(plan.get('surface')=='patcher'and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0,'Signal range domains require zero automatic preparation blocks')
@@ -361,6 +398,7 @@ def collect(build_dir,run_dir):
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
         if comparison:
             record.update({k:expected[k]for k in ('model','numerical_profile','comparison_phase','comparison_round','comparison_order')})
+        if delay_rerun:record['gen_delay_fix_contract']=expected['gen_delay_fix_contract']
         if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
@@ -412,6 +450,9 @@ def collect(build_dir,run_dir):
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
+    if delay_rerun:
+        result['rerun']=plan['rerun']
+        result['scope']='Additive rerun of two original Delay declaration/read/write programs after the pinned bool-clamp repair; previous outcomes retained, no standalone method qualification'
     if event_family:
         result['expected_block_storage']=plan['expected_block_storage']
         result['expected_reference_unique_blocks']=len(pool)

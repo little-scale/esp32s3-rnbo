@@ -64,6 +64,45 @@ DBTOA_CATALOG_SHA = '873485039077ad60e4b1a7fd82ceb207d5d8c4057e30e00306e50ccd108
 DBTOA_REFERENCE_SHA = '9b18e7971a3fb25239a7bc452a063f4e0fe3a32628241314ec2f2d806ce48729'
 DBTOA_PROFILE_PROOFS = {'A': {'numerical_profile': 'float32-strict', 'prepared_map_sha256': '75c2085d7b91b4b798507d87bbc6f271cd23b26e556095b0c0f5a4887780fb37', 'source_tree_sha256': '7b15ac0016ce18a4031e5bb8133c3ab77a094ec9d0f6ec491fd0df843039e08a', 'editable_source_sha256': '5c4fc8729b6fc245d6613cca27922cd323ffc59530ca68e4317a62419975ca8d', 'adaptation_sha256': None}, 'B': {'numerical_profile': 'float32-dbtoa-v1', 'prepared_map_sha256': '5b3a50c6ec5ff5b8c6b7eb8a4e710a5d080b66546611d7cbe0f575147884b8c4', 'source_tree_sha256': '7b15ac0016ce18a4031e5bb8133c3ab77a094ec9d0f6ec491fd0df843039e08a', 'editable_source_sha256': '5c4fc8729b6fc245d6613cca27922cd323ffc59530ca68e4317a62419975ca8d', 'adaptation_sha256': 'e8f45323c798fad983037752ec39f3d15a2fc6c95cb94a6df2884b69a4992cb5'}}
 
+GEN_DELAY_ADAPTATION = 'rnbo-1.4.4-gen-delay-bool-clamp-v1'
+GEN_DELAY_CATALOG_SHA = 'eb8c190c5f1a59b58ddd12b5157479c6a9b47d64c558fbb83715f76536c544d4'
+GEN_DELAY_REFERENCE_SHA = 'c8f36e97add54e70dc51e71fa0b15482dfdc69fdc55c1013f89ca748cbce55a7'
+GEN_DELAY_RERUN = {'kind': 'gen-delay-boolcast-v1', 'original_catalog_sha256': GEN_DELAY_CATALOG_SHA}
+GEN_DELAY_PROOFS = {
+    'delay-one-and-three-samples': {
+        'prepared_map_sha256': 'ce3db80b6c1f3044969ca11e0035f9357f9340402005f91d142a98519ba7bcdf',
+        'raw_map_sha256': '1ae0fe3feb5af1de4e8ad7f39d4226d67efb68879f061be14b9a03850aded7d9',
+        'manifest_sha256': '0a6125c08918fb4f1a21321b180f1855547b29cf14ae555a0b5f0c7147d1e6bb',
+        'adaptation_sha256': '746d9119add985db6e535ca9987e6a3ebe9a542419c85134eb7c582a4ae0c038'},
+    'delay-three-sample-feedback': {
+        'prepared_map_sha256': 'c068c04ac465df34aa856b9da616f0460706a072ec2533ebad50ba1fb578e944',
+        'raw_map_sha256': '49e92702330fd2a55cb290b7e83aeaaefa72e7a7adc5b2c1c67e95615f31e698',
+        'manifest_sha256': '67443342bcf9036deb60f5c0f8e98fde097f0de4cdbbad02e237f17e5bc942e8',
+        'adaptation_sha256': 'eef77ad99ad3306d16554a8da1f2218011ce8c577daa4383deb530c0c571fea0'}}
+GEN_DELAY_REFERENCE_PROOFS = {
+    'delay-one-and-three-samples': {
+        'input_words_sha256': '23117b0cba0cb6ad1a52153e5c08b9df92ad5c6403c9edc8a133c51875923ff6',
+        'expected_words_sha256': '0e285664198e2ed0ff5e04a8c788d786725ef7d23c4d3d5e8fe54e2ba9e4f9f7',
+        'expected_stream_sha256': 'a6c8f2285b477cc40a09e292253b8243ebf839d8c8db3cd6cdfb90ed946094d9'},
+    'delay-three-sample-feedback': {
+        'input_words_sha256': '23117b0cba0cb6ad1a52153e5c08b9df92ad5c6403c9edc8a133c51875923ff6',
+        'expected_words_sha256': 'f4ca70acedd11e90f3a49b8838cb2a0063a719ba6b6d2922d7a8b34e0ad8e4d8',
+        'expected_stream_sha256': 'ce2111a76a2728510724e684ca2f62c2f9143f8b28437bb49c5fe3ad486f91ed'}}
+
+
+def gen_delay_catalog(catalog: dict) -> dict | None:
+    """Only a marked exact subset can rerun the two original rejected programs."""
+    if 'rerun' not in catalog:
+        return None
+    path = ROOT / 'tests/fixtures/smoke/gen-state-boundaries/catalog.json'
+    if sha(path) != GEN_DELAY_CATALOG_SHA:
+        raise ExportError('Original Gen state-boundary catalog changed')
+    original = read_json(read_regular(path, 1024 * 1024), 'original Gen catalog')
+    expected = dict(original, cases=original['cases'][-2:], rerun=GEN_DELAY_RERUN)
+    if canonical(catalog) != canonical(expected):
+        raise ExportError('Gen Delay rerun requires exactly the two unchanged original rows')
+    return expected
+
 
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -120,6 +159,34 @@ def validate_dbtoa_prepared(provenance: dict, manifest: dict, snapshot: dict) ->
     return {'numerical_profile':profile,'prepared_map_sha256':DBTOA_MAPS[profile],
             'source_tree_sha256':DBTOA_SOURCE_TREE,'editable_source_sha256':DBTOA_PATCH,
             'adaptation_sha256':DBTOA_ADAPTATION_SHA256 if profile==DBTOA_PROFILE else None}
+
+
+def validate_smoke_prepared(provenance: dict, manifest: dict, snapshot: dict, *,
+                            numerical_profile: str = 'float32-strict') -> dict | None:
+    """Keep the normal manifest closed; admit only two exact repaired Delay maps."""
+    records = [r for r in provenance.get('adaptations', [])
+               if r.get('name') == GEN_DELAY_ADAPTATION]
+    if GEN_DELAY_ADAPTATION not in manifest.get('adaptations', []) and not records:
+        validate_manifest(manifest, numerical_profile=numerical_profile)
+        if numerical_profile == DBTOA_PROFILE:
+            validate_dbtoa_prepared(provenance, manifest, snapshot)
+        return None
+    if (numerical_profile != 'float32-strict' or len(records) != 1 or
+            manifest.get('adaptations') != ADAPTATIONS + [GEN_DELAY_ADAPTATION] or
+            type(manifest.get('parameter_count')) is not int or manifest['parameter_count'] != 0):
+        raise ExportError('Gen Delay repair requires its exact strict zero-parameter context')
+    normal = dict(manifest, adaptations=ADAPTATIONS)
+    validate_manifest(normal)
+    digest = lambda value: hashlib.sha256(canonical(value)).hexdigest()
+    files = snapshot.get('prepared_files_sha256', {})
+    raw = provenance.get('raw_files_sha256', {})
+    observed = {'prepared_map_sha256': digest(files), 'raw_map_sha256': digest(raw),
+                'manifest_sha256': digest(manifest), 'adaptation_sha256': digest(records[0])}
+    if (files != provenance.get('prepared_files_sha256') or
+            observed['raw_map_sha256'] != manifest['source_tree_sha256'] or
+            observed not in GEN_DELAY_PROOFS.values()):
+        raise ExportError('Unknown Gen Delay repair source/metadata/runtime/inverse composition')
+    return dict(observed)
 
 
 def assert_hashes(records: dict[str, str]) -> None:
@@ -276,8 +343,7 @@ def logged(command: list[str], path: Path, cwd: Path) -> float:
 def build_one(identity: str, export: Path, directory: Path, cache: dict, max_arena_bytes: int = 4096, *, numerical_profile: str = "float32-strict") -> dict:
     max_arena_bytes = checked_arena_bytes(max_arena_bytes)
     provenance, manifest, snapshot = verify_prepared(export)
-    validate_manifest(manifest, numerical_profile=numerical_profile)
-    if numerical_profile == DBTOA_PROFILE: validate_dbtoa_prepared(provenance, manifest, snapshot)
+    repair = validate_smoke_prepared(provenance, manifest, snapshot, numerical_profile=numerical_profile)
     directory.mkdir()
     row = {"id": identity, "status": "pending", "imports": None, "commands": [], "timing_seconds": {},
            "prepared": {"path": str(export), "manifest": manifest, "snapshot": snapshot,
@@ -288,6 +354,7 @@ def build_one(identity: str, export: Path, directory: Path, cache: dict, max_are
                "maximum_state_bytes": "context_bytes+maximum_arena_bytes",
                "basis": "Exact wrapper compile macro and unchanged DESCRIBE source; runtime module_host checks actual info",
                "descriptor_executed_offline": False}}
+    if repair is not None: row['gen_delay_fix_contract'] = repair
     target_archive = directory / "libmain.a"
     shutil.copyfile(cache["archive"], target_archive)
     output = directory / MEMBERS[0]
@@ -348,8 +415,7 @@ def build_batch(prepared_root: Path, base_build: Path, out: Path, max_arena_byte
     snapshots = {}
     for export in entries:
         provenance, manifest, snapshot = verify_prepared(export)
-        validate_manifest(manifest, numerical_profile=numerical_profile)
-        if numerical_profile == DBTOA_PROFILE: validate_dbtoa_prepared(provenance, manifest, snapshot)
+        validate_smoke_prepared(provenance, manifest, snapshot, numerical_profile=numerical_profile)
         snapshots[export.name] = snapshot
     cache = inspect_cache(base_build)
     out.mkdir(parents=True)

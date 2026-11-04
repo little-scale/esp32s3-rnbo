@@ -18,7 +18,9 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from build import verify_prepared
 from build_smoke_modules import (validate_manifest,validate_dbtoa_prepared,DBTOA_PROFILE,
-                                DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA,DBTOA_PATCH)
+                                DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA,DBTOA_PATCH,
+                                validate_smoke_prepared,gen_delay_catalog,GEN_DELAY_ADAPTATION,
+                                GEN_DELAY_PROOFS,GEN_DELAY_REFERENCE_PROOFS,GEN_DELAY_REFERENCE_SHA)
 from inspect_module import inspect_module
 from prepare import canonical,ExportError,read_json,read_regular,validate_description
 from build_loader_spike import inventory,tree_digest
@@ -184,6 +186,11 @@ def prepare_plan(catalog_path,modules_path):
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
     reference_source=reference_path(catalog)
+    delay_rerun=gen_delay_catalog(catalog)
+    source_root=reference_source.parent if delay_rerun is not None else catalog_path.parent
+    if delay_rerun is not None and (sha(reference_source)!=GEN_DELAY_REFERENCE_SHA or
+            sha(catalog_path)!=hashlib.sha256(canonical(delay_rerun)).hexdigest()):
+        raise ExportError('Original Gen Delay reference or canonical rerun catalog changed')
     comparison=catalog.get('family')=='dbtoa-f32-comparison'
     if comparison:
         comparison_reports=comparison_contract(catalog,batch)
@@ -200,7 +207,7 @@ def prepare_plan(catalog_path,modules_path):
         if not re.fullmatch('[A-Za-z0-9_-]+',identity):raise ExportError('Unsafe smoke identity')
         if catalog['family']=='rnbo-signal-routing':routing_contract(row)
         module=modules[identity]
-        patch=catalog_path.parent/row['patch']
+        patch=source_root/row['patch']
         source_bytes=read_regular(patch,1024*1024)
         source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
@@ -210,7 +217,7 @@ def prepare_plan(catalog_path,modules_path):
                 raise ExportError('Standalone and embedded codebox programs differ')
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
-                read_regular(catalog_path.parent/row['genexpr'],65536)).hexdigest()
+                read_regular(source_root/row['genexpr'],65536)).hexdigest()
         if module['status'] in ('export_failed','prepare_failed'):
             stage='export' if module['status']=='export_failed' else 'prepare'
             if (module.get('source_sha256')!=source_hash or type(module.get('returncode'))is not int or
@@ -226,6 +233,8 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
+        if delay_rerun is None and GEN_DELAY_ADAPTATION in manifest.get('adaptations',[]):
+            raise ExportError('Repaired Gen Delay modules require the exact marked two-case rerun')
         if comparison and manifest.get('numerical_profile')!=row['numerical_profile']:
             raise ExportError('dbtoa phase label differs from actual prepared profile')
         if not comparison and manifest.get('numerical_profile')==DBTOA_PROFILE:
@@ -237,6 +246,13 @@ def prepare_plan(catalog_path,modules_path):
         provenance,actual_manifest,actual_snapshot=verify_prepared(prepared)
         if actual_snapshot!=module['prepared']['snapshot']:
             raise ExportError('Prepared module changed: '+identity)
+        if delay_rerun is None and GEN_DELAY_ADAPTATION in actual_manifest.get('adaptations',[]):
+            raise ExportError('Actual repaired Gen Delay requires its marked two-case rerun')
+        if delay_rerun is not None:
+            repair=validate_smoke_prepared(provenance,actual_manifest,actual_snapshot)
+            if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
+                    module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
+                raise ExportError('Gen Delay rerun requires both exact repaired module exports')
         if catalog['family']=='rnbo-signal-routing'and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
@@ -267,6 +283,7 @@ def prepare_plan(catalog_path,modules_path):
             'source_sha256':source_hash,**expression_info,
             'expected_words_sha256':expected_hash,'expected':expected}
         if comparison:case['module_profile_contract']=profile_proof
+        if delay_rerun is not None:case['gen_delay_fix_contract']=repair
         arena=module.get('arena_bytes_ceiling',4096)
         if type(arena)is not int or arena not in(4096,1048576,2097152):
             raise ExportError('Unsupported module arena tier: '+identity)
@@ -282,6 +299,9 @@ def prepare_plan(catalog_path,modules_path):
         if streams is not None:
             case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
                 struct.pack('<10240I',*(w for block in streams for w in block))).hexdigest())
+        if delay_rerun is not None and (arena!=4096 or any(case.get(key)!=value for key,value in
+                GEN_DELAY_REFERENCE_PROOFS[identity].items())):
+            raise ExportError('Gen Delay rerun arena or original twenty-block reference changed')
         if manifest['parameter_count']:
             if catalog['family']not in('rnbo-events','rnbo-events-extra') or not hasattr(reference,'parameter_events'):
                 raise ExportError('Parameterized exports require the boundary-event reference route')
@@ -342,6 +362,7 @@ def prepare_plan(catalog_path,modules_path):
             raise ExportError('Stateful cases require a continuous twenty-block reference')
     if hasattr(reference,'case_input_words'):
         plan['input_vector_policy']='per-case; top-level input hash identifies fallback vector only'
+    if delay_rerun is not None:plan['rerun']=delay_rerun['rerun']
     if admission_failures:plan['admission_failures']=admission_failures
     return plan,inputs,payloads
 
@@ -397,14 +418,17 @@ def generate_header(plan,inputs):
 
 def sources(catalog):
     data=json.loads(catalog.read_bytes())
+    delay_rerun=gen_delay_catalog(data)
+    source_root=reference_path(data).parent if delay_rerun is not None else catalog.parent
     paths=[Path(__file__).resolve(),ROOT/'tools/build_smoke_modules.py',catalog,
         reference_path(data)]
+    if delay_rerun is not None:paths.append(source_root/'catalog.json')
     paths.extend(p for p in (ROOT/'hardware-smoke').rglob('*') if p.is_file())
     paths.extend(ROOT/'object-benchmark/main'/name for name in
         ('module_host.c','module_host.h','allocation_probe.c','allocation_probe.h','bench_check.h','mapped_range.h'))
     paths.extend(ROOT/'module-sdk/include'/name for name in ('rnbo_s3_module.h','rnbo_s3_dynamic.h'))
     for row in data['cases']:
-        paths.extend(catalog.parent/row[key] for key in ('patch','genexpr','codebox') if key in row)
+        paths.extend(source_root/row[key] for key in ('patch','genexpr','codebox') if key in row)
     return {str(p.relative_to(ROOT)):sha(p) for p in sorted(set(paths)) if '__pycache__'not in p.parts}
 
 
