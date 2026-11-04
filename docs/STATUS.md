@@ -1,5 +1,12 @@
 # Implementation status — 4 November 2026
 
+The [parameter-driven event batch](hardware-smoke.md#rnbo-parameter-driven-event-batch)
+passes all 35 exact event spellings,735 updates/readbacks and 358,400 output checks.
+A single linear numeric control is applied at callback boundaries; the independent
+right observer is raw-bit exact. Event-call and processing timings remain separate,
+with no CPU flags. Exact reference pooling keeps the full test within existing
+flash/report limits. Within-block host-event timing is still unqualified.
+
 The latest [RNBO functions/conversions batch](hardware-smoke.md#rnbo-functions-and-conversions-batch)
 executes 35 forms: 34 pass declared limits, `fasttan~` exceeds an explicitly
 chosen approximation threshold, and eleven CPU costs are queued. `dbtoa~`

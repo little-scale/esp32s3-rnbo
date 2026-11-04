@@ -1,0 +1,924 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "arity": 1,
+      "canonical_name": "abs",
+      "declared_outputs": 1,
+      "exact_name": "abs",
+      "hot_inlet": 0,
+      "id": "absolute-event",
+      "maximum_absolute_error": 0.0,
+      "model": 148,
+      "observed_outlet": 0,
+      "patch": "absolute-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_abs.maxref.xml",
+          "sha256": "1e89d524bce3e15c22316fcb21087cacac97d9de7ac0393f4fce6cec9ef40a61",
+          "url": "https://rnbo.cycling74.com/objects/ref/abs?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "abs",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "neg",
+      "declared_outputs": 1,
+      "exact_name": "neg",
+      "hot_inlet": 0,
+      "id": "negate-event",
+      "maximum_absolute_error": 0.0,
+      "model": 149,
+      "observed_outlet": 0,
+      "patch": "negate-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_neg.maxref.xml",
+          "sha256": "e4928d2a6cbd01dbb131ffd097af0099e1e38280491503121db810ebe94b23b2",
+          "url": "https://rnbo.cycling74.com/objects/ref/neg?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "neg",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "floor",
+      "declared_outputs": 1,
+      "exact_name": "floor",
+      "hot_inlet": 0,
+      "id": "floor-event",
+      "maximum_absolute_error": 0.0,
+      "model": 150,
+      "observed_outlet": 0,
+      "patch": "floor-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_floor.maxref.xml",
+          "sha256": "bd99e05ea4e36194a6b582ed740e5e38d745f265eaad2c8daf36891fffb4a25b",
+          "url": "https://rnbo.cycling74.com/objects/ref/floor?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "floor",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "ceil",
+      "declared_outputs": 1,
+      "exact_name": "ceil",
+      "hot_inlet": 0,
+      "id": "ceil-event",
+      "maximum_absolute_error": 0.0,
+      "model": 151,
+      "observed_outlet": 0,
+      "patch": "ceil-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_ceil.maxref.xml",
+          "sha256": "45b22ae6ea8873141d2f6fdb370d66b6e0c2575be0e7b3a97c3d7afca163cc50",
+          "url": "https://rnbo.cycling74.com/objects/ref/ceil?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "ceil",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "trunc",
+      "declared_outputs": 1,
+      "exact_name": "trunc",
+      "hot_inlet": 0,
+      "id": "truncate-event",
+      "maximum_absolute_error": 0.0,
+      "model": 152,
+      "observed_outlet": 0,
+      "patch": "truncate-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_trunc.maxref.xml",
+          "sha256": "473020c58b3e6093ddbd9f02061097fd3c776f9d6ec2459dfc256d7337a4ec68",
+          "url": "https://rnbo.cycling74.com/objects/ref/trunc?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "trunc",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "round",
+      "declared_outputs": 1,
+      "exact_name": "round",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "round-base2-event",
+      "maximum_absolute_error": 0.0,
+      "model": 153,
+      "observed_outlet": 0,
+      "patch": "round-base2-event.rnbopat",
+      "reference_policy": "declared-nearest-multiple2-ties-away",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_round.maxref.xml",
+          "sha256": "4ce8178b33a6509a06b045f075086f50f492476647f2e32a7444d0617bb35e40",
+          "url": "https://rnbo.cycling74.com/objects/ref/round?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "round",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "fract",
+      "declared_outputs": 1,
+      "exact_name": "fract",
+      "hot_inlet": 0,
+      "id": "fraction-event",
+      "maximum_absolute_error": 0.0,
+      "model": 154,
+      "observed_outlet": 0,
+      "patch": "fraction-event.rnbopat",
+      "reference_policy": "signed-fraction-convention",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_fract.maxref.xml",
+          "sha256": "0f8bf31147dbc349df7b6f4abe7f9ec00edfb7be2d74a0ff5cb96f0964d9936d",
+          "url": "https://rnbo.cycling74.com/objects/ref/fract?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "fract",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "sign",
+      "declared_outputs": 1,
+      "exact_name": "sign",
+      "hot_inlet": 0,
+      "id": "sign-event",
+      "maximum_absolute_error": 0.0,
+      "model": 155,
+      "observed_outlet": 0,
+      "patch": "sign-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sign.maxref.xml",
+          "sha256": "8de72118fd220afa32ca108c788914a95029e28a6f0fcee752551dee3f90bf09",
+          "url": "https://rnbo.cycling74.com/objects/ref/sign?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "sign",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "boolnum",
+      "declared_outputs": 1,
+      "exact_name": "boolnum",
+      "hot_inlet": 0,
+      "id": "boolean-event",
+      "maximum_absolute_error": 0.0,
+      "model": 156,
+      "observed_outlet": 0,
+      "patch": "boolean-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_boolnum.maxref.xml",
+          "sha256": "3acfe8a00c14804084c4c65418e8331943da60b5fada514f28271b1059520688",
+          "url": "https://rnbo.cycling74.com/objects/ref/boolnum?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "boolnum",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "not",
+      "declared_outputs": 1,
+      "exact_name": "not",
+      "hot_inlet": 0,
+      "id": "not-event",
+      "maximum_absolute_error": 0.0,
+      "model": 157,
+      "observed_outlet": 0,
+      "patch": "not-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_not.maxref.xml",
+          "sha256": "788c6d0e6abcbc3f66e8243a5915c65c86be0bea9b22055e053e685f2722eaed",
+          "url": "https://rnbo.cycling74.com/objects/ref/not?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "not",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "not",
+      "declared_outputs": 1,
+      "exact_name": "!",
+      "hot_inlet": 0,
+      "id": "not-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 157,
+      "observed_outlet": 0,
+      "patch": "not-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_not.maxref.xml",
+          "sha256": "788c6d0e6abcbc3f66e8243a5915c65c86be0bea9b22055e053e685f2722eaed",
+          "url": "https://rnbo.cycling74.com/objects/ref/not?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "!",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "add",
+      "declared_outputs": 1,
+      "exact_name": "add",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "add-event",
+      "maximum_absolute_error": 0.0,
+      "model": 158,
+      "observed_outlet": 0,
+      "patch": "add-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_add.maxref.xml",
+          "sha256": "6c607349413b5bbdbcad0672f1675f2076085c7915c396683d5e81955358d0f1",
+          "url": "https://rnbo.cycling74.com/objects/ref/add?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "add",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "add",
+      "declared_outputs": 1,
+      "exact_name": "+",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "add-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 158,
+      "observed_outlet": 0,
+      "patch": "add-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_add.maxref.xml",
+          "sha256": "6c607349413b5bbdbcad0672f1675f2076085c7915c396683d5e81955358d0f1",
+          "url": "https://rnbo.cycling74.com/objects/ref/add?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "+",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "sub",
+      "declared_outputs": 1,
+      "exact_name": "sub",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "subtract-event",
+      "maximum_absolute_error": 0.0,
+      "model": 159,
+      "observed_outlet": 0,
+      "patch": "subtract-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sub.maxref.xml",
+          "sha256": "974943c5eb47012abe598cac74d8391f3cb814dffd908ea915cfc425044de241",
+          "url": "https://rnbo.cycling74.com/objects/ref/sub?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "sub",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "sub",
+      "declared_outputs": 1,
+      "exact_name": "-",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "subtract-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 159,
+      "observed_outlet": 0,
+      "patch": "subtract-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sub.maxref.xml",
+          "sha256": "974943c5eb47012abe598cac74d8391f3cb814dffd908ea915cfc425044de241",
+          "url": "https://rnbo.cycling74.com/objects/ref/sub?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "-",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "mul",
+      "declared_outputs": 1,
+      "exact_name": "mul",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "multiply-event",
+      "maximum_absolute_error": 0.0,
+      "model": 160,
+      "observed_outlet": 0,
+      "patch": "multiply-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mul.maxref.xml",
+          "sha256": "2ceda6669304f7c9a0f5031bea66241b56430572c38197b5b174dd8b093a6434",
+          "url": "https://rnbo.cycling74.com/objects/ref/mul?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "mul",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "mul",
+      "declared_outputs": 1,
+      "exact_name": "*",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "multiply-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 160,
+      "observed_outlet": 0,
+      "patch": "multiply-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mul.maxref.xml",
+          "sha256": "2ceda6669304f7c9a0f5031bea66241b56430572c38197b5b174dd8b093a6434",
+          "url": "https://rnbo.cycling74.com/objects/ref/mul?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "*",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "div",
+      "declared_outputs": 1,
+      "exact_name": "div",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "divide-event",
+      "maximum_absolute_error": 0.0,
+      "model": 161,
+      "observed_outlet": 0,
+      "patch": "divide-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_div.maxref.xml",
+          "sha256": "4708361f40fa039e54c3c2ac8130013bef919dfd802c8537b370f17f3ee479f2",
+          "url": "https://rnbo.cycling74.com/objects/ref/div?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "div",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "div",
+      "declared_outputs": 1,
+      "exact_name": "/",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "divide-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 161,
+      "observed_outlet": 0,
+      "patch": "divide-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_div.maxref.xml",
+          "sha256": "4708361f40fa039e54c3c2ac8130013bef919dfd802c8537b370f17f3ee479f2",
+          "url": "https://rnbo.cycling74.com/objects/ref/div?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "/",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "mod",
+      "declared_outputs": 1,
+      "exact_name": "mod",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "modulo-event",
+      "maximum_absolute_error": 0.0,
+      "model": 162,
+      "observed_outlet": 0,
+      "patch": "modulo-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mod.maxref.xml",
+          "sha256": "55be0690401b7e261191e880f5766953c975a195eb0ddc87010ed88f24232c4a",
+          "url": "https://rnbo.cycling74.com/objects/ref/mod?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "mod",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "mod",
+      "declared_outputs": 1,
+      "exact_name": "%",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "modulo-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 162,
+      "observed_outlet": 0,
+      "patch": "modulo-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mod.maxref.xml",
+          "sha256": "55be0690401b7e261191e880f5766953c975a195eb0ddc87010ed88f24232c4a",
+          "url": "https://rnbo.cycling74.com/objects/ref/mod?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "%",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "minimum",
+      "declared_outputs": 2,
+      "exact_name": "minimum",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "minimum-event",
+      "maximum_absolute_error": 0.0,
+      "model": 163,
+      "observed_outlet": 0,
+      "patch": "minimum-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_minimum.maxref.xml",
+          "sha256": "f5e86763a26297ec0b1642fbd51fb73b6677751f35ddb28002c56c5d5b0417e0",
+          "url": "https://rnbo.cycling74.com/objects/ref/minimum?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "minimum",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "minimum",
+      "declared_outputs": 2,
+      "exact_name": "min",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "minimum-alias-event",
+      "maximum_absolute_error": 0.0,
+      "model": 163,
+      "observed_outlet": 0,
+      "patch": "minimum-alias-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_minimum.maxref.xml",
+          "sha256": "f5e86763a26297ec0b1642fbd51fb73b6677751f35ddb28002c56c5d5b0417e0",
+          "url": "https://rnbo.cycling74.com/objects/ref/minimum?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "min",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "maximum",
+      "declared_outputs": 2,
+      "exact_name": "maximum",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "maximum-event",
+      "maximum_absolute_error": 0.0,
+      "model": 164,
+      "observed_outlet": 0,
+      "patch": "maximum-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_maximum.maxref.xml",
+          "sha256": "9ac04a1866482d1ec18ba85b43bf4689012e549257466bc003f570a534d5de18",
+          "url": "https://rnbo.cycling74.com/objects/ref/maximum?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "maximum",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "maximum",
+      "declared_outputs": 2,
+      "exact_name": "max",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "maximum-alias-event",
+      "maximum_absolute_error": 0.0,
+      "model": 164,
+      "observed_outlet": 0,
+      "patch": "maximum-alias-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_maximum.maxref.xml",
+          "sha256": "9ac04a1866482d1ec18ba85b43bf4689012e549257466bc003f570a534d5de18",
+          "url": "https://rnbo.cycling74.com/objects/ref/maximum?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "max",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "eq",
+      "declared_outputs": 1,
+      "exact_name": "eq",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "equal-event",
+      "maximum_absolute_error": 0.0,
+      "model": 165,
+      "observed_outlet": 0,
+      "patch": "equal-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_eq.maxref.xml",
+          "sha256": "6e2cb3f54f82499ba79e441974cf2f7ed3637bd40c54b9fc32577a6a42c9a1e9",
+          "url": "https://rnbo.cycling74.com/objects/ref/eq?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "eq",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "eq",
+      "declared_outputs": 1,
+      "exact_name": "==",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "equal-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 165,
+      "observed_outlet": 0,
+      "patch": "equal-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_eq.maxref.xml",
+          "sha256": "6e2cb3f54f82499ba79e441974cf2f7ed3637bd40c54b9fc32577a6a42c9a1e9",
+          "url": "https://rnbo.cycling74.com/objects/ref/eq?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "==",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "gt",
+      "declared_outputs": 1,
+      "exact_name": "gt",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "greater-event",
+      "maximum_absolute_error": 0.0,
+      "model": 166,
+      "observed_outlet": 0,
+      "patch": "greater-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gt.maxref.xml",
+          "sha256": "490d8b90eba5da8d5bb01ab58dcca6fe4c8787b892e20f9e04ba0fa060e41ed8",
+          "url": "https://rnbo.cycling74.com/objects/ref/gt?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "gt",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "gt",
+      "declared_outputs": 1,
+      "exact_name": ">",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "greater-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 166,
+      "observed_outlet": 0,
+      "patch": "greater-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gt.maxref.xml",
+          "sha256": "490d8b90eba5da8d5bb01ab58dcca6fe4c8787b892e20f9e04ba0fa060e41ed8",
+          "url": "https://rnbo.cycling74.com/objects/ref/gt?v=1.4.4"
+        }
+      ],
+      "registry_lookup": ">",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "lt",
+      "declared_outputs": 1,
+      "exact_name": "lt",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "less-event",
+      "maximum_absolute_error": 0.0,
+      "model": 167,
+      "observed_outlet": 0,
+      "patch": "less-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_lt.maxref.xml",
+          "sha256": "ddacea6682fb2a179c58d8ca3bebebe0560a6a82f996582f79327a5704306112",
+          "url": "https://rnbo.cycling74.com/objects/ref/lt?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "lt",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "lt",
+      "declared_outputs": 1,
+      "exact_name": "<",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "less-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 167,
+      "observed_outlet": 0,
+      "patch": "less-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_lt.maxref.xml",
+          "sha256": "ddacea6682fb2a179c58d8ca3bebebe0560a6a82f996582f79327a5704306112",
+          "url": "https://rnbo.cycling74.com/objects/ref/lt?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "<",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "and",
+      "declared_outputs": 1,
+      "exact_name": "and",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "and-event",
+      "maximum_absolute_error": 0.0,
+      "model": 168,
+      "observed_outlet": 0,
+      "patch": "and-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_and.maxref.xml",
+          "sha256": "7231d613f4b386d9326edf6be80902ae9b63bba0e1d3fd620bba831307eeeadd",
+          "url": "https://rnbo.cycling74.com/objects/ref/and?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "and",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "and",
+      "declared_outputs": 1,
+      "exact_name": "&&",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "and-symbol-event",
+      "maximum_absolute_error": 0.0,
+      "model": 168,
+      "observed_outlet": 0,
+      "patch": "and-symbol-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_and.maxref.xml",
+          "sha256": "7231d613f4b386d9326edf6be80902ae9b63bba0e1d3fd620bba831307eeeadd",
+          "url": "https://rnbo.cycling74.com/objects/ref/and?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "&&",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "or",
+      "declared_outputs": 1,
+      "exact_name": "or",
+      "fixed_cold_operand": 0,
+      "hot_inlet": 0,
+      "id": "or-event",
+      "maximum_absolute_error": 0.0,
+      "model": 169,
+      "observed_outlet": 0,
+      "patch": "or-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_or.maxref.xml",
+          "sha256": "2059af1eefd4051646c122c48a3a615ea49a0e4a4ab6924144569dcb5c969fd7",
+          "url": "https://rnbo.cycling74.com/objects/ref/or?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "or",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    },
+    {
+      "arity": 2,
+      "canonical_name": "xor",
+      "declared_outputs": 1,
+      "exact_name": "xor",
+      "fixed_cold_operand": 2,
+      "hot_inlet": 0,
+      "id": "xor-event",
+      "maximum_absolute_error": 0.0,
+      "model": 170,
+      "observed_outlet": 0,
+      "patch": "xor-event.rnbopat",
+      "reference_policy": "documented-event-numeric",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_xor.maxref.xml",
+          "sha256": "ccacae190e9651bdacdf78b041a0d045c91a2ced801efac46aa631bd149af24c",
+          "url": "https://rnbo.cycling74.com/objects/ref/xor?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "xor",
+      "role": "fx",
+      "scope": "One boundary-driven hot numeric inlet, fixed cold operand where present, left sig~ hold and raw right audio pilot; other modes/aliases not inferred.",
+      "surface": "patcher",
+      "syntax": "numeric-event-object"
+    }
+  ],
+  "drive_parameter": {
+    "exponent": 1.0,
+    "index": 0,
+    "initialValue": 0.0,
+    "maximum": 8.0,
+    "minimum": -8.0,
+    "paramId": "drive",
+    "steps": 0
+  },
+  "event_application": "Ordered actual-value parameter events before each callback; no second hot/cold control.",
+  "family": "rnbo-events",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "35 original RNBO numeric event spellings. drive->HOT0->sig~->out~1; in~2->out~2 raw pilot, in~1 declared unused. Allbinary cold2 except ORcold0; no DSP changes.",
+  "timed_blocks": 16
+}

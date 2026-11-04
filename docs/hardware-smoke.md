@@ -13,6 +13,101 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## RNBO parameter-driven event batch
+
+**All 35 exact event spellings pass on XIAO**, with 735 ordered parameter
+updates/readbacks and **358,400 output checks**. No parser/compiler failures,
+processing-time CPU flags or memory/allocation failures occur. These are
+non-tilde event objects; signal and Gen results do not transfer to them.
+
+| Exact event form | Result | Callback median µs | Total 21 event calls µs | Event peak µs |
+| --- | --- | ---: | ---: | ---: |
+| `abs` | Pass | 76.0 | 157 | 34 |
+| `neg` | Pass | 75.0 | 161 | 35 |
+| `floor` | Pass | 76.0 | 160 | 35 |
+| `ceil` | Pass | 76.0 | 157 | 34 |
+| `trunc` | Pass | 76.0 | 156 | 35 |
+| `round` | Pass | 76.0 | 203 | 44 |
+| `fract` | Pass | 76.0 | 162 | 35 |
+| `sign` | Pass | 75.0 | 159 | 35 |
+| `boolnum` | Pass | 76.0 | 167 | 34 |
+| `not` | Pass | 76.0 | 164 | 34 |
+| `!` | Pass | 76.0 | 164 | 34 |
+| `add` | Pass | 76.0 | 171 | 33 |
+| `+` | Pass | 76.0 | 173 | 33 |
+| `sub` | Pass | 76.0 | 168 | 33 |
+| `-` | Pass | 76.0 | 169 | 33 |
+| `mul` | Pass | 76.0 | 171 | 37 |
+| `*` | Pass | 76.0 | 169 | 33 |
+| `div` | Pass | 76.0 | 166 | 35 |
+| `/` | Pass | 76.0 | 161 | 35 |
+| `mod` | Pass | 75.5 | 156 | 31 |
+| `%` | Pass | 76.0 | 157 | 31 |
+| `minimum` | Pass | 75.0 | 165 | 34 |
+| `min` | Pass | 76.0 | 161 | 34 |
+| `maximum` | Pass | 75.5 | 164 | 34 |
+| `max` | Pass | 75.0 | 162 | 35 |
+| `eq` | Pass | 75.5 | 157 | 35 |
+| `==` | Pass | 75.0 | 157 | 35 |
+| `gt` | Pass | 76.0 | 156 | 34 |
+| `>` | Pass | 75.5 | 156 | 34 |
+| `lt` | Pass | 76.0 | 156 | 34 |
+| `<` | Pass | 76.0 | 158 | 34 |
+| `and` | Pass | 76.0 | 162 | 34 |
+| `&&` | Pass | 75.5 | 157 | 34 |
+| `or` | Pass | 76.0 | 154 | 36 |
+| `xor` | Pass | 75.0 | 159 | 36 |
+
+Each original patch has one ordinary numeric `drive` parameter, initially 0,
+with range [-8,8], exponent 1 and no steps. It drives the event object's hot
+inlet; its value output drives `sig~` and the left output. Binary operands are
+literal 2, except `or 0` so both Boolean outcomes occur. `round 2` uses base 2.
+Minimum/maximum observe value outlet 0 only; their index outlets are untested.
+The independent right input goes directly to the right output.
+
+The 21 authored updates include signed/fractional values, range endpoints,
+unchanged resends, holds, and multiple ordered updates before one callback.
+Per-model sequences make last-write ordering observable. Stable parameter IDs
+are resolved against each loaded runtime schema; actual/normalized readbacks
+match the independent linear mapping. All twenty callbacks have their own
+expected blocks, including four checked manual warmups and sixteen timed calls.
+There is no automatic zero-input preparation processing.
+
+Every nonzero numeric left value matches exactly. The 2,816 left zero-sign
+word differences are retained as allowed numeric-zero diagnostics. The right
+observer is **raw-bit exact** over all 179,200 values, including both zero signs,
+subnormal values and finite extremes; strict zero-sign failures are counted
+separately and remain zero. Parameter readbacks allow only numeric ±0
+equivalence while preserving their raw words in the result.
+
+Processing medians range from 75 to 76 µs per stereo 256-frame callback. Event
+API calls are measured separately, before processing and without readback/logging
+inside their timer: 154–203 µs total per 21 updates, individual observations 5–44 µs.
+These event times include the SDK setter and downstream routing, not an isolated
+arithmetic instruction. The callback cost mostly represents held-signal/pilot
+processing; it is not an event-operator speed comparison. No optimisation gain
+or peak-latency guarantee is claimed.
+
+The existing API dispatches at `RNBO::TimeNow` between complete 256-frame calls.
+This run establishes the supplied **block-boundary** changes and ordering,
+not within-block timestamps, nonlinear/stepped parameter normalization, arbitrary
+cold operands, multiple-control interactions or counter/reset semantics.
+The fast compiler now admits 0–32 ordinary numeric parameters; this hardware
+batch exercises one control per fixture, not the full count limit. No production
+SDK or event ABI was changed.
+
+To retain all checks in one upload, exact repeated 512-word reference blocks
+are shared: 700 logical callback references use 36 stored blocks. Each case
+keeps its full stream hash and ordered block indices. An initial unflashed
+build's expanded 8.5MiB report exceeded the existing 8 MiB preflight limit; the
+uploader stopped before writing. The revised report is 1,327,267 bytes, with
+the generated case data byte-identical except for the plan-identity string.
+The size guard and numerical/word checks were not relaxed. Both build versions
+remain saved locally; only the compact-report firmware was uploaded.
+
+See [the complete event/readback result](../evidence/xiao-smoke-rnbo-events.json)
+and [the original patches and independent reference](../tests/fixtures/smoke/rnbo-events/README.md).
+
 ## RNBO functions and conversions batch
 
 **35 forms execute on XIAO: 34 pass their declared checks, and `fasttan~`
@@ -469,11 +564,12 @@ python3 tools/build_hardware_smoke.py \
 ```
 
 Supply normal prepared exports matching the selected catalog. The Gen numeric, mathematical and stateful catalogs, plus RNBO stateless,
-numeric and function/conversion catalogs, have separate independent references. Numeric cases carry their own input-vector hashes and
+numeric, function/conversion and event catalogs, have separate independent references. Numeric cases carry their own input-vector hashes and
 predeclared tolerances; older catalogs keep the original exact gate.
 The initial fast
-builder supports strict, self-contained two-input/two-output FX modules without
-parameters; additional object shapes will be added as coverage expands. The
+builder supports strict, self-contained two-input/two-output FX modules with zero to 32 ordinary numeric parameters.
+The boundary-event reference route currently uses linear, unstepped controls;
+other shapes and control modes remain pending. The
 firmware SDK cache is reusable, while each completed batch's artifacts are
 copied to its own directory. An unfinished build can use `--resume-incomplete`
 only with the same plan; completed batch artifacts are not overwritten.
@@ -509,3 +605,9 @@ control always compiles with its original four-KiB maximum and must match the
 whole cached ELF; only candidate wrapper compilations select the larger macro.
 The host then checks the actual module descriptor against the requested arena,
 and the result records reserved capacity separately from observed high-water.
+
+Boundary-event plans contain validated parameter contracts and ordered actual-value
+actions. The worker resolves live IDs, verifies initial metadata/readbacks,
+applies actions before the next full callback, and logs API timings separately.
+Shared reference pools retain complete binary32 blocks and stream hashes; sharing
+is exact storage reuse, without lowering sample count or comparison precision.

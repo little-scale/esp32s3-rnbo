@@ -3,6 +3,9 @@
 import copy
 import importlib.util
 import io
+import re
+import shutil
+import subprocess
 from contextlib import redirect_stdout,redirect_stderr
 from pathlib import Path
 import tempfile
@@ -29,7 +32,7 @@ def manifest():
 class SmokeModuleTests(unittest.TestCase):
     def test_other_profiles_services_and_boolean_integer_fields_reject(self):
         smoke.validate_manifest(manifest())
-        for field, value in (("role", "main"), ("parameter_count", 1), ("block_frames", 128),
+        for field, value in (("role", "main"), ("block_frames", 128),
                              ("voices", True), ("numerical_profile", "float32-audio-v2"),
                              ("required_host_services", ["dataref"]), ("adaptations", [])):
             changed = manifest()
@@ -40,6 +43,174 @@ class SmokeModuleTests(unittest.TestCase):
         changed["optional_adapter"] = True
         with self.assertRaises(smoke.ExportError):
             smoke.validate_manifest(changed)
+
+    def test_parameter_counts_are_typed_and_bounded_without_relaxing_profile(self):
+        for count in range(33):
+            changed=manifest();changed['parameter_count']=count
+            smoke.validate_manifest(changed)
+        for count in (True,False,-1,33,128,1.0,'1',None):
+            changed=manifest();changed['parameter_count']=count
+            with self.subTest(count=count),self.assertRaises(smoke.ExportError):
+                smoke.validate_manifest(changed)
+        for field,value in (('required_host_services',['dataref']),('voices',2),
+                            ('midi_output_ports',1),('numerical_profile','float32-audio-v1')):
+            changed=manifest();changed['parameter_count']=32;changed[field]=value
+            with self.subTest(field=field),self.assertRaises(smoke.ExportError):
+                smoke.validate_manifest(changed)
+
+    def test_actual_worker_parameter_helpers_resolve_ids_order_events_and_fail_closed(self):
+        source=(ROOT/'hardware-smoke/main/smoke.c').read_text()
+        state=re.search(r'typedef struct \{\s*uint32_t resolved\[32\],next_event;.*?\} parameter_checks;',source,re.S).group()
+        predicates=source[source.index('static bool word_finite'):source.index('static bool hex_digest')]
+        helpers=source[source.index('static uint32_t float_word'):source.index('static uint64_t process_once')]
+        prelude=r'''
+#include <stdbool.h>
+#include <stdint.h>
+#include <inttypes.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "rnbo_s3_module.h"
+#include "smoke_types.h"
+#define CHECK(x) do { if(!(x)) { fprintf(stderr,"check at %d\n",__LINE__);exit(66); } } while(0)
+enum {MANUAL_WARM_CALLS=4,TIMED_CALLS=16};
+typedef struct {rnbo_s3_module module;void *context;} object_image;
+static int mode;static uint32_t seen,indices[3];static float actuals[2];static int64_t timer;
+static void allocation_probe_begin(void){}
+static void allocation_probe_end(void){}
+static unsigned allocation_probe_allocations(void){return 0;}
+static unsigned allocation_probe_frees(void){return 0;}
+static int64_t esp_timer_get_time(void){return ++timer;}
+static uint32_t count(void *p){(void)p;return mode==9?0u:mode==7?3u:2u;}
+static int info(void *p,uint32_t i,rnbo_s3_parameter_info *out){
+    (void)p;*out=(rnbo_s3_parameter_info){.struct_bytes=sizeof *out,.index=i,
+        .minimum=-8.f,.maximum=8.f,.initial=0.f,.exponent=1.f};
+    strcpy(out->id,i?"drive":"beta");
+    if(mode==2)out->maximum=4.f;
+    if(mode==6)memset(out->id,'z',sizeof out->id);
+    return RNBO_S3_OK;
+}
+static int value(void *p,uint32_t i,float *actual,float *normalized){
+    (void)p;*actual=actuals[i];*normalized=(actuals[i]+8.f)/16.f;
+    if(mode==3&&seen)*normalized=0.f;
+    if(mode==5&&seen)*actual=0.f;
+    return RNBO_S3_OK;
+}
+static int event(void *p,const rnbo_s3_event *e){
+    (void)p;CHECK(e->struct_bytes==sizeof *e&&e->kind==RNBO_S3_PARAMETER_ACTUAL&&e->parameter_index<2u&&seen<3u);
+    indices[seen++]=e->parameter_index;
+    if(mode!=8||actuals[e->parameter_index]!=e->value)actuals[e->parameter_index]=e->value;
+    return RNBO_S3_OK;
+}
+'''
+        main=r'''
+int main(int argc,char **argv){
+    mode=argc>1?atoi(argv[1]):0;
+    smoke_parameter_contract contracts[2]={{"drive",-8.f,8.f,0.f,1.f,0},{"beta",-8.f,8.f,0.f,1.f,0}};
+    smoke_parameter_action actions[3]={{0,0,0x3f000000u},{0,1,0xbf000000u},{19,0,0xc1000000u}};
+    smoke_case test={.id="boundary",.expected_parameter_count=2,.parameters=contracts,.parameter_event_count=3,.parameter_events=actions};
+    if(mode==1)contracts[1].id="drive";
+    if(mode==4)actions[0].before_call=19;
+    if(mode==8){actions[0].value_word=0x80000000u;actions[1].value_word=0u;actions[1].parameter_slot=0u;}
+    if(mode==9){test.expected_parameter_count=0;test.parameters=NULL;test.parameter_event_count=0;test.parameter_events=NULL;}
+    object_image image={.module={.parameter_count=count,.parameter_info=info,.parameter_value=value,.event=event}};
+    parameter_checks checks={0};verify_parameters(&image,&test,&checks);
+    for(uint32_t call=0;call<20u;++call){
+        apply_parameter_events(&image,&test,&checks,call);
+        if(mode!=9&&call==0u)CHECK(seen==2u&&actuals[1]==(mode==8?0.f:.5f)&&actuals[0]==(mode==8?0.f:-.5f));
+        if(mode!=9&&call>0u&&call<19u)CHECK(seen==2u);
+    }
+    if(mode==9){CHECK(!seen&&!checks.events&&!checks.total_us&&!checks.peak_us);return 0;}
+    CHECK(seen==3u&&indices[0]==1u&&indices[1]==(mode==8?1u:0u)&&indices[2]==1u&&actuals[1]==-8.f);
+    CHECK(checks.next_event==3u&&checks.events==3u&&checks.total_us==3u&&checks.peak_us==1u);
+    CHECK(same_numeric_word(0x80000000u,0u)&&!same_numeric_word(0x3f000000u,0x3f000001u));
+    return 0;
+}
+'''
+        with tempfile.TemporaryDirectory()as temp:
+            path=Path(temp);c=path/'parameters.c';c.write_text(prelude+state+predicates+helpers+main)
+            compiler=shutil.which('cc');self.assertIsNotNone(compiler)
+            subprocess.run([compiler,'-std=c11','-Wall','-Wextra','-Werror','-Wno-unused-function',
+                '-fsanitize=undefined','-fno-sanitize-recover=all','-I'+str(ROOT/'module-sdk/include'),
+                '-I'+str(ROOT/'hardware-smoke/main'),str(c),'-o',str(path/'parameters')],check=True,capture_output=True,text=True)
+            passed=subprocess.run([str(path/'parameters')],check=True,capture_output=True,text=True)
+            records=passed.stdout.splitlines();self.assertEqual(len(records),3)
+            self.assertIn('ordinal=0 before_call=0 parameter_slot=0 resolved_index=1',records[0])
+            self.assertIn('ordinal=1 before_call=0 parameter_slot=1 resolved_index=0',records[1])
+            self.assertIn('ordinal=2 before_call=19',records[2])
+            self.assertTrue(all('event_us=1'in row for row in records))
+            legacy=subprocess.run([str(path/'parameters'),'9'],check=True,capture_output=True,text=True)
+            self.assertEqual(legacy.stdout,'')
+            zeros=subprocess.run([str(path/'parameters'),'8'],check=True,capture_output=True,text=True)
+            self.assertIn('value_word=80000000 actual_word=00000000',zeros.stdout)
+            for mode in range(1,8):
+                with self.subTest(mode=mode):
+                    result=subprocess.run([str(path/'parameters'),str(mode)],capture_output=True,text=True)
+                    self.assertEqual(result.returncode,66)
+
+    def test_actual_output_comparator_prefers_shared_blocks_and_gates_strict_zero_lane(self):
+        source=(ROOT/'hardware-smoke/main/smoke.c').read_text()
+        state=re.search(r'typedef struct \{\s*uint64_t samples,.*?\} output_checks;',source,re.S).group()
+        predicate=source[source.index('static bool word_finite'):source.index('static bool token')]
+        comparator=source[source.index('static void compare_output'):source.index('static uint32_t float_word')]
+        prelude=r'''
+#include <stdbool.h>
+#include <stdint.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "smoke_types.h"
+#define RNBO_S3_BLOCK_FRAMES 256u
+#define CHECK(x) do {if(!(x)){fprintf(stderr,"check %d\n",__LINE__);exit(66);}}while(0)
+enum {MANUAL_WARM_CALLS=4,TIMED_CALLS=16};
+static float storage[2][256];static float *const outputs[2]={storage[0],storage[1]};
+'''
+        main=r'''
+static void fill(const uint32_t *words){
+    for(unsigned i=0;i<256u;++i)for(unsigned ch=0;ch<2u;++ch)memcpy(&outputs[ch][i],&words[2u*i+ch],4u);
+}
+int main(void){
+    uint32_t blocks[2][512],flat[20u*512u],zeros[512]={0};const uint32_t *refs[20];
+    smoke_case test={.expected_blocks=flat,.expected_block_refs=refs};
+    for(unsigned i=0;i<512u;++i){blocks[0][i]=0x3f800000u;blocks[1][i]=0x40000000u;test.expected[i]=0x40800000u;}
+    for(unsigned i=0;i<20u*512u;++i)flat[i]=0x40400000u;
+    for(unsigned call=0;call<20u;++call)refs[call]=blocks[call&1u];
+    output_checks checks={.first_mismatch=UINT32_MAX,.first_mismatch_call=UINT32_MAX};
+    for(unsigned call=0;call<20u;++call){fill(refs[call]);compare_output(&test,&checks);}
+    CHECK(checks.samples==10240u&&!checks.bit_mismatches&&!checks.numeric_mismatches);
+    test.expected_block_refs=NULL;checks=(output_checks){.samples=2u*512u,.first_mismatch=UINT32_MAX};
+    fill(flat+2u*512u);compare_output(&test,&checks);CHECK(!checks.bit_mismatches);
+    test.expected_blocks=NULL;checks=(output_checks){.first_mismatch=UINT32_MAX};
+    fill(test.expected);compare_output(&test,&checks);CHECK(!checks.bit_mismatches);
+    for(unsigned call=0;call<20u;++call)refs[call]=zeros;
+    test.expected_block_refs=refs;test.strict_zero_sign_channels=2u;test.absolute_tolerance=.001f;
+    fill(zeros);uint32_t minus_zero=0x80000000u;
+    memcpy(&outputs[0][0],&minus_zero,4u);memcpy(&outputs[1][0],&minus_zero,4u);
+    checks=(output_checks){.samples=5u*512u,.first_mismatch=UINT32_MAX,.first_mismatch_call=UINT32_MAX};
+    compare_output(&test,&checks);
+    CHECK(checks.bit_mismatches==2u&&checks.zero_sign_differences==1u&&checks.strict_zero_sign_mismatches==1u);
+    CHECK(checks.numeric_mismatches==1u&&!checks.within_tolerance_differences&&!checks.nonfinite_outputs&&checks.max_absolute_error==0.);
+    CHECK(checks.first_mismatch_call==5u&&checks.first_mismatch==1u&&checks.first_actual==0x80000000u&&checks.first_expected==0u);
+    zeros[1]=minus_zero;fill(zeros);outputs[1][0]=0.f;
+    checks=(output_checks){.first_mismatch=UINT32_MAX};compare_output(&test,&checks);
+    CHECK(checks.numeric_mismatches==1u&&checks.strict_zero_sign_mismatches==1u&&!checks.zero_sign_differences);
+    CHECK(checks.first_actual==0u&&checks.first_expected==minus_zero);
+    zeros[1]=0u;fill(zeros);memcpy(&outputs[0][0],&minus_zero,4u);memcpy(&outputs[1][0],&minus_zero,4u);
+    test.strict_zero_sign_channels=0u;checks=(output_checks){.first_mismatch=UINT32_MAX};compare_output(&test,&checks);
+    CHECK(checks.zero_sign_differences==2u&&!checks.numeric_mismatches&&!checks.strict_zero_sign_mismatches&&!checks.within_tolerance_differences);
+    test.strict_zero_sign_channels=3u;checks=(output_checks){.first_mismatch=UINT32_MAX};compare_output(&test,&checks);
+    CHECK(checks.numeric_mismatches==2u&&checks.strict_zero_sign_mismatches==2u&&!checks.zero_sign_differences);
+    return 0;
+}
+'''
+        with tempfile.TemporaryDirectory()as temp:
+            path=Path(temp);c=path/'compare.c';c.write_text(prelude+state+predicate+comparator+main)
+            compiler=shutil.which('cc');self.assertIsNotNone(compiler)
+            subprocess.run([compiler,'-std=c11','-Wall','-Wextra','-Werror','-fsanitize=undefined','-fno-sanitize-recover=all',
+                '-I'+str(ROOT/'hardware-smoke/main'),str(c),'-o',str(path/'compare')],check=True,capture_output=True,text=True)
+            subprocess.run([str(path/'compare')],check=True,capture_output=True,text=True)
 
     def test_wrapper_changes_only_exact_export_paths_and_output(self):
         command = ["compiler", "-I/old", "-I/old/common", "-DNAME=/old", "-o", "old.o", "-c", "wrapper.cpp"]

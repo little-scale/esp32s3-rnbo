@@ -10,6 +10,8 @@ import argparse
 import hashlib
 import json
 import math
+import re
+import struct
 from datetime import datetime
 from pathlib import Path
 
@@ -152,10 +154,67 @@ def inventory_rows(inventory):
     return rows
 
 
+def checked_boundary_events(case,data):
+    """Validate collected boundary-control observations, without importing tooling."""
+    valid_sha=lambda value:type(value)is str and re.fullmatch('[0-9a-f]{64}',value)is not None
+    require(type(data.get('prepare_zero_warm_blocks'))is int and data['prepare_zero_warm_blocks']==0 and
+            data.get('expected_block_storage')=='shared-512-word-pool'and type(data.get('expected_stream_policy'))is str and
+            type(case.get('expected_block_count'))is int and case['expected_block_count']==20 and valid_sha(case.get('expected_stream_sha256')),
+            'Boundary smoke requires its fresh twenty-block reference')
+    count=case.get('parameter_count');parameters=case.get('parameters');events=case.get('parameter_events')
+    require(type(count)is int and 1<=count<=32 and type(parameters)is list and len(parameters)==count and
+            valid_sha(case.get('parameter_schema_sha256')),'Boundary parameter schema/count differs')
+    identities=set()
+    for parameter in parameters:
+        require(type(parameter)is dict and set(parameter)=={'id','minimum','maximum','initial','exponent','steps'},'Invalid boundary parameter contract')
+        identity=parameter['id']
+        require(type(identity)is str and re.fullmatch('[A-Za-z0-9_.-]{1,191}',identity)is not None and identity not in identities,
+                'Boundary parameter ID differs')
+        identities.add(identity)
+        minimum,maximum,initial,exponent=(number(parameter[k])for k in ('minimum','maximum','initial','exponent'))
+        require(all(abs(v)<=3.4028234663852886e38 and struct.unpack('<f',struct.pack('<f',v))[0]==v for v in (minimum,maximum,initial,exponent)),
+                'Boundary parameter contract must be binary32')
+        require(minimum<maximum and minimum<=initial<=maximum and exponent==1 and type(parameter['steps'])is int and parameter['steps']==0,
+                'Boundary parameter must be linear and unstepped')
+    require(type(events)is list and len(events)==21 and type(case.get('parameter_events_applied'))is int and case['parameter_events_applied']==21,
+            'Boundary smoke requires twenty-one observed actions')
+    resolved={};indices={};last_call=0;total=0;peak=0
+    event_keys={'ordinal','before_call','id','parameter_slot','resolved_index','value_word','actual_word','normalized_word',
+                'expected_normalized_word','event_us','actual_zero_sign_difference','normalized_zero_sign_difference'}
+    same_word=lambda a,b:a==b or ((a|b)&0x7fffffff)==0
+    for ordinal,event in enumerate(events):
+        require(type(event)is dict and set(event)==event_keys,'Boundary event fields differ')
+        require(type(event['ordinal'])is int and event['ordinal']==ordinal and type(event['before_call'])is int and
+                last_call<=event['before_call']<20,'Boundary action order/call differs')
+        last_call=event['before_call'];slot=event['parameter_slot'];index=event['resolved_index']
+        require(type(slot)is int and 0<=slot<count and event['id']==parameters[slot]['id']and type(index)is int and 0<=index<count and
+                resolved.get(slot,index)==index and indices.get(index,slot)==slot,'Boundary parameter slot/ID resolution differs')
+        resolved[slot]=index;indices[index]=slot
+        for key in ('value_word','actual_word','normalized_word','expected_normalized_word'):
+            require(type(event[key])is int and 0<=event[key]<=0xffffffff and(event[key]&0x7f800000)!=0x7f800000,'Boundary parameter word is invalid')
+        value=struct.unpack('<f',struct.pack('<I',event['value_word']))[0];parameter=parameters[slot]
+        require(parameter['minimum']<=value<=parameter['maximum'],'Boundary parameter value exceeds bounds')
+        expected_normalized=struct.unpack('<I',struct.pack('<f',(value-parameter['minimum'])/(parameter['maximum']-parameter['minimum'])))[0]
+        require(event['expected_normalized_word']==expected_normalized and same_word(event['actual_word'],event['value_word'])and
+                same_word(event['normalized_word'],expected_normalized),'Boundary actual/normalized readback differs')
+        for flag,actual,expected in (('actual_zero_sign_difference',event['actual_word'],event['value_word']),
+                                     ('normalized_zero_sign_difference',event['normalized_word'],expected_normalized)):
+            require(type(event[flag])is bool and event[flag]==(actual!=expected),'Boundary readback zero-sign diagnostic differs')
+        require(type(event['event_us'])is int and 0<=event['event_us']<=1000000000,'Boundary event duration differs')
+        total+=event['event_us'];peak=max(peak,event['event_us'])
+    require(type(case.get('event_total_us'))is int and case['event_total_us']==total and type(case.get('event_peak_us'))is int and
+            case['event_peak_us']==peak,'Boundary event timing totals differ')
+    require(case.get('parameter_event_scope')=='Actual TimeNow controls before full256-frame callbacks; no within-block event offsets'and
+            case.get('event_timing_scope')=='Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost',
+            'Boundary event scope differs')
+    return {key:case[key]for key in ('parameter_count','parameter_schema_sha256','parameter_events_applied','event_total_us','event_peak_us',
+            'expected_block_count','expected_stream_sha256','strict_zero_sign_channels','strict_zero_sign_mismatches','parameter_event_scope','event_timing_scope')}
+
+
 def checked_short_smoke(record,item,data):
     """A short exact-spelling hardware observation, with no gain attribution."""
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions') and data.get('surface')=='patcher' and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events') and data.get('surface')=='patcher' and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     selector=item.get('selector','')
@@ -173,12 +232,19 @@ def checked_short_smoke(record,item,data):
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions')or present==numeric_keys),
+    boundary=data.get('family')=='rnbo-events';event_fields={};strict=0
+    if boundary:
+        require(type(case.get('strict_zero_sign_channels'))is int and case['strict_zero_sign_channels']==2 and
+                type(case.get('strict_zero_sign_mismatches'))is int and case['strict_zero_sign_mismatches']>=0,
+                'Boundary smoke requires strict right zero signs')
+        strict=case['strict_zero_sign_mismatches']
+        event_fields=checked_boundary_events(case,data)
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-events')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
         require(all(type(v)is int and v>=0 for v in (mismatches,within,nonfinite))and
-                mismatches==bits-zeros-within and nonfinite<=mismatches,
+                mismatches==bits-zeros-within and nonfinite+strict<=mismatches,
                 'Short numeric smoke mismatch categories differ')
         tolerance=number(case['absolute_tolerance']);maximum=number(case['max_absolute_error'])
         # Float32(1e-3) is slightly greater than decimal1e-3. Only this
@@ -187,12 +253,13 @@ def checked_short_smoke(record,item,data):
         require(0<=tolerance<=maximum_tolerance and maximum>=0 and(not within or tolerance>0),
                 'Short numeric smoke tolerance/error is invalid')
         require((mismatches==0 and maximum<=tolerance)or
-                (mismatches>0 and(mismatches==nonfinite or maximum>tolerance)),
+                (mismatches>0 and(mismatches==nonfinite+strict or maximum>tolerance)),
                 'Short numeric smoke finite error contradicts its gate')
         input_sha=case['input_words_sha256']
         require(type(input_sha)is str and len(input_sha)==64 and all(c in '0123456789abcdef'for c in input_sha),
                 'Short numeric smoke input identity is invalid')
         numeric={key:case[key]for key in numeric_keys}
+        if boundary:require(tolerance==0,'Boundary smoke requires zero absolute tolerance')
     else:mismatches=bits-zeros
     require((case['status']=='pass')==(mismatches==0),'Short smoke output status/counters differ')
     times=case.get('times_us')
@@ -215,7 +282,7 @@ def checked_short_smoke(record,item,data):
     if median>.1*256000000/44100:expected.append('median_budget')
     if peak>max(3*median,median+100):expected.append('peak_spike')
     require(reasons==expected,'Short smoke CPU review reasons differ')
-    return {**numeric,**resource,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
+    return {**numeric,**resource,**event_fields,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
             'mean_us':mean,'median_us':median,'peak_us':peak,'cpu_review_reasons':reasons,
             'samples_checked':case['samples_checked'],'test_level':'short-functional-hardware-check',
             'full_qualification_claimed':False,'cpu_time_saved_percent':None,
@@ -323,6 +390,8 @@ def make_status(inventory,coverage,root=ROOT):
                     row['working']['detail']+=f" Declared absolute tolerance {observation['absolute_tolerance']:.9g}; maximum finite error {observation['max_absolute_error']:.9g}; within-tolerance differences {observation['within_tolerance_differences']}; numeric mismatches {observation['numeric_mismatches']}; nonfinite outputs {observation['nonfinite_outputs']}."
                 if 'arena_capacity'in observation:
                     row['working']['detail']+=f" Arena reserved {observation['arena_capacity']:,} bytes; observed high-water {observation['arena_high_water']:,} bytes."
+                if 'parameter_events_applied'in observation:
+                    row['working']['detail']+=f" {observation['parameter_events_applied']} parameter events with actual/normalized readbacks; setter/routing total {observation['event_total_us']}µs, peak {observation['event_peak_us']}µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict ({observation['strict_zero_sign_mismatches']} mismatches)."
                 if observation['cpu_review_reasons']:row['working']['detail']+=' Callback timing flagged for later review.'
         if record.get('working_test_level')=='short-functional-hardware-check':
             require(smoke and working in ('board','partial'),'Short smoke label requires a bound hardware scenario')

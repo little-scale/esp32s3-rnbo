@@ -37,10 +37,14 @@ static const float *const inputs[2]={input_storage[0],input_storage[1]};
 static float *const outputs[2]={output_storage[0],output_storage[1]};
 
 typedef struct {
-    uint64_t samples,bit_mismatches,zero_sign_differences,numeric_mismatches,within_tolerance_differences,nonfinite_outputs;
+    uint64_t samples,bit_mismatches,zero_sign_differences,numeric_mismatches,within_tolerance_differences,nonfinite_outputs,strict_zero_sign_mismatches;
     double max_absolute_error;
     uint32_t first_mismatch,first_mismatch_call,first_actual,first_expected;
 } output_checks;
+typedef struct {
+    uint32_t resolved[32],next_event;
+    uint64_t events,total_us,peak_us;
+} parameter_checks;
 
 static bool word_finite(uint32_t word) { return (word&0x7f800000u)!=0x7f800000u; }
 static bool token(const char *text)
@@ -65,19 +69,26 @@ static void digest_hex(const uint8_t *bytes,size_t count,char result[65])
 static void compare_output(const smoke_case *test,output_checks *checks)
 {
     unsigned call=(unsigned)(checks->samples/512u);CHECK(call<MANUAL_WARM_CALLS+TIMED_CALLS);
-    const uint32_t *expected_words=test->expected_blocks?test->expected_blocks+call*512u:test->expected;
+    const uint32_t *expected_words=test->expected_block_refs?test->expected_block_refs[call]:
+        test->expected_blocks?test->expected_blocks+call*512u:test->expected;
+    CHECK(expected_words!=NULL);
     for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
         uint32_t actual;memcpy(&actual,&outputs[channel][frame],sizeof actual);
         uint32_t expected=expected_words[2u*frame+channel];++checks->samples;
         if(actual==expected)continue;
         ++checks->bit_mismatches;
-        if(((actual|expected)&0x7fffffffu)==0){++checks->zero_sign_differences;continue;}
-        if(word_finite(actual)){
+        bool strict_zero=false;
+        if(((actual|expected)&0x7fffffffu)==0){
+            if(test->strict_zero_sign_channels&(1u<<channel)){
+                ++checks->strict_zero_sign_mismatches;strict_zero=true;
+            }else{++checks->zero_sign_differences;continue;}
+        }
+        if(!strict_zero && word_finite(actual)){
             float target;memcpy(&target,&expected,sizeof target);
             double error=fabs((double)outputs[channel][frame]-(double)target);
             if(error>checks->max_absolute_error)checks->max_absolute_error=error;
             if(error<=(double)test->absolute_tolerance){++checks->within_tolerance_differences;continue;}
-        }else ++checks->nonfinite_outputs;
+        }else if(!strict_zero)++checks->nonfinite_outputs;
         ++checks->numeric_mismatches;
         if(checks->first_mismatch==UINT32_MAX){
             checks->first_mismatch_call=call;
@@ -85,8 +96,96 @@ static void compare_output(const smoke_case *test,output_checks *checks)
         }
     }
 }
-static uint64_t process_once(object_image *image,const smoke_case *test,output_checks *checks)
+static uint32_t float_word(float value)
 {
+    uint32_t word;memcpy(&word,&value,sizeof word);return word;
+}
+static bool same_numeric_word(uint32_t actual,uint32_t expected)
+{
+    return actual==expected || ((actual|expected)&0x7fffffffu)==0u;
+}
+static float affine_normalized(const smoke_parameter_contract *parameter,float actual)
+{
+    /* Independent affine reference, outside all callback timing. The initial
+     * parameter scenario has exponent1, steps0 and exact dyadic [-8,8] values. */
+    return (float)(((double)actual-(double)parameter->minimum)/
+                   ((double)parameter->maximum-(double)parameter->minimum));
+}
+static void verify_parameters(object_image *image,const smoke_case *test,parameter_checks *checks)
+{
+    CHECK(test->expected_parameter_count<=32u);
+    CHECK(image->module.parameter_count(image->context)==test->expected_parameter_count);
+    CHECK((test->expected_parameter_count!=0u)==(test->parameters!=NULL));
+    CHECK((test->parameter_event_count!=0u)==(test->parameter_events!=NULL));
+    for(uint32_t slot=0;slot<test->expected_parameter_count;++slot){
+        const smoke_parameter_contract *parameter=&test->parameters[slot];
+        CHECK(token(parameter->id) && strlen(parameter->id)<sizeof(((rnbo_s3_parameter_info *)0)->id));
+        CHECK(isfinite(parameter->minimum) && isfinite(parameter->maximum) && parameter->minimum<parameter->maximum);
+        CHECK(isfinite(parameter->initial) && parameter->initial>=parameter->minimum && parameter->initial<=parameter->maximum);
+        CHECK(parameter->exponent==1.f && parameter->steps==0u);
+        for(uint32_t prior=0;prior<slot;++prior)CHECK(strcmp(parameter->id,test->parameters[prior].id));
+        checks->resolved[slot]=UINT32_MAX;
+    }
+    for(uint32_t index=0;index<test->expected_parameter_count;++index){
+        rnbo_s3_parameter_info info={.struct_bytes=sizeof info};
+        allocation_probe_begin();int result=image->module.parameter_info(image->context,index,&info);allocation_probe_end();
+        CHECK(result==RNBO_S3_OK && info.struct_bytes==sizeof info && info.index==index);
+        CHECK(memchr(info.id,0,sizeof info.id)!=NULL);
+        uint32_t slot=0;
+        while(slot<test->expected_parameter_count && strcmp(info.id,test->parameters[slot].id))++slot;
+        CHECK(slot<test->expected_parameter_count && checks->resolved[slot]==UINT32_MAX);
+        const smoke_parameter_contract *parameter=&test->parameters[slot];
+        CHECK(float_word(info.minimum)==float_word(parameter->minimum) && float_word(info.maximum)==float_word(parameter->maximum));
+        CHECK(float_word(info.initial)==float_word(parameter->initial) && float_word(info.exponent)==float_word(parameter->exponent) && info.steps==parameter->steps);
+        checks->resolved[slot]=index;
+        float actual=NAN,normalized=NAN;
+        allocation_probe_begin();result=image->module.parameter_value(image->context,index,&actual,&normalized);allocation_probe_end();
+        CHECK(result==RNBO_S3_OK && float_word(actual)==float_word(parameter->initial));
+        CHECK(float_word(normalized)==float_word(affine_normalized(parameter,parameter->initial)));
+        CHECK(!allocation_probe_allocations()&&!allocation_probe_frees());
+    }
+    for(uint32_t n=0;n<test->parameter_event_count;++n){
+        const smoke_parameter_action *action=&test->parameter_events[n];
+        CHECK(action->before_call<MANUAL_WARM_CALLS+TIMED_CALLS && action->parameter_slot<test->expected_parameter_count);
+        if(n)CHECK(test->parameter_events[n-1u].before_call<=action->before_call);
+        CHECK(word_finite(action->value_word));
+        float value;memcpy(&value,&action->value_word,sizeof value);
+        const smoke_parameter_contract *parameter=&test->parameters[action->parameter_slot];
+        CHECK(value>=parameter->minimum && value<=parameter->maximum);
+    }
+}
+static void apply_parameter_events(object_image *image,const smoke_case *test,parameter_checks *checks,uint32_t call)
+{
+    while(checks->next_event<test->parameter_event_count){
+        uint32_t ordinal=checks->next_event;
+        const smoke_parameter_action *action=&test->parameter_events[ordinal];
+        CHECK(action->before_call>=call);
+        if(action->before_call!=call)break;
+        const smoke_parameter_contract *parameter=&test->parameters[action->parameter_slot];
+        uint32_t index=checks->resolved[action->parameter_slot];
+        float value;memcpy(&value,&action->value_word,sizeof value);
+        rnbo_s3_event event={.struct_bytes=sizeof event,.kind=RNBO_S3_PARAMETER_ACTUAL,.parameter_index=index,.value=value};
+        allocation_probe_begin();int64_t start=esp_timer_get_time();
+        int result=image->module.event(image->context,&event);
+        int64_t elapsed=esp_timer_get_time()-start;
+        float actual=NAN,normalized=NAN;
+        int readback=image->module.parameter_value(image->context,index,&actual,&normalized);allocation_probe_end();
+        CHECK(result==RNBO_S3_OK && elapsed>=0 && readback==RNBO_S3_OK);
+        CHECK(!allocation_probe_allocations()&&!allocation_probe_frees());
+        uint32_t actual_word=float_word(actual),normalized_word=float_word(normalized);
+        CHECK(same_numeric_word(actual_word,action->value_word) && same_numeric_word(normalized_word,float_word(affine_normalized(parameter,value))));
+        CHECK(UINT64_MAX-checks->total_us>=(uint64_t)elapsed);
+        checks->total_us+=(uint64_t)elapsed;
+        if((uint64_t)elapsed>checks->peak_us)checks->peak_us=(uint64_t)elapsed;
+        ++checks->events;++checks->next_event;
+        printf("RNBO_SMOKE EVENT case_id=%s ordinal=%"PRIu32" before_call=%"PRIu32" parameter_slot=%"PRIu32" resolved_index=%"PRIu32" value_word=%08"PRIx32" actual_word=%08"PRIx32" normalized_word=%08"PRIx32" event_us=%"PRIu64"\n",test->id,ordinal,call,action->parameter_slot,index,action->value_word,actual_word,normalized_word,(uint64_t)elapsed);
+    }
+}
+static uint64_t process_once(object_image *image,const smoke_case *test,output_checks *checks,parameter_checks *parameters)
+{
+    uint32_t call=(uint32_t)(checks->samples/512u);
+    CHECK(call<MANUAL_WARM_CALLS+TIMED_CALLS);
+    apply_parameter_events(image,test,parameters,call);
     for(unsigned ch=0;ch<2;++ch)for(unsigned f=0;f<RNBO_S3_BLOCK_FRAMES;++f)outputs[ch][f]=NAN;
     allocation_probe_begin();int64_t start=esp_timer_get_time();
     int result=image->module.process(image->context,inputs,outputs,RNBO_S3_BLOCK_FRAMES,image->position);
@@ -126,9 +225,15 @@ static void worker(void *unused)
         const smoke_case *test=&smoke_cases[n];CHECK(token(test->id)&&hex_digest(test->sha));
         CHECK(test->reference_policy && (!strcmp(test->reference_policy,"documented-basic")||!strcmp(test->reference_policy,"observational-signed-fraction")||!strcmp(test->reference_policy,"mathematical-approximation")));
         CHECK(isfinite(test->absolute_tolerance) && test->absolute_tolerance>=0 && test->absolute_tolerance<=.001f);
+        CHECK((test->strict_zero_sign_channels&~3u)==0u);
         CHECK((uintptr_t)test->payload_end>(uintptr_t)test->payload_start);
         for(unsigned i=0;i<512;++i)CHECK(word_finite(test->expected[i]));
-        if(test->expected_blocks){for(unsigned i=0;i<20u*512u;++i)CHECK(word_finite(test->expected_blocks[i]));}
+        if(test->expected_block_refs){
+            for(unsigned b=0;b<20u;++b){
+                CHECK(test->expected_block_refs[b]!=NULL);
+                for(unsigned i=0;i<512u;++i)CHECK(word_finite(test->expected_block_refs[b][i]));
+            }
+        }else if(test->expected_blocks){for(unsigned i=0;i<20u*512u;++i)CHECK(word_finite(test->expected_blocks[i]));}
         const uint32_t *vector=test->input_words?test->input_words:smoke_inputs;
         for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
             uint32_t word=vector[2u*frame+channel];CHECK(word_finite(word));
@@ -141,14 +246,16 @@ static void worker(void *unused)
         uint32_t arena_bytes=test->arena_bytes?test->arena_bytes:SMOKE_ARENA_BYTES;
         CHECK(arena_bytes>=4096u && arena_bytes<=1048576u);
         object_image image;object_image_load(&image,test->payload_start,(size_t)(test->payload_end-test->payload_start),RNBO_S3_FX,arena_bytes);++images;
-        object_image_prepare(&image,SMOKE_PREPARE_WARM_BLOCKS,SMOKE_SEED);CHECK(image.module.parameter_count(image.context)==0);
+        object_image_prepare(&image,SMOKE_PREPARE_WARM_BLOCKS,SMOKE_SEED);
+        parameter_checks parameters={0};verify_parameters(&image,test,&parameters);
         output_checks checks={.first_mismatch=UINT32_MAX,.first_mismatch_call=UINT32_MAX};
-        for(unsigned b=0;b<MANUAL_WARM_CALLS;++b)(void)process_once(&image,test,&checks);
+        for(unsigned b=0;b<MANUAL_WARM_CALLS;++b)(void)process_once(&image,test,&checks,&parameters);
         uint64_t times[TIMED_CALLS],total=0,peak=0;
         for(unsigned b=0;b<TIMED_CALLS;++b){
-            times[b]=process_once(&image,test,&checks);CHECK(UINT64_MAX-total>=times[b]);total+=times[b];
+            times[b]=process_once(&image,test,&checks,&parameters);CHECK(UINT64_MAX-total>=times[b]);total+=times[b];
             if(times[b]>peak)peak=times[b];
         }
+        CHECK(parameters.next_event==test->parameter_event_count && parameters.events==test->parameter_event_count);
         rnbo_s3_stats stats;rnbo_s3_dynamic_stats dynamic;object_image_statistics(&image,&stats,&dynamic);
         uint32_t context_bytes=image.info.context_bytes,code_bytes=image.elf.sec[ELF_SEC_TEXT].size;
         object_image_destroy_context(&image);object_image_unload(&image);++finalized;
@@ -170,8 +277,9 @@ static void worker(void *unused)
         uint64_t error_bits;uint32_t tolerance_bits;
         memcpy(&error_bits,&checks.max_absolute_error,sizeof error_bits);
         memcpy(&tolerance_bits,&test->absolute_tolerance,sizeof tolerance_bits);
-        printf(" numeric_mismatches=%"PRIu64" within_tolerance_differences=%"PRIu64" nonfinite_outputs=%"PRIu64" max_absolute_error_bits=%016"PRIx64" absolute_tolerance_bits=%08"PRIx32" input_words_sha256=%s",checks.numeric_mismatches,checks.within_tolerance_differences,checks.nonfinite_outputs,error_bits,tolerance_bits,input_sha);
-        printf(" first_mismatch_call=%"PRIu32" expected_block_count=%u",checks.first_mismatch_call,test->expected_blocks?20u:1u);
+        printf(" numeric_mismatches=%"PRIu64" within_tolerance_differences=%"PRIu64" nonfinite_outputs=%"PRIu64" max_absolute_error_bits=%016"PRIx64" absolute_tolerance_bits=%08"PRIx32" input_words_sha256=%s strict_zero_sign_mismatches=%"PRIu64,checks.numeric_mismatches,checks.within_tolerance_differences,checks.nonfinite_outputs,error_bits,tolerance_bits,input_sha,checks.strict_zero_sign_mismatches);
+        printf(" first_mismatch_call=%"PRIu32" expected_block_count=%u",checks.first_mismatch_call,(test->expected_blocks||test->expected_block_refs)?20u:1u);
+        printf(" parameter_count=%"PRIu32" parameter_events_applied=%"PRIu64" event_total_us=%"PRIu64" event_peak_us=%"PRIu64,test->expected_parameter_count,parameters.events,parameters.total_us,parameters.peak_us);
         putchar('\n');fflush(stdout);
     }
     size_t psram_end=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);

@@ -22,6 +22,22 @@ def require(test,message):
     if not test:raise ValueError(message)
 
 
+def decimal(data,key):
+    value=data.get(key)
+    require(type(value)is str and re.fullmatch('[0-9]+',value)is not None,'Missing or invalid decimal field: '+key)
+    return int(value)
+
+
+def word(data,key):
+    value=data.get(key)
+    require(type(value)is str and re.fullmatch('[0-9a-f]{8}',value)is not None,'Missing or invalid binary32 word: '+key)
+    return int(value,16)
+
+
+def same_numeric_word(actual,expected):
+    return actual==expected or ((actual|expected)&0x7fffffff)==0
+
+
 def fields(line,prefix):
     require(line.startswith(prefix),'Wrong smoke record type')
     result={}
@@ -45,6 +61,14 @@ def output_metrics(data,expected,common_input_sha):
     bits=int(data['bit_mismatches']);zeros=int(data['zero_sign_differences']);samples=int(data['samples'])
     require(samples==20*512 and 0<=zeros<=bits<=samples,'Output comparison counts differ')
     metrics={'samples_checked':samples,'bit_mismatches':bits,'zero_sign_differences':zeros}
+    mask=expected.get('strict_zero_sign_channels',0)
+    require(type(mask)is int and 0<=mask<=3,'Invalid strict zero-sign channel mask')
+    strict=decimal(data,'strict_zero_sign_mismatches')if 'strict_zero_sign_mismatches'in data else 0
+    require(not strict or mask,'Strict zero-sign failures lack a declared channel mask')
+    if mask:
+        require('strict_zero_sign_mismatches'in data and 'numeric_mismatches'in data,
+                'Strict zero-sign channel requires its numeric subtype record')
+        metrics['strict_zero_sign_mismatches']=strict
     numeric=bits-zeros
     if 'numeric_mismatches' in data:
         numeric=int(data['numeric_mismatches']);within=int(data['within_tolerance_differences'])
@@ -57,35 +81,50 @@ def output_metrics(data,expected,common_input_sha):
             tolerance=struct.unpack('<f',struct.pack('<I',int(data['absolute_tolerance_bits'],16)))[0]
         else:
             error=float(data['max_absolute_error']);tolerance=float(data['absolute_tolerance'])
-        require(0<=nonfinite<=numeric<=bits and 0<=within<=bits and numeric+within+zeros==bits,
+        require(0<=nonfinite<=numeric<=bits and 0<=strict<=numeric-nonfinite and 0<=within<=bits and numeric+within+zeros==bits,
             'Numerical comparison counters differ')
         require(math.isfinite(tolerance) and 0<=tolerance<=TOLERANCE_CEILING and tolerance==expected.get('absolute_tolerance',0) and
                 math.isfinite(error) and error>=0 and (within==0 or tolerance>0),
                 'Predeclared error tolerance or observed error differs')
-        require((numeric>0 or error<=tolerance) and (numeric==nonfinite or error>tolerance),
+        require((numeric>0 or error<=tolerance) and (numeric==nonfinite+strict or error>tolerance),
                 'Numerical status contradicts the largest finite error')
         require(data['input_words_sha256']==expected.get('input_words_sha256',common_input_sha),
                 'Device input vector differs from the prepared case')
         metrics.update(numeric_mismatches=numeric,within_tolerance_differences=within,nonfinite_outputs=nonfinite,
             max_absolute_error=error,absolute_tolerance=tolerance,input_words_sha256=data['input_words_sha256'])
-    else:require(expected.get('absolute_tolerance',0)==0 and 'input_words' not in expected,
+    else:require(not strict and expected.get('absolute_tolerance',0)==0 and 'input_words' not in expected,
         'Per-case vector/tolerance requires the new device comparison record')
     status='pass' if numeric==0 else 'output_mismatch'
     require(data['status']==status and int(data['finalized'])==1,'Output/finalization status differs')
     return dict(metrics,status=status)
 
 
-def expected_stream(expected,stateful=False):
+def valid_expected_block(block):
+    return type(block)is list and len(block)==512 and all(type(w)is int and 0<=w<=0xffffffff and
+        (w&0x7f800000)!=0x7f800000 for w in block)
+
+
+def expected_pool(plan):
+    pool=plan.get('expected_block_pool');count=plan.get('expected_reference_unique_blocks')
+    require(type(pool)is list and type(count)is int and 1<=count==len(pool)and all(valid_expected_block(block)for block in pool),
+            'Invalid expected block pool/count')
+    require(len({tuple(block)for block in pool})==count,'Expected block pool is not deduplicated')
+    return pool
+
+
+def expected_stream(expected,stateful=False,pool=None):
     """Bind the fresh-constructor twenty-call reference as little-endian words."""
-    def valid(block):
-        return type(block)is list and len(block)==512 and all(type(w)is int and 0<=w<=0xffffffff and
-            (w&0x7f800000)!=0x7f800000 for w in block)
-    require(valid(expected.get('expected')),'Invalid legacy expected block')
-    blocks=expected.get('expected_blocks')
+    require(valid_expected_block(expected.get('expected')),'Invalid legacy expected block')
+    indices=expected.get('expected_block_indices')
+    if indices is not None or pool is not None:
+        require(stateful and pool is not None and 'expected_blocks'not in expected and type(indices)is list and len(indices)==20 and
+                all(type(index)is int and 0<=index<len(pool)for index in indices),'Invalid compact expected block indices')
+        blocks=[pool[index]for index in indices]
+    else:blocks=expected.get('expected_blocks')
     if blocks is None:
         require(not stateful and 'expected_stream_sha256'not in expected,'Stateful expected stream is missing')
         return None,None
-    require(stateful and type(blocks)is list and len(blocks)==20 and all(valid(block)for block in blocks),
+    require(stateful and type(blocks)is list and len(blocks)==20 and all(valid_expected_block(block)for block in blocks),
             'Stateful reference requires twenty finite 512-word blocks')
     require(expected['expected']==blocks[0],'Legacy expected block differs from stream block0')
     fingerprint=hashlib.sha256(b''.join(struct.pack('<512I',*block)for block in blocks)).hexdigest()
@@ -116,11 +155,16 @@ def mismatch_witness(data,expected,status,output,blocks=None,stream_sha=None):
         require(all(re.fullmatch('[0-9a-f]{8}',data.get(key,''))for key in ('first_actual','first_expected'))and
                 int(data['first_expected'],16)==target_word,'Mismatch witness differs from its call-specific reference')
         actual_word=int(data['first_actual'],16)
-        require(actual_word!=target_word and((actual_word|target_word)&0x7fffffff)!=0,
-                'Output mismatch witness is only an allowed zero sign or unchanged word')
+        require(actual_word!=target_word,'Output mismatch witness is an unchanged word')
+        strict_zero=((actual_word|target_word)&0x7fffffff)==0
+        if strict_zero:
+            require(expected.get('strict_zero_sign_channels',0)&(1<<(first%2)) and
+                    output.get('strict_zero_sign_mismatches',0)>0,
+                    'Output mismatch witness is only an allowed zero sign')
         actual=struct.unpack('<f',struct.pack('<I',actual_word))[0]
         target=struct.unpack('<f',struct.pack('<I',target_word))[0]
-        if math.isfinite(actual):
+        if strict_zero:pass
+        elif math.isfinite(actual):
             require(abs(actual-target)>expected.get('absolute_tolerance',0),
                     'Mismatch witness is within the predeclared error tolerance')
             if 'max_absolute_error'in output:require(output['max_absolute_error']>=abs(actual-target),'Maximum error omits the mismatch witness')
@@ -130,6 +174,79 @@ def mismatch_witness(data,expected,status,output,blocks=None,stream_sha=None):
     return first,extra
 
 
+def parameter_observations(expected,data,events,enabled=False):
+    """Bind actual TimeNow boundary actions; these are not sample-offset events."""
+    counters={'parameter_count','parameter_events_applied','event_total_us','event_peak_us'}
+    present=counters.intersection(data)
+    if not enabled:
+        require(not events and 'parameters'not in expected,'Unexpected parameter event records')
+        require(not present or present==counters,'Parameter CASE counters must be atomic')
+        require(all(decimal(data,key)==0 for key in present),'Unbound parameter CASE counters are nonzero')
+        return {}
+    require(present==counters,'Parameter CASE counters are missing')
+    count=expected.get('expected_parameter_count');parameters=expected.get('parameters');actions=expected.get('parameter_events')
+    require(type(count)is int and 1<=count<=32 and type(parameters)is list and len(parameters)==count,
+            'Parameter contract count differs')
+    require(type(expected.get('parameter_schema_sha256'))is str and
+            re.fullmatch('[0-9a-f]{64}',expected['parameter_schema_sha256'])is not None,'Invalid parameter schema identity')
+    require(type(actions)is list and 1<=len(actions)<=128 and len(events)==len(actions),'Parameter event count differs')
+    require(type(expected.get('strict_zero_sign_channels'))is int and expected['strict_zero_sign_channels']==2 and
+            type(expected.get('absolute_tolerance',0))in(int,float)and expected.get('absolute_tolerance',0)==0,
+            'Boundary parameter scenario requires strict right observer and zero tolerance')
+    identities=set()
+    for parameter in parameters:
+        require(type(parameter)is dict and set(parameter)=={'id','minimum','maximum','initial','exponent','steps'},'Invalid parameter contract')
+        identity=parameter['id']
+        require(type(identity)is str and re.fullmatch('[A-Za-z0-9_.-]{1,191}',identity)is not None and identity not in identities,
+                'Parameter ID is invalid or repeated')
+        identities.add(identity)
+        for key in ('minimum','maximum','initial','exponent'):
+            value=parameter[key]
+            require(type(value)in(int,float)and math.isfinite(value)and abs(value)<=3.4028234663852886e38 and
+                    struct.unpack('<f',struct.pack('<f',value))[0]==value,'Parameter contract must contain finite binary32 values')
+        require(parameter['minimum']<parameter['maximum']and parameter['minimum']<=parameter['initial']<=parameter['maximum']and
+                parameter['exponent']==1 and type(parameter['steps'])is int and parameter['steps']==0,
+                'Boundary parameters must be linear and unstepped')
+    result=[];resolved={};used_indices={};last_call=0;total=0;peak=0
+    event_keys={'case_id','ordinal','before_call','parameter_slot','resolved_index','value_word','actual_word','normalized_word','event_us'}
+    for ordinal,(action,event)in enumerate(zip(actions,events)):
+        require(type(action)is dict and set(action)=={'before_call','id','parameter_slot','value_word','normalized_word'},'Invalid parameter action')
+        call=action['before_call'];slot=action['parameter_slot']
+        require(type(call)is int and last_call<=call<20 and type(slot)is int and 0<=slot<count and
+                action['id']==parameters[slot]['id'],'Parameter action order/ID/slot differs')
+        last_call=call
+        for key in ('value_word','normalized_word'):
+            require(type(action[key])is int and 0<=action[key]<=0xffffffff and
+                    (action[key]&0x7f800000)!=0x7f800000,'Parameter action word is invalid')
+        value=struct.unpack('<f',struct.pack('<I',action['value_word']))[0];parameter=parameters[slot]
+        require(parameter['minimum']<=value<=parameter['maximum'],'Parameter action is outside declared bounds')
+        normalized=(value-parameter['minimum'])/(parameter['maximum']-parameter['minimum'])
+        normalized_word=struct.unpack('<I',struct.pack('<f',normalized))[0]
+        require(action['normalized_word']==normalized_word,'Authored normalized word differs from independent affine conversion')
+        require(set(event)==event_keys and event['case_id']==expected['id']and decimal(event,'ordinal')==ordinal and
+                decimal(event,'before_call')==call and decimal(event,'parameter_slot')==slot,
+                'Parameter event case/order/action differs')
+        index=decimal(event,'resolved_index')
+        require(index<count and resolved.get(slot,index)==index and used_indices.get(index,slot)==slot,'Parameter runtime ID resolution differs')
+        resolved[slot]=index;used_indices[index]=slot
+        actual=word(event,'actual_word');observed_normalized=word(event,'normalized_word')
+        require(word(event,'value_word')==action['value_word']and same_numeric_word(actual,action['value_word'])and
+                same_numeric_word(observed_normalized,normalized_word),'Parameter value/readback differs')
+        elapsed=decimal(event,'event_us');require(elapsed<=1000000000,'Invalid parameter event duration')
+        total+=elapsed;peak=max(peak,elapsed)
+        result.append({'ordinal':ordinal,'before_call':call,'id':action['id'],'parameter_slot':slot,'resolved_index':index,
+                       'value_word':action['value_word'],'actual_word':actual,'normalized_word':observed_normalized,
+                       'expected_normalized_word':normalized_word,'event_us':elapsed,
+                       'actual_zero_sign_difference':actual!=action['value_word'],
+                       'normalized_zero_sign_difference':observed_normalized!=normalized_word})
+    require(decimal(data,'parameter_count')==count and decimal(data,'parameter_events_applied')==len(actions)and
+            decimal(data,'event_total_us')==total and decimal(data,'event_peak_us')==peak,'Parameter CASE totals differ from actual events')
+    return {'parameter_count':count,'parameter_schema_sha256':expected['parameter_schema_sha256'],'parameters':parameters,
+            'parameter_events':result,'parameter_events_applied':len(result),'event_total_us':total,'event_peak_us':peak,
+            'parameter_event_scope':'Actual TimeNow controls before full256-frame callbacks; no within-block event offsets',
+            'event_timing_scope':'Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost'}
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -137,16 +254,26 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
-    stateful=plan.get('family')=='gen-stateful'
+    event_family=plan.get('family')=='rnbo-events'
+    stateful=plan.get('family')=='gen-stateful'or event_family
     if stateful:
-        require(plan.get('surface')=='genexpr'and type(plan.get('prepare_zero_warm_blocks'))is int and
+        require(plan.get('surface')==('patcher'if event_family else'genexpr')and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
                 'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
+    pool=None
+    if event_family:
+        require(plan.get('expected_block_storage')=='shared-512-word-pool','Boundary expected block storage differs')
+        pool=expected_pool(plan)
     # Runner field names are checked against its saved receipt and actual log.
     log_path=run_dir/'test-serial.log';raw=log_path.read_bytes();text=raw.decode('utf-8','strict')
     require(run['test_build_report_sha256']==sha(build_path) and run['serial_log_sha256']==sha(log_path),
         'Smoke build or saved serial log differs from runner receipt')
     lines=text.splitlines();case_lines=[line for line in lines if line.startswith('RNBO_SMOKE CASE ')]
+    event_groups=[];pending_events=[]
+    for line in lines:
+        if line.startswith('RNBO_SMOKE EVENT '):pending_events.append(fields(line,'RNBO_SMOKE EVENT '))
+        elif line.startswith('RNBO_SMOKE CASE '):event_groups.append(pending_events);pending_events=[]
+    require(not pending_events,'Unbound trailing parameter events')
     done_lines=[line for line in lines if line.startswith('RNBO_SMOKE DONE ')]
     require(len(done_lines)==1 and len(case_lines)==len(plan['cases']),'Incomplete smoke records')
     require(done_lines[0]==run['done_line'],'Runner/log completion differs')
@@ -155,7 +282,7 @@ def collect(build_dir,run_dir):
     elfs=[v['sha256']for k,v in build['artifacts'].items()if k.endswith('.elf')]
     require(len(elfs)==1 and done['firmware_elf_sha256']==elfs[0]==run['test_elf_sha256'],'Smoke firmware identity differs')
     records=[];cpu=[]
-    for line,expected in zip(case_lines,plan['cases']):
+    for line,expected,events in zip(case_lines,plan['cases'],event_groups):
         data=fields(line,'RNBO_SMOKE CASE ')
         require(data['id']==expected['id'] and data['module_sha256']==expected['module_sha256'],'Smoke module identity/order differs')
         times=[int(t)for t in data['times_us'].split(',')]
@@ -163,8 +290,9 @@ def collect(build_dir,run_dir):
         require(abs(float(data['median_us'])-med)<1e-5 and abs(float(data['mean_us'])-mean)<1e-5 and
                 int(data['peak_us'])==peak,'Callback metrics differ from raw times')
         output=output_metrics(data,expected,plan['input_words_sha256']);status=output['status']
-        blocks,stream_sha=expected_stream(expected,stateful)
+        blocks,stream_sha=expected_stream(expected,stateful,pool)
         first,witness_metadata=mismatch_witness(data,expected,status,output,blocks,stream_sha)
+        parameters=parameter_observations(expected,data,events,event_family)
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
@@ -173,6 +301,8 @@ def collect(build_dir,run_dir):
             context_bytes=int(data['context_bytes']),arena_high_water=int(data['arena_high_water']),
             finalized=True,first_mismatch_word=None if first==0xffffffff else first)
         record.update(witness_metadata)
+        record.update(parameters)
+        if 'strict_zero_sign_channels'in expected:record['strict_zero_sign_channels']=expected['strict_zero_sign_channels']
         if 'arena_bytes' in expected:
             require(int(data['arena_capacity'])==expected['arena_bytes'] and
                 0<=int(data['arena_high_water'])<=expected['arena_bytes'],'Device arena tier differs from the plan')
@@ -199,12 +329,15 @@ def collect(build_dir,run_dir):
         'cpu_review_policy':{'timed_callbacks':16,'high_median_block_fraction':0.1,
             'peak_threshold':'greater than max(3*median, median+100us)',
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
-    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions') and plan.get('surface')=='patcher':
+    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('gen-math','gen-stateful')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
+    if event_family:
+        result['expected_block_storage']=plan['expected_block_storage']
+        result['expected_reference_unique_blocks']=len(pool)
     if 'prepare_zero_warm_blocks' in plan:
         require(all(fields(line,'RNBO_SMOKE CASE ')['prepare_zero_warm_blocks']==str(plan['prepare_zero_warm_blocks'])
                     for line in case_lines),'Device preparation warmup differs from the plan')

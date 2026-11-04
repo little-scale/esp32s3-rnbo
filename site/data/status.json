@@ -46,9 +46,42 @@
       "aliases": [
         "!"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "not",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "not-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 164,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "57fea72677e096d167fac96e2e51d17c640cc9e5cc88dd8e43fc1fb89494dee0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.6875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:!",
       "inventory_group": "patcher:not",
       "is_alias": true,
@@ -56,16 +89,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/not?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.69µs, median 76.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 164µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -652,9 +693,42 @@
       "aliases": [
         "%"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mod",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "modulo-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 31,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "d86ad7e4007b6992112d98b581a5088e89b180b437d28ef2efbb2de1c2b6174c",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:%",
       "inventory_group": "patcher:mod",
       "is_alias": true,
@@ -662,16 +736,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mod?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.56µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 31µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -762,9 +844,42 @@
         "&&",
         "logand"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "and",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "and-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "ea6b5c30670954ea90575cc21449d438edd67e4d801e8908deb10f49cf4db37a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:&&",
       "inventory_group": "patcher:and",
       "is_alias": true,
@@ -772,16 +887,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/and?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.00µs, median 75.50µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -870,6 +993,39 @@
       "board_evidence": true,
       "canonical_name": "mul",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "multiply-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 169,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "4423cb5c63612fdc4d5dc35474ef620abb737dbeb66465a068affa476cbd8694",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:*",
       "inventory_group": "patcher:mul",
       "is_alias": true,
@@ -886,11 +1042,15 @@
         {
           "label": "drone3 — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/drone3.json"
+        },
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Authored scalar/control math participates in qualified MIDI/drone graphs. Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor. Remaining scope: No transfer from tilde variants or codebox operations. No independent per-object CPU saving.",
+        "detail": "Authored scalar/control math participates in qualified MIDI/drone graphs. Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: No transfer from tilde variants or codebox operations. No independent per-object CPU saving. Short XIAO check (pass): one repeated stereo vector; mean 76.50µs, median 76.00µs, peak 81µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 169µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
         "label": "In a verified patch",
         "short": "Composition coverage",
         "status": "in_patch"
@@ -1072,6 +1232,39 @@
       "board_evidence": true,
       "canonical_name": "add",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "add-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 173,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "6593c96bcb9cd2385ff70d75752f2c28af7c1cff57c27d995454ebbfc2cc5a70",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:+",
       "inventory_group": "patcher:add",
       "is_alias": true,
@@ -1088,11 +1281,15 @@
         {
           "label": "drone3 — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/drone3.json"
+        },
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Authored scalar/control math participates in qualified MIDI/drone graphs. Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor. Remaining scope: No transfer from tilde variants or codebox operations. No independent per-object CPU saving.",
+        "detail": "Authored scalar/control math participates in qualified MIDI/drone graphs. Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: No transfer from tilde variants or codebox operations. No independent per-object CPU saving. Short XIAO check (pass): one repeated stereo vector; mean 76.50µs, median 76.00µs, peak 81µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 173µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
         "label": "In a verified patch",
         "short": "Composition coverage",
         "status": "in_patch"
@@ -1275,9 +1472,42 @@
         "-",
         "minus"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sub",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "subtract-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 169,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "4e6b38ca75e8f506462b52da14d78f8dcda798a67838eaa5c97ae9e3f8f4fd23",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.1875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:-",
       "inventory_group": "patcher:sub",
       "is_alias": true,
@@ -1285,16 +1515,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sub?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.19µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 169µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -1368,6 +1606,39 @@
       "board_evidence": true,
       "canonical_name": "div",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "divide-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 161,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "bb757e04501a1200e196907943ad8d0a4cf43b477f9870ed10c0f3a67e99f2e4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:/",
       "inventory_group": "patcher:div",
       "is_alias": true,
@@ -1384,11 +1655,15 @@
         {
           "label": "drone3 — evidence",
           "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/drone3.json"
+        },
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
         }
       ],
       "surface": "patcher",
       "working": {
-        "detail": "Authored scalar/control math participates in qualified MIDI/drone graphs. Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor. Remaining scope: No transfer from tilde variants or codebox operations. No independent per-object CPU saving.",
+        "detail": "Authored scalar/control math participates in qualified MIDI/drone graphs. Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: No transfer from tilde variants or codebox operations. No independent per-object CPU saving. Short XIAO check (pass): one repeated stereo vector; mean 75.62µs, median 76.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 161µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
         "label": "In a verified patch",
         "short": "Composition coverage",
         "status": "in_patch"
@@ -1485,9 +1760,42 @@
         "<",
         "lessthan"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "lt",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "less-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 158,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "f80354caae671ffef97ba20adef49a5825a04c8c3b8c9be62025603d7d443ce1",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:<",
       "inventory_group": "patcher:lt",
       "is_alias": true,
@@ -1495,16 +1803,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/lt?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.62µs, median 76.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 158µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -1838,9 +2154,42 @@
         "==",
         "equals"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "eq",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "equal-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "3a4c2cdb56fe6725e5f9bf559863d7908291daa7a9c3839559b6e77b5ec77a0f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.4375,
+          "median_us": 75.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:==",
       "inventory_group": "patcher:eq",
       "is_alias": true,
@@ -1848,16 +2197,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/eq?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.44µs, median 75.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2008,9 +2365,42 @@
         ">",
         "greaterthan"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gt",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "greater-symbol-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 156,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "3fd7a0b850fd100390a2a5107c47762d9a5cb9bebb8a7a4fa803c56a4dce554d",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.5,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:>",
       "inventory_group": "patcher:gt",
       "is_alias": true,
@@ -2018,16 +2408,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gt?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.50µs, median 75.50µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 156µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2548,9 +2946,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "abs",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "absolute-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "61ebb899663e725d200c26583dcdf7632d125693b5bd937e8f960ed0d949aa23",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:abs",
       "inventory_group": "patcher:abs",
       "is_alias": false,
@@ -2558,16 +2989,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/abs?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.56µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3072,9 +3511,42 @@
       "aliases": [
         "+"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "add",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "add-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 171,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "6593c96bcb9cd2385ff70d75752f2c28af7c1cff57c27d995454ebbfc2cc5a70",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:add",
       "inventory_group": "patcher:add",
       "is_alias": false,
@@ -3082,16 +3554,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/add?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.88µs, median 76.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 171µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3359,9 +3839,42 @@
         "&&",
         "logand"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "and",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "and-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 162,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "ea6b5c30670954ea90575cc21449d438edd67e4d801e8908deb10f49cf4db37a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:and",
       "inventory_group": "patcher:and",
       "is_alias": false,
@@ -3369,16 +3882,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/and?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.06µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 162µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -5457,9 +5978,42 @@
         "b",
         "bool"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "boolean-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 167,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "ea6b5c30670954ea90575cc21449d438edd67e4d801e8908deb10f49cf4db37a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 77,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:boolnum",
       "inventory_group": "patcher:boolnum",
       "is_alias": false,
@@ -5467,16 +6021,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/boolnum?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.12µs, median 76.00µs, peak 77µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 167µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -6292,9 +6854,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ceil",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "ceil-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "6e27aee4e2ade3aaa2a8134eca7124564e87e8ec50a0c2155773047f57d5699b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.9375,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:ceil",
       "inventory_group": "patcher:ceil",
       "is_alias": false,
@@ -6302,16 +6897,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/ceil?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.94µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -12527,9 +13130,42 @@
       "aliases": [
         "/"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "div",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "divide-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 166,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "bb757e04501a1200e196907943ad8d0a4cf43b477f9870ed10c0f3a67e99f2e4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.8125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:div",
       "inventory_group": "patcher:div",
       "is_alias": false,
@@ -12537,16 +13173,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/div?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.81µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 166µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -14074,9 +14718,42 @@
         "==",
         "equals"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "eq",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "equal-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "3a4c2cdb56fe6725e5f9bf559863d7908291daa7a9c3839559b6e77b5ec77a0f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:eq",
       "inventory_group": "patcher:eq",
       "is_alias": false,
@@ -14084,16 +14761,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/eq?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.00µs, median 75.50µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16499,9 +17184,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "floor",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "floor-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 160,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "0b6a2f38939a1b1a7d05817f69289d63e1508a4957f676e913124b946d31ee3f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.9375,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:floor",
       "inventory_group": "patcher:floor",
       "is_alias": false,
@@ -16509,16 +17227,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/floor?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.94µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 160µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16673,9 +17399,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fract",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fraction-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 162,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "9df29dc6e5843e8859f00d320b76c3bcd2d367a568097930fabd78c3962955ab",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "signed-fraction-convention",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:fract",
       "inventory_group": "patcher:fract",
       "is_alias": false,
@@ -16683,16 +17442,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/fract?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Signed fraction uses the declared convention; no wider documentation-equivalence claim. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.00µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 162µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -17677,9 +18444,42 @@
         ">",
         "greaterthan"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gt",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "greater-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 156,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "3fd7a0b850fd100390a2a5107c47762d9a5cb9bebb8a7a4fa803c56a4dce554d",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.6875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:gt",
       "inventory_group": "patcher:gt",
       "is_alias": false,
@@ -17687,16 +18487,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gt?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.69µs, median 76.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 156µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24479,9 +25287,42 @@
         "<",
         "lessthan"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "lt",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "less-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 156,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "f80354caae671ffef97ba20adef49a5825a04c8c3b8c9be62025603d7d443ce1",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:lt",
       "inventory_group": "patcher:lt",
       "is_alias": false,
@@ -24489,16 +25330,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/lt?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.06µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 156µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24878,9 +25727,42 @@
       "aliases": [
         "max"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "maximum",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "maximum-alias-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 162,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "434694a0ff97f373ea18f3fa3e7ff7868d66b87482c1909fe6b7bdf944ac57e5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.4375,
+          "median_us": 75.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:max",
       "inventory_group": "patcher:maximum",
       "is_alias": true,
@@ -24888,16 +25770,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/maximum?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.44µs, median 75.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 162µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24930,9 +25820,42 @@
       "aliases": [
         "max"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "maximum",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "maximum-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 164,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "434694a0ff97f373ea18f3fa3e7ff7868d66b87482c1909fe6b7bdf944ac57e5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.75,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:maximum",
       "inventory_group": "patcher:maximum",
       "is_alias": false,
@@ -24940,16 +25863,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/maximum?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.75µs, median 75.50µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 164µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25536,9 +26467,42 @@
       "aliases": [
         "min"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "minimum",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "minimum-alias-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 161,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "c131ec2c356441a500ccaada78ce89277b5cc609c7380263ef5cf1e230c0170f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:min",
       "inventory_group": "patcher:minimum",
       "is_alias": true,
@@ -25546,16 +26510,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/minimum?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.06µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 161µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25588,9 +26560,42 @@
       "aliases": [
         "min"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "minimum",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "minimum-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 165,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "c131ec2c356441a500ccaada78ce89277b5cc609c7380263ef5cf1e230c0170f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.4375,
+          "median_us": 75.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:minimum",
       "inventory_group": "patcher:minimum",
       "is_alias": false,
@@ -25598,16 +26603,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/minimum?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.44µs, median 75.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 165µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -25867,9 +26880,42 @@
       "aliases": [
         "%"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mod",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "modulo-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 31,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 156,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "d86ad7e4007b6992112d98b581a5088e89b180b437d28ef2efbb2de1c2b6174c",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.5,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mod",
       "inventory_group": "patcher:mod",
       "is_alias": false,
@@ -25877,16 +26923,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mod?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.50µs, median 75.50µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 156µs, peak 31µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -26617,9 +27671,42 @@
         "*",
         "times"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mul",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "multiply-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 37,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 171,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "4423cb5c63612fdc4d5dc35474ef620abb737dbeb66465a068affa476cbd8694",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mul",
       "inventory_group": "patcher:mul",
       "is_alias": false,
@@ -26627,16 +27714,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mul?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.56µs, median 76.00µs, peak 81µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 171µs, peak 37µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -26912,9 +28007,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "neg",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "negate-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 161,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "e345dffe3313950af9d1ac5e6134a92db48eadab2b69bd7b41c55c762d26edff",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.3125,
+          "median_us": 75.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:neg",
       "inventory_group": "patcher:neg",
       "is_alias": false,
@@ -26922,16 +28050,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/neg?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.31µs, median 75.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 161µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -27398,9 +28534,42 @@
       "aliases": [
         "!"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "not",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "not-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 164,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "57fea72677e096d167fac96e2e51d17c640cc9e5cc88dd8e43fc1fb89494dee0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:not",
       "inventory_group": "patcher:not",
       "is_alias": false,
@@ -27408,16 +28577,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/not?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.12µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 164µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -28167,9 +29344,42 @@
       "aliases": [
         "||"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "or",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "or-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 36,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 154,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "ea6b5c30670954ea90575cc21449d438edd67e4d801e8908deb10f49cf4db37a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.375,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:or",
       "inventory_group": "patcher:or",
       "is_alias": false,
@@ -28177,16 +29387,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/or?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 0; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.38µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 154µs, peak 36µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -31836,9 +33054,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "round",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "round-base2-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 44,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 203,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "2f10ab927c02511f7e7b99337bea830d452b03e0ae1e5461870a951d43c2d287",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "declared-nearest-multiple2-ties-away",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:round",
       "inventory_group": "patcher:round",
       "is_alias": false,
@@ -31846,16 +33097,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/round?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Round uses the declared nearest-multiple-of-two, ties-away reference. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.56µs, median 76.00µs, peak 76µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 203µs, peak 44µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -33553,9 +34812,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sign",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "sign-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 159,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "6543930cf66ffed974155d10902f0c24742a6631ded98b436ab9b81eafe14a27",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.5,
+          "median_us": 75.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sign",
       "inventory_group": "patcher:sign",
       "is_alias": false,
@@ -33563,16 +34855,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sign?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.50µs, median 75.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 159µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -35231,9 +36531,42 @@
         "-",
         "minus"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sub",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "subtract-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 168,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "4e6b38ca75e8f506462b52da14d78f8dcda798a67838eaa5c97ae9e3f8f4fd23",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.3125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sub",
       "inventory_group": "patcher:sub",
       "is_alias": false,
@@ -35241,16 +36574,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sub?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 76.31µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 168µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -37707,9 +39048,42 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "trunc",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "truncate-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 156,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "38f04c9f24af1218214c0d5170582ad7e861f3a701810ab0aba1bfe8989aacdd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:trunc",
       "inventory_group": "patcher:trunc",
       "is_alias": false,
@@ -37717,16 +39091,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/trunc?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.88µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 156µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -39028,9 +40410,42 @@
       "aliases": [
         "^^"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "xor",
       "category": "Logic",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "xor-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 36,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 159,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json",
+          "expected_block_count": 20,
+          "expected_stream_sha256": "57fea72677e096d167fac96e2e51d17c640cc9e5cc88dd8e43fc1fb89494dee0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5bc1e8a564670378f5aead02fbb3aa3482321f930cd76ef658187e4780d39a9e",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.625,
+          "median_us": 75.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "documented-event-numeric",
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:xor",
       "inventory_group": "patcher:xor",
       "is_alias": false,
@@ -39038,16 +40453,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/xor?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo events — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot. One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Remaining scope: Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified. Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed. Short XIAO check (pass): one repeated stereo vector; mean 75.62µs, median 75.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 159µs, peak 36µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -39440,10 +40863,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "c29acaf911dd9e8e8e9fadb3223f580d48a3547a7841f5900e56148b82dabb77",
-    "coverage_source_sha256": "c29acaf911dd9e8e8e9fadb3223f580d48a3547a7841f5900e56148b82dabb77",
-    "exact_coverage_entries": 156,
-    "generator_sha256": "f32fb40e6f5ef8995ada0335b272bfa09d45abdc7700cdacde2e4513727118c3",
+    "coverage_canonical_sha256": "64b2b8bc80f93e27cee5a3903a42900e5819aa1844dfe33f5c99cf708ebe70ed",
+    "coverage_source_sha256": "64b2b8bc80f93e27cee5a3903a42900e5819aa1844dfe33f5c99cf708ebe70ed",
+    "exact_coverage_entries": 188,
+    "generator_sha256": "90a5f1ea4eda9adb75241fd2037b57edd8772408d72117625b4bedbc26bca1b3",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

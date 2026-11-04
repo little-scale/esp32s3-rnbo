@@ -13651,6 +13651,13 @@
           "conditions": "Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor.",
           "level": "S3-composition-only",
           "source": "evidence/drone3.json"
+        },
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
         }
       ],
       "registry_context": {
@@ -13946,6 +13953,13 @@
           "conditions": "Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor.",
           "level": "S3-composition-only",
           "source": "evidence/drone3.json"
+        },
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
         }
       ],
       "registry_context": {
@@ -14093,6 +14107,13 @@
           "conditions": "Exact authored constant forms; /127 also appears in the MIDI velocity path. The drone /127 node is not an audio-output ancestor.",
           "level": "S3-composition-only",
           "source": "evidence/drone3.json"
+        },
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
         }
       ],
       "registry_context": {
@@ -22323,6 +22344,1094 @@
       "working_note": "XIAO ESP32-S3: passed a short signal check against the declared reference.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:abs",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "abs"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/absolute-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "abs",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:neg",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "neg"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/negate-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "neg",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:floor",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "floor"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/floor-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "floor",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:ceil",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "ceil"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/ceil-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "ceil",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:trunc",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "trunc"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/truncate-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "trunc",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:round",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "round"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/round-base2-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Round uses the declared nearest-multiple-of-two, ties-away reference.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "round",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fract",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fract"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/fraction-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Signed fraction uses the declared convention; no wider documentation-equivalence claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "fract",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sign",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sign"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/sign-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "sign",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:boolnum",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "boolnum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/boolean-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "boolnum",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:not",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "not"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/not-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "not",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:!",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "!"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/not-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "!",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:add",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "add"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/add-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "add",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sub",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sub"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/subtract-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "sub",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:-",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "-"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/subtract-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "-",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mul",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mul"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/multiply-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "mul",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:div",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "div"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/divide-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "div",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mod",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mod"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/modulo-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "mod",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:%",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "%"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/modulo-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "%",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:minimum",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "minimum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/minimum-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "minimum",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:min",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "min"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/minimum-alias-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/22",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "min",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:maximum",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "maximum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/maximum-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/23",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "maximum",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:max",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "max"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/maximum-alias-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered. Only value outlet0 is observed; the second outlet is unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/24",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "max",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:eq",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "eq"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/equal-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/25",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "eq",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:==",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "=="
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/equal-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/26",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "==",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gt",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gt"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/greater-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/27",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "gt",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:>",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            ">"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/greater-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/28",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": ">",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:lt",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "lt"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/less-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/29",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "lt",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:<",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "<"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/less-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/30",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "<",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:and",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "and"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/and-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/31",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "and",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:&&",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "&&"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/and-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/32",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "&&",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:or",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "or"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/or-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 0; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/33",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "or",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:xor",
+      "known_gaps": [
+        "Only the supplied 21 boundary actions and twenty full callbacks are checked; within-block/sample-offset timing, arbitrary controls, other modes and complete-object semantics remain unqualified.",
+        "Exact spelling only; aliases, codebox and Gen inherit no status; no CPU gain is claimed."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "xor"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events/xor-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet driven by 21 ordered actual-value parameter actions before full 256-frame callbacks; four manual warm calls and sixteen timed calls. The left sig~ hold is compared with the declared zero-tolerance reference; the right audio pilot requires exact words including zero signs. Actual and independently affine-normalized parameter readbacks are checked. Event timing includes the SDK setter/routing and is separate from callback timing; no within-block timing or isolated-opcode cost is claimed. Cold operand fixed at 2; other cold-inlet settings are not covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/34",
+          "source": "evidence/xiao-smoke-rnbo-events.json"
+        }
+      ],
+      "spelling": "xor",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed a short numeric-event boundary scenario with parameter/readback checks and an independent raw right-channel pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -23616,6 +24725,13 @@
       "publication": "included-with-status-site",
       "sha256": "9d4d24617678a02109cd14980d799ecf935581485e195994c0c7bd4ffc138a81",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/wrap-finite.json"
+    },
+    "evidence/xiao-smoke-rnbo-events.json": {
+      "bytes": 405671,
+      "path": "evidence/xiao-smoke-rnbo-events.json",
+      "publication": "public-evidence",
+      "sha256": "08f2877b29bdc74308ace2a7bad3fe1eac7cb85b73d330fce2161ef0384d3b1c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events.json"
     },
     "evidence/xiao-smoke-rnbo-functions.json": {
       "bytes": 51313,

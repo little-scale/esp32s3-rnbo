@@ -18,7 +18,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from build import verify_prepared
 from inspect_module import inspect_module
-from prepare import canonical,ExportError,read_json,read_regular
+from prepare import canonical,ExportError,read_json,read_regular,validate_description
 from build_loader_spike import inventory,tree_digest
 
 
@@ -28,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -46,6 +46,55 @@ def absolute_tolerance(reference,model):
     if type(value) not in (int,float) or not math.isfinite(value) or not 0<=value<=1e-3:
         raise ExportError('Invalid predeclared absolute error tolerance')
     return struct.unpack('<f',struct.pack('<f',value))[0]
+
+
+def float32(value):
+    if type(value)not in(int,float) or not math.isfinite(value):
+        raise ExportError('Expected a finite numeric parameter value')
+    result=struct.unpack('<f',struct.pack('<f',value))[0]
+    if not math.isfinite(result):raise ExportError('Parameter value exceeds binary32')
+    return result
+
+
+def parameter_case(prepared,manifest,reference,model):
+    raw=validate_description(read_json(read_regular(prepared/'description.json',1024*1024),'parameter description'),'fx','reject')
+    schema=[{k:p.get(k)for k in ('paramId','index','name','displayName','unit','minimum','maximum','initialValue','exponent','steps')}for p in raw]
+    if not 1<=len(raw)<=32 or len(raw)!=manifest['parameter_count'] or hashlib.sha256(canonical(schema)).hexdigest()!=manifest['parameter_schema_sha256']:
+        raise ExportError('Prepared parameter schema/count differs')
+    parameters=[]
+    for p in raw:
+        if not re.fullmatch('[A-Za-z0-9_.-]+',p['paramId']) or p['exponent']!=1 or p['steps']!=0:
+            raise ExportError('Boundary smoke supports token IDs and linear unstepped numeric controls')
+        parameters.append({'id':p['paramId'],'minimum':float32(p['minimum']),'maximum':float32(p['maximum']),
+            'initial':float32(p['initialValue']),'exponent':float32(p['exponent']),'steps':p['steps']})
+    slots={p['id']:i for i,p in enumerate(parameters)};events=[]
+    for action in reference.parameter_events(model):
+        call=action.get('before_call');identity=action.get('id');value=float32(action.get('value'))
+        if type(call)is not int or not 0<=call<20 or identity not in slots or(events and call<events[-1]['before_call']):
+            raise ExportError('Invalid or unordered boundary parameter action')
+        parameter=parameters[slots[identity]]
+        if not parameter['minimum']<=value<=parameter['maximum']:
+            raise ExportError('Boundary parameter value is outside its admitted range')
+        normalized=float32((value-parameter['minimum'])/(parameter['maximum']-parameter['minimum']))
+        events.append({'before_call':call,'id':identity,'parameter_slot':slots[identity],
+            'value_word':struct.unpack('<I',struct.pack('<f',value))[0],
+            'normalized_word':struct.unpack('<I',struct.pack('<f',normalized))[0]})
+    if not events or len(events)>128:raise ExportError('Boundary smoke requires one to128 authored actions')
+    return {'expected_parameter_count':len(parameters),'parameters':parameters,
+        'parameter_schema_sha256':manifest['parameter_schema_sha256'],'parameter_events':events,
+        'strict_zero_sign_channels':2}
+
+
+def block_pool(cases):
+    blocks=[];indices={};refs=[]
+    for case in cases:
+        row=[]
+        for block in case['expected_blocks']:
+            key=tuple(block)
+            if key not in indices:indices[key]=len(blocks);blocks.append(key)
+            row.append(indices[key])
+        refs.append(row)
+    return blocks,refs
 
 
 def prepare_plan(catalog_path,modules_path):
@@ -97,7 +146,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions'):
+            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions','rnbo-events'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -126,10 +175,18 @@ def prepare_plan(catalog_path,modules_path):
         if streams is not None:
             case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
                 struct.pack('<10240I',*(w for block in streams for w in block))).hexdigest())
+        if manifest['parameter_count']:
+            if catalog['family']!='rnbo-events' or not hasattr(reference,'parameter_events'):
+                raise ExportError('Parameterized exports require the boundary-event reference route')
+            case.update(parameter_case(prepared,manifest,reference,row['model']))
         cases.append(case)
         payloads.append(artifact)
-    reference_bytes=4*(len(inputs)+sum(len(c['expected'])+len(c.get('input_words',()))+
-        sum(len(block)for block in c.get('expected_blocks',()))for c in cases))
+    pooled=catalog['family']=='rnbo-events'
+    if pooled and any('expected_blocks'not in c or not c.get('expected_parameter_count')for c in cases):
+        raise ExportError('Boundary-event cases need parameters and twenty-block references')
+    stream_bytes=4*sum(len(block)for c in cases for block in c.get('expected_blocks',()))
+    if pooled:stream_bytes=4*512*len(block_pool(cases)[0])+4*20*len(cases)
+    reference_bytes=stream_bytes+4*(len(inputs)+sum(len(c['expected'])+len(c.get('input_words',()))for c in cases))
     if not cases or sum(p.stat().st_size for p in payloads)+reference_bytes>2*1024*1024:
         raise ExportError('Empty or oversized module/reference batch; split the catalog')
     plan={'format':'rnbo-hardware-smoke-plan-v1','catalog_sha256':sha(catalog_path),
@@ -138,9 +195,17 @@ def prepare_plan(catalog_path,modules_path):
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions'):
+    if catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events'):
         plan.update(family=catalog['family'],surface='patcher')
         if catalog['family']=='rnbo-functions':plan['prepare_zero_warm_blocks']=0
+        elif catalog['family']=='rnbo-events':
+            pool,refs=block_pool(cases)
+            plan.update(prepare_zero_warm_blocks=0,expected_block_storage='shared-512-word-pool',
+                expected_reference_unique_blocks=len(pool),expected_block_pool=pool,
+                expected_stream_policy='Fresh prepared controls; ordered actual-value events before each full256-frame callback, no within-block event offsets')
+            for case,indices in zip(cases,refs):
+                case['expected_block_indices']=indices
+                del case['expected_blocks']
     elif catalog['family']=='gen-math':
         plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
     elif catalog['family']=='gen-stateful':
@@ -163,12 +228,26 @@ def generate_header(plan,inputs):
         'static const uint32_t smoke_inputs[512]={'+words(inputs)+'};']
     if 'prepare_zero_warm_blocks' in plan:
         lines.append('#define SMOKE_PREPARE_WARM_BLOCKS %du'%plan['prepare_zero_warm_blocks'])
+    pooled=plan.get('expected_block_storage')=='shared-512-word-pool'
+    if pooled:
+        pool=plan['expected_block_pool'];refs=[c['expected_block_indices']for c in plan['cases']]
+        if len(pool)!=plan['expected_reference_unique_blocks']:raise ExportError('Expected block pool size differs')
+        for index,block in enumerate(pool):
+            lines.append('static const uint32_t smoke_reference_block_%d[512]={%s};'%(index,words(block)))
     for index,row in enumerate(plan['cases']):
         if 'input_words' in row:
             lines.append('static const uint32_t smoke_case_inputs_%d[512]={%s};'%(index,words(row['input_words'])))
-        if 'expected_blocks' in row:
+        if 'expected_blocks' in row and not pooled:
             lines.append('static const uint32_t smoke_expected_blocks_%d[10240]={%s};'%(
                 index,words(w for block in row['expected_blocks']for w in block)))
+        elif pooled:
+            lines.append('static const uint32_t *const smoke_expected_refs_%d[20]={%s};'%(
+                index,','.join('smoke_reference_block_%d'%i for i in refs[index])))
+        if 'parameters' in row:
+            lines.append('static const smoke_parameter_contract smoke_parameters_%d[]={%s};'%(
+                index,','.join('{.id=%s,%s.steps=%du}'%(json.dumps(p['id']),''.join('.%s=%sf,'%(k,float(p[k]).hex())for k in ('minimum','maximum','initial','exponent')),p['steps'])for p in row['parameters'])))
+            lines.append('static const smoke_parameter_action smoke_actions_%d[]={%s};'%(
+                index,','.join('{.before_call=%du,.parameter_slot=%du,.value_word=0x%08xu}'%(e['before_call'],e['parameter_slot'],e['value_word'])for e in row['parameter_events'])))
     lines.append('static const smoke_case smoke_cases[SMOKE_CASE_COUNT]={')
     for index,row in enumerate(plan['cases']):
         policy='observational-signed-fraction' if row['model']==28 or row.get('reference_policy') in ('signed-fraction-convention','observational-signed-fraction') else 'documented-basic'
@@ -177,9 +256,13 @@ def generate_header(plan,inputs):
             tolerance=row['absolute_tolerance']
             if tolerance:policy='mathematical-approximation'
             extra='.input_words=smoke_case_inputs_%d,.absolute_tolerance=%sf,'%(index,float(tolerance).hex())
-        if 'expected_blocks' in row:
+        if 'expected_blocks' in row and not pooled:
             extra+='.expected_blocks=smoke_expected_blocks_%d,'%index
+        elif pooled:extra+='.expected_block_refs=smoke_expected_refs_%d,'%index
         if 'arena_bytes' in row:extra+='.arena_bytes=%du,'%row['arena_bytes']
+        if 'parameters' in row:
+            extra+='.expected_parameter_count=%du,.parameters=smoke_parameters_%d,.parameter_event_count=%du,.parameter_events=smoke_actions_%d,.strict_zero_sign_channels=%du,'%(
+                row['expected_parameter_count'],index,len(row['parameter_events']),index,row['strict_zero_sign_channels'])
         lines.append('{.id=%s,.sha=%s,.reference_policy=%s,.payload_start=smoke_payload_%d_start,.payload_end=smoke_payload_%d_end,%s.expected={%s}},'%(
             json.dumps(row['id']),json.dumps(row['module_sha256']),json.dumps(policy),index,index,extra,words(row['expected'])))
     return '\n'.join(lines+['};','']),digest

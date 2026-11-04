@@ -63,7 +63,7 @@ def validate_manifest(manifest: dict) -> None:
         "format": "rnbo-esp32s3-prepared-export", "format_version": 1,
         "rnbo_version": "1.4.4", "class_name": "rnbos3patch", "role": "fx",
         "sample_rate": 44100, "block_frames": 256, "audio_inputs": 2, "audio_outputs": 2,
-        "parameter_count": 0, "voices": 1, "voice_topology": "single-export",
+        "voices": 1, "voice_topology": "single-export",
         "numerical_profile": "float32-strict", "scheduler_time": "float64",
         "defined_int32_wrap": True, "required_host_services": [], "midi_output_ports": 0,
         "midi_output_policy": "reject", "adaptations": ADAPTATIONS, "execution": "static-development",
@@ -71,6 +71,8 @@ def validate_manifest(manifest: dict) -> None:
     for key, value in expected.items():
         if type(manifest.get(key)) is not type(value) or manifest[key] != value:
             raise ExportError(f"Unsupported smoke-module profile field: {key}")
+    if type(manifest["parameter_count"]) is not int or not 0 <= manifest["parameter_count"] <= 32:
+        raise ExportError("Smoke modules require an integer parameter_count from 0 through 32")
     for key in ("editable_source_sha256", "parameter_schema_sha256", "source_tree_sha256"):
         if type(manifest[key]) is not str or not re.fullmatch("[0-9a-f]{64}", manifest[key]):
             raise ExportError(f"Invalid prepared identity: {key}")

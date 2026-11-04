@@ -10,6 +10,17 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Parameter-driven event batch: no new flags
+
+All35 event forms pass. Processing medians are 75–76 µs per stereo 256-frame
+callback; no processing-time screening rule triggers. The 735 actual event API
+calls are logged separately: 5–44 µs each,154–203 µs total per 21-update fixture.
+They include setter/routing work and are not isolated opcode timings. No event
+speed gain or worst-case guarantee is inferred. The 32 earlier mathematical
+CPU-review entries remain pending.
+
+Source: [parameter/event hardware results](../evidence/xiao-smoke-rnbo-events.json).
+
 ## RNBO functions/conversions: eleven queued cases
 
 All eleven cases pass their output limits but exceed the median-cost threshold.
