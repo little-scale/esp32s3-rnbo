@@ -192,7 +192,13 @@ _CATALOG_V3['dspexpr'].update({
     '9d5831719ef9b892de40dff825c8ecf2db952f850247210d497a0900f9a81268',  # multiply .7
 })
 _CATALOG_V3['delaytilde'].add('b25310abd87976d8cb7e2b5581a22a169b5912bee5ddf172ebf45f74279b4929')
-_CATALOG_V3['lores'] = {'d7645d579512b7447249b713b998a86cd1c28e720d0f5d7dda8f982a58ebcf48'}
+_CATALOG_V3['lores'] = {
+    'd7645d579512b7447249b713b998a86cd1c28e720d0f5d7dda8f982a58ebcf48',
+    # Signal cutoff, fixed resonance .9 (EEE). Same recurrence and Float32
+    # state as the reviewed zero-resonance method; retain a separate whole-
+    # method fingerprint so other resonance values/algorithms still skip.
+    '85d6f0eb56e7e2f1450d1d10605e2f98f8d5f5ebb2acc9af93743fd6798f519f',
+}
 _PREFIX_V3 = rf"(?:{_PREFIX}|lores_\d+)"
 _METHOD_NAME_V3 = rf"(?:{_METHOD_NAME}|lores_\d+_perform)"
 # C++ decimal floating tokens, excluding integer, hexadecimal and suffixed

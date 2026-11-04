@@ -9,11 +9,16 @@ flashed** and physical input hardware testing remains pending. The
 [pin table and copyable examples](physical-inputs.md#exactly-how-xiao-pin-names-map)
 document aliases, reservations and the XIAO-only input profile.
 
-At the last hardware check, the reviewed player was restored on XIAO with the saved Main patch and Wi-Fi
-pairing preserved. Studio is connected over Wi-Fi, volume is 0% for the night,
-and startup remains silent. The original package with its previous startup
-volume is preserved separately. Running audio frames advance and all reported
-audio/error/allocation counters remain zero.
+The supplied [EEE patch now runs on XIAO](eee-optimisation.md): the reviewed
+fixed-0.9 `lores~` method uses Float32 math. The previous Auto package was rejected
+at 5,993 µs; the running candidate's 112 status observations give a **2,246.5 µs
+median (38.70% audio CPU)** and **2,585 µs observed peak (44.53%)**. All checked
+fault/allocation counters are zero across the note sweep. Its original file,
+wiring and delay length are untouched. Native comparison records up to 1 PCM LSB
+difference; the strict 2e-6 sample-error diagnostic fails and remains recorded.
+The existing player firmware is unchanged, saved Wi-Fi is connected, and EEE is
+left playing at the user's existing **17% volume**, note **39**. All **517 compiler
+tests** pass. This is a patch-specific tangent, not a resumed qualification goal.
 
 The [local Gen Data batch](hardware-smoke.md#gen-local-data-and-indexed-storage)
 passes all eight programs and 81,920 output checks, including indexed history,

@@ -59,6 +59,10 @@ XIAO player packages can bind physical knobs, buttons and capacitive touch to
 parameters through inline `@meta`. See the [pin mapping table and copyable object
 examples](docs/physical-inputs.md). Physical input hardware qualification is pending.
 
+The supplied [EEE patch optimisation](docs/eee-optimisation.md) adds a reviewed
+Float32 `lores~` form to Auto: the XIAO runs it at 38.70% median audio CPU, with
+numerical differences and measurement limits recorded separately.
+
 ## Build and verify on the computer
 
 Prerequisites: an authorized local RNBO **1.4.4** installation, Node, Python 3,
