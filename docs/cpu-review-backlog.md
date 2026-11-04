@@ -10,6 +10,15 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Gen stateful batch: no new flags
+
+All twelve stateful programs pass their declared output limits. Medians range
+from 50 to 551 µs, with largest peak 552 µs. DCblock is the highest-cost fixture
+at about 9.49% of the block period, below the existing 10% screening threshold.
+The earlier twenty-one RNBO/Gen mathematical review entries remain pending.
+
+Source: [stateful Gen results](../evidence/xiao-smoke-gen-stateful.json).
+
 ## Gen mathematical batch: thirteen queued cases
 
 All thirteen forms pass their declared output limits, but their median callback

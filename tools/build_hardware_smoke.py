@@ -28,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','rnbo-stateless','rnbo-numeric'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -97,7 +97,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family']=='gen-math':
+            if catalog['family'] in ('gen-math','gen-stateful'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -106,7 +106,12 @@ def prepare_plan(catalog_path,modules_path):
         inspection=inspect_module(data,allowed_imports=set())
         if inspection['imports']:raise ExportError('Smoke module imports are not empty')
         vector=checked_words(reference.case_input_words(row['model'],256)) if hasattr(reference,'case_input_words') else inputs
-        expected=checked_words(reference.reference_words(row['model'],vector))
+        streams=None
+        if hasattr(reference,'reference_blocks'):
+            streams=tuple(checked_words(block)for block in reference.reference_blocks(row['model'],vector,call_count=20))
+            if len(streams)!=20:raise ExportError('Stateful reference must supply twenty checked callback blocks')
+            expected=streams[0]
+        else:expected=checked_words(reference.reference_words(row['model'],vector))
         expected_hash=hashlib.sha256(struct.pack('<512I',*expected)).hexdigest()
         case={**row,'module_sha256':module['artifact']['sha256'],'module_bytes':len(data),
             'source_sha256':source_hash,**expression_info,
@@ -114,10 +119,15 @@ def prepare_plan(catalog_path,modules_path):
         if hasattr(reference,'case_input_words'):
             case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
                 absolute_tolerance=absolute_tolerance(reference,row['model']))
+        if streams is not None:
+            case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
+                struct.pack('<10240I',*(w for block in streams for w in block))).hexdigest())
         cases.append(case)
         payloads.append(artifact)
-    if not cases or sum(p.stat().st_size for p in payloads)>2*1024*1024:
-        raise ExportError('Empty or oversized smoke batch; split the catalog')
+    reference_bytes=4*(len(inputs)+sum(len(c['expected'])+len(c.get('input_words',()))+
+        sum(len(block)for block in c.get('expected_blocks',()))for c in cases))
+    if not cases or sum(p.stat().st_size for p in payloads)+reference_bytes>2*1024*1024:
+        raise ExportError('Empty or oversized module/reference batch; split the catalog')
     plan={'format':'rnbo-hardware-smoke-plan-v1','catalog_sha256':sha(catalog_path),
         'module_batch_sha256':sha(modules_path),'reference_source_sha256':sha(reference_source),
         'sample_rate':44100,'block_frames':256,'warmup_blocks':4,'timed_blocks':16,
@@ -128,6 +138,11 @@ def prepare_plan(catalog_path,modules_path):
         plan.update(family=catalog['family'],surface='patcher')
     elif catalog['family']=='gen-math':
         plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
+    elif catalog['family']=='gen-stateful':
+        plan.update(family='gen-stateful',surface='genexpr',prepare_zero_warm_blocks=0,
+            expected_stream_policy='Fresh prepared state, no automatic zero warmup; four checked manual warmups then sixteen timed callbacks without resets')
+        if any('expected_blocks'not in c for c in cases):
+            raise ExportError('Stateful cases require a continuous twenty-block reference')
     if hasattr(reference,'case_input_words'):
         plan['input_vector_policy']='per-case; top-level input hash identifies fallback vector only'
     if admission_failures:plan['admission_failures']=admission_failures
@@ -146,6 +161,9 @@ def generate_header(plan,inputs):
     for index,row in enumerate(plan['cases']):
         if 'input_words' in row:
             lines.append('static const uint32_t smoke_case_inputs_%d[512]={%s};'%(index,words(row['input_words'])))
+        if 'expected_blocks' in row:
+            lines.append('static const uint32_t smoke_expected_blocks_%d[10240]={%s};'%(
+                index,words(w for block in row['expected_blocks']for w in block)))
     lines.append('static const smoke_case smoke_cases[SMOKE_CASE_COUNT]={')
     for index,row in enumerate(plan['cases']):
         policy='observational-signed-fraction' if row['model']==28 or row.get('reference_policy') in ('signed-fraction-convention','observational-signed-fraction') else 'documented-basic'
@@ -154,6 +172,8 @@ def generate_header(plan,inputs):
             tolerance=row['absolute_tolerance']
             if tolerance:policy='mathematical-approximation'
             extra='.input_words=smoke_case_inputs_%d,.absolute_tolerance=%sf,'%(index,float(tolerance).hex())
+        if 'expected_blocks' in row:
+            extra+='.expected_blocks=smoke_expected_blocks_%d,'%index
         lines.append('{.id=%s,.sha=%s,.reference_policy=%s,.payload_start=smoke_payload_%d_start,.payload_end=smoke_payload_%d_end,%s.expected={%s}},'%(
             json.dumps(row['id']),json.dumps(row['module_sha256']),json.dumps(policy),index,index,extra,words(row['expected'])))
     return '\n'.join(lines+['};','']),digest

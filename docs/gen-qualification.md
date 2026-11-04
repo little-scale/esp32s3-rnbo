@@ -6,6 +6,11 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The [stateful batch](hardware-smoke.md#gen-stateful-and-per-sample-batch) passes
+all twelve programs covering nine exact spellings, with 122,880 output checks
+across twenty continuous callbacks each. Its vectors expose per-sample updates
+and block-boundary state; no CPU-review flags trigger. These are still fixed
+256-frame calls, with one-frame host calls and sample-offset events separate.
 The [latest mathematical batch](hardware-smoke.md#gen-mathematical-batch) has
 27 device passes within declared comparison limits, four C++ compilation
 failures and three frontend parser rejections from 34 authored forms.

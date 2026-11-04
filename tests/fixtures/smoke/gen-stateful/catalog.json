@@ -1,0 +1,302 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "delta",
+      "exact_name": "delta",
+      "genexpr": "delta-call.genexpr",
+      "id": "delta-call",
+      "left_arguments": "in1",
+      "maximum_absolute_error": 0.0,
+      "model": 104,
+      "patch": "delta-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_delta/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "delta",
+      "right_arguments": "in2",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "change",
+      "exact_name": "change",
+      "genexpr": "change-call.genexpr",
+      "id": "change-call",
+      "left_arguments": "in1",
+      "maximum_absolute_error": 0.0,
+      "model": 105,
+      "patch": "change-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_change/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "change",
+      "right_arguments": "in2",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "latch",
+      "exact_name": "latch",
+      "genexpr": "latch-call.genexpr",
+      "id": "latch-call",
+      "left_arguments": "in1, in2",
+      "maximum_absolute_error": 0.0,
+      "model": 106,
+      "patch": "latch-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_latch/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "latch",
+      "right_arguments": "in2, in1",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "dcblock",
+      "exact_name": "dcblock",
+      "genexpr": "dcblock-call.genexpr",
+      "id": "dcblock-call",
+      "left_arguments": "in1",
+      "maximum_absolute_error": 2e-06,
+      "model": 107,
+      "patch": "dcblock-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_dcblock/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "dcblock",
+      "right_arguments": "in2",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "sah",
+      "exact_name": "sah",
+      "genexpr": "sah-default-call.genexpr",
+      "id": "sah-default-call",
+      "left_arguments": "in1, in2",
+      "maximum_absolute_error": 0.0,
+      "model": 108,
+      "patch": "sah-default-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_sah/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "sah",
+      "right_arguments": "in2, in1",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "sah",
+      "exact_name": "sah",
+      "genexpr": "sah-half-threshold-call.genexpr",
+      "id": "sah-half-threshold-call",
+      "left_arguments": "in1, in2, 0.5",
+      "maximum_absolute_error": 0.0,
+      "model": 109,
+      "patch": "sah-half-threshold-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_sah/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "sah",
+      "right_arguments": "in2, in1, 0.5",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "sah",
+      "exact_name": "sah",
+      "genexpr": "sah-signal-threshold-call.genexpr",
+      "id": "sah-signal-threshold-call",
+      "left_arguments": "in1, in2, in1",
+      "maximum_absolute_error": 0.0,
+      "model": 110,
+      "patch": "sah-signal-threshold-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_sah/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "sah",
+      "right_arguments": "in2, in1, in2",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "slide",
+      "exact_name": "slide",
+      "genexpr": "slide-fixed-call.genexpr",
+      "id": "slide-fixed-call",
+      "left_arguments": "in1, 2, 4",
+      "maximum_absolute_error": 2e-06,
+      "model": 111,
+      "patch": "slide-fixed-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_slide/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "slide",
+      "right_arguments": "in2, 2, 4",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "slide",
+      "exact_name": "slide",
+      "genexpr": "slide-reversed-rates-call.genexpr",
+      "id": "slide-reversed-rates-call",
+      "left_arguments": "in1, 4, 2",
+      "maximum_absolute_error": 2e-06,
+      "model": 112,
+      "patch": "slide-reversed-rates-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_slide/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "slide",
+      "right_arguments": "in2, 4, 2",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "plusequals",
+      "exact_name": "accum",
+      "genexpr": "accum-call.genexpr",
+      "id": "accum-call",
+      "left_arguments": "in1, 0",
+      "maximum_absolute_error": 0.0,
+      "model": 113,
+      "patch": "accum-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_plusequals/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "accum",
+      "right_arguments": "in2, 0",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "plusequals",
+      "exact_name": "plusequals",
+      "genexpr": "plusequals-call.genexpr",
+      "id": "plusequals-call",
+      "left_arguments": "in1, 0",
+      "maximum_absolute_error": 0.0,
+      "model": 113,
+      "patch": "plusequals-call.rnbopat",
+      "reference_policy": "documented-stateful",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_plusequals/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "plusequals",
+      "right_arguments": "in2, 0",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "counter",
+      "exact_name": "counter",
+      "genexpr": "counter-literal-limits-call.genexpr",
+      "id": "counter-literal-limits-call",
+      "left_arguments": "1, 0, 7",
+      "maximum_absolute_error": 0.0,
+      "model": 114,
+      "patch": "counter-literal-limits-call.rnbopat",
+      "reference_policy": "declared-increment-then-output",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "reference_url": "https://docs.cycling74.com/reference/gen_dsp_counter/",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        }
+      ],
+      "registry_lookup": "counter",
+      "right_arguments": "1, 0, 5",
+      "role": "fx",
+      "scope": "Continuous20-callback sample state: zero SDK warmup,4 manual warm callbacks and16 timed callbacks, no reset/events. Specific arguments only.",
+      "surface": "genexpr",
+      "syntax": "call"
+    }
+  ],
+  "continuous_state": true,
+  "family": "gen-stateful",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "sample_rate": 44100,
+  "scope": "12 original GenExpr stateful programs over9 exact spellings; no parameter events or external resources. Independent reference carries state across all20 callbacks. History is not counted as a new object.",
+  "timed_blocks": 16
+}

@@ -12,5 +12,6 @@ typedef struct {
     const uint8_t *payload_end;
     const uint32_t *input_words; /* NULL selects the legacy common vector. */
     float absolute_tolerance;
+    const uint32_t *expected_blocks; /* Optional twenty-block continuous stream. */
     uint32_t expected[512];
 } smoke_case;

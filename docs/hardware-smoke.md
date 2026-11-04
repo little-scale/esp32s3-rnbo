@@ -13,6 +13,66 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## Gen stateful and per-sample batch
+
+**All 12 programs pass on XIAO**, covering nine exact GenExpr spellings:
+`delta`, `change`, `latch`, `dcblock`, `sah`, `slide`, `accum`, `plusequals` and
+`counter`. Every program exports, compiles and executes; no CPU-review flags
+trigger. Module/global memory checks pass and all twelve images finalise.
+
+| Program / left-lane form | Result | Median µs | Peak µs | Maximum error |
+| --- | --- | ---: | ---: | ---: |
+| `delta(in1)` | Pass | 50.0 | 55 | 0 |
+| `change(in1)` | Pass | 67.0 | 68 | 0 |
+| `latch(in1, in2)` | Pass | 56.0 | 56 | 0 |
+| `dcblock(in1)` | Pass | 551.0 | 552 | 1.55e-06 |
+| `sah(in1, in2)` | Pass | 70.0 | 75 | 0 |
+| `sah(in1, in2, 0.5)` | Pass | 72.0 | 77 | 0 |
+| `sah(in1, in2, in1)` | Pass | 67.0 | 71 | 0 |
+| `slide(in1, 2, 4)` | Pass | 374.0 | 378 | 5.96e-08 |
+| `slide(in1, 4, 2)` | Pass | 373.0 | 378 | 5.96e-08 |
+| `accum(in1, 0)` | Pass | 52.0 | 56 | 0 |
+| `plusequals(in1, 0)` | Pass | 52.0 | 57 | 0 |
+| `counter(1, 0, 7); right maximum 5` | Pass | 63.0 | 67 | 0 |
+
+Each program processes **5,120 continuous frames per channel**: four checked
+manual warm-up callbacks followed by sixteen checked timed callbacks, with no
+state reset between them. This is **122,880 output checks** across the batch.
+The repeated input vector has an independently calculated output stream for
+all twenty callbacks; repeating only the first expected block is insufficient.
+Each stream is bound by its own little-endian word hash, and mismatch records
+identify both the callback and in-block sample position.
+
+The input design distinguishes a reset at the 256-frame boundary from continuous
+state for delta/change, latch/sample-hold, accumulators and counters. Late held
+values differ from the next block's first input; accumulator sums have nonzero
+block totals; counter periods 7 and 5 do not divide 256. The counter matches the
+predeclared increment-before-output sequence in this count-output-only test.
+`accum` and alias `plusequals` have separate original programs and device records.
+
+Nine programs use exact numerical comparisons and have **zero raw-word
+differences**. DCblock and both slide modes use a predeclared absolute `2e-6`
+limit against ideal Float64 mathematical state, rounded to Float32 outputs.
+Their raw differences remain visible: 10,197 words for dcblock and 4,467/5,737
+for slide. Maximum errors are about 1.55e-6 and 5.96e-8 respectively; these are
+bounded-accuracy passes rather than exact-bit claims. The reference's Float64
+state is an independent mathematical model, not a change to target DSP storage.
+
+The run has zero automatic zero-input preparation blocks; its fresh-state epoch
+and all twenty expected blocks are recorded before execution. Median complete
+stereo callbacks range from 50 to 551 µs, with peak 552 µs. DCblock is the
+highest cost here at about 9.49% of the 5.805 ms block period, below the existing
+CPU-review threshold. No optimisation or percentage improvement is claimed.
+
+These results validate the listed per-sample state updates inside fixed
+256-frame callbacks, including the supplied cross-block histories. They do not
+exercise one-frame host calls, sample-offset events, nonzero initial attributes,
+reset modes, counter carry outputs, arbitrary smoothing rates or all stateful
+Gen objects. Those remain part of the full goal.
+
+See [the compact stateful result](../evidence/xiao-smoke-gen-stateful.json) and
+[the original programs and reference](../tests/fixtures/smoke/gen-stateful/README.md).
+
 ## Gen mathematical batch
 
 There are **34 separately authored GenExpr forms: 27 pass on XIAO, four fail
@@ -320,8 +380,8 @@ python3 tools/build_hardware_smoke.py \
   --cache-build-dir build/hardware-smoke-cache-xiao
 ```
 
-Supply normal prepared exports matching the selected catalog. The Gen numeric, Gen mathematical, RNBO stateless and RNBO numeric catalogs
-have separate independent references. Numeric cases carry their own input-vector hashes and
+Supply normal prepared exports matching the selected catalog. The Gen numeric, mathematical and stateful catalogs, plus RNBO stateless
+and numeric catalogs, have separate independent references. Numeric cases carry their own input-vector hashes and
 predeclared tolerances; older catalogs keep the original exact gate.
 The initial fast
 builder supports strict, self-contained two-input/two-output FX modules without
@@ -348,3 +408,9 @@ are checked before planning; they are not counted as C++ compilation failures
 or embedded as executable modules. The Gen mathematical result retains all
 34 authored forms while embedding only the 27 successful modules. The original
 fast module report stays unchanged alongside that merged ledger.
+
+Stateful plans can supply a twenty-block expected stream, beginning with fresh
+prepared state and carrying state through every warm-up and timed call. The
+collector checks the complete stream shape/hash and callback-specific mismatch
+witnesses. Reference data and module payloads share a two-MiB embedding budget;
+this leaves room for the framework in the application partition.

@@ -39,7 +39,7 @@ static float *const outputs[2]={output_storage[0],output_storage[1]};
 typedef struct {
     uint64_t samples,bit_mismatches,zero_sign_differences,numeric_mismatches,within_tolerance_differences,nonfinite_outputs;
     double max_absolute_error;
-    uint32_t first_mismatch,first_actual,first_expected;
+    uint32_t first_mismatch,first_mismatch_call,first_actual,first_expected;
 } output_checks;
 
 static bool word_finite(uint32_t word) { return (word&0x7f800000u)!=0x7f800000u; }
@@ -64,9 +64,11 @@ static void digest_hex(const uint8_t *bytes,size_t count,char result[65])
 }
 static void compare_output(const smoke_case *test,output_checks *checks)
 {
+    unsigned call=(unsigned)(checks->samples/512u);CHECK(call<MANUAL_WARM_CALLS+TIMED_CALLS);
+    const uint32_t *expected_words=test->expected_blocks?test->expected_blocks+call*512u:test->expected;
     for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
         uint32_t actual;memcpy(&actual,&outputs[channel][frame],sizeof actual);
-        uint32_t expected=test->expected[2u*frame+channel];++checks->samples;
+        uint32_t expected=expected_words[2u*frame+channel];++checks->samples;
         if(actual==expected)continue;
         ++checks->bit_mismatches;
         if(((actual|expected)&0x7fffffffu)==0){++checks->zero_sign_differences;continue;}
@@ -78,6 +80,7 @@ static void compare_output(const smoke_case *test,output_checks *checks)
         }else ++checks->nonfinite_outputs;
         ++checks->numeric_mismatches;
         if(checks->first_mismatch==UINT32_MAX){
+            checks->first_mismatch_call=call;
             checks->first_mismatch=2u*frame+channel;checks->first_actual=actual;checks->first_expected=expected;
         }
     }
@@ -125,6 +128,7 @@ static void worker(void *unused)
         CHECK(isfinite(test->absolute_tolerance) && test->absolute_tolerance>=0 && test->absolute_tolerance<=.001f);
         CHECK((uintptr_t)test->payload_end>(uintptr_t)test->payload_start);
         for(unsigned i=0;i<512;++i)CHECK(word_finite(test->expected[i]));
+        if(test->expected_blocks){for(unsigned i=0;i<20u*512u;++i)CHECK(word_finite(test->expected_blocks[i]));}
         const uint32_t *vector=test->input_words?test->input_words:smoke_inputs;
         for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
             uint32_t word=vector[2u*frame+channel];CHECK(word_finite(word));
@@ -136,7 +140,7 @@ static void worker(void *unused)
         size_t internal_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
         object_image image;object_image_load(&image,test->payload_start,(size_t)(test->payload_end-test->payload_start),RNBO_S3_FX,SMOKE_ARENA_BYTES);++images;
         object_image_prepare(&image,SMOKE_PREPARE_WARM_BLOCKS,SMOKE_SEED);CHECK(image.module.parameter_count(image.context)==0);
-        output_checks checks={.first_mismatch=UINT32_MAX};
+        output_checks checks={.first_mismatch=UINT32_MAX,.first_mismatch_call=UINT32_MAX};
         for(unsigned b=0;b<MANUAL_WARM_CALLS;++b)(void)process_once(&image,test,&checks);
         uint64_t times[TIMED_CALLS],total=0,peak=0;
         for(unsigned b=0;b<TIMED_CALLS;++b){
@@ -165,6 +169,7 @@ static void worker(void *unused)
         memcpy(&error_bits,&checks.max_absolute_error,sizeof error_bits);
         memcpy(&tolerance_bits,&test->absolute_tolerance,sizeof tolerance_bits);
         printf(" numeric_mismatches=%"PRIu64" within_tolerance_differences=%"PRIu64" nonfinite_outputs=%"PRIu64" max_absolute_error_bits=%016"PRIx64" absolute_tolerance_bits=%08"PRIx32" input_words_sha256=%s",checks.numeric_mismatches,checks.within_tolerance_differences,checks.nonfinite_outputs,error_bits,tolerance_bits,input_sha);
+        printf(" first_mismatch_call=%"PRIu32" expected_block_count=%u",checks.first_mismatch_call,test->expected_blocks?20u:1u);
         putchar('\n');fflush(stdout);
     }
     size_t psram_end=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);

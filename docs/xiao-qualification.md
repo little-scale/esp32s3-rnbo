@@ -14,7 +14,10 @@ rejection.
 The subsequent [Gen mathematical batch](hardware-smoke.md#gen-mathematical-batch)
 adds 27 device passes within declared limits, four C++ compilation failures and
 three parser rejections, with thirteen CPU-review flags. RNBO and Gen outcomes
-remain separate. These smoke checks are distinct from the deeper historical
+remain separate. The [new stateful Gen batch](hardware-smoke.md#gen-stateful-and-per-sample-batch)
+passes twelve programs/nine exact names, checking 122,880 values with continuous
+state across all twenty callbacks. No additional CPU-review flags trigger.
+These smoke checks are distinct from the deeper historical
 tests below.
 
 The active goal is to test every inventoried RNBO object, operation and structure

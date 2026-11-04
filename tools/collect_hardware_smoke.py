@@ -74,6 +74,61 @@ def output_metrics(data,expected,common_input_sha):
     return dict(metrics,status=status)
 
 
+def expected_stream(expected,stateful=False):
+    """Bind the fresh-constructor twenty-call reference as little-endian words."""
+    def valid(block):
+        return type(block)is list and len(block)==512 and all(type(w)is int and 0<=w<=0xffffffff and
+            (w&0x7f800000)!=0x7f800000 for w in block)
+    require(valid(expected.get('expected')),'Invalid legacy expected block')
+    blocks=expected.get('expected_blocks')
+    if blocks is None:
+        require(not stateful and 'expected_stream_sha256'not in expected,'Stateful expected stream is missing')
+        return None,None
+    require(stateful and type(blocks)is list and len(blocks)==20 and all(valid(block)for block in blocks),
+            'Stateful reference requires twenty finite 512-word blocks')
+    require(expected['expected']==blocks[0],'Legacy expected block differs from stream block0')
+    fingerprint=hashlib.sha256(b''.join(struct.pack('<512I',*block)for block in blocks)).hexdigest()
+    require(expected.get('expected_stream_sha256')==fingerprint,'Expected stream hash differs from its twenty blocks')
+    return blocks,fingerprint
+
+
+def mismatch_witness(data,expected,status,output,blocks=None,stream_sha=None):
+    def decimal(key):
+        value=data.get(key)
+        require(type(value)is str and re.fullmatch('[0-9]+',value)is not None,'Missing or invalid mismatch field: '+key)
+        return int(value)
+    first=decimal('first_mismatch_word');keys={'first_mismatch_call','expected_block_count'}
+    present=keys.intersection(data);extra={}
+    require(not present or present==keys,'Mismatch call/block-count fields must be atomic')
+    require(blocks is None or present==keys,'Stateful mismatch call/block count missing')
+    call=None
+    if present:
+        call=decimal('first_mismatch_call');count=decimal('expected_block_count')
+        require(count==(20 if blocks is not None else 1),'Device expected block count differs')
+        extra.update(first_mismatch_call=None if call==0xffffffff else call,expected_block_count=count)
+    if stream_sha is not None:extra['expected_stream_sha256']=stream_sha
+    if 'expected_stream_sha256'in data:
+        require(stream_sha is not None and data['expected_stream_sha256']==stream_sha,'Device expected stream hash differs')
+    if status=='output_mismatch':
+        require(0<=first<512 and(call is None or 0<=call<20),'Missing or out-of-range output mismatch witness')
+        target_word=(blocks[call]if blocks is not None else expected['expected'])[first]
+        require(all(re.fullmatch('[0-9a-f]{8}',data.get(key,''))for key in ('first_actual','first_expected'))and
+                int(data['first_expected'],16)==target_word,'Mismatch witness differs from its call-specific reference')
+        actual_word=int(data['first_actual'],16)
+        require(actual_word!=target_word and((actual_word|target_word)&0x7fffffff)!=0,
+                'Output mismatch witness is only an allowed zero sign or unchanged word')
+        actual=struct.unpack('<f',struct.pack('<I',actual_word))[0]
+        target=struct.unpack('<f',struct.pack('<I',target_word))[0]
+        if math.isfinite(actual):
+            require(abs(actual-target)>expected.get('absolute_tolerance',0),
+                    'Mismatch witness is within the predeclared error tolerance')
+            if 'max_absolute_error'in output:require(output['max_absolute_error']>=abs(actual-target),'Maximum error omits the mismatch witness')
+        else:require(output.get('nonfinite_outputs',1)>0,'Nonfinite witness count differs')
+    else:
+        require(first==0xffffffff and(call is None or call==0xffffffff),'Passing case has a mismatch witness')
+    return first,extra
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -81,6 +136,11 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
+    stateful=plan.get('family')=='gen-stateful'
+    if stateful:
+        require(plan.get('surface')=='genexpr'and type(plan.get('prepare_zero_warm_blocks'))is int and
+                plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
+                'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
     # Runner field names are checked against its saved receipt and actual log.
     log_path=run_dir/'test-serial.log';raw=log_path.read_bytes();text=raw.decode('utf-8','strict')
     require(run['test_build_report_sha256']==sha(build_path) and run['serial_log_sha256']==sha(log_path),
@@ -102,23 +162,8 @@ def collect(build_dir,run_dir):
         require(abs(float(data['median_us'])-med)<1e-5 and abs(float(data['mean_us'])-mean)<1e-5 and
                 int(data['peak_us'])==peak,'Callback metrics differ from raw times')
         output=output_metrics(data,expected,plan['input_words_sha256']);status=output['status']
-        first=int(data['first_mismatch_word'])
-        if status=='output_mismatch':
-            require(0<=first<512,'Missing output mismatch witness')
-            require(re.fullmatch('[0-9a-f]{8}',data['first_actual']) and
-                    int(data['first_expected'],16)==expected['expected'][first],'Mismatch witness differs from reference')
-            require(int(data['first_actual'],16)!=int(data['first_expected'],16) and
-                ((int(data['first_actual'],16)|int(data['first_expected'],16))&0x7fffffff)!=0,
-                'Output mismatch witness is only an allowed zero sign or unchanged word')
-            actual=struct.unpack('<f',bytes.fromhex(data['first_actual'])[::-1])[0]
-            target=struct.unpack('<f',struct.pack('<I',expected['expected'][first]))[0]
-            if math.isfinite(actual):
-                require(abs(actual-target)>expected.get('absolute_tolerance',0),
-                    'Mismatch witness is within the predeclared error tolerance')
-                if 'max_absolute_error' in output:
-                    require(output['max_absolute_error']>=abs(actual-target),'Maximum error omits the mismatch witness')
-            else:require(output.get('nonfinite_outputs',1)>0,'Nonfinite witness count differs')
-        else:require(first==0xffffffff,'Passing case has a nonzero-value mismatch witness')
+        blocks,stream_sha=expected_stream(expected,stateful)
+        first,witness_metadata=mismatch_witness(data,expected,status,output,blocks,stream_sha)
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
@@ -126,6 +171,7 @@ def collect(build_dir,run_dir):
             mean_us=mean,median_us=med,peak_us=peak,times_us=times,cpu_review_reasons=reasons,
             context_bytes=int(data['context_bytes']),arena_high_water=int(data['arena_high_water']),
             finalized=True,first_mismatch_word=None if first==0xffffffff else first)
+        record.update(witness_metadata)
         if first!=0xffffffff:record['witness']={k:data[k]for k in ('first_actual','first_expected')}
         records.append(record)
         if reasons:cpu.append({'id':record['id'],'median_us':med,'peak_us':peak,'reasons':reasons,'status':'pending-future-optimisation-review'})
@@ -150,9 +196,10 @@ def collect(build_dir,run_dir):
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
     if plan.get('family') in ('rnbo-stateless','rnbo-numeric') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
-    elif plan.get('family')=='gen-math' and plan.get('surface')=='genexpr':
-        result.update(family='gen-math',surface='genexpr')
+    elif plan.get('family')in('gen-math','gen-stateful')and plan.get('surface')=='genexpr':
+        result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
+    if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
     if 'prepare_zero_warm_blocks' in plan:
         require(all(fields(line,'RNBO_SMOKE CASE ')['prepare_zero_warm_blocks']==str(plan['prepare_zero_warm_blocks'])
                     for line in case_lines),'Device preparation warmup differs from the plan')
