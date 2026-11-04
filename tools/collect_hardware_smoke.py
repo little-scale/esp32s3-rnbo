@@ -254,7 +254,7 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
-    event_family=plan.get('family')=='rnbo-events'
+    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
     stateful=plan.get('family')=='gen-stateful'or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family else'genexpr')and type(plan.get('prepare_zero_warm_blocks'))is int and
@@ -329,7 +329,7 @@ def collect(build_dir,run_dir):
         'cpu_review_policy':{'timed_callbacks':16,'high_median_block_fraction':0.1,
             'peak_threshold':'greater than max(3*median, median+100us)',
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
-    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events') and plan.get('surface')=='patcher':
+    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('gen-math','gen-stateful')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')

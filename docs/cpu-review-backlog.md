@@ -10,6 +10,20 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Extra events and constants: no new flags
+
+The 40 additional event scenarios have callback medians 75–76.5 µs and peak 81 µs;
+the 21 constant scenarios have medians 37–50 µs and peak 54 µs. Neither callback
+screening rule triggers. The 840 event calls separately total 6,419 µs, peak 43 µs;
+these setter/routing observations are not isolated opcode costs or CPU savings.
+
+The five event output mismatches remain correctness/precision follow-up work;
+small callback cost does not make them pass. The 32 mathematical CPU-review
+entries below remain pending, with no new entries from these two batches.
+
+Sources: [extra events](../evidence/xiao-smoke-rnbo-events-extra.json) and
+[constants](../evidence/xiao-smoke-rnbo-constants.json).
+
 ## Parameter-driven event batch: no new flags
 
 All35 event forms pass. Processing medians are 75–76 µs per stereo 256-frame

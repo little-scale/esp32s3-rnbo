@@ -148,7 +148,7 @@ class ObjectStatusTests(unittest.TestCase):
     def test_actual_boundary_smoke_preserves_prior_states_and_exposes_event_scope(self):
         source='evidence/xiao-smoke-rnbo-events.json';data=json.loads((ROOT/source).read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
-        self.assertEqual(len(self.coverage['objects']),188)
+        self.assertGreaterEqual(len(self.coverage['objects']),188)
         self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':0,'executed':35,'output_mismatches':0,'passed':35})
         self.assertEqual(sum(c['parameter_events_applied']for c in data['cases']),735)
         self.assertEqual(sum(c['samples_checked']for c in data['cases']),358400)
@@ -174,6 +174,59 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('Cold operand fixed at 2',rows['patcher:add']['working']['detail'])
         for name in('minimum','min','maximum','max'):
             self.assertIn('Only value outlet0 is observed',rows['patcher:'+name]['working']['detail'])
+
+    def test_extra_event_results_keep_all_five_failures_and_exact_spelling_scope(self):
+        source='evidence/xiao-smoke-rnbo-events-extra.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':0,'executed':40,'output_mismatches':5,'passed':35})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),409600)
+        self.assertEqual(sum(c['parameter_events_applied']for c in data['cases']),840)
+        failed={'isdenorm','fixdenorm','rmod','!%','step'}
+        self.assertEqual({c['exact_name']for c in data['cases']if c['status']=='output_mismatch'},failed)
+        for case in data['cases']:
+            row=rows['patcher:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(row['working']['status'],'partial'if case['exact_name']in failed else'board')
+            self.assertTrue(row['board_evidence'])
+            self.assertEqual(observation['numeric_mismatches'],case['numeric_mismatches'])
+            self.assertEqual(observation['max_absolute_error'],case['max_absolute_error'])
+            self.assertEqual(observation['absolute_tolerance'],0)
+            self.assertEqual(observation['strict_zero_sign_channels'],2)
+            self.assertEqual(observation['strict_zero_sign_mismatches'],0)
+            self.assertEqual(observation['parameter_events_applied'],21)
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+            self.assertTrue(any(s['url'].endswith('/'+source)for s in row['sources']))
+        for name in ('rmod','!%'):
+            observation=rows['patcher:'+name]['hardware_smoke'][0]
+            self.assertEqual(observation['numeric_mismatches'],512)
+            self.assertEqual(observation['max_absolute_error'],2**-24)
+        self.assertIn('finite only',rows['patcher:isnan']['working']['detail'])
+        self.assertIn('initial number-store value',rows['patcher:constant']['working']['detail'])
+        self.assertEqual(rows['codebox:step']['working']['status'],'unverified')
+
+    def test_constant_results_add_only_scoped_observations_and_preserve_sig_composition(self):
+        source='evidence/xiao-smoke-rnbo-constants.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertGreaterEqual(len(self.coverage['objects']),248)
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':0,'executed':21,'output_mismatches':0,'passed':21})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),215040)
+        for case in data['cases']:
+            row=rows['patcher:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(observation['status'],'pass')
+            self.assertEqual(observation['numeric_mismatches'],0)
+            self.assertEqual(case['bit_mismatches'],0)
+            self.assertEqual(observation['absolute_tolerance'],0)
+            self.assertEqual(row['working']['status'],'in_patch'if case['exact_name']=='sig~'else'board')
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+            self.assertTrue(any(s['url'].endswith('/'+source)for s in row['sources']))
+        self.assertIn('explicit initial values',rows['patcher:sig~']['working']['detail'])
+        self.assertIn('44,100 Hz',rows['patcher:samplerate~']['working']['detail'])
+        self.assertIn('256-frame',rows['patcher:vectorsize~']['working']['detail'])
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -553,6 +606,13 @@ class ShortSmokeStatusTests(unittest.TestCase):
         self.data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-events.json').read_bytes())
         self.data['cases']=self.data['cases'][:1]
         self.data['cases'][0]['exact_name']='floor~'
+
+    def test_extra_event_family_retains_boundary_contract(self):
+        self.boundary();self.data['family']='rnbo-events-extra'
+        observation=self.result()['patcher:floor~']['hardware_smoke'][0]
+        self.assertEqual(observation['parameter_events_applied'],21)
+        self.data['cases'][0]['absolute_tolerance']=1e-6
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
     def test_boundary_readbacks_allow_only_zero_sign_equivalence(self):
         self.boundary();case=self.data['cases'][0]

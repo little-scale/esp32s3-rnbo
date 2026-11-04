@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from types import SimpleNamespace
 
-from build_hardware_smoke import ExportError,block_pool,canonical,parameter_case
+from build_hardware_smoke import ExportError,block_pool,canonical,parameter_case,reference_path
 
 
 class BoundaryPlanTests(unittest.TestCase):
@@ -30,6 +30,13 @@ class BoundaryPlanTests(unittest.TestCase):
         manifest={'parameter_count':1,'parameter_schema_sha256':'0'*64 if wrong_hash else digest}
         reference=SimpleNamespace(parameter_events=lambda model:self.actions if actions is None else actions)
         return parameter_case(self.prepared,manifest,reference,148)
+
+    def test_extra_reference_is_explicit_and_unknown_families_reject(self):
+        expected=Path(__file__).resolve().parents[1]/'tests/fixtures/smoke/rnbo-events-extra/reference.py'
+        self.assertEqual(reference_path({'family':'rnbo-events-extra'}),expected)
+        self.assertEqual(reference_path({'family':'rnbo-constants'}),expected.parent.parent/'rnbo-constants/reference.py')
+        for family in ('../rnbo-events-extra','rnbo-events-other',''):
+            with self.assertRaises(ExportError):reference_path({'family':family})
 
     def test_actions_preserve_order_slots_and_independent_normalization(self):
         result=self.plan();events=result['parameter_events']

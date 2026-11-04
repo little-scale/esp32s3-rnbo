@@ -13,6 +13,58 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## Additional events and signal constants
+
+Two further XIAO batches execute **61 scenarios: 56 pass and five retain output
+mismatches**, checking **624,640 output values** and 840 actual parameter updates
+with readbacks. All 61 images finalise and memory/allocation gates pass. Neither
+batch triggers a CPU-review flag; no optimisation gain is claimed. These add 60
+mapped exact spellings: `sig~` already had composition coverage and now has a
+separate initial-value observation.
+
+The extra event batch executes 40 exact spellings: 35 pass and five fail their
+unchanged zero-tolerance references:
+
+| Exact event form | Retained observation |
+| --- | --- |
+| `isdenorm` | 4,608 mismatches; maximum error 8; observations resemble pass-through rather than the documented 0/1 predicate. |
+| `fixdenorm` | 768 mismatches; signed subnormals remain; maximum error 1.1754942106924411e-38. |
+| `rmod`, `!%` | 512 mismatches each; maximum 5.960464477539063e-8, one binary32 ULP near 0.5. The exact gate is retained. |
+| `step` | 4,352 mismatches; maximum error 1 against the documented first-input ≥ second-input ordering. |
+
+These are the supplied hot numeric-message scenarios, with one linear/unstepped
+`drive` parameter, 21 ordered actual-value updates per case, duplicate-call
+ordering, unchanged resends and holds. Zero automatic preparation warmups precede
+four checked manual warmups and sixteen timed callbacks. The left result is held
+through `sig~`; the right input is raw-bit exact across 204,800 pilot values,
+including zero signs and subnormals. The 256 permitted left zero-sign differences
+remain diagnostics; strict right-zero violations are zero.
+
+Reverse division/remainder actions exclude zero divisors. `isnan`/`fixnan`
+cover finite inputs only. Integer/floating stores cover hot numeric input/output,
+without bang/cold-store qualification. In this namespace `constant` is an alias
+of the floating-number store, not an autonomous signal constant. No signal,
+Gen or unexecuted alias result transfers to these event names.
+
+Callback medians are 75–76.5 µs, peak 81 µs, primarily the held-signal/pilot work.
+The 840 event API observations total 6,419 µs, with individual values 5–43 µs;
+setter/routing timing excludes readback/logging and is separate from callback
+timing. These are observed scenario costs, not isolated event-opcode costs or
+worst-case latency bounds. No within-block scheduling is established.
+
+The constant batch executes 21 exact spellings; **all 215,040 output words match
+bit-for-bit**. It covers mathematical constants and aliases, explicit
+`sig~` initial values 0.25/-0.5, `samplerate~` at 44,100 Hz and `vectorsize~` at 256.
+FX inputs are declared but unused. Four automatic zero-input preparation blocks
+precede four checked manual warmups and sixteen timed callbacks. Medians are
+37–50 µs and the largest observed peak is 54 µs. Message updates, impulses, other
+configurations and arbitrary initial values remain untested.
+
+See the [extra-event results](../evidence/xiao-smoke-rnbo-events-extra.json),
+[constant results](../evidence/xiao-smoke-rnbo-constants.json),
+[original event sources/reference](../tests/fixtures/smoke/rnbo-events-extra/README.md)
+and [constant sources/reference](../tests/fixtures/smoke/rnbo-constants/README.md).
+
 ## RNBO parameter-driven event batch
 
 **All 35 exact event spellings pass on XIAO**, with 735 ordered parameter

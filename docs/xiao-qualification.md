@@ -2,6 +2,14 @@
 
 ## Fast coverage runs
 
+Two additional [event/constant batches](hardware-smoke.md#additional-events-and-signal-constants)
+execute 61 scenarios: 56 pass, with five retained event mismatches (`isdenorm`,
+`fixdenorm`, `rmod`, `!%`, `step`). They add 624,640 output checks and 840 parameter
+updates/readbacks, with no CPU-review flags. All 21 constant scenarios are
+bit-exact. The main table gains 60 mapped exact spellings; existing `sig~`
+composition status is preserved with its separate initial-value evidence.
+These short observations do not qualify every mode or within-block scheduling.
+
 The current priority is short hardware functionality checks with CPU timing,
 batching many objects into one upload and leaving the test firmware installed
 between batches. The [parameter-driven event batch](hardware-smoke.md#rnbo-parameter-driven-event-batch)
@@ -190,7 +198,7 @@ dispatches parameter/MIDI events at `RNBO::TimeNow`, advertises boundary events,
 and accepts only 256-frame process calls. Ordinary parameter control exists in
 the runtime and older parameterised fixtures. The fast batch compiler now admits
 zero to 32 ordinary numeric parameters, and the new event batch verifies a single
-linear/unstepped control at full-block boundaries across 35 event graphs.
+linear/unstepped control at full-block boundaries across two batches of75 exact event graphs.
 
 Those facts do not establish within-block host-event accuracy. A timed-event
 interface or a separately admitted scheduled-kernel route is required before

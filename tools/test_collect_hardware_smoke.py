@@ -179,6 +179,13 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.assertEqual(case['first_mismatch_call'],6);self.assertEqual(case['expected_block_count'],1)
         self.assertNotIn('expected_stream_sha256',case)
 
+    def test_signal_constant_family_uses_parameter_free_patcher_route(self):
+        self.constant();self.plan.update(family='rnbo-constants',surface='patcher')
+        result=self.result()
+        self.assertEqual(result['family'],'rnbo-constants')
+        self.assertEqual(result['surface'],'patcher')
+        self.assertNotIn('parameter_events',result['cases'][0])
+
     def test_historical_constant_record_keeps_its_public_shape(self):
         self.constant();self.data.pop('first_mismatch_call');self.data.pop('expected_block_count')
         result=self.result();case=result['cases'][0]
@@ -215,6 +222,14 @@ class SmokeBoundaryParameterTests(unittest.TestCase):
         self.expected['expected_block_indices']=list(range(20))
         self.data.update(parameter_count='2',parameter_events_applied='4',event_total_us='17',event_peak_us='7',
                          strict_zero_sign_mismatches='0')
+
+    def test_extra_event_family_keeps_the_same_strict_event_contract(self):
+        self.plan['family']='rnbo-events-extra'
+        result=self.result()
+        self.assertEqual(result['family'],'rnbo-events-extra')
+        self.assertEqual(result['cases'][0]['parameter_events_applied'],4)
+        self.events[0]['actual_word']='3e800001'
+        with self.assertRaises(ValueError):self.result()
 
     def test_actual_order_readbacks_schema_and_separate_event_cost_are_retained(self):
         result=self.result();case=result['cases'][0]

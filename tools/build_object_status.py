@@ -214,7 +214,7 @@ def checked_boundary_events(case,data):
 def checked_short_smoke(record,item,data):
     """A short exact-spelling hardware observation, with no gain attribution."""
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events') and data.get('surface')=='patcher' and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra') and data.get('surface')=='patcher' and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     selector=item.get('selector','')
@@ -232,14 +232,14 @@ def checked_short_smoke(record,item,data):
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
-    boundary=data.get('family')=='rnbo-events';event_fields={};strict=0
+    boundary=data.get('family')in('rnbo-events','rnbo-events-extra');event_fields={};strict=0
     if boundary:
         require(type(case.get('strict_zero_sign_channels'))is int and case['strict_zero_sign_channels']==2 and
                 type(case.get('strict_zero_sign_mismatches'))is int and case['strict_zero_sign_mismatches']>=0,
                 'Boundary smoke requires strict right zero signs')
         strict=case['strict_zero_sign_mismatches']
         event_fields=checked_boundary_events(case,data)
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-events')or present==numeric_keys),
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))

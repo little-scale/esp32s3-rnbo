@@ -28,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -146,7 +146,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions','rnbo-events'):
+            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -176,12 +176,14 @@ def prepare_plan(catalog_path,modules_path):
             case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
                 struct.pack('<10240I',*(w for block in streams for w in block))).hexdigest())
         if manifest['parameter_count']:
-            if catalog['family']!='rnbo-events' or not hasattr(reference,'parameter_events'):
+            if catalog['family']not in('rnbo-events','rnbo-events-extra') or not hasattr(reference,'parameter_events'):
                 raise ExportError('Parameterized exports require the boundary-event reference route')
             case.update(parameter_case(prepared,manifest,reference,row['model']))
         cases.append(case)
         payloads.append(artifact)
-    pooled=catalog['family']=='rnbo-events'
+    pooled=catalog['family']in('rnbo-events','rnbo-events-extra')
+    if pooled and any(c.get('absolute_tolerance',0)!=0 for c in cases):
+        raise ExportError('Boundary-event references require zero absolute tolerance')
     if pooled and any('expected_blocks'not in c or not c.get('expected_parameter_count')for c in cases):
         raise ExportError('Boundary-event cases need parameters and twenty-block references')
     stream_bytes=4*sum(len(block)for c in cases for block in c.get('expected_blocks',()))
@@ -195,10 +197,10 @@ def prepare_plan(catalog_path,modules_path):
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-events'):
+    if catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
         plan.update(family=catalog['family'],surface='patcher')
         if catalog['family']=='rnbo-functions':plan['prepare_zero_warm_blocks']=0
-        elif catalog['family']=='rnbo-events':
+        elif catalog['family']in('rnbo-events','rnbo-events-extra'):
             pool,refs=block_pool(cases)
             plan.update(prepare_zero_warm_blocks=0,expected_block_storage='shared-512-word-pool',
                 expected_reference_unique_blocks=len(pool),expected_block_pool=pool,
