@@ -65,7 +65,7 @@ class ObjectStatusTests(unittest.TestCase):
         source='evidence/xiao-smoke-rnbo-stateless.json';data=json.loads((ROOT/source).read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
         self.assertEqual(data['summary']['executed'],36);self.assertEqual(data['summary']['passed'],36)
-        self.assertEqual(len(self.coverage['objects']),92)
+        self.assertGreaterEqual(len(self.coverage['objects']),92)
         for case in data['cases']:
             identity='patcher:'+case['exact_name'];row=rows[identity]
             observation=next(v for v in row['hardware_smoke']if v['case']==case['id'])
@@ -77,6 +77,33 @@ class ObjectStatusTests(unittest.TestCase):
                 self.assertEqual(row['working']['label'],'Short hardware check')
                 self.assertEqual(row['working']['test_level'],'short-functional-hardware-check')
                 self.assertEqual(row['optimisation']['status'],'unassessed')
+
+    def test_actual_numeric_smoke_keeps_mismatches_tolerances_and_cpu_review_visible(self):
+        data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-numeric.json').read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(len(self.coverage['objects']),123)
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':8,'executed':33,'output_mismatches':3,'passed':30})
+        failed=set();reviewed=set()
+        for case in data['cases']:
+            identity='patcher:'+case['exact_name'];row=rows[identity]
+            observation=next(v for v in row['hardware_smoke']if v['case']==case['id'])
+            self.assertEqual(observation['numeric_mismatches'],case['numeric_mismatches'])
+            self.assertEqual(observation['absolute_tolerance'],case['absolute_tolerance'])
+            self.assertEqual(observation['input_words_sha256'],case['input_words_sha256'])
+            self.assertIsNone(observation['cpu_time_saved_percent'])
+            if case['status']=='output_mismatch':
+                failed.add(case['exact_name']);self.assertEqual(row['working']['status'],'partial')
+                self.assertEqual(row['working']['label'],'Short check / known gaps')
+            if case['cpu_review_reasons']:reviewed.add(case['exact_name']);self.assertIn('flagged for later review',row['working']['detail'])
+            if identity not in ('patcher:/~','patcher:pow~'):
+                self.assertIsNone(row['performance']);self.assertEqual(row['optimisation']['status'],'unassessed')
+        self.assertEqual(failed,{'round~','isdenorm~','fixdenorm~'})
+        self.assertEqual(reviewed,{'exp2~','log~','ln~','log2~','log2f~','log10~','log1p~','pow~'})
+        self.assertEqual(rows['patcher:/~']['working']['status'],'in_patch')
+        self.assertEqual(rows['patcher:pow~']['working']['status'],'board')
+        self.assertEqual(rows['patcher:pow~']['performance']['measurement_id'],'scalar-powers-composed-original:aggregate')
+        self.assertEqual(next(v for v in rows['patcher:expm1~']['hardware_smoke']if v['case']=='expm1-signal')['within_tolerance_differences'],640)
+        self.assertEqual(next(v for v in rows['patcher:pow~']['hardware_smoke']if v['case']=='power-signal')['within_tolerance_differences'],400)
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -406,6 +433,52 @@ class ShortSmokeStatusTests(unittest.TestCase):
                 elif mutation=='cpu-reason':case['cpu_review_reasons']=['peak_spike']
                 else:item['selector']='/compile_failures/0'
                 with self.assertRaises(ValueError):checked_short_smoke(self.record,item,self.data)
+
+    def numeric(self):
+        self.data['family']='rnbo-numeric'
+        self.data['cases'][0].update(bit_mismatches=3,zero_sign_differences=1,numeric_mismatches=0,
+            within_tolerance_differences=2,nonfinite_outputs=0,max_absolute_error=1e-7,
+            absolute_tolerance=1.9999999949504854e-6,input_words_sha256='1'*64)
+
+    def test_numeric_smoke_passes_declared_tolerance_without_claiming_bit_identity(self):
+        self.numeric();row=self.result()['patcher:floor~'];observation=row['hardware_smoke'][0]
+        self.assertEqual(row['working']['label'],'Short hardware check')
+        self.assertEqual(observation['numeric_mismatches'],0);self.assertEqual(observation['within_tolerance_differences'],2)
+        self.assertIn('Declared absolute tolerance',row['working']['detail'])
+        self.assertEqual(observation['absolute_tolerance'],1.9999999949504854e-6)
+        self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+
+    def test_numeric_nonfinite_failures_are_visible_and_require_partial_state(self):
+        self.numeric();case=self.data['cases'][0]
+        case.update(status='output_mismatch',bit_mismatches=5,numeric_mismatches=2,nonfinite_outputs=1,max_absolute_error=1.)
+        with self.assertRaisesRegex(ValueError,'working label differs'):self.result()
+        self.record.update(working_state='partial',board_evidence=True)
+        row=self.result()['patcher:floor~'];self.assertEqual(row['working']['label'],'Short check / known gaps')
+        self.assertIn('nonfinite outputs 1',row['working']['detail'])
+        self.assertEqual(row['hardware_smoke'][0]['numeric_mismatches'],2)
+
+    def test_numeric_smoke_rejects_incomplete_or_contradictory_counts_and_limits(self):
+        for mutation in ('missing','numeric','within','nonfinite','bool','tolerance','finite-error','hash','wrong-status','missing-family-fields'):
+            with self.subTest(mutation=mutation):
+                self.numeric();case=self.data['cases'][0]
+                if mutation=='missing':del case['nonfinite_outputs']
+                elif mutation=='numeric':case['numeric_mismatches']=1
+                elif mutation=='within':case['within_tolerance_differences']=4
+                elif mutation=='nonfinite':case['nonfinite_outputs']=1
+                elif mutation=='bool':case['numeric_mismatches']=False
+                elif mutation=='tolerance':case['absolute_tolerance']=1e-5
+                elif mutation=='finite-error':case['max_absolute_error']=1.
+                elif mutation=='hash':case['input_words_sha256']='not-a-digest'
+                elif mutation=='wrong-status':case['status']='output_mismatch'
+                else:
+                    for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs','max_absolute_error','absolute_tolerance','input_words_sha256'):case.pop(key)
+                with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+
+    def test_legacy_smoke_retains_the_exact_gate_and_output_shape(self):
+        observation=checked_short_smoke(self.record,self.item,self.data)
+        self.assertNotIn('numeric_mismatches',observation);self.assertNotIn('absolute_tolerance',observation)
+        self.data['cases'][0]['bit_mismatches']=3
+        with self.assertRaisesRegex(ValueError,'status/counters'):checked_short_smoke(self.record,self.item,self.data)
 
     def test_content_hash_and_bound_scenario_are_required(self):
         self.data['cases'][0]['mean_us']=39;self.write()

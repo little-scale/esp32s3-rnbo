@@ -34,7 +34,8 @@ static const float *const inputs[2]={input_storage[0],input_storage[1]};
 static float *const outputs[2]={output_storage[0],output_storage[1]};
 
 typedef struct {
-    uint64_t samples,bit_mismatches,zero_sign_differences;
+    uint64_t samples,bit_mismatches,zero_sign_differences,numeric_mismatches,within_tolerance_differences,nonfinite_outputs;
+    double max_absolute_error;
     uint32_t first_mismatch,first_actual,first_expected;
 } output_checks;
 
@@ -62,11 +63,17 @@ static void compare_output(const smoke_case *test,output_checks *checks)
 {
     for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
         uint32_t actual;memcpy(&actual,&outputs[channel][frame],sizeof actual);
-        CHECK(word_finite(actual));
         uint32_t expected=test->expected[2u*frame+channel];++checks->samples;
         if(actual==expected)continue;
         ++checks->bit_mismatches;
         if(((actual|expected)&0x7fffffffu)==0){++checks->zero_sign_differences;continue;}
+        if(word_finite(actual)){
+            float target;memcpy(&target,&expected,sizeof target);
+            double error=fabs((double)outputs[channel][frame]-(double)target);
+            if(error>checks->max_absolute_error)checks->max_absolute_error=error;
+            if(error<=(double)test->absolute_tolerance){++checks->within_tolerance_differences;continue;}
+        }else ++checks->nonfinite_outputs;
+        ++checks->numeric_mismatches;
         if(checks->first_mismatch==UINT32_MAX){
             checks->first_mismatch=2u*frame+channel;checks->first_actual=actual;checks->first_expected=expected;
         }
@@ -96,15 +103,11 @@ static double median(const uint64_t times[TIMED_CALLS])
 static void worker(void *unused)
 {
     (void)unused;CHECK(hex_digest(SMOKE_PLAN_SHA256));
-    for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
-        uint32_t word=smoke_inputs[2u*frame+channel];CHECK(word_finite(word));
-        memcpy(&input_storage[channel][frame],&word,sizeof word);
-    }
     const esp_app_desc_t *app=esp_app_get_description();char firmware_sha[65];
     for(unsigned i=0;i<32;++i){sprintf(firmware_sha+2*i,"%02x",app->app_elf_sha256[i]);}
     firmware_sha[64]=0;
     /* Settle stream/dtoa buffers before every module's heap baseline. */
-    char formatted[192];CHECK(snprintf(formatted,sizeof formatted,"%.6f %.6f %"PRIu64"",1.0/3.0,.5,UINT64_C(123))>0);
+    char formatted[192];CHECK(snprintf(formatted,sizeof formatted,"%.6f %.6f %.6f %.6f %"PRIu64"",1.0/3.0,.5,12345.0625,580.498866,UINT64_C(123))>0);
     printf("RNBO_SMOKE START firmware_elf_sha256=%s plan_sha256=%s cases=%u scope=offline_no_i2s_ui_network\n",firmware_sha,SMOKE_PLAN_SHA256,(unsigned)SMOKE_CASE_COUNT);fflush(stdout);
     /* The hardware SHA backend lazily allocates its shared lock. Establish
      * that framework resource before the module heap baseline. */
@@ -115,9 +118,16 @@ static void worker(void *unused)
     unsigned passed=0,mismatched=0,cpu_review=0,images=0,finalized=0;
     for(unsigned n=0;n<SMOKE_CASE_COUNT;++n){
         const smoke_case *test=&smoke_cases[n];CHECK(token(test->id)&&hex_digest(test->sha));
-        CHECK(test->reference_policy && (!strcmp(test->reference_policy,"documented-basic")||!strcmp(test->reference_policy,"observational-signed-fraction")));
+        CHECK(test->reference_policy && (!strcmp(test->reference_policy,"documented-basic")||!strcmp(test->reference_policy,"observational-signed-fraction")||!strcmp(test->reference_policy,"mathematical-approximation")));
+        CHECK(isfinite(test->absolute_tolerance) && test->absolute_tolerance>=0 && test->absolute_tolerance<=.001f);
         CHECK((uintptr_t)test->payload_end>(uintptr_t)test->payload_start);
         for(unsigned i=0;i<512;++i)CHECK(word_finite(test->expected[i]));
+        const uint32_t *vector=test->input_words?test->input_words:smoke_inputs;
+        for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
+            uint32_t word=vector[2u*frame+channel];CHECK(word_finite(word));
+            memcpy(&input_storage[channel][frame],&word,sizeof word);
+        }
+        char input_sha[65];digest_hex((const uint8_t *)vector,512u*sizeof(uint32_t),input_sha);
         char actual_sha[65];digest_hex(test->payload_start,(size_t)(test->payload_end-test->payload_start),actual_sha);CHECK(!strcmp(actual_sha,test->sha));
         size_t psram_before=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
         size_t internal_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
@@ -137,7 +147,8 @@ static void worker(void *unused)
         size_t psram_after=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
         size_t internal_after=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
         CHECK(psram_after==psram_before && internal_after>=internal_before);
-        bool output_ok=checks.bit_mismatches==checks.zero_sign_differences;
+        CHECK(checks.bit_mismatches==checks.zero_sign_differences+checks.within_tolerance_differences+checks.numeric_mismatches);
+        bool output_ok=checks.numeric_mismatches==0;
         if(output_ok)++passed;else ++mismatched;
         double med=median(times),mean=(double)total/TIMED_CALLS;
         double median_limit=.1*((double)RNBO_S3_BLOCK_FRAMES*1000000.0/RNBO_S3_SAMPLE_RATE);
@@ -147,6 +158,10 @@ static void worker(void *unused)
         const char *reasons=high_median?(spike?"median_budget,peak_spike":"median_budget"):(spike?"peak_spike":"none");
         printf("RNBO_SMOKE CASE id=%s module_sha256=%s status=%s reference_policy=%s samples=%"PRIu64" bit_mismatches=%"PRIu64" zero_sign_differences=%"PRIu64" first_mismatch_word=%"PRIu32" first_actual=%08"PRIx32" first_expected=%08"PRIx32" mean_us=%.6f median_us=%.6f peak_us=%"PRIu64" review_cpu=%u cpu_reasons=%s median_budget_us=%.6f peak_review_limit_us=%.6f context_bytes=%"PRIu32" arena_used=%"PRIu32" arena_high_water=%"PRIu32" arena_capacity=%"PRIu32" code_bytes=%"PRIu32" cpp_new_calls=%"PRIu64" arena_requests=%"PRIu64" timed_calls=%u warm_calls=%u prepare_zero_warm_blocks=4 finalized=1 psram_before=%u psram_after=%u internal_before=%u internal_after=%u times_us=",test->id,actual_sha,output_ok?"pass":"output_mismatch",test->reference_policy,checks.samples,checks.bit_mismatches,checks.zero_sign_differences,checks.first_mismatch,checks.first_actual,checks.first_expected,mean,med,peak,(unsigned)(high_median||spike),reasons,median_limit,spike_limit,context_bytes,dynamic.arena_used,dynamic.arena_high_water,dynamic.arena_capacity,code_bytes,dynamic.cpp_new_calls,dynamic.total_arena_allocations,TIMED_CALLS,MANUAL_WARM_CALLS,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after);
         for(unsigned b=0;b<TIMED_CALLS;++b){printf("%s%"PRIu64,b?",":"",times[b]);}
+        uint64_t error_bits;uint32_t tolerance_bits;
+        memcpy(&error_bits,&checks.max_absolute_error,sizeof error_bits);
+        memcpy(&tolerance_bits,&test->absolute_tolerance,sizeof tolerance_bits);
+        printf(" numeric_mismatches=%"PRIu64" within_tolerance_differences=%"PRIu64" nonfinite_outputs=%"PRIu64" max_absolute_error_bits=%016"PRIx64" absolute_tolerance_bits=%08"PRIx32" input_words_sha256=%s",checks.numeric_mismatches,checks.within_tolerance_differences,checks.nonfinite_outputs,error_bits,tolerance_bits,input_sha);
         putchar('\n');fflush(stdout);
     }
     size_t psram_end=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);

@@ -155,7 +155,7 @@ def inventory_rows(inventory):
 def checked_short_smoke(record,item,data):
     """A short exact-spelling hardware observation, with no gain attribution."""
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family')=='rnbo-stateless' and data.get('surface')=='patcher' and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric') and data.get('surface')=='patcher' and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     selector=item.get('selector','')
@@ -168,8 +168,30 @@ def checked_short_smoke(record,item,data):
             type(case.get('samples_checked')) is int and case['samples_checked']==10240,
             'Short smoke case did not complete the declared scenario')
     bits,zeros=case.get('bit_mismatches'),case.get('zero_sign_differences')
-    require(type(bits)is int and type(zeros)is int and 0<=zeros<=bits<=case['samples_checked'] and
-            (case['status']=='pass')==(bits==zeros),'Short smoke output status/counters differ')
+    require(type(bits)is int and type(zeros)is int and 0<=zeros<=bits<=case['samples_checked'],
+            'Short smoke output status/counters differ')
+    numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
+                  'max_absolute_error','absolute_tolerance','input_words_sha256'}
+    present=numeric_keys.intersection(case);numeric={}
+    require((not present or present==numeric_keys)and(data.get('family')!='rnbo-numeric' or present==numeric_keys),
+            'Short numeric smoke fields must be complete')
+    if present:
+        mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
+        require(all(type(v)is int and v>=0 for v in (mismatches,within,nonfinite))and
+                mismatches==bits-zeros-within and nonfinite<=mismatches,
+                'Short numeric smoke mismatch categories differ')
+        tolerance=number(case['absolute_tolerance']);maximum=number(case['max_absolute_error'])
+        require(0<=tolerance<=2e-6 and maximum>=0 and(not within or tolerance>0),
+                'Short numeric smoke tolerance/error is invalid')
+        require((mismatches==0 and maximum<=tolerance)or
+                (mismatches>0 and(mismatches==nonfinite or maximum>tolerance)),
+                'Short numeric smoke finite error contradicts its gate')
+        input_sha=case['input_words_sha256']
+        require(type(input_sha)is str and len(input_sha)==64 and all(c in '0123456789abcdef'for c in input_sha),
+                'Short numeric smoke input identity is invalid')
+        numeric={key:case[key]for key in numeric_keys}
+    else:mismatches=bits-zeros
+    require((case['status']=='pass')==(mismatches==0),'Short smoke output status/counters differ')
     times=case.get('times_us')
     require(type(times)is list and len(times)==16 and all(type(t)is int and t>=0 for t in times),
             'Short smoke requires sixteen raw callback times')
@@ -183,7 +205,7 @@ def checked_short_smoke(record,item,data):
     if median>.1*256000000/44100:expected.append('median_budget')
     if peak>max(3*median,median+100):expected.append('peak_spike')
     require(reasons==expected,'Short smoke CPU review reasons differ')
-    return {'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
+    return {**numeric,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
             'mean_us':mean,'median_us':median,'peak_us':peak,'cpu_review_reasons':reasons,
             'samples_checked':case['samples_checked'],'test_level':'short-functional-hardware-check',
             'full_qualification_claimed':False,'cpu_time_saved_percent':None,
@@ -287,6 +309,8 @@ def make_status(inventory,coverage,root=ROOT):
             row['hardware_smoke']=smoke
             for observation in smoke:
                 row['working']['detail']+=f" Short XIAO check ({observation['status']}): one repeated stereo vector; mean {observation['mean_us']:.2f}µs, median {observation['median_us']:.2f}µs, peak {observation['peak_us']:.0f}µs."
+                if 'absolute_tolerance'in observation:
+                    row['working']['detail']+=f" Declared absolute tolerance {observation['absolute_tolerance']:.9g}; maximum finite error {observation['max_absolute_error']:.9g}; within-tolerance differences {observation['within_tolerance_differences']}; numeric mismatches {observation['numeric_mismatches']}; nonfinite outputs {observation['nonfinite_outputs']}."
                 if observation['cpu_review_reasons']:row['working']['detail']+=' Callback timing flagged for later review.'
         if record.get('working_test_level')=='short-functional-hardware-check':
             require(smoke and working in ('board','partial'),'Short smoke label requires a bound hardware scenario')

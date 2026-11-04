@@ -5,11 +5,13 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import re
 import shutil
 import subprocess
+import struct
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -26,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','rnbo-stateless'):
+    if family not in ('gen-numeric','rnbo-stateless','rnbo-numeric'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -37,6 +39,13 @@ def checked_words(words):
             (w&0x7f800000)==0x7f800000 for w in words):
         raise ExportError('Smoke vectors require 512 finite binary32 words')
     return words
+
+
+def absolute_tolerance(reference,model):
+    value=getattr(reference,'ABSOLUTE_TOLERANCES',{}).get(model,0)
+    if type(value) not in (int,float) or not math.isfinite(value) or not 0<=value<=1e-3:
+        raise ExportError('Invalid predeclared absolute error tolerance')
+    return struct.unpack('<f',struct.pack('<f',value))[0]
 
 
 def prepare_plan(catalog_path,modules_path):
@@ -80,24 +89,29 @@ def prepare_plan(catalog_path,modules_path):
             raise ExportError('Module artifact changed: '+identity)
         inspection=inspect_module(data,allowed_imports=set())
         if inspection['imports']:raise ExportError('Smoke module imports are not empty')
-        expected=checked_words(reference.reference_words(row['model'],inputs))
-        import struct
+        vector=checked_words(reference.case_input_words(row['model'],256)) if hasattr(reference,'case_input_words') else inputs
+        expected=checked_words(reference.reference_words(row['model'],vector))
         expected_hash=hashlib.sha256(struct.pack('<512I',*expected)).hexdigest()
-        cases.append({**row,'module_sha256':module['artifact']['sha256'],'module_bytes':len(data),
+        case={**row,'module_sha256':module['artifact']['sha256'],'module_bytes':len(data),
             'source_sha256':source_hash,**expression_info,
-            'expected_words_sha256':expected_hash,'expected':expected})
+            'expected_words_sha256':expected_hash,'expected':expected}
+        if hasattr(reference,'case_input_words'):
+            case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
+                absolute_tolerance=absolute_tolerance(reference,row['model']))
+        cases.append(case)
         payloads.append(artifact)
     if not cases or sum(p.stat().st_size for p in payloads)>2*1024*1024:
         raise ExportError('Empty or oversized smoke batch; split the catalog')
-    import struct
     plan={'format':'rnbo-hardware-smoke-plan-v1','catalog_sha256':sha(catalog_path),
         'module_batch_sha256':sha(modules_path),'reference_source_sha256':sha(reference_source),
         'sample_rate':44100,'block_frames':256,'warmup_blocks':4,'timed_blocks':16,
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family']=='rnbo-stateless':
-        plan.update(family='rnbo-stateless',surface='patcher')
+    if catalog['family'] in ('rnbo-stateless','rnbo-numeric'):
+        plan.update(family=catalog['family'],surface='patcher')
+    if hasattr(reference,'case_input_words'):
+        plan['input_vector_policy']='per-case; top-level input hash identifies fallback vector only'
     return plan,inputs,payloads
 
 
@@ -107,12 +121,20 @@ def generate_header(plan,inputs):
     lines=['/* SPDX-License-Identifier: MIT */','#pragma once',
         '#define SMOKE_CASE_COUNT %du'%len(plan['cases']),'#define SMOKE_ARENA_BYTES 4096u',
         '#define SMOKE_SEED 305419896u','#define SMOKE_PLAN_SHA256 '+json.dumps(digest),
-        'static const uint32_t smoke_inputs[512]={'+words(inputs)+'};',
-        'static const smoke_case smoke_cases[SMOKE_CASE_COUNT]={']
+        'static const uint32_t smoke_inputs[512]={'+words(inputs)+'};']
     for index,row in enumerate(plan['cases']):
-        policy='observational-signed-fraction' if row['model']==28 else 'documented-basic'
-        lines.append('{.id=%s,.sha=%s,.reference_policy=%s,.payload_start=smoke_payload_%d_start,.payload_end=smoke_payload_%d_end,.expected={%s}},'%(
-            json.dumps(row['id']),json.dumps(row['module_sha256']),json.dumps(policy),index,index,words(row['expected'])))
+        if 'input_words' in row:
+            lines.append('static const uint32_t smoke_case_inputs_%d[512]={%s};'%(index,words(row['input_words'])))
+    lines.append('static const smoke_case smoke_cases[SMOKE_CASE_COUNT]={')
+    for index,row in enumerate(plan['cases']):
+        policy='observational-signed-fraction' if row['model']==28 or row.get('reference_policy') in ('signed-fraction-convention','observational-signed-fraction') else 'documented-basic'
+        extra=''
+        if 'input_words' in row:
+            tolerance=row['absolute_tolerance']
+            if tolerance:policy='mathematical-approximation'
+            extra='.input_words=smoke_case_inputs_%d,.absolute_tolerance=%sf,'%(index,float(tolerance).hex())
+        lines.append('{.id=%s,.sha=%s,.reference_policy=%s,.payload_start=smoke_payload_%d_start,.payload_end=smoke_payload_%d_end,%s.expected={%s}},'%(
+            json.dumps(row['id']),json.dumps(row['module_sha256']),json.dumps(policy),index,index,extra,words(row['expected'])))
     return '\n'.join(lines+['};','']),digest
 
 

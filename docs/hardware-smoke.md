@@ -13,6 +13,93 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## RNBO numeric and maths batch
+
+One upload executes **33 exact RNBO signal forms: 30 pass, three have output
+mismatches, and eight trigger CPU review**. All compile. The final run completes
+all module and global memory checks, and leaves the quiet firmware installed.
+
+| Exact form | Short hardware result | Median µs | Peak µs | CPU review |
+| --- | --- | ---: | ---: | --- |
+| `div~` | Pass | 164.0 | 168 | No flag |
+| `/~` | Pass | 164.0 | 168 | No flag |
+| `rdiv~` | Pass | 164.0 | 169 | No flag |
+| `!/~` | Pass | 164.0 | 169 | No flag |
+| `mod~` | Pass | 288.0 | 293 | No flag |
+| `%~` | Pass | 288.5 | 293 | No flag |
+| `rmod~` | Pass | 288.0 | 293 | No flag |
+| `!%~` | Pass | 288.0 | 293 | No flag |
+| `floor~` | Pass | 125.0 | 129 | No flag |
+| `ceil~` | Pass | 123.0 | 128 | No flag |
+| `trunc~` | Pass | 52.0 | 57 | No flag |
+| `round~` | Output mismatch | 172.0 | 177 | No flag |
+| `fract~` | Pass | 110.0 | 115 | No flag |
+| `sign~` | Pass | 56.0 | 61 | No flag |
+| `isnan~` | Pass | 52.0 | 57 | No flag |
+| `fixnan~` | Pass | 46.0 | 50 | No flag |
+| `isdenorm~` | Output mismatch | 41.0 | 46 | No flag |
+| `fixdenorm~` | Output mismatch | 41.0 | 46 | No flag |
+| `intnum~` | Pass | 52.0 | 56 | No flag |
+| `int~` | Pass | 52.0 | 56 | No flag |
+| `i~` | Pass | 52.0 | 57 | No flag |
+| `sqrt~` | Pass (approximate) | 197.0 | 201 | No flag |
+| `cbrt~` | Pass (approximate) | 430.0 | 435 | No flag |
+| `exp~` | Pass (approximate) | 483.0 | 487 | No flag |
+| `exp2~` | Pass (approximate) | 7494.0 | 7498 | Queued |
+| `expm1~` | Pass (approximate) | 418.0 | 423 | No flag |
+| `log~` | Pass (approximate) | 3681.0 | 3682 | Queued |
+| `ln~` | Pass (approximate) | 3680.5 | 3682 | Queued |
+| `log2~` | Pass (approximate) | 4729.0 | 4730 | Queued |
+| `log2f~` | Pass (approximate) | 4729.0 | 4730 | Queued |
+| `log10~` | Pass (approximate) | 4294.0 | 4299 | Queued |
+| `log1p~` | Pass (approximate) | 3979.0 | 3979 | Queued |
+| `pow~` | Pass (approximate) | 1141.0 | 1141 | Queued |
+
+Each form checks 10,240 output values over twenty callbacks, for **337,920
+output checks**. Sixteen callbacks provide the timings above. Cases have their
+own predeclared input vectors: division/remainder use nonzero operands in both
+lanes; logarithms, roots, exponentials and powers use bounded valid domains.
+Basic functions use a 77-word finite edge set, including subnormal signs,
+half-way neighbours and safe signed-32-bit conversion endpoints.
+
+Basic functions use exact numerical comparison with separate zero-sign
+counts. Roots/exponentials/logarithms/powers use an absolute error limit of
+`2e-6` (stored as binary32) against independently computed, once-rounded
+mathematical outputs. Raw differences remain visible: `expm1~` has 640 and
+`pow~` has 400 differing output words, all within that predeclared limit; their
+largest errors are about 1.19e-7 and 2.38e-7. This is not an exact-bit pass for
+those two functions. No comparison limit was changed after device execution.
+
+Retained discrepancies:
+
+- `round~` outputs 1 for input `0x3effffff` (just below 0.5), where the declared
+  nearest-integer, ties-away reference expects 0. Its short object prose does
+  not define every tie rule; this witness is below the tie itself.
+- `isdenorm~` returns a normal input value such as 4,194,304 instead of predicate 0.
+- `fixdenorm~` retains the smallest subnormal instead of replacing it with zero.
+
+The `fract~` pass uses the explicitly selected signed-fraction convention.
+`isnan~` and `fixnan~` use finite inputs only; NaN/infinity handling is untested.
+The denormal discrepancies are consistent with the currently disabled denormal
+handling already seen in Gen; no runtime or DSP adapter was changed here.
+
+The eight CPU flags are retained in [the review queue](cpu-review-backlog.md).
+The `exp2~` two-instance stereo fixture takes 7.494 ms median, exceeding the
+5.805 ms block period at 44.1 kHz. These absolute graph costs include the wrapper
+and two operator instances; they are not isolated object costs, optimisation
+gains or proof of audio headroom. Coverage continues before optimisation.
+
+The first attempt reached all 33 case records but failed its final global
+internal-memory check: decimal error formatting retained 104 bytes between
+case records, while each module's own memory baseline recovered. That attempt,
+its exact source and artifacts remain saved locally. Logging error/tolerance
+as raw IEEE words removes that formatter allocation; the repeated run uses
+the same modules, input vectors and comparison limits and passes all memory
+gates. The gates were not relaxed.
+
+See [the compact result](../evidence/xiao-smoke-rnbo-numeric.json) and
+[the original patches and independent reference](../tests/fixtures/smoke/rnbo-numeric/README.md).
+
 ## RNBO arithmetic and logic batch
 
 A single upload checks **36 exact RNBO signal spellings: all 36 pass**, with no
@@ -155,8 +242,9 @@ python3 tools/build_hardware_smoke.py \
   --cache-build-dir build/hardware-smoke-cache-xiao
 ```
 
-Supply normal prepared exports matching the selected catalog. The numeric Gen
-catalog and the RNBO stateless catalog have separate independent references.
+Supply normal prepared exports matching the selected catalog. The numeric Gen, RNBO stateless and RNBO numeric catalogs have separate
+independent references. Numeric cases carry their own input-vector hashes and
+predeclared tolerances; older catalogs keep the original exact gate.
 The initial fast
 builder supports strict, self-contained two-input/two-output FX modules without
 parameters; additional object shapes will be added as coverage expands. The
