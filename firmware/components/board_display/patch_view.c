@@ -99,5 +99,7 @@ lv_obj_t *patch_view_create(lv_obj_t *parent,void (*select)(unsigned index))
 }
 void patch_view_select(unsigned index)
 {
-    selection=index;if(view)lv_obj_invalidate(view);
+    selection=index;
+    if(index==PATCH_NO_PARAMETER)page=0;
+    if(view)lv_obj_invalidate(view);
 }

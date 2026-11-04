@@ -3,6 +3,7 @@
 #include "esp_err.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include "patch_layout.h"
 typedef struct {
     void (*panic)(void);
     void (*resume)(void);
@@ -17,3 +18,11 @@ typedef struct {
 esp_err_t board_display_start(const board_display_actions *actions);
 void board_display_update(bool muted, bool fault, unsigned volume_percent,
                           uint32_t render_us, uint32_t peak_us,unsigned output_peak_q15);
+#ifdef RNBO_S3_PLAYER
+/* Call from the control owner during maintenance, never from audio. All input
+ * strings/layout/labels are copied; visual may be NULL or invalid (fallback).
+ * Callbacks continue to use root-owned generation-safe atomics, not an image. */
+esp_err_t board_display_player_layout(const char *title,const char *source_sha256,
+                                     const cJSON *visual,const patch_parameter *labels,
+                                     unsigned count);
+#endif

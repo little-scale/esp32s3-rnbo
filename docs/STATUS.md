@@ -1,5 +1,13 @@
 # Implementation status — 4 November 2026
 
+The [stable Main player and RNBO Studio](player-protocol.md) now load compiled
+`.rnbopkg` patches over USB while keeping player firmware installed. All effects
+live inside Main. XIAO package swaps, saved-package reopening, controls and reboot
+restoration pass; a 60-second drone run has zero reported audio errors. The AMOLED
+player builds and passes computer-side display checks; its device trial remains
+pending. [Exact integration evidence](../evidence/player-xiao.json) records scope
+and artifact identities. The broader object-qualification goal is paused.
+
 The [parameter-driven event batch](hardware-smoke.md#rnbo-parameter-driven-event-batch)
 passes all 35 exact event spellings,735 updates/readbacks and 358,400 output checks.
 A single linear numeric control is applied at callback boundaries; the independent
@@ -20,8 +28,8 @@ batch checks 33 RNBO signal forms: 30 pass, three have output mismatches
 (`round~`, `isdenorm~`, `fixdenorm~`), and eight are queued for CPU review.
 The stereo `exp2~` fixture exceeds the block period. The previous arithmetic/logic
 batch checks 36 exact spellings: all pass, with no CPU-review flags. The earlier numeric Gen run executes 15 forms: 10 pass, 5 have output
-mismatches; registered `f()` fails compilation. It also has no CPU-review flags. Quiet smoke firmware
-is currently installed on XIAO; the drone is not restored after every batch.
+mismatches; registered `f()` fails compilation. It also has no CPU-review flags. Those batches used quiet smoke firmware; the stable player is now installed on
+XIAO with the saved drone package.
 
 The [stateful Gen batch](hardware-smoke.md#gen-stateful-and-per-sample-batch)
 passes all twelve programs/nine exact spellings. Its 122,880 output checks carry
@@ -168,8 +176,8 @@ contiguous PSRAM block decreased once after initial reconstruction, then remaine
 bounded across the recorded cycles; total free memory did not decrease.
 
 Real RNBO modules also passed the [isolated loader qualification](dynamic-loader.md).
-Live replacement in the permanent audio/UI pipeline, independent Main-to-FX
-processing and flash maintenance still require separate integration.
+The stable player now integrates Main replacement and flash maintenance on XIAO;
+its AMOLED device trial remains pending. Effects are contained inside Main.
 External clock/data signals were not measured with
 electrical test equipment. Speaker/display observations came from the user;
 software PCM capture is a separate evidence category.
@@ -236,13 +244,11 @@ runs the sanitizer configuration separately.
 
 The local RNBO 1.4.4 exporter, validated manual import, native compiler route,
 static C ABI, caller-owned dynamic SDK, bounded owner events, allocation guards,
-capture and FM1-style UI are implemented. The instrument currently compiles a
-patch into the application; the separate dynamic loader test runs actual RNBO
-images with audited imports and private allocation.
-
-Next comes integration of loaded RNBO images with the live audio/UI lifecycle.
-Persistent `.rnbos3` packages,
-known-good recovery, independent Main/FX lifecycle, authenticated Wi-Fi/group
-deployment, full browser conversion and broader RNBO/Gen coverage remain later
-work. The new XIAO whole-patch bring-up is described above; comprehensive
+capture and FM1-style UI are implemented. Stable player builds now integrate
+loaded Main images with the live audio lifecycle, persistent `.rnbopkg` selection
+and previous-package recovery. Studio compiles or reopens packages and loads them
+without reflashing the player. Static patch firmware remains available for
+development. Physical AMOLED player validation, interrupted-power recovery,
+authenticated Wi-Fi/group deployment, full browser conversion and broader
+RNBO/Gen coverage remain later work. The new XIAO whole-patch bring-up is described above; comprehensive
 per-object XIAO hardware qualification remains open.

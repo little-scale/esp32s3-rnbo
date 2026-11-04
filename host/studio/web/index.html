@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f6f8">
+  <title>RNBO Studio</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div><span class="eyebrow">ESP32-S3 · PATCH TO INSTRUMENT</span><h1>RNBO Studio <span class="local">LOCAL</span></h1></div>
+    <p>Build on your computer.<br>Play on your instrument.</p>
+  </header>
+  <main>
+    <section class="composer panel" aria-labelledby="source-title">
+      <div class="panel-heading">
+        <div><span class="step">01 / SOURCE</span><h2 id="source-title">Your RNBO patch</h2></div>
+        <div class="file-actions"><button id="example" class="quiet" type="button">Load example</button><button id="open-file" class="quiet" type="button">Open .rnbopat</button><input id="file" type="file" accept=".rnbopat,application/json" tabindex="-1"><button id="open-package" class="quiet" type="button" disabled>Open .rnbopkg</button><input id="package-file" type="file" accept=".rnbopkg,application/octet-stream" tabindex="-1"></div>
+      </div>
+      <div id="drop-zone" class="patch-preview" tabindex="0" aria-label="Patch preview. Drop a .rnbopat file here or press Enter to open a file.">
+        <div id="empty-preview" class="empty-preview"><span class="patch-icon" aria-hidden="true">↗</span><strong id="empty-title">Open an RNBO patch</strong><span id="empty-description">Drop a .rnbopat here, open a file, or load the example.</span></div>
+        <svg id="patch-svg" role="img" aria-label="RNBO patch connections" hidden></svg>
+      </div>
+      <div class="preview-footer"><span id="file-name">No patch loaded</span><span id="patch-facts">RNBO · .rnbopat</span></div>
+      <p id="source-state" class="hint" role="status">Open an original RNBO patch to get started.</p>
+      <details class="source-details"><summary>Patch JSON · view or edit</summary><label for="source" class="sr-only">RNBO patch JSON</label><textarea id="source" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" placeholder="Paste your .rnbopat JSON here…"></textarea><p class="hint">Edits are checked as JSON. The visual preview shows the patch’s boxes and connections.</p></details>
+      <div class="section-rule"></div>
+      <div class="build-settings">
+        <p class="hint">One Main patch, including its effects. Packages work on both supported boards.</p>
+        <label>Voices<select id="voices"><option value="1">1 voice</option><option value="2">2 voices</option><option value="4">4 voices</option></select></label>
+        <label>Arena reserve<select id="arena"><option value="1">1 MiB</option><option value="2">2 MiB</option><option value="4">4 MiB</option></select></label>
+      </div>
+      <div class="initial-volume"><label for="initial-volume">Startup volume</label><input id="initial-volume" type="range" min="0" max="100" value="50" step="1"><output id="initial-volume-value" for="initial-volume">50%</output></div>
+      <details class="advanced"><summary>Advanced build settings</summary><div class="advanced-settings"><label>Arithmetic profile<select id="numerical-profile"><option value="float32-strict">Standard arithmetic</option><option value="float32-audio-v1">Float32 audio kernels (reviewed)</option></select></label><label>Comb delay cap · ms<input id="comb-max" type="number" min="0.000001" max="1000" step="any" placeholder="Default"></label><label class="checkbox"><input id="float32-delays" type="checkbox">Use Float32 delay storage</label></div><p class="hint">The Float32 audio profile changes only reviewed kernels and can produce different rounding. It does not convert every operation. Leave delay settings at their defaults unless your patch needs a specific limit or storage choice.</p></details>
+      <div class="compile-bar"><button id="compile" class="primary" type="button" disabled>Compile patch</button><span id="compile-status" role="status">Connecting to local tools…</span></div>
+      <section id="build-result" class="result" aria-labelledby="result-title" hidden>
+        <div class="result-heading"><span class="success-dot" aria-hidden="true"></span><h3 id="result-title">Package ready</h3></div>
+        <div id="result-facts" class="facts"></div>
+        <div class="downloads"><button id="download" class="quiet" type="button">Download .rnbopkg</button></div>
+      </section>
+      <details id="build-output" class="build-output"><summary>Build progress and output</summary><pre id="build-log" tabindex="0">No build yet.</pre></details>
+    </section>
+    <aside class="device panel" aria-labelledby="device-title">
+      <div class="panel-heading"><div><span class="step">02 / INSTRUMENT</span><h2 id="device-title">Upload &amp; play</h2></div><span id="connection" class="connection">OFFLINE</span></div>
+      <label for="port">USB device</label><div class="connect-row"><select id="port"><option value="">Looking for devices…</option></select><button id="refresh-ports" class="quiet" type="button" aria-label="Refresh USB devices">Refresh</button></div>
+      <button id="connect" class="secondary wide" type="button" disabled>Connect</button>
+      <p id="device-status" class="hint" role="status">Choose a USB device to connect.</p>
+      <div class="upload-section"><button id="upload" class="primary wide" type="button" disabled>Load compiled package</button><p id="upload-status" class="hint" role="status">Compile a patch, connect its player, then load the package.</p><p class="hint saved-note">Loading changes the patch, not the player firmware. The selected package is saved and loaded again at power-on. Audio pauses briefly while changing patches.</p></div>
+      <details class="advanced"><summary>Install/update player</summary><p class="hint">Install the stable player once, or update it here. This replaces the application firmware; Studio keeps a private recovery backup.</p><label>Player board<select id="board"><option value="xiao">XIAO ESP32-S3 · 8 MB</option><option value="amoled">Waveshare AMOLED 1.8 V2 · 16 MB</option></select></label><button id="install-player" class="secondary wide" type="button" disabled>Install/update player</button></details>
+      <section id="runtime-controls" class="runtime-controls" aria-labelledby="controls-title" hidden>
+        <div class="subheading"><h3 id="controls-title">Live controls</h3><span id="runtime-name" class="small-label"></span></div>
+        <div class="volume-heading"><label for="volume">Output volume</label><output id="volume-value" for="volume">50%</output></div>
+        <input id="volume" type="range" min="0" max="100" step="1" value="50" disabled>
+        <div class="playback-controls"><button id="pause" class="quiet" type="button" aria-pressed="false" disabled>Pause audio</button></div>
+        <div id="parameters" class="parameters"></div>
+      </section>
+      <section id="resources" class="resources" aria-labelledby="resources-title" hidden>
+        <h3 id="resources-title">On the board</h3><dl class="resource-grid"><div><dt>Render time</dt><dd id="render-time">—</dd></div><div><dt>Peak</dt><dd id="peak-time">—</dd></div><div><dt>Internal RAM free</dt><dd id="internal-free">—</dd></div><div><dt>PSRAM free</dt><dd id="psram-free">—</dd></div></dl><p id="runtime-facts" class="hint"></p><p class="hint">Render and peak cover the audio work through PCM conversion, excluding the I2S wait. These are not total dual-core CPU usage.</p>
+      </section>
+      <details class="local-tools"><summary>Local tools</summary><div id="environment" class="environment"><span>Checking dependencies…</span></div><p class="hint">Compilation uses the RNBO and ESP32 tools installed on this computer. Board selection applies only to player installation.</p></details>
+    </aside>
+    <div id="message" class="message" role="alert" hidden></div>
+  </main>
+  <footer class="page-footer"><span>Original RNBO patch → local compiler → USB → instrument</span><span>44.1 kHz · 256 frames per audio block</span></footer>
+</body>
+</html>

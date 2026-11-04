@@ -88,6 +88,7 @@ def main() -> int:
     parser.add_argument("--idf-path", type=Path, default=Path(os.environ.get("IDF_PATH", str(Path.home()/"esp/esp-idf"))))
     parser.add_argument("--components-from", type=Path)
     parser.add_argument("--export-dir", type=Path, help="Validated prepared Main export from host/compiler/prepare.py")
+    parser.add_argument('--player', action='store_true', help='Build the stable Main patch player, without embedding a patch')
     parser.add_argument("--variant", type=variant_name, help="Safe label for an independent generated build directory")
     parser.add_argument("--patch-title",default="RNBO Patch",help="Title for the AMOLED patch view")
     parser.add_argument("--arena-bytes",type=int,default=1048576,help="Explicit RNBO arena budget (4096..4194304; default 1 MiB)")
@@ -95,13 +96,17 @@ def main() -> int:
                         help='Startup volume percent (0..100; default XIAO50, AMOLED100)')
     parser.add_argument("--clean", action="store_true", help="Remove only this board's generated build/config")
     args = parser.parse_args()
+    if args.player and args.export_dir:
+        parser.error('--player and --export-dir are mutually exclusive')
     if args.initial_volume is None:
-        args.initial_volume = 50 if args.board == 'xiao' else 100
+        args.initial_volume = 50 if args.player or args.board == 'xiao' else 100
+    if args.player and args.initial_volume!=50:
+        parser.error('The empty player starts at 50%; patch metadata supplies its startup volume')
     if not 4096<=args.arena_bytes<=4194304:
         parser.error('--arena-bytes must be between 4096 and 4194304')
     if not 0<=args.initial_volume<=100:
         parser.error('--initial-volume must be between 0 and 100')
-    build = ROOT/"build"/(f"firmware-{args.board}"+("-rnbo" if args.export_dir else "")+(f"-{args.variant}" if args.variant else ""))
+    build = ROOT/"build"/(f"firmware-{args.board}"+("-player" if args.player else "-rnbo" if args.export_dir else "")+(f"-{args.variant}" if args.variant else ""))
     if args.clean and build.exists():
         shutil.rmtree(build)
     build.mkdir(parents=True, exist_ok=True)
@@ -121,10 +126,30 @@ def main() -> int:
             parser.error("Set IDF_PYTHON_ENV_PATH to an installed ESP-IDF 5.5 Python environment")
         environment["IDF_PYTHON_ENV_PATH"] = str(candidates[-1])
     definitions = ["-D", "IDF_TARGET=esp32s3", "-D", f"RNBO_S3_BOARD={args.board}",
+                   '-D',f'RNBO_S3_PLAYER={"ON" if args.player else "OFF"}',
                    '-D',f'RNBO_S3_ARENA_BYTES={args.arena_bytes}',
                    '-D',f'RNBO_S3_INITIAL_VOLUME={args.initial_volume}',
                    "-D", f"SDKCONFIG={build/'sdkconfig'}", "-D",
                    f"SDKCONFIG_DEFAULTS={ROOT/'firmware'/f'sdkconfig.{args.board}.defaults'}"]
+    if args.player:
+        from build_loader_spike import inventory
+        lock = json.loads((ROOT/'loader-spike/dependencies.json').read_text())['components']
+        loader_stage = ROOT/'build/vendor-player'
+        for name in ('elf_loader','cmake_utilities'):
+            source = ROOT/'build/vendor-loader-spike'/name
+            if not source.is_dir() or inventory(source) != lock[name]['files_sha256']:
+                parser.error('Stable player needs the pinned loader cache; run tools/build_loader_spike.py first')
+            target = loader_stage/name
+            if target.exists() and inventory(target) != lock[name]['files_sha256']:
+                shutil.rmtree(target)
+            if not target.exists():
+                target.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copytree(source,target)
+        definitions += ['-D',f'RNBO_S3_PLAYER_DEPENDENCIES_DIR={loader_stage}']
+        # Preserve each board's normal settings and append the loader contract.
+        for i,value in enumerate(definitions):
+            if str(value).startswith('SDKCONFIG_DEFAULTS='):
+                definitions[i]=str(value)+';'+str(ROOT/'firmware/sdkconfig.player.defaults')
     prepared = None
     if args.export_dir:
         args.export_dir=args.export_dir.expanduser().resolve()
@@ -139,7 +164,7 @@ def main() -> int:
         from layout import write_layout
         source=args.export_dir/'source.rnbopat' if args.export_dir and (args.export_dir/'source.rnbopat').is_file() else None
         visual=write_layout(source,args.export_dir/'description.json' if args.export_dir else None,
-                            build/'visual',args.patch_title)
+                            build/'visual','RNBO Player' if args.player else args.patch_title)
         definitions += ['-D',f'RNBO_S3_VISUAL_DIR={build/"visual"}']
         if not args.components_from:
             parser.error("AMOLED requires --components-from with the pinned component collection; see firmware/dependencies.amoled.json")
@@ -164,6 +189,10 @@ def main() -> int:
         return result
     if source_inventory()!=integration_hashes:
         raise ValueError("Integration source changed during build; run again for an accurate artifact identity")
+    if args.player:
+        for name in ('elf_loader','cmake_utilities'):
+            if inventory(loader_stage/name)!=lock[name]['files_sha256']:
+                raise ValueError('Pinned player loader changed during compilation')
     if prepared and verify_prepared(args.export_dir)!=prepared:
         raise ValueError("Prepared export changed during build")
     description = json.loads((build/"project_description.json").read_text())
@@ -177,13 +206,17 @@ def main() -> int:
     report = {"board":args.board, "variant":args.variant,"sample_rate":44100, "block_frames":256,
               'initial_volume_percent':args.initial_volume,
               "signal_format":"planar-float32", "sink_channels":2 if args.board=="xiao" else 1,
-              "sink_format":"signed-16bit-Philips-I2S", "default_source":"static-rnbo" if prepared else "engine-neutral-stereo-tone",
+              "sink_format":"signed-16bit-Philips-I2S", "default_source":"dynamic-rnbo-player" if args.player else "static-rnbo" if prepared else "engine-neutral-stereo-tone",
               "idf_version":json.loads((build/"config.env").read_text()).get("IDF_VERSION"),
               "idf_git_revision":description.get("git_revision"), "components":component_names,
               "sdkconfig_sha256":hashlib.sha256(config.encode()).hexdigest(),
               "integration_files_sha256":integration_hashes,
               "hardware_qualified":False,"dynamic_loader_qualified":False,
               "artifacts":{}}
+    if args.player:
+        report['player']=True
+        report['player_api_version']=1
+        report['loader_dependencies']=json.loads((ROOT/'loader-spike/dependencies.json').read_text())
     compiler=description.get("c_compiler")
     if not compiler:
         cache=(build/"CMakeCache.txt").read_text()

@@ -1,0 +1,108 @@
+# Stable RNBO player integration contract
+
+A board-specific player application stays installed. Studio exports RNBO C++,
+compiles a self-contained Xtensa ELF, and wraps it in a `.rnbopkg` package. Patch
+loads do not write the application/bootloader/partition regions. Native patches
+remain trusted code; checksums and descriptor checks are admission checks, not
+memory isolation or authentication.
+
+## Package v1
+
+Little-endian 128-byte header: magic `RNBOS3P1` (8 bytes), then nine uint32 fields
+`header_bytes=128, version=1, abi_major=1, role, sample_rate=44100,
+block_frames=256, arena_bytes, metadata_bytes, elf_bytes`. These are followed by
+32-byte SHA256 of the ELF, 32-byte SHA256 of the metadata, and 20 zero bytes.
+Payload is UTF-8 JSON metadata followed by the ELF, with no trailing bytes.
+Role is 1=Main (0 signal inputs, 2 outputs). Other roles reject. All effects live inside Main.
+Arena is 4096..4194304 bytes, metadata at most 65536 bytes, ELF at most 524288 bytes.
+Metadata requires `name` (1..63 UTF-8 bytes), `source_sha256` (64 lowercase hex),
+`initial_volume` (integer 0..100), and may contain `visual` from host/visual/layout.py.
+Unrecognized metadata fields can be ignored; invalid required fields reject.
+Package SHA256 identifies the entire exact header+payload. Modules have zero
+undefined imports, ABI1, fixed 44100/256 and the existing single-instance wrapper.
+Each active image has its own state, arena, context and sample position.
+
+## USB v1
+
+UTF-8/ASCII commands terminated by newline; exactly one JSON response per command.
+Maximum command line 8192 bytes; binary chunks use hex to avoid console escaping.
+
+- `player-info`: runtime=`rnbo-esp32s3-player`, api_version1, board, firmware ELF
+  SHA, rate, block_frames, generation, paused/panic, volume, maintenance, telemetry,
+  and the Main identity with parameter schemas/actual/normalized values.
+  Parameters are per-role indexes; fields name/min/max/initial/index/actual/normalized.
+- `player-begin ROLE TOTAL_BYTES SHA256`: allocate a bounded staging buffer;
+  reply `upload:ready, offset:0, chunk_bytes:1024`. Old audio can continue receiving.
+- `player-data OFFSET HEX`: exact contiguous offset and at most 1024 decoded bytes;
+  reply `upload:chunk, offset:NEW_OFFSET`. A bad chunk rejects/aborts staging.
+- `player-abort`: discard staging without changing active patch.
+- `player-commit`: require exact size/hash/package validation, then pause DMA at an
+  audio block boundary. Load/prepare and screen the candidate while the old image
+  remains available, stage in inactive storage, commit boot selection, switch, unload old image,
+  and resume DMA. Reply `upload:committed, generation, role, package_sha256` only
+  on complete success. Before durable selection changes, failure retains the old
+  patch and boot selection. An audio-driver resume failure after selection commits
+  returns an error with `old_retained:false`; the new saved patch requires a restart.
+- `player-pause`, `player-resume`: pause/resume DSP without destroying patch state.
+- `player-volume PERCENT`:0..100; live value is RAM state; Main startup metadata
+  supplies initial volume when installed/rebooted. Fresh empty player defaults 50%.
+- `player-param ROLE GENERATION INDEX NORMALIZED`: exact active generation and
+  per-role bounded index, normalized finite 0..1. Queue to audio owner; reply queued.
+- `player-midi GENERATION STATUS D1 D2`: complete channel MIDI to Main audio owner.
+
+No filesystem writes, module loading, allocation or image destruction run in the
+audio owner. Maintenance deliberately pauses audio; this first integration does
+not promise a gapless swap. The DMA owner stops/starts DMA itself and acknowledges
+parking before any flash maintenance. Control/USB is the only image/storage owner
+while parked. Generation-stamped ordinary events cannot target a replaced image.
+
+## Durable selection
+
+Use the existing `storage` SPIFFS partition and NVS, with two checked files for Main and an atomic NVS selection. Write only an inactive file, sync and
+validate it before committing a selector. Keep previous file for recovery. Boot
+tries selected package, then previous valid package; invalid packages leave the
+player responsive and quiet. Startup image preparation must succeed before DMA.
+The stable firmware and partition layout are independent of patch compilation.
+
+## Admission and recovery limits
+
+The player accepts at most 32 input parameters and uses a separate bounded arena
+for each candidate. During a swap, the candidate and previous image coexist until
+selection commits. A short detached target screen checks 16 callbacks for finite
+samples, allocation statistics and callback time (5,224 µs ceiling, reserving time
+for the sink). It advances the new patch before activation. This is an admission
+screen, not qualification of every parameter setting or a worst-case timing proof.
+
+A persistent preparation guard records the candidate before native preparation.
+If preparation traps or a reset interrupts its first blocks, the next boot blocks
+that package identity and tries the previous valid package. Clearing the guard
+requires at least two actual, healthy, unpaused blocks from the matching image.
+Recovery is not native-code isolation: an unchecked allocation failure or faulty
+native code can still reset the board. A failed DMA restart quarantines rendering
+until restart. Live controls do not reconstruct the patch on Resume.
+
+Existing storage is never erased to force a mount. Formatting is allowed only
+when the complete storage partition has been checked as erased. Previous-package
+promotion changes the checked selector without rewriting the surviving file.
+
+## Validation
+
+The [XIAO player evidence](../evidence/player-xiao.json) records the exact tested
+firmware and package identities, replacement/reboot checks and measured audio
+telemetry. The one-time player installation verified its complete application
+readback. Subsequent sine/drone swaps transferred packages only; the running
+firmware ELF identity stayed unchanged. The browser also reopened and loaded the
+saved drone package without running the compiler. A 60-second sampled run passed
+with all audio error counters zero, about 68.9% audio work per block and a
+4,512 µs peak within the 5,805 µs block budget. Transfer-checksum errors, a malformed
+package and stale-generation controls were rejected on the device while retaining
+the drone. Pause froze the image position and Resume continued it. Reboot restored
+the saved drone at its 50% startup volume.
+
+Both board player applications compile. AMOLED runtime layout replacement and
+controls also pass computer-side LVGL checks; this player has not yet been tested
+on an AMOLED device. XIAO PCM telemetry confirms nonzero output after volume and
+zero output when paused or at zero volume; these checks do not capture the DAC's
+physical output. Fault-injection tests exercise the actual control, loader and
+storage C with simulated hardware boundaries. They do not prove power-loss
+behavior at every instant, real FreeRTOS scheduling, or all possible RNBO patches.

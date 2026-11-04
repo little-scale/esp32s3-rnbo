@@ -1,0 +1,565 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+"""Local RNBO patch compiler and USB studio. Run from any working directory."""
+from __future__ import annotations
+import argparse
+import base64
+import binascii
+import hashlib
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import importlib.util
+import json
+import math
+import os
+from pathlib import Path
+import re
+import secrets
+import shutil
+import signal
+import subprocess
+import sys
+import threading
+import time
+from urllib.parse import parse_qs, urlsplit
+import uuid
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from host.compiler import package as player_package
+from host.visual.layout import compile_layout
+WEB = Path(__file__).parent / 'web'
+PRIVATE = ROOT / 'build/private/studio'
+MAX_PATCH = 1024 * 1024
+MAX_BODY = 2 * MAX_PATCH
+MAX_PACKAGE = 128 + player_package.MAX_METADATA + player_package.MAX_ELF
+
+def encoded(value):
+    return json.dumps(value, allow_nan=False).encode()
+
+def finite(value):
+    try:
+        return type(value) in (int, float) and math.isfinite(value)
+    except OverflowError:
+        return False
+
+def package_preview(value):
+    """Return only the bounded display subset; malformed visuals never reject DSP."""
+    fallback = {'available': False}
+    if (type(value) is not dict or value.get('format') != 'rnbo-s3-visual-v1'
+            or value.get('available') is not True or value.get('width') != 336 or value.get('height') != 232):
+        return fallback
+    nodes, segments, parameters = (value.get(key) for key in ('nodes', 'segments', 'parameters'))
+    if (type(nodes) is not list or not 1 <= len(nodes) <= 96 or type(segments) is not list
+            or len(segments) > 384 or type(parameters) is not list or len(parameters) > 32):
+        return fallback
+    labels = []
+    for parameter in parameters:
+        if type(parameter) is not dict or not isinstance(parameter.get('name'), str):
+            return fallback
+        labels.append({'name': parameter['name'][:95]})
+    clean_nodes = []
+    for node in nodes:
+        if (type(node) is not dict or not isinstance(node.get('label'), str)
+                or any(type(node.get(key)) is not int for key in ('x', 'y', 'width', 'height', 'parameter'))):
+            return fallback
+        x, y, width, height, parameter = (node[key] for key in ('x', 'y', 'width', 'height', 'parameter'))
+        if (not 0 <= x < 336 or not 0 <= y < 232 or not 1 <= width <= 336 - x
+                or not 1 <= height <= 232 - y or parameter != 255 and not 0 <= parameter < len(labels)):
+            return fallback
+        clean_nodes.append(dict(x=x, y=y, width=width, height=height, parameter=parameter, label=node['label'][:31]))
+    clean_segments = []
+    for segment in segments:
+        if (type(segment) is not list or len(segment) != 4 or any(type(point) is not int for point in segment)
+                or any(not 0 <= segment[index] < (336 if index % 2 == 0 else 232) for index in range(4))):
+            return fallback
+        clean_segments.append(list(segment))
+    return dict(available=True, width=336, height=232, nodes=clean_nodes, segments=clean_segments, parameters=labels)
+
+def kill_build_group(process):
+    # The leader may already have exited while a compiler child holds stdout.
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
+
+def build_settings(data):
+    if not isinstance(data, dict):
+        raise ValueError('Expected a patch and board settings')
+    patch = data.get('patch')
+    if not isinstance(patch, dict) or not isinstance(patch.get('patcher'), dict):
+        raise ValueError('Open a valid .rnbopat file with a patcher object')
+    raw = encoded(patch)
+    if len(raw) > MAX_PATCH:
+        raise ValueError('The patch exceeds the 1 MiB exporter limit')
+    name = data.get('name', 'Patch.rnbopat')
+    if not isinstance(name, str) or not name.lower().endswith('.rnbopat') or len(name) > 160:
+        raise ValueError('Choose a .rnbopat file')
+    name = name.replace('\\', '/').rsplit('/', 1)[-1]
+    title = name[:-8].strip()[:64] or 'RNBO Patch'
+    board = data.get('board', 'xiao')
+    role = data.get('role', 'main')
+    voices = data.get('voices', 1)
+    volume = data.get('initial_volume', 50)
+    arena = data.get('arena_bytes', 1048576)
+    delay = data.get('filter_delay_max_ms')
+    storage = data.get('float32_delays', False)
+    profile = data.get('numerical_profile', 'float32-strict')
+    if role != 'main':
+        raise ValueError('The player accepts one Main patch with its effects included')
+    if board not in ('xiao', 'amoled'):
+        raise ValueError('Select XIAO or AMOLED V2')
+    if type(voices) is not int or voices not in (1, 2, 4):
+        raise ValueError('Voice count must be 1, 2 or 4')
+    if type(volume) is not int or not 0 <= volume <= 100:
+        raise ValueError('Startup volume must be 0–100%')
+    if type(arena) is not int or arena not in (1048576, 2097152, 4194304):
+        raise ValueError('Arena must be 1, 2 or 4 MiB')
+    if delay is not None and (not finite(delay) or not 0 < delay <= 1000):
+        raise ValueError('Maximum filter delay must be greater than zero, up to 1000 ms, or left empty')
+    if type(storage) is not bool:
+        raise ValueError('Float32 delay storage must be a checkbox value')
+    if profile not in ('float32-strict', 'float32-audio-v1'):
+        raise ValueError('Choose standard arithmetic or the reviewed Float32 audio kernels')
+    return dict(name=name, title=title, patch=patch, board=board, role=role, voices=voices,
+                initial_volume=volume, arena_bytes=arena,
+                filter_delay_max_ms=delay, float32_delays=storage, numerical_profile=profile)
+
+
+class Studio:
+    def __init__(self, components=None, bridge=None):
+        if bridge is None:
+            from device import DeviceBridge
+            bridge = DeviceBridge()
+        self.bridge = bridge
+        self.components = Path(components).expanduser().resolve() if components else None
+        self.jobs = {}
+        self.lock = threading.RLock()
+        self.worker = threading.Lock()
+        self.job_thread = None
+        self.active_process = None
+        self.stopping = threading.Event()
+        self.token = secrets.token_urlsafe(32)
+
+    def environment(self):
+        candidates = [Path(os.environ['RNBO_DIR']).expanduser()] if os.environ.get('RNBO_DIR') else [
+            Path.home() / 'Documents/Max 9/Packages/RNBO',
+            Path('/Applications/Max.app/Contents/Resources/C74/packages/RNBO')]
+        rnbo = False
+        for path in candidates:
+            try:
+                rnbo = json.loads((path / 'package-info.json').read_text()).get('version') == '1.4.4'
+                if rnbo:
+                    break
+            except (OSError, ValueError):
+                pass
+        return dict(node=bool(shutil.which('node')), rnbo=rnbo,
+                    idf=(Path(os.environ.get('IDF_PATH', str(Path.home() / 'esp/esp-idf'))) / 'tools/idf.py').is_file(),
+                    python_serial=importlib.util.find_spec('serial') is not None,
+                    amoled_components=bool(self.components and self.components.is_dir()) or (ROOT / 'build/vendor-amoled').is_dir())
+
+    def status(self):
+        return dict(csrf=self.token, environment=self.environment(), busy=self.worker.locked())
+
+    def job(self, identity):
+        if not isinstance(identity, str) or not re.fullmatch(r'[0-9a-f]{32}', identity):
+            raise ValueError('Invalid build identifier')
+        with self.lock:
+            if identity not in self.jobs:
+                raise ValueError('This build is not available in the current Studio session; compile again')
+            return json.loads(json.dumps({k:v for k,v in self.jobs[identity].items() if not k.startswith('_')}))
+
+    def update(self, identity, **values):
+        with self.lock:
+            self.jobs[identity].update(values)
+
+    def log(self, identity, text):
+        with self.lock:
+            row = self.jobs[identity]
+            row['log'] = (row['log'] + text)[-200000:]
+
+    def execute(self, identity, command, timeout=1200):
+        self.log(identity, '\n' + ' '.join(str(s) for s in command[:2]) + '\n')
+        with self.lock:
+            if self.stopping.is_set():
+                raise RuntimeError('Studio is shutting down')
+            process = subprocess.Popen([str(s) for s in command], cwd=ROOT, env=dict(os.environ, PYTHONDONTWRITEBYTECODE='1'),
+                                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, errors='replace', start_new_session=True)
+            self.active_process = process
+        expired = threading.Event()
+        def stop():
+            expired.set()
+            kill_build_group(process)
+        timer = threading.Timer(timeout, stop)
+        timer.start()
+        try:
+            assert process.stdout
+            output = ''
+            for line in process.stdout:
+                self.log(identity, line)
+                output = (output + line)[-200000:]
+            result = process.wait()
+            if result or expired.is_set():
+                raise RuntimeError('Build timed out' if expired.is_set() else 'Build failed; see compiler output below')
+            return output
+        finally:
+            timer.cancel()
+            kill_build_group(process)
+            process.wait()
+            process.stdout.close()
+            with self.lock:
+                if self.active_process is process:
+                    self.active_process = None
+
+    def close(self):
+        self.stopping.set()
+        with self.lock:
+            process = self.active_process
+            thread = self.job_thread
+        if process is not None:
+            kill_build_group(process)
+            process.wait()
+        # An in-progress flash finishes before releasing the process-wide
+        # singleton lock. Interrupting a write halfway is not a safe shutdown.
+        if thread is not None and thread is not threading.current_thread():
+            thread.join()
+        self.bridge.disconnect()
+
+    def component_source(self):
+        if self.components:
+            return self.components
+        # Reconstruct original collection names from our already pinned offline
+        # cache. build_firmware.py independently verifies every tree before use.
+        cached = ROOT / 'build/vendor-amoled'
+        destination = PRIVATE / 'amoled-components'
+        lock = json.loads((ROOT / 'firmware/dependencies.amoled.json').read_text())['components']
+        for name in lock:
+            normalized = name.split('__', 1)[1] if '__' in name and not name.startswith('waveshare__') else name
+            source = cached / normalized
+            if not source.is_dir():
+                raise ValueError('AMOLED dependencies are missing. Start Studio with --components-from PATH to the pinned collection')
+            target = destination / name
+            if not target.exists():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copytree(source, target)
+        return destination
+
+    def start_build(self, data):
+        if self.stopping.is_set():
+            raise ValueError('Studio is shutting down')
+        settings = build_settings(data)
+        environment = self.environment()
+        if not all(environment[k] for k in ('node', 'rnbo', 'idf')):
+            raise ValueError('Install Node, the authorised RNBO 1.4.4 package and ESP-IDF 5.5 before compiling')
+        with self.lock:
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if not self.worker.acquire(blocking=False):
+                raise ValueError('A build or upload is already running')
+            identity = uuid.uuid4().hex
+            self.jobs[identity] = dict(id=identity, state='queued', stage='Queued', log='', error=None, result=None,
+                                       _settings=settings, _build=None)
+            self.job_thread = threading.Thread(target=self.build, args=(identity, settings), daemon=True)
+            self.job_thread.start()
+        return self.job(identity)
+
+    def build(self, identity, settings):
+        directory = PRIVATE / identity
+        try:
+            directory.mkdir(parents=True, exist_ok=False)
+            (directory / 'patch.rnbopat').write_bytes(encoded(settings['patch']))
+            (directory / 'settings.json').write_bytes(encoded({k:v for k,v in settings.items() if k != 'patch'}))
+            self.update(identity, state='building', stage='Exporting RNBO patch')
+            self.execute(identity, ['node', ROOT / 'host/export/export.mjs', directory / 'patch.rnbopat', '--out', directory / 'export', '--voices', str(settings['voices'])])
+            self.update(identity, stage='Preparing native audio code')
+            command = [sys.executable, ROOT / 'host/compiler/prepare.py', '--export', directory / 'export', '--out', directory / 'prepared', '--class-name', 'rnbos3patch', '--role', settings['role'], '--numerical-profile', settings['numerical_profile']]
+            if settings['filter_delay_max_ms'] is not None:
+                command += ['--filter-delay-max-ms', str(settings['filter_delay_max_ms'])]
+            if settings['float32_delays']:
+                command += ['--float32-delays']
+            self.execute(identity, command)
+            manifest = json.loads((directory / 'prepared/manifest.json').read_text())
+            parameter_count = manifest.get('parameter_count')
+            if type(parameter_count) is not int or not 0 <= parameter_count <= 32:
+                raise ValueError('The player supports at most 32 input parameters')
+            self.update(identity, stage='Checking default patch on this computer')
+            self.execute(identity, [sys.executable, ROOT / 'host/compiler/build.py', '--export', directory / 'prepared',
+                                    '--build-dir', directory / 'native'])
+            output = self.execute(identity, [directory / 'native/rnbo_render', '--output', directory / 'preflight.wav',
+                                  '--blocks', '4', '--warmup', '4', '--seed', '305419896',
+                                  '--arena-bytes', str(settings['arena_bytes'])], timeout=60)
+            preflight = json.loads(output.strip().splitlines()[-1])
+            if any(type(preflight.get(key)) is not int or preflight[key] != 0
+                   for key in ('errors', 'invalid_samples', 'late_platform_allocations')):
+                raise ValueError('The default patch did not pass its native startup screen')
+            (directory / 'preflight.json').write_bytes(encoded(preflight))
+            self.log(identity, 'Native startup screen passed; this does not prove dynamic target allocation safety.\n')
+            self.update(identity, stage='Compiling board-independent audio module')
+            self.execute(identity, [sys.executable, ROOT / 'host/compiler/build_module.py', '--export', directory / 'prepared',
+                                   '--build-dir', directory / 'module', '--max-arena-bytes', str(settings['arena_bytes'])])
+            description = json.loads((directory / 'prepared/description.json').read_text())
+            visual = compile_layout(settings['patch'], description, settings['title'])
+            if len(encoded(visual)) > 60000:
+                visual = compile_layout(None, description, settings['title'])
+            result = player_package.build(directory / 'module', directory / 'patch.rnbopkg',
+                                          settings['title'].encode('utf-8')[:63].decode('utf-8', 'ignore'), settings['initial_volume'], visual)
+            parameters = [dict(index=p['index'], name=p.get('name', p['paramId']), min=p['minimum'], max=p['maximum'],
+                               initial=p.get('initialValue', p['minimum'])) for p in description.get('parameters', [])]
+            result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=44100,
+                          block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
+                          preflight_scope='native default startup screen; not target allocation proof')
+            self.update(identity, state='ready', stage='Package ready to load', result=result, _build=directory / 'patch.rnbopkg')
+        except Exception as error:
+            self.log(identity, '\n' + str(error) + '\n')
+            self.update(identity, state='failed', stage='Build failed', error=str(error))
+        finally:
+            self.worker.release()
+
+    def import_package(self, data):
+        name, text = data.get('name'), data.get('package_base64')
+        if (not isinstance(name, str) or not name.lower().endswith('.rnbopkg') or len(name) > 160
+                or not isinstance(text, str) or not 0 < len(text) <= 4 * ((MAX_PACKAGE + 2) // 3)):
+            raise ValueError('Open a bounded .rnbopkg file')
+        try:
+            raw = base64.b64decode(text, validate=True)
+        except (ValueError, binascii.Error) as error:
+            raise ValueError('The package encoding is invalid') from error
+        if not 128 <= len(raw) <= MAX_PACKAGE:
+            raise ValueError('The package exceeds the v1 size limit or is truncated')
+        package = player_package.parse(raw)
+        with self.lock:
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if not self.worker.acquire(blocking=False):
+                raise ValueError('A build or upload is already running')
+            try:
+                identity = uuid.uuid4().hex
+                directory = PRIVATE / identity
+                directory.mkdir(parents=True, mode=0o700, exist_ok=False)
+                path = directory / 'patch.rnbopkg'
+                path.write_bytes(raw)
+                path.chmod(0o400)
+                result = dict(kind='package', origin='imported', title=package['metadata']['name'],
+                    role='main', sample_rate=44100, block_frames=256, arena_bytes=package['arena_bytes'],
+                    package_bytes=len(raw), package_sha256=package['package_sha256'], elf_sha256=package['elf_sha256'],
+                    preflight_scope='Saved package validated; native startup screen not rerun',
+                    visual=package_preview(package['metadata'].get('visual')))
+                self.jobs[identity] = dict(id=identity, state='ready', stage='Saved package ready to load',
+                    log='Saved package envelope, hashes and zero-import ELF validated. No rebuild.\n',
+                    error=None, result=result, _build=path, _settings={'board':'xiao', 'role':'main'})
+            finally:
+                self.worker.release()
+        return self.job(identity)
+
+    def start_upload(self, data):
+        if self.stopping.is_set():
+            raise ValueError('Studio is shutting down')
+        identity = data.get('id')
+        self.job(identity)
+        with self.lock:
+            row = self.jobs[identity]
+            if row['state'] not in ('ready', 'done') or not row['_build']:
+                raise ValueError('Compile the patch successfully before uploading')
+            build = row['_build']; board = row['_settings']['board']
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if not self.worker.acquire(blocking=False):
+                raise ValueError('A build or upload is already running')
+            self.update(identity, state='uploading', stage='Checking USB board', error=None)
+            self.job_thread = threading.Thread(target=self.upload, args=(identity, build, board, data.get('port')), daemon=True)
+            self.job_thread.start()
+        return self.job(identity)
+
+    def upload(self, identity, build, board, port):
+        try:
+            def progress(message):
+                self.log(identity, str(message) + '\n')
+                if str(message).startswith('USB: '):
+                    self.update(identity, stage=str(message))
+            if self.jobs[identity].get('result', {}).get('kind') == 'player':
+                self.bridge.flash(build, board, port, progress, expected_kind='player')
+            else:
+                self.bridge.upload_package(build, port, progress, expected_sha256=self.jobs[identity]['result']['package_sha256'])
+            self.update(identity, state='done', stage='Player installed' if self.jobs[identity].get('result', {}).get('kind') == 'player' else 'Package active')
+        except Exception as error:
+            self.log(identity, '\n' + str(error) + '\n')
+            # Keep a successful compiler artifact available for retry/download.
+            self.update(identity, state='ready', stage='Upload failed — ready to retry', error=str(error))
+        finally:
+            self.worker.release()
+
+    def start_install(self, data):
+        board = data.get('board')
+        if board not in ('xiao', 'amoled'):
+            raise ValueError('Choose a board for player installation')
+        if not self.environment()['idf']:
+            raise ValueError('Install ESP-IDF before installing the player')
+        with self.lock:
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if not self.worker.acquire(blocking=False):
+                raise ValueError('A build or upload is already running')
+            identity = uuid.uuid4().hex
+            self.jobs[identity] = dict(id=identity, state='building', stage='Building stable player', log='', error=None,
+                result=None, _settings={'board': board}, _build=None)
+            self.job_thread = threading.Thread(target=self.install, args=(identity, board, data.get('port')), daemon=True)
+            self.job_thread.start()
+        return self.job(identity)
+
+    def install(self, identity, board, port):
+        try:
+            # The fixed build tool verifies pinned sources and incrementally
+            # rebuilds if they changed. Never trust a cached report alone.
+            command = [sys.executable, ROOT / 'tools/build_firmware.py', board, '--player', '--variant', 'player-v1']
+            if board == 'amoled':
+                command += ['--components-from', self.component_source()]
+            self.execute(identity, command)
+            build = ROOT / 'build' / ('firmware-' + board + '-player-player-v1')
+            from tools.run_hardware_test import artifacts
+            checked = artifacts(build, board)
+            if checked['report'].get('player') is not True:
+                raise ValueError('The build is not a stable player')
+            self.update(identity, _build=build, result=dict(kind='player', board=board), state='uploading',
+                        stage='Installing stable player')
+            self.bridge.flash(build, board, port, lambda text: self.log(identity, str(text) + '\n'), expected_kind='player')
+            self.update(identity, state='done', stage='Stable player installed')
+        except Exception as error:
+            self.log(identity, '\n' + str(error) + '\n')
+            self.update(identity, state='failed', stage='Player installation failed', error=str(error))
+        finally:
+            self.worker.release()
+
+    def artifact(self, identity):
+        self.job(identity)
+        with self.lock:
+            row = self.jobs[identity]
+            if not row['_build'] or row.get('result', {}).get('kind') != 'package':
+                raise ValueError('No completed patch package is available')
+            path = row['_build']
+            expected = row['result']['package_sha256']
+        raw = path.read_bytes()
+        if player_package.digest(raw) != expected:
+            raise ValueError('The package changed after compilation')
+        player_package.parse(raw)
+        return path
+
+
+class Handler(BaseHTTPRequestHandler):
+    server_version = 'RNBOStudio/1'
+    def setup(self):
+        super().setup()
+        self.connection.settimeout(10)
+
+    def log_message(self, *_args):
+        pass
+
+    def send(self, status, data, content_type='application/json'):
+        raw = encoded(data) if content_type == 'application/json' else data
+        self.send_response(status)
+        self.send_header('Content-Type', content_type)
+        self.send_header('Content-Length', str(len(raw)))
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def allowed(self, mutation=False):
+        expected = {f'127.0.0.1:{self.server.server_port}', f'localhost:{self.server.server_port}'}
+        host = self.headers.get('Host', '')
+        if host not in expected:
+            raise ValueError('Studio is available only through its local address')
+        origin = self.headers.get('Origin')
+        if origin and origin not in {'http://' + h for h in expected}:
+            raise ValueError('Cross-site requests are not allowed')
+        if mutation:
+            if self.server.studio.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if not secrets.compare_digest(self.headers.get('X-Studio-Token', '').encode('utf-8'), self.server.studio.token.encode('utf-8')):
+                raise ValueError('Refresh Studio before sending this request')
+
+    def do_GET(self):
+        try:
+            self.allowed()
+            url = urlsplit(self.path)
+            query = parse_qs(url.query)
+            studio = self.server.studio
+            if url.path == '/api/status': self.send(200, studio.status())
+            elif url.path == '/api/devices': self.send(200, {'devices':studio.bridge.scan()})
+            elif url.path == '/api/device': self.send(200, studio.bridge.snapshot())
+            elif url.path == '/api/job': self.send(200, {'job':studio.job(query.get('id', [''])[0])})
+            elif url.path == '/api/example': self.send(200, {'name':'sine.rnbopat', 'patch':json.loads((ROOT / 'examples/sine/sine.rnbopat').read_text())})
+            elif url.path == '/api/artifact':
+                path = studio.artifact(query.get('id', [''])[0])
+                self.send(200, path.read_bytes(), 'application/octet-stream')
+            elif url.path in ('/', '/app.js', '/style.css'):
+                name = 'index.html' if url.path == '/' else url.path[1:]
+                mime = {'index.html':'text/html; charset=utf-8', 'app.js':'text/javascript; charset=utf-8', 'style.css':'text/css; charset=utf-8'}[name]
+                self.send(200, (WEB / name).read_bytes(), mime)
+            else: self.send(404, {'error':'Not found'})
+        except (ValueError, OSError, RuntimeError, RecursionError) as error:
+            self.send(400, {'error':str(error)})
+
+    def do_POST(self):
+        try:
+            self.allowed(mutation=True)
+            if self.headers.get('Content-Type', '').split(';')[0] != 'application/json':
+                raise ValueError('Expected a JSON request')
+            length = int(self.headers.get('Content-Length', '0'))
+            if not 0 < length <= MAX_BODY:
+                raise ValueError('Request is empty or too large')
+            data = json.loads(self.rfile.read(length))
+            if not isinstance(data, dict):
+                raise ValueError('Expected request fields')
+            studio = self.server.studio
+            if self.path == '/api/build': self.send(202, {'job':studio.start_build(data)})
+            elif self.path == '/api/import-package': self.send(200, {'job':studio.import_package(data)})
+            elif self.path == '/api/install-player': self.send(202, {'job':studio.start_install(data)})
+            elif self.path == '/api/upload': self.send(202, {'job':studio.start_upload(data)})
+            elif self.path == '/api/connect': self.send(200, studio.bridge.connect(data.get('port')))
+            elif self.path == '/api/disconnect':
+                studio.bridge.disconnect(); self.send(200, {'device':None, 'parameters':[]})
+            elif self.path == '/api/control': self.send(200, studio.bridge.control(data))
+            else: self.send(404, {'error':'Not found'})
+        except (ValueError, OSError, RuntimeError, RecursionError) as error:
+            self.send(400, {'error':str(error)})
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--port', type=int, default=8788)
+    parser.add_argument('--components-from', type=Path)
+    args = parser.parse_args()
+    PRIVATE.mkdir(parents=True, exist_ok=True)
+    # Prevent two studios racing for the same compiler cache and USB port.
+    import fcntl
+    lockfile = (PRIVATE / 'server.lock').open('a')
+    try:
+        fcntl.flock(lockfile, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        parser.error('RNBO Studio is already running')
+    server = ThreadingHTTPServer(('127.0.0.1', args.port), Handler)
+    server.daemon_threads = False
+    server.studio = Studio(args.components_from)
+    exit_signals = [signal.SIGINT, signal.SIGTERM]
+    if hasattr(signal, 'SIGHUP'):
+        exit_signals.append(signal.SIGHUP)
+    def request_exit(_signum, _frame):
+        raise KeyboardInterrupt
+    for exit_signal in exit_signals:
+        signal.signal(exit_signal, request_exit)
+    print(f'RNBO Studio: http://127.0.0.1:{server.server_port}', flush=True)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        for exit_signal in exit_signals:
+            signal.signal(exit_signal, signal.SIG_IGN)
+        server.studio.stopping.set()
+        server.server_close()
+        server.studio.close()
+        lockfile.close()
+
+if __name__ == '__main__':
+    main()

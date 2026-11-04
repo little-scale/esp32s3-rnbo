@@ -6,7 +6,17 @@ board profile supplies stereo I²S and excludes the display, touch and codec
 components. The initial hardware check uses the same prepared `3sawsDrone3`
 patch as the AMOLED instrument.
 
-## Startup and build
+## Stable player
+
+The recommended patch-loading route is [RNBO Studio](../host/studio/README.md).
+Install the XIAO player once; compile one Main patch, including its effects, into
+a `.rnbopkg`. Loading changes the saved package without reflashing the player.
+The selected package starts automatically at its metadata startup volume (50%
+by default). Pause preserves patch state. An empty player outputs silence.
+Player commands and validation scope are in the [player contract](player-protocol.md).
+The static development route below retains its separate console/capture protocol.
+
+## Static startup and build
 
 XIAO builds default to **50% volume and automatic, unpaused playback**. No USB
 start command, touch input or button is needed. `--initial-volume` overrides
@@ -27,8 +37,9 @@ in a fresh clone. Prepare your own export as described in the
 to this particular capped/Float32/table-omitted drone; other patches may need
 a different budget.
 
-The firmware statically embeds one patch. Live package replacement, Wi-Fi
-deployment and physical parameter controls are separate remaining work.
+This development firmware statically embeds one patch. Use the stable player
+for live package replacement. Wi-Fi deployment and physical headless parameter
+controls remain separate work.
 Use the XIAO's own 8 MiB configuration and partition table. Back up existing
 firmware/settings before installation; identify the device again after resets.
 An AMOLED binary is not a XIAO firmware image.
@@ -47,7 +58,7 @@ These assignments match the existing SuperCollider XIAO setup:
 Output is stereo, 44,100 Hz, signed 16-bit Philips I²S, without MCLK. DAC power
 and analogue connections remain those required by the connected DAC.
 
-## USB controls
+## Static firmware USB controls
 
 The shared newline-delimited console uses 115200 baud. Commands include
 `status`, `parameter-values`, `param INDEX VALUE`, `normalized INDEX VALUE`,

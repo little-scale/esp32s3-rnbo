@@ -1,0 +1,670 @@
+/* RNBO Studio: local source, explicit build target, USB upload and live controls. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const state = {
+    csrf: '', environment: {}, serverBusy: false, reachable: false,
+    patch: null, name: 'patch.rnbopat', revision: 0, valid: false,
+    artifact: null, job: null, jobRevision: -1, operation: null,
+    connecting: false, connectedPort: '', device: null, deviceError: '', parameters: [], parameterKey: '',
+    portSerials: new Map(), portsInitialized: false,
+    jobTimer: null, parsingTimer: null, refreshing: false, pollingDevice: false,
+    controlEpoch: 0, controlQueue: Promise.resolve(), controlTimers: new Map(),
+  };
+  const boards = {xiao: 'XIAO ESP32-S3', amoled: 'Waveshare AMOLED 1.8 V2'};
+  const activeStates = new Set(['queued', 'building', 'uploading']);
+  const finite = value => typeof value === 'number' && Number.isFinite(value);
+  const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
+  const number = value => finite(value) ? new Intl.NumberFormat(undefined, {maximumFractionDigits: 3}).format(value) : '—';
+  const bytes = value => finite(value) ? (value >= 1048576 ? `${number(value / 1048576)} MiB` : `${number(value / 1024)} KiB`) : '—';
+  const busy = () => Boolean(state.operation || state.connecting || state.refreshing || state.serverBusy);
+
+  function message(text = '') {
+    $('message').textContent = text;
+    $('message').hidden = !text;
+  }
+
+  async function api(path, body) {
+    const options = {headers: {'Accept': 'application/json'}, cache: 'no-store'};
+    if (body !== undefined) {
+      if (!state.csrf) throw new Error('The local session is not ready. Refresh the page and try again.');
+      options.method = 'POST';
+      options.headers['Content-Type'] = 'application/json';
+      options.headers['X-Studio-Token'] = state.csrf;
+      options.body = JSON.stringify(body);
+    }
+    const response = await fetch(path, options);
+    const text = await response.text();
+    let data;
+    try { data = JSON.parse(text); }
+    catch (_) { throw new Error(`The local server returned an unreadable response (${response.status}).`); }
+    if (!response.ok || (data.error && !data.job)) {
+      const error = new Error(data.error || `Request failed (${response.status}).`);
+      error.status = response.status;
+      throw error;
+    }
+    return data;
+  }
+
+  function availability(value) {
+    if (value === false || value === null) return false;
+    if (value && typeof value === 'object') {
+      for (const key of ['available', 'ok', 'installed']) if (typeof value[key] === 'boolean') return value[key];
+    }
+    if (value === true || (typeof value === 'string' && value.length)) return true;
+    return null;
+  }
+
+  function missingTools(forUpload = false) {
+    const keys = forUpload ? ['python_serial'] : ['node', 'rnbo', 'idf'];
+
+    return keys.filter(key => availability(state.environment[key]) === false);
+  }
+
+  function updateButtons() {
+    const working = busy();
+    const serialMissing = missingTools(true).length > 0;
+    const availableArtifact = state.artifact && state.artifact.revision === state.revision;
+    const selectedConnected = !state.connectedPort || state.connectedPort === $('port').value;
+    const isPlayer = state.device && state.device.runtime === 'rnbo-esp32s3-player';
+    $('install-player').disabled = !state.csrf || !$('port').value || working || serialMissing || availability(state.environment.idf) === false;
+    $('compile').disabled = !state.reachable || !state.csrf || !state.valid || working || missingTools().length > 0;
+    $('open-package').disabled = !state.reachable || !state.csrf || working;
+    $('connect').disabled = !state.csrf || !$('port').value || working || serialMissing;
+    $('upload').disabled = !state.csrf || !availableArtifact || !$('port').value || working || serialMissing;
+    $('download').disabled = !availableArtifact || state.operation === 'upload';
+    $('example').disabled = state.operation === 'upload';
+    $('refresh-ports').disabled = state.refreshing || state.operation === 'upload';
+    const live = Boolean(state.device) && selectedConnected && !working && !serialMissing && !state.device.maintenance;
+    $('volume').disabled = !live;
+    $('pause').disabled = !live;
+    $('pause').textContent = state.device && (state.device.paused ?? state.device.panic) === true ? 'Resume audio' : 'Pause audio';
+    $('pause').setAttribute('aria-pressed', String(Boolean(state.device && (state.device.paused ?? state.device.panic) === true)));
+    for (const input of $('parameters').querySelectorAll('input')) input.disabled = !live;
+    if (!state.operation) {
+      if (!state.reachable) $('compile-status').textContent = 'Local server unavailable';
+      else if (missingTools().length) $('compile-status').textContent = 'A required local tool is unavailable. See Local tools.';
+      else if (state.serverBusy) $('compile-status').textContent = 'Local tools are busy…';
+      else if (availableArtifact) $('compile-status').textContent = 'Package ready to download or load';
+      else $('compile-status').textContent = state.valid ? 'Ready to compile' : 'Open a valid RNBO patch to compile';
+      if (!availableArtifact) $('upload-status').textContent = 'Compile the current patch and settings before uploading.';
+      else if (!$('port').value) $('upload-status').textContent = 'Choose a USB device for the compiled package.';
+      else if (!$('upload-status').dataset.completed) $('upload-status').textContent = isPlayer ? 'Ready to load the package into the connected player.' : 'Connect a stable player, or install it below first.';
+    }
+  }
+
+  function invalidate() {
+    state.revision += 1;
+    state.artifact = null;
+    $('build-result').hidden = true;
+    delete $('upload-status').dataset.completed;
+    updateButtons();
+  }
+
+  function patchGraph(patch) {
+    if (!patch || typeof patch !== 'object' || Array.isArray(patch)) throw new Error('The patch must be a JSON object.');
+    const graph = patch.patcher || patch;
+    if (!Array.isArray(graph.boxes)) throw new Error('No RNBO patch boxes were found in this JSON.');
+    return graph;
+  }
+
+  function svgElement(name, attributes = {}, text) {
+    const element = document.createElementNS('http://www.w3.org/2000/svg', name);
+    for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, String(value));
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+
+  function drawPatch(patch) {
+    const graph = patchGraph(patch);
+    const svg = $('patch-svg');
+    svg.replaceChildren();
+    const boxes = graph.boxes.map(entry => entry.box || entry).filter(box => box && typeof box === 'object');
+    const nodes = new Map();
+    for (const [index, box] of boxes.slice(0, 500).entries()) {
+      const rect = Array.isArray(box.patching_rect) ? box.patching_rect : [];
+      const label = String(box.text || box.maxclass || 'object');
+      nodes.set(String(box.id ?? index), {
+        box, label,
+        x: finite(rect[0]) ? rect[0] : (index % 5) * 155,
+        y: finite(rect[1]) ? rect[1] : Math.floor(index / 5) * 85,
+        width: finite(rect[2]) ? clamp(rect[2], 65, 340) : clamp(label.length * 7 + 24, 80, 230),
+        height: finite(rect[3]) ? clamp(rect[3], 28, 90) : 30,
+        inputPorts: 1, outputPorts: 1,
+      });
+    }
+    const lines = (Array.isArray(graph.lines) ? graph.lines : []).map(entry => entry.patchline || entry);
+    for (const line of lines) {
+      if (!Array.isArray(line.source) || !Array.isArray(line.destination)) continue;
+      const source = nodes.get(String(line.source[0])), destination = nodes.get(String(line.destination[0]));
+      if (source && Number.isInteger(line.source[1])) source.outputPorts = Math.max(source.outputPorts, line.source[1] + 1);
+      if (destination && Number.isInteger(line.destination[1])) destination.inputPorts = Math.max(destination.inputPorts, line.destination[1] + 1);
+    }
+    const portX = (node, port, count) => node.x + 10 + clamp(port, 0, count - 1) * (node.width - 20) / Math.max(1, count - 1);
+    const wires = svgElement('g');
+    for (const line of lines) {
+      if (!Array.isArray(line.source) || !Array.isArray(line.destination)) continue;
+      const a = nodes.get(String(line.source[0])), b = nodes.get(String(line.destination[0]));
+      if (!a || !b) continue;
+      const x1 = portX(a, Number(line.source[1]) || 0, a.outputPorts), y1 = a.y + a.height;
+      const x2 = portX(b, Number(line.destination[1]) || 0, b.inputPorts), y2 = b.y;
+      const bend = Math.max(24, Math.abs(y2 - y1) * .45);
+      wires.append(svgElement('path', {d: `M${x1},${y1} C${x1},${y1 + bend} ${x2},${y2 - bend} ${x2},${y2}`, class: 'patch-wire'}));
+    }
+    svg.append(wires);
+    for (const node of nodes.values()) {
+      const kind = /^(in~?)(\s|$)/.test(node.label) ? 'input' : /^(out~?)(\s|$)/.test(node.label) ? 'output' : /^(param|number|sig~)(\s|$)/.test(node.label) ? 'control' : '';
+      const group = svgElement('g', {class: `patch-node ${kind}`});
+      group.append(svgElement('title', {}, node.label));
+      group.append(svgElement('rect', {x: node.x, y: node.y, width: node.width, height: node.height, rx: 5}));
+      const maxLetters = Math.max(5, Math.floor((node.width - 18) / 6.7));
+      const label = node.label.replace(/\s+/g, ' ');
+      group.append(svgElement('text', {x: node.x + 9, y: node.y + node.height / 2 + 4}, label.length > maxLetters ? `${label.slice(0, maxLetters - 1)}…` : label));
+      for (let i = 0; i < Math.min(node.inputPorts, 32); i++) group.append(svgElement('circle', {cx: portX(node, i, node.inputPorts), cy: node.y, r: 2, class: 'patch-port'}));
+      for (let i = 0; i < Math.min(node.outputPorts, 32); i++) group.append(svgElement('circle', {cx: portX(node, i, node.outputPorts), cy: node.y + node.height, r: 2, class: 'patch-port'}));
+      svg.append(group);
+    }
+    if (nodes.size) {
+      const values = [...nodes.values()];
+      const x = Math.min(...values.map(n => n.x)) - 28, y = Math.min(...values.map(n => n.y)) - 34;
+      const width = Math.max(...values.map(n => n.x + n.width)) - x + 28;
+      const height = Math.max(...values.map(n => n.y + n.height)) - y + 34;
+      svg.setAttribute('viewBox', `${x} ${y} ${Math.max(width, 200)} ${Math.max(height, 150)}`);
+    } else svg.setAttribute('viewBox', '0 0 300 200');
+    $('empty-preview').hidden = nodes.size > 0;
+    svg.toggleAttribute('hidden', nodes.size === 0);
+    $('patch-facts').textContent = `${boxes.length} boxes · ${lines.length} connections${boxes.length > 500 ? ' · first 500 shown' : ''}`;
+  }
+
+  function drawPackagePreview(visual) {
+    const svg = $('patch-svg'); svg.replaceChildren();
+    $('source-title').textContent = 'Saved compiled package';
+    $('empty-title').textContent = 'Saved compiled package';
+    $('empty-description').textContent = 'No visual layout is included. The package is ready to load; editable patch JSON is not included.';
+    $('patch-facts').textContent = 'Saved package · editable source not included';
+    $('empty-preview').hidden = false; svg.setAttribute('hidden', '');
+    svg.setAttribute('aria-label', 'Saved package compiled layout');
+    const integer = value => Number.isInteger(value) && Number.isFinite(value);
+    if (!visual || visual.available !== true || visual.width !== 336 || visual.height !== 232
+        || !Array.isArray(visual.nodes) || visual.nodes.length < 1 || visual.nodes.length > 96
+        || !Array.isArray(visual.segments) || visual.segments.length > 384
+        || !Array.isArray(visual.parameters) || visual.parameters.length > 32) return;
+    const parameters = visual.parameters;
+    if (parameters.some(p => !p || typeof p.name !== 'string')) return;
+    if (visual.nodes.some(n => !n || typeof n.label !== 'string'
+        || ![n.x, n.y, n.width, n.height, n.parameter].every(integer)
+        || n.x < 0 || n.y < 0 || n.width < 1 || n.height < 1
+        || n.x + n.width > 336 || n.y + n.height > 232
+        || (n.parameter !== 255 && (n.parameter < 0 || n.parameter >= parameters.length)))) return;
+    if (visual.segments.some(s => !Array.isArray(s) || s.length !== 4 || !s.every(integer)
+        || s.some((point, i) => point < 0 || point >= (i % 2 === 0 ? 336 : 232)))) return;
+    const wires = svgElement('g');
+    for (const [x1, y1, x2, y2] of visual.segments) {
+      wires.append(svgElement('path', {d: `M${x1},${y1} L${x2},${y2}`, class: 'patch-wire'}));
+    }
+    svg.append(wires);
+    for (const node of visual.nodes) {
+      const isParameter = node.parameter !== 255;
+      const label = node.label.slice(0, 31);
+      const group = svgElement('g', {class: `patch-node ${isParameter ? 'control' : ''}`});
+      if (isParameter) group.setAttribute('data-parameter', node.parameter);
+      group.append(svgElement('title', {}, isParameter ? `${label} · ${parameters[node.parameter].name.slice(0, 95)}` : label));
+      group.append(svgElement('rect', {x: node.x, y: node.y, width: node.width, height: node.height, rx: 3}));
+      group.append(svgElement('text', {x: node.x + 3, y: node.y + node.height / 2 + 4}, label));
+      svg.append(group);
+    }
+    svg.setAttribute('viewBox', '-8 -8 352 248');
+    svg.toggleAttribute('hidden', false);
+    $('empty-preview').hidden = true;
+    $('patch-facts').textContent = `Compiled layout · ${visual.nodes.length} objects · ${visual.segments.length} wire segments · ${parameters.length} parameters`;
+  }
+
+  function parseSource() {
+    $('source-title').textContent = 'Your RNBO patch';
+    $('empty-title').textContent = 'Open an RNBO patch';
+    $('empty-description').textContent = 'Drop a .rnbopat here, open a file, or load the example.';
+    $('patch-svg').setAttribute('aria-label', 'RNBO patch connections');
+    try {
+      const patch = JSON.parse($('source').value);
+      patchGraph(patch);
+      state.patch = patch;
+      state.valid = true;
+      drawPatch(patch);
+      $('source-state').textContent = 'Patch loaded. Compile a Main package locally.';
+      $('source-state').classList.remove('source-error');
+    } catch (error) {
+      state.patch = null;
+      state.valid = false;
+      $('source-state').textContent = `Check the patch JSON: ${error.message}`;
+      $('source-state').classList.add('source-error');
+      $('patch-svg').setAttribute('hidden', '');
+      $('empty-preview').hidden = false;
+      $('patch-facts').textContent = 'Waiting for valid patch JSON';
+    }
+    updateButtons();
+  }
+
+  function setPatch(patch, name) {
+    patchGraph(patch);
+    clearTimeout(state.parsingTimer);
+    state.name = String(name || 'patch.rnbopat');
+    $('file-name').textContent = state.name;
+    $('source').value = JSON.stringify(patch, null, 2);
+    invalidate();
+    parseSource();
+    message();
+  }
+
+  async function openFile(file) {
+    if (!file) return;
+    try { setPatch(JSON.parse(await file.text()), file.name); }
+    catch (error) { message(`Could not open ${file.name}: ${error.message}`); }
+    $('file').value = '';
+  }
+
+  async function openPackage(file) {
+    if (!file || busy()) return;
+    try {
+      if (!file.name.toLowerCase().endsWith('.rnbopkg') || file.size < 128 || file.size > 589952) {
+        throw new Error('Choose a .rnbopkg file up to 589,952 bytes.');
+      }
+      state.operation = 'import'; updateButtons(); message();
+      const raw = new Uint8Array(await file.arrayBuffer());
+      if (raw.length < 128 || raw.length > 589952) throw new Error('The package size is invalid.');
+      let binary = '';
+      for (let offset = 0; offset < raw.length; offset += 8192) {
+        binary += String.fromCharCode(...raw.subarray(offset, offset + 8192));
+      }
+      const response = await api('/api/import-package', {name: file.name, package_base64: btoa(binary)});
+      if (!response.job || response.job.state !== 'ready' || response.job.result?.kind !== 'package') {
+        throw new Error('The saved package was not accepted.');
+      }
+      clearTimeout(state.parsingTimer);
+      invalidate();
+      state.job = response.job;
+      state.artifact = {id: response.job.id, revision: state.revision, result: response.job.result};
+      state.patch = null; state.valid = false; state.name = file.name;
+      $('source').value = ''; $('file-name').textContent = file.name;
+      drawPackagePreview(response.job.result.visual);
+      $('source-state').textContent = 'Saved package validated. Ready to load without recompiling.';
+      $('source-state').classList.remove('source-error');
+      $('build-log').textContent = response.job.log || 'Saved package ready to load.';
+      showResult(response.job.result);
+    } catch (error) { message(`Could not open package: ${error.message}`); }
+    finally { state.operation = null; $('package-file').value = ''; updateButtons(); }
+  }
+
+  function buildOptions() {
+    const delay = $('comb-max').value.trim();
+    const cap = delay === '' ? null : Number(delay);
+    if (cap !== null && (!Number.isFinite(cap) || cap <= 0 || cap > 1000)) throw new Error('Enter a positive comb delay cap up to 1000 ms, or leave it blank for the default.');
+    return {
+      name: state.name, patch: state.patch, role: 'main',
+      initial_volume: Number($('initial-volume').value), voices: Number($('voices').value),
+      arena_bytes: Number($('arena').value) * 1048576,
+      numerical_profile: $('numerical-profile').value,
+      filter_delay_max_ms: cap, float32_delays: $('float32-delays').checked,
+    };
+  }
+
+  function showResult(result) {
+    $('result-title').textContent = result.title || 'Package ready';
+    const facts = ['Main package · both boards', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
+      finite(result.sample_rate) ? `${number(result.sample_rate)} Hz` : null,
+      finite(result.block_frames) ? `${result.block_frames} frames` : null,
+      Array.isArray(result.parameters) ? `${result.parameters.length} parameters` : null].filter(Boolean);
+    $('result-facts').replaceChildren(...facts.map(text => {
+      const span = document.createElement('span'); span.textContent = text; return span;
+    }));
+    $('build-result').hidden = false;
+  }
+
+  async function handleJob(job) {
+    if (!job || !job.id || !job.state) throw new Error('The server did not return a valid job.');
+    state.job = job;
+    const label = String(job.stage || job.state).replace(/[_-]/g, ' ');
+    $('compile-status').textContent = state.operation === 'upload' ? 'Compiled package · load in progress' : label.charAt(0).toUpperCase() + label.slice(1);
+    if (state.operation === 'upload') $('upload-status').textContent = `Uploading · ${label}`;
+    const log = Array.isArray(job.log) ? job.log.join('\n') : String(job.log || '');
+    const output = $('build-log'), follow = output.scrollHeight - output.clientHeight - output.scrollTop < 55;
+    output.textContent = log || `${label}…`;
+    if (follow) output.scrollTop = output.scrollHeight;
+    clearTimeout(state.jobTimer);
+    if (activeStates.has(job.state)) {
+      updateButtons();
+      state.jobTimer = setTimeout(() => pollJob(job.id), 850);
+      return;
+    }
+    const operation = state.operation;
+    state.operation = null;
+    if (operation) state.serverBusy = false;
+    if (job.state === 'failed' || job.error) {
+      message(job.error || 'The operation failed. See the build output for details.');
+      $('build-output').open = true;
+      $('compile-status').textContent = 'Build failed';
+      if (operation === 'upload') $('upload-status').textContent = 'Upload failed. Review the output before retrying.';
+      if (operation === 'upload') state.deviceError = job.error || 'Upload failed. Review the build output before retrying.';
+    } else if (job.state === 'ready' || job.state === 'done') {
+      if (operation === 'build') {
+        if (state.jobRevision === state.revision) {
+          const result = job.result || {};
+          state.artifact = {id: job.id, revision: state.revision, result};
+          showResult(result);
+        } else $('source-state').textContent = 'The patch or settings changed during compilation. Compile again to use the current version.';
+      } else if (operation === 'upload' || operation === 'install') {
+        $('upload-status').textContent = operation === 'install' ? 'Stable player installed. Compile and load a package.' : 'Package loaded and saved. Player firmware unchanged.';
+        $('upload-status').dataset.completed = 'true';
+        state.deviceError = '';
+      }
+    } else {
+      message(`The server returned an unknown job state: ${job.state}`);
+    }
+    if (operation === 'upload' || operation === 'install') {
+      await refreshDevices();
+      await refreshDevice();
+    }
+    updateButtons();
+    if ((job.state === 'failed' || job.error) && operation === 'build') $('compile-status').textContent = 'Build failed · see output';
+    if ((job.state === 'failed' || job.error) && operation === 'upload') $('upload-status').textContent = 'Upload failed. The compiled package is still available for retry or download.';
+  }
+
+  async function pollJob(id) {
+    if (state.job && state.job.id !== id) return;
+    try { const response = await api(`/api/job?id=${encodeURIComponent(id)}`); await handleJob(response.job); }
+    catch (error) {
+      if (error.status === 400 || error.status === 404) {
+        state.operation = null;
+        state.job = null;
+        message(`${error.message} Compile again to create a new package job.`);
+        updateButtons();
+        return;
+      }
+      $('compile-status').textContent = 'Progress connection interrupted';
+      message(`${error.message} Retrying the job status…`);
+      state.jobTimer = setTimeout(() => pollJob(id), 2200);
+    }
+  }
+
+  async function compile() {
+    if ($('compile').disabled) return;
+    try {
+      clearTimeout(state.parsingTimer); parseSource();
+      if (!state.valid) return;
+      const options = buildOptions();
+      message();
+      state.artifact = null; $('build-result').hidden = true;
+      state.operation = 'build'; state.jobRevision = state.revision;
+      $('compile-status').textContent = 'Starting local build…';
+      $('build-output').open = true; $('build-log').textContent = 'Starting local build…';
+      updateButtons();
+      const response = await api('/api/build', options);
+      await handleJob(response.job);
+    } catch (error) { state.operation = null; message(error.message); updateButtons(); }
+  }
+
+  async function upload() {
+    if ($('upload').disabled || !state.artifact) return;
+    try {
+      message(); state.operation = 'upload';
+      state.controlEpoch += 1;
+      for (const timer of state.controlTimers.values()) clearTimeout(timer);
+      state.controlTimers.clear();
+      delete $('upload-status').dataset.completed;
+      $('upload-status').textContent = 'Loading package. Audio will pause briefly…';
+      $('build-output').open = true; updateButtons();
+      const response = await api('/api/upload', {id: state.artifact.id, port: $('port').value});
+      await handleJob(response.job);
+    } catch (error) {
+      state.operation = null; state.deviceError = error.message; message(error.message);
+      await refreshDevices(); await refreshDevice(); updateButtons();
+    }
+  }
+
+  async function refreshDevices() {
+    if (state.refreshing) return;
+    state.refreshing = true; updateButtons();
+    try {
+      const response = await api('/api/devices');
+      const current = $('port').value;
+      const previousSerial = state.portSerials.get(current);
+      const devices = Array.isArray(response.devices) ? response.devices : [];
+      let selected = '';
+      if (current && previousSerial) {
+        const matches = devices.filter(device => device.serial_number === previousSerial);
+        if (matches.length === 1) selected = matches[0].port;
+      } else if (current && devices.some(device => device.port === current)) selected = current;
+      else if (!state.portsInitialized && !current && devices.length) selected = devices[0].port;
+      const prompt = document.createElement('option'); prompt.value = '';
+      prompt.textContent = devices.length ? 'Choose a USB device…' : 'No USB devices found';
+      const options = devices.map(device => {
+        const option = document.createElement('option'); option.value = device.port;
+        option.textContent = device.label ? `${device.label} · ${device.port}` : device.port;
+        return option;
+      });
+      $('port').replaceChildren(prompt, ...options);
+      $('port').value = selected;
+      state.portSerials = new Map(devices.filter(device => typeof device.serial_number === 'string' && device.serial_number.length)
+        .map(device => [device.port, device.serial_number]));
+      state.portsInitialized = true;
+    } catch (error) { $('device-status').textContent = error.message; }
+    finally { state.refreshing = false; updateButtons(); }
+  }
+
+  function parameterNormalized(parameter) {
+    if (finite(parameter.normalized)) return clamp(parameter.normalized, 0, 1);
+    if (finite(parameter.initial_normalized)) return clamp(parameter.initial_normalized, 0, 1);
+    return .5;
+  }
+
+  function parameterReadback(parameter, normalized) {
+    const actual = finite(parameter.actual) ? parameter.actual : parameter.value;
+    return finite(actual) ? number(actual) : `${number(normalized * 100)}% normalized`;
+  }
+
+  function renderParameters(parameters) {
+    const metadata = parameters.filter(parameter => Number.isInteger(parameter.index));
+    const key = JSON.stringify(metadata.map(p => [p.role, p.generation, p.index, p.name, p.min, p.max, p.initial]));
+    if (key !== state.parameterKey) {
+      state.parameterKey = key;
+      $('parameters').replaceChildren();
+      for (const parameter of metadata) {
+        const row = document.createElement('div'); row.className = 'parameter';
+        const heading = document.createElement('div'); heading.className = 'parameter-heading';
+        const label = document.createElement('label'); label.htmlFor = `parameter-${parameter.index}`; label.textContent = parameter.name || `Parameter ${parameter.index + 1}`;
+        const output = document.createElement('output'); output.htmlFor = label.htmlFor;
+        const input = document.createElement('input');
+        input.id = label.htmlFor; input.type = 'range'; input.min = '0'; input.max = '1'; input.step = '.001'; input.dataset.index = String(parameter.index);
+        input.value = String(parameterNormalized(parameter)); output.textContent = parameterReadback(parameter, Number(input.value));
+        const onValue = () => {
+          output.textContent = `${number(Number(input.value) * 100)}% normalized`;
+          scheduleControl({action: 'param', index: parameter.index, value: Number(input.value), ...(parameter.role ? {role: parameter.role, generation: parameter.generation} : {})}, `param-${parameter.index}`);
+        };
+        input.addEventListener('input', onValue);
+        input.addEventListener('change', () => flushControl({action: 'param', index: parameter.index, value: Number(input.value), ...(parameter.role ? {role: parameter.role, generation: parameter.generation} : {})}, `param-${parameter.index}`));
+        heading.append(label, output); row.append(heading, input);
+        const range = document.createElement('div'); range.className = 'parameter-range';
+        range.textContent = `${number(parameter.min)} – ${number(parameter.max)}`; row.append(range);
+        $('parameters').append(row);
+      }
+      if (!metadata.length) { const text = document.createElement('p'); text.className = 'hint'; text.textContent = 'This patch has no exposed parameters.'; $('parameters').append(text); }
+    } else {
+      for (const parameter of metadata) {
+        const input = $(`parameter-${parameter.index}`);
+        if (!input || document.activeElement === input || state.controlTimers.has(`param-${parameter.index}`)) continue;
+        input.value = String(parameterNormalized(parameter));
+        input.previousElementSibling.querySelector('output').textContent = parameterReadback(parameter, Number(input.value));
+      }
+    }
+  }
+
+  function renderDevice(response) {
+    if (state.device && response.device && state.device.generation !== response.device.generation) {
+      state.controlEpoch += 1;
+      for (const timer of state.controlTimers.values()) clearTimeout(timer);
+      state.controlTimers.clear();
+    }
+    state.device = response.device || null;
+    if (Array.isArray(response.parameters)) state.parameters = response.parameters;
+    const device = state.device;
+    $('connection').textContent = device ? (device.paused ?? device.panic) === true ? 'PAUSED' : 'CONNECTED' : 'OFFLINE';
+    $('connection').classList.toggle('online', Boolean(device));
+    $('runtime-controls').hidden = !device; $('resources').hidden = !device;
+    if (!device) {
+      $('device-status').textContent = state.deviceError || 'Choose a USB device to connect.';
+      state.parameterKey = ''; state.parameters = []; state.connectedPort = '';
+      updateButtons(); return;
+    }
+    state.deviceError = '';
+    if (device.port || response.port) state.connectedPort = device.port || response.port;
+    const selectedConnected = !state.connectedPort || state.connectedPort === $('port').value;
+    $('device-status').textContent = selectedConnected
+      ? `${boards[device.board] || device.board || 'Device'} · ${(device.paused ?? device.panic) === true ? 'audio paused' : 'connected'}`
+      : 'Another USB device is selected. Connect it to use its live controls.';
+    $('runtime-name').textContent = String(device.main?.name || device.runtime || '');
+    if (finite(device.volume) && document.activeElement !== $('volume') && !state.controlTimers.has('volume')) {
+      $('volume').value = String(clamp(device.volume, 0, 100)); $('volume-value').textContent = `${Math.round(device.volume)}%`;
+    }
+    $('render-time').textContent = finite(device.render_us) ? `${number(device.render_us)} µs` : '—';
+    $('peak-time').textContent = finite(device.peak_us) ? `${number(device.peak_us)} µs` : '—';
+    $('internal-free').textContent = bytes(device.internal_free_bytes); $('psram-free').textContent = bytes(device.psram_free_bytes);
+    const sampleRate = device.rate ?? device.sample_rate;
+    $('runtime-facts').textContent = [finite(sampleRate) ? `${number(sampleRate)} Hz` : null, finite(device.block_frames) ? `${device.block_frames} frames / block` : null].filter(Boolean).join(' · ');
+    renderParameters(state.parameters); updateButtons();
+  }
+
+  async function refreshDevice() {
+    if (state.pollingDevice || state.operation || state.connecting) return;
+    state.pollingDevice = true;
+    try { renderDevice(await api('/api/device')); }
+    catch (error) { state.deviceError = `Device status unavailable: ${error.message}`; renderDevice({device: null}); }
+    finally { state.pollingDevice = false; }
+  }
+
+  async function connect() {
+    if ($('connect').disabled) return;
+    state.connecting = true; state.deviceError = ''; state.controlEpoch += 1; updateButtons(); message();
+    $('device-status').textContent = 'Connecting over USB…';
+    try {
+      const port = $('port').value;
+      const response = await api('/api/connect', {port});
+      if (!response.device) throw new Error('No instrument status was returned by the selected device.');
+      state.connectedPort = port;
+      renderDevice(response);
+    } catch (error) { state.deviceError = error.message; renderDevice({device: null}); message(error.message); }
+    finally { state.connecting = false; updateButtons(); }
+  }
+
+  function enqueueControl(action) {
+    const epoch = state.controlEpoch;
+    state.controlQueue = state.controlQueue.catch(() => {}).then(async () => {
+      if (epoch !== state.controlEpoch || !state.device || state.operation || (state.connectedPort && state.connectedPort !== $('port').value)) return;
+      try {
+        const response = await api('/api/control', action);
+        if (epoch === state.controlEpoch && Object.hasOwn(response, 'device')) renderDevice(response);
+      } catch (error) { message(`Could not update the instrument: ${error.message}`); }
+    });
+  }
+
+  function scheduleControl(action, key) {
+    clearTimeout(state.controlTimers.get(key));
+    state.controlTimers.set(key, setTimeout(() => { state.controlTimers.delete(key); enqueueControl(action); }, 140));
+  }
+
+  function flushControl(action, key) {
+    clearTimeout(state.controlTimers.get(key)); state.controlTimers.delete(key); enqueueControl(action);
+  }
+
+  async function refreshStatus() {
+    try {
+      const response = await api('/api/status');
+      if (state.csrf && response.csrf && state.csrf !== response.csrf) {
+        clearTimeout(state.jobTimer); state.job = null; state.operation = null;
+        invalidate();
+        message('The local server restarted. Compile the patch again before uploading.');
+      }
+      state.csrf = response.csrf || ''; state.environment = response.environment || {};
+      state.serverBusy = Boolean(response.busy); state.reachable = true;
+      const names = {node: 'Node', rnbo: 'RNBO', idf: 'ESP32 tools', python_serial: 'USB tools', amoled_components: 'AMOLED components'};
+      $('environment').replaceChildren(...Object.entries(names).map(([key, label]) => {
+        const span = document.createElement('span'), available = availability(state.environment[key]);
+        span.textContent = `${label} ${available === true ? '✓' : available === false ? 'unavailable' : '—'}`;
+        span.className = available === false ? 'missing' : available === true ? 'available' : '';
+        const value = state.environment[key];
+        if (typeof value === 'string') span.title = value;
+        else if (value && typeof value === 'object') span.title = value.error || value.path || '';
+        return span;
+      }));
+    } catch (error) {
+      state.reachable = false;
+      $('environment').textContent = 'The local server could not be reached.';
+      if (!state.operation) $('compile-status').textContent = error.message;
+    }
+    updateButtons();
+  }
+
+  $('open-file').addEventListener('click', () => $('file').click());
+  $('file').addEventListener('change', () => openFile($('file').files[0]));
+  $('open-package').addEventListener('click', () => $('package-file').click());
+  $('package-file').addEventListener('change', () => openPackage($('package-file').files[0]));
+  $('example').addEventListener('click', async () => {
+    try { const example = await api('/api/example'); setPatch(example.patch, example.name); }
+    catch (error) { message(error.message); }
+  });
+  $('source').addEventListener('input', () => {
+    state.valid = false; invalidate();
+    clearTimeout(state.parsingTimer); state.parsingTimer = setTimeout(parseSource, 300);
+  });
+  const drop = $('drop-zone');
+  drop.addEventListener('keydown', event => { if ((event.key === 'Enter' || event.key === ' ') && event.target === drop) { event.preventDefault(); $('file').click(); } });
+  for (const type of ['dragenter', 'dragover']) drop.addEventListener(type, event => { event.preventDefault(); drop.classList.add('dragging'); });
+  for (const type of ['dragleave', 'drop']) drop.addEventListener(type, event => { event.preventDefault(); drop.classList.remove('dragging'); });
+  drop.addEventListener('drop', event => openFile(event.dataTransfer.files[0]));
+  document.addEventListener('dragover', event => event.preventDefault());
+  document.addEventListener('drop', event => event.preventDefault());
+  for (const id of ['voices', 'arena', 'numerical-profile', 'comb-max', 'float32-delays', 'initial-volume']) {
+    $(id).addEventListener(id === 'comb-max' || id === 'initial-volume' ? 'input' : 'change', () => {
+      $('initial-volume-value').textContent = `${$('initial-volume').value}%`; invalidate();
+    });
+  }
+  $('compile').addEventListener('click', compile);
+  $('upload').addEventListener('click', upload);
+  $('install-player').addEventListener('click', async () => {
+    if ($('install-player').disabled) return;
+    try {
+      message(); state.operation = 'install'; state.controlEpoch += 1;
+      for (const timer of state.controlTimers.values()) clearTimeout(timer);
+      state.controlTimers.clear(); updateButtons();
+      $('build-output').open = true;
+      const response = await api('/api/install-player', {board: $('board').value, port: $('port').value});
+      await handleJob(response.job);
+    } catch (error) { state.operation = null; message(error.message); updateButtons(); }
+  });
+  $('download').addEventListener('click', () => {
+    if (!state.artifact || state.artifact.revision !== state.revision) return;
+    const link = document.createElement('a'); link.href = `/api/artifact?id=${encodeURIComponent(state.artifact.id)}`;
+    link.download = 'patch.rnbopkg'; document.body.append(link); link.click(); link.remove();
+  });
+  $('refresh-ports').addEventListener('click', refreshDevices);
+  $('port').addEventListener('change', () => {
+    state.controlEpoch += 1;
+    delete $('upload-status').dataset.completed;
+    renderDevice({device: state.device, parameters: state.parameters});
+  });
+  $('connect').addEventListener('click', connect);
+  $('volume').addEventListener('input', () => {
+    $('volume-value').textContent = `${$('volume').value}%`;
+    scheduleControl({action: 'volume', value: Number($('volume').value)}, 'volume');
+  });
+  $('volume').addEventListener('change', () => flushControl({action: 'volume', value: Number($('volume').value)}, 'volume'));
+  $('pause').addEventListener('click', () => enqueueControl({action: state.device && (state.device.paused ?? state.device.panic) === true ? 'resume' : 'pause'}));
+  document.addEventListener('keydown', event => {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'Enter' && !$('compile').disabled) { event.preventDefault(); compile(); }
+  });
+
+  (async () => {
+    await refreshStatus();
+    await Promise.all([refreshDevices(), refreshDevice()]);
+    setInterval(() => { if (!state.operation && !state.connecting) refreshDevice(); }, 1800);
+    setInterval(refreshStatus, 6000);
+  })();
+})();

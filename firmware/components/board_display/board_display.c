@@ -10,7 +10,7 @@
 
 enum { MAX_PARAMETER_ROWS=128, PARAMETERS_PER_BANK=8, METER_SEGMENTS=28, PARAMETER_BAR_BOTTOM=188 };
 static board_display_actions actions;
-static lv_obj_t *status_label,*volume_label,*volume_slider,*render_label,*battery_label;
+static lv_obj_t *title_label,*status_label,*volume_label,*volume_slider,*render_label,*battery_label,*params_button;
 static lv_obj_t *patch_panel,*params_panel,*params_caption,*page_label,*meter,*meter_label,*transport_caption;
 static float parameter_values[MAX_PARAMETER_ROWS],parameter_normalized[MAX_PARAMETER_ROWS];
 static bool parameter_available[MAX_PARAMETER_ROWS];
@@ -21,6 +21,9 @@ static int last_column=-1,last_parameter_value;
 static unsigned current_volume=100,selected=PATCH_NO_PARAMETER;
 static float meter_db=-60,hold_db=-60;
 static uint32_t meter_tick,hold_tick,battery_tick,cpu_tick;
+#ifdef RNBO_S3_PLAYER
+static void *owned_player_layout;
+#endif
 
 static void set_text(lv_obj_t *object,const char *text)
 {
@@ -213,7 +216,7 @@ esp_err_t board_display_start(const board_display_actions *callbacks)
     if (!bsp_display_lock(2000)) return ESP_ERR_TIMEOUT;
     lv_obj_t *screen=lv_scr_act();
     lv_obj_set_style_bg_color(screen,lv_color_black(),0);lv_obj_clear_flag(screen,LV_OBJ_FLAG_SCROLLABLE);
-    label(screen,rnbo_patch_layout.title,16,12,250,&rnbo_barlow_22);
+    title_label=label(screen,rnbo_patch_layout.title,16,12,250,&rnbo_barlow_22);
     battery_label=label(screen,"USB",286,18,66,&rnbo_barlow_14);
     status_label=label(screen,"Starting",16,40,180,&rnbo_barlow_14);
     page_label=label(screen,"RNBO / MAIN",222,40,130,&rnbo_barlow_14);
@@ -240,12 +243,43 @@ esp_err_t board_display_start(const board_display_actions *callbacks)
     lv_obj_add_event_cb(volume_slider,volume_changed,LV_EVENT_VALUE_CHANGED,NULL);
     lv_obj_t *transport_button=button(screen,"Resume",16,405,216,31,transport_pressed);
     transport_caption=lv_obj_get_child(transport_button,0);
-    lv_obj_t *params_button=button(screen,"Params",248,405,104,31,toggle_page);
+    params_button=button(screen,"Params",248,405,104,31,toggle_page);
     params_caption=lv_obj_get_child(params_button,0);
     if (!actions.parameter || !actions.parameter_value || !rnbo_patch_layout.parameter_count) lv_obj_add_state(params_button,LV_STATE_DISABLED);
     refresh_parameters();meter_tick=hold_tick=battery_tick=cpu_tick=lv_tick_get();ready=true;
     bsp_display_unlock();return bsp_display_brightness_set(55);
 }
+#ifdef RNBO_S3_PLAYER
+esp_err_t board_display_player_layout(const char *title,const char *source_sha256,
+                                     const cJSON *visual,const patch_parameter *labels,unsigned count)
+{
+    patch_layout next;void *allocation=NULL;
+    esp_err_t result=patch_layout_build_player(title,source_sha256,visual,labels,count,&next,&allocation);
+    if(result!=ESP_OK)return result;
+    /* Before start there are no LVGL readers. Once running, publishing, reset,
+     * redraw and reclamation share the BSP lock with every GUI callback. */
+    if(ready && !bsp_display_lock(2000)){
+        patch_layout_free_player(allocation);return ESP_ERR_TIMEOUT;
+    }
+    void *previous=owned_player_layout;
+    rnbo_patch_layout=next;owned_player_layout=allocation;
+    selected=PATCH_NO_PARAMETER;parameter_bank=0;parameter_editing=false;last_column=-1;
+    memset(parameter_values,0,sizeof(parameter_values));
+    memset(parameter_normalized,0,sizeof(parameter_normalized));
+    memset(parameter_available,0,sizeof(parameter_available));
+    if(ready){
+        set_text(title_label,rnbo_patch_layout.title);
+        patch_view_select(PATCH_NO_PARAMETER);show_page(false);
+        lv_obj_add_state(params_panel,LV_STATE_DISABLED);
+        if(actions.parameter && actions.parameter_value && count)lv_obj_clear_state(params_button,LV_STATE_DISABLED);
+        else lv_obj_add_state(params_button,LV_STATE_DISABLED);
+        lv_obj_invalidate(patch_panel);lv_obj_invalidate(params_panel);
+    }
+    patch_layout_free_player(previous);
+    if(ready)bsp_display_unlock();
+    return ESP_OK;
+}
+#endif
 void board_display_update(bool muted,bool fault,unsigned volume,uint32_t render_us,uint32_t peak_us,unsigned output_peak_q15)
 {
     if (!ready) return;

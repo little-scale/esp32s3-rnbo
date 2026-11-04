@@ -15,6 +15,14 @@ The searchable [object and operation status page](https://little-scale.github.io
 lists the complete pinned inventory, verification scope, available and experimental
 optimisations, and measured CPU time saved. Each qualified row links to its evidence.
 
+The local **RNBO Studio** provides a browser patch view, compilation, USB package
+loading and live controls. Run `./host/studio.sh`, then open
+[RNBO Studio](http://127.0.0.1:8788). Install the stable player once on XIAO ESP32-S3
+or Waveshare AMOLED V2; compile each Main patch, including its effects, into a
+board-independent `.rnbopkg`. Loading a package briefly pauses audio and saves the
+patch for reboot without reflashing player firmware. See
+[setup and scope](host/studio/README.md).
+
 The AMOLED V2 now runs the oscillator and four-voice MIDI fixtures on hardware.
 Two five-minute MIDI stress runs passed with no render overruns or late
 allocations. The optional `float32-cycle-v1` profile reduced average render load
@@ -23,11 +31,12 @@ fixture passed, followed by real RNBO native modules: 132 image loads/unloads
 across 32 target cycles, exact sine float/PCM comparisons, stereo FX and four
 MIDI notes. See [dynamic loader evidence](docs/dynamic-loader.md).
 
-RNBO generates C++, which is compiled into native Xtensa code. The first working
-route statically links one patch into the firmware. Independent ELF loading has
-passed isolated lifecycle tests; integration with live audio replacement and
-persistent uploadable packages is still under development. No SynthDef
-interpreter is in this render path.
+RNBO generates C++, which is compiled into native Xtensa code. The stable player
+loads one compiled Main package, including its effects, and restores the saved
+package at startup. A package change briefly pauses audio. Static firmware builds
+remain available for development and isolated qualification. No SynthDef
+interpreter is in this render path. See the [player contract](docs/player-protocol.md)
+for package limits, recovery behavior and validation scope.
 
 The shared profile is **44,100 Hz / 256 frames / planar float32 stereo**.
 The final sink applies a 20 ms volume ramp, explicit 0.5 headroom, finite checks
@@ -75,7 +84,8 @@ Output directories must be new. See [host/README.md](host/README.md) for manual
 Minimal C++ imports, the supported flat `.rnbopat` route, polyphony options,
 explicit MIDI-output policy, and provenance. Explicit GenExpr in `gen~` is
 admitted; visual Gen patchers, arbitrary Max projects, external assets and a
-full browser converter remain later work.
+broader browser conversion support remain later work. RNBO Studio exposes the
+currently supported export route.
 
 ## Build for the AMOLED V2
 
