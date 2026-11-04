@@ -28,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','rnbo-stateless','rnbo-numeric'):
+    if family not in ('gen-numeric','gen-math','rnbo-stateless','rnbo-numeric'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -62,7 +62,7 @@ def prepare_plan(catalog_path,modules_path):
     modules={r['id']:r for r in batch['modules']}
     if len(modules)!=len(batch['modules']) or set(modules)!={r['id']for r in catalog['cases']}:
         raise ExportError('Module batch and source catalog identities differ')
-    cases=[];failures=[];payloads=[]
+    cases=[];failures=[];admission_failures=[];payloads=[]
     for row in catalog['cases']:
         identity=row['id']
         if not re.fullmatch('[A-Za-z0-9_-]+',identity):raise ExportError('Unsafe smoke identity')
@@ -73,6 +73,20 @@ def prepare_plan(catalog_path,modules_path):
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
                 read_regular(catalog_path.parent/row['genexpr'],65536)).hexdigest()
+        if module['status'] in ('export_failed','prepare_failed'):
+            stage='export' if module['status']=='export_failed' else 'prepare'
+            if (module.get('source_sha256')!=source_hash or type(module.get('returncode'))is not int or
+                    module['returncode']==0 or module.get('artifact') or module.get('prepared')):
+                raise ExportError('Malformed pre-compilation failure: '+identity)
+            log=module.get('failure_log',{})
+            log_data=read_regular(Path(log['path']),8*1024*1024)
+            if len(log_data)!=log['bytes'] or hashlib.sha256(log_data).hexdigest()!=log['sha256']:
+                raise ExportError('Pre-compilation failure log changed: '+identity)
+            admission_failures.append({**{k:row[k]for k in ('id','exact_name','syntax','registry_lookup')},
+                'status':module['status'],'stage':stage,'returncode':module['returncode'],
+                'source_sha256':source_hash,**expression_info,'failure_log_sha256':log['sha256'],
+                'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
+            continue
         manifest=module.get('prepared',{}).get('manifest',{})
         if manifest.get('editable_source_sha256')!=source_hash:
             raise ExportError('Prepared module does not match authored patch: '+identity)
@@ -83,6 +97,8 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
+            if catalog['family']=='gen-math':
+                failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
         if hashlib.sha256(data).hexdigest()!=module['artifact']['sha256'] or len(data)!=module['artifact']['bytes']:
@@ -110,8 +126,11 @@ def prepare_plan(catalog_path,modules_path):
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
     if catalog['family'] in ('rnbo-stateless','rnbo-numeric'):
         plan.update(family=catalog['family'],surface='patcher')
+    elif catalog['family']=='gen-math':
+        plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
     if hasattr(reference,'case_input_words'):
         plan['input_vector_policy']='per-case; top-level input hash identifies fallback vector only'
+    if admission_failures:plan['admission_failures']=admission_failures
     return plan,inputs,payloads
 
 
@@ -122,6 +141,8 @@ def generate_header(plan,inputs):
         '#define SMOKE_CASE_COUNT %du'%len(plan['cases']),'#define SMOKE_ARENA_BYTES 4096u',
         '#define SMOKE_SEED 305419896u','#define SMOKE_PLAN_SHA256 '+json.dumps(digest),
         'static const uint32_t smoke_inputs[512]={'+words(inputs)+'};']
+    if 'prepare_zero_warm_blocks' in plan:
+        lines.append('#define SMOKE_PREPARE_WARM_BLOCKS %du'%plan['prepare_zero_warm_blocks'])
     for index,row in enumerate(plan['cases']):
         if 'input_words' in row:
             lines.append('static const uint32_t smoke_case_inputs_%d[512]={%s};'%(index,words(row['input_words'])))
@@ -169,7 +190,7 @@ def main():
             raise ExportError('Choose a fresh build directory or resume an unfinished build')
         if canonical(json.loads((out/'smoke-plan.json').read_bytes()))!=canonical(plan):
             raise ExportError('Cannot resume a different smoke plan')
-    if args.validate_only:print(json.dumps({'cases':len(payloads),'compile_failures':len(plan['compile_failures']),'plan_sha256':digest}));return
+    if args.validate_only:print(json.dumps({'cases':len(payloads),'compile_failures':len(plan['compile_failures']),'admission_failures':len(plan.get('admission_failures',[])),'plan_sha256':digest}));return
     out.mkdir(parents=True,exist_ok=True);config=out/'smoke-config';config.mkdir(exist_ok=True)
     cache=args.cache_build_dir.resolve() if args.cache_build_dir else out
     cache.mkdir(parents=True,exist_ok=True)

@@ -20,6 +20,9 @@
 #ifndef SMOKE_PLAN_SHA256
 #error "Generated smoke_cases.h must bind SMOKE_PLAN_SHA256"
 #endif
+#ifndef SMOKE_PREPARE_WARM_BLOCKS
+#define SMOKE_PREPARE_WARM_BLOCKS 4u
+#endif
 _Static_assert(sizeof(float)==4 && RNBO_S3_BLOCK_FRAMES==256 && RNBO_S3_SAMPLE_RATE==44100,"fixed binary32 44100/256 ABI required");
 _Static_assert(SMOKE_CASE_COUNT==SMOKE_EMBEDDED_MODULE_COUNT,"header/embedded manifest case count differs");
 _Static_assert(sizeof smoke_cases/sizeof *smoke_cases==SMOKE_CASE_COUNT,"case table length differs");
@@ -132,7 +135,7 @@ static void worker(void *unused)
         size_t psram_before=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
         size_t internal_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
         object_image image;object_image_load(&image,test->payload_start,(size_t)(test->payload_end-test->payload_start),RNBO_S3_FX,SMOKE_ARENA_BYTES);++images;
-        object_image_prepare(&image,4,SMOKE_SEED);CHECK(image.module.parameter_count(image.context)==0);
+        object_image_prepare(&image,SMOKE_PREPARE_WARM_BLOCKS,SMOKE_SEED);CHECK(image.module.parameter_count(image.context)==0);
         output_checks checks={.first_mismatch=UINT32_MAX};
         for(unsigned b=0;b<MANUAL_WARM_CALLS;++b)(void)process_once(&image,test,&checks);
         uint64_t times[TIMED_CALLS],total=0,peak=0;
@@ -156,7 +159,7 @@ static void worker(void *unused)
         bool high_median=med>median_limit,spike=(double)peak>spike_limit;
         if(high_median||spike)++cpu_review;
         const char *reasons=high_median?(spike?"median_budget,peak_spike":"median_budget"):(spike?"peak_spike":"none");
-        printf("RNBO_SMOKE CASE id=%s module_sha256=%s status=%s reference_policy=%s samples=%"PRIu64" bit_mismatches=%"PRIu64" zero_sign_differences=%"PRIu64" first_mismatch_word=%"PRIu32" first_actual=%08"PRIx32" first_expected=%08"PRIx32" mean_us=%.6f median_us=%.6f peak_us=%"PRIu64" review_cpu=%u cpu_reasons=%s median_budget_us=%.6f peak_review_limit_us=%.6f context_bytes=%"PRIu32" arena_used=%"PRIu32" arena_high_water=%"PRIu32" arena_capacity=%"PRIu32" code_bytes=%"PRIu32" cpp_new_calls=%"PRIu64" arena_requests=%"PRIu64" timed_calls=%u warm_calls=%u prepare_zero_warm_blocks=4 finalized=1 psram_before=%u psram_after=%u internal_before=%u internal_after=%u times_us=",test->id,actual_sha,output_ok?"pass":"output_mismatch",test->reference_policy,checks.samples,checks.bit_mismatches,checks.zero_sign_differences,checks.first_mismatch,checks.first_actual,checks.first_expected,mean,med,peak,(unsigned)(high_median||spike),reasons,median_limit,spike_limit,context_bytes,dynamic.arena_used,dynamic.arena_high_water,dynamic.arena_capacity,code_bytes,dynamic.cpp_new_calls,dynamic.total_arena_allocations,TIMED_CALLS,MANUAL_WARM_CALLS,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after);
+        printf("RNBO_SMOKE CASE id=%s module_sha256=%s status=%s reference_policy=%s samples=%"PRIu64" bit_mismatches=%"PRIu64" zero_sign_differences=%"PRIu64" first_mismatch_word=%"PRIu32" first_actual=%08"PRIx32" first_expected=%08"PRIx32" mean_us=%.6f median_us=%.6f peak_us=%"PRIu64" review_cpu=%u cpu_reasons=%s median_budget_us=%.6f peak_review_limit_us=%.6f context_bytes=%"PRIu32" arena_used=%"PRIu32" arena_high_water=%"PRIu32" arena_capacity=%"PRIu32" code_bytes=%"PRIu32" cpp_new_calls=%"PRIu64" arena_requests=%"PRIu64" timed_calls=%u warm_calls=%u prepare_zero_warm_blocks=%u finalized=1 psram_before=%u psram_after=%u internal_before=%u internal_after=%u times_us=",test->id,actual_sha,output_ok?"pass":"output_mismatch",test->reference_policy,checks.samples,checks.bit_mismatches,checks.zero_sign_differences,checks.first_mismatch,checks.first_actual,checks.first_expected,mean,med,peak,(unsigned)(high_median||spike),reasons,median_limit,spike_limit,context_bytes,dynamic.arena_used,dynamic.arena_high_water,dynamic.arena_capacity,code_bytes,dynamic.cpp_new_calls,dynamic.total_arena_allocations,TIMED_CALLS,MANUAL_WARM_CALLS,(unsigned)SMOKE_PREPARE_WARM_BLOCKS,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after);
         for(unsigned b=0;b<TIMED_CALLS;++b){printf("%s%"PRIu64,b?",":"",times[b]);}
         uint64_t error_bits;uint32_t tolerance_bits;
         memcpy(&error_bits,&checks.max_absolute_error,sizeof error_bits);

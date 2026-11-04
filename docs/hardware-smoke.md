@@ -13,6 +13,84 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## Gen mathematical batch
+
+There are **34 separately authored GenExpr forms: 27 pass on XIAO, four fail
+C++ compilation, and three are rejected by the frontend parser**. Thirteen
+executed forms trigger CPU review. The run completes all module/global memory
+checks and leaves the quiet test firmware installed.
+
+| Exact form | Short hardware result | Median µs | Peak µs | CPU review |
+| --- | --- | ---: | ---: | --- |
+| `div(in1, in2)` | Pass | 159.0 | 163 | No flag |
+| `in1 / in2` | Pass | 159.0 | 159 | No flag |
+| `in1 % in2` | Pass | 275.0 | 279 | No flag |
+| `sqrt(in1)` | Pass | 199.0 | 203 | No flag |
+| `exp(in1)` | Pass | 486.0 | 490 | No flag |
+| `exp2(in1)` | Pass | 7499.0 | 7503 | Queued |
+| `log(in1)` | Pass | 3684.0 | 3685 | Queued |
+| `ln(in1)` | Pass | 3684.0 | 3685 | Queued |
+| `log2(in1)` | Pass | 4732.0 | 4733 | Queued |
+| `log10(in1)` | Pass | 4297.0 | 4302 | Queued |
+| `pow(in1, in2)` | Pass | 1135.0 | 1135 | Queued |
+| `sin(in1)` | Pass | 284.0 | 289 | No flag |
+| `cos(in1)` | Pass | 289.0 | 294 | No flag |
+| `tan(in1)` | Pass | 423.0 | 428 | No flag |
+| `tanh(in1)` | Pass | 649.0 | 649 | Queued |
+| `asin(in1)` | Pass | 536.0 | 537 | No flag |
+| `acos(in1)` | Pass | 491.0 | 492 | No flag |
+| `atan(in1)` | Pass | 345.0 | 349 | No flag |
+| `atan2(in1, in2)` | Pass | 673.5 | 674 | Queued |
+| `sinh(in1)` | Pass | 697.0 | 698 | Queued |
+| `cosh(in1)` | Pass | 649.0 | 650 | Queued |
+| `asinh(in1)` | Pass | 760.0 | 760 | Queued |
+| `acosh(in1)` | Pass | 831.0 | 831 | Queued |
+| `atanh(in1)` | Pass | 775.0 | 776 | Queued |
+| `hypot(in1, in2)` | Pass | 205.0 | 210 | No flag |
+| `degrees(in1)` | Pass | 45.0 | 45 | No flag |
+| `radians(in1)` | Pass | 45.0 | 49 | No flag |
+
+The seven unexecuted forms stay in the source catalog and failure records:
+
+| Form | Rejected at | Observed reason |
+| --- | --- | --- |
+| `in1 !/ in2` | GenExpr parser | Unexpected `!` token |
+| `in1 !% in2` | GenExpr parser | Unexpected `!` token |
+| `in1 !- in2` | GenExpr parser | Unexpected `!` token |
+| `rdiv(in1, in2)` | Target C++ compiler | Ambiguous emitted `div` call |
+| `mod(in1, in2)` | Target C++ compiler | Undeclared emitted `safemod` call |
+| `rmod(in1, in2)` | Target C++ compiler | Undeclared emitted `safemod` call |
+| `rsub(in1, in2)` | Target C++ compiler | Undeclared emitted `sub` call |
+
+Registry membership alone does not prove parser/compiler support. These are
+retained support gaps, without fallback expressions or DSP fixes. In particular,
+the successful `%` expression does not qualify the rejected `mod()` call.
+RNBO signal-object results remain separate from these GenExpr outcomes.
+
+The 27 loaded forms check **276,480 output values**. `div()`, `/` and `%` use
+exact numerical comparison; the other 24 forms use the predeclared absolute
+limit `2e-6` against independently computed, once-binary32-rounded references.
+Raw differing words remain recorded even when within that limit. The largest
+observed error is about 4.77e-7 for `degrees`; these approximate passes are not
+claims of exact-bit equality. Both channels and reversed binary operand orders
+are exercised using per-model bounded finite input vectors.
+
+This batch uses zero automatic zero-input preparation blocks and four checked
+manual warmups with each case's valid-domain vector, then sixteen timed calls.
+That configuration is recorded in both the plan and device log; it avoids
+feeding a zero pre-roll to functions such as `acosh`, whose real domain starts
+at 1. Default zero-preroll behaviour is not qualified by this batch. All calls
+remain fixed at 256 frames, 44.1 kHz; single-sample and stateful-feedback coverage
+remains limited to the separately documented History tests.
+
+`exp2` takes 7.499 ms median in this two-instance stereo fixture, exceeding the
+5.805 ms block period. The thirteen [CPU-review entries](cpu-review-backlog.md)
+are retained for future optimisation. Timings are whole-graph absolute costs,
+with no optimisation gain or real-time audio headroom claim.
+
+See [the compact device/stage results](../evidence/xiao-smoke-gen-math.json) and
+[the original programs and independent reference](../tests/fixtures/smoke/gen-math/README.md).
+
 ## RNBO numeric and maths batch
 
 One upload executes **33 exact RNBO signal forms: 30 pass, three have output
@@ -242,8 +320,8 @@ python3 tools/build_hardware_smoke.py \
   --cache-build-dir build/hardware-smoke-cache-xiao
 ```
 
-Supply normal prepared exports matching the selected catalog. The numeric Gen, RNBO stateless and RNBO numeric catalogs have separate
-independent references. Numeric cases carry their own input-vector hashes and
+Supply normal prepared exports matching the selected catalog. The Gen numeric, Gen mathematical, RNBO stateless and RNBO numeric catalogs
+have separate independent references. Numeric cases carry their own input-vector hashes and
 predeclared tolerances; older catalogs keep the original exact gate.
 The initial fast
 builder supports strict, self-contained two-input/two-output FX modules without
@@ -263,3 +341,10 @@ recorded output mismatches. It does not mean that every case passed.
 totals and raw timing samples, then produces the compact result and CPU queue.
 The new reference/tool tests and runner tests pass; the actual device run is
 the functionality evidence.
+
+Frontend export/preparation rejections can be retained as separate admission
+failures in a merged module ledger. Their original source and failure-log hashes
+are checked before planning; they are not counted as C++ compilation failures
+or embedded as executable modules. The Gen mathematical result retains all
+34 authored forms while embedding only the 27 successful modules. The original
+fast module report stays unchanged alongside that merged ledger.

@@ -150,7 +150,16 @@ def collect(build_dir,run_dir):
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
     if plan.get('family') in ('rnbo-stateless','rnbo-numeric') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
+    elif plan.get('family')=='gen-math' and plan.get('surface')=='genexpr':
+        result.update(family='gen-math',surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
+    if 'prepare_zero_warm_blocks' in plan:
+        require(all(fields(line,'RNBO_SMOKE CASE ')['prepare_zero_warm_blocks']==str(plan['prepare_zero_warm_blocks'])
+                    for line in case_lines),'Device preparation warmup differs from the plan')
+        result['prepare_zero_warm_blocks']=plan['prepare_zero_warm_blocks']
+    if 'admission_failures' in plan:
+        result['admission_failures']=plan['admission_failures']
+        result['summary']['admission_failures']=len(plan['admission_failures'])
     return result
 
 

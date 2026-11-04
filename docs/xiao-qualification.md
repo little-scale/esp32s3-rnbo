@@ -11,7 +11,11 @@ all pass. The earlier numeric Gen batch
 records 15 device scenarios (10 pass, 5 output mismatches) and one compilation
 rejection.
 [CPU outliers are queued](cpu-review-backlog.md) for future optimisation.
-These smoke checks are distinct from the deeper historical tests below.
+The subsequent [Gen mathematical batch](hardware-smoke.md#gen-mathematical-batch)
+adds 27 device passes within declared limits, four C++ compilation failures and
+three parser rejections, with thirteen CPU-review flags. RNBO and Gen outcomes
+remain separate. These smoke checks are distinct from the deeper historical
+tests below.
 
 The active goal is to test every inventoried RNBO object, operation and structure
 on the XIAO ESP32-S3 and record compatibility, resource use and performance.

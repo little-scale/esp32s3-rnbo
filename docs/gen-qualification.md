@@ -6,6 +6,12 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The [latest mathematical batch](hardware-smoke.md#gen-mathematical-batch) has
+27 device passes within declared comparison limits, four C++ compilation
+failures and three frontend parser rejections from 34 authored forms.
+Thirteen executed forms are queued for CPU review; stereo `exp2` exceeds the
+block period. These fixed-256-frame checks do not extend single-sample or
+stateful-feedback qualification.
 The first numeric batch adds 15 executed scenarios and one compiler rejection,
 with round/denormal mismatches retained. These basic checks do not inherit the
 broader guarantees of the older native/target qualification batches below.

@@ -9,6 +9,12 @@ batch checks 36 exact spellings: all pass, with no CPU-review flags. The earlier
 mismatches; registered `f()` fails compilation. It also has no CPU-review flags. Quiet smoke firmware
 is currently installed on XIAO; the drone is not restored after every batch.
 
+The new [Gen mathematical smoke batch](hardware-smoke.md#gen-mathematical-batch)
+retains all 34 authored forms: 27 pass on XIAO, four fail C++ compilation and
+three fail frontend parsing. Thirteen executed forms trigger CPU review.
+`exp2` again exceeds the stereo block period. Valid-domain manual warmups are
+recorded explicitly; this batch does not add single-sample or feedback claims.
+
 The earlier [Gen comparison/logic batch](gen-logic-qualification.md) adds twenty
 native/XIAO passes with per-form timing, exact outputs and full memory recovery.
 The twenty-first form, `step`, fails the unchanged documented argument-order
