@@ -13,6 +13,84 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+The latest RNBO codebox numeric and Gen range batches execute **72 scenarios:
+65 pass their declared comparisons and seven retain mismatches**, across
+**737,280 output checks**. One additional Gen `gate` source is rejected before
+execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
+or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## Gen range, routing and conversion calls
+
+Of 30 authored GenExpr forms, **29 compile and execute on XIAO: 25 pass and four
+exceed their predeclared references**, across 296,960 output checks. The tuple
+`gate(in1, in2, choices=2)` form is rejected by the frontend; it is not compiled
+or executed. This describes that supplied syntax, not all uses of Gen `gate`.
+
+| Exact Gen call | Retained comparison outcome |
+| --- | --- |
+| `fastpow()` | 9,400 outputs exceed the 1e-3 ideal-math screen; maximum error 0.23720312118530273. |
+| `fastexp()` | 10,240 outputs exceed the 1e-3 ideal-math screen; maximum error 0.06756162643432617. |
+| `fasttan()` | 8,320 outputs exceed the 1e-3 ideal-math screen; maximum error 0.002815753221511841. |
+| `ftom()` | 4,480 outputs exceed the continuous-pitch reference's 5e-4 limit; maximum error 0.25. The tested quarter-tone points produce integer-rounded results. |
+
+The fast-function limits are deliberately chosen approximation-quality screens,
+not documented accuracy guarantees or universal malfunction verdicts. All input
+domains and limits were fixed before execution and remain unchanged. Other
+checks cover finite range endpoints, integer selector choices, Cartesian/polar
+tuples, interpolation, practical pitch/time points and finite-only NaN helpers.
+They do not establish fractional routing choices or nonfinite handling. The
+2,600 operation zero-sign differences remain diagnostics, not bit-identity.
+
+Each case uses zero automatic preparation warm blocks, four checked manual
+warmups and sixteen timed callbacks. Medians span 42–14,663 µs, peak 14,664 µs.
+Six cases trigger CPU review: `mtof`, `ftom`, `atodb`, `dbtoa`, `t60` and
+`triangle`. The stereo `dbtoa` callback's 14.663 ms median exceeds the 5.805 ms
+block period. These costs include the complete callback, not an isolated opcode.
+
+All executed images finalise and module/global memory and allocation gates
+pass. The 1 MiB arena is reserved capacity, not measured consumption: only
+`mtof` uses it, with a 262,256-byte high-water mark including its unchanged
+262,144-byte lookup payload. Every other case, including `ftom`, records zero
+arena high-water use. The earlier unflashed 4 KiB module cohort is retained;
+the larger capacity was selected before this run without changing DSP sources,
+inputs or references.
+
+See [the complete Gen range results](../evidence/xiao-smoke-gen-range.json),
+[the authored programs/reference](../tests/fixtures/smoke/gen-range/README.md),
+[the separate Gen record](gen-qualification.md) and [CPU review queue](cpu-review-backlog.md).
+
+## RNBO codebox numeric and mathematical calls
+
+All 43 authored calls export, compile and execute on XIAO. **40 pass their
+predeclared references; three retain numerical mismatches**, across 440,320
+output checks. All images finalise and memory/allocation gates pass. These are
+RNBO codebox calls, independently tested from Gen and patcher-object names.
+
+| Exact codebox call | Retained mismatch |
+| --- | --- |
+| `round()` | 280 outputs differ, maximum error 1, against the declared nearest-integer/ties-away reference. |
+| `isdenorm()` | 9,960 outputs differ, maximum error 2,147,483,648; observations resemble identity rather than the documented 0/1 predicate. |
+| `fixdenorm()` | 1,680 outputs differ; subnormals remain, maximum error 1.1754942106924411e-38. |
+
+The basic-function corpus includes signed zeros, subnormals, halfway neighbors
+and signed 32-bit-safe conversion limits. Standard mathematical inputs stay in
+their listed valid domains. Basic checks use zero numeric tolerance; ordinary
+math uses a fixed 2e-6 absolute limit against the once-Float32-rounded ideal.
+The 2,780 operation zero-sign differences remain separate diagnostics. Finite
+`isnan`/`fixnan` inputs do not establish NaN handling. No reference was changed
+to fit output, and no tolerance was widened after the run.
+
+There are zero automatic preparation warm blocks, then four checked valid-input
+manual warmups and sixteen timed callbacks. Callback medians span 42.5–7,499 µs,
+with peak 7,504 µs. **Fourteen cases trigger CPU review**; all fourteen pass their
+output limits. The stereo `exp2()` fixture's 7.499 ms median exceeds the 5.805 ms
+block period. These are complete callback costs, not isolated function costs
+or optimisation gains; investigation remains queued while coverage proceeds.
+
+See [the complete results](../evidence/xiao-smoke-rnbo-codebox-numeric.json),
+[the original programs/reference](../tests/fixtures/smoke/rnbo-codebox-numeric/README.md)
+and [the CPU review queue](cpu-review-backlog.md).
+
 ## RNBO codebox arithmetic and named constants
 
 Two RNBO codebox batches execute **83 scenarios, all passing their declared

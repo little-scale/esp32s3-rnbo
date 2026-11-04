@@ -35,6 +35,8 @@ class BoundaryPlanTests(unittest.TestCase):
         expected=Path(__file__).resolve().parents[1]/'tests/fixtures/smoke/rnbo-events-extra/reference.py'
         self.assertEqual(reference_path({'family':'rnbo-events-extra'}),expected)
         self.assertEqual(reference_path({'family':'rnbo-constants'}),expected.parent.parent/'rnbo-constants/reference.py')
+        for family in ('rnbo-codebox-numeric','gen-range'):
+            self.assertEqual(reference_path({'family':family}),expected.parent.parent/family/'reference.py')
         for family in ('../rnbo-events-extra','rnbo-events-other',''):
             with self.assertRaises(ExportError):reference_path({'family':family})
 

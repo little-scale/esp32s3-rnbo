@@ -6,12 +6,23 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The latest [range/routing/conversion batch](hardware-smoke.md#gen-range-routing-and-conversion-calls)
+executes 29 GenExpr calls: 25 pass, three fast approximations exceed the fixed
+1e-3 ideal-math screen, and `ftom` differs from the declared continuous-pitch
+reference at quarter tones. The separate tuple `gate` source is rejected before
+execution. There are 296,960 output checks and six CPU-review flags. All executed
+images finalise with memory/allocation gates passing. Only `mtof` consumes arena
+storage (262,256-byte high-water mark including its original lookup table);
+1 MiB is reserved per image, not consumed by every call. Fast screens are not
+documented accuracy promises, and the results do not extend to every mode,
+alias or single-sample host API. See [the complete evidence](../evidence/xiao-smoke-gen-range.json).
+
 The [stateful batch](hardware-smoke.md#gen-stateful-and-per-sample-batch) passes
 all twelve programs covering nine exact spellings, with 122,880 output checks
 across twenty continuous callbacks each. Its vectors expose per-sample updates
 and block-boundary state; no CPU-review flags trigger. These are still fixed
 256-frame calls, with one-frame host calls and sample-offset events separate.
-The [latest mathematical batch](hardware-smoke.md#gen-mathematical-batch) has
+The [earlier mathematical batch](hardware-smoke.md#gen-mathematical-batch) has
 27 device passes within declared comparison limits, four C++ compilation
 failures and three frontend parser rejections from 34 authored forms.
 Thirteen executed forms are queued for CPU review; stereo `exp2` exceeds the

@@ -2,6 +2,23 @@
 
 ## Fast coverage runs
 
+The latest RNBO codebox numeric and [Gen range checks](hardware-smoke.md#gen-range-routing-and-conversion-calls)
+execute 72 scenarios: 65 pass and seven retain comparison mismatches, checking
+737,280 output values. One additional Gen `gate` syntax form is rejected before
+execution. Twenty new CPU flags bring the separate review queue to 52 contexts.
+Gen's three fast-function exceedances are approximation-quality screens, not
+universal malfunction findings; `ftom` retains its continuous-pitch mismatch.
+All executed images finalise and memory/allocation gates pass. Gen adds no RNBO
+main-table entries; the 43 new RNBO codebox entries bring that table to 376
+mapped exact spellings out of 1,455.
+
+The [RNBO codebox numeric batch](hardware-smoke.md#rnbo-codebox-numeric-and-mathematical-calls)
+adds 43 executed calls and 440,320 output checks: 40 pass and three retain round/
+denormal mismatches. Fourteen callback costs are queued for CPU review;
+`exp2()` has a 7.499 ms median against the 5.805 ms block period. No optimisation
+is applied or saving claimed. These 43 exact codebox entries are separate from
+matching patcher and Gen names.
+
 The [RNBO codebox batches](hardware-smoke.md#rnbo-codebox-arithmetic-and-named-constants)
 add 83 passing device scenarios and 849,920 output checks: 43 arithmetic/logic
 forms and 40 named-value constants. The constants are bit-exact; arithmetic

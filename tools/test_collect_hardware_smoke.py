@@ -188,7 +188,7 @@ class SmokeStatefulStreamTests(unittest.TestCase):
 
     def test_codebox_family_carries_program_identity_and_rejects_wrong_surface(self):
         self.constant();self.expected['codebox_source_sha256']='f'*64
-        for family in ('rnbo-codebox','rnbo-codebox-constants'):
+        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric'):
             self.plan.update(family=family,surface='codebox')
             result=self.result()
             self.assertEqual(result['family'],family)
@@ -197,6 +197,14 @@ class SmokeStatefulStreamTests(unittest.TestCase):
             self.plan['surface']='patcher'
             with self.assertRaises(ValueError):self.result()
         self.plan['surface']='codebox';self.expected['codebox_source_sha256']='bad'
+        with self.assertRaises(ValueError):self.result()
+
+    def test_gen_range_domain_rejects_unrecorded_zero_preroll_or_surface_swap(self):
+        self.constant();self.plan.update(family='gen-range',surface='genexpr')
+        self.assertEqual(self.result()['family'],'gen-range')
+        self.plan['prepare_zero_warm_blocks']=4
+        with self.assertRaises(ValueError):self.result()
+        self.plan['prepare_zero_warm_blocks']=0;self.plan['surface']='patcher'
         with self.assertRaises(ValueError):self.result()
 
     def test_historical_constant_record_keeps_its_public_shape(self):

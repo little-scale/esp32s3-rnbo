@@ -10,6 +10,61 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Gen range/conversions: six queued cases
+
+These are complete stereo GenExpr callbacks, separate from RNBO patcher and
+codebox names. Five cases pass their output limits; `ftom` retains the declared
+continuous-pitch mismatch as separate correctness/semantic follow-up.
+
+| Exact Gen call | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `mtof()` | 2,398.5 | 2,401 | 41.32% | Pending optimisation review |
+| `ftom()` | 2,703.0 | 2,704 | 46.56% | Pending optimisation review |
+| `atodb()` | 591.0 | 592 | 10.18% | Pending optimisation review |
+| `dbtoa()` | 14,663.0 | 14,664 | 252.59% | Pending optimisation review |
+| `t60()` | 5,569.0 | 5,570 | 95.93% | Pending optimisation review |
+| `triangle()` | 635.0 | 636 | 10.94% | Pending optimisation review |
+
+`dbtoa()` takes 14.663 ms median, about 2.53 block periods in this fixture. All
+six flags are median-cost observations, with no new peak-spike flags. Together
+with fourteen new RNBO codebox contexts and 32 earlier contexts, **52 cases are
+queued**. Approximation-screen exceedances for `fastpow`, `fastexp` and `fasttan`
+are separate from CPU review; none of those three triggers a CPU flag. No code
+has been changed for performance, and these are not worst-case latency bounds.
+
+Source: [Gen range hardware results](../evidence/xiao-smoke-gen-range.json).
+
+## RNBO codebox numeric: fourteen queued cases
+
+All fourteen flagged calls pass their declared output references. Each row is
+a complete stereo RNBO codebox callback at 44.1 kHz/256 frames; similarly named
+Gen or patcher functions have separate results and queue entries.
+
+| Exact codebox call | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `exp2()` | 7,499.0 | 7,504 | 129.18% | Pending optimisation review |
+| `log()` | 3,684.0 | 3,685 | 63.46% | Pending optimisation review |
+| `ln()` | 3,684.0 | 3,685 | 63.46% | Pending optimisation review |
+| `log2()` | 4,732.0 | 4,733 | 81.52% | Pending optimisation review |
+| `log10()` | 4,297.0 | 4,302 | 74.02% | Pending optimisation review |
+| `log1p()` | 3,982.0 | 3,983 | 68.60% | Pending optimisation review |
+| `pow()` | 1,134.0 | 1,135 | 19.53% | Pending optimisation review |
+| `tanh()` | 702.0 | 703 | 12.09% | Pending optimisation review |
+| `atan2()` | 690.0 | 690 | 11.89% | Pending optimisation review |
+| `sinh()` | 724.0 | 724 | 12.47% | Pending optimisation review |
+| `cosh()` | 655.0 | 655 | 11.28% | Pending optimisation review |
+| `asinh()` | 779.0 | 780 | 13.42% | Pending optimisation review |
+| `acosh()` | 758.0 | 758 | 13.06% | Pending optimisation review |
+| `atanh()` | 798.0 | 798 | 13.75% | Pending optimisation review |
+
+`exp2()` exceeds the block period at 7.499 ms median. The 14 flags are median-cost
+observations, with no new peak-spike flags. They add to 32 previous mathematical
+contexts, bringing the queue to 46 before the separate Gen range batch. No DSP
+change, CPU saving or worst-case latency bound follows from these screens.
+The three round/denormal output mismatches remain separate correctness work.
+
+Source: [RNBO codebox numeric results](../evidence/xiao-smoke-rnbo-codebox-numeric.json).
+
 ## RNBO codebox batches: no new flags
 
 The 43 arithmetic/logic scenarios have callback medians 42–274 µs and peak

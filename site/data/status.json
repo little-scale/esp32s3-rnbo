@@ -4007,9 +4007,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "acos",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "acos-call",
+          "codebox_source_sha256": "3e485ce3d6c27611e1078da5df570fc35cf4e7eb95edad56727f50c02747e575",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "4f7a36837b059183c1ceffb0d9d8d32969380e5686474d45c111a55167e1e8b3",
+          "max_absolute_error": 2.384185791015625e-07,
+          "mean_us": 499.875,
+          "median_us": 500.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 503,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 660
+        }
+      ],
       "id": "codebox:acos",
       "inventory_group": "codebox:acos",
       "is_alias": false,
@@ -4017,16 +4040,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/acos",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 499.88µs, median 500.00µs, peak 503µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 2.38418579e-07; within-tolerance differences 660; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -4055,9 +4086,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "acosh",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "acosh-call",
+          "codebox_source_sha256": "d3ecdd2d56748172fbc8d730e7b779eeab3b26a364285bc8ee3ba0648bbfbf91",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "836e67f22ee7fa1112a7e7255287606bc5f8a9b994fee872d3982e90cacecd60",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 757.8125,
+          "median_us": 758.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 758,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "codebox:acosh",
       "inventory_group": "codebox:acosh",
       "is_alias": false,
@@ -4065,16 +4121,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/acosh",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 757.81µs, median 758.00µs, peak 758µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -4803,9 +4871,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "asin",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "asin-call",
+          "codebox_source_sha256": "0ef8c46c1d62a88cf4ba483a09b4f664f919aa11655f73f822c84d3fdaa61a05",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "4f7a36837b059183c1ceffb0d9d8d32969380e5686474d45c111a55167e1e8b3",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 558.3125,
+          "median_us": 557.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 561,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1580
+        }
+      ],
       "id": "codebox:asin",
       "inventory_group": "codebox:asin",
       "is_alias": false,
@@ -4813,16 +4904,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/asin",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 558.31µs, median 557.00µs, peak 561µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1580; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -4851,9 +4950,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "asinh",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "asinh-call",
+          "codebox_source_sha256": "26e86eddeedfe3a0b981f03b740eef92a7f63dca85ccedd72103fba76e8fd9f0",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 777.5,
+          "median_us": 779.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 780,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3200
+        }
+      ],
       "id": "codebox:asinh",
       "inventory_group": "codebox:asinh",
       "is_alias": false,
@@ -4861,16 +4985,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/asinh",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 777.50µs, median 779.00µs, peak 780µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 3200; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -5017,9 +5153,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atan",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "atan-call",
+          "codebox_source_sha256": "f80bf8dc448a4ac61207788cd4dd0280afeae35cd1580d0245521518cdf561a1",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 0.0,
+          "mean_us": 396.125,
+          "median_us": 395.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 399,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:atan",
       "inventory_group": "codebox:atan",
       "is_alias": false,
@@ -5027,16 +5186,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/atan",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 396.12µs, median 395.00µs, peak 399µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -5065,9 +5232,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atan2",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "atan2-call",
+          "codebox_source_sha256": "44a2c34ebb142c4d0a4d315e4ee960bbb819bf9c0d4658eb64351ca717e764eb",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "751056ed2a9e00f793e16a62fef1cd981521db739bfd3e5997618fb8160c2b7c",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 688.5,
+          "median_us": 690.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 690,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 880
+        }
+      ],
       "id": "codebox:atan2",
       "inventory_group": "codebox:atan2",
       "is_alias": false,
@@ -5075,16 +5267,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/atan2",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 688.50µs, median 690.00µs, peak 690µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 880; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -5175,9 +5379,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "atanh",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "atanh-call",
+          "codebox_source_sha256": "64422cf72af8799565a6b8577ddbf872fb5e19f7a0adbcb0144724dbd03c92bd",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f2b10691cd9cb4b7062f216aeded50f9dad7b9ea79bfbf87dbe3471eac1073d",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 796.875,
+          "median_us": 798.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 798,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3160
+        }
+      ],
       "id": "codebox:atanh",
       "inventory_group": "codebox:atanh",
       "is_alias": false,
@@ -5185,16 +5414,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/atanh",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 796.88µs, median 798.00µs, peak 798µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 3160; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -5898,9 +6139,32 @@
         "b",
         "bool"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "b-call",
+          "codebox_source_sha256": "88051b5e59e746b4d33a2476095337b27b862b06dc46b2786dd9f0bc99951b75",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 51.3125,
+          "median_us": 51.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 56,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:b",
       "inventory_group": "codebox:boolnum",
       "is_alias": true,
@@ -5908,16 +6172,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/boolnum",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 51.31µs, median 51.00µs, peak 56µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -6738,9 +7010,32 @@
         "b",
         "bool"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "bool-call",
+          "codebox_source_sha256": "5dbdbdd6e5bb18c0b0437b70d1ab3f07968f91be21af9e1d671c387ac7a88ae5",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 51.5625,
+          "median_us": 51.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 56,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:bool",
       "inventory_group": "codebox:boolnum",
       "is_alias": true,
@@ -6748,16 +7043,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/boolnum",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 51.56µs, median 51.00µs, peak 56µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -6833,9 +7136,32 @@
         "b",
         "bool"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "boolnum",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "boolnum-call",
+          "codebox_source_sha256": "cd3a29e4dea7aa5a1c7e580380b7f8c71ec3351801a83acb02b316a414819087",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 51.5,
+          "median_us": 51.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 55,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:boolnum",
       "inventory_group": "codebox:boolnum",
       "is_alias": false,
@@ -6843,16 +7169,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/boolnum",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 51.50µs, median 51.00µs, peak 55µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -7610,9 +7944,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cbrt",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "cbrt-call",
+          "codebox_source_sha256": "155cf9321d8f9e6fd17aa7e613e9a2b5f794dfa81554ba863b600d3d9ad41d3e",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 434.875,
+          "median_us": 433.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 438,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "codebox:cbrt",
       "inventory_group": "codebox:cbrt",
       "is_alias": false,
@@ -7620,16 +7977,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/cbrt",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 434.88µs, median 433.00µs, peak 438µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -7712,9 +8077,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ceil",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "ceil-call",
+          "codebox_source_sha256": "63ff31d50c02855c86993583bd2bc84c67809f3e2ce04da9ac45037f287da16d",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 127.25,
+          "median_us": 126.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 131,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:ceil",
       "inventory_group": "codebox:ceil",
       "is_alias": false,
@@ -7722,16 +8110,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/ceil",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 127.25µs, median 126.50µs, peak 131µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -11294,9 +11690,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cos",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "cos-call",
+          "codebox_source_sha256": "fb354c835ad9dc45f2dfa2971f2d994ed545bacb9e0baf600965b2404c2defa4",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 0.0,
+          "mean_us": 343.1875,
+          "median_us": 343.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 346,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:cos",
       "inventory_group": "codebox:cos",
       "is_alias": false,
@@ -11304,16 +11723,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/cos",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 343.19µs, median 343.00µs, peak 346µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -11342,9 +11769,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cosh",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "cosh-call",
+          "codebox_source_sha256": "3b7ab0b71c5b03a837b2cdceb16818085101d8c59b1ed86747d5ed2ec7d36f62",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "25546414e65c86beb6ed5b9b3bb366deaed54f055bd7473ffe10718ece57d701",
+          "max_absolute_error": 2.384185791015625e-07,
+          "mean_us": 654.6875,
+          "median_us": 655.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 655,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 2560
+        }
+      ],
       "id": "codebox:cosh",
       "inventory_group": "codebox:cosh",
       "is_alias": false,
@@ -11352,16 +11804,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/cosh",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 654.69µs, median 655.00µs, peak 655µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 2.38418579e-07; within-tolerance differences 2560; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -12851,9 +13315,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "degrees",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "degrees-call",
+          "codebox_source_sha256": "cf666a94308114ff65703c818a9f7d5ad96d05a9d2c7231474cd18e5f88e7959",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e1ee30a7fc685c6a9961b59896883db5a5bf4118ea69a2a994b9424a815eeba3",
+          "max_absolute_error": 4.76837158203125e-07,
+          "mean_us": 44.5,
+          "median_us": 44.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 45,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 9280
+        }
+      ],
       "id": "codebox:degrees",
       "inventory_group": "codebox:degrees",
       "is_alias": false,
@@ -12861,16 +13348,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/degrees",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 44.50µs, median 44.50µs, peak 45µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 4.76837158e-07; within-tolerance differences 9280; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16471,9 +16966,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "exp",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "exp-call",
+          "codebox_source_sha256": "9a0bda35a3ce80e735c3a73c9083345408b8affaa5f2576b6fc3ba88249b4cf3",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "25546414e65c86beb6ed5b9b3bb366deaed54f055bd7473ffe10718ece57d701",
+          "max_absolute_error": 0.0,
+          "mean_us": 487.625,
+          "median_us": 486.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 491,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:exp",
       "inventory_group": "codebox:exp",
       "is_alias": false,
@@ -16481,16 +16999,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/exp",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 487.62µs, median 486.00µs, peak 491µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16519,9 +17045,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "exp2",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "exp2-call",
+          "codebox_source_sha256": "d13ce7b6b32808a60b912d4fbb8eadaa26ebc614bdd7e1d049f179cd5297a05c",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "25546414e65c86beb6ed5b9b3bb366deaed54f055bd7473ffe10718ece57d701",
+          "max_absolute_error": 0.0,
+          "mean_us": 7500.3125,
+          "median_us": 7499.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 7504,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:exp2",
       "inventory_group": "codebox:exp2",
       "is_alias": false,
@@ -16529,16 +17080,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/exp2",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 7500.31µs, median 7499.00µs, peak 7504µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -16623,9 +17186,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "expm1",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "expm1-call",
+          "codebox_source_sha256": "f90bd5d30cccd40a7ae7555bae1be5fa9f7d6d935a9ffd7fede2d97174361e8b",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "25546414e65c86beb6ed5b9b3bb366deaed54f055bd7473ffe10718ece57d701",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 423.375,
+          "median_us": 422.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 426,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 640
+        }
+      ],
       "id": "codebox:expm1",
       "inventory_group": "codebox:expm1",
       "is_alias": false,
@@ -16633,16 +17219,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/expm1",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 423.38µs, median 422.00µs, peak 426µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 640; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -18172,9 +18766,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fixdenorm",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixdenorm-call",
+          "codebox_source_sha256": "533c363b5780ad5b19f2c4f8c3693b92a4e57571a0a115701f0aa65074fab43c",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 1.1754942106924411e-38,
+          "mean_us": 42.75,
+          "median_us": 42.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 1680,
+          "peak_us": 47,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:fixdenorm",
       "inventory_group": "codebox:fixdenorm",
       "is_alias": false,
@@ -18182,16 +18799,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/fixdenorm",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: The declared subnormal flush disagrees on 1,680 outputs; subnormal values remain, maximum error 1.1754942106924411e-38. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Inputs include both signs of binary32 subnormals and adjacent normal values; the documented predicate/flush expectation is retained. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (output_mismatch): one repeated stereo vector; mean 42.75µs, median 42.50µs, peak 47µs. Declared absolute tolerance 0; maximum finite error 1.17549421e-38; within-tolerance differences 0; numeric mismatches 1680; nonfinite outputs 0.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -18706,9 +19331,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fixnan",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fixnan-call",
+          "codebox_source_sha256": "a4a2c62223095e266670489773af75c6b0239a7390070e2274d35487110a75bf",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 46.8125,
+          "median_us": 47.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 51,
+          "reference_policy": "finite-inputs-only",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:fixnan",
       "inventory_group": "codebox:fixnan",
       "is_alias": false,
@@ -18716,16 +19364,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/fixnan",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. NaN helpers receive finite inputs only; actual NaN repair/detection is untested. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 46.81µs, median 47.00µs, peak 51µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -18947,9 +19603,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "floor",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "floor-call",
+          "codebox_source_sha256": "ad478a3d0be949950da51a8b8e3cbac2ffcc0dde59fc52e779617baf89ca74fd",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 128.5,
+          "median_us": 128.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 132,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:floor",
       "inventory_group": "codebox:floor",
       "is_alias": false,
@@ -18957,16 +19636,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/floor",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 128.50µs, median 128.00µs, peak 132µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -19162,9 +19849,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fract",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "fract-call",
+          "codebox_source_sha256": "1a69309d0cfc52507990cc248bb4664428f8b61a4d51e2d9dac8dd2c33d5515d",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 113.625,
+          "median_us": 113.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 118,
+          "reference_policy": "signed-fraction-convention",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:fract",
       "inventory_group": "codebox:fract",
       "is_alias": false,
@@ -19172,16 +19882,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/fract",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Fract uses signed x-trunc(x), not positive floor-based fraction. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 113.62µs, median 113.00µs, peak 118µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -21441,9 +22159,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hypot",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "hypot-call",
+          "codebox_source_sha256": "bb6a5f135c0421f205a4fb9ea916984f01aec71271dc46e3c80c96eb838ffaf5",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 0.0,
+          "mean_us": 205.75,
+          "median_us": 205.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 209,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:hypot",
       "inventory_group": "codebox:hypot",
       "is_alias": false,
@@ -21451,16 +22192,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/hypot",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 205.75µs, median 205.00µs, peak 209µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -21900,9 +22649,32 @@
         "i",
         "int"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "intnum",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "i-call",
+          "codebox_source_sha256": "644fcf48c57a8261586cf0db079bd54e5cbf373b7bec9d048068c379811ad215",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 48.0625,
+          "median_us": 48.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 52,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:i",
       "inventory_group": "codebox:intnum",
       "is_alias": true,
@@ -21910,16 +22682,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/intnum",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Type conversion inputs remain within the signed 32-bit-safe range; no out-of-range cast is executed. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 48.06µs, median 48.00µs, peak 52µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -22288,9 +23068,32 @@
         "i",
         "int"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "intnum",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "int-call",
+          "codebox_source_sha256": "30e7f520803b461ac8a02facd75228f17f92b2db26c311466b8c1aa5cf5f8766",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 47.6875,
+          "median_us": 48.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 48,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:int",
       "inventory_group": "codebox:intnum",
       "is_alias": true,
@@ -22298,16 +23101,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/intnum",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Type conversion inputs remain within the signed 32-bit-safe range; no out-of-range cast is executed. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 47.69µs, median 48.00µs, peak 48µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -22459,9 +23270,32 @@
         "i",
         "int"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "intnum",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "intnum-call",
+          "codebox_source_sha256": "3daf1fdca7603468ca714bb32e501335a0a63a989a78d35604cc4b97f7437ff3",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 47.9375,
+          "median_us": 48.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 52,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:intnum",
       "inventory_group": "codebox:intnum",
       "is_alias": false,
@@ -22469,16 +23303,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/intnum",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Type conversion inputs remain within the signed 32-bit-safe range; no out-of-range cast is executed. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 47.94µs, median 48.00µs, peak 52µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -23000,9 +23842,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "isdenorm",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "isdenorm-call",
+          "codebox_source_sha256": "6fbfd99250c9f2d9fb85009349bad81f8ac7bf91c7525276542c965afe8c57e5",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 2147483648.0,
+          "mean_us": 42.875,
+          "median_us": 43.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 9960,
+          "peak_us": 47,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:isdenorm",
       "inventory_group": "codebox:isdenorm",
       "is_alias": false,
@@ -23010,16 +23875,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/isdenorm",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: The documented subnormal predicate disagrees on 9,960 outputs, maximum error 2,147,483,648; observed results resemble identity rather than a 0/1 predicate. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Inputs include both signs of binary32 subnormals and adjacent normal values; the documented predicate/flush expectation is retained. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (output_mismatch): one repeated stereo vector; mean 42.88µs, median 43.00µs, peak 47µs. Declared absolute tolerance 0; maximum finite error 2.14748365e+09; within-tolerance differences 0; numeric mismatches 9960; nonfinite outputs 0.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -23143,9 +24016,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "isnan",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "isnan-call",
+          "codebox_source_sha256": "2e16e91edfbb3574e6ba5d427ed19f046c8013e0d635950ff6cf40190f690fa3",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 51.0,
+          "median_us": 51.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 51,
+          "reference_policy": "finite-inputs-only",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:isnan",
       "inventory_group": "codebox:isnan",
       "is_alias": false,
@@ -23153,16 +24049,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/isnan",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. NaN helpers receive finite inputs only; actual NaN repair/detection is untested. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 51.00µs, median 51.00µs, peak 51µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -26370,9 +27274,34 @@
       "aliases": [
         "ln"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "log",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "ln-call",
+          "codebox_source_sha256": "ed5498cf585d0e390bcce4fa9bcb325533884b91192b1db07b1bf727ae9ecfe9",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "dda677056c3e71cf12f9cff3871c2356ab2d72d1bab95d399b20592ab86e3279",
+          "max_absolute_error": 0.0,
+          "mean_us": 3683.125,
+          "median_us": 3684.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 3685,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:ln",
       "inventory_group": "codebox:log",
       "is_alias": true,
@@ -26380,16 +27309,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/log",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 3683.12µs, median 3684.00µs, peak 3685µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -26995,9 +27936,34 @@
       "aliases": [
         "ln"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "log",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "log-call",
+          "codebox_source_sha256": "0c65a7ad9b52065d039df29d7bd1d60727751492a6a1b2063d80ba06c7b1cc7a",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "dda677056c3e71cf12f9cff3871c2356ab2d72d1bab95d399b20592ab86e3279",
+          "max_absolute_error": 0.0,
+          "mean_us": 3682.5,
+          "median_us": 3684.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 3685,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:log",
       "inventory_group": "codebox:log",
       "is_alias": false,
@@ -27005,16 +27971,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/log",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 3682.50µs, median 3684.00µs, peak 3685µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -27045,9 +28023,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "log10",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "log10-call",
+          "codebox_source_sha256": "f3963704e5621ff8f43d7364a8c25a7d0d5aa852df3ebb7fd7373220a7aa3871",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "dda677056c3e71cf12f9cff3871c2356ab2d72d1bab95d399b20592ab86e3279",
+          "max_absolute_error": 0.0,
+          "mean_us": 4298.1875,
+          "median_us": 4297.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 4302,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:log10",
       "inventory_group": "codebox:log10",
       "is_alias": false,
@@ -27055,16 +28058,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/log10",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 4298.19µs, median 4297.00µs, peak 4302µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -27367,9 +28382,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "log1p",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "log1p-call",
+          "codebox_source_sha256": "ffe834f56f2482b8a236494dc19c1640cdaaa97d4d2b4c75f430ea16d8a12bc8",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "bfc82a1a4e1bfd1978e9dda2eb31b481d64c7a2918991e4f5a4f5d600a61e50d",
+          "max_absolute_error": 0.0,
+          "mean_us": 3982.125,
+          "median_us": 3982.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 3983,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:log1p",
       "inventory_group": "codebox:log1p",
       "is_alias": false,
@@ -27377,16 +28417,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/log1p",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 3982.12µs, median 3982.00µs, peak 3983µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -27471,9 +28523,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "log2",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "log2-call",
+          "codebox_source_sha256": "2a38da352d9eb7aaf035acb8bd295f3c40ba3f90e20172218870716572304137",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "dda677056c3e71cf12f9cff3871c2356ab2d72d1bab95d399b20592ab86e3279",
+          "max_absolute_error": 0.0,
+          "mean_us": 4731.4375,
+          "median_us": 4732.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 4733,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:log2",
       "inventory_group": "codebox:log2",
       "is_alias": false,
@@ -27481,16 +28558,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/log2",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 4731.44µs, median 4732.00µs, peak 4733µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -35238,9 +36327,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "pow",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "pow-call",
+          "codebox_source_sha256": "c67d3f796130cd380ff9d6c23b43b18ccb3193c9f14f5a192dc9c20203cf581b",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5529f71532e7f0a04f99014612f7839648310befe0f0f60f64c1c264b3bf95de",
+          "max_absolute_error": 2.384185791015625e-07,
+          "mean_us": 1134.25,
+          "median_us": 1134.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 1135,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 400
+        }
+      ],
       "id": "codebox:pow",
       "inventory_group": "codebox:pow",
       "is_alias": false,
@@ -35248,16 +36362,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/pow",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 1134.25µs, median 1134.00µs, peak 1135µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 2.38418579e-07; within-tolerance differences 400; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -35559,9 +36685,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "radians",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "radians-call",
+          "codebox_source_sha256": "b574bd69b26b714a5a55a23f5cac641f95ededacd7e6e4fe5181da46dce916db",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 0.0,
+          "mean_us": 44.8125,
+          "median_us": 45.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 49,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:radians",
       "inventory_group": "codebox:radians",
       "is_alias": false,
@@ -35569,16 +36718,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/radians",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 44.81µs, median 45.00µs, peak 49µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -37143,9 +38300,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "round",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "round-call",
+          "codebox_source_sha256": "5d39b02100687ff33082e81187be482cf7243a585546f47ba9ed8c98528ff992",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 1.0,
+          "mean_us": 171.8125,
+          "median_us": 171.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 280,
+          "peak_us": 176,
+          "reference_policy": "nearest-integer-ties-away-from-zero",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:round",
       "inventory_group": "codebox:round",
       "is_alias": false,
@@ -37153,16 +38333,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/round",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: The exact declared nearest-integer/ties-away reference finds 280 mismatches, maximum error 1; the reference and zero tolerance are retained. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Round uses the explicitly declared nearest-integer/ties-away policy, including halfway neighbors. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (output_mismatch): one repeated stereo vector; mean 171.81µs, median 171.00µs, peak 176µs. Declared absolute tolerance 0; maximum finite error 1; within-tolerance differences 0; numeric mismatches 280; nonfinite outputs 0.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -38972,9 +40160,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sign",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "sign-call",
+          "codebox_source_sha256": "b6de80012f02acad98d75e9e01f9b51ad3545f1d56e8a3484c9a6dccd515bd77",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 60.75,
+          "median_us": 60.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 65,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:sign",
       "inventory_group": "codebox:sign",
       "is_alias": false,
@@ -38982,16 +40193,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/sign",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 60.75µs, median 60.50µs, peak 65µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -39198,9 +40417,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sin",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "sin-call",
+          "codebox_source_sha256": "9bf9d350c30acae2b1dd775c1cdccdc851070262fcd6eb280cc3c0544cc63ace",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 345.9375,
+          "median_us": 344.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 349,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "codebox:sin",
       "inventory_group": "codebox:sin",
       "is_alias": false,
@@ -39208,16 +40450,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/sin",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 345.94µs, median 344.00µs, peak 349µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -39246,9 +40496,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sinh",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "sinh-call",
+          "codebox_source_sha256": "f1b685986ee5899cd65ebb22bcfa4ffd0d2704961aa37e136d1072d0f0460db7",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "25546414e65c86beb6ed5b9b3bb366deaed54f055bd7473ffe10718ece57d701",
+          "max_absolute_error": 0.0,
+          "mean_us": 722.9375,
+          "median_us": 724.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 724,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:sinh",
       "inventory_group": "codebox:sinh",
       "is_alias": false,
@@ -39256,16 +40531,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/sinh",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 722.94µs, median 724.00µs, peak 724µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -40178,9 +41465,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sqrt",
       "category": "Powers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "sqrt-call",
+          "codebox_source_sha256": "6e866c43458c490abecd793d4f1abcd95cc7a999bde7ec8b4a7e9ea45aa15c48",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "165b241841c635b74522661b7d45336211ad353e2d3751fcb103e3c8b1e9cea9",
+          "max_absolute_error": 0.0,
+          "mean_us": 199.8125,
+          "median_us": 199.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 204,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:sqrt",
       "inventory_group": "codebox:sqrt",
       "is_alias": false,
@@ -40188,16 +41498,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/sqrt",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 199.81µs, median 199.00µs, peak 204µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -41921,9 +43239,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tan",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "tan-call",
+          "codebox_source_sha256": "f5dd1e621ec25e9f9802b9982227b112692d5d5ed4eb7c954fd781bf1f1fe733",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "4f7a36837b059183c1ceffb0d9d8d32969380e5686474d45c111a55167e1e8b3",
+          "max_absolute_error": 0.0,
+          "mean_us": 443.875,
+          "median_us": 442.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 447,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:tan",
       "inventory_group": "codebox:tan",
       "is_alias": false,
@@ -41931,16 +43272,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/tan",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 443.88µs, median 442.00µs, peak 447µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -41969,9 +43318,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tanh",
       "category": "Trigonometry",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "tanh-call",
+          "codebox_source_sha256": "10b6019b2e259b4912c7ad5a05c01685e3018e86c5a6841e6958b0fbeef554fd",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5acee4dac13712ef7aacbdab42bc01a2c6beb2aecc70fbe9d895068697f22131",
+          "max_absolute_error": 0.0,
+          "mean_us": 700.4375,
+          "median_us": 702.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 703,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:tanh",
       "inventory_group": "codebox:tanh",
       "is_alias": false,
@@ -41979,16 +43353,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/tanh",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. Observed callback cost is queued for future CPU review; no optimisation gain is measured. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Observed median callback cost exceeds the screening rule; this is a pending investigation, not a DSP optimisation or isolated function cost. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 700.44µs, median 702.00µs, peak 703µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -43622,9 +45008,32 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "trunc",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "trunc-call",
+          "codebox_source_sha256": "8baebb8aa9a31b16672360dfbe7e390102045f9b0e30b473d4e722f271686f9e",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "3f3aef8dbf2d693a9b68130ff273651399f1f2bec4c14948f2479a70a695c224",
+          "max_absolute_error": 0.0,
+          "mean_us": 47.875,
+          "median_us": 48.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 52,
+          "reference_policy": "documented-basic",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:trunc",
       "inventory_group": "codebox:trunc",
       "is_alias": false,
@@ -43632,16 +45041,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/trunc",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox numeric — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-numeric.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the declared short numeric RNBO codebox scenario; other domains and call forms remain unqualified. RNBO codebox~ scalar function-call syntax on the supplied finite case vector; unary functions act per lane and binary pow/atan2/hypot calls reverse operands. Zero automatic preparation blocks precede four checked manual warm callbacks and sixteen timed callbacks. Basic operations use exact numeric comparison; ordinary mathematical functions use a predeclared 2e-6 absolute limit against once-binary32-rounded independent mathematics. Zero-sign differences remain operation diagnostics. Original patch/program hashes and executed module identities are bound; no Gen or patcher-object evidence is inherited. Remaining scope: Only the listed finite case vector and declared limits are tested. Nonfinite inputs, other domains, arbitrary types, stateful/member APIs and complete-object semantics remain unqualified. Exact spelling and RNBO codebox context only; patcher objects, Gen and other aliases inherit no status. Short XIAO check (pass): one repeated stereo vector; mean 47.88µs, median 48.00µs, peak 52µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -45716,10 +47133,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "581f7b016ffd9603e9701e2bee2e89e1ebbbe8cd2c4f4abd8297df4961ed2853",
-    "coverage_source_sha256": "9b25625c1cbda505bce0e50956659a635e13af9853c70b9e0af809fc35d38262",
-    "exact_coverage_entries": 333,
-    "generator_sha256": "24ba03f19ef56db65ba75c29cc988c5e067df0c7f06ef7314fc192fbbcd3aeb2",
+    "coverage_canonical_sha256": "724a8e922aae5dcdd9135a706cbfeb56171efea7676cbd9e349abb61b60a2051",
+    "coverage_source_sha256": "b3f2456aa884d8a90092d825586664ccdf9850d954d94610f941163fba9f8d0c",
+    "exact_coverage_entries": 376,
+    "generator_sha256": "b31c169a62163f5e4ee85b89c495528bbeabc6019eb4ce3f4b66e1d6e3262d42",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

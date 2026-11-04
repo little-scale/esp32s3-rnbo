@@ -287,6 +287,38 @@ class ObjectStatusTests(unittest.TestCase):
             self.assertEqual(row['optimisation']['status'],'unassessed')
             self.assertIsNone(row['performance'])
 
+    def test_actual_codebox_numeric_retains_accuracy_failures_and_separate_cpu_queue(self):
+        source='evidence/xiao-smoke-rnbo-codebox-numeric.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertGreaterEqual(len(self.coverage['objects']),376)
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':14,'executed':43,'output_mismatches':3,'passed':40})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),440320)
+        self.assertEqual(sum(c['zero_sign_differences']for c in data['cases']),2780)
+        failed={'round','isdenorm','fixdenorm'};reviewed=set()
+        for case in data['cases']:
+            row=rows['codebox:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(row['working']['status'],'partial'if case['exact_name']in failed else'board')
+            self.assertTrue(row['board_evidence'])
+            self.assertEqual(observation['numeric_mismatches'],case['numeric_mismatches'])
+            self.assertEqual(observation['max_absolute_error'],case['max_absolute_error'])
+            self.assertEqual(observation['absolute_tolerance'],case['absolute_tolerance'])
+            self.assertEqual(observation['codebox_source_sha256'],case['codebox_source_sha256'])
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+            self.assertTrue(any(s['url'].endswith('/'+source)for s in row['sources']))
+            if case['cpu_review_reasons']:
+                reviewed.add(case['exact_name'])
+                self.assertIn('flagged for later review',row['working']['detail'])
+                self.assertTrue(any(s['url'].endswith('/docs/cpu-review-backlog.md')for s in row['sources']))
+        self.assertEqual(reviewed,{'exp2','log','ln','log2','log10','log1p','pow','tanh','atan2','sinh','cosh','asinh','acosh','atanh'})
+        self.assertEqual(rows['codebox:isdenorm']['hardware_smoke'][0]['max_absolute_error'],2147483648.)
+        self.assertEqual(rows['codebox:round']['hardware_smoke'][0]['absolute_tolerance'],0)
+        self.assertIn('finite inputs only',rows['codebox:isnan']['working']['detail'])
+        self.assertEqual(rows['codebox:mod']['working']['status'],'unverified')
+        self.assertEqual(rows['codebox:^^']['working']['status'],'unverified')
+
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
         record=next(r for r in forged['objects'] if r['id']=='patcher:min~')
@@ -594,8 +626,8 @@ class ShortSmokeStatusTests(unittest.TestCase):
     def test_codebox_short_result_cannot_qualify_patcher_or_gen_surface(self):
         self.numeric();self.record.update(id='codebox:floor',spelling='floor',surface='codebox')
         self.data['cases'][0].update(exact_name='floor',codebox_source_sha256='d'*64)
-        for family in ('rnbo-codebox','rnbo-codebox-constants'):
-            self.data.update(family=family,surface='codebox')
+        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric'):
+            self.data.update(family=family,surface='codebox',prepare_zero_warm_blocks=0)
             rows=self.result()
             self.assertEqual(rows['codebox:floor']['working']['status'],'board')
             self.assertEqual(rows['patcher:floor']['working']['status'],'unverified')
@@ -605,6 +637,9 @@ class ShortSmokeStatusTests(unittest.TestCase):
                 self.data['surface']=surface
                 with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
             self.data['surface']='codebox'
+        self.data.pop('prepare_zero_warm_blocks')
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+        self.data['prepare_zero_warm_blocks']=0
         self.data['cases'][0].pop('codebox_source_sha256')
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
