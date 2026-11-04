@@ -49,6 +49,32 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
 
+## RNBO character constants
+
+All **85 remaining bare character-constant names pass** on XIAO, split into
+43/42-module uploads. The two batches check **870,400 output words**, all exact:
+435,200 constant outputs and 435,200 right-input copies, including zero signs.
+The ten digit constants already have separate passing hardware evidence, so
+all 95 printable-ASCII names now have scoped bare-value observations.
+
+Primary metadata defines these as numeric codebox values rather than published
+patcher objects. Each original program assigns the exact `CHAR_*` name to its
+left output and copies `in2` to the right. Independent name-to-character
+`ord()` references cover ASCII 32–126; case-safe file IDs distinguish uppercase
+and lowercase names. The sparse `in2` codebox name exposes physical inlet 0,
+which is explicitly wired and checked by the dedicated source guard.
+
+Zero numeric tolerance and a strict right-channel zero-sign mask enforce raw
+pilot equality. No automatic preparation blocks precede four checked manual
+warmups and sixteen timed callbacks. Medians span 40–40.5 µs, peak 45 µs;
+no CPU flag triggers. All images finalise and pass memory/allocation checks,
+with zero arena high-water under a 4 KiB capacity. No optimisation comparison,
+function-call syntax, string/list behavior or cross-surface qualification follows.
+
+See [part one](../evidence/xiao-smoke-rnbo-character-constants-part1.json),
+[part two](../evidence/xiao-smoke-rnbo-character-constants-part2.json) and
+[original programs and independent references](../tests/fixtures/smoke/rnbo-character-constants/README.md).
+
 ## Further RNBO signal state
 
 Seven configured programs execute **71,680 output checks: six pass and one

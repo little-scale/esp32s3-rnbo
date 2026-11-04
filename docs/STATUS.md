@@ -1,10 +1,16 @@
 # Implementation status — 5 November 2026
 
+All [85 remaining RNBO character constants](hardware-smoke.md#rnbo-character-constants)
+pass on XIAO: **870,400 raw-word-exact output checks**, including strict signed-
+zero input copies. Combined with the earlier ten digits, all 95 printable-ASCII
+bare names now have scoped hardware evidence. No CPU flag triggers; medians
+are 40–40.5 µs, peak 45 µs. The status page now maps **665 exact entries**.
+
 The [further RNBO signal-state batch](hardware-smoke.md#further-rnbo-signal-state)
 executes seven programs and 71,680 output checks: six pass, while `onoff~`
 retains a documented block-versus-sample toggle mismatch. Counter outputs,
 normalization history and linear-filter scenarios pass; no CPU flags trigger.
-The status page now maps **580 exact entries**, with previous qualifications
+At that stage the page mapped **580 exact entries**, with previous qualifications
 and failures retained. `updown~` remains reference-design-pending.
 
 The [Gen Delay compatibility fix and hardware rerun](gen-delay-bool-clamp.md)

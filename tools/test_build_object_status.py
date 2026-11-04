@@ -150,6 +150,27 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertEqual(onoff['numeric_mismatches'],5120)
         self.assertIn('per-sample toggle',rows['patcher:onoff~']['working']['detail'])
 
+    def test_character_partitions_qualify_exact_bare_names_and_raw_pilots_without_gains(self):
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']};names=set();samples=0
+        for index,count in ((1,43),(2,42)):
+            data=json.loads((ROOT/f'evidence/xiao-smoke-rnbo-character-constants-part{index}.json').read_bytes())
+            self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':0,'executed':count,
+                                             'output_mismatches':0,'passed':count})
+            self.assertEqual(data['partition']['index'],index)
+            for case in data['cases']:
+                self.assertNotIn(case['exact_name'],names);names.add(case['exact_name'])
+                row=rows['codebox:'+case['exact_name']]
+                self.assertEqual(row['working']['status'],'board')
+                self.assertEqual(row['optimisation']['status'],'unassessed');self.assertIsNone(row['performance'])
+                observation=next(c for c in row['hardware_smoke']if c['case']==case['id'])
+                self.assertEqual(observation['strict_zero_sign_channels'],2)
+                self.assertEqual(observation['raw_pilot_channel'],1)
+                self.assertEqual(observation['strict_zero_sign_mismatches'],0)
+                self.assertEqual(case['bit_mismatches'],0);samples+=case['samples_checked']
+        self.assertEqual(len(names),85);self.assertEqual(samples,870400)
+        all_characters={r['spelling']for r in self.coverage['objects']if r['id'].startswith('codebox:CHAR_')}
+        self.assertEqual(len(all_characters),95)
+
     def test_actual_numeric_smoke_keeps_mismatches_tolerances_and_cpu_review_visible(self):
         data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-numeric.json').read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
@@ -1049,6 +1070,45 @@ class ShortSmokeStatusTests(unittest.TestCase):
         self.data['cases'][0].update(bit_mismatches=3,zero_sign_differences=1,numeric_mismatches=0,
             within_tolerance_differences=2,nonfinite_outputs=0,max_absolute_error=1e-7,
             absolute_tolerance=1.9999999949504854e-6,input_words_sha256='1'*64)
+
+    def character(self):
+        self.numeric();self.record.update(id='codebox:CHAR_A',spelling='CHAR_A',surface='codebox')
+        self.data.update(family='rnbo-character-constants',surface='codebox',prepare_zero_warm_blocks=0,
+            strict_zero_sign_channels=2,raw_pilot_channel=1,
+            partition={'index':1,'total':2,'case_count':43,'parent_catalog_sha256':'a'*64})
+        case=self.data['cases'][0];case.update(exact_name='CHAR_A',codebox_source_sha256='b'*64,
+            bit_mismatches=0,zero_sign_differences=0,numeric_mismatches=0,within_tolerance_differences=0,
+            max_absolute_error=0,absolute_tolerance=0,strict_zero_sign_channels=2,
+            strict_zero_sign_mismatches=0,raw_pilot_channel=1,syntax='named-value',ascii_decimal=65,
+            codebox_inlet_names=['in2'],codebox_pilot_inlet_ordinal=0)
+        self.data['cases']=[copy.deepcopy(case)for _ in range(43)]
+
+    def test_character_constant_requires_partition_zero_tolerance_and_strict_pilot(self):
+        self.character();observation=checked_short_smoke(self.record,self.item,self.data)
+        self.assertEqual(observation['raw_pilot_channel'],1)
+        original=copy.deepcopy(self.data)
+        for kind in ('partition','count','hash','top_mask','case_mask','pilot','counter','limit','surface','syntax','ordinal'):
+            self.data=copy.deepcopy(original);case=self.data['cases'][0]
+            if kind=='partition':self.data['partition']['index']=True
+            elif kind=='count':self.data['partition']['case_count']=42
+            elif kind=='hash':self.data['partition']['parent_catalog_sha256']='bad'
+            elif kind=='top_mask':self.data['strict_zero_sign_channels']=0
+            elif kind=='case_mask':case['strict_zero_sign_channels']=0
+            elif kind=='pilot':case['raw_pilot_channel']=True
+            elif kind=='counter':case.pop('strict_zero_sign_mismatches')
+            elif kind=='limit':case['absolute_tolerance']=1e-6
+            elif kind=='syntax':case['syntax']='call'
+            elif kind=='ordinal':case['codebox_pilot_inlet_ordinal']=False
+            else:self.data['surface']='patcher'
+            with self.subTest(kind=kind),self.assertRaises(ValueError):
+                checked_short_smoke(self.record,self.item,self.data)
+
+    def test_character_pilot_signed_zero_failure_is_a_numeric_gate_failure(self):
+        self.character();case=self.data['cases'][0]
+        case.update(status='output_mismatch',bit_mismatches=1,numeric_mismatches=1,strict_zero_sign_mismatches=1)
+        observation=checked_short_smoke(self.record,self.item,self.data)
+        self.assertEqual(observation['status'],'output_mismatch')
+        self.assertEqual(observation['strict_zero_sign_mismatches'],1)
 
     def test_numeric_smoke_passes_declared_tolerance_without_claiming_bit_identity(self):
         self.numeric();row=self.result()['patcher:floor~'];observation=row['hardware_smoke'][0]

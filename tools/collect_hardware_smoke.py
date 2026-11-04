@@ -18,6 +18,8 @@ from prepare import canonical
 from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA,
                                 gen_delay_catalog,GEN_DELAY_RERUN,GEN_DELAY_REFERENCE_SHA,
                                 GEN_DELAY_PROOFS,GEN_DELAY_REFERENCE_PROOFS)
+from build_hardware_smoke import (CHARACTER_FAMILY,CHARACTER_PARTITIONS,CHARACTER_REFERENCE_SHA,
+                                 character_catalog)
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -327,6 +329,54 @@ def gen_delay_rerun_plan(plan):
         expected_stream(row,True)
 
 
+def character_plan(plan):
+    """Bind both corrected source partitions and raw finite right-pilot words."""
+    part=plan.get('partition',{});index=part.get('index')
+    require(type(index)is int and index in CHARACTER_PARTITIONS,'Unknown character partition')
+    path=ROOT/f'tests/fixtures/smoke/rnbo-character-constants/catalog-part{index}.json'
+    catalog=json.loads(path.read_bytes());character_catalog(catalog)
+    require(plan.get('catalog_sha256')==CHARACTER_PARTITIONS[index]and part==catalog['partition']and
+        plan.get('family')==CHARACTER_FAMILY and plan.get('surface')=='codebox'and
+        type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+        plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+        type(plan.get('strict_zero_sign_channels'))is int and plan['strict_zero_sign_channels']==2 and
+        type(plan.get('raw_pilot_channel'))is int and plan['raw_pilot_channel']==1 and
+        plan.get('reference_source_sha256')==CHARACTER_REFERENCE_SHA and
+        not plan.get('admission_failures'),'Character source/reference/partition/pilot contract differs')
+    originals={r['id']:r for r in catalog['cases']}
+    cases=plan.get('cases',[]);failures=plan.get('compile_failures',[])
+    ids=[r.get('id')for r in cases];failed=[r.get('id')for r in failures]
+    require(len(set(ids+failed))==len(ids+failed)==len(originals)and set(ids+failed)==set(originals)and
+        ids==[key for key in originals if key in ids]and failed==[key for key in originals if key in failed],
+        'Character partition rows are missing, duplicated or reordered')
+    input_sha='22e8e8d05d7b92004c936477e1064653d080291c82f0d3e83562a5cbcaa8efd4'
+    require(plan.get('input_words_sha256')==input_sha,'Character pilot input changed')
+    for row in cases:
+        original=originals[row['id']]
+        require(canonical({k:row.get(k)for k in original})==canonical(original)and
+            row.get('source_sha256')==original['patch_sha256']and
+            row.get('codebox_source_sha256')==hashlib.sha256(
+                f"out1 = {original['exact_name']};\nout2 = in2;\n".encode()).hexdigest()and
+            type(row.get('strict_zero_sign_channels'))is int and row['strict_zero_sign_channels']==2 and
+            type(row.get('raw_pilot_channel'))is int and row['raw_pilot_channel']==1 and
+            row.get('absolute_tolerance')==0 and type(row.get('absolute_tolerance'))in(int,float)and
+            type(row.get('arena_bytes',4096))is int and row.get('arena_bytes',4096)==4096 and
+            not any(k in row for k in ('parameters','parameter_events','expected_blocks','expected_block_indices'))and
+            valid_expected_block(row.get('input_words'))and row.get('input_words_sha256')==input_sha and
+            hashlib.sha256(struct.pack('<512I',*row['input_words'])).hexdigest()==input_sha,
+            'Character source/zero-sign/finite-input contract differs')
+        value=struct.unpack('<I',struct.pack('<f',ord(original['ascii_character'])))[0]
+        expected=[word for frame in range(256)for word in (value,row['input_words'][2*frame+1])]
+        require(row.get('expected')==expected and row.get('expected_words_sha256')==
+                hashlib.sha256(struct.pack('<512I',*expected)).hexdigest(),
+                'Character ASCII/right-word cache differs')
+    for row in failures:
+        original=originals[row['id']]
+        require(row.get('source_sha256')==original['patch_sha256']and
+            all(row.get(k)==original[k]for k in ('exact_name','syntax','registry_lookup')),
+            'Character compiler rejection source differs')
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -336,6 +386,8 @@ def collect(build_dir,run_dir):
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
     comparison=plan.get('family')=='dbtoa-f32-comparison'
     if comparison:dbtoa_comparison_plan(plan)
+    character=plan.get('family')==CHARACTER_FAMILY
+    if character:character_plan(plan)
     delay_rerun='rerun'in plan
     if delay_rerun:gen_delay_rerun_plan(plan)
     else:require(not any('gen_delay_fix_contract'in row for row in plan['cases']),
@@ -350,7 +402,7 @@ def collect(build_dir,run_dir):
                     type(case.get('absolute_tolerance',0))in(int,float)and
                     0<=case.get('absolute_tolerance',0)<=2e-6 for case in plan['cases']),
                 'Signal routing requires parameter-free signal sources and its declared accuracy limit')
-    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','gen-range','gen-constants'):
+    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants','gen-range','gen-constants'):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
@@ -399,7 +451,9 @@ def collect(build_dir,run_dir):
         if comparison:
             record.update({k:expected[k]for k in ('model','numerical_profile','comparison_phase','comparison_round','comparison_order')})
         if delay_rerun:record['gen_delay_fix_contract']=expected['gen_delay_fix_contract']
-        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+        if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
+                                                         'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
+        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
@@ -443,13 +497,16 @@ def collect(build_dir,run_dir):
                       profile_comparison=dbtoa_comparison_times(records))
     elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
-    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
     elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
+    if character:
+        result.update(partition=plan['partition'],strict_zero_sign_channels=2,raw_pilot_channel=1,
+            scope='Exact bare RNBO codebox ASCII named values and finite raw right-word pilot; no call/patcher/Gen qualification')
     if delay_rerun:
         result['rerun']=plan['rerun']
         result['scope']='Additive rerun of two original Delay declaration/read/write programs after the pinned bool-clamp repair; previous outcomes retained, no standalone method qualification'
