@@ -330,6 +330,20 @@ test('physical inputs show package mappings and live raw/readiness diagnostics',
   assert.match(app.get('physical-input-status').children[0].textContent,/A0 \/ GPIO1 → Note · 50% · raw 2048/);
 });
 
+test('Float32 trial is explicit and its successful package remains visibly unverified', async () => {
+  const app = await openStudio();
+  app.get('numerical-profile').value='float32-trial-v1';await app.get('numerical-profile').fire('change');
+  app.backend.result.float32_trial={version:1,profile:'float32-trial-v1',qualification:'unverified',trial_method_count:2,skipped_method_count:4};
+  app.backend.result.trial_report_available=true;
+  app.backend.result.trial_comparison={max_absolute_error:.0001,max_pcm_difference_lsb:2};
+  await app.readyArtifact();
+  assert.equal(app.calls.find(c=>c.path==='/api/build').body.numerical_profile,'float32-trial-v1');
+  assert.equal(app.get('trial-status').hidden,false);
+  assert.match(app.get('trial-status').textContent,/Experimental.*unverified.*2 additional.*2 LSB/);
+  assert.equal(app.get('download-trial').hidden,false);
+  assert.equal(app.get('numerical-profile').value,'float32-trial-v1');
+});
+
 test('nonlinear parameter controls show actual readback and explicitly normalized drag values', async () => {
   const app = await openStudio({parameters: [{index: 0, name: 'Frequency', min: 100, max: 10000, initial: 440, actual: 2500, normalized: .7}]});
   await app.get('connect').fire('click');

@@ -1,0 +1,203 @@
+{
+  "patcher": {
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      600,
+      340
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "res",
+          "maxclass": "newobj",
+          "text": "param resonance 0.91 @min 0 @max 0.95",
+          "patching_rect": [
+            20,
+            20,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "osc",
+          "maxclass": "newobj",
+          "text": "cycle~ 440",
+          "patching_rect": [
+            20,
+            80,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "lfo",
+          "maxclass": "newobj",
+          "text": "cycle~ 0.1",
+          "patching_rect": [
+            240,
+            20,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "cutoff",
+          "maxclass": "newobj",
+          "text": "scale~ -1 1 50 2000",
+          "patching_rect": [
+            240,
+            80,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "filter",
+          "maxclass": "newobj",
+          "text": "lores~ 1000 0.91",
+          "patching_rect": [
+            20,
+            150,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "level",
+          "maxclass": "newobj",
+          "text": "*~ 0.05",
+          "patching_rect": [
+            20,
+            205,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "patching_rect": [
+            20,
+            260,
+            210,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "patching_rect": [
+            150,
+            260,
+            210,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "osc",
+            0
+          ],
+          "destination": [
+            "filter",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "lfo",
+            0
+          ],
+          "destination": [
+            "cutoff",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "cutoff",
+            0
+          ],
+          "destination": [
+            "filter",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "res",
+            0
+          ],
+          "destination": [
+            "filter",
+            2
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "filter",
+            0
+          ],
+          "destination": [
+            "level",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "level",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "level",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

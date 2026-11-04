@@ -1,11 +1,21 @@
 # Implementation status — 5 November 2026
 
+Studio now offers explicit [Float32 Trial mode](float32-trial.md). It attempts
+eligible unreviewed DSP methods, compares default native output with Auto and
+saves method fingerprints/edits/skips plus post-upload CPU/error observations.
+Saved packages retain an **unverified** label and `[Float32 trial]` display name.
+EEE and an original dynamic-resonance filter example passed the full build
+workflow; the filter also passed a short XIAO runtime smoke. Its small native
+sample-error diagnostic failure is retained. No catalog entries were promoted.
+Reviewed EEE was restored at the observed 41% volume before releasing the board
+for the user's physical-input player installation.
+
 The object/hardware qualification goal is **paused** for the physical-input
 tangent. [Inline `@meta` input bindings](physical-inputs.md) now compile into
 XIAO player packages, with analog smoothing, debounced digital gates and
 capacitive-touch calibration/hysteresis. Studio shows mappings and live input
-diagnostics. Both board player builds pass; the updated firmware has **not been
-flashed** and physical input hardware testing remains pending. The
+diagnostics. Both board player builds pass; installation is available through
+Studio and physical input wiring tests remain pending. The
 [pin table and copyable examples](physical-inputs.md#exactly-how-xiao-pin-names-map)
 document aliases, reservations and the XIAO-only input profile.
 
@@ -16,9 +26,9 @@ median (38.70% audio CPU)** and **2,585 µs observed peak (44.53%)**. All checke
 fault/allocation counters are zero across the note sweep. Its original file,
 wiring and delay length are untouched. Native comparison records up to 1 PCM LSB
 difference; the strict 2e-6 sample-error diagnostic fails and remains recorded.
-The existing player firmware is unchanged, saved Wi-Fi is connected, and EEE is
-left playing at the user's existing **17% volume**, note **39**. All **517 compiler
-tests** pass. This is a patch-specific tangent, not a resumed qualification goal.
+That comparison used the existing player, saved Wi-Fi and **17% volume**, note
+**39**; its later Trial-test restoration is described above. All **517 compiler
+tests** passed at that stage. This is a patch-specific tangent, not a resumed qualification goal.
 
 The [local Gen Data batch](hardware-smoke.md#gen-local-data-and-indexed-storage)
 passes all eight programs and 81,920 output checks, including indexed history,

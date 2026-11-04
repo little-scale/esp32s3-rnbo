@@ -23,7 +23,7 @@ SUPPORTED_VERSION = "1.4.4"
 MAX_SOURCE_BYTES = 16 * 1024 * 1024
 MAX_COMMON_BYTES = 16 * 1024 * 1024
 MAX_PARAMETERS = 128
-NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1", "float32-scalar-powers-v1", "float32-gen-feedback-v1", "float32-dbtoa-v1")
+NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1", "float32-trial-v1", "float32-scalar-powers-v1", "float32-gen-feedback-v1", "float32-dbtoa-v1")
 
 
 class ExportError(ValueError):
@@ -652,6 +652,14 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(audio_change)
+    if numerical_profile == "float32-trial-v1":
+        from float32_trial import float32_trial
+        try:
+            files["rnbo_source.h"], trial_change = float32_trial(files["rnbo_source.h"], code_mask=cpp_code_mask)
+        except ValueError as exc:
+            raise ExportError(str(exc)) from exc
+        files["float32-trial-audit.json"] = canonical(trial_change)
+        changes.append(trial_change)
     if hoist_cycle_conversions:
         from hoist_cycles import hoist_cycles
         if any("common/" + name not in files for name in ("RNBO_AudioSignal.h", "RNBO_Types.h")):
@@ -699,6 +707,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                 "adaptations": [change["name"] for change in changes]}
     if physical_inputs is not None:
         manifest["physical_inputs"] = physical_inputs
+    if numerical_profile == "float32-trial-v1":
+        manifest["float32_trial"] = dict(version=1,profile=numerical_profile,qualification="unverified",
+            audit_sha256=digest(files["float32-trial-audit.json"]),trial_method_count=trial_change["trial_method_count"],
+            reviewed_method_count=trial_change["reviewed_method_count"],skipped_method_count=trial_change["skipped_method_count"])
     if float32_onepole_clamp:
         manifest["float32_onepole_clamp"] = True
         manifest["float32_onepole_clamp_contract"] = {
@@ -931,7 +943,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("physical_inputs.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("physical_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": {name: digest((Path(__file__).parent.parent / "export" / name).read_bytes())
                                              for name in ("export.mjs", "patcher.mjs", "inspect_onepole_graph.mjs")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,

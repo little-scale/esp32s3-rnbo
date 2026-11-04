@@ -28,6 +28,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from host.compiler import package as player_package
 from host.visual.layout import compile_layout
+from host.studio.trial import BLOCKS as TRIAL_BLOCKS, compare_audio as compare_trial_audio, device_check as trial_device_check
 WEB = Path(__file__).parent / 'web'
 PRIVATE = ROOT / 'build/private/studio'
 MAX_PATCH = 1024 * 1024
@@ -119,8 +120,8 @@ def build_settings(data):
         raise ValueError('Maximum filter delay must be greater than zero, up to 1000 ms, or left empty')
     if type(storage) is not bool:
         raise ValueError('Float32 delay storage must be a checkbox value')
-    if profile not in ('float32-auto-v1', 'float32-strict', 'float32-audio-v1', 'float32-audio-v3'):
-        raise ValueError('Choose standard arithmetic or the reviewed Float32 audio kernels')
+    if profile not in ('float32-auto-v1', 'float32-trial-v1', 'float32-strict', 'float32-audio-v1', 'float32-audio-v3'):
+        raise ValueError('Choose a listed arithmetic profile: standard, reviewed Float32 or experimental Trial')
     return dict(name=name, title=title, patch=patch, board=board, role=role, voices=voices,
                 initial_volume=volume, arena_bytes=arena,
                 filter_delay_max_ms=delay, float32_delays=storage, numerical_profile=profile)
@@ -387,21 +388,56 @@ class Studio:
                 command += ['--float32-delays']
             self.execute(identity, command)
             manifest = json.loads((directory / 'prepared/manifest.json').read_text())
+            trial = manifest.get('float32_trial')
+            if settings['numerical_profile'] == 'float32-trial-v1' and not trial:
+                raise ValueError('Trial compilation did not produce its experimental audit')
             parameter_count = manifest.get('parameter_count')
             if type(parameter_count) is not int or not 0 <= parameter_count <= 32:
                 raise ValueError('The player supports at most 32 input parameters')
             self.update(identity, stage='Checking default patch on this computer')
             self.execute(identity, [sys.executable, ROOT / 'host/compiler/build.py', '--export', directory / 'prepared',
                                     '--build-dir', directory / 'native'])
-            output = self.execute(identity, [directory / 'native/rnbo_render', '--output', directory / 'preflight.wav',
-                                  '--blocks', '4', '--warmup', '4', '--seed', '305419896',
-                                  '--arena-bytes', str(settings['arena_bytes'])], timeout=60)
+            render = [directory / 'native/rnbo_render', '--output', directory / 'preflight.wav',
+                      '--blocks', str(TRIAL_BLOCKS if trial else 4), '--warmup', '4', '--seed', '305419896',
+                      '--arena-bytes', str(settings['arena_bytes'])]
+            if trial: render += ['--float-output', directory / 'preflight.f32']
+            output = self.execute(identity, render, timeout=60)
             preflight = json.loads(output.strip().splitlines()[-1])
             if any(type(preflight.get(key)) is not int or preflight[key] != 0
                    for key in ('errors', 'invalid_samples', 'late_platform_allocations')):
                 raise ValueError('The default patch did not pass its native startup screen')
             (directory / 'preflight.json').write_bytes(encoded(preflight))
             self.log(identity, 'Native startup screen passed; this does not prove dynamic target allocation safety.\n')
+            comparison = None
+            if trial:
+                self.update(identity, stage='Comparing experimental Float32 output with Auto')
+                reference = directory / 'reviewed-reference'
+                reference_command = list(command)
+                reference_command[reference_command.index('--out')+1] = reference
+                reference_command[reference_command.index('--numerical-profile')+1] = 'float32-auto-v1'
+                self.execute(identity, reference_command)
+                self.execute(identity, [sys.executable, ROOT / 'host/compiler/build.py', '--export', reference,
+                                       '--build-dir', directory / 'reference-native'])
+                output = self.execute(identity, [directory / 'reference-native/rnbo_render', '--output', directory / 'reference.wav',
+                                      '--float-output', directory / 'reference.f32', '--blocks', str(TRIAL_BLOCKS),
+                                      '--warmup', '4', '--seed', '305419896', '--arena-bytes', str(settings['arena_bytes'])], timeout=60)
+                reference_stats = json.loads(output.strip().splitlines()[-1])
+                if any(reference_stats.get(k) != 0 for k in ('errors','invalid_samples','late_platform_allocations')):
+                    raise ValueError('Reviewed Auto reference failed its native comparison screen')
+                comparison = compare_trial_audio(directory / 'reference', directory / 'preflight')
+                audit_bytes = (directory / 'prepared/float32-trial-audit.json').read_bytes()
+                if hashlib.sha256(audit_bytes).hexdigest() != trial['audit_sha256']:
+                    raise ValueError('Trial audit changed after preparation')
+                review = dict(format='rnbo-float32-trial-review', version=1, qualification='unverified',
+                              transform_audit_sha256=trial['audit_sha256'], transform=json.loads(audit_bytes),
+                              context={k:manifest.get(k) for k in ('rnbo_version','class_name','role','sample_rate','block_frames','voices','source_tree_sha256','editable_source_sha256','parameter_schema_sha256')},
+                              native_comparison=comparison, candidate_native=preflight, reference_native=reference_stats,
+                              hardware_check=None, promotes_reviewed_catalog=False)
+                (directory / 'trial-review.json').write_bytes(encoded(review))
+                self.log(identity, f"Float32 trial: {trial['trial_method_count']} unreviewed methods changed, {trial['skipped_method_count']} skipped. "
+                         f"Native maximum difference {comparison['max_absolute_error']:.9g}; PCM {comparison['max_pcm_difference_lsb']} LSB. "
+                         f"Sample diagnostic pass={comparison['diagnostic_sample_limit_pass']}; PCM diagnostic pass={comparison['diagnostic_pcm_limit_pass']}. "
+                         'Package remains experimental; no catalog promotion.\n')
             self.update(identity, stage='Compiling board-independent audio module')
             self.execute(identity, [sys.executable, ROOT / 'host/compiler/build_module.py', '--export', directory / 'prepared',
                                    '--build-dir', directory / 'module', '--max-arena-bytes', str(settings['arena_bytes'])])
@@ -416,6 +452,7 @@ class Studio:
             result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=44100,
                           block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
                           physical_inputs=result.get('metadata', {}).get('physical_inputs'),
+                          float32_trial=trial, trial_comparison=comparison, trial_report_available=bool(trial),
                           preflight_scope='native default startup screen; not target allocation proof')
             self.update(identity, state='ready', stage='Package ready to load', result=result, _build=directory / 'patch.rnbopkg')
         except Exception as error:
@@ -452,6 +489,7 @@ class Studio:
                     role='main', sample_rate=44100, block_frames=256, arena_bytes=package['arena_bytes'],
                     package_bytes=len(raw), package_sha256=package['package_sha256'], elf_sha256=package['elf_sha256'],
                     physical_inputs=package['metadata'].get('physical_inputs'),
+                    float32_trial=package['metadata'].get('float32_trial'), trial_report_available=False,
                     preflight_scope='Saved package validated; native startup screen not rerun',
                     visual=package_preview(package['metadata'].get('visual')))
                 self.jobs[identity] = dict(id=identity, state='ready', stage='Saved package ready to load',
@@ -500,14 +538,39 @@ class Studio:
             if self.jobs[identity].get('result', {}).get('kind') == 'player':
                 self.bridge.flash(build, board, port, progress, expected_kind='player')
             else:
-                transport.upload_package(build, port, progress, expected_sha256=self.jobs[identity]['result']['package_sha256'])
+                observed = transport.upload_package(build, port, progress, expected_sha256=self.jobs[identity]['result']['package_sha256'])
+                result = self.job(identity).get('result', {})
+                if result.get('float32_trial'):
+                    check = trial_device_check(observed)
+                    self.record_trial_device(identity, build, check)
+                    self.log(identity, 'Trial runtime smoke recorded; outputs remain unverified.\n')
             self.update(identity, state='done', stage='Player installed' if self.jobs[identity].get('result', {}).get('kind') == 'player' else 'Package active')
         except Exception as error:
             self.log(identity, '\n' + str(error) + '\n')
+            if self.job(identity).get('result', {}).get('float32_trial'):
+                match = re.search(r'Candidate uses (\d+)us per callback', str(error))
+                self.record_trial_device(identity, build, dict(qualification='unverified',
+                    scope='package upload/admission failed; no successful running-output claim',
+                    error=str(error), startup_render_us=int(match[1]) if match else None,
+                    promotes_reviewed_catalog=False))
             # Keep a successful compiler artifact available for retry/download.
             self.update(identity, state='ready', stage='Upload failed — ready to retry', error=str(error))
         finally:
             self.worker.release()
+
+    def record_trial_device(self, identity, build, check):
+        result = self.job(identity).get('result', {})
+        result['trial_device_check'] = check
+        self.update(identity, result=result)
+        report = build.parent / 'trial-review.json'
+        try:
+            if result.get('trial_report_available') and report.is_file() and not report.is_symlink():
+                review = json.loads(report.read_bytes());review['hardware_check'] = check
+                report.write_bytes(encoded(review))
+        except (OSError, ValueError) as error:
+            # A report-storage error must not describe a committed, healthy
+            # package as an upload failure. Keep the observation in the job.
+            self.log(identity, 'Runtime observation is in this job; trial report could not be updated: ' + str(error) + '\n')
 
     def start_install(self, data):
         board = data.get('board')
@@ -566,6 +629,24 @@ class Studio:
         player_package.parse(raw)
         return path
 
+    def trial_report(self, identity):
+        job = self.job(identity)
+        if not job.get('result', {}).get('trial_report_available'):
+            raise ValueError('No detailed trial report is stored in this Studio session; imported packages carry the audit identity only')
+        with self.lock:
+            directory = self.jobs[identity]['_build'].parent
+        path = directory / 'trial-review.json'
+        if path.is_symlink() or not path.is_file() or path.stat().st_size > 8 * 1024 * 1024:
+            raise ValueError('Trial report is missing, linked or oversized')
+        review = json.loads(path.read_bytes())
+        audit = directory / 'prepared/float32-trial-audit.json'
+        expected = job['result']['float32_trial']['audit_sha256']
+        if (hashlib.sha256(audit.read_bytes()).hexdigest() != expected
+                or review.get('transform_audit_sha256') != expected
+                or review.get('transform') != json.loads(audit.read_bytes())):
+            raise ValueError('Trial report does not match the package audit')
+        return review
+
 
 class Handler(BaseHTTPRequestHandler):
     server_version = 'RNBOStudio/1'
@@ -612,6 +693,7 @@ class Handler(BaseHTTPRequestHandler):
             elif url.path == '/api/device': self.send(200, studio.device_snapshot())
             elif url.path == '/api/wifi': self.send(200, studio.wifi_status())
             elif url.path == '/api/job': self.send(200, {'job':studio.job(query.get('id', [''])[0])})
+            elif url.path == '/api/trial-report': self.send(200, studio.trial_report(query.get('id', [''])[0]))
             elif url.path == '/api/example': self.send(200, {'name':'sine.rnbopat', 'patch':json.loads((ROOT / 'examples/sine/sine.rnbopat').read_text())})
             elif url.path == '/api/artifact':
                 path = studio.artifact(query.get('id', [''])[0])

@@ -30,6 +30,17 @@ ROLES = {'main': 1}
 HASH = re.compile(r'[0-9a-f]{64}')
 
 
+def trial_checked(value):
+    keys = {'version','profile','qualification','audit_sha256','trial_method_count','reviewed_method_count','skipped_method_count'}
+    if (type(value) is not dict or set(value) != keys or type(value['version']) is not int or value['version'] != 1
+            or value['profile'] != 'float32-trial-v1' or value['qualification'] != 'unverified'
+            or not isinstance(value['audit_sha256'], str) or not HASH.fullmatch(value['audit_sha256'])
+            or any(type(value[k]) is not int or not 0 <= value[k] <= 65536
+                   for k in ('trial_method_count','reviewed_method_count','skipped_method_count'))):
+        raise ValueError('Invalid experimental Float32 trial summary')
+    return value
+
+
 def digest(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -44,6 +55,8 @@ def metadata_checked(value):
         raise ValueError('Invalid package name, source identity or initial volume')
     if 'physical_inputs' in value:
         checked_plan(value['physical_inputs'])
+    if 'float32_trial' in value:
+        trial_checked(value['float32_trial'])
     return value
 
 
@@ -127,6 +140,12 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
     metadata = dict(name=name, source_sha256=manifest['source_tree_sha256'], initial_volume=initial_volume)
     if 'physical_inputs' in manifest:
         metadata['physical_inputs'] = checked_plan(manifest['physical_inputs'])
+    if manifest.get('numerical_profile') == 'float32-trial-v1':
+        metadata['float32_trial'] = trial_checked(manifest.get('float32_trial'))
+        suffix = ' [Float32 trial]'
+        metadata['name'] = name.encode('utf-8')[:63-len(suffix)].decode('utf-8', 'ignore') + suffix
+    elif 'float32_trial' in manifest:
+        raise ValueError('Trial metadata requires the Float32 trial profile')
     if visual is not None:
         metadata['visual'] = visual
     arena = report['state_policy']['maximum_arena_bytes']

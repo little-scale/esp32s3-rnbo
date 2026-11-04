@@ -5,6 +5,11 @@ a `.rnbopkg` and loading it into a stable ESP32-S3 player. Include effects insid
 the Main patch. Ordinary packages work on XIAO ESP32-S3 and Waveshare AMOLED V2;
 packages with physical input bindings currently require the XIAO profile.
 
+**Float32 trial — unverified kernels** is an explicit arithmetic option under
+Advanced build settings. It runs a default-output comparison with Auto and offers
+a downloadable review report; saved packages retain their experimental label.
+See [scope, logs and promotion to the reviewed list](../../docs/float32-trial.md).
+
 ```sh
 ./host/studio.sh
 ```

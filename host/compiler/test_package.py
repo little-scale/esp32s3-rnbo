@@ -21,6 +21,15 @@ def elf():
 
 class PackageTests(unittest.TestCase):
     metadata = dict(name='Test', source_sha256='b'*64, initial_volume=50)
+    def test_trial_label_roundtrips_and_cannot_claim_verification(self):
+        summary=dict(version=1,profile='float32-trial-v1',qualification='unverified',audit_sha256='c'*64,
+                     trial_method_count=2,reviewed_method_count=14,skipped_method_count=8)
+        raw=create(elf(),dict(self.metadata,float32_trial=summary),'main',4096)
+        self.assertEqual(HEADER.unpack_from(raw)[2],1)
+        self.assertEqual(parse(raw)['metadata']['float32_trial'],summary)
+        for change in ({'qualification':'verified'},{'audit_sha256':'bad'},{'trial_method_count':True},{'version':2}):
+            with self.subTest(change=change),self.assertRaises(ValueError):
+                create(elf(),dict(self.metadata,float32_trial=summary|change),'main',4096)
     def test_physical_input_plan_roundtrips_and_is_validated(self):
         plan=extract([dict(paramId='s3_p',meta={'esp32':dict(type='analog',pin='A0')})])
         metadata=dict(self.metadata,physical_inputs=plan)
@@ -66,6 +75,17 @@ class PackageTests(unittest.TestCase):
             output=root/'patch.rnbopkg';result=build(root,output,'Name')
             self.assertEqual(parse(output.read_bytes())['arena_bytes'],2097152)
             self.assertEqual(result['sha256'],digest(output.read_bytes()))
+            summary=dict(version=1,profile='float32-trial-v1',qualification='unverified',audit_sha256='c'*64,
+                         trial_method_count=2,reviewed_method_count=14,skipped_method_count=8)
+            manifest=report['prepared_export']['manifest']
+            manifest.update(numerical_profile='float32-trial-v1',float32_trial=summary)
+            (root/'build-report.json').write_text(json.dumps(report))
+            trial_result=build(root,output,'é'*40)
+            self.assertEqual(trial_result['metadata']['float32_trial'],summary)
+            self.assertTrue(trial_result['metadata']['name'].endswith(' [Float32 trial]'))
+            self.assertLessEqual(len(trial_result['metadata']['name'].encode()),63)
+            del manifest['float32_trial'];(root/'build-report.json').write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError,'trial summary'):build(root,output,'Name')
             path.write_bytes(b'changed')
             with self.assertRaisesRegex(ValueError,'changed'):build(root,output,'Name')
 

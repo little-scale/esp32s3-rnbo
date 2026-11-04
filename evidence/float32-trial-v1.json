@@ -1,0 +1,299 @@
+{
+  "format": "rnbo-float32-trial-evidence",
+  "version": 1,
+  "date": "2026-11-05",
+  "profile": "float32-trial-v1",
+  "qualification": "unverified",
+  "catalog_promoted": false,
+  "implementation_sha256": "e1a9f7b0c787b162b3212ccc5afe26711ec10063ad09c99c7fae04ef60ae9c2f",
+  "checks": {
+    "compiler_suite": {
+      "tests": 524,
+      "passed": true
+    },
+    "focused_trial_suite": {
+      "tests": 7,
+      "passed": true,
+      "includes_additional_native_gen_constant_oracle": true
+    },
+    "studio_suite": {
+      "tests": 95,
+      "passed": true
+    },
+    "frontend_suite": {
+      "tests": 24,
+      "passed": true
+    }
+  },
+  "cases": {
+    "eee": {
+      "audit_sha256": "63537c1203fdc97dfdbcae55ea5ae76cdfb876fb65ddaa2d97e13d0a504d0c11",
+      "context": {
+        "rnbo_version": "1.4.4",
+        "class_name": "rnbos3patch",
+        "role": "main",
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "voices": 1,
+        "source_tree_sha256": "fde5d2f65b5fdeec5310d7e30b30daa680ed433b1efca50e47aefdf6a150041f",
+        "editable_source_sha256": "a72fffe6afe11ad8b9080bf1b6df8a0f533fcbc85fcf74963c521dc7ac860fcf",
+        "parameter_schema_sha256": "47655aa3dfe635772d21725a09cc3e8e83b47fab1670d259a6f780ccca47ae83"
+      },
+      "qualification": "unverified",
+      "reviewed_methods": 14,
+      "trial_methods": 2,
+      "skipped_methods": 26,
+      "changes": [
+        {
+          "method": "saw_tilde_03_perform",
+          "kernel_sha256": "4ad8db79f09fd5b7bf59392f95839b48ccb5ca8268a7ef987a7b8bab9d6aa0ed",
+          "input_method_sha256": "24a7de332b0de73a847278559fe36bd64736a0728b1444eb381d1016c54dcdf2",
+          "prepared_method_sha256": "4ad600a6688309baa14607010233d89630fafc5767faa0bee1d278db7c42a2ca",
+          "literal_changes": [
+            {
+              "line": 1304,
+              "literal": "0.5",
+              "replacement": "0.5f"
+            },
+            {
+              "line": 1308,
+              "literal": "0.0",
+              "replacement": "0.0f"
+            },
+            {
+              "line": 1324,
+              "literal": "0.5",
+              "replacement": "0.5f"
+            },
+            {
+              "line": 1342,
+              "literal": "0.9997",
+              "replacement": "0.9997f"
+            },
+            {
+              "line": 1343,
+              "literal": "0.5",
+              "replacement": "0.5f"
+            }
+          ]
+        },
+        {
+          "method": "scale_tilde_01_perform",
+          "kernel_sha256": "4aaee3660dc7baad40f2a239bcdaddf2306e9b73a3d472357e3bbe9a840291bc",
+          "input_method_sha256": "adc78a13a61a1699bd01c386a5bdb118dbb94ca2d51baa3d0eaf0566ca70bea8",
+          "prepared_method_sha256": "c82ca5116401ae27ad48e70dbe7728edc9184abdf076b1f4b7fdd28f0f71b163",
+          "literal_changes": [
+            {
+              "line": 1414,
+              "literal": "1.",
+              "replacement": "1.f"
+            }
+          ]
+        }
+      ],
+      "native_comparison": {
+        "scope": "native default-parameter smoke comparison against reviewed Auto; not an object oracle or hardware accuracy test",
+        "qualification": "unverified",
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "frames": 262144,
+        "float_samples": 524288,
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "max_absolute_error": 0.0,
+        "error_rms": 0.0,
+        "reference_rms": 0.09113512557681486,
+        "candidate_rms": 0.09113512557681486,
+        "differing_float_values": 0,
+        "max_pcm_difference_lsb": 0,
+        "diagnostic_sample_limit": 2e-06,
+        "diagnostic_sample_limit_pass": true,
+        "diagnostic_pcm_limit_lsb": 1,
+        "diagnostic_pcm_limit_pass": true,
+        "pcm_volume_percent": 100,
+        "pcm_headroom": 0.5,
+        "native_timing_is_target_performance": false,
+        "promotes_reviewed_catalog": false
+      },
+      "hardware_check": null,
+      "native_capture_bytes_identical": true,
+      "native_pcm_wav_bytes_identical": true
+    },
+    "filter": {
+      "audit_sha256": "f2cc99d0fce19dc2d7885930c1f0da66d54f7f88d533eb11e2ce8a036cc541bc",
+      "context": {
+        "rnbo_version": "1.4.4",
+        "class_name": "rnbos3patch",
+        "role": "main",
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "voices": 1,
+        "source_tree_sha256": "6a78458b7b63994e14f3f804baf1fdfe856d3b8e13cb395816398410760b9fff",
+        "editable_source_sha256": "ae24010e540cbe1d35d4bbb5df49f3b0c5488a7396628609c2b7a56a4f719078",
+        "parameter_schema_sha256": "8f9cfa084918dc7ea5eeb9fb2b1434fbb0c98c7460fa50ac798e359b29b6cbc1"
+      },
+      "qualification": "unverified",
+      "reviewed_methods": 1,
+      "trial_methods": 4,
+      "skipped_methods": 4,
+      "changes": [
+        {
+          "method": "cycle_tilde_01_perform",
+          "kernel_sha256": "8a3c8b47be2e1127e6bcb721dcfc9cb2b7d3d920b702553ab63c4a7b4b704de7",
+          "input_method_sha256": "f7eb54af644bd69cabd010dd064f45a4d21a1007a03a39bf1b06abcefa8dff43",
+          "prepared_method_sha256": "e2603681e131765b4ea00445d864b45dd2393cf206aac7230a79259d0c9ea06b",
+          "literal_changes": [
+            {
+              "line": 692,
+              "literal": "3.81471181759574e-6",
+              "replacement": "3.81471181759574e-6f"
+            },
+            {
+              "line": 703,
+              "literal": "0.232830643653869629e-9",
+              "replacement": "0.232830643653869629e-9f"
+            }
+          ]
+        },
+        {
+          "method": "scale_tilde_01_perform",
+          "kernel_sha256": "c92390bb7712f8a8d3a6ced44c2035ec994cc2c1c497f4b121f12f757780598a",
+          "input_method_sha256": "92b87df39e0f393c8bbdd4404dc96d17c144252ce357c96ee6b3d7b21ac9f84f",
+          "prepared_method_sha256": "1f9166670bc079d6bf247c1554905b34cc07fedb9ac726dfb8bb8dd1730d672d",
+          "literal_changes": [
+            {
+              "line": 772,
+              "literal": "1.",
+              "replacement": "1.f"
+            }
+          ]
+        },
+        {
+          "method": "lores_01_perform",
+          "kernel_sha256": "b64f0afa5b6c2589b12f9bb7078d8550373ff2ea9f6517f42efd2131dd40c9bf",
+          "input_method_sha256": "965cc84f75c37f7a0ae70c381c0320c43ef6868b87a261806ea6d4faf0cc3228",
+          "prepared_method_sha256": "66b85b40a0f059f6faf2b15185f0171ab97114d4bc52aa464149c1fa549d0cc7",
+          "literal_changes": [
+            {
+              "line": 803,
+              "literal": "0.125",
+              "replacement": "0.125f"
+            },
+            {
+              "line": 803,
+              "literal": "0.882497",
+              "replacement": "0.882497f"
+            },
+            {
+              "line": 804,
+              "literal": "2.0",
+              "replacement": "2.0f"
+            },
+            {
+              "line": 812,
+              "literal": "2.0",
+              "replacement": "2.0f"
+            },
+            {
+              "line": 813,
+              "literal": "1.0",
+              "replacement": "1.0f"
+            }
+          ]
+        },
+        {
+          "method": "dspexpr_01_perform",
+          "kernel_sha256": "513c1a8987b00ee21cb5288868387b4e0bdb0cdaf456044fc5291ac4f0faec1f",
+          "input_method_sha256": "6f103ed9a5e7eec2e5587c0871c4cb265d05774accd20b9ffc4edfde4d6be7d7",
+          "prepared_method_sha256": "c042f06091941ef64cc017d2ccacf949f1f494d218f58267370655360f5b8611",
+          "literal_changes": [
+            {
+              "line": 839,
+              "literal": "0.05",
+              "replacement": "0.05f"
+            }
+          ]
+        }
+      ],
+      "native_comparison": {
+        "scope": "native default-parameter smoke comparison against reviewed Auto; not an object oracle or hardware accuracy test",
+        "qualification": "unverified",
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "frames": 262144,
+        "float_samples": 524288,
+        "warmup_blocks": 4,
+        "seed": 305419896,
+        "max_absolute_error": 2.1532177925109863e-06,
+        "error_rms": 1.7958587246990774e-07,
+        "reference_rms": 0.04015893815346651,
+        "candidate_rms": 0.04015893568909041,
+        "differing_float_values": 507760,
+        "max_pcm_difference_lsb": 1,
+        "diagnostic_sample_limit": 2e-06,
+        "diagnostic_sample_limit_pass": false,
+        "diagnostic_pcm_limit_lsb": 1,
+        "diagnostic_pcm_limit_pass": true,
+        "pcm_volume_percent": 100,
+        "pcm_headroom": 0.5,
+        "native_timing_is_target_performance": false,
+        "promotes_reviewed_catalog": false
+      },
+      "hardware_check": {
+        "scope": "player admission and short post-load runtime smoke; outputs not captured",
+        "qualification": "unverified",
+        "board": "xiao",
+        "firmware_elf_sha256": "88f2d20fe877fc8eba13c0348810142cc29f316a9663099305742f1697a95ba5",
+        "package_sha256": "2a1d05133c802f1c4e6f9eca969fe4cd29ccda233e1b7053b06f2149c2bad225",
+        "generation": 3,
+        "sample_rate": 44100,
+        "block_frames": 256,
+        "render_us": 827,
+        "peak_us": 1302,
+        "audio_cpu_percent": 14.2463671875,
+        "peak_audio_cpu_percent": 22.428984375,
+        "counters": {
+          "render_deadline_overruns": 0,
+          "nonfinite": 0,
+          "clipped": 0,
+          "write_errors": 0,
+          "dma_errors": 0,
+          "module_errors": 0,
+          "queue_errors": 0,
+          "audio_heap_allocations": 0,
+          "audio_heap_frees": 0,
+          "late_platform_allocations": 0
+        },
+        "output_capture_checked": false,
+        "unusual_cpu": false,
+        "promotes_reviewed_catalog": false
+      },
+      "extra_runtime_observations": {
+        "count": 12,
+        "median_render_us": 816.0,
+        "observed_peak_us": 1302,
+        "counters": {
+          "render_deadline_overruns": 0,
+          "nonfinite": 0,
+          "clipped": 0,
+          "write_errors": 0,
+          "dma_errors": 0,
+          "module_errors": 0,
+          "queue_errors": 0,
+          "audio_heap_allocations": 0,
+          "audio_heap_frees": 0,
+          "late_platform_allocations": 0
+        },
+        "frames_advanced": true
+      }
+    }
+  },
+  "reviewed_eee_restored_after_test": {
+    "name": "eee",
+    "package_sha256": "1591e8851edc58764a188e1f631b4ed230f13de8b201559de42facc4a7a440fd",
+    "volume": 41,
+    "paused": false,
+    "note": 39,
+    "original_volume_observed_before_trial": 41
+  }
+}

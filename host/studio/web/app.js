@@ -110,6 +110,7 @@
     $('connect').textContent = usb ? 'Connect USB' : 'Connect Wi-Fi';
     $('upload').disabled = !state.csrf || !availableArtifact || !hasTarget || working || serialMissing;
     $('download').disabled = !availableArtifact || state.operation === 'upload';
+    $('download-trial').disabled = !availableArtifact || state.operation === 'upload';
     $('example').disabled = state.operation === 'upload';
     $('refresh-ports').disabled = state.refreshing || state.operation === 'upload';
     const live = Boolean(state.device) && typeof state.device.device_id === 'string'
@@ -401,6 +402,15 @@
       row.textContent = `${binding.pin} · ${binding.type} → ${binding.parameter_id}`;
       return row;
     }));
+    const trial = result.float32_trial;
+    $('trial-status').hidden = !trial;
+    $('download-trial').hidden = !trial || result.trial_report_available !== true;
+    if (trial) {
+      const comparison = result.trial_comparison;
+      $('trial-status').textContent = `Experimental Float32 trial · unverified. ${trial.trial_method_count} additional DSP methods changed; ${trial.skipped_method_count} skipped.`
+        + (comparison ? ` Default-output comparison: maximum float difference ${comparison.max_absolute_error}; PCM ${comparison.max_pcm_difference_lsb} LSB. This is a smoke test, not full validation.` : ' The package carries its audit identity; a full report is available in the original build session.')
+        + (result.trial_device_check ? ' Device runtime smoke recorded; outputs remain unverified.' : '');
+    }
     $('build-result').hidden = false;
   }
 
@@ -439,6 +449,9 @@
         } else $('source-state').textContent = 'The patch or settings changed during compilation. Compile again to use the current version.';
       } else if (operation === 'upload' || operation === 'install') {
         if (operation === 'upload') state.loadFailure = null;
+        if (operation === 'upload' && state.artifact?.id === job.id && job.result) {
+          state.artifact.result = job.result; showResult(job.result);
+        }
         $('upload-status').textContent = operation === 'install' ? 'Stable player installed. Compile and load a package.' : 'Package loaded and saved. Player firmware unchanged.';
         $('upload-status').dataset.completed = 'true';
         state.deviceError = '';
@@ -856,6 +869,11 @@
     if (!state.artifact || state.artifact.revision !== state.revision) return;
     const link = document.createElement('a'); link.href = `/api/artifact?id=${encodeURIComponent(state.artifact.id)}`;
     link.download = 'patch.rnbopkg'; document.body.append(link); link.click(); link.remove();
+  });
+  $('download-trial').addEventListener('click', () => {
+    if (!state.artifact || state.artifact.revision !== state.revision || state.artifact.result?.trial_report_available !== true) return;
+    const link = document.createElement('a'); link.href = `/api/trial-report?id=${encodeURIComponent(state.artifact.id)}`;
+    link.download = 'float32-trial-report.json'; document.body.append(link); link.click(); link.remove();
   });
   $('refresh-ports').addEventListener('click', refreshDevices);
   for (const id of ['transport', 'port', 'wifi-device']) $(id).addEventListener('change', () => {
