@@ -13714,9 +13714,57 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "counter~",
       "category": "Generators",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "counter-count-and-flag",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "64fc7fd92e4b7372b803626af1ebd05a85c4a9e54d4eaa08cb49fe80a4f77ee4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f63c75e9ad8b9738a5255b0de6299fe1544341cf174b5eac915e62406ace9ddd",
+          "max_absolute_error": 0.0,
+          "mean_us": 68.125,
+          "median_us": 68.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 70,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "case": "counter-count-and-carry-count",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "7b6a63e1d8ef52133fa739f1faccdf305fa80bb56f0c576e1e221d3f030c5791",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "f63c75e9ad8b9738a5255b0de6299fe1544341cf174b5eac915e62406ace9ddd",
+          "max_absolute_error": 0.0,
+          "mean_us": 67.9375,
+          "median_us": 68.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 68,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:counter~",
       "inventory_group": "patcher:counter~",
       "is_alias": false,
@@ -13724,16 +13772,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/counter~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal state followup — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: the supplied signal-state scenarios pass their independent references. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Remaining scope: Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open. No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch. Short XIAO check (pass): one repeated stereo vector; mean 68.12µs, median 68.00µs, peak 70µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Short XIAO check (pass): one repeated stereo vector; mean 67.94µs, median 68.00µs, peak 68µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -37720,9 +37776,57 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "normalize~",
       "category": "Modifiers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "normalize-fixed-max",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "97239b096872931015fda0e4a2c5214b9d4cd3a6f41169e0e662a05f1d3b4981",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "354d5a1e2662d63e2f84af969c7b9a71c1d33382b9d4a8ac2292400f3bf8aa95",
+          "max_absolute_error": 0.0,
+          "mean_us": 189.4375,
+          "median_us": 189.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 194,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "case": "normalize-signal-max",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "adccc5e6e099c414f5853f24c8eb7e12e3432ac62776a4dacea12126ec7e4b48",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "2b89fefe10d6af2a059e2f7817a78a6f2b2ba8c3c34915f6b5a65a9c1a2805a9",
+          "max_absolute_error": 0.0,
+          "mean_us": 140.8125,
+          "median_us": 140.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 144,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:normalize~",
       "inventory_group": "patcher:normalize~",
       "is_alias": false,
@@ -37730,16 +37834,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/normalize~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal state followup — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: the supplied signal-state scenarios pass their independent references. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Remaining scope: Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open. No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch. Short XIAO check (pass): one repeated stereo vector; mean 189.44µs, median 189.00µs, peak 194µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Short XIAO check (pass): one repeated stereo vector; mean 140.81µs, median 140.00µs, peak 144µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -38563,9 +38675,57 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "onepole_lin~",
       "category": "Filter",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "onepole-linear-fixed",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "d713ec4e7e8e9ec306d7c710ea898963d1d4854a35626289e3df5c385e432010",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "9169764856a0ec9c8b9f414f4b6509dc831151421212ff3b459346b6dcf847bf",
+          "max_absolute_error": 3.725290298461914e-09,
+          "mean_us": 99.1875,
+          "median_us": 98.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 103,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3504
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "onepole-linear-signal-cutoff",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "904a6e6b01781ee68e9a482e8f4c7e5604be7748acaa195de87ca2a8538491ba",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "84f2596535cc85bf0603dd21e2e17805016544529d3beb1f565ac036ee2efd01",
+          "max_absolute_error": 7.450580596923828e-09,
+          "mean_us": 97.0625,
+          "median_us": 97.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 101,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 2124
+        }
+      ],
       "id": "patcher:onepole_lin~",
       "inventory_group": "patcher:onepole_lin~",
       "is_alias": false,
@@ -38573,16 +38733,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/onepole_lin~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal state followup — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: the supplied signal-state scenarios pass their independent references. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Remaining scope: Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open. No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch. Short XIAO check (pass): one repeated stereo vector; mean 99.19µs, median 98.00µs, peak 103µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 3.7252903e-09; within-tolerance differences 3504; numeric mismatches 0; nonfinite outputs 0. Short XIAO check (pass): one repeated stereo vector; mean 97.06µs, median 97.00µs, peak 101µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 7.4505806e-09; within-tolerance differences 2124; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -38736,9 +38904,34 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "onoff~",
       "category": "Modifiers",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "onoff-block-toggle",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared signal state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "fa9ef5d690c6c6d6a2b0446f0cd70d6ab871e969e13cc1fe8b5bc23813ee7cdf",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "9169764856a0ec9c8b9f414f4b6509dc831151421212ff3b459346b6dcf847bf",
+          "max_absolute_error": 1.0,
+          "mean_us": 45.8125,
+          "median_us": 46.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 5120,
+          "peak_us": 50,
+          "reference_policy": "independent-continuous-signal-state",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:onoff~",
       "inventory_group": "patcher:onoff~",
       "is_alias": false,
@@ -38746,16 +38939,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/onoff~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal state followup — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        },
+        {
+          "label": "rnbo signal state followup review — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-signal-state-followup-review.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: executes, but per-sample toggle output differs from the documented DSP-block toggle reference. Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified. Source-derived diagnosis: generated onoff~ toggles each sample, while primary documentation describes each DSP block. Saved target first difference is callback 0, word 2: actual 0, expected 1; 5,120 outputs differ. Original reference and zero limit are retained. This is a compatibility follow-up, not a CPU issue. Remaining scope: Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open. No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch. Short XIAO check (output_mismatch): one repeated stereo vector; mean 45.81µs, median 46.00µs, peak 50µs. Declared absolute tolerance 0; maximum finite error 1; within-tolerance differences 0; numeric mismatches 5120; nonfinite outputs 0.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -53710,10 +53915,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "4781761fb44202c8322e9aa7f079d802ee9c2a4ef5e79e161bbc79bbb2c0fd89",
-    "coverage_source_sha256": "68eabb6950831cac811a37d04ff0bc136e6c030f11835e205e39880fb20aa36d",
-    "exact_coverage_entries": 576,
-    "generator_sha256": "bfa273b5ec5517733bb377944f52da717130f149f2f6840be34670da6aa6c834",
+    "coverage_canonical_sha256": "13b132a8746626b95ed6b97d8664ad1c69e1ed4c22e768d0161c078378836e03",
+    "coverage_source_sha256": "7d209c233210afdb33c0b737c04612dff8b9d047badcb1e5bed0735c008f75f1",
+    "exact_coverage_entries": 580,
+    "generator_sha256": "8665d2aabfbb6acaddfd145080df27e463a8376b803fa3d0bd2cc506634afd87",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

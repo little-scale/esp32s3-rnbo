@@ -1,5 +1,12 @@
 # Implementation status — 5 November 2026
 
+The [further RNBO signal-state batch](hardware-smoke.md#further-rnbo-signal-state)
+executes seven programs and 71,680 output checks: six pass, while `onoff~`
+retains a documented block-versus-sample toggle mismatch. Counter outputs,
+normalization history and linear-filter scenarios pass; no CPU flags trigger.
+The status page now maps **580 exact entries**, with previous qualifications
+and failures retained. `updown~` remains reference-design-pending.
+
 The [Gen Delay compatibility fix and hardware rerun](gen-delay-bool-clamp.md)
 now pass both previously blocked programs: **20,480 output checks**, including
 one-sample delay and feedback across callback boundaries. Three guarded integer

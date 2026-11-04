@@ -49,6 +49,41 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
 
+## Further RNBO signal state
+
+Seven configured programs execute **71,680 output checks: six pass and one
+retains a mismatch**. Four exact owners are covered: `onepole_lin~`, `onoff~`,
+`counter~` and `normalize~`. Zero automatic preparation blocks precede four
+checked manual warmups and sixteen timed callbacks, with full twenty-block
+continuous references and no boundary state resets.
+
+Two onepole programs check fixed 0.25/0.5 linear coefficients and a signal
+coefficient with a copied pilot. Both pass 2e-6; maximum error is
+7.450580596923828e-9, with 5,628 within-limit word differences. Two counter
+graphs observe count, flag and carry count across reset and wrap at limits
+0/7. Only 0/1 increments are supplied, so overshoot behavior is unqualified.
+Two normalization graphs check current-inclusive persistent absolute peak,
+fixed or signal maxima and the documented minimum denominator. All counter
+and normalization outputs match exactly, including zero signs.
+
+`onoff~` differs from the unchanged DSP-block toggle reference in 5,120 words.
+The first difference is callback 0, interleaved word 2: actual 0 versus expected
+1. Source review finds the boolean toggled inside every sample iteration;
+primary documentation describes one toggle per DSP block. This is a vector-
+granularity compatibility follow-up, rather than an initial-state or CPU issue.
+The source-derived pattern explains the saved count and witness, without
+replacing the independent reference or claiming a complete target capture.
+
+Callback medians span 46–189 µs, peaks 50–194 µs. No CPU flag triggers; all
+seven images finalise and pass memory/allocation checks with zero arena
+high-water use. No performance gain is claimed. `updown~` was omitted before
+export because its adaptive transient lacked an independently justified
+pointwise reference; it remains reference-design-pending.
+
+See [the hardware results](../evidence/xiao-smoke-rnbo-signal-state-followup.json),
+[separate source review](../evidence/rnbo-signal-state-followup-review.json)
+and [original graphs and references](../tests/fixtures/smoke/rnbo-signal-state-followup/README.md).
+
 ## Gen Delay compilation repair and rerun
 
 The two previously blocked Gen `Delay(16)` declaration/method programs now

@@ -37409,6 +37409,186 @@
       "working_note": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:onepole_lin~",
+      "known_gaps": [
+        "Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open.",
+        "No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole_lin~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/onepole-linear-fixed.rnbopat"
+        },
+        {
+          "forms": [
+            "onepole_lin~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/onepole-linear-signal-cutoff.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        },
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        }
+      ],
+      "spelling": "onepole_lin~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: the supplied signal-state scenarios pass their independent references.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:onoff~",
+      "known_gaps": [
+        "Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open.",
+        "No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onoff~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/onoff-block-toggle.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        },
+        {
+          "conditions": "Source-derived diagnosis: generated onoff~ toggles each sample, while primary documentation describes each DSP block. Saved target first difference is callback 0, word 2: actual 0, expected 1; 5,120 outputs differ. Original reference and zero limit are retained. This is a compatibility follow-up, not a CPU issue.",
+          "level": "documentation",
+          "source": "evidence/rnbo-signal-state-followup-review.json"
+        }
+      ],
+      "spelling": "onoff~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: executes, but per-sample toggle output differs from the documented DSP-block toggle reference.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:counter~",
+      "known_gaps": [
+        "Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open.",
+        "No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "counter~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/counter-count-and-flag.rnbopat"
+        },
+        {
+          "forms": [
+            "counter~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/counter-count-and-carry-count.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        },
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        }
+      ],
+      "spelling": "counter~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: the supplied signal-state scenarios pass their independent references.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:normalize~",
+      "known_gaps": [
+        "Only the shown finite configured programs and continuous reference streams are checked; complete mode/domain and reset-method qualification remain open.",
+        "No canonical, alias, codebox or Gen status inheritance. Counter overshoot and adaptive updown~ transients remain outside this batch."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "normalize~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/normalize-fixed-max.rnbopat"
+        },
+        {
+          "forms": [
+            "normalize~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-signal-state-followup/normalize-signal-max.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        },
+        {
+          "conditions": "Exact original configured signal graph, fresh state and twenty continuous 256-frame callbacks. Four checked manual warmups then sixteen timed callbacks; no automatic warm blocks or boundary resets. onepole_lin fixes linear coefficients; counter uses limits 0/7 and only 0/1 increments with resets while observing all three outlets across two graphs; normalize retains current-inclusive running peak with fixed or signal maxima. Zero tolerance for counter/normalization/onoff; predeclared 2e-6 for the filter. Full source and stream identities are bound; other modes, domains and aliases remain unqualified.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-signal-state-followup.json"
+        }
+      ],
+      "spelling": "normalize~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: the supplied signal-state scenarios pass their independent references.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -38654,6 +38834,13 @@
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
     },
+    "evidence/rnbo-signal-state-followup-review.json": {
+      "bytes": 1785,
+      "path": "evidence/rnbo-signal-state-followup-review.json",
+      "publication": "public-evidence",
+      "sha256": "8d3db9b643ffbafff948dcdb3e00ff989d4ab295742531b653a27618bd7f5ef6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-signal-state-followup-review.json"
+    },
     "evidence/stable-onepole-graphs.json": {
       "bytes": 975835,
       "path": "evidence/stable-onepole-graphs.json",
@@ -38814,6 +39001,13 @@
       "publication": "public-evidence",
       "sha256": "f41a29139a5d7af12da9a4fdab18323c77a990aafd03dce536718705ba0b0f1b",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+    },
+    "evidence/xiao-smoke-rnbo-signal-state-followup.json": {
+      "bytes": 11864,
+      "path": "evidence/xiao-smoke-rnbo-signal-state-followup.json",
+      "publication": "public-evidence",
+      "sha256": "b7d5238d84eeb3a62d1116d4f5ed3eeae41e613e4c989d99a903a685567dfef1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-state-followup.json"
     },
     "evidence/xiao-smoke-rnbo-signal-stateful.json": {
       "bytes": 24181,

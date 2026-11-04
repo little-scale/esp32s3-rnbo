@@ -70,6 +70,25 @@ class GenDelayPreparedTests(unittest.TestCase):
             p,m,s=verify_prepared(root/identity)
             self.assertEqual(modules.validate_smoke_prepared(p,m,s),modules.GEN_DELAY_PROOFS[identity])
 
+    def test_actual_prior_gen_delay_and_dbtoa_plan_headers_replay_unchanged(self):
+        pairs=[('build/hardware-smoke-gen-delay-boolcast-v2',
+                'build/hardware/gen-delay-boolcast-inputs-v1/catalog.json',
+                'build/hardware/gen-delay-boolcast-smoke-modules-v1/batch-report.json'),
+               ('build/hardware-smoke-dbtoa-f32-comparison-v1',
+                'tests/fixtures/smoke/dbtoa-f32-comparison/catalog.json',
+                'build/hardware/dbtoa-f32-inputs-v1/merged-abba-modules.json')]
+        checked=0
+        for build,catalog,batch in pairs:
+            report_path=ROOT/build/'build-report.json'
+            if not report_path.is_file():continue
+            previous=json.loads(report_path.read_bytes())
+            current,words,_=builder.prepare_plan(ROOT/catalog,ROOT/batch)
+            self.assertEqual(modules.canonical(current),modules.canonical(previous['plan']))
+            header,_=builder.generate_header(current,words)
+            self.assertEqual(hashlib.sha256(header.encode()).hexdigest(),previous['header_sha256'])
+            checked+=1
+        if not checked:self.skipTest('Optional previous actual module cohorts are unavailable')
+
 
 class GenDelayRerunTests(unittest.TestCase):
     def test_only_the_marked_original_two_rows_are_admitted(self):

@@ -143,6 +143,24 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.plan['surface']='codebox'
         with self.assertRaises(ValueError):self.result()
 
+    def test_signal_state_followup_keeps_full_stream_and_closed_signal_route(self):
+        self.plan.update(family='rnbo-signal-state-followup',surface='patcher')
+        self.expected.update(role='fx',surface='patcher',syntax='signal-object',exact_name='counter~',registry_lookup='counter~')
+        result=self.result()
+        self.assertEqual(result['family'],'rnbo-signal-state-followup')
+        self.assertEqual(result['cases'][0]['expected_block_count'],20)
+        self.assertEqual(result['cases'][0]['first_mismatch_call'],6)
+        original=copy.deepcopy(self.plan)
+        for mutation in ('warmup','stream','surface','syntax','parameters','limit'):
+            self.plan=copy.deepcopy(original);self.expected=self.plan['cases'][0]
+            if mutation=='warmup':self.plan['prepare_zero_warm_blocks']=4
+            elif mutation=='stream':self.expected.pop('expected_blocks')
+            elif mutation=='surface':self.plan['surface']='codebox'
+            elif mutation=='syntax':self.expected['syntax']='call'
+            elif mutation=='parameters':self.expected['expected_parameter_count']=1
+            else:self.expected['absolute_tolerance']=1e-3
+            with self.subTest(mutation=mutation),self.assertRaises(ValueError):self.result()
+
     def test_later_call_witness_uses_its_actual_expected_block(self):
         value=self.result();case=value['cases'][0]
         self.assertEqual(case['first_mismatch_call'],6);self.assertEqual(case['first_mismatch_word'],17)

@@ -129,6 +129,27 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIsNone(rows['codebox:dbtoa']['performance'])
         self.assertEqual(rows['codebox:dbtoa']['optimisation']['status'],'unassessed')
 
+    def test_signal_state_followup_keeps_all_streams_and_documented_onoff_mismatch(self):
+        data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-signal-state-followup.json').read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':0,'executed':7,
+                                         'output_mismatches':1,'passed':6})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),71680)
+        for case in data['cases']:
+            row=rows['patcher:'+case['exact_name']]
+            self.assertIsNone(row['performance']);self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertEqual(row['working']['status'],'partial'if case['exact_name']=='onoff~'else'board')
+            observation=next(c for c in row['hardware_smoke']if c['case']==case['id'])
+            self.assertEqual(observation['expected_block_count'],20)
+            self.assertEqual(observation['expected_stream_sha256'],case['expected_stream_sha256'])
+            self.assertEqual(observation['numeric_mismatches'],case['numeric_mismatches'])
+        for name in ('onepole_lin~','counter~','normalize~'):
+            self.assertEqual(len(rows['patcher:'+name]['hardware_smoke']),2)
+        onoff=next(c for c in data['cases']if c['exact_name']=='onoff~')
+        self.assertEqual((onoff['first_mismatch_call'],onoff['first_mismatch_word']), (0,2))
+        self.assertEqual(onoff['numeric_mismatches'],5120)
+        self.assertIn('per-sample toggle',rows['patcher:onoff~']['working']['detail'])
+
     def test_actual_numeric_smoke_keeps_mismatches_tolerances_and_cpu_review_visible(self):
         data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-numeric.json').read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
@@ -963,7 +984,9 @@ class ShortSmokeStatusTests(unittest.TestCase):
         self.data.update(family='rnbo-signal-stateful',surface='patcher',prepare_zero_warm_blocks=0,
             expected_stream_policy='Fresh prepared signal state; twenty continuous256-frame callbacks without resets')
         case=self.data['cases'][0];case.update(exact_name='change~',expected_block_count=20,expected_stream_sha256='b'*64)
-        self.assertEqual(self.result()['patcher:change~']['hardware_smoke'][0]['expected_block_count'],20)
+        for family in ('rnbo-signal-stateful','rnbo-signal-state-followup'):
+            self.data['family']=family
+            self.assertEqual(self.result()['patcher:change~']['hardware_smoke'][0]['expected_block_count'],20)
         self.data['surface']='codebox'
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
         self.data['surface']='patcher';self.data['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'

@@ -1,0 +1,36 @@
+{
+  "CPU_issue_claimed": false,
+  "actual_prepared_source_sha256": "854564fdb02f12bcaf6bcc83f5e1a606960e39c87319206583a23f4eded943b7",
+  "case": "onoff-block-toggle",
+  "finding": "The generated onoff~ performers toggle their primitive boolean inside each sample iteration. Primary definitions describe a DSP-block toggle.",
+  "followup": "Source compatibility / vector granularity; keep separate from CPU optimisation.",
+  "format": "rnbo-signal-state-followup-source-review-v1",
+  "module_sha256": "2c254ea20cecf7d527442b02d40c676d334c8ff1bdf6b4142672f6a32aefe885",
+  "primary_sources": [
+    {
+      "local_package_path": "docs/refpages/rnbo/rnbo_onoff~.maxref.xml",
+      "sha256": "5d9e34f9da92259ab54c1aba1249ace48440ffb11bf9fe014c62ca4c9d6ace6f",
+      "url": "https://rnbo.cycling74.com/objects/ref/onoff~?v=1.4.4"
+    },
+    {
+      "local_package_path": "source/operators/onoff.js",
+      "sha256": "754428464f458a240bf612691ab18bf700989b3ab23e4dfc423d92332058cd18",
+      "url": "https://rnbo.cycling74.com/objects/ref/onoff~?v=1.4.4"
+    }
+  ],
+  "references_and_limits_unchanged": true,
+  "saved_target_count_and_first_witness_match": true,
+  "scope": "Source-derived diagnosis after output; not a new independent oracle or full target capture",
+  "source_derived_prediction": {
+    "actual": 0,
+    "expected": 1,
+    "first_call": 0,
+    "first_interleaved_word": 2,
+    "frame_values_each_256_frame_call": "1,0 alternating; even-length call restores false state",
+    "initial_state": false,
+    "mismatches_vs_unchanged_block_toggle_reference": 5120
+  },
+  "source_or_firmware_modified": false,
+  "target_evidence": "evidence/xiao-smoke-rnbo-signal-state-followup.json",
+  "target_evidence_sha256": "b7d5238d84eeb3a62d1116d4f5ed3eeae41e613e4c989d99a903a685567dfef1"
+}

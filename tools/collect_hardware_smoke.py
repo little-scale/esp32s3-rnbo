@@ -340,10 +340,10 @@ def collect(build_dir,run_dir):
     if delay_rerun:gen_delay_rerun_plan(plan)
     else:require(not any('gen_delay_fix_contract'in row for row in plan['cases']),
                  'Repaired Gen Delay requires its marked original two-case rerun')
-    if plan.get('family')in('rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing'):
+    if plan.get('family')in('rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing'):
         require(plan.get('surface')=='patcher'and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0,'Signal range domains require zero automatic preparation blocks')
-    if plan.get('family')=='rnbo-signal-routing':
+    if plan.get('family')in('rnbo-signal-routing','rnbo-signal-state-followup'):
         require(all(case.get('surface')=='patcher'and case.get('role')=='fx'and
                     case.get('syntax')=='signal-object'and
                     not any(key in case for key in ('genexpr','codebox','expected_parameter_count','parameter_events'))and
@@ -355,9 +355,9 @@ def collect(build_dir,run_dir):
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-signal-stateful')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
-        require(plan.get('surface')==('patcher'if event_family or plan['family']=='rnbo-signal-stateful'else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
+        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
                 'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
     pool=None
@@ -441,7 +441,7 @@ def collect(build_dir,run_dir):
                       scope='Explicit bounded changed-rounding numerical and matched ABBA callback comparison; no general object or bit-identity qualification',
                       numerical_comparison='Each profile versus the fixed independent mathematical cache',
                       profile_comparison=dbtoa_comparison_times(records))
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

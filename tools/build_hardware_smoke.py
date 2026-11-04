@@ -33,7 +33,7 @@ def save(path,value):path.write_bytes(canonical(value))
 def reference_path(catalog):
     family=catalog.get('family')
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -205,7 +205,7 @@ def prepare_plan(catalog_path,modules_path):
     for row in catalog['cases']:
         identity=row['id']
         if not re.fullmatch('[A-Za-z0-9_-]+',identity):raise ExportError('Unsafe smoke identity')
-        if catalog['family']=='rnbo-signal-routing':routing_contract(row)
+        if catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup'):routing_contract(row)
         module=modules[identity]
         patch=source_root/row['patch']
         source_bytes=read_regular(patch,1024*1024)
@@ -239,7 +239,7 @@ def prepare_plan(catalog_path,modules_path):
             raise ExportError('dbtoa phase label differs from actual prepared profile')
         if not comparison and manifest.get('numerical_profile')==DBTOA_PROFILE:
             raise ExportError('dbtoa candidate requires its explicit comparison family')
-        if catalog['family']=='rnbo-signal-routing':routing_contract(row,manifest)
+        if catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup'):routing_contract(row,manifest)
         if manifest.get('editable_source_sha256')!=source_hash:
             raise ExportError('Prepared module does not match authored patch: '+identity)
         prepared=Path(module['prepared']['path'])
@@ -253,7 +253,7 @@ def prepare_plan(catalog_path,modules_path):
             if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
                     module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
-        if catalog['family']=='rnbo-signal-routing'and actual_manifest!=manifest:
+        if catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
@@ -263,7 +263,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -294,7 +294,7 @@ def prepare_plan(catalog_path,modules_path):
         if comparison and (arena!=1048576 or case.get('absolute_tolerance')!=float32(2e-6) or
                 any(not -24<=struct.unpack('<f',struct.pack('<I',word))[0]<=6 for word in vector)):
             raise ExportError('dbtoa comparison arena/input/error domain differs')
-        if catalog['family']=='rnbo-signal-routing'and case.get('absolute_tolerance',0)>2e-6:
+        if catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')and case.get('absolute_tolerance',0)>2e-6:
             raise ExportError('Signal routing supports exact or at most2e-6 absolute error')
         if streams is not None:
             case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
@@ -336,10 +336,10 @@ def prepare_plan(catalog_path,modules_path):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful codebox cases require twenty continuous reference blocks')
-    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra'):
+    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra'):
         plan.update(family=catalog['family'],surface='patcher')
-        if catalog['family']in('rnbo-functions','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing'):plan['prepare_zero_warm_blocks']=0
-        if catalog['family']=='rnbo-signal-stateful':
+        if catalog['family']in('rnbo-functions','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('rnbo-signal-stateful','rnbo-signal-state-followup'):
             plan['expected_stream_policy']='Fresh prepared signal state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful signal cases require twenty continuous reference blocks')
