@@ -91,6 +91,7 @@ def main() -> int:
     parser.add_argument("--components-from", type=Path)
     parser.add_argument("--export-dir", type=Path, help="Validated prepared Main export from host/compiler/prepare.py")
     parser.add_argument('--player', action='store_true', help='Build the stable Main patch player, without embedding a patch')
+    parser.add_argument('--usb-midi-host',action='store_true',help='Experimental XIAO player USB-host build; replaces USB console, needs external host power and Wi-Fi setup')
     parser.add_argument("--variant", type=variant_name, help="Safe label for an independent generated build directory")
     parser.add_argument("--patch-title",default="RNBO Patch",help="Title for the AMOLED patch view")
     parser.add_argument("--arena-bytes",type=int,default=1048576,help="Explicit RNBO arena budget (4096..4194304; default 1 MiB)")
@@ -100,6 +101,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.player and args.export_dir:
         parser.error('--player and --export-dir are mutually exclusive')
+    if args.usb_midi_host and (not args.player or args.board!='xiao' or not args.variant):
+        parser.error('--usb-midi-host requires xiao --player and an explicit --variant; do not replace the normal console build')
     if args.initial_volume is None:
         args.initial_volume = 50 if args.player or args.board == 'xiao' else 100
     if args.player and args.initial_volume!=50:
@@ -152,6 +155,7 @@ def main() -> int:
         for i,value in enumerate(definitions):
             if str(value).startswith('SDKCONFIG_DEFAULTS='):
                 definitions[i]=str(value)+';'+str(ROOT/'firmware/sdkconfig.player.defaults')
+                if args.usb_midi_host:definitions[i]+=';'+str(ROOT/'firmware/sdkconfig.usb-midi-host.defaults')
     if args.player and (build/'sdkconfig').is_file():
         # Older player caches enabled PHY calibration persistence. Radio setup
         # must not write flash behind the audio maintenance owner.
@@ -208,6 +212,11 @@ def main() -> int:
         raise ValueError("Prepared export changed during build")
     description = json.loads((build/"project_description.json").read_text())
     config = (build/"sdkconfig").read_text()
+    actual_host='CONFIG_RNBO_S3_USB_MIDI_HOST=y' in config
+    if actual_host!=args.usb_midi_host:
+        raise ValueError('Cached USB host selection differs; use a fresh variant or --clean')
+    if actual_host and 'CONFIG_ESP_CONSOLE_NONE=y' not in config:
+        raise ValueError('USB MIDI host must not share the internal PHY with a console')
     expected_flash = "8MB" if args.board == "xiao" else "16MB"
     if f"CONFIG_ESPTOOLPY_FLASHSIZE_{expected_flash}=y" not in config:
         raise ValueError("Resolved flash configuration does not match requested board")
@@ -226,6 +235,8 @@ def main() -> int:
               "artifacts":{}}
     if args.player:
         report['player']=True
+        report['usb_midi_host']=actual_host
+        report['midi_input_version']=1
         report['player_api_version']=1
         report['loader_dependencies']=json.loads((ROOT/'loader-spike/dependencies.json').read_text())
     compiler=description.get("c_compiler")

@@ -11,6 +11,10 @@
 #include "esp_heap_caps.h"
 #endif
 #include "patch_config.h"
+#include "rnbo_s3_midi.h"
+#ifndef RNBO_S3_PATCH_MIDI_INPUT_PORTS
+#define RNBO_S3_PATCH_MIDI_INPUT_PORTS 0
+#endif
 #ifndef RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT
 #define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT 0
 #endif
@@ -265,11 +269,8 @@ int process(void *p, const float *const *in, float *const *out, uint32_t n, uint
     return RNBO_S3_OK;
 }
 bool midi_valid(const rnbo_s3_event &e) {
-    if (e.midi[0] < 0x80 || e.midi[0] >= 0xf0) return false;
-    unsigned kind = e.midi[0] & 0xf0;
-    unsigned expected = kind == 0xc0 || kind == 0xd0 ? 2 : 3;
-    if (e.midi_length != expected || e.midi[1] > 127) return false;
-    return expected == 2 || e.midi[2] <= 127;
+    return rnbo_s3_midi_valid(e.midi,e.midi_length) &&
+        (e.midi[0]<0xf0 || RNBO_S3_PATCH_MIDI_INPUT_PORTS>0);
 }
 int event(void *p, const rnbo_s3_event *e) {
     if (!valid(p) || !e || e->struct_bytes < sizeof(*e)) return RNBO_S3_INVALID;
@@ -333,7 +334,8 @@ const rnbo_s3_module module = {
     RNBO_S3_SAMPLE_RATE, RNBO_S3_BLOCK_FRAMES, RNBO_S3_PATCH_ROLE,
     RNBO_S3_PATCH_ROLE == RNBO_S3_FX ? 2u : 0u, 2,
     RNBO_S3_MAX_PARAMETERS, RNBO_S3_SINGLE_INSTANCE | RNBO_S3_BOUNDARY_EVENTS | RNBO_S3_PLATFORM_ALLOCATIONS_ONLY |
-        (RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT ? RNBO_S3_DISCARDS_MIDI_OUTPUT : 0u),
+        (RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT ? RNBO_S3_DISCARDS_MIDI_OUTPUT : 0u) |
+        (RNBO_S3_PATCH_MIDI_INPUT_PORTS ? RNBO_S3_SHORT_MIDI_INPUT : 0u),
     create, prepare, process, event, panic, parameter_count, parameter_info, parameter_value,
     parameter_convert, statistics, destroy
 };

@@ -176,6 +176,19 @@ class Studio:
                 raise ValueError('The selected connection changed; send controls to the current player')
             return self._remember_wifi(self.active_bridge.control({k:v for k,v in data.items() if k!='target'}))
 
+    def configure_midi(self, data):
+        target=data.get('target')
+        if (type(target) is not dict or set(target)!={'device_id','transport'}
+                or target.get('transport') not in ('usb','wifi') or not isinstance(target.get('device_id'),str)
+                or set(data)!={'target','mode'} or data['mode'] not in ('off','uart')):
+            raise ValueError('Choose the connected player and MIDI input mode')
+        with self.lock:
+            if self.worker.locked():raise ValueError('Wait for the current build or upload before changing MIDI')
+            device=self.active_bridge.snapshot().get('device') or {}
+            if any(device.get(k)!=target[k] for k in ('device_id','transport')):
+                raise ValueError('The selected player connection changed')
+            return self._remember_wifi(self.active_bridge.configure_midi(data['mode']))
+
     def wifi_status(self):
         if not self.worker.locked():
             try:
@@ -730,6 +743,7 @@ class Handler(BaseHTTPRequestHandler):
             elif self.path == '/api/disconnect':
                 studio.active_bridge.disconnect(); self.send(200, {'device':None, 'parameters':[]})
             elif self.path == '/api/control': self.send(200, studio.control_device(data))
+            elif self.path == '/api/midi/configure': self.send(200, studio.configure_midi(data))
             else: self.send(404, {'error':'Not found'})
         except (ValueError, OSError, RuntimeError, RecursionError) as error:
             self.send(400, {'error':str(error)})

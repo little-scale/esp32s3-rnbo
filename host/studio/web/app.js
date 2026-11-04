@@ -120,6 +120,8 @@
     $('pause').textContent = state.device && (state.device.paused ?? state.device.panic) === true ? 'Resume audio' : 'Pause audio';
     $('pause').setAttribute('aria-pressed', String(Boolean(state.device && (state.device.paused ?? state.device.panic) === true)));
     for (const input of $('parameters').querySelectorAll('input')) input.disabled = !live;
+    const midi = live && state.device?.midi_input_version === 1 && state.device?.midi?.uart_supported === true;
+    $('midi-mode').disabled = !midi; $('midi-save').disabled = !midi;
     if (!state.operation) {
       if (!state.reachable) $('compile-status').textContent = 'Local server unavailable';
       else if (missingTools().length) $('compile-status').textContent = 'A required local tool is unavailable. See Local tools.';
@@ -693,6 +695,13 @@
     state.device = response.device || null;
     if (Array.isArray(response.parameters)) state.parameters = response.parameters;
     const device = state.device;
+    const midi = device?.midi;
+    if (midi) {
+      if (!$('midi-mode').dataset.dirty) $('midi-mode').value = midi.uart_enabled ? 'uart' : 'off';
+      $('midi-status').textContent = `${midi.uart_enabled ? 'UART enabled · D7 / GPIO44' : 'UART off'}${midi.usb_host_compiled ? ` · USB host ${midi.usb_connected ? 'device attached' : 'waiting for device'}` : ''}. `
+        + (midi.patch_input_supported ? `${midi.delivered || 0} MIDI messages delivered · ${midi.overflows || 0} overflows.` : 'Compile a patch containing MIDI objects to receive MIDI.')
+        + (midi.error ? ` ${midi.error}` : '');
+    } else $('midi-status').textContent = 'Install the updated player to configure MIDI.';
     const physical = device?.main?.physical_inputs;
     const inputStatus = $('physical-input-status');
     inputStatus.hidden = !physical || (!physical.error && !physical.bindings?.length);
@@ -876,6 +885,16 @@
     link.download = 'float32-trial-report.json'; document.body.append(link); link.click(); link.remove();
   });
   $('refresh-ports').addEventListener('click', refreshDevices);
+  $('midi-mode').addEventListener('change', () => { $('midi-mode').dataset.dirty='true'; });
+  $('midi-save').addEventListener('click', async () => {
+    if ($('midi-save').disabled) return;
+    try {
+      const device=state.device; state.operation='midi'; updateButtons();
+      const response=await api('/api/midi/configure', {mode:$('midi-mode').value,target:{device_id:device.device_id,transport:state.connectedTransport}});
+      delete $('midi-mode').dataset.dirty; renderDevice(response);
+    } catch (error) { message(error.message); }
+    finally { state.operation=null; updateButtons(); }
+  });
   for (const id of ['transport', 'port', 'wifi-device']) $(id).addEventListener('change', () => {
     cancelQueuedControls(); clearNetworks(); $('wifi-scan-status').textContent = '';
     if (id === 'transport') $('wifi-password').value = '';

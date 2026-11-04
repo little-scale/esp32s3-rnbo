@@ -57,6 +57,8 @@ def metadata_checked(value):
         checked_plan(value['physical_inputs'])
     if 'float32_trial' in value:
         trial_checked(value['float32_trial'])
+    if 'midi_input_ports' in value and (type(value['midi_input_ports']) is not int or value['midi_input_ports']!=1):
+        raise ValueError('MIDI input packages must declare exactly one port')
     return value
 
 
@@ -138,6 +140,10 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
             or manifest['audio_inputs'] != (0 if role == 'main' else 2) or manifest.get('audio_outputs') != 2):
         raise ValueError('Module dimensions do not match the requested player role')
     metadata = dict(name=name, source_sha256=manifest['source_tree_sha256'], initial_volume=initial_volume)
+    if manifest.get('midi_input_ports'):
+        if type(manifest['midi_input_ports']) is not int or manifest['midi_input_ports']!=1:
+            raise ValueError('Only MIDI input port0 is supported')
+        metadata['midi_input_ports']=1
     if 'physical_inputs' in manifest:
         metadata['physical_inputs'] = checked_plan(manifest['physical_inputs'])
     if manifest.get('numerical_profile') == 'float32-trial-v1':

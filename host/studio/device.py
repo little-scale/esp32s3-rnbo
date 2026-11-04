@@ -492,6 +492,31 @@ class DeviceBridge:
                 raise DeviceError('The board did not confirm Wi-Fi removal')
             return self._snapshot()
 
+    def configure_midi(self, mode):
+        if mode not in ('off','uart'):
+            raise ValueError('Choose MIDI off or UART')
+        with self._exclusive():
+            if not self._player or self._stream is None:
+                raise DeviceError('Connect the MIDI-capable player first')
+            before=self._player_status()
+            if before.get('midi_input_version')!=1:
+                raise DeviceError('Install the updated MIDI player first')
+            reply,_=self._exchange(('player-midi-config '+mode,),'midi_configured',timeout=15)
+            if reply.get('midi_configured') is not True:
+                raise DeviceError('The player did not confirm MIDI configuration')
+            return self._snapshot()
+
+    def midi_stream(self, data, *, loopback=False):
+        if not isinstance(data,str) or not 2<=len(data)<=256 or len(data)%2 or not re.fullmatch('[0-9a-fA-F]+',data):
+            raise ValueError('MIDI stream must contain 1..128 hexadecimal bytes')
+        with self._exclusive():
+            if not self._player or self._stream is None:raise DeviceError('Connect the MIDI player first')
+            before=self._player_status()
+            if before.get('midi_input_version')!=1:raise DeviceError('Install the updated MIDI player first')
+            reply,_=self._exchange((f"{'player-midi-loopback' if loopback else 'player-midi-stream'} {before['generation']} {data}",),'midi_stream_accepted')
+            if reply.get('midi_stream_accepted') is not True:raise DeviceError('MIDI diagnostic stream was not accepted')
+            return self._snapshot()
+
     def control(self, payload):
         if self._player:
             return self.player_control(payload)
@@ -621,6 +646,8 @@ class DeviceBridge:
             if not self._player:
                 raise DeviceError('Install the stable player before loading a package')
             before = self._player_status()
+            if package['metadata'].get('midi_input_ports') and before.get('midi_input_version') != 1:
+                raise DeviceError('This MIDI-input package needs the updated MIDI player. Install it over USB first.')
             if package['metadata'].get('physical_inputs'):
                 if before.get('physical_inputs_version') != 1:
                     raise DeviceError('This package uses physical inputs. Install the updated player over USB first.')

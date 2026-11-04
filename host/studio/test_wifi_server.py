@@ -22,6 +22,7 @@ class USB:
     def forget_wifi(self):
         self.calls.append(('forget',));self.device['wifi'].update(configured=False,connected=False,ip='');return self.snapshot()
     def control(self,data):self.calls.append(('control',data));return self.snapshot()
+    def configure_midi(self,mode):self.calls.append(('midi',mode));return self.snapshot()
     def disconnect(self):self.calls.append(('disconnect',))
     def connect(self,port):self.calls.append(('connect',port));return self.snapshot()
 class WifiServerTests(unittest.TestCase):
@@ -29,6 +30,18 @@ class WifiServerTests(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.private=Path(self.temp.name)/'private';self.patcher=patch.object(s,'PRIVATE',self.private);self.patcher.start();self.addCleanup(self.patcher.stop)
         self.usb=USB();self.studio=s.Studio(bridge=self.usb)
+    def test_midi_configuration_checks_current_target_mode_and_idle_worker(self):
+        payload=dict(target=dict(device_id=IDENTITY,transport='usb'),mode='uart')
+        self.studio.configure_midi(payload);self.assertEqual(self.usb.calls[-1],('midi','uart'))
+        count=len(self.usb.calls)
+        for change in (dict(mode='host'),dict(target=None),dict(extra=1),dict(target=dict(device_id=IDENTITY,transport='wifi'))):
+            with self.assertRaises(ValueError):self.studio.configure_midi(dict(payload,**change))
+        self.studio.worker.acquire()
+        try:
+            with self.assertRaisesRegex(ValueError,'Wait'):self.studio.configure_midi(payload)
+        finally:self.studio.worker.release()
+        self.assertEqual(len(self.usb.calls),count)
+
     def test_usb_setup_persists_only_key_and_later_dhcp_updates_public_address(self):
         result=self.studio.setup_wifi(dict(ssid='Example network',password='test-only-password'))
         self.assertTrue(result['wifi']['paired']);self.assertEqual(result['paired'][0]['ip'],'')

@@ -705,6 +705,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                 "source_tree_sha256": digest(canonical(raw_hashes)),
                 "editable_source_sha256": digest(files["source.rnbopat"]) if "source.rnbopat" in files else None,
                 "adaptations": [change["name"] for change in changes]}
+    if description["numMidiInputPorts"]:
+        manifest["midi_input_ports"] = description["numMidiInputPorts"]
     if physical_inputs is not None:
         manifest["physical_inputs"] = physical_inputs
     if numerical_profile == "float32-trial-v1":
@@ -765,6 +767,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               f"#define RNBO_S3_PATCH_ROLE {1 if role == 'main' else 2}\n"
               f"#define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT {1 if midi_output_policy == 'discard' else 0}\n"
               "#define RNBO_S3_PATCH_RATE 44100\n#define RNBO_S3_PATCH_BLOCK 256\n")
+    if description["numMidiInputPorts"]:
+        config += f"#define RNBO_S3_PATCH_MIDI_INPUT_PORTS {description['numMidiInputPorts']}\n"
     if gen_abs_intrinsic:
         from gen_abs_intrinsic import CONTRACT_FILE
         config += '#define RNBO_S3_PATCH_SOURCE "' + CONTRACT_FILE + '"\n'

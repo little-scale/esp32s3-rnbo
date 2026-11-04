@@ -1,5 +1,25 @@
 # Implementation status — 5 November 2026
 
+The [MIDI-input tangent](midi-inputs.md) now has UART1 input on **XIAO
+D7/GPIO44**, saved off/UART selection in Studio, running status, MIDI clock and
+short system messages, plus bounded queue and held-note recovery. The updated
+standard player is installed. A silent monitor passed **206 delivered messages**,
+including exact counts of 96 software clocks and 96 actual UART internal-loopback
+clocks, note/velocity readback, transport/system-common bytes, pause/resume
+releases and Active Sensing timeout. All audio/allocation fault counters stayed
+zero; the original Main patch `a` was restored at 50%, with UART off.
+[Evidence](../evidence/player-midi-xiao.json) records its narrow scope: external
+receiver wiring, the D7 pad and a physical MIDI controller remain untested.
+
+An explicit experimental USB MIDI1 host variant builds, with bounded descriptor
+and packet-decoder tests. It replaces the USB console and needs a suitable host
+adapter/power arrangement and previously paired Wi-Fi. It has **not** been
+flashed or tested with a USB controller. Standard XIAO, host XIAO and standard
+AMOLED builds pass, along with 526 compiler tests, 97 Studio tests, 25 frontend
+tests, the UBSan parser check and seven native monitor/contract tests. These
+transport checks do not promote RNBO object catalog entries. The main
+qualification goal remains **paused**.
+
 Studio now offers explicit [Float32 Trial mode](float32-trial.md). It attempts
 eligible unreviewed DSP methods, compares default native output with Auto and
 saves method fingerprints/edits/skips plus post-upload CPU/error observations.

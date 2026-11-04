@@ -8,6 +8,9 @@ validation with 3sawsDrone. See the [headless guide](docs/headless.md).
 
 See [implementation status and validation](docs/STATUS.md) for the completed
 builds, test evidence and remaining physical gates.
+Optional [UART MIDI on D7/GPIO44](docs/midi-inputs.md) now feeds ordinary RNBO
+MIDI objects, including clock, with internal-loopback validation on XIAO.
+The USB MIDI1 host variant builds; controller attachment tests remain pending.
 The original technical handover is a historical starting point; implementation
 status records the current results.
 

@@ -45,6 +45,12 @@ trap; retain a sufficient arena reserve.
 
 The graph is a preview of the input patch. Editing JSON or compile settings
 invalidates the previous package. Board selection affects only player installation.
+The XIAO player's **MIDI input** section saves optional UART input on
+**D7/GPIO44**, 31,250 baud. Compile a patch containing MIDI objects again after
+installing the updated player. Clock and other short system messages reach
+`midiin`; physical receiver wiring and USB-host attachment require later checks.
+See [MIDI mapping, clock and host-build instructions](../../docs/midi-inputs.md).
+
 Live volume and parameter changes are RAM state; package metadata supplies startup
 volume. Parameter controls include the active generation and connection identity,
 so queued controls cannot target a replacement patch or another selected player. A queue

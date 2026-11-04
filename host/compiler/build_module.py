@@ -86,7 +86,7 @@ def inventory(directory: Path):
 
 
 def sources():
-    paths=[ROOT/"module-sdk/include/rnbo_s3_module.h",ROOT/"module-sdk/include/rnbo_s3_dynamic.h",
+    paths=[ROOT/"module-sdk/include/rnbo_s3_module.h",ROOT/"module-sdk/include/rnbo_s3_midi.h",ROOT/"module-sdk/include/rnbo_s3_dynamic.h",
            ROOT/"host/compiler/build_module.py",ROOT/"host/compiler/build.py",
            ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",ROOT/"host/compiler/physical_inputs.py",ROOT/"host/compiler/float32_trial.py",
            ROOT/"host/export/export.mjs",ROOT/"host/export/patcher.mjs",ROOT/"host/export/inspect_onepole_graph.mjs",

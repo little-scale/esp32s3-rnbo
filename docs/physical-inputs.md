@@ -1,5 +1,10 @@
 # Physical inputs → RNBO parameters
 
+**UART MIDI reservation:** optional [UART MIDI input](midi-inputs.md) uses
+**D7 = GPIO44**. D7 digital bindings are available while UART MIDI is off.
+The player rejects enabling UART with a loaded GPIO44 binding, and rejects
+loading that binding while UART is enabled. The other pin mappings are unchanged.
+
 Physical inputs v1 let a **XIAO ESP32-S3 player package** carry its own knob,
 button and capacitive-touch mappings. Put `@meta` directly in the `param` object
 text. No extra RNBO objects or firmware rebuild are needed when changing a

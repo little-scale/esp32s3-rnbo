@@ -67,6 +67,7 @@ def build(export: Path, build_dir: Path, cmake: str = "cmake") -> Path:
                            root / "host/export/export.mjs", root / "host/export/patcher.mjs",
                            root / "host/export/inspect_onepole_graph.mjs",
                            root / "host/compiler/onepole_stable.h"]
+    integration_files.append(root / "module-sdk/include/rnbo_s3_midi.h")
     integration_hashes = snapshot_files(root, integration_files)
     compiler_tool_hashes = snapshot_files(root, compiler_tool_files)
     build_dir = build_dir.resolve()

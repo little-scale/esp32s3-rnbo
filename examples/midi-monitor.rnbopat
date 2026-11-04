@@ -1,0 +1,254 @@
+{
+  "patcher": {
+    "classnamespace": "rnbo",
+    "rect": [
+      0,
+      0,
+      1000,
+      360
+    ],
+    "boxes": [
+      {
+        "box": {
+          "id": "note",
+          "maxclass": "newobj",
+          "text": "notein",
+          "patching_rect": [
+            20,
+            20,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "raw",
+          "maxclass": "newobj",
+          "text": "midiin",
+          "patching_rect": [
+            320,
+            20,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "clock",
+          "maxclass": "newobj",
+          "text": "select 248",
+          "patching_rect": [
+            320,
+            80,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "count",
+          "maxclass": "newobj",
+          "text": "counter 0 1000000",
+          "patching_rect": [
+            320,
+            140,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pnote",
+          "maxclass": "newobj",
+          "text": "param last-note 0 @min 0 @max 127",
+          "patching_rect": [
+            20,
+            80,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pvel",
+          "maxclass": "newobj",
+          "text": "param last-velocity 0 @min 0 @max 127",
+          "patching_rect": [
+            20,
+            140,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pbyte",
+          "maxclass": "newobj",
+          "text": "param last-byte 0 @min 0 @max 255",
+          "patching_rect": [
+            600,
+            80,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "pclock",
+          "maxclass": "newobj",
+          "text": "param clock-count 0 @min 0 @max 1000000",
+          "patching_rect": [
+            320,
+            200,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "zero",
+          "maxclass": "newobj",
+          "text": "sig~ 0",
+          "patching_rect": [
+            20,
+            220,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "text": "out~ 1",
+          "patching_rect": [
+            20,
+            280,
+            290,
+            22
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "text": "out~ 2",
+          "patching_rect": [
+            140,
+            280,
+            290,
+            22
+          ]
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "source": [
+            "note",
+            0
+          ],
+          "destination": [
+            "pnote",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "note",
+            1
+          ],
+          "destination": [
+            "pvel",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "raw",
+            0
+          ],
+          "destination": [
+            "pbyte",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "raw",
+            0
+          ],
+          "destination": [
+            "clock",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "clock",
+            0
+          ],
+          "destination": [
+            "count",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "count",
+            0
+          ],
+          "destination": [
+            "pclock",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "zero",
+            0
+          ],
+          "destination": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "zero",
+            0
+          ],
+          "destination": [
+            "right",
+            0
+          ]
+        }
+      }
+    ]
+  }
+}

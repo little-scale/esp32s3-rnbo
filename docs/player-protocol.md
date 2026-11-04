@@ -22,6 +22,13 @@ Package SHA256 identifies the entire exact header+payload. Modules have zero
 undefined imports, ABI1, fixed 44100/256 and the existing single-instance wrapper.
 Each active image has its own state, arena, context and sample position.
 
+MIDI-input packages add optional `midi_input_ports:1` metadata and module flag
+`RNBO_S3_SHORT_MIDI_INPUT` (bit 16). The event layout and ABI remain 1.0. The
+updated player declares `midi_input_version:1`; Studio checks it before upload.
+Older loaders reject the new flag. Hardware input is routed only to modules
+with that capability, so old packages need recompilation for hardware MIDI.
+Non-MIDI prepared manifests/configs retain their previous shape.
+
 ### Envelope v2: physical inputs
 
 Input-bound packages set header `version=2` with the same layout, magic and
@@ -59,7 +66,16 @@ Maximum command line 8192 bytes; binary chunks use hex to avoid console escaping
   supplies initial volume when installed/rebooted. Fresh empty player defaults 50%.
 - `player-param ROLE GENERATION INDEX NORMALIZED`: exact active generation and
   per-role bounded index, normalized finite 0..1. Queue to audio owner; reply queued.
-- `player-midi GENERATION STATUS D1 D2`: complete channel MIDI to Main audio owner.
+- `player-midi GENERATION STATUS D1 D2`: complete supported short MIDI message
+  to the capable Main audio owner. Length follows status; unused data bytes are
+  ignored. Queue admission requires the current generation and playing state.
+- `player-midi-config off|uart`: park DMA and save UART MIDI selection in NVS;
+  reject D7/GPIO44 physical-binding conflicts. Reply `midi_configured:true`.
+- `player-midi-stream GENERATION HEX`: diagnostic software byte stream, 1..128
+  bytes, parsed with running status; reply `midi_stream_accepted:true` confirms
+  parsing was attempted, not audio delivery. Counters/readback verify delivery.
+- `player-midi-loopback GENERATION HEX`: same bounded diagnostic through UART1
+  internal TX/RX loopback, requiring enabled UART. TX is not routed to a pad.
 - `player-wifi-scan`: USB-only, after startup verification and outside a package
   transfer; park DMA and return `networks:[{ssid,rssi,channel,secure}]`. At most
   24 visible UTF-8 personal/open network names are returned, strongest first and
@@ -77,6 +93,11 @@ Its JSON envelopes carry the same command/reply text; setup/scan/forget stay
 USB-only. Authentication provides integrity, not confidentiality. See
 [player-wifi.md](player-wifi.md) for exact MAC domains, setup and current validation
 limits.
+
+`player-info` adds `midi_input_version:1` and a `midi` object with UART mapping,
+host-build/attachment state, queue use, accepted/delivered/dropped message counts,
+transport errors and recovery counts. See [MIDI input](midi-inputs.md) for supported
+messages, clock timing, note cleanup, exact pin mapping and host-build limits.
 
 No filesystem writes, module loading, allocation or image destruction run in the
 audio owner. Maintenance deliberately pauses audio; this first integration does

@@ -21,6 +21,13 @@ def elf():
 
 class PackageTests(unittest.TestCase):
     metadata = dict(name='Test', source_sha256='b'*64, initial_volume=50)
+    def test_midi_capability_roundtrip_rejects_other_port_counts_and_bools(self):
+        raw=create(elf(),dict(self.metadata,midi_input_ports=1),'main',4096)
+        self.assertEqual(parse(raw)['metadata']['midi_input_ports'],1)
+        for value in (0,2,True,'1',None):
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                create(elf(),dict(self.metadata,midi_input_ports=value),'main',4096)
+
     def test_trial_label_roundtrips_and_cannot_claim_verification(self):
         summary=dict(version=1,profile='float32-trial-v1',qualification='unverified',audit_sha256='c'*64,
                      trial_method_count=2,reviewed_method_count=14,skipped_method_count=8)

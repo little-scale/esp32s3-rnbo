@@ -25,4 +25,12 @@ config RNBO_S3_I2S_DOUT
     default 9
     range 0 48
     depends on RNBO_S3_HEADLESS
+config RNBO_S3_USB_MIDI_HOST
+    bool "Experimental USB MIDI1 host (replaces USB console; use Wi-Fi)"
+    default n
+    depends on RNBO_S3_HEADLESS
+    help
+        Requires a USB host adapter, suitable VBUS supply and a class-compliant
+        MIDI1 controller. Build explicitly with tools/build_firmware.py. Do not
+        enable the USB Serial/JTAG console in this variant.
 endmenu

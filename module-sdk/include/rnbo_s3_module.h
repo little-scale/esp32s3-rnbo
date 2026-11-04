@@ -17,7 +17,8 @@ enum { RNBO_S3_MAIN = 1, RNBO_S3_FX = 2 };
 enum { RNBO_S3_OK = 0, RNBO_S3_INVALID = -1, RNBO_S3_BUSY = -2,
        RNBO_S3_NO_MEMORY = -3, RNBO_S3_FAULT = -4, RNBO_S3_UNSUPPORTED = -5 };
 enum { RNBO_S3_SINGLE_INSTANCE = 1u, RNBO_S3_BOUNDARY_EVENTS = 2u,
-       RNBO_S3_PLATFORM_ALLOCATIONS_ONLY = 4u, RNBO_S3_DISCARDS_MIDI_OUTPUT = 8u };
+       RNBO_S3_PLATFORM_ALLOCATIONS_ONLY = 4u, RNBO_S3_DISCARDS_MIDI_OUTPUT = 8u,
+       RNBO_S3_SHORT_MIDI_INPUT = 16u }; /* port0 + channel/system short messages */
 enum { RNBO_S3_PARAMETER_ACTUAL = 1, RNBO_S3_PARAMETER_NORMALIZED = 2,
        RNBO_S3_MIDI = 3 };
 
@@ -35,7 +36,7 @@ typedef struct {
     float value;
     uint32_t midi_port;
     uint32_t midi_length;
-    uint8_t midi[3]; /* complete channel messages, including the status byte */
+    uint8_t midi[3]; /* complete short messages; system statuses require capability flag */
     uint8_t reserved;
 } rnbo_s3_event;
 

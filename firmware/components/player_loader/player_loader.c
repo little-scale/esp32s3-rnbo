@@ -112,7 +112,7 @@ static bool admit_table(player_image *a, uint32_t role)
         m->role != role || m->audio_outputs != 2 || m->audio_inputs != (role == RNBO_S3_FX ? 2u : 0u) ||
         m->max_parameters > RNBO_S3_MAX_PARAMETERS) return false;
     const uint32_t allowed_flags = RNBO_S3_SINGLE_INSTANCE | RNBO_S3_BOUNDARY_EVENTS |
-        RNBO_S3_PLATFORM_ALLOCATIONS_ONLY | RNBO_S3_DISCARDS_MIDI_OUTPUT;
+        RNBO_S3_PLATFORM_ALLOCATIONS_ONLY | RNBO_S3_DISCARDS_MIDI_OUTPUT | RNBO_S3_SHORT_MIDI_INPUT;
     if ((m->flags & ~allowed_flags) || !(m->flags & RNBO_S3_SINGLE_INSTANCE) ||
         !(m->flags & RNBO_S3_BOUNDARY_EVENTS)) return false;
 #define CALLBACK(name) if (!executable(&a->elf, (uintptr_t)m->name)) return false

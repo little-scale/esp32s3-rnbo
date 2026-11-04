@@ -14,7 +14,7 @@ class Player:
     def __init__(self):
         self.frames=1024;self.uptime=100000;self.firmware='a'*64;self.generation=0
         self.paused=True;self.volume=50;self.main=None;self.commands=[];self.data=bytearray()
-        self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False;self.physical_version=None
+        self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False;self.physical_version=None;self.midi_version=None
     def response(self, command):
         self.commands.append(command)
         if command=='player-info':
@@ -25,6 +25,9 @@ class Player:
                 allocation_fault=False,reconstruction_failed=False,**{key:0 for key in d.FAULT_COUNTERS})
             if self.runtime_fault:reply['module_errors']=1
             if self.physical_version is not None:reply['physical_inputs_version']=self.physical_version
+            if self.midi_version is not None:reply['midi_input_version']=self.midi_version
+        elif command.startswith('player-midi-config '):reply={'midi_configured':True}
+        elif command.startswith(('player-midi-stream ','player-midi-loopback ')):reply={'midi_stream_accepted':True}
         elif command.startswith('player-begin '):
             _,role,total,sha=command.split();assert role=='1';self.total=int(total);self.expected=sha;self.data.clear()
             reply=dict(upload='ready',offset=0,chunk_bytes=1024)
@@ -94,6 +97,20 @@ class PlayerTests(unittest.TestCase):
         self.assertFalse(any(command.startswith('player-begin') for command in self.player.commands))
         self.player.physical_version=1
         self.assertEqual(self.upload()['device']['generation'],1)
+    def test_midi_package_and_config_require_new_player_and_diagnostics_use_current_generation(self):
+        self.package['metadata']['midi_input_ports']=1
+        with self.assertRaisesRegex(d.DeviceError,'updated MIDI player'):self.upload()
+        self.assertFalse(any(c.startswith('player-begin') for c in self.player.commands))
+        self.bridge.connect('/dev/test-esp')
+        with self.assertRaisesRegex(d.DeviceError,'updated MIDI player'):self.bridge.configure_midi('uart')
+        self.player.midi_version=1;self.upload()
+        self.bridge.configure_midi('uart');self.assertIn('player-midi-config uart',self.player.commands)
+        self.bridge.midi_stream('903c64f8');self.assertIn('player-midi-stream 1 903c64f8',self.player.commands)
+        self.bridge.midi_stream('f8',loopback=True);self.assertIn('player-midi-loopback 1 f8',self.player.commands)
+        for bad in ('','123','zz','f8'*129):
+            with self.assertRaises(ValueError):self.bridge.midi_stream(bad)
+        with self.assertRaises(ValueError):self.bridge.configure_midi('usb')
+
     def test_false_commit_and_changed_package_never_claim_success(self):
         self.player.bad_commit=True
         with self.assertRaisesRegex(d.DeviceError,'complete package commit'):self.upload()

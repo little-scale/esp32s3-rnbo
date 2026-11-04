@@ -141,6 +141,8 @@ async function openStudio({parameters = [], environment = {}, paired = []} = {})
     else if (path === '/api/connect') {
       backend.device = {runtime:'rnbo-esp32s3-player',board: 'xiao', transport:'usb', device_id:'001122334455', generation:1, panic: false, volume: 50, render_us: 12, peak_us: 16};
       data = snapshot();
+    } else if (path === '/api/midi/configure') {
+      backend.device.midi.uart_enabled=body.mode==='uart';data=snapshot();
     } else if (path === '/api/control') {
       if (backend.controlHandler) data = await backend.controlHandler(body);
       else {
@@ -176,6 +178,23 @@ async function openStudio({parameters = [], environment = {}, paired = []} = {})
     },
   };
 }
+
+test('MIDI settings require a capable connected player and retain edits across polls', async () => {
+  const app=await openStudio();
+  assert.equal(app.get('midi-save').disabled,true);
+  await app.get('connect').fire('click');
+  assert.equal(app.get('midi-save').disabled,true);
+  app.backend.device.midi_input_version=1;
+  app.backend.device.midi={uart_supported:true,uart_enabled:false,patch_input_supported:true,delivered:12};
+  await app.runInterval(1800);
+  assert.equal(app.get('midi-save').disabled,false);
+  app.get('midi-mode').value='uart';await app.get('midi-mode').fire('change');
+  await app.runInterval(1800);assert.equal(app.get('midi-mode').value,'uart');
+  await app.get('midi-save').fire('click');
+  const sent=app.calls.find(c=>c.path==='/api/midi/configure');
+  assert.deepEqual(sent.body,{mode:'uart',target:{device_id:'001122334455',transport:'usb'}});
+  assert.match(app.get('midi-status').textContent,/D7.*GPIO44/);
+});
 
 test('example, SVG and build workflow use the local session token and typed settings', async () => {
   const app = await openStudio();

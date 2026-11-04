@@ -6,6 +6,7 @@
 #include "player_loader.h"
 #include "player_store.h"
 #include "player_inputs.h"
+#include "player_midi.h"
 #include "cJSON.h"
 #include "esp_app_desc.h"
 #include "esp_heap_caps.h"
@@ -64,6 +65,8 @@ static atomic_uint actual_bits[PLAYER_MAX_PARAMETERS],normalized_bits[PLAYER_MAX
 /* UINT32_MAX cannot encode a finite normalized value. One mailbox per parameter
  * coalesces physical changes without competing with the bounded command queue. */
 static atomic_uint physical_pending[PLAYER_MAX_PARAMETERS];
+static midi_note_state midi_notes;
+static unsigned midi_recovery;
 static QueueHandle_t events,telemetry;
 static TaskHandle_t audio_handle,control_handle;
 static StaticTask_t audio_tcb,control_tcb;
@@ -152,7 +155,7 @@ static bool read_parameter(unsigned i,float *a,float *n)
 }
 static bool post_volume(unsigned value)
 {if(value>100)return false;atomic_store(&volume,value);return true;}
-static void request_pause(void){atomic_store(&paused,true);}
+static void request_pause(void){atomic_store(&paused,true);player_midi_set_playing(false);}
 static bool can_resume(void)
 {
     if(!atomic_load(&active)||atomic_load(&park_failed)||atomic_load(&maintenance))return false;
@@ -231,6 +234,8 @@ static void audio_task(void *unused)
         }
         player_slot *s=atomic_load_explicit(&active,memory_order_acquire);
         bool play=s&&!atomic_load(&paused)&&!stats.fault&&!atomic_load(&park_failed);
+        player_midi_set_playing(play);
+        bool midi_changed=false;
         player_event e;
         for(unsigned i=0;i<EVENT_COUNT && xQueueReceive(events,&e,0)==pdTRUE;++i) {
             if(!play||e.generation!=atomic_load(&generation))continue;
@@ -238,6 +243,28 @@ static void audio_task(void *unused)
             memcpy(event.midi,e.midi,sizeof event.midi);
             if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;}
             else if(e.kind!=RNBO_S3_MIDI)publish_parameter(s,e.index);
+            else {midi_notes_observe(&midi_notes,e.midi,e.midi_length);midi_changed=true;}
+        }
+        if(play&&!stats.fault&&(s->image.module.flags&RNBO_S3_SHORT_MIDI_INPUT)) {
+            unsigned recovery=player_midi_recovery_epoch();
+            if(recovery&&recovery!=midi_recovery) {
+                midi_recovery=recovery;player_midi_flush_queue();midi_notes_recover(&midi_notes);
+            }
+            for(unsigned i=0;i<64&&!stats.fault;++i) {
+                player_midi_message message={0};bool cleanup=midi_notes.recovering;
+                if(cleanup) {
+                    if(!midi_notes_recovery_next(&midi_notes,message.bytes)) {
+                        player_midi_recovery_done(midi_recovery);midi_recovery=0;break;
+                    }
+                    message.length=3;
+                } else if(!player_midi_receive(&message))break;
+                rnbo_s3_event event={.struct_bytes=sizeof event,.kind=RNBO_S3_MIDI,.midi_port=0,.midi_length=message.length};
+                memcpy(event.midi,message.bytes,sizeof event.midi);
+                if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;break;}
+                midi_changed=true;
+                if(!cleanup){midi_notes_observe(&midi_notes,message.bytes,message.length);player_midi_delivered();}
+                if(message.bytes[0]==0xff){player_midi_request_recovery();break;}
+            }
         }
         if(play&&!stats.fault)for(unsigned i=0;i<s->inputs.count;++i) {
             unsigned index=s->inputs.bindings[i].parameter_index;
@@ -256,6 +283,7 @@ static void audio_task(void *unused)
             stats.arena_used=s->image.stats.arena_used;
             stats.late_allocations=(uint32_t)s->image.dynamic_stats.total_late_allocations;
             stats.position=s->image.position;
+            if(midi_changed)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
         } else {memset(left,0,sizeof left);memset(right,0,sizeof right);}
         if(!pcm_output_render(&sink,left,right,pcm,256,BOARD_AUDIO_CHANNELS,atomic_load(&volume),0.5f,!play||stats.fault))stats.fault=true;
         stats.nonfinite=sink.nonfinite;stats.clipped=sink.clipped;
@@ -287,6 +315,7 @@ static bool begin_maintenance(char *error,size_t size)
 {
     if(!atomic_load(&audio_ready)||atomic_load(&park_failed)){snprintf(error,size,"Audio owner is not available for maintenance");return false;}
     atomic_store_explicit(&maintenance,true,memory_order_release);
+    player_midi_set_playing(false);
     unsigned request=atomic_fetch_add_explicit(&maintenance_epoch,1,memory_order_acq_rel)+1;
     int64_t deadline=esp_timer_get_time()+3000000;
     while(atomic_load_explicit(&acknowledged_epoch,memory_order_acquire)!=request) {
@@ -346,6 +375,9 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
     if(!player_inputs_plan_parse(s->package.metadata_json,false,-1,-1,-1,
                                 s->image.parameter_count,input_parameter_id,s,&s->inputs,error,size))goto fail;
 #endif
+    for(unsigned i=0;i<s->inputs.count;++i)if(player_midi_uart_enabled()&&s->inputs.bindings[i].gpio==44) {
+        snprintf(error,size,"D7/GPIO44 is reserved by enabled UART MIDI");goto fail;
+    }
     /* Detached finite/CPU screen; an actual system deadline remains a hardware
      * observation. The screen advances the candidate by sixteen callbacks. */
     float left[256],right[256];float *outputs[2]={left,right};
@@ -379,6 +411,8 @@ static void activate(player_slot *s,bool autostart)
     if(s)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
     atomic_store(&parameter_count,s?s->image.parameter_count:0);
     guard_generation=atomic_fetch_add(&generation,1)+1;
+    memset(&midi_notes,0,sizeof midi_notes);midi_recovery=0;
+    player_midi_set_route(guard_generation,s&&(s->image.module.flags&RNBO_S3_SHORT_MIDI_INPUT));
     if(s&&autostart){atomic_store(&volume,s->package.initial_volume);atomic_store(&paused,false);}
 #ifndef CONFIG_RNBO_S3_HEADLESS
     display_slot(s);
@@ -418,6 +452,7 @@ static void player_info(void)
     cJSON *o=cJSON_CreateObject();if(!o){error_reply("Cannot allocate player status",true);return;}
     cJSON_AddStringToObject(o,"runtime","rnbo-esp32s3-player");add_number(o,"api_version",1);cJSON_AddStringToObject(o,"board",BOARD_MODEL);
     add_number(o,"physical_inputs_version",1);
+    add_number(o,"midi_input_version",1);player_midi_add_status(o);
     cJSON_AddStringToObject(o,"firmware_elf_sha256",firmware);add_number(o,"rate",44100);add_number(o,"block_frames",256);add_number(o,"channels",BOARD_AUDIO_CHANNELS);
     add_number(o,"generation",atomic_load(&generation));cJSON_AddBoolToObject(o,"paused",atomic_load(&paused));cJSON_AddBoolToObject(o,"panic",atomic_load(&paused)||!s);
     cJSON_AddBoolToObject(o,"maintenance",atomic_load(&maintenance));add_number(o,"volume",atomic_load(&volume));
@@ -506,6 +541,17 @@ static void wifi_command(char *line)
 static void command(char *line)
 {
     if(!strcmp(line,"player-info")){player_info();return;}
+    if(!strcmp(line,"player-midi-config off")||!strcmp(line,"player-midi-config uart")) {
+        if(incoming.bytes){error_reply("Finish the current package upload before changing MIDI",true);return;}
+        bool enable=!strcmp(line,"player-midi-config uart");player_slot *slot=atomic_load(&active);
+        if(enable&&slot)for(unsigned i=0;i<slot->inputs.count;++i)if(slot->inputs.bindings[i].gpio==44) {
+            error_reply("D7/GPIO44 is already bound to a physical parameter",true);return;
+        }
+        char error[192];if(!begin_maintenance(error,sizeof error)){error_reply(error,true);return;}
+        bool ok=player_midi_configure_uart(enable,error,sizeof error);bool resumed=end_maintenance();
+        if(!ok||!resumed){error_reply(ok?"MIDI settings saved but audio could not resume":error,true);return;}
+        reply_line("{\"midi_configured\":true}");return;
+    }
 #ifdef RNBO_S3_WIFI
     if(!strncmp(line,"player-wifi-",12)) {wifi_command(line);return;}
 #endif
@@ -518,6 +564,19 @@ static void command(char *line)
     if(!strcmp(line,"player-pause")){request_pause();reply_line("{\"paused\":true}");return;}
     if(!strcmp(line,"player-resume")){if(!can_resume()){error_reply("Load a healthy Main patch, finish installation, or restart a failed audio driver",true);return;}request_resume();reply_line("{\"paused\":false}");return;}
     unsigned role,total,value,gen,index;float normalized;char hash[65],tail;
+    char midi_hex[257];
+    bool loopback=!strncmp(line,"player-midi-loopback ",21);
+    if(sscanf(line,loopback?"player-midi-loopback %u %256s %c":"player-midi-stream %u %256s %c",&gen,midi_hex,&tail)==2) {
+        size_t n=strlen(midi_hex);uint8_t bytes[128];
+        if(gen!=atomic_load(&generation)||!n||(n&1)||!player_midi_has_input()) {
+            error_reply("MIDI stream needs the current generation and a recompiled MIDI-input patch",true);return;
+        }
+        for(size_t i=0;i<n;i+=2){int a=unhex(midi_hex[i]),b=unhex(midi_hex[i+1]);if(a<0||b<0){error_reply("MIDI stream must be hexadecimal bytes",true);return;}bytes[i/2]=(uint8_t)(a*16+b);}
+        if(loopback) {
+            char error[128];if(!player_midi_uart_loopback(bytes,n/2,error,sizeof error)){error_reply(error,true);return;}
+        } else player_midi_stream_test(bytes,n/2);
+        reply_line("{\"midi_stream_accepted\":true}");return;
+    }
     if(sscanf(line,"player-begin %u %u %64s %c",&role,&total,hash,&tail)==3) {
         if(role!=1||total<128||total>PLAYER_PACKAGE_MAX_BYTES||!hash_string(hash)){error_reply("Invalid Main package size or hash",true);return;}
         discard_incoming();incoming.bytes=heap_caps_malloc(total,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
@@ -541,10 +600,9 @@ static void command(char *line)
     }
     unsigned status,d1,d2;
     if(sscanf(line,"player-midi %u %u %u %u %c",&gen,&status,&d1,&d2,&tail)==4) {
-        unsigned kind=status&0xf0u;
-        if(gen!=atomic_load(&generation)||status<0x80||status>=0xf0||d1>127||d2>127){error_reply("Invalid complete MIDI message or generation",true);return;}
-        player_event e={.kind=RNBO_S3_MIDI,.generation=gen,.midi={(uint8_t)status,(uint8_t)d1,(uint8_t)d2},.midi_length=(kind==0xc0||kind==0xd0)?2:3};
-        if(!queue_event(&e))error_reply("Main is paused, installing or its MIDI queue is full",true);else reply_line("{\"queued\":true}");return;
+        uint8_t message[3]={(uint8_t)status,(uint8_t)d1,(uint8_t)d2};unsigned length=rnbo_s3_midi_length((uint8_t)status);
+        if(gen!=atomic_load(&generation)||status>255||d1>127||d2>127||!length){error_reply("Invalid complete MIDI message or generation",true);return;}
+        if(!player_midi_submit(PLAYER_MIDI_TEST,message,length))error_reply("MIDI needs a recompiled input patch, playing state and queue capacity",true);else reply_line("{\"queued\":true}");return;
     }
     error_reply("Unknown player command",true);
 }
@@ -558,7 +616,7 @@ static void control_task(void *unused)
     for(;;) {
         /* This owner also installs packages. Input drivers cannot run during
          * flash maintenance/rebinding, and the audio owner only sees mailboxes. */
-        if(!atomic_load(&maintenance))player_inputs_poll(esp_timer_get_time(),physical_publish);
+        if(!atomic_load(&maintenance)){int64_t now=esp_timer_get_time();player_inputs_poll(now,physical_publish);player_midi_poll(now);}
         if(incoming.bytes&&esp_timer_get_time()-incoming.touched>30000000)discard_incoming();
 #ifdef RNBO_S3_WIFI
         uint32_t session=used==0?player_network_poll_request(line,LINE_BYTES):0;
@@ -571,7 +629,11 @@ static void control_task(void *unused)
             /* Poll only at a USB line boundary so the two streams cannot overwrite one another. */
         }
 #endif
+#ifdef CONFIG_RNBO_S3_USB_MIDI_HOST
+        int c=EOF;
+#else
         int c=getchar();
+#endif
         if(c==EOF) {
             clearerr(stdin);
             if(used&&esp_timer_get_time()-last_usb_byte>2000000) {
@@ -628,6 +690,13 @@ void app_main(void)
     char error[192];store_ready=player_store_init(error,sizeof error);
     if(!store_ready)snprintf(boot_error,sizeof boot_error,"%s",error);
     if(store_ready&&!guard_init()){store_ready=false;snprintf(boot_error,sizeof boot_error,"Player recovery metadata unavailable");}
+    if(!player_midi_init(
+#ifdef CONFIG_RNBO_S3_HEADLESS
+        CONFIG_RNBO_S3_I2S_BCLK!=44&&CONFIG_RNBO_S3_I2S_WS!=44&&CONFIG_RNBO_S3_I2S_DOUT!=44,
+#else
+        false,
+#endif
+        error,sizeof error))ESP_LOGW(TAG,"MIDI: %s",error);
     events=xQueueCreate(EVENT_COUNT,sizeof(player_event));telemetry=xQueueCreate(1,sizeof(player_stats));
     StackType_t *audio_stack=heap_caps_malloc(AUDIO_STACK,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT),*control_stack=heap_caps_malloc(CONTROL_STACK,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
     if(!events||!telemetry||!audio_stack||!control_stack){ESP_LOGE(TAG,"Player task allocation failed");return;}
@@ -641,6 +710,7 @@ void app_main(void)
     /* Startup may initialise radio/NVS before DMA exists. Later settings changes park DMA. */
     player_network_init();
 #endif
+    if(!player_usb_midi_start(error,sizeof error))ESP_LOGW(TAG,"USB MIDI host: %s",error);
     audio_handle=xTaskCreateStaticPinnedToCore(audio_task,"rnbo_player_audio",AUDIO_STACK,NULL,20,audio_stack,&audio_tcb,1);
     control_handle=xTaskCreateStaticPinnedToCore(control_task,"rnbo_player_usb",CONTROL_STACK,NULL,5,control_stack,&control_tcb,0);
     if(!audio_handle||!control_handle){ESP_LOGE(TAG,"Cannot start player tasks");return;}
