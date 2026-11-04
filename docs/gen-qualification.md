@@ -6,7 +6,15 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
-The latest [range/routing/conversion batch](hardware-smoke.md#gen-range-routing-and-conversion-calls)
+The [named-constant batch](hardware-smoke.md#gen-named-constants-and-configuration-values)
+adds 32 passing bare-value scenarios and 327,680 bit-exact output checks.
+Twenty-eight mathematical spellings are individually authored; four configuration
+names report 44,100 Hz/256 frames. All callback medians are 37 µs, peak 42 µs,
+with no CPU-review flags and all memory/allocation gates passing. This does not
+qualify other configurations, call syntax or similarly named RNBO surfaces.
+See [the complete evidence](../evidence/xiao-smoke-gen-constants.json).
+
+The earlier [range/routing/conversion batch](hardware-smoke.md#gen-range-routing-and-conversion-calls)
 executes 29 GenExpr calls: 25 pass, three fast approximations exceed the fixed
 1e-3 ideal-math screen, and `ftom` differs from the declared continuous-pitch
 reference at quarter tones. The separate tuple `gate` source is rejected before

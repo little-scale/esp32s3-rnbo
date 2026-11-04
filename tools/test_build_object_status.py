@@ -209,7 +209,11 @@ class ObjectStatusTests(unittest.TestCase):
             self.assertEqual(observation['max_absolute_error'],2**-24)
         self.assertIn('finite only',rows['patcher:isnan']['working']['detail'])
         self.assertIn('initial number-store value',rows['patcher:constant']['working']['detail'])
-        self.assertEqual(rows['codebox:step']['working']['status'],'unverified')
+        # A later codebox scenario has its own retained mismatch, rather than
+        # inheriting the event-object result above.
+        self.assertEqual(rows['codebox:step']['working']['status'],'partial')
+        self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-codebox-range.json')for s in rows['codebox:step']['sources']))
+        self.assertFalse(any(s['url'].endswith('/'+source)for s in rows['codebox:step']['sources']))
 
     def test_constant_results_add_only_scoped_observations_and_preserve_sig_composition(self):
         source='evidence/xiao-smoke-rnbo-constants.json'
@@ -318,6 +322,48 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('finite inputs only',rows['codebox:isnan']['working']['detail'])
         self.assertEqual(rows['codebox:mod']['working']['status'],'unverified')
         self.assertEqual(rows['codebox:^^']['working']['status'],'unverified')
+
+    def test_actual_codebox_range_separates_valid_instances_from_rejected_calls(self):
+        source='evidence/xiao-smoke-rnbo-codebox-range.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        raw={r['id']:r for r in self.coverage['objects']}
+        self.assertGreaterEqual(len(raw),421)
+        self.assertEqual(data['summary'],{'admission_failures':3,'compile_failures':4,'cpu_review':6,'executed':40,'output_mismatches':4,'passed':36})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),409600)
+        self.assertEqual(sum(c['zero_sign_differences']for c in data['cases']),2600)
+        failed={'step','fastpow','fastexp','fasttan'};reviewed=set()
+        for case in data['cases']:
+            row=rows['codebox:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(row['working']['status'],'partial'if case['exact_name']in failed else'board')
+            self.assertTrue(row['board_evidence'])
+            self.assertEqual(observation['numeric_mismatches'],case['numeric_mismatches'])
+            self.assertEqual(observation['absolute_tolerance'],case['absolute_tolerance'])
+            self.assertEqual(observation['codebox_source_sha256'],case['codebox_source_sha256'])
+            self.assertEqual(observation['arena_capacity'],1048576)
+            self.assertEqual(observation['arena_high_water'],262256 if case['exact_name']=='mtof'else 0)
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+            self.assertFalse(any(s['url'].endswith('/evidence/xiao-smoke-gen-range.json')for s in row['sources']))
+            if case['cpu_review_reasons']:reviewed.add(case['exact_name'])
+        self.assertEqual(reviewed,{'log2f','atodb','dbtoa','t60','mtof','ftom'})
+        for name in('mtof','ftom'):
+            record=raw['codebox:'+name];row=rows[record['id']]
+            observations=row['hardware_smoke']
+            self.assertEqual(len(observations),1)
+            self.assertEqual(observations[0]['case'],name+'-stateful-next')
+            self.assertIn('.next(input, 440)',record['working_note'])
+            self.assertTrue(any('separate direct '+name in gap for gap in record['known_gaps']))
+            self.assertFalse(any(q.get('evidence_kind')=='rnbo-codebox-build-failure'for q in record['qualification']))
+        for name in('rdiv','rmod','rsub','rminus','switch'):
+            row=rows['codebox:'+name];record=raw[row['id']]
+            self.assertEqual(row['working']['status'],'unverified')
+            self.assertFalse(row['board_evidence']);self.assertFalse(row.get('hardware_smoke'))
+            self.assertIsNone(row['performance'])
+            self.assertEqual(record['qualification'][0]['evidence_kind'],'rnbo-codebox-build-failure')
+        self.assertIn('not a documented accuracy guarantee',rows['codebox:fastpow']['working']['detail'])
+        self.assertEqual(rows['codebox:step']['hardware_smoke'][0]['absolute_tolerance'],0)
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -626,7 +672,7 @@ class ShortSmokeStatusTests(unittest.TestCase):
     def test_codebox_short_result_cannot_qualify_patcher_or_gen_surface(self):
         self.numeric();self.record.update(id='codebox:floor',spelling='floor',surface='codebox')
         self.data['cases'][0].update(exact_name='floor',codebox_source_sha256='d'*64)
-        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric'):
+        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range'):
             self.data.update(family=family,surface='codebox',prepare_zero_warm_blocks=0)
             rows=self.result()
             self.assertEqual(rows['codebox:floor']['working']['status'],'board')
@@ -641,6 +687,20 @@ class ShortSmokeStatusTests(unittest.TestCase):
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
         self.data['prepare_zero_warm_blocks']=0
         self.data['cases'][0].pop('codebox_source_sha256')
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+
+    def test_codebox_range_predeclared_approximation_limit_has_a_closed_scope(self):
+        self.numeric();self.record.update(id='codebox:fastsin',spelling='fastsin',surface='codebox')
+        self.data.update(family='rnbo-codebox-range',surface='codebox',prepare_zero_warm_blocks=0)
+        self.data['cases'][0].update(exact_name='fastsin',codebox_source_sha256='a'*64,
+            absolute_tolerance=0.0010000000474974513,max_absolute_error=.0008,
+            bit_mismatches=2,zero_sign_differences=0,within_tolerance_differences=2,numeric_mismatches=0)
+        row=self.result()['codebox:fastsin']
+        self.assertEqual(row['working']['status'],'board')
+        self.assertIsNone(row['performance'])
+        self.data['family']='rnbo-codebox-numeric'
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+        self.data['family']='rnbo-codebox-range';self.data['prepare_zero_warm_blocks']=4
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
     def test_existing_stronger_status_and_optimisation_are_preserved(self):

@@ -10,6 +10,39 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## RNBO codebox range/conversions: six queued contexts
+
+All six flagged source forms pass their predeclared references. These are
+complete stereo RNBO codebox callbacks, separate from similarly named Gen and
+patcher measurements. The converter rows use valid state-instance `.next()`
+programs; rejected direct calls have no hardware timing.
+
+| Exact source context | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `log2f()` | 4,876.0 | 4,876 | 84.00% | Pending optimisation review |
+| `atodb()` | 591.0 | 592 | 10.18% | Pending optimisation review |
+| `dbtoa()` | 14,663.0 | 14,664 | 252.59% | Pending optimisation review |
+| `t60()` | 5,569.0 | 5,570 | 95.93% | Pending optimisation review |
+| `mtof` instance `.next()` | 2,396.0 | 2,401 | 41.27% | Pending optimisation review |
+| `ftom` instance `.next()` | 2,705.0 | 2,706 | 46.60% | Pending optimisation review |
+
+`dbtoa()` takes 14.663 ms median, about 2.53 block periods. All new flags are
+median-cost observations, not peak spikes. These six add to the previous 52
+contexts, bringing the queue to **58**. The four output mismatches and seven
+nonexecuted source forms remain separate follow-up work. No DSP changes, CPU
+savings or worst-case latency bounds are claimed.
+
+Source: [RNBO codebox range results](../evidence/xiao-smoke-rnbo-codebox-range.json).
+
+## Gen named constants: no new flags
+
+All 32 bare-value scenarios have callback median 37 µs and peak at most 42 µs.
+No review threshold triggers; existing queued contexts remain pending.
+Configuration names are observed only at 44,100 Hz/256 frames. No CPU saving or
+isolated lookup cost is inferred from these complete callback timings.
+
+Source: [Gen named-constant results](../evidence/xiao-smoke-gen-constants.json).
+
 ## Gen range/conversions: six queued cases
 
 These are complete stereo GenExpr callbacks, separate from RNBO patcher and

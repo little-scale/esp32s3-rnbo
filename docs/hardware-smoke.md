@@ -13,11 +13,88 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
-The latest RNBO codebox numeric and Gen range batches execute **72 scenarios:
+The latest RNBO codebox range and Gen named-constant batches execute **72
+scenarios: 68 pass their declared comparisons and four retain mismatches**,
+checking **737,280 output values**. Seven additional codebox source forms are
+rejected before execution. Six new CPU-review contexts bring the queue to 58;
+no DSP change or optimisation gain is claimed.
+
+The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 65 pass their declared comparisons and seven retain mismatches**, across
 **737,280 output checks**. One additional Gen `gate` source is rejected before
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## RNBO codebox range, routing and conversion forms
+
+The 47 authored source forms produce **40 executed scenarios: 36 pass and four
+retain comparison mismatches**, across 409,600 output checks. The initial 45
+direct-call attempts remain intact. Two separate, valid converter programs use
+`@state` instances and `.next(input, 440)`; they do not replace rejected calls.
+
+| Exact codebox call | Retained comparison outcome |
+| --- | --- |
+| `step()` | 9,520 outputs differ, maximum error 1, against the declared first-input >= second-input reference. |
+| `fastpow()` | 9,400 outputs exceed the 1e-3 ideal-math screen; maximum error 0.23720312118530273. |
+| `fastexp()` | 10,240 outputs exceed that screen; maximum error 0.06756162643432617. |
+| `fasttan()` | 8,320 outputs exceed that screen; maximum error 0.002815753221511841. |
+
+Fast screens are predeclared approximation-quality checks, not documented
+accuracy guarantees or universal malfunction verdicts. Other independent
+references cover fixed ranges, extrapolating scale, edge-first smoothstep,
+Cartesian/polar tuples, boolean routing, payload comparisons and practical
+unit conversions. Basic dyadic checks use zero numeric tolerance, ordinary
+math 2e-6, unit conversions 5e-4 and fast screens 1e-3. Domains and limits remain
+unchanged after output. The 2,600 operation zero-sign differences are separate
+diagnostics; the executed math batch is not bit-exact.
+
+| Nonexecuted source form | Retained outcome |
+| --- | --- |
+| Direct `rdiv`, `rmod`, `rsub`, `rminus` calls | C++ compilation failed for each closed source form. No device output or cost is claimed. |
+| Direct `switch(...)` call | Frontend rejection of this reserved call form; not compiled or executed. |
+| Direct `mtof(...)`, `ftom(...)` calls | Frontend rejection because these require state instances. Their separately authored `.next()` programs both pass. |
+
+These are source-form outcomes, not universal object bans. `mtof` and `ftom`
+owner entries are qualified only by their passing instance programs, with the
+direct-call rejections retained as known gaps. The default `ftom` reference is
+integer-rounded at the selected notes and quarter tones; no continuous-pitch,
+half-note-tie, reset or other-member claim follows.
+
+Zero automatic preparation warm blocks precede four checked manual warmups and
+sixteen timed callbacks. Medians span 48–14,663 µs, peak 14,664 µs. Six complete
+callback contexts trigger review: `log2f`, `atodb`, `dbtoa`, `t60`, and the
+`mtof`/`ftom` instance forms. The `dbtoa` median is 14.663 ms against a 5.805 ms
+block period; optimisation is queued, not performed.
+
+All executed images finalise and memory/allocation gates pass. Each module
+reserves a 1 MiB arena; only `mtof` records use, at 262,256 bytes high-water
+including its unchanged 262,144-byte lookup payload. All other cases, including
+`ftom`, record zero arena high-water use. Reserved capacity is not consumption.
+
+See [the complete codebox range results](../evidence/xiao-smoke-rnbo-codebox-range.json),
+[the original programs/reference](../tests/fixtures/smoke/rnbo-codebox-range/README.md)
+and [the CPU review queue](cpu-review-backlog.md).
+
+## Gen named constants and configuration values
+
+All **32 independently authored bare-value scenarios pass**, checking **327,680
+output words bit-for-bit**. The batch covers 28 mathematical constant spellings
+and four configuration names: `samplerate`/`SAMPLERATE` and
+`vectorsize`/`VECTORSIZE`. The latter report 44,100 Hz and 256 frames in this
+audio configuration. Both output lanes hold the selected value; the declared
+FX inputs are unused. Every alias has its own source and execution record.
+
+The reference independently computes each mathematical value and rounds it
+once to binary32. Zero automatic preparation warm blocks precede four checked
+manual warmups and sixteen timed callbacks. All medians are 37 µs, peak 42 µs;
+no CPU-review flag triggers. Every image finalises, with zero arena high-water
+use and passing memory/allocation gates. There is no optimisation comparison.
+These observations cover the supplied bare-value syntax and configuration,
+not zero-argument calls, FFT/voice/elapsed contexts, other block sizes or matching
+RNBO names. They add no entries to the RNBO main coverage table.
+
+See [the complete Gen constant results](../evidence/xiao-smoke-gen-constants.json)
+and [the authored sources/reference](../tests/fixtures/smoke/gen-constants/README.md).
 
 ## Gen range, routing and conversion calls
 
