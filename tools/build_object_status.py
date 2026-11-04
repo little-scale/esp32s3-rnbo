@@ -213,13 +213,13 @@ def checked_boundary_events(case,data):
 
 def checked_short_smoke(record,item,data):
     """A short exact-spelling hardware observation, with no gain attribution."""
-    codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range')
+    codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping')
     surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range') and data.get('surface')==surface and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
-    if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range'):
+    if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping'):
         require(type(data.get('prepare_zero_warm_blocks'))is int and data['prepare_zero_warm_blocks']==0,
                 'Codebox numeric domains require zero automatic preparation blocks')
     selector=item.get('selector','')
@@ -240,6 +240,15 @@ def checked_short_smoke(record,item,data):
         require(type(code_sha)is str and len(code_sha)==64 and all(c in '0123456789abcdef'for c in code_sha),
                 'Codebox smoke requires an authored program identity')
         code_fields['codebox_source_sha256']=code_sha
+    stream_fields={}
+    if data.get('family')=='rnbo-codebox-stateful':
+        stream_sha=case.get('expected_stream_sha256')
+        require(type(case.get('expected_block_count'))is int and case['expected_block_count']==20 and
+                type(stream_sha)is str and len(stream_sha)==64 and all(c in '0123456789abcdef'for c in stream_sha)and
+                data.get('expected_stream_policy')=='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets',
+                'Stateful codebox requires its full continuous reference stream')
+        stream_fields={'expected_block_count':20,'expected_stream_sha256':stream_sha,
+                       'expected_stream_policy':data['expected_stream_policy']}
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
@@ -250,7 +259,7 @@ def checked_short_smoke(record,item,data):
                 'Boundary smoke requires strict right zero signs')
         strict=case['strict_zero_sign_mismatches']
         event_fields=checked_boundary_events(case,data)
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range')or present==numeric_keys),
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -260,7 +269,7 @@ def checked_short_smoke(record,item,data):
         tolerance=number(case['absolute_tolerance']);maximum=number(case['max_absolute_error'])
         # Float32(1e-3) is slightly greater than decimal1e-3. Only this
         # new unit-aware/approximation family may use that larger ceiling.
-        maximum_tolerance=0.0010000000474974513 if data['family']in('rnbo-functions','rnbo-codebox-range')else 2e-6
+        maximum_tolerance=0.0010000000474974513 if data['family']in('rnbo-functions','rnbo-codebox-range','rnbo-codebox-shaping')else 2e-6
         require(0<=tolerance<=maximum_tolerance and maximum>=0 and(not within or tolerance>0),
                 'Short numeric smoke tolerance/error is invalid')
         require((mismatches==0 and maximum<=tolerance)or
@@ -293,7 +302,7 @@ def checked_short_smoke(record,item,data):
     if median>.1*256000000/44100:expected.append('median_budget')
     if peak>max(3*median,median+100):expected.append('peak_spike')
     require(reasons==expected,'Short smoke CPU review reasons differ')
-    return {**numeric,**resource,**event_fields,**code_fields,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
+    return {**numeric,**resource,**event_fields,**code_fields,**stream_fields,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
             'mean_us':mean,'median_us':median,'peak_us':peak,'cpu_review_reasons':reasons,
             'samples_checked':case['samples_checked'],'test_level':'short-functional-hardware-check',
             'full_qualification_claimed':False,'cpu_time_saved_percent':None,
@@ -303,7 +312,7 @@ def checked_short_smoke(record,item,data):
 def checked_codebox_build_failure(record,item,data):
     """Keep a rejected exact codebox form visible without hardware qualification."""
     require(data.get('format')=='rnbo-hardware-smoke-results-v1'and
-            data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range')and data.get('surface')=='codebox',
+            data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping')and data.get('surface')=='codebox',
             'Codebox build failure requires its own source surface')
     selector=item.get('selector','');parts=selector.split('/')if type(selector)is str else[]
     require(len(parts)==3 and parts[0]==''and parts[1]in('compile_failures','admission_failures')and parts[2].isdigit(),

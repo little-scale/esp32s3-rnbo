@@ -2,7 +2,25 @@
 
 ## Fast coverage runs
 
-The latest [codebox range and Gen constant batches](hardware-smoke.md#rnbo-codebox-range-routing-and-conversion-forms)
+The latest [codebox shaping and stateful checks](hardware-smoke.md#rnbo-codebox-continuous-state-instances)
+execute 51 scenarios: 48 pass and three retain mismatches, checking 522,240 output
+values. Two bounce curves retain their fixed-limit exceedances; `downsamp`
+differs from its declared capture-phase reference. The history class source
+fails C++ compilation, while a separate port-invalid autonomous-counter fixture
+does not invalidate the passing input-driven counter form. All eleven executed
+stateful cases retain full twenty-block continuous references. Eighteen passing
+shaping contexts add CPU flags, bringing the queue to 76. Memory/allocation gates
+pass. The main table now maps 473 exact entries out of 1,455, preserving previous
+records and adding no Gen rows.
+
+The [RNBO codebox shaping batch](hardware-smoke.md#rnbo-codebox-shaping-windows-and-integer-helpers)
+executes 40 scalar forms and checks 409,600 values: 38 pass, while two bounce
+curves exceed their unchanged 2e-6 reference limit by a small amount. Eighteen
+passing contexts trigger CPU review, bringing the queue to 76 before the
+separate stateful batch. Blackman and three elastic fixture medians exceed the
+block period. Memory/allocation gates pass; no optimisation has been applied.
+
+The earlier [codebox range and Gen constant batches](hardware-smoke.md#rnbo-codebox-range-routing-and-conversion-forms)
 execute 72 scenarios: 68 pass and four retain comparison mismatches, checking
 737,280 output values. Seven codebox source attempts are rejected before
 execution; separate valid `mtof`/`ftom` state-instance forms both pass. Six new

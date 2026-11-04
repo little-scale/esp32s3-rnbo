@@ -120,6 +120,17 @@ class SmokeStatefulStreamTests(unittest.TestCase):
     def result(self):
         self.save();return collect(self.build,self.run)
 
+    def test_stateful_codebox_retains_continuous_stream_and_program_identity(self):
+        self.plan.update(family='rnbo-codebox-stateful',surface='codebox',
+            expected_stream_policy='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets')
+        self.expected['codebox_source_sha256']='f'*64
+        result=self.result()
+        self.assertEqual(result['surface'],'codebox')
+        self.assertEqual(result['cases'][0]['expected_block_count'],20)
+        self.assertEqual(result['cases'][0]['first_mismatch_call'],6)
+        self.expected['expected_blocks']=self.expected['expected_blocks'][:1]
+        with self.assertRaises(ValueError):self.result()
+
     def test_later_call_witness_uses_its_actual_expected_block(self):
         value=self.result();case=value['cases'][0]
         self.assertEqual(case['first_mismatch_call'],6);self.assertEqual(case['first_mismatch_word'],17)
@@ -188,7 +199,7 @@ class SmokeStatefulStreamTests(unittest.TestCase):
 
     def test_codebox_family_carries_program_identity_and_rejects_wrong_surface(self):
         self.constant();self.expected['codebox_source_sha256']='f'*64
-        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range'):
+        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-shaping'):
             self.plan.update(family=family,surface='codebox')
             result=self.result()
             self.assertEqual(result['family'],family)

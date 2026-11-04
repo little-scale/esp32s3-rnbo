@@ -28,7 +28,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -153,7 +153,7 @@ def prepare_plan(catalog_path,modules_path):
         source_bytes=read_regular(patch,1024*1024)
         source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
-        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range'):
+        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping'):
             expression_info['codebox_source_sha256']=checked_codebox_source(row,source_bytes)
             if 'codebox'in row and hashlib.sha256(read_regular(catalog_path.parent/row['codebox'],65536)).hexdigest()!=expression_info['codebox_source_sha256']:
                 raise ExportError('Standalone and embedded codebox programs differ')
@@ -184,7 +184,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -235,9 +235,13 @@ def prepare_plan(catalog_path,modules_path):
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range'):
+    if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping'):
         plan.update(family=catalog['family'],surface='codebox')
-        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']=='rnbo-codebox-stateful':
+            plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
+            if any('expected_blocks'not in c for c in cases):
+                raise ExportError('Stateful codebox cases require twenty continuous reference blocks')
     elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
         plan.update(family=catalog['family'],surface='patcher')
         if catalog['family']=='rnbo-functions':plan['prepare_zero_warm_blocks']=0

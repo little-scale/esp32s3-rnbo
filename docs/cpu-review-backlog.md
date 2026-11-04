@@ -10,6 +10,54 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## RNBO codebox state instances: no new flags
+
+The eleven executed state-instance scenarios have callback medians 54–379.5 µs
+and peak 380 µs; no review rule triggers. The queue remains at **76** after the
+eighteen shaping additions. The downsample capture-phase mismatch remains
+separate follow-up; the two rejected sources have no hardware timing. These
+costs concern the supplied class-instance programs, not similarly named Gen or
+patcher operators, and claim no optimisation gain.
+
+Source: [codebox stateful results](../evidence/xiao-smoke-rnbo-codebox-stateful.json).
+
+## RNBO codebox shaping: eighteen queued contexts
+
+All eighteen flagged cases pass their declared output limits. Each measures a
+complete stereo scalar-function callback at 44.1 kHz/256 frames, not an isolated
+operation or the separate stateful `ease` class.
+
+| Exact codebox call | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `ease_in_out_cubic()` | 808.0 | 809 | 13.92% | Pending optimisation review |
+| `ease_in_out_quintic()` | 684.0 | 685 | 11.78% | Pending optimisation review |
+| `ease_in_sine()` | 3,573.0 | 3,574 | 61.55% | Pending optimisation review |
+| `ease_out_sine()` | 3,465.5 | 3,470 | 59.70% | Pending optimisation review |
+| `ease_in_out_sine()` | 4,044.0 | 4,045 | 69.66% | Pending optimisation review |
+| `ease_in_exponential()` | 1,364.0 | 1,369 | 23.50% | Pending optimisation review |
+| `ease_out_exponential()` | 1,328.0 | 1,332 | 22.88% | Pending optimisation review |
+| `ease_in_out_exponential()` | 1,597.0 | 1,598 | 27.51% | Pending optimisation review |
+| `ease_in_back()` | 3,951.0 | 3,952 | 68.06% | Pending optimisation review |
+| `ease_out_back()` | 3,897.0 | 3,898 | 67.13% | Pending optimisation review |
+| `ease_in_out_back()` | 3,759.0 | 3,760 | 64.75% | Pending optimisation review |
+| `ease_in_elastic()` | 6,139.0 | 6,143 | 105.75% | Pending optimisation review |
+| `ease_out_elastic()` | 6,312.0 | 6,316 | 108.73% | Pending optimisation review |
+| `ease_in_out_elastic()` | 6,493.0 | 6,498 | 111.85% | Pending optimisation review |
+| `hann()` | 4,365.5 | 4,370 | 75.20% | Pending optimisation review |
+| `hamming()` | 4,770.5 | 4,772 | 82.18% | Pending optimisation review |
+| `blackman()` | 8,515.0 | 8,519 | 146.68% | Pending optimisation review |
+| `cosineinterp()` | 1,913.0 | 1,913 | 32.95% | Pending optimisation review |
+
+`blackman()` has an 8.515 ms median. The in/out/in-out elastic calls measure
+6.139/6.312/6.493 ms; all four exceed the 5.805 ms block period in these fixtures.
+All new flags are median-cost observations rather than peak spikes. Eighteen
+new contexts bring the queue from 58 to **76**; the stateful batch adds no
+flags. The two bounce output mismatches remain separate precision follow-up;
+neither triggers CPU review. No DSP change, CPU saving or worst-case latency
+bound is claimed.
+
+Source: [codebox shaping results](../evidence/xiao-smoke-rnbo-codebox-shaping.json).
+
 ## RNBO codebox range/conversions: six queued contexts
 
 All six flagged source forms pass their predeclared references. These are

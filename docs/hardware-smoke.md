@@ -13,7 +13,13 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
-The latest RNBO codebox range and Gen named-constant batches execute **72
+The latest RNBO codebox shaping and stateful batches execute **51 scenarios:
+48 pass their declared references and three retain mismatches**, across
+**522,240 output values**. Two additional source forms are rejected before
+execution. Eighteen passing shaping contexts trigger CPU review; the queue now
+has 76 contexts. No DSP optimisation or measured gain is claimed.
+
+The earlier RNBO codebox range and Gen named-constant batches execute **72
 scenarios: 68 pass their declared comparisons and four retain mismatches**,
 checking **737,280 output values**. Seven additional codebox source forms are
 rejected before execution. Six new CPU-review contexts bring the queue to 58;
@@ -24,6 +30,80 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 **737,280 output checks**. One additional Gen `gate` source is rejected before
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## RNBO codebox continuous-state instances
+
+Of 13 authored source forms covering 12 class names, **eleven execute: ten pass
+and one retains a declared capture-phase mismatch**, across 112,640 output
+checks. The supplied `history` read/write class source fails C++ compilation
+and is not executed. An original autonomous `counter` fixture fails port
+validation for its unused declared inputs; the separately authored input-driven
+counter program compiles, executes and passes. The latter qualifies the owner
+row without turning the earlier fixture rejection into a counter API ban.
+
+| Retained comparison | Observation |
+| --- | --- |
+| `downsamp.next()` with factors 3/5 | 7,290 outputs differ, maximum error 2, against the fixed first-capture-at-ordinal-0 policy. The first difference is in callback 0, interleaved word 4: actual 0.25 versus expected 0. |
+
+Each accepted source declares independent left/right state instances. Zero
+automatic preparation blocks precede four checked manual warmups and sixteen
+timed callbacks: **all twenty reference blocks remain continuous**, covering
+5,120 frames per case without resetting at 256-frame boundaries. Vectors
+deliberately exercise accumulation, downsample factors 3/5, counting/report
+windows 7/5 and initial-state transitions across callbacks. The 640 operation zero-sign differences remain
+diagnostics; the batch is not bit-exact.
+
+Slide uses explicit rise/fall factors 2/4 and 4/2; DC blocking uses explicit
+gains 0.5/0.75. Their references retain ideal history with a fixed 2e-6 absolute
+limit. Other checks use zero numeric tolerance. Counter observes only output 0
+with unit-valued increments, reset held 0 and limits 7/5. First-capture,
+zero-crossing and window-report policies are declared where primary prose is
+less specific, and remain unchanged after execution. No reset-method, arbitrary
+control, one-frame module-ABI, sample-offset-event or Gen/patcher claim follows.
+
+Callback medians span 54–379.5 µs, peak 380 µs; no CPU-review flag triggers.
+Every executed image finalises, with zero arena high-water use and passing
+memory/allocation gates. The two rejected source forms have no device output,
+callback timing or resource-use observation.
+
+See [the complete stateful results](../evidence/xiao-smoke-rnbo-codebox-stateful.json)
+and [the original programs/reference](../tests/fixtures/smoke/rnbo-codebox-stateful/README.md).
+
+## RNBO codebox shaping, windows and integer helpers
+
+All 40 authored scalar forms compile and execute: **38 pass and two retain
+small curve-reference exceedances**, across 409,600 output checks. They cover
+30 individually authored easing functions, four windows, two interpolators and
+four bounded integer helpers. This does not qualify the separate stateful
+`ease` class or similarly named Gen/patcher functions.
+
+| Exact codebox call | Retained mismatch |
+| --- | --- |
+| `ease_in_bounce()` | 320 outputs exceed the fixed 2e-6 limit; maximum error 2.4437904357910156e-6. |
+| `ease_out_bounce()` | 320 outputs exceed the same unchanged limit; maximum error 2.4437904357910156e-6. |
+
+Independent models follow the pinned RNBO curve definitions, including
+cubic-minus-sine back curves, 6.5π elastic oscillation and the documented bounce
+pieces. They do not assume another library's easing convention. The phase set
+includes endpoints and Float32 neighbors of piece boundaries. Ordinary curves
+use 2e-6; linear interpolation and small integer helpers use zero numeric
+tolerance. `cosineinterp` passes its predeclared 1e-3 ideal-cosine screen with
+maximum error 0.00015687942504882812; that screen is not an accuracy guarantee.
+Integer overflow and zero divisors are excluded. No limit is fitted to output.
+The overall batch is not bit-exact.
+
+Zero automatic preparation warm blocks precede four checked manual warmups and
+sixteen timed callbacks. Medians span 45–8,515 µs, peak 8,519 µs. **Eighteen
+contexts trigger CPU review, and all eighteen pass their output limits.**
+`blackman` has an 8.515 ms median; the three elastic variants measure 6.139,
+6.312 and 6.493 ms, each above the 5.805 ms block period. These are complete
+stereo callback costs, not isolated function costs or measured savings.
+Every image finalises, with zero arena high-water use and passing memory and
+allocation gates. The CPU queue reaches 76; the stateful batch adds no flags.
+
+See [the complete shaping results](../evidence/xiao-smoke-rnbo-codebox-shaping.json),
+[the original programs/reference](../tests/fixtures/smoke/rnbo-codebox-shaping/README.md)
+and [CPU review queue](cpu-review-backlog.md).
 
 ## RNBO codebox range, routing and conversion forms
 
