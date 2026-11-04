@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = ROOT / 'tests/fixtures/gen'
 TARGET = FIXTURES / 'target'
 IDENTITIES = TARGET / 'identities.json'
+INTEGER_UI_IDENTITIES = TARGET / 'identities.integer-ui-v1.json'
 KIND = 'gen-history-v1'
 INPUT = 'gen-history-dyadic-v1'
 FORMAT = 'rnbo-original-gen-history-target-v1'
@@ -46,12 +47,19 @@ def benchmark_fixture(catalog, directory: Path, identity: str):
 
 
 def admit_module(fixture, module, *, candidate=False):
-    pins = json.loads(IDENTITIES.read_text())
-    expected = pins['entries'][fixture['id']]
     optimized = fixture.get('qualification_mode') == OPT_MODE
     from gen_feedback import PROFILE, ADAPTATION, OUTPUT, CONTRACT_FILE, CONTRACT, MANIFEST_CONTRACT, sha
     exported = module['report']['prepared_export']
     manifest = exported['manifest']
+    matches = []
+    for path in (IDENTITIES, INTEGER_UI_IDENTITIES):
+        identities = json.loads(path.read_bytes())
+        entry = identities['entries'][fixture['id']]
+        if entry['source_tree_sha256'] == manifest.get('source_tree_sha256'):
+            matches.append((path, identities, entry))
+    if len(matches) != 1:
+        raise ValueError('Gen history exact graph/schema/source identity differs: source_tree_sha256')
+    identity_path, pins, expected = matches[0]
     for key in ('rnbo_version', 'numerical_profile', 'class_name', 'role',
                 'audio_inputs', 'audio_outputs', 'parameter_count', 'adaptations'):
         value = PROFILE if candidate and key == 'numerical_profile' else (pins[key] + [ADAPTATION]) if candidate and key == 'adaptations' else pins[key]
@@ -74,6 +82,16 @@ def admit_module(fixture, module, *, candidate=False):
     if candidate and (snapshot.get(CONTRACT_FILE) != sha(CONTRACT) or
             snapshot.get('patch_config.h') != '846d7f320d28dbefa68954a2e91e49c939a385546df5bfda7b47cb1dc6f304a4'):
         raise ValueError('Gen feedback compile contract or configuration differs')
+    if identity_path == INTEGER_UI_IDENTITIES:
+        # Preserve the historical identity file; the separately reviewed
+        # producer epoch is closed over all42 normal prepared file hashes.
+        normal = dict(snapshot)
+        if candidate:
+            normal.pop(CONTRACT_FILE, None)
+            normal['rnbo_source.h'] = expected['prepared_source_sha256']
+            normal['patch_config.h'] = expected['prepared_files_sha256']['patch_config.h']
+        if normal != expected['prepared_files_sha256']:
+            raise ValueError('Gen history current producer file composition differs')
 
 
 def verification(fixture, case, parameters, warmup, blocks):

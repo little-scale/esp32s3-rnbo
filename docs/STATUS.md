@@ -1,4 +1,14 @@
-# Implementation status — 4 November 2026
+# Implementation status — 5 November 2026
+
+The player now supports [Wi-Fi scanning, USB pairing and wireless package loads](player-wifi.md).
+XIAO association, authenticated upload with no USB serial handle, wireless
+controls and failed-connection retry stability pass. An early system-event stack
+overflow was corrected with a minimal callback and an 8 KiB event-task stack.
+Studio now defaults to **automatic reviewed Float32 optimisation**; unknown
+methods keep their original code. The [DDD comparison](ddd-optimisation.md)
+records the speed observation and its explicit numerical differences. Integer
+number-box import is supported; exact current producer identities were added
+without changing historical hardware records or admitted DSP bytes.
 
 The [stable Main player and RNBO Studio](player-protocol.md) now load compiled
 `.rnbopkg` patches over USB while keeping player firmware installed. All effects
@@ -6,7 +16,8 @@ live inside Main. XIAO package swaps, saved-package reopening, controls and rebo
 restoration pass; a 60-second drone run has zero reported audio errors. The AMOLED
 player builds and passes computer-side display checks; its device trial remains
 pending. [Exact integration evidence](../evidence/player-xiao.json) records scope
-and artifact identities. The broader object-qualification goal is paused.
+and artifact identities. The user has authorised continuing fast object qualification, CPU flags and
+separately recorded Float32 optimisation.
 
 The [parameter-driven event batch](hardware-smoke.md#rnbo-parameter-driven-event-batch)
 passes all 35 exact event spellings,735 updates/readbacks and 358,400 output checks.

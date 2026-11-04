@@ -13,6 +13,8 @@ ADAPTATION='rnbo-1.4.4-gen-abs-intrinsic-v1'
 SOURCE='86cb0539073bef4bccb2352681eac0c051c0890731e42d3744beeec71397220d'
 OUTPUT='3df5fb401c1d1e04470e318f3aa1f4704ff38d17845ece0f7dacf74defa93943'
 INPUT_MAP='ccccfd54d10f46b83705c7b315e27fd4e83b5ae3dccb525f1a65ceb863c2d8f4'
+# Exact current producer epoch; the other40 input files are unchanged.
+INTEGER_UI_INPUT_MAP='df798de518f675e8148afc28be3a28537e310fe70ece17883c353f0bac13c324'
 GRAPH='c2878ab82152020b8a26f006c96e22b7a4837ecfe9005ca9768bcaf9bbba39c6'
 DESCRIPTION='85f7eb91241d01e0d3fd4711a2811b586021e92c8a0c3980389cb7c4b73e0314'
 RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
@@ -60,7 +62,8 @@ def transform(files,description,*,code_mask):
     def require(ok,message):
         if not ok:raise ValueError('Gen abs intrinsic: '+message)
     require(type(files)is dict and all(type(k)is str and type(v)is bytes for k,v in files.items()),'immutable source map required')
-    require(len(files)==41 and sha(canonical({k:sha(v)for k,v in files.items()}))==INPUT_MAP,
+    input_map=sha(canonical({k:sha(v)for k,v in files.items()}))
+    require(len(files)==41 and input_map in (INPUT_MAP,INTEGER_UI_INPUT_MAP),
             'unknown source/graph/runtime/metadata composition or repeated application')
     source=files['rnbo_source.h'];stored=files['description.json']
     require(sha(source)==SOURCE and sha(files['source.rnbopat'])==GRAPH and sha(stored)==DESCRIPTION,'original source identity differs')
@@ -76,7 +79,7 @@ def transform(files,description,*,code_mask):
     require(sha(changed)==OUTPUT and changed.replace(new.encode(),old.encode())==source,'prepared source or two-token inverse differs')
     result=dict(files);result.update({'rnbo_source.h':changed,CONTRACT_FILE:CONTRACT})
     return result,{'name':ADAPTATION,'file':'rnbo_source.h','method':'gen_01_perform',
-        'input_sha256':SOURCE,'prepared_sha256':OUTPUT,'input_map_sha256':INPUT_MAP,
+        'input_sha256':SOURCE,'prepared_sha256':OUTPUT,'input_map_sha256':input_map,
         'editable_source_sha256':GRAPH,'description_file_sha256':DESCRIPTION,'runtime_tree_sha256':RUNTIME,
         'input_method_sha256':sha(old.encode()),'prepared_method_sha256':sha(new.encode()),
         'callee_replacements':2,'inverse_byte_identity':True,'finite_bit_identity_claimed':True,

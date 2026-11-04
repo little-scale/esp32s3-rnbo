@@ -104,7 +104,7 @@ def build_settings(data):
     arena = data.get('arena_bytes', 1048576)
     delay = data.get('filter_delay_max_ms')
     storage = data.get('float32_delays', False)
-    profile = data.get('numerical_profile', 'float32-strict')
+    profile = data.get('numerical_profile', 'float32-auto-v1')
     if role != 'main':
         raise ValueError('The player accepts one Main patch with its effects included')
     if board not in ('xiao', 'amoled'):
@@ -119,7 +119,7 @@ def build_settings(data):
         raise ValueError('Maximum filter delay must be greater than zero, up to 1000 ms, or left empty')
     if type(storage) is not bool:
         raise ValueError('Float32 delay storage must be a checkbox value')
-    if profile not in ('float32-strict', 'float32-audio-v1'):
+    if profile not in ('float32-auto-v1', 'float32-strict', 'float32-audio-v1', 'float32-audio-v3'):
         raise ValueError('Choose standard arithmetic or the reviewed Float32 audio kernels')
     return dict(name=name, title=title, patch=patch, board=board, role=role, voices=voices,
                 initial_volume=volume, arena_bytes=arena,
@@ -132,6 +132,11 @@ class Studio:
             from device import DeviceBridge
             bridge = DeviceBridge()
         self.bridge = bridge
+        from host.studio.network import PairingStore
+        self.pairings = PairingStore(PRIVATE / 'pairings.json')
+        self.active_bridge = bridge
+        self.network_bridge = None
+        self.last_wifi = {'supported': False, 'configured': False, 'connected': False, 'paired': False, 'ip': '', 'device_id': ''}
         self.components = Path(components).expanduser().resolve() if components else None
         self.jobs = {}
         self.lock = threading.RLock()
@@ -140,6 +145,108 @@ class Studio:
         self.active_process = None
         self.stopping = threading.Event()
         self.token = secrets.token_urlsafe(32)
+
+    def _remember_wifi(self, snapshot):
+        device = snapshot.get('device') or {}
+        value = device.get('wifi')
+        if type(value) is dict:
+            self.last_wifi = {key:value.get(key) for key in ('supported','configured','connected','ip','device_id','error') if key in value}
+            identity = self.last_wifi.get('device_id')
+            if isinstance(identity, str) and re.fullmatch(r'[0-9a-f]{12}', identity):
+                if self.last_wifi.get('connected') and self.last_wifi.get('ip'):
+                    try: self.pairings.update_ip(identity,self.last_wifi['ip'])
+                    except ValueError: self.last_wifi['error'] = 'Wireless control requires a private IPv4 network; USB remains available'
+        return snapshot
+
+    def device_snapshot(self):
+        with self.lock:
+            return self._remember_wifi(self.active_bridge.snapshot())
+
+    def control_device(self, data):
+        target = data.get('target')
+        if (type(target) is not dict or set(target) != {'device_id','transport'}
+                or target.get('transport') not in ('usb','wifi')
+                or not isinstance(target.get('device_id'),str)):
+            raise ValueError('Choose the connected player before sending controls')
+        with self.lock:
+            if self.worker.locked(): raise ValueError('Wait for the current build or upload before sending controls')
+            device = self.active_bridge.snapshot().get('device') or {}
+            if any(device.get(key) != target[key] for key in ('device_id','transport')):
+                raise ValueError('The selected connection changed; send controls to the current player')
+            return self._remember_wifi(self.active_bridge.control({k:v for k,v in data.items() if k!='target'}))
+
+    def wifi_status(self):
+        if not self.worker.locked():
+            try:
+                self.device_snapshot()
+            except RuntimeError:
+                pass  # Another ordinary status/control may own the device.
+        result = dict(self.last_wifi)
+        result['paired'] = any(p['id'] == result.get('device_id') for p in self.pairings.public_list())
+        return dict(wifi=result, paired=self.pairings.public_list())
+
+    def connect_usb(self, port):
+        with self.lock:
+            if self.worker.locked(): raise ValueError('Wait for the current build or upload')
+            if self.network_bridge: self.network_bridge.disconnect()
+            self.active_bridge = self.bridge
+            return self._remember_wifi(self.bridge.connect(port))
+
+    def connect_wifi(self, data, *, during_upload=False):
+        from host.studio.network import NetworkBridge, validate_ip
+        with self.lock:
+            if self.worker.locked() and not during_upload:
+                raise ValueError('Wait for the current build or upload')
+            record = self.pairings.get(data.get('id'))
+            address = validate_ip(data.get('ip') or record.get('ip'))
+            self.bridge.disconnect()
+            if self.network_bridge: self.network_bridge.disconnect()
+            self.network_bridge = NetworkBridge(record)
+            self.active_bridge = self.network_bridge
+            return self._remember_wifi(self.network_bridge.connect_network(address))
+
+    def scan_wifi(self):
+        if self.active_bridge is not self.bridge:
+            raise ValueError('Connect over USB before scanning nearby networks')
+        if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
+        try: return self.bridge.scan_wifi()
+        finally: self.worker.release()
+
+    def setup_wifi(self, data):
+        if self.active_bridge is not self.bridge:
+            raise ValueError('Connect over USB before changing Wi-Fi settings')
+        if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
+        try:
+            before = self.bridge.snapshot().get('device') or {}
+            identity = before.get('device_id')
+            if not isinstance(identity,str) or not re.fullmatch(r'[0-9a-f]{12}',identity):
+                raise ValueError('Connect the player over USB first')
+            key = secrets.token_hex(32)
+            snapshot = self.bridge.configure_wifi(data.get('ssid'),data.get('password'),key)
+            value = (snapshot.get('device') or {}).get('wifi') or {}
+            if value.get('device_id') != identity or not value.get('configured'):
+                raise ValueError('The board did not confirm saved Wi-Fi settings')
+            from host.studio.network import validate_ip
+            address = ''
+            if value.get('connected') and value.get('ip'):
+                try: address = validate_ip(value['ip'])
+                except ValueError: pass
+            self.pairings.put(dict(id=identity,ip=address,keyhex=key,label=before.get('board_model') or before.get('board') or 'RNBO player'))
+            self._remember_wifi(snapshot)
+            return self.wifi_status()
+        finally: self.worker.release()
+
+    def forget_wifi(self):
+        if self.active_bridge is not self.bridge:
+            raise ValueError('Connect over USB before forgetting Wi-Fi')
+        if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
+        try:
+            before = self.bridge.snapshot().get('device') or {}
+            snapshot = self.bridge.forget_wifi()
+            if before.get('device_id'): self.pairings.remove(before['device_id'])
+            self._remember_wifi(snapshot)
+            return self.wifi_status()
+        finally: self.worker.release()
 
     def environment(self):
         candidates = [Path(os.environ['RNBO_DIR']).expanduser()] if os.environ.get('RNBO_DIR') else [
@@ -224,6 +331,7 @@ class Studio:
         if thread is not None and thread is not threading.current_thread():
             thread.join()
         self.bridge.disconnect()
+        if self.network_bridge: self.network_bridge.disconnect()
 
     def component_source(self):
         if self.components:
@@ -358,6 +466,10 @@ class Studio:
         self.job(identity)
         with self.lock:
             row = self.jobs[identity]
+            if data.get('transport', 'usb') not in ('usb', 'wifi'):
+                raise ValueError('Choose USB or Wi-Fi')
+            if data.get('transport') == 'wifi' and row.get('result', {}).get('kind') != 'package':
+                raise ValueError('Player firmware installation requires USB')
             if row['state'] not in ('ready', 'done') or not row['_build']:
                 raise ValueError('Compile the patch successfully before uploading')
             build = row['_build']; board = row['_settings']['board']
@@ -366,12 +478,19 @@ class Studio:
             if not self.worker.acquire(blocking=False):
                 raise ValueError('A build or upload is already running')
             self.update(identity, state='uploading', stage='Checking USB board', error=None)
-            self.job_thread = threading.Thread(target=self.upload, args=(identity, build, board, data.get('port')), daemon=True)
+            self.job_thread = threading.Thread(target=self.upload, args=(identity, build, board, data.get('port'), data if data.get('transport') == 'wifi' else None), daemon=True)
             self.job_thread.start()
         return self.job(identity)
 
-    def upload(self, identity, build, board, port):
+    def upload(self, identity, build, board, port, network=None):
         try:
+            transport = self.bridge
+            if network:
+                self.connect_wifi({'id':network.get('device_id'),'ip':network.get('ip')},during_upload=True)
+                transport = self.active_bridge
+            else:
+                if self.network_bridge: self.network_bridge.disconnect()
+                self.active_bridge = self.bridge
             def progress(message):
                 self.log(identity, str(message) + '\n')
                 if str(message).startswith('USB: '):
@@ -379,7 +498,7 @@ class Studio:
             if self.jobs[identity].get('result', {}).get('kind') == 'player':
                 self.bridge.flash(build, board, port, progress, expected_kind='player')
             else:
-                self.bridge.upload_package(build, port, progress, expected_sha256=self.jobs[identity]['result']['package_sha256'])
+                transport.upload_package(build, port, progress, expected_sha256=self.jobs[identity]['result']['package_sha256'])
             self.update(identity, state='done', stage='Player installed' if self.jobs[identity].get('result', {}).get('kind') == 'player' else 'Package active')
         except Exception as error:
             self.log(identity, '\n' + str(error) + '\n')
@@ -421,6 +540,8 @@ class Studio:
                 raise ValueError('The build is not a stable player')
             self.update(identity, _build=build, result=dict(kind='player', board=board), state='uploading',
                         stage='Installing stable player')
+            if self.network_bridge: self.network_bridge.disconnect()
+            self.active_bridge = self.bridge
             self.bridge.flash(build, board, port, lambda text: self.log(identity, str(text) + '\n'), expected_kind='player')
             self.update(identity, state='done', stage='Stable player installed')
         except Exception as error:
@@ -486,7 +607,8 @@ class Handler(BaseHTTPRequestHandler):
             studio = self.server.studio
             if url.path == '/api/status': self.send(200, studio.status())
             elif url.path == '/api/devices': self.send(200, {'devices':studio.bridge.scan()})
-            elif url.path == '/api/device': self.send(200, studio.bridge.snapshot())
+            elif url.path == '/api/device': self.send(200, studio.device_snapshot())
+            elif url.path == '/api/wifi': self.send(200, studio.wifi_status())
             elif url.path == '/api/job': self.send(200, {'job':studio.job(query.get('id', [''])[0])})
             elif url.path == '/api/example': self.send(200, {'name':'sine.rnbopat', 'patch':json.loads((ROOT / 'examples/sine/sine.rnbopat').read_text())})
             elif url.path == '/api/artifact':
@@ -516,10 +638,14 @@ class Handler(BaseHTTPRequestHandler):
             elif self.path == '/api/import-package': self.send(200, {'job':studio.import_package(data)})
             elif self.path == '/api/install-player': self.send(202, {'job':studio.start_install(data)})
             elif self.path == '/api/upload': self.send(202, {'job':studio.start_upload(data)})
-            elif self.path == '/api/connect': self.send(200, studio.bridge.connect(data.get('port')))
+            elif self.path == '/api/connect': self.send(200, studio.connect_usb(data.get('port')))
+            elif self.path == '/api/wifi/scan': self.send(200, studio.scan_wifi())
+            elif self.path == '/api/wifi/setup': self.send(200, studio.setup_wifi(data))
+            elif self.path == '/api/wifi/forget': self.send(200, studio.forget_wifi())
+            elif self.path == '/api/wifi/connect': self.send(200, studio.connect_wifi(data))
             elif self.path == '/api/disconnect':
-                studio.bridge.disconnect(); self.send(200, {'device':None, 'parameters':[]})
-            elif self.path == '/api/control': self.send(200, studio.bridge.control(data))
+                studio.active_bridge.disconnect(); self.send(200, {'device':None, 'parameters':[]})
+            elif self.path == '/api/control': self.send(200, studio.control_device(data))
             else: self.send(404, {'error':'Not found'})
         except (ValueError, OSError, RuntimeError, RecursionError) as error:
             self.send(400, {'error':str(error)})

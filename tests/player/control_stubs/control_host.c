@@ -24,6 +24,13 @@ static char reply[16384];
 static size_t reply_used;
 static unsigned loader_calls,stage_calls,commit_calls,unloads,guard_clears;
 static unsigned mode,failed_boundary,delay_calls,received_blocks;
+static unsigned net_delivered,net_completed,net_responses,net_start_calls,net_getchars;
+static bool network_stepping,net_pending,net_answered,net_abandoned,abandon_first,json_oom;
+static uint32_t net_session;
+static char net_reply[256];
+static bool usb_stepping,usb_timeout;
+static const char *usb_program;
+static size_t usb_cursor;
 static int64_t now;
 static bool audio_stepping,control_stepping,dma_running;
 static player_stats published;
@@ -74,7 +81,8 @@ static void fake_ack(void) {
 }
 void vTaskDelay(unsigned ticks) {
     (void)ticks;++delay_calls;
-    if(control_stepping && ticks==2)longjmp(task_exit,1);
+    if(control_stepping && ticks==2 &&
+       (usb_stepping?net_completed>=1:!network_stepping||net_completed>=2))longjmp(task_exit,1);
     fake_ack();
 }
 void vTaskDelete(void *task){(void)task;assert(!"unexpected task deletion");}
@@ -144,14 +152,77 @@ bool player_store_promote_previous(uint32_t role,const char *hash,char *error,si
 bool player_store_read(uint32_t role,bool prev,uint8_t **bytes,size_t *len,char *error,size_t size){(void)role;(void)prev;(void)bytes;(void)len;(void)error;(void)size;return false;}
 void player_store_free(void *p){free(p);}
 
+/* Network boundary doubles only. The actual owner command(), cJSON allocation
+ * failure, mandatory response fallback, EOF polling and guard logic run above.
+ * A completed slot is recycled by the simulated worker only on the next poll;
+ * a delivered abandoned slot remains held until the owner completion call.
+ */
+esp_err_t player_network_init(void){return ESP_OK;}
+bool player_network_start_saved(char *error,size_t size)
+{(void)error;(void)size;must_park();assert(!boot_guard_pending);++net_start_calls;return true;}
+bool player_network_configure(const uint8_t *ssid,size_t ns,const uint8_t *password,size_t np,
+                              const uint8_t key[32],char *error,size_t size)
+{(void)ssid;(void)ns;(void)password;(void)np;(void)key;(void)error;(void)size;assert(!"unexpected provisioning");return false;}
+bool player_network_forget(char *error,size_t size)
+{(void)error;(void)size;assert(!"unexpected forget");return false;}
+bool player_network_scan(cJSON *parent,char *error,size_t size)
+{(void)parent;(void)error;(void)size;assert(!"unexpected scan before guard verification");return false;}
+void player_network_add_status(cJSON *parent){(void)parent;}
+uint32_t player_network_current_session_id(void){return net_pending?net_session:0;}
+uint32_t player_network_poll_request(char *line,size_t capacity)
+{
+    if(usb_stepping){
+        if(usb_cursor<7||net_delivered)return 0; /* Peer becomes pending between USB bytes. */
+        assert(usb_cursor==strlen(usb_program));
+        if(usb_timeout)assert(strstr(reply,"Incomplete USB line timed out"));
+        else assert(atomic_load(&volume)==19);
+        assert(capacity>strlen("player-info"));strcpy(line,"player-info");
+        ++net_delivered;net_pending=true;net_answered=false;net_session=200;return net_session;
+    }
+    if(!network_stepping)return 0;
+    if(net_answered){net_pending=net_answered=false;}
+    if(net_pending||net_delivered>=2)return 0;
+    const char *text=net_delivered==0?"player-info":"player-volume 7";
+    assert(strlen(text)<capacity);strcpy(line,text);++net_delivered;
+    net_pending=true;net_answered=false;net_session=100+net_delivered;
+    net_abandoned=net_delivered==1&&abandon_first;
+    json_oom=net_delivered==1;
+    return net_session;
+}
+bool player_network_respond(const char *json)
+{
+    if(usb_stepping){
+        if(!net_pending||net_answered)return false;
+        cJSON *o=cJSON_Parse(json);assert(o);
+        const cJSON *value=cJSON_GetObjectItemCaseSensitive(o,"volume");
+        assert(cJSON_IsNumber(value)&&value->valuedouble==(usb_timeout?50:19));cJSON_Delete(o);
+        ++net_responses;++net_completed;net_answered=true;return true;
+    }
+    if(!network_stepping){control_puts(json);return true;}
+    if(!net_pending||net_answered)return false;
+    ++net_responses;++net_completed;
+    if(net_delivered==1){
+        assert(json_oom); /* cJSON never produced a reply: this is the static fallback. */
+        assert(strlen(json)<sizeof net_reply);strcpy(net_reply,json);
+        json_oom=false;
+    }
+    if(net_abandoned){net_pending=false;return false;}
+    net_answered=true;return true;
+}
+static void *json_allocate(size_t bytes){return json_oom?NULL:malloc(bytes);}
+
 static void reset_test(void) {
     discard_incoming();memset(&published,0,sizeof published);clear_reply();
     loader_calls=stage_calls=commit_calls=unloads=guard_clears=delay_calls=received_blocks=0;
     failed_boundary=FAIL_NONE;mode=ACK_NORMAL;now=0;audio_stepping=control_stepping=false;dma_running=true;
+    network_stepping=net_pending=net_answered=net_abandoned=abandon_first=json_oom=false;
+    usb_stepping=usb_timeout=false;usb_program=NULL;usb_cursor=0;
+    net_delivered=net_completed=net_responses=net_start_calls=net_getchars=0;net_reply[0]=0;
     atomic_store(&active,NULL);atomic_store(&paused,false);atomic_store(&maintenance,false);atomic_store(&parked,false);
     atomic_store(&park_failed,false);atomic_store(&audio_ready,true);atomic_store(&generation,1);
     atomic_store(&maintenance_epoch,0);atomic_store(&acknowledged_epoch,0);atomic_store(&parameter_count,0);
     atomic_store(&queue_errors,0);boot_guard_pending=false;blocked_package[0]=boot_error[0]=0;store_ready=true;
+    atomic_store(&volume,50);
     events=telemetry=(void *)1;
     old_slot=calloc(1,sizeof *old_slot);old_slot->image.module.process=fake_process;old_slot->image.position=4096;
     atomic_store(&active,old_slot);
@@ -184,6 +255,11 @@ static void test_ownership(const uint8_t *bytes,size_t length) {
     }
 }
 static void test_incoming(const uint8_t *bytes,size_t length) {
+    reset_test();feed(bytes,length);command_source=99;
+    commit_test();assert_reply_error(true);assert(incoming.bytes&&!loader_calls&&!stage_calls);
+    char foreign_abort[]="player-abort";command(foreign_abort);assert(incoming.bytes);assert_reply_error(true);
+    command_source=0;incoming.owner=99;
+    char physical_abort[]="player-abort";command(physical_abort);assert(!incoming.bytes);dispose_test();
     reset_test();feed(bytes,length);--incoming.used;commit_test();assert_reply_error(true);
     assert(!loader_calls&&!stage_calls);dispose_test();
     reset_test();feed(bytes,length);incoming.bytes[length-1]^=1;commit_test();assert_reply_error(true);
@@ -208,7 +284,15 @@ static void test_transactions(const uint8_t *bytes,size_t length) {
     assert(commit_calls==1 && atomic_load(&active)!=old_slot && atomic_load(&generation)==2);
     assert(atomic_load(&park_failed));dispose_test();
 }
-static int control_getchar(void){return EOF;}
+static int control_getchar(void){
+    if(usb_stepping){
+        if(usb_cursor<strlen(usb_program))return (unsigned char)usb_program[usb_cursor++];
+        if(!usb_timeout)assert(net_completed==1);
+        return EOF;
+    }
+    if(network_stepping){++net_getchars;assert(net_completed==net_getchars);assert(!json_oom);}
+    return EOF;
+}
 static void test_guard(void) {
     for(unsigned which=0;which<5;++which) {
         reset_test();boot_guard_pending=true;guard_start_position=4096;guard_generation=1;
@@ -220,7 +304,8 @@ static void test_guard(void) {
         control_stepping=true;
         if(!setjmp(task_exit))control_task(NULL);
         control_stepping=false;
-        assert(guard_clears==(which==4?1u:0u));dispose_test();
+        assert(guard_clears==(which==4?1u:0u));
+        assert(net_start_calls==(which==4?1u:0u));dispose_test();
     }
 }
 static void test_generation_reset(void) {
@@ -232,10 +317,51 @@ static void test_generation_reset(void) {
     assert(published.frames==512&&published.generation==2&&published.position==256);
     free(old_slot);dispose_test();
 }
+static void test_network_owner_completion(void)
+{
+    for(unsigned abandoned=0;abandoned<2;++abandoned){
+        reset_test();network_stepping=control_stepping=true;abandon_first=abandoned!=0;
+        if(!setjmp(task_exit))control_task(NULL);
+        control_stepping=network_stepping=false;
+        assert(net_delivered==2&&net_completed==2&&net_getchars==2&&net_responses==2);
+        assert(atomic_load(&volume)==7 && !json_oom && net_start_calls==1);
+        cJSON *fallback=cJSON_Parse(net_reply);assert(fallback);
+        assert(cJSON_IsString(cJSON_GetObjectItemCaseSensitive(fallback,"error")));cJSON_Delete(fallback);
+        dispose_test();
+    }
+    puts("network OOM fallback, abandoned handoff and deferred radio PASS");
+}
+static void test_wifi_guard_blocks_early_settings_and_scan(void)
+{
+    reset_test();boot_guard_pending=true;
+    const char *commands[]={"player-wifi-forget","player-wifi-scan","player-wifi-setup 61 - 0000000000000000000000000000000000000000000000000000000000000000"};
+    for(unsigned i=0;i<sizeof commands/sizeof *commands;++i){
+        char line[256];strcpy(line,commands[i]);clear_reply();command(line);
+        assert_reply_error(true);assert(!net_start_calls && atomic_load(&maintenance_epoch)==0);
+    }
+    dispose_test();
+}
+static void test_usb_line_defers_network_and_timeout_unblocks(void)
+{
+    for(unsigned timeout=0;timeout<2;++timeout){
+        reset_test();usb_stepping=control_stepping=true;usb_timeout=timeout!=0;
+        usb_program=usb_timeout?"player-vol":"player-volume 19\n";
+        if(!setjmp(task_exit))control_task(NULL);
+        control_stepping=usb_stepping=false;
+        assert(net_delivered==1&&net_completed==1&&net_responses==1);
+        assert(atomic_load(&volume)==(timeout?50u:19u));
+        if(timeout)assert(strstr(reply,"Incomplete USB line timed out"));
+        else assert(!strstr(reply,"\"error\""));
+        dispose_test();
+    }
+    puts("USB split-line deferral and bounded partial timeout PASS");
+}
 int main(int argc,char **argv) {
     assert(argc==2);FILE *f=fopen(argv[1],"rb");assert(f);assert(!fseek(f,0,SEEK_END));long n=ftell(f);rewind(f);
     uint8_t *bytes=malloc((size_t)n);assert(bytes&&fread(bytes,1,(size_t)n,f)==(size_t)n);fclose(f);
     test_ownership(bytes,(size_t)n);test_incoming(bytes,(size_t)n);test_transactions(bytes,(size_t)n);
-    test_guard();test_generation_reset();free(bytes);
+    cJSON_Hooks hooks={.malloc_fn=json_allocate,.free_fn=free};cJSON_InitHooks(&hooks);
+    test_guard();test_generation_reset();test_network_owner_completion();test_wifi_guard_blocks_early_settings_and_scan();
+    test_usb_line_defers_network_and_timeout_unblocks();cJSON_InitHooks(NULL);free(bytes);
     puts("player control: ownership, transactions, candidate guard, lifetime counters PASS");return 0;
 }

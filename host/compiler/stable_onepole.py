@@ -23,6 +23,9 @@ GENEXPR_FILE_MAPS = {
  'onepole-scalar-stereo':'4f2a342cd98c00d649c5d6952a5541caf4f50e0cbea7329da89774675bc55802',
  'onepole-signal-cutoff':'9eaf9fcf96bacfc93f5e90a08783ded3d610028623b9db4a65d4188168855421',
 }
+# Exact current producer maps; all other41 files equal the retained inputs.
+INTEGER_UI_FILE_MAPS = {'onepole-fixed-stereo': 'f6dc8334efe8e2c9259cdaff8302eb3062c29b1365d0d9de0b6a52b1dbb50786', 'onepole-scalar-stereo': '546cdb18c0d3f65830b0e87a19f7d98ed2b312ab73c4881c218627a819db22c3', 'onepole-signal-cutoff': 'd934896fde203454f54754bdbb57cab4dffcb41e33949850d8524469fe5f2bb7'}
+
 OPTIONS = {'rnbo_version':'1.4.4','apply_fixes':True,'role':'fx','sample_rate':44100,'block_frames':256,
            'audio_inputs':2,'audio_outputs':2,'numerical_profile':'float32-strict','filter_delay_max_ms':None,
            'float32_delay_storage':False,'required_host_services':[],'other_optimizations':[]}
@@ -80,7 +83,7 @@ def transform(files, description, options, *, code_mask, helper):
     runtime={n:h for n,h in inventory.items() if n.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
     input_map=sha(canonical(inventory))
-    require(len(files)==42 and input_map in (pins['file_map'],GENEXPR_FILE_MAPS[name]),'source/config/caller composition differs')
+    require(len(files)==42 and input_map in (pins['file_map'],GENEXPR_FILE_MAPS[name],INTEGER_UI_FILE_MAPS[name]),'source/config/caller composition differs')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str) and len(masked)==len(text),'invalid C++ lexical mask')
     instances=re.findall(r'    number (onepole_tilde_\d+)_b1;',masked)

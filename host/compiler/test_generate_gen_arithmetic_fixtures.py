@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 """Original syntax/source fidelity, atomic generation and real licensed exports."""
 from concurrent.futures import ThreadPoolExecutor
+import copy
 import json
 from pathlib import Path
 import shutil
@@ -120,13 +121,38 @@ class LicensedExportTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(export,PATCH_HASHES))
 
     def test_fresh_public_exports_reproduce_all_derived_identity_pins(self):
-        self.assertEqual(fixtures.identities(self.prepared),json.loads((PUBLIC/'identities.json').read_bytes()))
+        current=PUBLIC/'identities.integer-ui-v1.json'
+        derived=fixtures.identities(self.prepared)
+        self.assertEqual(derived,json.loads(current.read_bytes()))
+        historical=json.loads((PUBLIC/'identities.json').read_bytes())
+        self.assertEqual({k:v for k,v in derived.items() if k!='entries'},
+                         {k:v for k,v in historical.items() if k!='entries'})
+        for identity,entry in derived['entries'].items():
+            self.assertEqual([k for k in entry if entry[k]!=historical['entries'][identity][k]],
+                             ['source_tree_sha256'])
         out=self.base/'cli-fixtures'
         result=subprocess.run([sys.executable,str(ROOT/'host/compiler/generate_gen_arithmetic_fixtures.py'),
             '--out',str(out),'--prepared-root',str(self.prepared)],capture_output=True,text=True,cwd=ROOT)
         self.assertEqual(result.returncode,0,result.stderr)
-        self.assertEqual((out/'identities.json').read_bytes(),(PUBLIC/'identities.json').read_bytes())
+        self.assertEqual((out/'identities.json').read_bytes(),current.read_bytes())
         for name,data in fixtures.authored_files().items():self.assertEqual((out/name).read_bytes(),data)
+
+    def test_fresh_current_epoch_admission_requires_every_prepared_file(self):
+        from gen_arithmetic_contract import admit_module
+        for fixture in fixtures.catalog()['fixtures']:
+            directory=self.prepared/fixture['id']
+            provenance,manifest,snapshot=verify_prepared(directory)
+            module={'report':{'prepared_export':{'manifest':manifest,'provenance':provenance},
+                              'prepared_snapshot':snapshot}}
+            admit_module(fixture,module)
+            for key in ('generator.json','patch_config.h','RNBO-runtime-LICENSE'):
+                changed=copy.deepcopy(module)
+                changed['report']['prepared_snapshot']['prepared_files_sha256'][key]='0'*64
+                with self.subTest(identity=fixture['id'],key=key),self.assertRaises(ValueError):
+                    admit_module(fixture,changed)
+            changed=copy.deepcopy(module)
+            changed['report']['prepared_export']['manifest']['source_tree_sha256']='f'*64
+            with self.assertRaises(ValueError):admit_module(fixture,changed)
 
     def test_rehashed_wrong_ports_booleans_optional_profiles_and_runtime_reject(self):
         for mutation in ('audio_inputs','boolean_channels','optional_profile','source','runtime'):

@@ -50,6 +50,74 @@ test('unsupported GUI ports and ambiguous forms fail before native runner can dr
   assert.throws(() => describeFlatPatcher(repeatedId, xam), /RNBO object IDs/);
 });
 
+test('integer number UI retains native format, optional bounds and source identity', {skip: !available}, () => {
+  for (const [extra, expected] of [
+    [{}, 'integer'],
+    [{format: 0, rnbo_classname: 'number', rnbo_extra_attributes: {initialFormat: 'integer', minimum: '<none>', maximum: '<none>'}}, 'integer'],
+    [{format: 6}, 'float'],
+    [{format: 0, rnbo_extra_attributes: {initialFormat: 'float'}}, 'float'],
+    [{rnbo_extra_attributes: {initialFormat: 0}}, 0],
+    [{rnbo_extra_attributes: {initialFormat: undefined}}, 'integer']
+  ]) {
+    const original = graph([box('integer-ui', 'number', undefined, extra)]);
+    const saved = structuredClone(original);
+    const actual = describeFlatPatcher(original, xam).boxes[0].box;
+    assert.deepEqual(original, saved);
+    assert.equal(actual.maxclass, 'number');
+    assert.equal(actual.rnbo_classname, 'number');
+    assert.equal(actual.rnbo_extra_attributes.initialFormat, expected);
+    assert.equal(actual.rnboinfo.outputs.length, 1);
+  }
+  for (const extra of [{text: 'cycle~'}, {rnbo_classname: 'slider'}, {format: 99},
+    {rnbo_extra_attributes: null}, {rnbo_extra_attributes: []},
+    {rnbo_extra_attributes: {initialFormat: 'invalid'}}, {rnbo_extra_attributes: {initialFormat: 'INTEGER'}},
+    {rnbo_extra_attributes: {initialFormat: null}}]) {
+    assert.throws(() => describeFlatPatcher(graph([box('bad-number', 'number', undefined, extra)]), xam));
+  }
+  assert.throws(() => describeFlatPatcher(graph([box('integer-ui', 'number'), box('signal', 'newobj', 'sig~')],
+    [[['integer-ui', 1], ['signal', 0]]]), xam), /unsupported RNBO port/);
+  assert.throws(() => describeFlatPatcher(graph([box('specific-box', 'button')]), xam),
+    /id="specific-box" maxclass="button"/);
+});
+
+test('integer number default truncates while explicit float format retains fractions in actual native DSP', {skip: !available, timeout: 120000}, () => {
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'rnbo-import-integer-ui-'));
+  function command(executable, arguments_) {
+    const result = spawnSync(executable, arguments_, {cwd: root, encoding: 'utf8', timeout: 90000, env: process.env});
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    return result.stdout;
+  }
+  try {
+    const source = graph([
+      box('load', 'newobj', 'loadbang'), box('msg', 'message', '-1.75'),
+      box('integer', 'number', undefined, {format: 0, rnbo_extra_attributes: {minimum: '<none>', maximum: '<none>'}}),
+      box('float', 'number', undefined, {format: 6}),
+      box('left-signal', 'newobj', 'sig~'), box('right-signal', 'newobj', 'sig~'),
+      box('left', 'newobj', 'out~ 1'), box('right', 'newobj', 'out~ 2')
+    ], [[['load', 0], ['msg', 0]], [['msg', 0], ['integer', 0]], [['msg', 0], ['float', 0]],
+        [['integer', 0], ['left-signal', 0]], [['float', 0], ['right-signal', 0]],
+        [['left-signal', 0], ['left', 0]], [['right-signal', 0], ['right', 0]]]);
+    const input = path.join(temporary, 'integer.rnbopat');
+    const exported = path.join(temporary, 'export'), prepared = path.join(temporary, 'prepared'), build = path.join(temporary, 'build');
+    fs.writeFileSync(input, JSON.stringify({patcher: source}));
+    const saved = fs.readFileSync(input);
+    command(process.execPath, ['host/export/export.mjs', input, '--out', exported, '--voices', '1']);
+    command('python3', ['host/compiler/prepare.py', '--export', exported, '--out', prepared, '--class-name', 'rnbos3patch', '--role', 'main']);
+    command('python3', ['host/compiler/build.py', '--export', prepared, '--build-dir', build]);
+    const floats = path.join(temporary, 'render.f32');
+    const report = JSON.parse(command(path.join(build, 'rnbo_render'), ['--output', path.join(temporary, 'render.wav'), '--float-output', floats, '--warmup', '1', '--blocks', '2']));
+    assert.equal(report.errors, 0); assert.equal(report.late_platform_allocations, 0);
+    const audio = fs.readFileSync(floats);
+    assert.equal(audio.length, 2 * 256 * 2 * 4);
+    for (let i = 0; i < audio.length; i += 8) {
+      assert.equal(audio.readFloatLE(i), -1, 'integer UI truncates toward zero, not floor or float passthrough');
+      assert.equal(audio.readFloatLE(i + 4), -1.75, 'explicit float number UI preserves the fraction');
+    }
+    assert.deepEqual(fs.readFileSync(input), saved);
+    assert.deepEqual(fs.readFileSync(path.join(exported, 'source.rnbopat')), saved);
+  } finally { fs.rmSync(temporary, {recursive: true, force: true}); }
+});
+
 test('export, prepare and native render retain loadbang message and fractional number clipping', {skip: !available, timeout: 120000}, () => {
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'rnbo-import-ui-'));
   function command(executable, arguments_) {

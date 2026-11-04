@@ -23,7 +23,7 @@ SUPPORTED_VERSION = "1.4.4"
 MAX_SOURCE_BYTES = 16 * 1024 * 1024
 MAX_COMMON_BYTES = 16 * 1024 * 1024
 MAX_PARAMETERS = 128
-NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-scalar-powers-v1", "float32-gen-feedback-v1")
+NUMERICAL_PROFILES = ("float32-strict", "float32-cycle-v1", "float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1", "float32-scalar-powers-v1", "float32-gen-feedback-v1")
 
 
 class ExportError(ValueError):
@@ -540,7 +540,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(delay_change)
-    if numerical_profile in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2"):
+    if numerical_profile in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1"):
         from float32_audio import float32_audio
         try:
             files["rnbo_source.h"], audio_change = float32_audio(files["rnbo_source.h"], code_mask=cpp_code_mask, profile=numerical_profile)
@@ -766,7 +766,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False,
             "target_cpu_gain_claimed": False}
     if stable_onepole:
-        from stable_onepole import CONTEXTS, GENEXPR_FILE_MAPS, transform as stable_onepole_transform
+        from stable_onepole import CONTEXTS, GENEXPR_FILE_MAPS, INTEGER_UI_FILE_MAPS, transform as stable_onepole_transform
         options = {"rnbo_version": SUPPORTED_VERSION, "apply_fixes": apply_fixes, "role": role,
                    "sample_rate": manifest["sample_rate"], "block_frames": manifest["block_frames"],
                    "audio_inputs": manifest["audio_inputs"], "audio_outputs": manifest["audio_outputs"],
@@ -776,7 +776,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         try:
             helper = Path(__file__).with_name("onepole_stable.h").read_bytes()
             normal_map_sha256 = digest(canonical({name: digest(data) for name, data in sorted(files.items())}))
-            if normal_map_sha256 in ({pins["file_map"] for pins in CONTEXTS.values()} | set(GENEXPR_FILE_MAPS.values())):
+            if normal_map_sha256 in ({pins["file_map"] for pins in CONTEXTS.values()} | set(GENEXPR_FILE_MAPS.values()) | set(INTEGER_UI_FILE_MAPS.values())):
                 # Preserve the original reviewed three-form route byte for
                 # byte. Even an unchanged C++ source can come from a different
                 # editable graph; every other map must be freshly regenerated.
@@ -853,7 +853,7 @@ def main() -> None:
                         help="Explicitly discard declared MIDI output; transmitting MIDI is unimplemented")
     parser.add_argument("--no-runtime-fixes", action="store_true", help="Explicit unmodified-runtime reference build")
     parser.add_argument("--numerical-profile",choices=NUMERICAL_PROFILES,default="float32-strict",
-                        help="Optional exact-guarded numerical profile; Gen feedback and scalar powers change expression rounding; strict stays default")
+                        help="Optional numerical profile; auto converts reviewed audio methods and preserves unknown forms; strict stays default")
     parser.add_argument("--filter-delay-max-ms",type=float,
                         help="Explicit comb/allpass delay input maximum0..1000ms; retains Float64 storage and original conversion")
     parser.add_argument("--float32-delays", action="store_true", help="Explicitly convert reviewed internal comb/allpass/delay rings to float32 storage")

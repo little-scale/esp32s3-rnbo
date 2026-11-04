@@ -74,12 +74,13 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
 '''
             for name, text in headers.items():
                 target=includes/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(text)
-            flags=[compiler,'-std=c11','-D_POSIX_C_SOURCE=200809L','-O1','-Wall','-Wextra','-Werror',
+            flags=[compiler,'-std=c11','-D_POSIX_C_SOURCE=200809L','-DRNBO_S3_WIFI=1','-O1','-Wall','-Wextra','-Werror',
                    '-Wno-deprecated-declarations','-Wno-unused-function','-Wno-unused-variable',
                    '-fsanitize=undefined','-fno-sanitize-recover=all','-I',str(includes),
                    '-I',str(HERE/'loader_stubs'),'-I',str(cjson),'-I',str(ROOT/'module-sdk/include'),
                    '-I',str(ROOT/'firmware/components/player_loader/include'),
                    '-I',str(ROOT/'firmware/components/player_store/include'),
+                   '-I',str(ROOT/'firmware/components/player_network/include'),
                    '-I',str(ROOT/'firmware/components/board_audio/include'),
                    '-I',str(ROOT/'firmware/components/pcm_output/include')]
             # Keep the actual parser/clear implementation, replacing only storage
@@ -98,5 +99,7 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
             result=subprocess.run([str(out/'control'),str(fixture)],capture_output=True,text=True,timeout=15)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             self.assertIn('lifetime counters PASS',result.stdout)
+            self.assertIn('network OOM fallback, abandoned handoff and deferred radio PASS',result.stdout)
+            self.assertIn('USB split-line deferral and bounded partial timeout PASS',result.stdout)
 
 if __name__=='__main__':unittest.main()

@@ -150,6 +150,15 @@ def main() -> int:
         for i,value in enumerate(definitions):
             if str(value).startswith('SDKCONFIG_DEFAULTS='):
                 definitions[i]=str(value)+';'+str(ROOT/'firmware/sdkconfig.player.defaults')
+    if args.player and (build/'sdkconfig').is_file():
+        # Older player caches enabled PHY calibration persistence. Radio setup
+        # must not write flash behind the audio maintenance owner.
+        cached_config = (build/'sdkconfig').read_text()
+        cached_config = cached_config.replace('CONFIG_ESP_PHY_CALIBRATION_AND_DATA_STORAGE=y',
+                                              '# CONFIG_ESP_PHY_CALIBRATION_AND_DATA_STORAGE is not set')
+        cached_config = re.sub(r'^CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=\d+$',
+                               'CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=8192', cached_config, flags=re.MULTILINE)
+        (build/'sdkconfig').write_text(cached_config)
     prepared = None
     if args.export_dir:
         args.export_dir=args.export_dir.expanduser().resolve()

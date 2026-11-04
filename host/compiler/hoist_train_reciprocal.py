@@ -18,6 +18,8 @@ FILE_MAP='d208f80a6fdfffa17aabd392c443ddd485469ac6e8c6403cdc90c67eb35181b7'
 # Exact same41 DSP/runtime/config/graph files; the GenExpr-aware importer
 # changes only generator.json's patcher_adapter_sha256. Retain both whole maps.
 GENEXPR_FILE_MAP='3a7411c4bdc3a0bbd49d6e329a1bb868c186cb71b9270e77692d4431afeabb06'
+# Reviewed integer-number UI importer epoch; only generator.json changed.
+INTEGER_UI_FILE_MAP='d8273c752807d6b81d2c41a59b144dc9c50f2a940dc4a900abff519bc0168ad7'
 UNGUARDED_SOURCE='8a736c464fd12717b150b25dc554251aae10f6dc9039b8cca79aa8b9012c011e'
 OPTIONS={'rnbo_version':'1.4.4','apply_fixes':True,'role':'main','sample_rate':44100,'block_frames':256,
          'audio_inputs':0,'audio_outputs':2,'numerical_profile':'float32-strict','filter_delay_max_ms':None,
@@ -90,7 +92,7 @@ def transform(files,description,options,*,code_mask):
     runtime={name:value for name,value in inventory.items() if name.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
     input_map=sha(canonical(inventory))
-    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP),'unknown file/config/source composition')
+    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP,INTEGER_UI_FILE_MAP),'unknown file/config/source composition')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str) and len(masked)==len(text),'invalid C++ lexical mask')
     require(len(re.findall(r'\btrain_tilde_01_perform\b',masked))==2,'only one scalar caller and definition admitted')

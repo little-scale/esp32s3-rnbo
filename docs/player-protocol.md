@@ -49,6 +49,23 @@ Maximum command line 8192 bytes; binary chunks use hex to avoid console escaping
 - `player-param ROLE GENERATION INDEX NORMALIZED`: exact active generation and
   per-role bounded index, normalized finite 0..1. Queue to audio owner; reply queued.
 - `player-midi GENERATION STATUS D1 D2`: complete channel MIDI to Main audio owner.
+- `player-wifi-scan`: USB-only, after startup verification and outside a package
+  transfer; park DMA and return `networks:[{ssid,rssi,channel,secure}]`. At most
+  24 visible UTF-8 personal/open network names are returned, strongest first and
+  deduplicated. Scanning does not save credentials.
+- `player-wifi-setup SSIDHEX PASSWORDHEX KEY64HEX`: USB-only provisioning while
+  parked. Studio supplies a random 32-byte key; the SSID is 1–32 UTF-8 bytes and
+  password is 8–63 bytes, or `-` for an open network. Replies do not return secrets.
+- `player-wifi-forget`: USB-only removal of Wi-Fi settings; saved Main packages
+  remain. Scan/setup/forget reject before the Main startup guard has cleared.
+
+`player-info` includes `wifi:{supported,configured,connected,ip,device_id,port,error?}`
+without credentials or pairing keys. The separate TCP transport on port 8789
+uses fresh server/client nonces, HMAC-SHA256 and contiguous request sequences.
+Its JSON envelopes carry the same command/reply text; setup/scan/forget stay
+USB-only. Authentication provides integrity, not confidentiality. See
+[player-wifi.md](player-wifi.md) for exact MAC domains, setup and current validation
+limits.
 
 No filesystem writes, module loading, allocation or image destruction run in the
 audio owner. Maintenance deliberately pauses audio; this first integration does

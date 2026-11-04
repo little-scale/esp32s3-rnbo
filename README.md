@@ -21,7 +21,9 @@ loading and live controls. Run `./host/studio.sh`, then open
 or Waveshare AMOLED V2; compile each Main patch, including its effects, into a
 board-independent `.rnbopkg`. Loading a package briefly pauses audio and saves the
 patch for reboot without reflashing player firmware. See
-[setup and scope](host/studio/README.md).
+[setup and scope](host/studio/README.md). Studio now defaults to automatic reviewed
+Float32 kernels; unknown code keeps its existing arithmetic. See the
+[DDD optimisation](docs/ddd-optimisation.md) and [Wi-Fi setup](docs/player-wifi.md).
 
 The AMOLED V2 now runs the oscillator and four-voice MIDI fixtures on hardware.
 Two five-minute MIDI stress runs passed with no render overruns or late

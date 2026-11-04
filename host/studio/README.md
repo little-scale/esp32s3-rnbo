@@ -15,7 +15,7 @@ Open **http://127.0.0.1:8788**:
 2. Open a `.rnbopat` or load the example, choose compile settings, and click
    **Compile patch**.
 3. Click **Load compiled package**. Normal loads transfer checksummed chunks over
-   USB and do not flash application firmware.
+   USB, or paired Wi-Fi after setup below, without flashing application firmware.
 
 Audio pauses briefly during replacement; this is not a gapless swap. The selected
 package is saved and starts again at power-on. A completed package can also be
@@ -40,8 +40,8 @@ trap; retain a sufficient arena reserve.
 The graph is a preview of the input patch. Editing JSON or compile settings
 invalidates the previous package. Board selection affects only player installation.
 Live volume and parameter changes are RAM state; package metadata supplies startup
-volume. Parameter controls include the
-active generation, so queued controls cannot target a replacement patch. A queue
+volume. Parameter controls include the active generation and connection identity,
+so queued controls cannot target a replacement patch or another selected player. A queue
 acknowledgement and later readback do not prove an exact application sample.
 
 Player installation retains the existing application-only write at `0x10000`,
@@ -50,6 +50,37 @@ application readback. An incompatible partition layout rejects before writing.
 Installation is the separate firmware-changing action. Failed writes are not
 silently retried or automatically rolled back. Private builds, logs and receipts
 remain under ignored `build/`; generated RNBO code is not published by Studio.
+
+## Wi-Fi setup and use
+
+Update the player over USB once to install its Wi-Fi support. With **Connection**
+set to **USB**, select the board and click **Connect USB**. Open **Wi-Fi setup · via
+USB**, click **Scan nearby networks**, and select a network. Audio pauses briefly
+while the board scans; scanning does not change or save network settings. You can
+also enter a hidden network name manually. Enter the password, then click
+**Save Wi-Fi & pair**. The
+password is cleared from the page when sent. Studio saves a private pairing key
+and address under ignored `build/private/studio/`; it does not save the network
+name or password on the computer. The board keeps its network settings.
+
+Wait for the Wi-Fi status to show a connection and address. Choose **Wi-Fi** under
+**Connection**, select the saved player, and click **Connect Wi-Fi**. You can then
+load a compiled or saved package and use the same live controls with USB unplugged.
+Keep the board powered by a battery or another power source. The computer must
+remain on a network that can reach the board, with Studio running locally.
+
+This route uses saved, numeric private IPv4 addresses; it does not scan or discover
+players. If DHCP changes the address, enter its current address in **IP address
+override**, or reconnect over USB to refresh it. **Forget Wi-Fi** requires USB and
+removes the board's settings and that player's saved pairing on this computer.
+Player firmware installation and updates still require USB.
+
+Commands and replies use HMAC-SHA256 authentication with fresh connection nonces
+and sequence numbers. This detects modification and replay; it does **not encrypt**
+the package, metadata or controls. Use a trusted LAN, not an Internet-facing or
+untrusted shared network. Native packages remain trusted executable code. Wi-Fi
+transport does not add memory isolation. A failed or timed-out mutating command
+is not automatically repeated; reconnect and inspect the player before retrying.
 
 ## Requirements and scope
 
@@ -62,14 +93,31 @@ remain under ignored `build/`; generated RNBO code is not published by Studio.
 
 One Main patch has 0 signal inputs, 2 outputs, up to 32 parameters, 44.1 kHz and
 256 frames per callback. Existing exporter/polyphony restrictions still apply.
-There is no separate FX slot. The arithmetic selector defaults to
-`float32-strict`; `float32-audio-v1` remains an explicit reviewed option with its
-own rounding scope. Filter-delay caps and Float32 delay storage remain opt-in;
-unset options preserve normal defaults. Arena reserve is capacity, not consumption.
+There is no separate FX slot. Studio defaults to **Automatic Float32 audio**
+(`float32-auto-v1`): it applies the reviewed audio-kernel transformations where
+their exact guards match, and leaves unknown forms unchanged. This changes rounding
+and does not promise that every operation becomes Float32 or that every patch fits
+the audio budget. Standard arithmetic (`float32-strict`) and the explicitly named
+profiles remain available; the command-line preparer's default remains strict.
+Filter-delay caps and Float32 delay storage remain separate opt-in settings.
+Arena reserve is capacity, not consumption.
 
-Pause/Resume preserves patch state. Telemetry describes audio work through PCM
-conversion, excluding I²S wait; it is not total dual-core CPU usage. An empty player
-can report panic while continuing to output silent frames.
+Beside **Load compiled package**, Studio shows the **Currently running** Main and
+the **Package to load** separately. A CPU-screen rejection means the transfer
+completed but the candidate was not activated; the player keeps its previous
+state. The persistent result shows the measured callback time, the roughly 5.8 ms
+block budget, and the original error. The player also reserves part of that budget
+for audio output. If editable source is open, **Recompile with Float32 optimisation**
+selects the automatic audio profile and compiles again without changing delay
+storage or loading the result automatically. Compiler and other load errors remain
+visible; the original source stays open.
+
+Pause/Resume preserves patch state. Render and peak show microseconds alongside
+**Audio CPU** percentages: `time_us × sample_rate / (block_frames × 1,000,000) × 100`.
+They describe callback work through PCM conversion, excluding I²S wait, relative
+to one audio block's time budget. They are not total dual-core CPU usage; a value
+above 100% exceeds that block budget. An empty player can report panic while
+continuing to output silent frames.
 
 The server binds only to loopback, uses a session token for mutations, and stops
 its compiler process group on exit. It waits for a firmware write to finish before

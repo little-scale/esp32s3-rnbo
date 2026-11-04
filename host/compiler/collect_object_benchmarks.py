@@ -535,6 +535,63 @@ WAVE4_SCHEMA='37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570'
 WAVE4_RUNTIME='fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
 WAVE4_ADAPTATIONS=['rnbo-1.4.4-list-copy-bounds-v1','rnbo-1.4.4-list-move-inline-storage-v1','rnbo-1.4.4-list-cross-capacity-assignment-v1','rnbo-1.4.4-nested-clock-target-v1','rnbo-1.4.4-defined-imul-v1']
 
+# Exact alternative producer tuples; historical Wave4 evidence pins remain.
+WAVE4_INTEGER_UI_IDENTITIES={
+  "absolute-signal-stereo": {
+    "prepared_map": "7d48066c10221e25b5795588d3de412cf6c5d5f39e6ce5eca5b3066d7934100f",
+    "source_tree": "6488f108e1ffa54842a04436e81158aa6d4b38eab9a48db59406922d9f20a88b"
+  },
+  "codebox-arithmetic": {
+    "prepared_map": "30bc1b4211118d3adda8f03185568b299e4c7bbac53aa8f81e9b5249064bbb45",
+    "source_tree": "79fe52b08178da809e2dfccc75bcf3a4af4ed850dcaa5cb8f287a341428f63e9"
+  },
+  "codebox-delta-state": {
+    "prepared_map": "ba9ea71db0e087274b05d927ffa9e7609188c004776b0b13909cbb26246548b4",
+    "source_tree": "19f6234e628e82122a804f78c51a94c7184792e110bf666794c370ee666ca6db"
+  },
+  "equal-alias-signal": {
+    "prepared_map": "ec7326983d5c9b93d7c8a9304e74c2928c3ddc1522194d63505508d5522083c7",
+    "source_tree": "5e6056c94ac41fb5f435ebc72dfd2d283862a93153ce68e5f38eda04249529f2"
+  },
+  "equal-canonical-signal": {
+    "prepared_map": "471b9d48bfbb602f7d875b64e241a8b2408eb3fd77c621f5ae5b4af4fafcd471",
+    "source_tree": "cff60639e45ad1313a2682cb5acb910e0576ee403add29ff27e9dd8c53ce0cc9"
+  },
+  "less-alias-signal": {
+    "prepared_map": "7a5ef3243d4d9b4d7aa983f675bd8bb64546d7582511797404751f5082d57628",
+    "source_tree": "2a8ca8143627ea4e294bfe4f86e287ddb59c6ac2b9bb140d842824d0d163bde1"
+  },
+  "less-canonical-signal": {
+    "prepared_map": "7ef5bba2a52b15dd7ea0ef394c4fb7e29056d64aa8474c22e6c46c1c07cecdef",
+    "source_tree": "a86aefd6fd36a20e7d84813637a342639e928f7e2faec1de359362d9d551108d"
+  },
+  "maximum-alias-signal": {
+    "prepared_map": "3125dd4d45856141c4712ff0b341ab881f3c84a34768c0e6e6724ac466daad19",
+    "source_tree": "eac464885d45f0b44188f7d1b643de7f2878d5f6dfb70f8c2ea10e66f401b13b"
+  },
+  "maximum-canonical-signal": {
+    "prepared_map": "99f410bbb89310400c5f5c49b22ba38ea1ab3b645814292a0078eb07b78cb1c6",
+    "source_tree": "4f9328ecd220daa7412cf259d23347ceaa4d33bd2a89e9fcd74b7d15b0b68e57"
+  },
+  "minimum-alias-signal": {
+    "prepared_map": "3a88610ca172c02aeed7a1e569e035d4ba528477b78e800190c15c61efd84e95",
+    "source_tree": "7d56e233b929b9c06e16078810f3cfaf9e31f72686dcbc6440e1bf9fa64ed55e"
+  },
+  "minimum-canonical-signal": {
+    "prepared_map": "3220ca0121409320812a6db6cdcc0af25db2d0490a3cb9d995311193ffcbbae3",
+    "source_tree": "bab1b744efd8280cd0edcfe1dac558c0b588d6b10ea6efc543478df720302005"
+  },
+  "subtract-alias-signal": {
+    "prepared_map": "f9488d02ec59fe3e77b459f7ce0981eca27f80507ca6c62f455cf69591c9c408",
+    "source_tree": "c4ae2365e3390a749c08f666c58c137cbd964629779476361daa500e3c2e7780"
+  },
+  "subtract-canonical-signal": {
+    "prepared_map": "3e63a6efdb9edb2aaf268998880f1bedd3b7419501779fc9465f0a992264ed32",
+    "source_tree": "9bfd7113290a42411aed5194ae9d57be7d0b2f328081a7160b348332685867d3"
+  }
+}
+
+
 def wave4_declaration(fixture):
     identity=fixture.get('id');require(type(identity)is str and identity in WAVE4_IDENTITIES,'Unknown exact wave4 fixture')
     pin=WAVE4_IDENTITIES[identity]
@@ -573,8 +630,9 @@ def wave4_identity(build,fixture,plan):
             'Wave4 initial qualification requires same-artifact control')
     for module in build['modules'].values():
         export=module['report']['prepared_export'];manifest=export['manifest'];provenance=export.get('provenance',{})
+        epoch=gen_producer_epoch(fixture['id'],manifest,pin,current_pins=WAVE4_INTEGER_UI_IDENTITIES)
         require(manifest.get('editable_source_sha256')==pin['patch'] and manifest.get('parameter_schema_sha256')==WAVE4_SCHEMA and
-                manifest.get('source_tree_sha256')==pin['source_tree'],
+                manifest.get('source_tree_sha256')==(epoch['source_tree']if epoch else pin['source_tree']),
                 'Wave4 exact source/empty parameter schema differs')
         require(type(manifest.get('parameter_count'))is int and manifest['parameter_count']==0 and
                 manifest.get('role')=='fx' and manifest.get('audio_inputs')==manifest.get('audio_outputs')==2 and
@@ -591,6 +649,7 @@ def wave4_identity(build,fixture,plan):
         runtime={k:v for k,v in snapshot.items()if k.startswith('common/')}
         require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
                 'Wave4 normal fixed runtime differs')
+        gen_current_prepared_map(module['report'],epoch,pin['source'],None)
 
 
 @lru_cache(maxsize=3)
@@ -655,6 +714,9 @@ GEN_FEEDBACK_PIN={
     'prepared_method':'7ac1c56f80f1b0f23a15f2ebf4b9cd4f4c63a7b6c2471a1daab9cd13210e88c5',
     'input_map':'7cb084216600dab080984923569ddc45c2e6b8b3a73d8371877fc976069044b2',
     'transformer':'fb40788acd39bf4d7ffb4e73f2f4ac89ef2ba6b3aa1701569dccc3643a03a0e9'}
+GEN_FEEDBACK_INTEGER_UI_PIN={
+    'input_map':'d85a45949197dd642b43133cfcff7fedc2c5247a4311cd88d533d12dc33e7316',
+    'transformer':'236a16936cc7c2141b68f4c3be86ae25c1ae7bc7ff307c05857e181ab64a74ef'}
 GEN_FEEDBACK_CONTRACT={'version':1,'context':'history-feedback','coefficient':.5,'operation':'binary32-multiply-then-add',
     'state_storage':'unchanged-binary32','scheduler_time':'unchanged-binary64','bit_identity_claimed':False,
     'signed_zero_identity_claimed':False,'nonfinite_qualified':False,'floating_environment_equivalence_claimed':False,
@@ -784,8 +846,9 @@ def gen_identity(build,fixture,plan):
         require(profile in ('strict','optimized'),'Unknown Gen module slot')
         candidate=comparison and profile=='optimized'
         report=module['report'];export=report['prepared_export'];manifest=export['manifest'];provenance=export.get('provenance',{})
+        epoch=gen_producer_epoch(fixture['id'],manifest,pin)
         require(manifest.get('editable_source_sha256')==pin['patch'] and manifest.get('parameter_schema_sha256')==pin['schema'] and
-                manifest.get('source_tree_sha256')==pin['source_tree'],'Gen exact graph/schema differs')
+                manifest.get('source_tree_sha256')==(epoch['source_tree']if epoch else pin['source_tree']),'Gen exact graph/schema differs')
         require(same_declaration({k:manifest.get(k)for k in ('parameter_count','role','audio_inputs','audio_outputs','sample_rate','block_frames',
                 'numerical_profile','scheduler_time','rnbo_version','class_name','voices','voice_topology','required_host_services','midi_output_ports','adaptations')},
                 {'parameter_count':1,'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
@@ -799,6 +862,8 @@ def gen_identity(build,fixture,plan):
         runtime={k:v for k,v in snapshot.items()if k.startswith('common/')}
         require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
                 'Gen normal fixed runtime differs')
+        gen_current_prepared_map(report,epoch,pin['source'],GEN_FEEDBACK_PIN['reference_config'],
+                                 'rnbo_s3_gen_feedback_source.h'if candidate else None)
         if comparison:
             require(report.get('imports')==[],'Gen comparison requires zero-import modules')
             require(snapshot==provenance.get('prepared_files_sha256'),'Gen comparison prepared snapshot/provenance differs')
@@ -811,14 +876,18 @@ def gen_identity(build,fixture,plan):
                         same_declaration(manifest.get('gen_feedback_contract'),GEN_FEEDBACK_CONTRACT),'Gen feedback numerical profile contract differs')
                 require(snapshot.get('rnbo_s3_gen_feedback_source.h')==GEN_FEEDBACK_PIN['compile_contract']and len(records)==1,'Gen feedback type contract/adaptation missing')
                 adaptation=records[0]
+                transformer=gen_transformer_epoch(adaptation,GEN_FEEDBACK_PIN,GEN_FEEDBACK_INTEGER_UI_PIN,epoch)
                 expected={'name':name,'file':'rnbo_source.h','method':'gen_01_perform','input_sha256':pin['source'],
                     'prepared_sha256':GEN_FEEDBACK_PIN['source'],'input_method_sha256':GEN_FEEDBACK_PIN['input_method'],
                     'prepared_method_sha256':GEN_FEEDBACK_PIN['prepared_method'],'inserted_bytes':1,'inverse_byte_identity':True,
                     'runtime_tree_sha256':WAVE4_RUNTIME,'editable_source_sha256':pin['patch'],'description_file_sha256':pin['description'],
                     'compile_contract_file':'rnbo_s3_gen_feedback_source.h','compile_contract_sha256':GEN_FEEDBACK_PIN['compile_contract'],
-                    'changed_rounding':True,'bit_identity_claimed':False,'scheduler_time_unchanged':True,'transformer_sha256':GEN_FEEDBACK_PIN['transformer']}
-                expected['input_map_sha256']=GEN_FEEDBACK_PIN['input_map']
+                    'changed_rounding':True,'bit_identity_claimed':False,'scheduler_time_unchanged':True,'transformer_sha256':transformer}
+                expected['input_map_sha256']=(GEN_FEEDBACK_INTEGER_UI_PIN if epoch else GEN_FEEDBACK_PIN)['input_map']
                 require(all(same_declaration(adaptation.get(k),v)for k,v in expected.items()),'Gen feedback exact one-literal/inverse proof differs')
+                if transformer==GEN_FEEDBACK_INTEGER_UI_PIN['transformer']:
+                    require(report.get('source_files_sha256',{}).get('host/compiler/gen_feedback.py')==transformer,
+                            'Gen feedback current helper source epoch differs')
             else:
                 require(not records and not any(k in manifest for k in ('gen_feedback_contract','base_numerical_profile','numerical_identity'))and
                         'rnbo_s3_gen_feedback_source.h'not in snapshot,'Gen reference must remain original strict source')
@@ -848,6 +917,9 @@ GEN_ABS_PIN={
     'input_method':'2177cbb70c6451d2e2367c48bc1d7c63c9b3569a2459286873b9739c7c9aee4a',
     'prepared_method':'78cfc29273918e63b0490c42b59272ae0f44be267fcdb8b7179cd02400ae3176',
     'transformer':'c013826b069504ce222ac340d1e52b36a02d25fe5c331f05011c877554921871'}
+GEN_ABS_INTEGER_UI_PIN={
+    'input_map':'df798de518f675e8148afc28be3a28537e310fe70ece17883c353f0bac13c324',
+    'transformer':'b35e5b26dfb25ca4e8b531ca6866ced88f3deb55571ee197faa8a2601c47499f'}
 GEN_ABS_CONTRACT={'version':1,'context':'abs-call','operation':'explicit-binary32-absolute-builtin',
     'input_domain':'finite-binary32','finite_bit_identity_claimed':True,'zero_sign':'negative-zero-maps-to-positive-zero',
     'state_and_layout':'unchanged','scheduler_time':'unchanged-binary64','math_runtime':'unchanged',
@@ -1177,6 +1249,194 @@ GEN_LOGIC_IDENTITIES={
 }
 
 
+# Separately reviewed integer-number UI producer epoch. Historical identity
+# dictionaries above are retained; these tuples bind fresh exports' full42 maps.
+GEN_INTEGER_UI_IDENTITIES={
+  "abs-call": {
+    "prepared_map": "431eb882c87b7343dd0a5fb34c4b2a6f0de2b7d32ada19b3a6740ee20e716ccc",
+    "source_tree": "d933a0e094d5c018cf7814fb38330efc6d746c7d6e39f64f873a8ec2961f808a"
+  },
+  "add-call": {
+    "prepared_map": "68d4ab90f777dd12e09cf6d3e5a060d7bd983aa8c1b6581192f46d0ed31bb5f9",
+    "source_tree": "b4a305daed1ad6af80960850c0cdd306b9b61814d4fe23e8c7dbe9f1f57a7208"
+  },
+  "add-infix": {
+    "prepared_map": "adfaeb3ba63adf77e79702d7b506eded1ea84025f6682518080a66789a1c8dd4",
+    "source_tree": "36eb08a044d18041394c01509940344f815ba3e21e4419161de94702c0d58ade"
+  },
+  "and-call": {
+    "prepared_map": "9174b7c1e1b8b9f7bec2eba7a55a00c5c3f6a04ed7aa1b82dcd0faf2f14f61d6",
+    "source_tree": "bb4ad68e742023c685382345b5b924ab9de57d944d1e48fb958bdb5f23263ce5"
+  },
+  "and-infix": {
+    "prepared_map": "ee2045f9d8464ea4d8a4bb8b86282ef687c765ac6af6419679cc2b26a6256a15",
+    "source_tree": "c622f2fcb0813673e95be15c428fe109cedd663d0051ed7a19591eb8bb0d1035"
+  },
+  "bool-call": {
+    "prepared_map": "aec7452cfadfc1717aacea7c6214de4abd91fe4b204c48e2e01ed0d3a04c2d00",
+    "source_tree": "dd9d5dde1095ea482858993de95dfab14886296ed55059e8db43e9d880f0b52a"
+  },
+  "conditional-infix": {
+    "prepared_map": "c3b4158279938c279dd9bd32c21cc2482478a18487cae58e85b209b777b3b985",
+    "source_tree": "f02b05d3feae0543886d8ec351249c1681685116ad7c0e7fd7ba176c0c331a88"
+  },
+  "eq-call": {
+    "prepared_map": "cb4db7cb6087640a610f8e74ba60c239a82479b5b85186522e0d6b84cb207597",
+    "source_tree": "b8064d1801fab1a5e6f16969e8eeffd83e3c6ba8230e39e1e6f143c1a72f7873"
+  },
+  "equal-infix": {
+    "prepared_map": "ec89794970e1b126f977cd559d9d84115cf0b3e24a3250fba58bdd4bc2458ef9",
+    "source_tree": "a6305dc85761020755b96b92ae85ac8c59a184b9e7f3c2b82146438b32218dc6"
+  },
+  "greater-equal-infix": {
+    "prepared_map": "edc0b66a51fcef458c33fa8033007728f91279a6474ec03f52e724f96ebf90d7",
+    "source_tree": "7c77809b8062ab71a2d46bb0419ecd490365f7a3d45cb3fea0d3802edd6f5a8a"
+  },
+  "greater-infix": {
+    "prepared_map": "5ba9e6dcc99ba8639c5ab3fc6e8718c3e1e2066dc075d1d808351d5be2a8a31c",
+    "source_tree": "c1aceb7c10a4c4e1b0737b7549f34b5ad005a8c4342f6062db8cb06c0ccc6417"
+  },
+  "gt-call": {
+    "prepared_map": "7203743a4210f71e45960db008ac3b29daa40a74ab6d1cc79a08320f61ad8e09",
+    "source_tree": "5b6501125a4aa42a9fa7d1cdb8414d81e0cb377c5f03c0749de60c7b2d6471de"
+  },
+  "gte-call": {
+    "prepared_map": "1103dd0e4f51bfe616518690ed459138df4d66bd70ba521fe078741e110b448f",
+    "source_tree": "4e0e07e9736ef1b9874f5cc6bd9feacf40c5a4fbc054600904b5191df5d8e677"
+  },
+  "history-feedback": {
+    "prepared_map": "89575e4c571b845411804c6e9b512376fc323a4bad5c0e35d8c889c1688d5817",
+    "source_tree": "1f3114f49a2535e66e0baaf02ad0158e1f14e5749430687bacfad7f43fa79b78"
+  },
+  "less-equal-infix": {
+    "prepared_map": "5f328cc10b38295c1aa23e792fd96191d034fdb6e91e80527290f4c1bd437b84",
+    "source_tree": "fa3a29afcd047878df2737d06d6fb6b11b8905af77a8ebd71f491c65f1d026d3"
+  },
+  "less-infix": {
+    "prepared_map": "530a90bfb9dc2753d24a463dc46c05542061058ebafa2cd063d3cd08c7ac4780",
+    "source_tree": "adfbbb1fd808dc803121519d014c3ccbf0a113a3a7768be733bb44ba31f07e4e"
+  },
+  "lt-call": {
+    "prepared_map": "7c6c96cb5e5c55b8e7675bcf0145540a60ddd45744d6b21a1b00826682a7cecb",
+    "source_tree": "bcfd114a54272fc59b97d2c24f21c93b879a8f40c42ba959899a84e6b8a8e10f"
+  },
+  "lte-call": {
+    "prepared_map": "8f6c8ca50617662d5b4af7b79b7fd461a1a9c596b1b2901762cc259ad95d8165",
+    "source_tree": "bb7ee09108fee48c7b58871e9ac3fdd1139dca37531425060e558f61ca3ea331"
+  },
+  "max-call": {
+    "prepared_map": "f8b175ecbae405ef7d9e5d8c69e878ca51ed23ed7c88d295f07987f2dadb4f3c",
+    "source_tree": "04bcdfef95cd989426a32144640d8df546d24757cbb7dfb544a2058b8d7ae0be"
+  },
+  "maximum-call": {
+    "prepared_map": "f2d4fed5e65bc0a9d92a7c247f9f59c6022961b0f8c03882af0a33e28ad432d5",
+    "source_tree": "b85bfd5749490d51fc7d16eb0e6e685e2c4dcdb78de6def400f46e7fa5da4f41"
+  },
+  "min-call": {
+    "prepared_map": "25d6f974f2e2c6fddb66e16a4e150b80207e1763994c35e40fa883755de33291",
+    "source_tree": "8ef53d62e1c8b4386c6336df1b94d65931192fd6f3cf25119857c8e439fb7028"
+  },
+  "minimum-call": {
+    "prepared_map": "14bfdb599a41e1b0351f7f60d9cfb07f52d82568b1d99ae7152b495be65016b4",
+    "source_tree": "cb89b36279186b76e3665eecce4e695282b9fad04aeae9b9bd71db134847cdfd"
+  },
+  "mul-call": {
+    "prepared_map": "6aff93bb489fd55ed09d69db70b84f0b22050093575d22cb1f978ed78dad88f6",
+    "source_tree": "60f86d366ab19e5f1dcd39af72554cf4c65bb0914d8cc6941777564be2ad80a6"
+  },
+  "mul-infix": {
+    "prepared_map": "334c1353623b97a003c1d9b90e71192472238a20090902c2e4ce8ea1e6ed07f7",
+    "source_tree": "a4b460f6a9260b386e74fd9e3ac7aa4ee06103949b272362e5ca27c1f713e602"
+  },
+  "neq-call": {
+    "prepared_map": "9480e458a1ebb9834b69ba010bc6ebed59d929eaca4ea3f80cf34f0aa44a3abf",
+    "source_tree": "78b51fb9bc3de06fae837afff81035e82586867c1239cb6059b6d5afef7929a9"
+  },
+  "not-call": {
+    "prepared_map": "9863d3bae7c6ec9485d432bd3fc2e4f5773ac914295100c31959efcacfc6f315",
+    "source_tree": "77eb8fe89086110a31503488538be09a3549ab485607b4e7a63c302421e16d56"
+  },
+  "not-equal-infix": {
+    "prepared_map": "95f48e65be9b71d3cb7f8829a55c7156d44c345a2a88ec1eacf9c803af9f6b07",
+    "source_tree": "f1fa7b4da3cf43bd1f51b41522d2a0f161f99604ae4891976930c344331f51dd"
+  },
+  "not-prefix": {
+    "prepared_map": "02d0b16b8f63f4c2974ed0c7d1af322d50cf276168e31ad1cf0a488bd1ee64db",
+    "source_tree": "95effffaed4174f5e347bb57feadad0026cb5d0effd6bc201d04c143720bf22b"
+  },
+  "or-call": {
+    "prepared_map": "86567985305a90f42dfd87b45a5f7487845c53d301bb25497898c52b003a5326",
+    "source_tree": "932ed5b0f0b05de0b0c3dac43ea49691e1eb6cd693722875f13ac120a556e688"
+  },
+  "or-infix": {
+    "prepared_map": "f3f5f34f97d5ec0abd8a05f3a181a58e1210619b6dbdb3e3f03dfbd87b576d18",
+    "source_tree": "5ec5bc4bf99d687bbad473a19333eeff591a68b28d99c15edf9cfc1baa541d6d"
+  },
+  "sign-call": {
+    "prepared_map": "d308ec5dbdd5661ade794f7c15e7bd2ee30fe20807b6b39a7a8a06f0cbad7c79",
+    "source_tree": "73633f4968353a8d4c211a1191e26d5a0305f84e0d19e875d75ba52c1df85b87"
+  },
+  "step-call": {
+    "prepared_map": "0b3b113f06c3dca0f31fb0697d4af03bba73dca657e3427c49da26f9fda220af",
+    "source_tree": "eeef1d8aeef921a001940b751ca28385d1dba4e10f4ba2c3e67156602bdb0819"
+  },
+  "sub-call": {
+    "prepared_map": "b75a106c80c0c2b2b64c6d2b134ca3dfd44fc57e46f8ee2e5349d36712af852a",
+    "source_tree": "a2c066aef5ecae292cfb3db171509608eeea5c262b02bbd4603029c15e9558b6"
+  },
+  "subtract-infix": {
+    "prepared_map": "8b03451d6f95d9168add2484a471dabd7ccbd8c44551fac2e99707c8d2e2a33e",
+    "source_tree": "35c53b15ba2e10202f7f7307d75f3e0c30ef135a6908f4a21bb983b1532adc0b"
+  },
+  "switch-call": {
+    "prepared_map": "fe09aac6560a91dca10584c462cdae43cdcb53f5fbdcbb78c036089c67565e7b",
+    "source_tree": "93598a377e0aded1fc4fcb76f37cb5cd274285855eda2f9371993f6f549ac793"
+  },
+  "three-history-rotation": {
+    "prepared_map": "5e368d7910656fc7b8d6d2ddd22c86479d03de0491f114d83df36a9337eaac54",
+    "source_tree": "3771ec7e56c015af40d84ac85a4dd31a0c2709ef22dd9cc465b5abaabb45c102"
+  },
+  "two-history-swap": {
+    "prepared_map": "8c8ddce553088498ad292fb739d2c59ee3e061ad657e37563a97f2e75eb2be6e",
+    "source_tree": "31650fe910c86b38a5d5e17e1427c9be56a403dace6eccfddab82a6d1d85264d"
+  },
+  "xor-call": {
+    "prepared_map": "4abfa4496e5aaceae09a32c4468e43b6428d1a27b06ca7f4b157660b86d33823",
+    "source_tree": "c182ae7cbd57f56ff8e37ba70f2cfd7866d6569af5eabfccb221c377ad770f2f"
+  },
+  "xor-infix": {
+    "prepared_map": "4f61e439c089f274b47ac28174c1bd3469d88261262941c23fcb505e9ed71ce0",
+    "source_tree": "e40caaa9d8762a2c436d0c45582bb53eaabdf03ce1c02be447a7da367326b395"
+  }
+}
+
+
+def gen_producer_epoch(identity,manifest,historical,*,current_pins=None):
+    if manifest.get('source_tree_sha256')==historical['source_tree']:
+        return None
+    current=(GEN_INTEGER_UI_IDENTITIES if current_pins is None else current_pins).get(identity)
+    require(current is not None and manifest.get('source_tree_sha256')==current['source_tree'],
+            'Gen exact source-tree producer epoch is unreviewed')
+    return current
+
+
+def gen_current_prepared_map(report,epoch,source,configuration,contract=None):
+    if epoch is None:return
+    normal=dict(report.get('prepared_snapshot',{}).get('prepared_files_sha256',{}))
+    if contract is not None:
+        normal.pop(contract,None);normal['rnbo_source.h']=source;normal['patch_config.h']=configuration
+    require(report.get('imports')==[]and len(normal)==42 and
+            hashlib.sha256((json.dumps(normal,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==epoch['prepared_map'],
+            'Gen current producer complete prepared map/imports differ')
+
+
+def gen_transformer_epoch(adaptation,historical,current,epoch):
+    transformer=adaptation.get('transformer_sha256')
+    allowed=(current['transformer'],)if epoch else(historical['transformer'],current['transformer'])
+    require(transformer in allowed,'Gen numerical adapter producer/helper tuple is unreviewed')
+    return transformer
+
+
 def gen_arith_verification(fixture,case):
     identity=fixture.get('id');logic=identity in GEN_LOGIC_MODELS
     models=GEN_LOGIC_MODELS if logic else GEN_ARITH_MODELS
@@ -1221,12 +1481,14 @@ def gen_arith_identity(build,fixture,plan):
     require(plan.get('patch_sha256')==pin['patch']and plan.get('description_sha256')==pin['description'],'Gen arithmetic patch/description differs')
     same_image=build['modules']['strict']['artifact_sha256']==build['modules']['optimized']['artifact_sha256']
     require(not same_image if comparison else same_image,'Gen arithmetic comparison/control image identity differs')
+    selected_transformer=None
     for profile,module in build['modules'].items():
         require(profile in ('strict','optimized'),'Unknown Gen arithmetic module slot')
         candidate=comparison and profile=='optimized'
         report=module['report'];manifest=report['prepared_export']['manifest'];provenance=report['prepared_export'].get('provenance',{})
+        epoch=gen_producer_epoch(fixture['id'],manifest,pin)
         require(manifest.get('editable_source_sha256')==pin['patch']and manifest.get('parameter_schema_sha256')==pin['schema']and
-                manifest.get('source_tree_sha256')==pin['source_tree'],'Gen arithmetic exact graph/schema/source differs')
+                manifest.get('source_tree_sha256')==(epoch['source_tree']if epoch else pin['source_tree']),'Gen arithmetic exact graph/schema/source differs')
         require(same_declaration({k:manifest.get(k)for k in ('parameter_count','role','audio_inputs','audio_outputs','sample_rate','block_frames',
             'numerical_profile','scheduler_time','rnbo_version','class_name','voices','voice_topology','required_host_services','midi_output_ports','adaptations')},
             {'parameter_count':0,'role':'fx','audio_inputs':2,'audio_outputs':2,'sample_rate':44100,'block_frames':256,
@@ -1246,9 +1508,11 @@ def gen_arith_identity(build,fixture,plan):
         require(report.get('imports')==[],'Gen arithmetic module has unapproved imports')
         require(provenance.get('raw_files_sha256',{}).get('rnbo_source.h')==pin['source'],'Gen arithmetic raw source differs')
         files=report.get('prepared_snapshot',{}).get('prepared_files_sha256',{})
-        if logic:
+        if logic and epoch is None:
             require(hashlib.sha256((json.dumps(files,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==pin['prepared_map'],
                     'Gen logic complete 42-file prepared source/metadata map differs')
+        gen_current_prepared_map(report,epoch,pin['source'],GEN_ABS_PIN['reference_config'],
+                                 GEN_ABS_PIN['contract_file']if candidate else None)
         require(files.get('rnbo_source.h')==(GEN_ABS_PIN['source']if candidate else pin['source']),'Gen arithmetic prepared source differs')
         runtime={k:v for k,v in files.items()if k.startswith('common/')}
         require(len(runtime)==36 and hashlib.sha256((json.dumps(runtime,sort_keys=True,indent=2)+'\n').encode()).hexdigest()==WAVE4_RUNTIME,
@@ -1268,13 +1532,14 @@ def gen_arith_identity(build,fixture,plan):
                 require(not any(k in manifest for k in ('base_numerical_profile','numerical_identity')),
                         'Gen abs intrinsic must remain the strict finite-bit-identity option')
                 require(files.get(GEN_ABS_PIN['contract_file'])==GEN_ABS_PIN['compile_contract']and len(records)==1,'Gen abs type contract/adaptation missing')
+                selected_transformer=gen_transformer_epoch(records[0],GEN_ABS_PIN,GEN_ABS_INTEGER_UI_PIN,epoch)
                 expected={'name':'rnbo-1.4.4-gen-abs-intrinsic-v1','file':'rnbo_source.h','method':'gen_01_perform',
-                    'input_sha256':pin['source'],'prepared_sha256':GEN_ABS_PIN['source'],'input_map_sha256':GEN_ABS_PIN['input_map'],
+                    'input_sha256':pin['source'],'prepared_sha256':GEN_ABS_PIN['source'],'input_map_sha256':(GEN_ABS_INTEGER_UI_PIN if epoch else GEN_ABS_PIN)['input_map'],
                     'input_method_sha256':GEN_ABS_PIN['input_method'],'prepared_method_sha256':GEN_ABS_PIN['prepared_method'],
                     'callee_replacements':2,'inverse_byte_identity':True,'finite_bit_identity_claimed':True,
                     'editable_source_sha256':pin['patch'],'description_file_sha256':pin['description'],'runtime_tree_sha256':WAVE4_RUNTIME,
                     'compile_contract_file':GEN_ABS_PIN['contract_file'],'compile_contract_sha256':GEN_ABS_PIN['compile_contract'],
-                    'scheduler_time_unchanged':True,'transformer_sha256':GEN_ABS_PIN['transformer']}
+                    'scheduler_time_unchanged':True,'transformer_sha256':selected_transformer}
                 require(all(same_declaration(records[0].get(k),v)for k,v in expected.items()),'Gen abs exact two-callee/inverse proof differs')
             else:
                 require(not records and not any(k in manifest for k in ('gen_abs_intrinsic','gen_abs_intrinsic_contract')),
@@ -1286,7 +1551,7 @@ def gen_arith_identity(build,fixture,plan):
         sdk=lambda r:{k:v for k,v in r.get('source_files_sha256',{}).items()if k.startswith('module-sdk/')}
         require('module-sdk/dynamic/rnbo_s3_dynamic.cpp'in sdk(left)and sdk(left)==sdk(right),'Gen abs module SDK sources differ')
         require(left.get('source_files_sha256')==right.get('source_files_sha256')and
-                left['source_files_sha256'].get('host/compiler/gen_abs_intrinsic.py')==GEN_ABS_PIN['transformer'],
+                left['source_files_sha256'].get('host/compiler/gen_abs_intrinsic.py')==selected_transformer,
                 'Gen abs current compiler/helper source epochs differ')
         lhs=left['prepared_snapshot']['prepared_files_sha256'];rhs=right['prepared_snapshot']['prepared_files_sha256']
         require(set(rhs)==set(lhs)|{GEN_ABS_PIN['contract_file']}and

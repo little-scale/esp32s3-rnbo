@@ -42,7 +42,8 @@ Each output directory must be new. Generated C++ and runtime headers stay inside
 ignored `build/` directories with their original notices.
 
 The first `.rnbopat` importer supports **flat, self-contained RNBO graphs** made
-of `newobj` boxes, comments, and panels. Explicit GenExpr inside `gen~` is also
+of `newobj` and message boxes, integer `number` and floating-point `flonum` UI
+boxes, comments, and panels. Saved number formats and bounds are preserved. Explicit GenExpr inside `gen~` is also
 admitted; see the [Gen qualification record](../docs/gen-qualification.md).
 Embedded subpatches, visual Gen patchers, external abstractions, presets,
 external sample assets, and arbitrary Max `.maxpat` input are not admitted.

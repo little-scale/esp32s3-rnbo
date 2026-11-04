@@ -1,0 +1,235 @@
+{
+  "format": "rnbo-esp32s3-player-wifi-qualification-v1",
+  "recorded_date": "2026-11-05",
+  "board": "xiao",
+  "hardware_executed": true,
+  "scope": "USB provisioning, on-board scan, real LAN association, authenticated network package load and controls; USB cable retained for power but serial connection closed",
+  "firmware_elf_sha256": "88f2d20fe877fc8eba13c0348810142cc29f316a9663099305742f1697a95ba5",
+  "build_report_sha256": "0e77cf2eb882390e212b06f0a43cde5508d7c6e478a891687e03c52024429445",
+  "artifacts": {
+    "rnbo_s3_xiao.elf": {
+      "bytes": 10469572,
+      "sha256": "88f2d20fe877fc8eba13c0348810142cc29f316a9663099305742f1697a95ba5"
+    },
+    "rnbo_s3_xiao.bin": {
+      "bytes": 877360,
+      "sha256": "7cca5a8ef6bf8d68192b26a374717a3bc52503e67ed22bbb2550b4ed656d97bc"
+    },
+    "partition-table.bin": {
+      "bytes": 3072,
+      "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+    }
+  },
+  "integration_source_files_sha256": {
+    "firmware/CMakeLists.txt": "f286e27bb239030fba682d9ea1be28dfc6526c34606f2d735d85dbf51b7bd884",
+    "firmware/UPSTREAM_IMPORTS.json": "ca62e43f6945a59913651770eb23db177931e17f63a02dddb5f3f473c82a96ce",
+    "firmware/boards/amoled/CMakeLists.txt": "1b07b2a81841a6e12fc589126fca551dfa39cd6db0646f802740972b48a2cf1b",
+    "firmware/boards/amoled/idf_component.yml": "c4c13cacdc35fcd9f28c9078320f23098861f703685282d4cc7188dc7516ef01",
+    "firmware/boards/amoled/offline-dependencies.cmake": "cebf3e4bcc17d0ba0045a3c4ebfcbbc250c45f8d0ce4b548fff61e6755b6a4fa",
+    "firmware/boards/xiao/CMakeLists.txt": "1b07b2a81841a6e12fc589126fca551dfa39cd6db0646f802740972b48a2cf1b",
+    "firmware/components/audio_lifecycle/CMakeLists.txt": "9109469662aa8a9eba542f0abbdff76500495c4ec6abea7def57c94ad49fe074",
+    "firmware/components/audio_lifecycle/audio_lifecycle.c": "d07aca9768e673f9d0c41a30a4689a4e347d9d445a3d578be322f7e87a033faa",
+    "firmware/components/audio_lifecycle/include/audio_lifecycle.h": "b9788602e07f86e8b9399922f324828c50fe6f95ac3c5b4691029ef4a52063d5",
+    "firmware/components/board_audio/CMakeLists.txt": "f59876c495e731d5442b4c718ffa1c36c0fb9b6159d97349a9f01003514e60da",
+    "firmware/components/board_audio/board_audio.c": "ff86ff1da342bb7728da615f96a5129661fe3adbcd20c4b1a88a393828f3cef7",
+    "firmware/components/board_audio/board_audio_i2s.c": "ca5500c081dbf5547704ca1f7e150b4c783a9d918253e7c60993d339fd283341",
+    "firmware/components/board_audio/include/board_audio.h": "c70908ad34d48f1cdbc75cf36f9ed5a12738ef5a85c05325d2b9eb7fcdb5628c",
+    "firmware/components/board_display/CMakeLists.txt": "1e41f543ba1975e60a34f566dd2dade5a62f94b311a803c5efecf4ec2d219faf",
+    "firmware/components/board_display/board_display.c": "7c0deffcefa733ecd4d19bf47a8dcb7fc43927a98408c131e79b7bdba9cd68c8",
+    "firmware/components/board_display/fonts/Barlow-OFL.txt": "186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f",
+    "firmware/components/board_display/fonts/BarlowSemiCondensed-Bold.ttf": "5bd6757e459a110da81b44532f0f43058e2dab2401688abca84f2fdbde193cbb",
+    "firmware/components/board_display/fonts/BarlowSemiCondensed-Medium.ttf": "4998b693a190b76f2b11315844345a8546c1e2e6a320905507a9eed04edf8b48",
+    "firmware/components/board_display/fonts/rnbo_barlow_12.c": "108973d8bf10fa3d1a3f95617dae0a440318f22f54f804ad1c378349f226959c",
+    "firmware/components/board_display/fonts/rnbo_barlow_14.c": "6558aa05f2ed2b158a10953de8e169af3513b80b9969df8ceed14944dd8de5aa",
+    "firmware/components/board_display/fonts/rnbo_barlow_16.c": "8c5c42d021b783a110ed1b446c922687b67464a4d5eedbe6896683c5e38d5687",
+    "firmware/components/board_display/fonts/rnbo_barlow_22.c": "ae79a81fba0e26a5c2f107e21e152a0bcb0f7a42d2a610356eda9c95310bf17f",
+    "firmware/components/board_display/include/board_display.h": "26c034dd6be2eadfa754e85c11f2450fcfa028cc4f49980153354631818c97b3",
+    "firmware/components/board_display/include/patch_layout.h": "d7d55df62e784cc90e63a9975132664faf956be5ad69412b720c1f1b9395e867",
+    "firmware/components/board_display/include/patch_view.h": "4f88109d2889ae0d1d4cb0b798a7be0f5d1b1cfb382db1eb681d7d9fee37c49a",
+    "firmware/components/board_display/include/touch_display.h": "c945388fc4255467cf40ee4538b05cd02ad6e9370a13308ba4c202d4b6c34dc3",
+    "firmware/components/board_display/patch_view.c": "c520c39f651f620ba63f3d7374792bd032da6550bddb600393fed66cb71db7e3",
+    "firmware/components/board_display/player_layout.c": "4265664cc00af86c2e6380c77aefd5e04fd1f7f4b7b116448656bf934302ee9b",
+    "firmware/components/board_display/touch_display.c": "45b804768d153e4791ba257b41e67bdc6dbe6bb8a368daf07777b6d57923ff19",
+    "firmware/components/pcm_capture/CMakeLists.txt": "409000acc57d51864d9e5950b58b0a56ec0fef75fb4ee433adaad396f7319ac8",
+    "firmware/components/pcm_output/CMakeLists.txt": "c14dc345af49f3cd8164e4a48629f3d44d8ee41cc200f130d536cbebf95944f5",
+    "firmware/components/pcm_output/include/output_meter.h": "5c692c4d493d5b5429ab83eb1a43393faa27be311498cf6669334d0357c28e34",
+    "firmware/components/pcm_output/include/pcm_output.h": "eb668435cfcf00deb9d949bc0b56798d1baa91b306272bb5edfc917868cb522d",
+    "firmware/components/pcm_output/pcm_output.c": "e3660f3d2e44f4b00eafa2208de175bdec532ee8975b9210530181b53ff93afb",
+    "firmware/components/player_loader/CMakeLists.txt": "724965708c193c432248f3ed946e31252dbefedd0ee9561f833f7e08f200f2a2",
+    "firmware/components/player_loader/include/player_loader.h": "86dabdfb900e786539609c22ca0c3b04332e5c4d1ec23fe4624fbcc647a499ba",
+    "firmware/components/player_loader/player_loader.c": "9d7d5b5bce669e872d062251aeb2c7256af30e69860bfe2921b4af8fbcb7b619",
+    "firmware/components/player_network/CMakeLists.txt": "62440f2e7ab85dba7662e03995a6e6177df7a5b4e67968736d6ac6115ffed0f2",
+    "firmware/components/player_network/include/player_network.h": "f2b8dfbe8c0732ef5ae579698da282b7fc53b3b100bfc661eff108d4ce83f127",
+    "firmware/components/player_network/player_network.c": "2f56a5032968bc28265ec1608d45886d33b83088af44d43b8eecdd8a638d265b",
+    "firmware/components/player_network/player_network_handoff.c": "ff5b27af5b3b90ea669b2be54c09529358378827843e71bfc75dd9d91238f517",
+    "firmware/components/player_network/player_network_handoff.h": "84506e50a6d340bcff8d5ac684d896c1d33175d711008cb08f2384f9207060eb",
+    "firmware/components/player_network/player_network_protocol.c": "d6dff33d8c634ca625918038ec10d9343fc13239ba1029ee4978db55532a4bd8",
+    "firmware/components/player_network/player_network_protocol.h": "20a576ac4bc5a2f4d1206afeb89f90d2f980d494bc488f4fbc89bd67261b5566",
+    "firmware/components/player_network/player_network_scan.c": "f45d3340e4f0cc7c5c65711656ba1d6cfe8d182ba6f6e9595a90a312326d1368",
+    "firmware/components/player_network/player_network_scan.h": "a5ec92c06a2e576ed1048d033cfd7ff7ffeeff0c381455e073640de5b1be1f89",
+    "firmware/components/player_store/CMakeLists.txt": "c99fe4a9340d76f2f84ddfb9034e8de7c3511d7948cb772eb35b1ca28e346a6b",
+    "firmware/components/player_store/include/player_store.h": "1b9a6d36bc7ff9049d29b83278c3cafd67938d653f20bb7dd660acc5f0a6a666",
+    "firmware/components/player_store/player_store.c": "99c04a3ec188477a754e6cd661b19e1dd37cce43105c0ddf6449b5678f6705a5",
+    "firmware/components/rnbo_host/CMakeLists.txt": "6d868b66290a01567cd5c78f6ec8860b427574ed51f215bc77f6f93d767664bb",
+    "firmware/dependencies.amoled.json": "a9af278fe49761597358d8b342285545a14fe62c0c3dda2a7424a7246119906a",
+    "firmware/main/CMakeLists.txt": "f206dab700a60201e157a636b1009f3dad20cea5a36da2da093aec241df68f9a",
+    "firmware/main/Kconfig.projbuild": "55f407a90a380e9953ba67605df475b2b49bc6b88c36719c4417d5ebd79f59fd",
+    "firmware/main/allocation_watch.c": "f136761d6d85af2ffc370c72a4c3b7775cf26b47accd4aed12178c53624e042b",
+    "firmware/main/allocation_watch.h": "b568aee97416c9c389a708eb4ba3792efd2084cb908d94f238349a467e3bb552",
+    "firmware/main/main.c": "0624d3676c88c68c10164d911e696b38fd0c8bd6c538bc944ea727b5b4c3375d",
+    "firmware/main/player_main.c": "d71a570c5adcd97ae44c3c015ebe975e23e0c14861c12d6a1c58f29a50436307",
+    "firmware/partitions-amoled.csv": "69d6bfc49c56e07bb957c128fccf5c3710bc2e0d7b276b0c69acd17359096ea8",
+    "firmware/partitions-xiao.csv": "30f93fee76451b7f4b7b11d06319423fc93c9678eb5cc02201319b539463f33f",
+    "firmware/sdkconfig.amoled.defaults": "522a3113ed41492686ad32aa877e136114d0d7823312a9c8eacaea5f9231505b",
+    "firmware/sdkconfig.player.defaults": "c9eba81c2af100abf94473696c96a7a767b58951e78c2cf5018ef1560504a9f9",
+    "firmware/sdkconfig.xiao.defaults": "e4f6d363e2c3e25265a30f8c59219ce219974075b2f333caef9763bb5dadf274",
+    "host/visual/UPSTREAM.json": "cedd06d9202a7a72ebb8e83c109a3a01efc2295ff386d10070dd9965594b5c03",
+    "host/visual/fonts.py": "1ed7f4714689e4087c519020f0fb109bdbca1a1d9eb3cc87e1d95f6d59a55062",
+    "host/visual/graph_font_metrics.json": "105270abc8730827113d82ef184979d908b558076f0bb44b216c0c0052012aa7",
+    "host/visual/layout.py": "293fd7e651aa74d6da62a753add2b6ca0868a536e295b5663bc5a08e39136e18",
+    "module-sdk/cmake/dynamic/CMakeLists.txt": "05594b22ceb0e0ed2e7b8f80ff4be881163cf838c2fa220ce252945e3a2d9fe7",
+    "module-sdk/cmake/dynamic/main/CMakeLists.txt": "a24bee7f0cc6342aa87e2408f26ec7f4c8edce6661bab9857416c5d79c75e3ce",
+    "module-sdk/cmake/dynamic/sdkconfig.defaults": "6183137b61986eb89be01ebbd42da1e9565c59ae5d34ec0993036daea684d199",
+    "module-sdk/dynamic/README.md": "229880bb4acfaab9f5b505e933d5012a83b100a0369bf243c77dde79a53fb487",
+    "module-sdk/dynamic/arena.cpp": "3bad2b10fafac69de9e8493d50e0fab93bf5926e55f5594c2d5bd12cf944d0e3",
+    "module-sdk/dynamic/arena.hpp": "d5cefdf593c534ead4f910231a5f57c2bd5b180938eb59e6877fb63d8f80dbe2",
+    "module-sdk/dynamic/integer_abs.cpp": "62a15f1d353b1ba202b26db342ca0708ec935853acd8f5624efdfbd0ebb885da",
+    "module-sdk/dynamic/integer_abs.hpp": "d2c98318b45a765aa1473fd0214356d5e43a674f8474b07dddc76688ef963e9b",
+    "module-sdk/dynamic/lifecycle.cpp": "3fabb00f4caf698c11b503de11f889623d30e32da2b633c37b6991b7eaa39911",
+    "module-sdk/dynamic/lifecycle.hpp": "72e2552ff411e833d52997cae3f71be14b2af67e05db61447fa0d1659b77d062",
+    "module-sdk/dynamic/rnbo_s3_dynamic.cpp": "1f79efde2ba03dd98a124e67b9b5c3a816088799c1898bab21a5649f45f8ff5e",
+    "module-sdk/dynamic/support.cpp": "f937333a547e6a19504a5e6b70c90c4fa6de683f08d19877cdcec4479160bb6b",
+    "module-sdk/include/rnbo_s3_dynamic.h": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4",
+    "module-sdk/include/rnbo_s3_module.h": "e70447b3b5337fa533434b1bf1ece4a1efbb8ff1342c0e466b55e70cbce50604",
+    "module-sdk/wrapper/rnbo_s3_static.cpp": "1178b37dcd255bedd50c3c01c55c77a590e07cee9d9ff4a2d6530c63ba7f99ed",
+    "runtime/pcm_capture.c": "93791cfaca58b0a9095d24757aab63a6a5ee8cb7ea6ad9c507b283b9a25d080d",
+    "runtime/pcm_capture.h": "5de89ea655519d07b83ba1060f1de6d068ba415cae4d5d6f322d2d80d08711c0",
+    "runtime/phase_trunc.h": "54f2023c11249d5c20efbbd5f1a031b20fa83337e440d717f7b177bb9d9aef52",
+    "tools/build_firmware.py": "264c050d9ed401fbf86404cd903f5cebd2840c3c655f7b8352c802a4e687c358"
+  },
+  "install": {
+    "application_only": true,
+    "complete_application_readback": true,
+    "matching_board_and_partition": true,
+    "private_recovery_backup": true
+  },
+  "prior_fault": {
+    "observed": true,
+    "marker": "A stack overflow in task sys_evt has been detected",
+    "cause": "Wi-Fi event task stack/work budget",
+    "correction": "Scalar-only callback mailbox, deferred formatting/socket work, 8192-byte system event stack",
+    "callback_local_frame_bytes": 32,
+    "complete_handler_chain_stack_bound_claimed": false
+  },
+  "scan": {
+    "result": "pass",
+    "observed_network_counts": [
+      2,
+      3
+    ],
+    "maximum_results": 24,
+    "network_identifiers_redacted": true,
+    "configuration_unchanged": true
+  },
+  "retry_stability": {
+    "samples": 35,
+    "sampled_elapsed_seconds": 34.509709,
+    "synthetic_unreachable_network": true,
+    "no_reboots": true,
+    "package_unchanged": true,
+    "final_health": {
+      "render_deadline_overruns": 0,
+      "nonfinite": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "queue_errors": 0,
+      "module_errors": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "late_platform_allocations": 0,
+      "allocation_fault": false
+    },
+    "temporary_settings_removed": true
+  },
+  "real_network": {
+    "joined": true,
+    "paired": true,
+    "identifiers_and_credentials_redacted": true
+  },
+  "wireless_package_load": {
+    "result": "pass",
+    "package_name": "bbb",
+    "package_sha256": "d3e411ee7f9a8db936830dd3ec8aea8edc80a0ec2b1e129dce035acb33f14bd3",
+    "generation_before": 4,
+    "generation_after": 5,
+    "firmware_identity_unchanged": true,
+    "no_usb_serial_handles": true,
+    "elapsed_seconds": 7.1806507089640945,
+    "audio_frames_advanced": true,
+    "final_health": {
+      "render_deadline_overruns": 0,
+      "nonfinite": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "queue_errors": 0,
+      "module_errors": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "late_platform_allocations": 0,
+      "allocation_fault": false
+    },
+    "physical_usb_cable_disconnection_tested": false
+  },
+  "wireless_controls": {
+    "wrong_pairing_key_rejected": true,
+    "pause_preserves_image_position": true,
+    "resume_continues_image_position": true,
+    "volume_control_verified": true,
+    "final_output_muted": true,
+    "final_health": {
+      "render_deadline_overruns": 0,
+      "nonfinite": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "queue_errors": 0,
+      "module_errors": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "late_platform_allocations": 0,
+      "allocation_fault": false
+    }
+  },
+  "transport": {
+    "protocol": "rnbo-wifi-v1",
+    "tcp_port": 8789,
+    "authentication": "HMAC-SHA256, fresh server and client nonces, ordered sequence",
+    "encryption": false,
+    "credential_provisioning": "USB only",
+    "package_role": "Main only"
+  },
+  "amoled": {
+    "build_passed": true,
+    "hardware_executed": false,
+    "artifacts": {
+      "partition-table.bin": {
+        "bytes": 3072,
+        "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+      },
+      "rnbo_s3_amoled.bin": {
+        "bytes": 1209856,
+        "sha256": "abd0de904bbc31c7a35b53d62970649d86dd6cca12d75da2d8e00b07302576b7"
+      },
+      "rnbo_s3_amoled.elf": {
+        "bytes": 14821312,
+        "sha256": "1f45af3c855394fa06ea0e8b2cf3af8a67be28deb351162a0229ae74ac82f8fd"
+      }
+    },
+    "build_report_sha256": "844add18b443a2b01badc292cbe8605f71565db0e553fd37dea3203d1e744115"
+  },
+  "limits": [
+    "One reachable private IPv4 LAN; no Internet exposure, enterprise Wi-Fi, DNS discovery or encrypted transport.",
+    "Native packages are trusted code; checksums and HMAC do not isolate executable code.",
+    "Brief maintenance silence during scans and package replacement; not gapless.",
+    "AMOLED network hardware qualification and exhaustive interrupted-power cases remain pending."
+  ]
+}

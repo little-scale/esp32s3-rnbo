@@ -2,15 +2,23 @@
 """Admission checks for exact wave4 spellings, kernels and target modes."""
 import argparse
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
 import unittest
-from build_object_benchmark import configuration, ExportError
+from build_object_benchmark import configuration, ExportError, sources
 from wave4_contract import DEFAULT_RECIPES, IDENTITIES
 from generate_object_fixtures import render
 
 class Wave4AdmissionTests(unittest.TestCase):
+    def test_both_reviewed_producer_identity_files_are_bound_in_build_sources(self):
+        from wave4_contract import INTEGER_UI_IDENTITIES
+        inventory=sources()
+        for path in (IDENTITIES,INTEGER_UI_IDENTITIES):
+            key=path.relative_to(Path(__file__).resolve().parents[1]).as_posix()
+            self.assertEqual(inventory[key],hashlib.sha256(path.read_bytes()).hexdigest())
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.directory=Path(self.temp.name)

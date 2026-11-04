@@ -79,6 +79,28 @@ class GenFeedbackPipelineTests(unittest.TestCase):
         cls.files = {name:(cls.strict/name).read_bytes() for name in verify_prepared(cls.strict)[2]['prepared_files_sha256'] if name != 'patch_config.h'}
         cls.description = json.loads(cls.files['description.json'])
 
+    def test_exact_producer_epochs_and_unknown_metadata_remain_closed(self):
+        import gen_feedback as module
+        for stamp,expected in (
+                ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.INPUT_MAP),
+                ('4af4ee869ca842cd9ffbd0421367b46f491767c203971d3c83fff4e89fd3ce5e',module.INTEGER_UI_INPUT_MAP)):
+            files=dict(self.files);generator=json.loads(files['generator.json'])
+            generator['patcher_adapter_sha256']=stamp
+            files['generator.json']=(json.dumps(generator,indent=2)+'\n').encode()
+            before=copy.deepcopy(files)
+            changed,record=transform(files,self.description,code_mask=cpp_code_mask)
+            self.assertEqual(files,before)
+            self.assertEqual(record['input_map_sha256'],expected)
+            self.assertEqual(module.sha(changed['rnbo_source.h']),OUTPUT)
+            for key,value in (('patcher_adapter_sha256','f'*64),('adapter_sha256','0'*64),
+                              ('generated_sha256','0'*64),('voices',2),('class_name','other'),('unknown',False)):
+                bad=dict(files);metadata=dict(generator);metadata[key]=value
+                bad['generator.json']=(json.dumps(metadata,indent=2)+'\n').encode()
+                before=copy.deepcopy(bad)
+                with self.subTest(stamp=stamp,key=key),self.assertRaises(ValueError):
+                    transform(bad,self.description,code_mask=cpp_code_mask)
+                self.assertEqual(bad,before)
+
     def test_fresh_public_profile_changes_only_literal_configuration_and_type_contract(self):
         output = self.directory/'candidate'
         manifest = prepare(self.raw,output,'rnbos3patch','fx',numerical_profile=PROFILE)

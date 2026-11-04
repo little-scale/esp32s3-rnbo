@@ -206,6 +206,49 @@ class ProtocolTests(unittest.TestCase):
                 self.assertTrue(self.streams[-1].closed)
                 self.assertIsNone(self.bridge._stream)
 
+    def test_actual_stack_overflow_and_heap_corruption_are_fatal(self):
+        for message in (b'***ERROR*** A stack overflow in task sys_evt has been detected.\n',
+                        b'CORRUPT HEAP: Bad tail at 0x12345678.\n'):
+            with self.subTest(message=message):
+                self.device.bad.clear(); self.bridge.connect('/dev/test-esp')
+                self.device.bad['status'] = message + self.device.response('status')
+                with self.assertRaisesRegex(d.DeviceError, 'fatal UART'): self.bridge.snapshot()
+                self.assertTrue(self.streams[-1].closed)
+
+    def test_live_reset_banners_reject_even_before_a_healthy_reply(self):
+        for message in (b'ESP-ROM:esp32s3-20210327\n', b'rst:0xc (RTC_SW_CPU_RST),boot:0x8\n',
+                        b'\x1b[0mRebooting...\r\n'):
+            with self.subTest(message=message):
+                self.device.bad.clear(); self.bridge.connect('/dev/test-esp')
+                self.device.bad['status'] = message + self.device.response('status')
+                with self.assertRaisesRegex(d.DeviceError, 'board restarted'): self.bridge.snapshot()
+                self.assertIsNone(self.bridge._stream); self.assertTrue(self.streams[-1].closed)
+
+    def test_reset_during_mutation_is_not_retried_or_reported_as_applied(self):
+        self.bridge.connect('/dev/test-esp')
+        self.device.bad['volume 12'] = b'ESP-ROM:esp32s3-20210327\n{"volume":12,"accepted":true}\n'
+        read = self.bridge._stream.read
+        self.bridge._stream.read = lambda count: read(min(count, 4) if self.device.commands[-1] == 'volume 12' else count)
+        with self.assertRaisesRegex(d.DeviceError, 'not retried'):
+            self.bridge.control(dict(action='volume', value=12))
+        self.assertEqual(self.device.commands.count('volume 12'), 1)
+        self.assertIsNone(self.bridge._stream)
+
+    def test_initial_boot_banners_are_allowed_by_command_free_settling(self):
+        def opening(*args):
+            stream = Serial(self.device, self.clock)
+            stream.buffer.extend(b'ESP-ROM:esp32s3-20210327\nrst:0xc,boot:0x8\nRebooting...\n')
+            self.streams.append(stream); return stream
+        self.bridge._opener = opening
+        self.assertEqual(self.bridge.connect('/dev/test-esp')['device']['board'], 'xiao')
+
+    def test_reset_words_inside_a_JSON_field_are_not_a_boot_banner(self):
+        self.bridge.connect('/dev/test-esp')
+        response = json.loads(self.device.response('status'))
+        response['note'] = 'Rebooting... ESP-ROM: rst:0x'
+        self.device.bad['status'] = (json.dumps(response) + '\n').encode()
+        self.assertEqual(self.bridge.snapshot()['device']['note'], response['note'])
+
     def test_restarted_frame_position_or_uptime_rejects_same_ELF_session(self):
         for field in ('frames', 'uptime'):
             with self.subTest(field=field):

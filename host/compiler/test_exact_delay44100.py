@@ -15,7 +15,8 @@ def assert_generator_epoch_only(case, actual, historical):
     left=json.loads(actual); right=json.loads(historical)
     case.assertEqual(set(left),set(right))
     known={'de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',
-           '56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065'}
+           '56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',
+           '4af4ee869ca842cd9ffbd0421367b46f491767c203971d3c83fff4e89fd3ce5e'}
     case.assertIn(left['patcher_adapter_sha256'],known)
     case.assertIn(right['patcher_adapter_sha256'],known)
     left['patcher_adapter_sha256']=right['patcher_adapter_sha256']
@@ -41,13 +42,14 @@ class CandidateTests(unittest.TestCase):
         cls.original={n:(cls.reference/n).read_bytes() for n in snapshot['prepared_files_sha256']}
         cls.helper=(WORK/'exact_delay44100.h').read_bytes()
 
-    def test_both_exact_metadata_epochs_and_unknown_generator_mutations(self):
+    def test_all_reviewed_exact_metadata_epochs_and_unknown_generator_mutations(self):
         import exact_delay44100 as module
         from prepare import canonical
         original=dict(self.original)
         for stamp,expected in [
             ('de348978139adf64571ccde382b2be79fa80027e5557b0340dda80cf9428b079',module.FILE_MAP),
-            ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.GENEXPR_FILE_MAP)]:
+            ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.GENEXPR_FILE_MAP),
+            ('4af4ee869ca842cd9ffbd0421367b46f491767c203971d3c83fff4e89fd3ce5e',module.INTEGER_UI_FILE_MAP)]:
             generator=json.loads(original['generator.json']);generator['patcher_adapter_sha256']=stamp
             self.files=dict(original);self.files['generator.json']=(json.dumps(generator,indent=2)+'\n').encode()
             baseline=dict(self.files);before=copy.deepcopy(self.files)

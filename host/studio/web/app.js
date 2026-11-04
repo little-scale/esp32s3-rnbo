@@ -6,8 +6,11 @@
     csrf: '', environment: {}, serverBusy: false, reachable: false,
     patch: null, name: 'patch.rnbopat', revision: 0, valid: false,
     artifact: null, job: null, jobRevision: -1, operation: null,
-    connecting: false, connectedPort: '', device: null, deviceError: '', parameters: [], parameterKey: '',
+    loadFailure: null, loadingTransport: 'usb',
+    connecting: false, connectedPort: '', connectedTransport: 'usb', connectedDeviceId: '',
+    device: null, deviceError: '', parameters: [], parameterKey: '',
     portSerials: new Map(), portsInitialized: false,
+    wifi: {}, paired: [], pairedInitialized: false, refreshingWifi: false,
     jobTimer: null, parsingTimer: null, refreshing: false, pollingDevice: false,
     controlEpoch: 0, controlQueue: Promise.resolve(), controlTimers: new Map(),
   };
@@ -18,6 +21,21 @@
   const number = value => finite(value) ? new Intl.NumberFormat(undefined, {maximumFractionDigits: 3}).format(value) : '—';
   const bytes = value => finite(value) ? (value >= 1048576 ? `${number(value / 1048576)} MiB` : `${number(value / 1024)} KiB`) : '—';
   const busy = () => Boolean(state.operation || state.connecting || state.refreshing || state.serverBusy);
+  const transport = () => $('transport').value === 'wifi' ? 'wifi' : 'usb';
+  const selectedConnection = () => Boolean(state.device) && transport() === state.connectedTransport
+    && (transport() === 'wifi' ? Boolean(state.connectedDeviceId && state.connectedDeviceId === $('wifi-device').value)
+      : Boolean(state.connectedPort && state.connectedPort === $('port').value));
+  function cancelQueuedControls() {
+    state.controlEpoch += 1;
+    for (const timer of state.controlTimers.values()) clearTimeout(timer);
+    state.controlTimers.clear();
+  }
+  function wifiTarget() {
+    const target = {id: $('wifi-device').value};
+    const ip = $('wifi-ip').value.trim();
+    if (ip) target.ip = ip;
+    return target;
+  }
 
   function message(text = '') {
     $('message').textContent = text;
@@ -63,19 +81,39 @@
 
   function updateButtons() {
     const working = busy();
-    const serialMissing = missingTools(true).length > 0;
+    const usb = transport() === 'usb';
+    const serialMissing = usb && missingTools(true).length > 0;
     const availableArtifact = state.artifact && state.artifact.revision === state.revision;
-    const selectedConnected = !state.connectedPort || state.connectedPort === $('port').value;
+    const selectedConnected = selectedConnection();
+    const hasTarget = usb ? Boolean($('port').value) : Boolean($('wifi-device').value);
     const isPlayer = state.device && state.device.runtime === 'rnbo-esp32s3-player';
-    $('install-player').disabled = !state.csrf || !$('port').value || working || serialMissing || availability(state.environment.idf) === false;
+    $('running-main').textContent = selectedConnected
+      ? state.device.main?.name ? `${state.device.main.name}${state.device.paused ? ' · paused' : ''}` : 'No Main patch loaded'
+      : 'Not connected to the selected player';
+    $('package-to-load').textContent = availableArtifact ? state.artifact.result.title || 'Compiled package'
+      : state.operation === 'build' ? 'Compiling…' : 'None compiled or opened';
+    $('usb-connection').hidden = !usb; $('wifi-connection').hidden = usb;
+    $('transport').disabled = working;
+    $('wifi-device').disabled = working; $('wifi-ip').disabled = working;
+    const setup = usb && selectedConnected && isPlayer && state.wifi.supported === true && !working && !serialMissing;
+    $('wifi-ssid').disabled = !setup; $('wifi-password').disabled = !setup;
+    $('wifi-setup').disabled = !setup;
+    $('wifi-scan').disabled = !setup;
+    $('wifi-networks').disabled = !setup;
+    $('wifi-scan').textContent = state.operation === 'wifi-scan' ? 'Scanning…' : 'Scan nearby networks';
+    $('wifi-scan').setAttribute('aria-busy', String(state.operation === 'wifi-scan'));
+    $('wifi-forget').disabled = !setup || !state.wifi.configured;
+    $('install-player').disabled = !usb || !state.csrf || !$('port').value || working || serialMissing || availability(state.environment.idf) === false;
     $('compile').disabled = !state.reachable || !state.csrf || !state.valid || working || missingTools().length > 0;
     $('open-package').disabled = !state.reachable || !state.csrf || working;
-    $('connect').disabled = !state.csrf || !$('port').value || working || serialMissing;
-    $('upload').disabled = !state.csrf || !availableArtifact || !$('port').value || working || serialMissing;
+    $('connect').disabled = !state.csrf || !hasTarget || working || serialMissing;
+    $('connect').textContent = usb ? 'Connect USB' : 'Connect Wi-Fi';
+    $('upload').disabled = !state.csrf || !availableArtifact || !hasTarget || working || serialMissing;
     $('download').disabled = !availableArtifact || state.operation === 'upload';
     $('example').disabled = state.operation === 'upload';
     $('refresh-ports').disabled = state.refreshing || state.operation === 'upload';
-    const live = Boolean(state.device) && selectedConnected && !working && !serialMissing && !state.device.maintenance;
+    const live = Boolean(state.device) && typeof state.device.device_id === 'string'
+      && selectedConnected && !working && !serialMissing && !state.device.maintenance;
     $('volume').disabled = !live;
     $('pause').disabled = !live;
     $('pause').textContent = state.device && (state.device.paused ?? state.device.panic) === true ? 'Resume audio' : 'Pause audio';
@@ -88,9 +126,49 @@
       else if (availableArtifact) $('compile-status').textContent = 'Package ready to download or load';
       else $('compile-status').textContent = state.valid ? 'Ready to compile' : 'Open a valid RNBO patch to compile';
       if (!availableArtifact) $('upload-status').textContent = 'Compile the current patch and settings before uploading.';
-      else if (!$('port').value) $('upload-status').textContent = 'Choose a USB device for the compiled package.';
+      else if (!hasTarget) $('upload-status').textContent = usb ? 'Choose a USB device for the compiled package.' : 'Choose a saved Wi-Fi player for the compiled package.';
       else if (!$('upload-status').dataset.completed) $('upload-status').textContent = isPlayer ? 'Ready to load the package into the connected player.' : 'Connect a stable player, or install it below first.';
+      if (state.loadFailure) $('upload-status').textContent = state.loadFailure.cpuUs !== null
+        ? 'The package was rejected before activation. See the CPU admission result below.'
+        : 'Load failed. The package is still available for retry or download.';
     }
+    renderLoadFailure();
+  }
+
+  function recordLoadFailure(error) {
+    const raw = String(error);
+    const match = raw.match(/Candidate uses\s+(\d+(?:\.\d+)?)\s*(?:us|µs)\s+per callback/i);
+    const used = match ? Number(match[1]) : null;
+    const result = state.artifact?.result || {};
+    const rate = state.device?.rate ?? state.device?.sample_rate ?? result.sample_rate;
+    const frames = state.device?.block_frames ?? result.block_frames;
+    state.loadFailure = {raw, title:result.title || state.name, cpuUs:finite(used) && used > 0 ? used : null,
+      budgetMs:finite(rate) && rate > 0 && finite(frames) && frames > 0 ? frames / rate * 1000 : 256 / 44100 * 1000,
+      transport:state.loadingTransport, priorMain:selectedConnection() ? state.device.main?.name : null,
+      priorPaused:state.device?.paused ?? state.device?.panic};
+  }
+
+  function renderLoadFailure() {
+    const failure = state.loadFailure;
+    $('load-failure').hidden = !failure;
+    const editableCpuFailure = Boolean(failure && failure.cpuUs !== null && state.valid && state.patch);
+    const alreadyAuto = $('numerical-profile').value === 'float32-auto-v1';
+    const canRecompile = editableCpuFailure && !alreadyAuto;
+    $('optimise-recompile').hidden = !canRecompile; $('optimise-hint').hidden = !editableCpuFailure;
+    $('optimise-hint').textContent = alreadyAuto
+      ? failure?.retryStarted ? 'Automatic optimisation selected. Load the newly compiled package when it is ready; compilation does not activate it.'
+        : 'Automatic optimisation is already selected; this patch still needs further optimisation.'
+      : 'This compiles a new package with automatic Float32 audio. It does not load it or change delay storage.';
+    $('optimise-recompile').disabled = $('compile').disabled;
+    if (!failure) return;
+    $('load-failure-title').textContent = `${failure.cpuUs !== null ? 'Last load rejected' : 'Last load error'}: ${failure.title}`;
+    const retained = failure.priorMain ? failure.priorPaused ? 'The previous patch stays loaded and paused.' : 'The previous patch remains running.'
+      : 'The player retained its previous state.';
+    $('load-failure-summary').textContent = failure.cpuUs !== null
+      ? `${failure.transport === 'wifi' ? 'Wi-Fi' : 'USB'} transfer completed, but this patch needs about ${(failure.cpuUs / 1000).toFixed(2)} ms per block. The audio block budget is ${failure.budgetMs.toFixed(2)} ms, and the player reserves part of it for audio output. ${retained}`
+      : failure.raw;
+    $('load-failure-raw').textContent = failure.raw;
+    $('load-failure-details').hidden = failure.cpuUs === null;
   }
 
   function invalidate() {
@@ -344,6 +422,7 @@
       $('compile-status').textContent = 'Build failed';
       if (operation === 'upload') $('upload-status').textContent = 'Upload failed. Review the output before retrying.';
       if (operation === 'upload') state.deviceError = job.error || 'Upload failed. Review the build output before retrying.';
+      if (operation === 'upload') recordLoadFailure(job.error || 'The package could not be loaded.');
     } else if (job.state === 'ready' || job.state === 'done') {
       if (operation === 'build') {
         if (state.jobRevision === state.revision) {
@@ -352,6 +431,7 @@
           showResult(result);
         } else $('source-state').textContent = 'The patch or settings changed during compilation. Compile again to use the current version.';
       } else if (operation === 'upload' || operation === 'install') {
+        if (operation === 'upload') state.loadFailure = null;
         $('upload-status').textContent = operation === 'install' ? 'Stable player installed. Compile and load a package.' : 'Package loaded and saved. Player firmware unchanged.';
         $('upload-status').dataset.completed = 'true';
         state.deviceError = '';
@@ -365,7 +445,7 @@
     }
     updateButtons();
     if ((job.state === 'failed' || job.error) && operation === 'build') $('compile-status').textContent = 'Build failed · see output';
-    if ((job.state === 'failed' || job.error) && operation === 'upload') $('upload-status').textContent = 'Upload failed. The compiled package is still available for retry or download.';
+    if ((job.state === 'failed' || job.error) && operation === 'upload' && state.loadFailure?.cpuUs === null) $('upload-status').textContent = 'Upload failed. The compiled package is still available for retry or download.';
   }
 
   async function pollJob(id) {
@@ -405,19 +485,106 @@
   async function upload() {
     if ($('upload').disabled || !state.artifact) return;
     try {
-      message(); state.operation = 'upload';
+      message(); state.loadFailure = null; state.loadingTransport = transport(); state.operation = 'upload';
       state.controlEpoch += 1;
       for (const timer of state.controlTimers.values()) clearTimeout(timer);
       state.controlTimers.clear();
       delete $('upload-status').dataset.completed;
       $('upload-status').textContent = 'Loading package. Audio will pause briefly…';
       $('build-output').open = true; updateButtons();
-      const response = await api('/api/upload', {id: state.artifact.id, port: $('port').value});
+      const wifi = wifiTarget();
+      const target = transport() === 'wifi'
+        ? {transport:'wifi', device_id:wifi.id, ...(wifi.ip ? {ip:wifi.ip} : {})}
+        : {port:$('port').value};
+      const response = await api('/api/upload', {id: state.artifact.id, ...target});
       await handleJob(response.job);
     } catch (error) {
-      state.operation = null; state.deviceError = error.message; message(error.message);
+      state.operation = null; state.deviceError = error.message; recordLoadFailure(error.message); message(error.message);
       await refreshDevices(); await refreshDevice(); updateButtons();
     }
+  }
+
+  function renderWifi(response, preferCurrent = false) {
+    state.wifi = response && typeof response.wifi === 'object' && response.wifi ? response.wifi : {};
+    state.paired = Array.isArray(response?.paired) ? response.paired.filter(p => p && typeof p.id === 'string'
+      && p.id.length > 0 && p.id.length <= 128).slice(0, 32) : [];
+    const current = $('wifi-device').value;
+    let selected = state.paired.some(p => p.id === current) ? current : '';
+    if (preferCurrent || (!state.pairedInitialized && !current)) {
+      selected = state.paired.some(p => p.id === state.wifi.device_id) ? state.wifi.device_id : state.paired[0]?.id || '';
+    }
+    const prompt = document.createElement('option'); prompt.value = '';
+    prompt.textContent = state.paired.length ? 'Choose a paired player…' : 'No paired players saved';
+    $('wifi-device').replaceChildren(prompt, ...state.paired.map(p => {
+      const option = document.createElement('option'); option.value = p.id;
+      option.textContent = `${String(p.label || 'Player').slice(0, 160)}${p.ip ? ` · ${String(p.ip).slice(0, 64)}` : ''}`;
+      return option;
+    }));
+    $('wifi-device').value = selected; state.pairedInitialized = true;
+    const wifi = state.wifi;
+    $('wifi-status').textContent = wifi.connected
+      ? `Wi-Fi connected${wifi.ip ? ` · ${String(wifi.ip).slice(0, 64)}` : ''}${wifi.paired ? ' · paired with Studio' : ''}`
+      : wifi.configured ? 'Wi-Fi settings saved. Waiting for the network connection.'
+      : wifi.supported ? 'No Wi-Fi network configured. Enter its settings below while connected by USB.'
+      : state.device && state.connectedTransport === 'usb' ? 'This firmware does not offer Wi-Fi setup. Install an updated player to use it.'
+      : 'Connect by USB to set up Wi-Fi.';
+    updateButtons();
+  }
+
+  async function refreshWifi() {
+    if (state.refreshingWifi || state.operation || state.connecting || state.serverBusy) return;
+    state.refreshingWifi = true;
+    try { renderWifi(await api('/api/wifi')); }
+    catch (_) {
+      state.wifi = {};
+      $('wifi-status').textContent = 'Wi-Fi status unavailable. USB remains available.';
+      updateButtons();
+    } finally { state.refreshingWifi = false; }
+  }
+
+  function clearNetworks() {
+    const prompt = document.createElement('option'); prompt.value = ''; prompt.textContent = 'Choose a network…';
+    $('wifi-networks').replaceChildren(prompt); $('wifi-scan-results').hidden = true;
+  }
+
+  async function scanWifi() {
+    if ($('wifi-scan').disabled) return;
+    clearNetworks(); state.operation = 'wifi-scan'; cancelQueuedControls(); updateButtons();
+    $('wifi-scan-status').textContent = 'Scanning nearby networks. Audio pauses briefly…';
+    try {
+      const response = await api('/api/wifi/scan', {});
+      if (!Array.isArray(response.networks)) throw new Error('Invalid scan response');
+      const networks = response.networks.slice(0, 24).filter(n => n && typeof n.ssid === 'string'
+        && n.ssid.length > 0 && n.ssid.length <= 32 && !n.ssid.includes('\0') && finite(n.rssi)
+        && Number.isInteger(n.channel) && typeof n.secure === 'boolean');
+      const options = networks.map(n => {
+        const option = document.createElement('option'); option.value = n.ssid;
+        option.textContent = `${n.ssid} · ${n.rssi} dBm · ${n.secure ? 'secured' : 'open'}`;
+        return option;
+      });
+      $('wifi-networks').append(...options); $('wifi-scan-results').hidden = networks.length === 0;
+      $('wifi-scan-status').textContent = networks.length ? `${networks.length} networks found. Choose one or enter a hidden network manually.`
+        : 'No named networks found. You can enter a hidden network manually.';
+    } catch (_) {
+      clearNetworks(); $('wifi-scan-status').textContent = 'Scan failed. Check the USB connection or enter the network name manually.';
+    } finally { state.operation = null; updateButtons(); }
+  }
+
+  async function configureWifi(forget = false) {
+    if ($(forget ? 'wifi-forget' : 'wifi-setup').disabled) return;
+    const password = $('wifi-password').value;
+    $('wifi-password').value = ''; // Never retain a sent password in the page.
+    const fields = forget ? {} : {ssid:$('wifi-ssid').value, password};
+    state.operation = 'wifi-setup'; cancelQueuedControls(); updateButtons(); message();
+    $('wifi-feedback').textContent = forget ? 'Forgetting Wi-Fi settings…' : 'Sending settings over USB…';
+    try {
+      renderWifi(await api(forget ? '/api/wifi/forget' : '/api/wifi/setup', fields), !forget);
+      $('wifi-feedback').textContent = forget ? 'Wi-Fi settings and saved pairing removed.' : 'Settings sent. Wait for Wi-Fi to connect, then select Wi-Fi above.';
+      if (forget) $('wifi-ssid').value = '';
+    } catch (error) {
+      $('wifi-feedback').textContent = forget ? 'Could not forget Wi-Fi. Check the USB connection.' : 'Could not save Wi-Fi. Check the USB connection and try again.';
+      message('Wi-Fi setup could not finish. Check the USB connection and network settings.');
+    } finally { state.operation = null; updateButtons(); }
   }
 
   async function refreshDevices() {
@@ -510,16 +677,20 @@
     $('connection').classList.toggle('online', Boolean(device));
     $('runtime-controls').hidden = !device; $('resources').hidden = !device;
     if (!device) {
-      $('device-status').textContent = state.deviceError || 'Choose a USB device to connect.';
-      state.parameterKey = ''; state.parameters = []; state.connectedPort = '';
+      $('device-status').textContent = state.deviceError || (transport() === 'wifi' ? 'Choose a saved Wi-Fi player to connect.' : 'Choose a USB device to connect.');
+      state.parameterKey = ''; state.parameters = []; state.connectedPort = ''; state.connectedDeviceId = '';
       updateButtons(); return;
     }
     state.deviceError = '';
-    if (device.port || response.port) state.connectedPort = device.port || response.port;
-    const selectedConnected = !state.connectedPort || state.connectedPort === $('port').value;
+    state.connectedTransport = (device.transport || response.transport || state.connectedTransport) === 'wifi' ? 'wifi' : 'usb';
+    if (state.connectedTransport === 'wifi') {
+      state.connectedDeviceId = device.device_id || response.device_id || state.connectedDeviceId;
+      state.connectedPort = '';
+    } else if (device.port || response.port) state.connectedPort = device.port || response.port;
+    const selectedConnected = selectedConnection();
     $('device-status').textContent = selectedConnected
-      ? `${boards[device.board] || device.board || 'Device'} · ${(device.paused ?? device.panic) === true ? 'audio paused' : 'connected'}`
-      : 'Another USB device is selected. Connect it to use its live controls.';
+      ? `${boards[device.board] || device.board || 'Device'} · ${state.connectedTransport === 'wifi' ? 'Wi-Fi' : 'USB'} · ${(device.paused ?? device.panic) === true ? 'audio paused' : 'connected'}`
+      : 'Another connection is selected. Connect it to use its live controls.';
     $('runtime-name').textContent = String(device.main?.name || device.runtime || '');
     if (finite(device.volume) && document.activeElement !== $('volume') && !state.controlTimers.has('volume')) {
       $('volume').value = String(clamp(device.volume, 0, 100)); $('volume-value').textContent = `${Math.round(device.volume)}%`;
@@ -528,6 +699,11 @@
     $('peak-time').textContent = finite(device.peak_us) ? `${number(device.peak_us)} µs` : '—';
     $('internal-free').textContent = bytes(device.internal_free_bytes); $('psram-free').textContent = bytes(device.psram_free_bytes);
     const sampleRate = device.rate ?? device.sample_rate;
+    const audioPercent = time => finite(time) && time >= 0 && finite(sampleRate) && sampleRate > 0
+      && finite(device.block_frames) && device.block_frames > 0
+      ? `${number(time * sampleRate / (device.block_frames * 1000000) * 100)}% audio` : '—';
+    $('audio-cpu').textContent = audioPercent(device.render_us);
+    $('peak-audio-cpu').textContent = audioPercent(device.peak_us);
     $('runtime-facts').textContent = [finite(sampleRate) ? `${number(sampleRate)} Hz` : null, finite(device.block_frames) ? `${device.block_frames} frames / block` : null].filter(Boolean).join(' · ');
     renderParameters(state.parameters); updateButtons();
   }
@@ -542,32 +718,42 @@
 
   async function connect() {
     if ($('connect').disabled) return;
-    state.connecting = true; state.deviceError = ''; state.controlEpoch += 1; updateButtons(); message();
-    $('device-status').textContent = 'Connecting over USB…';
+    state.connecting = true; state.deviceError = ''; cancelQueuedControls(); updateButtons(); message();
+    const method = transport();
+    $('device-status').textContent = method === 'wifi' ? 'Connecting over Wi-Fi…' : 'Connecting over USB…';
     try {
       const port = $('port').value;
-      const response = await api('/api/connect', {port});
+      const response = method === 'wifi' ? await api('/api/wifi/connect', wifiTarget()) : await api('/api/connect', {port});
       if (!response.device) throw new Error('No instrument status was returned by the selected device.');
-      state.connectedPort = port;
+      state.connectedTransport = method;
+      state.connectedPort = method === 'usb' ? port : '';
+      state.connectedDeviceId = method === 'wifi' ? $('wifi-device').value : '';
       renderDevice(response);
     } catch (error) { state.deviceError = error.message; renderDevice({device: null}); message(error.message); }
-    finally { state.connecting = false; updateButtons(); }
+    finally { state.connecting = false; updateButtons(); await refreshWifi(); }
   }
 
   function enqueueControl(action) {
     const epoch = state.controlEpoch;
+    const request = stampControl(action);
     state.controlQueue = state.controlQueue.catch(() => {}).then(async () => {
-      if (epoch !== state.controlEpoch || !state.device || state.operation || (state.connectedPort && state.connectedPort !== $('port').value)) return;
+      if (epoch !== state.controlEpoch || !state.device || state.operation || !selectedConnection()) return;
       try {
-        const response = await api('/api/control', action);
+        const response = await api('/api/control', request);
         if (epoch === state.controlEpoch && Object.hasOwn(response, 'device')) renderDevice(response);
       } catch (error) { message(`Could not update the instrument: ${error.message}`); }
     });
   }
 
+  function stampControl(action) {
+    return action.target ? action : {...action,
+      target:{device_id:state.device?.device_id, transport:state.connectedTransport}};
+  }
+
   function scheduleControl(action, key) {
+    const request = stampControl(action);
     clearTimeout(state.controlTimers.get(key));
-    state.controlTimers.set(key, setTimeout(() => { state.controlTimers.delete(key); enqueueControl(action); }, 140));
+    state.controlTimers.set(key, setTimeout(() => { state.controlTimers.delete(key); enqueueControl(request); }, 140));
   }
 
   function flushControl(action, key) {
@@ -600,6 +786,7 @@
       if (!state.operation) $('compile-status').textContent = error.message;
     }
     updateButtons();
+    if (state.reachable) await refreshWifi();
   }
 
   $('open-file').addEventListener('click', () => $('file').click());
@@ -627,6 +814,13 @@
     });
   }
   $('compile').addEventListener('click', compile);
+  $('optimise-recompile').addEventListener('click', async () => {
+    if ($('optimise-recompile').disabled || $('optimise-recompile').hidden) return;
+    state.loadFailure.retryStarted = true;
+    $('numerical-profile').value = 'float32-auto-v1';
+    invalidate();
+    await compile();
+  });
   $('upload').addEventListener('click', upload);
   $('install-player').addEventListener('click', async () => {
     if ($('install-player').disabled) return;
@@ -645,11 +839,19 @@
     link.download = 'patch.rnbopkg'; document.body.append(link); link.click(); link.remove();
   });
   $('refresh-ports').addEventListener('click', refreshDevices);
-  $('port').addEventListener('change', () => {
-    state.controlEpoch += 1;
+  for (const id of ['transport', 'port', 'wifi-device']) $(id).addEventListener('change', () => {
+    cancelQueuedControls(); clearNetworks(); $('wifi-scan-status').textContent = '';
+    if (id === 'transport') $('wifi-password').value = '';
+    if (id === 'wifi-device') $('wifi-ip').value = '';
     delete $('upload-status').dataset.completed;
     renderDevice({device: state.device, parameters: state.parameters});
   });
+  $('wifi-scan').addEventListener('click', scanWifi);
+  $('wifi-networks').addEventListener('change', () => {
+    if (!$('wifi-networks').disabled && $('wifi-networks').value) $('wifi-ssid').value = $('wifi-networks').value;
+  });
+  $('wifi-setup').addEventListener('click', () => configureWifi(false));
+  $('wifi-forget').addEventListener('click', () => configureWifi(true));
   $('connect').addEventListener('click', connect);
   $('volume').addEventListener('input', () => {
     $('volume-value').textContent = `${$('volume').value}%`;

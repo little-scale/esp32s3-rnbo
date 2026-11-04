@@ -81,7 +81,7 @@ function mockDocument() {
     if (value) element.value = value[1];
   }
   ids.get('board').value = 'xiao'; ids.get('voices').value = '1'; ids.get('arena').value = '1';
-  ids.get('numerical-profile').value = 'float32-strict';
+  ids.get('numerical-profile').value = 'float32-auto-v1';
   const document = {
     getElementById: id => ids.get(id),
     createElement: tag => new Element(tag),
@@ -91,11 +91,13 @@ function mockDocument() {
   return {document, get: id => ids.get(id)};
 }
 
-async function openStudio({parameters = [], environment = {}} = {}) {
+async function openStudio({parameters = [], environment = {}, paired = []} = {}) {
   const dom = mockDocument(), calls = [], timers = new Map(), intervals = new Map();
   let timerId = 0;
   const backend = {
     device: null, parameters, uploadError: null, importError: null, importVisual: null, controlHandler: null,
+    wifi:{supported:false,configured:false,connected:false,paired:false,device_id:'001122334455'},
+    paired, wifiSetupHandler:null, wifiConnectError:null, networks:[], wifiScanHandler:null,
     devices: [{port: 'test-port', label: 'Mock USB', serial_number: 'mock-board-01'}],
     result: {kind: 'package', title: 'Test patch', package_bytes: 12345, parameters: [], sample_rate: 44100, block_frames: 256},
   };
@@ -112,6 +114,19 @@ async function openStudio({parameters = [], environment = {}} = {}) {
     };
     else if (path === '/api/devices') data = {devices: backend.devices};
     else if (path === '/api/device') data = snapshot();
+    else if (path === '/api/wifi') data = {wifi:backend.wifi,paired:backend.paired};
+    else if (path === '/api/wifi/scan') data=backend.wifiScanHandler ? await backend.wifiScanHandler(body) : {networks:backend.networks};
+    else if (path === '/api/wifi/setup') {
+      if (backend.wifiSetupHandler) data = await backend.wifiSetupHandler(body);
+      else { backend.wifi={...backend.wifi,supported:true,configured:true,connected:true,paired:true,ip:'192.168.1.20'};
+        backend.paired=[{id:backend.wifi.device_id,label:'Player',ip:backend.wifi.ip}];data={wifi:backend.wifi,paired:backend.paired}; }
+    } else if (path === '/api/wifi/forget') {
+      backend.wifi={...backend.wifi,configured:false,connected:false,paired:false};backend.paired=[];
+      data={wifi:backend.wifi,paired:[]};
+    } else if (path === '/api/wifi/connect') {
+      if (backend.wifiConnectError) data={error:backend.wifiConnectError};
+      else { backend.device={runtime:'rnbo-esp32s3-player',board:'xiao',transport:'wifi',device_id:body.id,generation:1,panic:false,volume:50,rate:44100,block_frames:256,render_us:1000,peak_us:6000};data=snapshot(); }
+    }
     else if (path === '/api/example') data = example;
     else if (path === '/api/import-package') {
       const result = {...backend.result, origin:'imported', visual:backend.importVisual}; delete result.parameters;
@@ -124,7 +139,7 @@ async function openStudio({parameters = [], environment = {}} = {}) {
       id: 'build1', state: backend.uploadError ? 'ready' : 'done', stage: 'Upload finished', error: backend.uploadError,
     }};
     else if (path === '/api/connect') {
-      backend.device = {runtime:'rnbo-esp32s3-player',board: 'xiao', generation:1, panic: false, volume: 50, render_us: 12, peak_us: 16};
+      backend.device = {runtime:'rnbo-esp32s3-player',board: 'xiao', transport:'usb', device_id:'001122334455', generation:1, panic: false, volume: 50, render_us: 12, peak_us: 16};
       data = snapshot();
     } else if (path === '/api/control') {
       if (backend.controlHandler) data = await backend.controlHandler(body);
@@ -176,7 +191,7 @@ test('example, SVG and build workflow use the local session token and typed sett
   assert.deepEqual(request.body, {
     name: 'test.rnbopat', patch: example.patch, role: 'main', initial_volume: 50,
     voices: 1, arena_bytes: 1048576, filter_delay_max_ms: null, float32_delays: false,
-    numerical_profile: 'float32-strict',
+    numerical_profile: 'float32-auto-v1',
   });
   assert.equal(app.get('upload').disabled, true);
   await app.runTimer(850);
@@ -313,7 +328,7 @@ test('nonlinear parameter controls show actual readback and explicitly normalize
   assert.equal(output.textContent, '30% normalized');
   assert.equal(app.calls.filter(call => call.path === '/api/control').length, 0);
   app.backend.controlHandler = action => {
-    assert.deepEqual(action, {action: 'param', index: 0, value: .3});
+    assert.deepEqual(action, {action: 'param', index: 0, value: .3, target:{device_id:'001122334455',transport:'usb'}});
     app.backend.parameters[0] = {...app.backend.parameters[0], actual: 960, normalized: .3};
     return app.snapshot();
   };
@@ -345,7 +360,7 @@ test('generation change discards a pending old-patch control and stamps new cont
   assert.equal(app.calls.filter(c => c.path==='/api/control').length,0);
   slider=app.get('parameter-0');slider.value='.4';await slider.fire('input');await app.runTimer(140);
   assert.deepEqual(app.calls.filter(c => c.path==='/api/control').at(-1).body,
-    {action:'param',role:'main',generation:2,index:0,value:.4});
+    {action:'param',role:'main',generation:2,index:0,value:.4,target:{device_id:'001122334455',transport:'usb'}});
 });
 
 
@@ -413,4 +428,203 @@ test('missing or invalid package visual gets compiled-package placeholder and so
   assert.equal(app.get('source-title').textContent,'Your RNBO patch');
   assert.equal(app.get('empty-title').textContent,'Open an RNBO patch');
   assert.equal(app.get('patch-svg').hidden,false);
+});
+
+
+test('audio CPU percentages use actual block budget, retain microseconds and show over-budget peak', async () => {
+  const app=await openStudio();await app.get('connect').fire('click');
+  Object.assign(app.backend.device,{render_us:1000,peak_us:6000,rate:44100,block_frames:256});
+  await app.runInterval(1800);
+  const format=value=>new Intl.NumberFormat(undefined,{maximumFractionDigits:3}).format(value);
+  assert.equal(app.get('render-time').textContent,`${format(1000)} µs`);
+  assert.equal(app.get('audio-cpu').textContent,`${format(1000*44100/(256*1e6)*100)}% audio`);
+  assert.equal(app.get('peak-audio-cpu').textContent,`${format(6000*44100/(256*1e6)*100)}% audio`);
+  delete app.backend.device.rate;await app.runInterval(1800);
+  assert.equal(app.get('audio-cpu').textContent,'—');
+  assert.match(app.get('render-time').textContent,/µs/);
+});
+
+test('Wi-Fi setup is USB-only and clears password before sending without displaying it on error', async () => {
+  const app=await openStudio();
+  app.backend.wifi.supported=true;
+  assert.equal(app.get('wifi-setup').disabled,true);
+  await app.get('connect').fire('click');
+  assert.equal(app.get('wifi-setup').disabled,false);
+  app.get('wifi-ssid').value='Test network';app.get('wifi-password').value='private-password';
+  app.backend.wifiSetupHandler=async body=>{
+    assert.equal(app.get('wifi-password').value,'');
+    assert.deepEqual(body,{ssid:'Test network',password:'private-password'});
+    throw new Error('private-password');
+  };
+  await app.get('wifi-setup').fire('click');
+  assert.equal(app.get('wifi-password').value,'');
+  assert.doesNotMatch(app.get('message').textContent,/private-password/);
+  assert.doesNotMatch(app.get('build-log').textContent,/private-password/);
+  app.backend.wifiSetupHandler=null;app.get('wifi-password').value='another-password';
+  await app.get('wifi-setup').fire('click');
+  assert.equal(app.get('wifi-password').value,'');
+  assert.equal(app.get('wifi-device').value,'001122334455');
+  assert.match(app.get('wifi-status').textContent,/192.168.1.20/);
+  app.get('transport').value='wifi';await app.get('transport').fire('change');
+  assert.equal(app.get('wifi-setup').disabled,true);assert.equal(app.get('wifi-forget').disabled,true);
+  app.get('transport').value='usb';await app.get('transport').fire('change');
+  await app.get('wifi-forget').fire('click');
+  assert.equal(app.get('wifi-device').value,'');assert.equal(app.get('wifi-forget').disabled,true);
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/wifi/forget').body,{});
+});
+
+test('saved Wi-Fi player connects and loads package with no USB device or serial tools', async () => {
+  const app=await openStudio({environment:{python_serial:false},paired:[{id:'001122334455',label:'My Player',ip:'192.168.1.20'}]});
+  app.backend.devices=[];await app.get('refresh-ports').fire('click');
+  app.get('transport').value='wifi';await app.get('transport').fire('change');
+  assert.equal(app.get('connect').disabled,false);assert.equal(app.get('install-player').disabled,true);
+  app.get('wifi-ip').value='192.168.1.21';await app.get('connect').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/wifi/connect').body,{id:'001122334455',ip:'192.168.1.21'});
+  assert.match(app.get('device-status').textContent,/Wi-Fi/);
+  assert.equal(app.get('pause').disabled,false);
+  await app.readyArtifact();await app.get('upload').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/upload').body,
+    {id:'build1',transport:'wifi',device_id:'001122334455',ip:'192.168.1.21'});
+  assert.equal(app.calls.some(c=>c.path==='/api/connect'||c.path==='/api/install-player'),false);
+});
+
+test('paired status polling is modest and never substitutes another saved identity', async () => {
+  const app=await openStudio({paired:[{id:'001122334455',label:'A',ip:'192.168.1.20'}]});
+  app.get('transport').value='wifi';await app.get('transport').fire('change');await app.get('connect').fire('click');
+  const count=()=>app.calls.filter(c=>c.path==='/api/wifi').length;
+  const before=count();await app.runInterval(1800);assert.equal(count(),before);
+  app.backend.paired=[{id:'aabbccddeeff',label:'Other',ip:'192.168.1.22'}];
+  await app.runInterval(6000);assert.equal(count(),before+1);
+  assert.equal(app.get('wifi-device').value,'');assert.equal(app.get('connect').disabled,true);
+  assert.equal(app.get('pause').disabled,true);
+});
+
+
+test('in-flight controls keep their original device target and cannot repaint a newly connected player', async () => {
+  const app=await openStudio({paired:[{id:'aabbccddeeff',label:'Other',ip:'192.168.1.22'}]});
+  await app.get('connect').fire('click');
+  let finish;
+  app.backend.controlHandler=async()=>new Promise(resolve=>{finish=resolve;});
+  await app.get('pause').fire('click');await settle();
+  const request=app.calls.find(c=>c.path==='/api/control');
+  assert.deepEqual(request.body.target,{device_id:'001122334455',transport:'usb'});
+  app.get('transport').value='wifi';await app.get('transport').fire('change');
+  await app.get('connect').fire('click');
+  assert.match(app.get('device-status').textContent,/Wi-Fi/);
+  finish({device:{transport:'usb',device_id:'001122334455',board:'xiao',panic:true},parameters:[]});
+  await settle();
+  assert.match(app.get('device-status').textContent,/Wi-Fi/);
+  assert.equal(app.get('pause').textContent,'Pause audio');
+  assert.deepEqual(request.body.target,{device_id:'001122334455',transport:'usb'});
+});
+
+
+test('nearby network scan is USB-only, disables setup during scan and selects safe SSID text without configuring', async () => {
+  const app=await openStudio();app.backend.wifi.supported=true;
+  assert.equal(app.get('wifi-scan').disabled,true);
+  await app.get('wifi-scan').fire('click');assert.equal(app.calls.some(c=>c.path==='/api/wifi/scan'),false);
+  await app.get('connect').fire('click');
+  const ssid='<script>alert(1)</script>';let finish;
+  app.backend.wifiScanHandler=body=>{
+    assert.deepEqual(body,{});return new Promise(resolve=>{finish=resolve;});
+  };
+  const pending=app.get('wifi-scan').fire('click');await settle();
+  assert.equal(app.get('wifi-setup').disabled,true);assert.equal(app.get('wifi-scan').disabled,true);
+  assert.equal(app.get('wifi-scan').getAttribute('aria-busy'),'true');
+  assert.match(app.get('wifi-scan-status').textContent,/Audio pauses briefly/);
+  finish({networks:[{ssid,rssi:-40,channel:6,secure:true}]});await pending;
+  assert.equal(app.get('wifi-scan-results').hidden,false);
+  const option=app.get('wifi-networks').children[1];assert.equal(option.value,ssid);
+  assert.equal(option.textContent,`${ssid} · -40 dBm · secured`);
+  assert.equal(app.get('wifi-networks').querySelectorAll('script').length,0);
+  app.get('wifi-networks').value=ssid;await app.get('wifi-networks').fire('change');
+  assert.equal(app.get('wifi-ssid').value,ssid);
+  assert.equal(app.calls.some(c=>c.path==='/api/wifi/setup'),false);
+  app.get('transport').value='wifi';await app.get('transport').fire('change');
+  assert.equal(app.get('wifi-scan').disabled,true);assert.equal(app.get('wifi-scan-results').hidden,true);
+});
+
+test('failed scan clears previous results and busy state while keeping manual network entry', async () => {
+  const app=await openStudio();app.backend.wifi.supported=true;await app.get('connect').fire('click');
+  app.backend.networks=[{ssid:'First',rssi:-60,channel:1,secure:true}];
+  await app.get('wifi-scan').fire('click');assert.equal(app.get('wifi-scan-results').hidden,false);
+  app.get('wifi-ssid').value='Hidden network';
+  app.backend.wifiScanHandler=async()=>{throw new Error('scan transport failed');};
+  await app.get('wifi-scan').fire('click');
+  assert.equal(app.get('wifi-scan-results').hidden,true);assert.equal(app.get('wifi-networks').children.length,1);
+  assert.equal(app.get('wifi-scan').getAttribute('aria-busy'),'false');
+  assert.equal(app.get('wifi-scan').disabled,false);assert.equal(app.get('wifi-setup').disabled,false);
+  assert.equal(app.get('wifi-ssid').value,'Hidden network');assert.match(app.get('wifi-scan-status').textContent,/Scan failed/);
+  assert.equal(app.calls.some(c=>c.path==='/api/wifi/setup'||c.path==='/api/wifi/forget'),false);
+});
+
+
+test('CPU admission rejection explains completed transfer and keeps active Main distinct through polling', async () => {
+  const app=await openStudio();await app.get('connect').fire('click');
+  Object.assign(app.backend.device,{main:{name:'DDD'},rate:44100,block_frames:256});
+  await app.runInterval(1800);
+  app.get('numerical-profile').value='float32-strict';await app.get('numerical-profile').fire('change');
+  await app.readyArtifact();
+  assert.equal(app.calls.find(c=>c.path==='/api/build').body.numerical_profile,'float32-strict');
+  app.backend.uploadError="Device rejected capture command: 'Candidate uses 10047us per callback; player screen reserves time for the audio sink'";
+  await app.get('upload').fire('click');
+  assert.equal(app.get('load-failure').hidden,false);
+  assert.match(app.get('load-failure-summary').textContent,/USB transfer completed/);
+  assert.match(app.get('load-failure-summary').textContent,/10\.05 ms.*5\.80 ms/);
+  assert.match(app.get('load-failure-summary').textContent,/previous patch remains running/);
+  assert.equal(app.get('load-failure-raw').textContent,app.backend.uploadError);
+  assert.equal(app.get('running-main').textContent,'DDD');
+  assert.equal(app.get('package-to-load').textContent,'Test patch');
+  assert.equal(app.get('optimise-recompile').hidden,false);
+  const before=app.get('load-failure-summary').textContent;
+  await app.runInterval(1800);await app.runInterval(6000);
+  assert.equal(app.get('load-failure-summary').textContent,before);
+  assert.equal(app.get('load-failure').hidden,false);
+  const loads=app.calls.filter(c=>c.path==='/api/upload').length;
+  app.get('float32-delays').checked=false;
+  await app.get('optimise-recompile').fire('click');
+  const request=app.calls.filter(c=>c.path==='/api/build').at(-1);
+  assert.equal(request.body.numerical_profile,'float32-auto-v1');
+  assert.equal(request.body.float32_delays,false);
+  assert.equal(app.get('upload').disabled,true);
+  await app.runTimer(850);
+  assert.equal(app.calls.filter(c=>c.path==='/api/upload').length,loads);
+  assert.equal(app.get('running-main').textContent,'DDD');
+  assert.equal(app.get('upload').disabled,false);
+});
+
+test('ordinary load errors stay verbatim and saved packages cannot offer source recompilation', async () => {
+  const app=await openStudio();
+  app.get('package-file').files=[{name:'saved.rnbopkg',size:128,arrayBuffer:async()=>new Uint8Array(128).buffer}];
+  await app.get('package-file').fire('change');
+  app.backend.uploadError='Application state could not be read';
+  await app.get('upload').fire('click');
+  assert.equal(app.get('load-failure-summary').textContent,app.backend.uploadError);
+  assert.equal(app.get('optimise-recompile').hidden,true);
+  await app.runInterval(1800);assert.equal(app.get('load-failure-summary').textContent,app.backend.uploadError);
+  app.backend.uploadError="Device rejected capture command: 'Candidate uses 9965 us per callback'";
+  await app.get('upload').fire('click');
+  assert.match(app.get('load-failure-summary').textContent,/9\.96 ms.*5\.80 ms/);
+  assert.equal(app.get('optimise-recompile').hidden,true);
+  app.backend.uploadError=null;await app.get('upload').fire('click');
+  assert.equal(app.get('load-failure').hidden,true);
+});
+
+
+test('Auto CPU failure offers no identical recompile or automatic activation', async () => {
+  const app=await openStudio();await app.readyArtifact();
+  assert.equal(app.get('numerical-profile').value,'float32-auto-v1');
+  app.backend.uploadError="Device rejected capture command: 'Candidate uses 10047us per callback'";
+  await app.get('upload').fire('click');
+  assert.equal(app.get('optimise-recompile').hidden,true);
+  assert.equal(app.get('optimise-hint').hidden,false);
+  assert.equal(app.get('optimise-hint').textContent,'Automatic optimisation is already selected; this patch still needs further optimisation.');
+  const builds=app.calls.filter(c=>c.path==='/api/build').length;
+  const loads=app.calls.filter(c=>c.path==='/api/upload').length;
+  await app.get('optimise-recompile').fire('click');await app.runInterval(1800);await app.runInterval(6000);
+  assert.equal(app.calls.filter(c=>c.path==='/api/build').length,builds);
+  assert.equal(app.calls.filter(c=>c.path==='/api/upload').length,loads);
+  assert.equal(app.get('load-failure').hidden,false);
+  assert.match(app.get('load-failure-summary').textContent,/USB transfer completed/);
+  assert.equal(app.get('load-failure-raw').textContent,app.backend.uploadError);
 });

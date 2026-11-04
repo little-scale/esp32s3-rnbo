@@ -502,7 +502,8 @@ def sources():
            ROOT/"host/compiler/build.py",ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",
            ROOT/"host/compiler/gen_abs_intrinsic.py",ROOT/"host/compiler/gen_arithmetic_contract.py",ROOT/"host/compiler/generate_gen_arithmetic_fixtures.py",ROOT/"host/compiler/generate_gen_logic_fixtures.py",ROOT/"host/compiler/gen_history_contract.py",ROOT/"host/compiler/gen_feedback.py",ROOT/"host/compiler/wave4_contract.py",ROOT/"host/compiler/generate_object_fixtures.py",
            ROOT/"tests/fixtures/objects/wave4/recipes.json",ROOT/"tests/fixtures/objects/wave4/inputs.py",
-           ROOT/"tests/fixtures/objects/wave4/models.py",ROOT/"tests/fixtures/objects/wave4/identities.json"]
+           ROOT/"tests/fixtures/objects/wave4/models.py",ROOT/"tests/fixtures/objects/wave4/identities.json",
+           ROOT/"tests/fixtures/objects/wave4/identities.integer-ui-v1.json"]
     for identity in ('history-feedback','two-history-swap','three-history-rotation'):
         paths.extend(GEN_FIXTURES/(identity+suffix) for suffix in ('.rnbopat','.genexpr'))
     for directory in (ROOT/"object-benchmark", ROOT/"module-sdk", ROOT/"tests/fixtures/gen/target", ROOT/"tests/fixtures/gen/feedback-f32", ROOT/"tests/fixtures/gen/arithmetic", ROOT/"tests/fixtures/gen/abs-intrinsic", ROOT/"tests/fixtures/gen/logic"):

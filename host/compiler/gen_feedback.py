@@ -14,6 +14,8 @@ ADAPTATION = 'rnbo-1.4.4-' + PROFILE
 SOURCE = 'e8ea80fd692baaf54345587d8b0908b990b6c5524bbac6c52677364a60f02721'
 OUTPUT = 'db07a01a185f2bad594acba9f110f8c198dec9668fb3516112573d32752d7220'
 INPUT_MAP = '7cb084216600dab080984923569ddc45c2e6b8b3a73d8371877fc976069044b2'
+# Exact current producer epoch; the other40 input files are unchanged.
+INTEGER_UI_INPUT_MAP='d85a45949197dd642b43133cfcff7fedc2c5247a4311cd88d533d12dc33e7316'
 DESCRIPTION = '5fa1adde1e70050d79dbc296a932a21b4a7efb4c8ecbd7176e9910b5de513270'
 RUNTIME = 'fd4ec5b019f6fc34ae4982636b116e38293233f598061de5480737ae1e849c5d'
 GRAPH = 'cc73307e6aaad1f7f3636c28e7d79baffe15eae9d59ac14bdef64dafbae6990e'
@@ -67,7 +69,8 @@ def transform(files, description, *, code_mask):
         if not ok: raise ValueError('Gen feedback Float32: ' + message)
     require(type(files) is dict and all(type(k) is str and type(v) is bytes for k,v in files.items()),
             'immutable source map required')
-    require(len(files) == 41 and sha(canonical({k: sha(v) for k,v in files.items()})) == INPUT_MAP,
+    input_map = sha(canonical({k: sha(v) for k,v in files.items()}))
+    require(len(files) == 41 and input_map in (INPUT_MAP, INTEGER_UI_INPUT_MAP),
             'unknown graph/source/metadata/runtime composition or repeated application')
     source = files['rnbo_source.h']
     require(sha(source) == SOURCE and sha(files['source.rnbopat']) == GRAPH and
@@ -91,7 +94,7 @@ def transform(files, description, *, code_mask):
     result.update({'rnbo_source.h': changed, CONTRACT_FILE: CONTRACT})
     return result, {
         'name': ADAPTATION, 'file': 'rnbo_source.h', 'method': METHOD,
-        'input_sha256': SOURCE, 'prepared_sha256': OUTPUT, 'input_map_sha256': INPUT_MAP,
+        'input_sha256': SOURCE, 'prepared_sha256': OUTPUT, 'input_map_sha256': input_map,
         'description_file_sha256': DESCRIPTION, 'editable_source_sha256': GRAPH,
         'runtime_tree_sha256': RUNTIME, 'inverse_byte_identity': True, 'inserted_bytes': 1,
         'input_method_sha256': sha(body.encode()), 'prepared_method_sha256': sha(updated_body.encode()),

@@ -19,6 +19,10 @@
 #include <math.h>
 #include <stdatomic.h>
 #include <stdio.h>
+#include <stdarg.h>
+#ifdef RNBO_S3_WIFI
+#include "player_network.h"
+#endif
 #include <stdlib.h>
 #include <string.h>
 #ifndef CONFIG_RNBO_S3_HEADLESS
@@ -67,14 +71,31 @@ static const char *TAG="rnbo_player";
 #ifndef CONFIG_RNBO_S3_HEADLESS
 static atomic_bool display_enabled=false;
 #endif
-static struct {uint8_t *bytes;size_t total,used;char hash[65];int64_t touched;} incoming;
+static struct {uint8_t *bytes;size_t total,used;char hash[65];int64_t touched;uint32_t owner;} incoming;
+static uint32_t command_source; /* Zero is the physical USB console. */
+
+static void reply_line(const char *text)
+{
+#ifdef RNBO_S3_WIFI
+    if(command_source){player_network_respond(text);return;}
+#endif
+    puts(text);
+}
+static void reply_format(const char *format,...)
+{
+    char text[256];va_list args;va_start(args,format);
+    int n=vsnprintf(text,sizeof text,format,args);va_end(args);
+    if(n<0||(size_t)n>=sizeof text){reply_line("{\"error\":\"Reply exceeded limit\"}");return;}
+    while(n&&text[n-1]=='\n')text[--n]=0;
+    reply_line(text);
+}
 
 static void error_reply(const char *message,bool retained)
 {
     cJSON *o=cJSON_CreateObject();if(!o)return;
     cJSON_AddStringToObject(o,"error",message);cJSON_AddBoolToObject(o,"old_retained",retained);
     cJSON_AddNumberToObject(o,"generation",atomic_load(&generation));
-    char *text=cJSON_PrintUnformatted(o);if(text){puts(text);cJSON_free(text);}cJSON_Delete(o);
+    char *text=cJSON_PrintUnformatted(o);if(text){reply_line(text);cJSON_free(text);}cJSON_Delete(o);
 }
 static void hash_bytes(const void *bytes,size_t count,char hex[65])
 {
@@ -349,7 +370,7 @@ static void commit_incoming(void)
     bool resumed=end_maintenance();held=false;
     if(!resumed){error_reply("New patch is saved, but audio DMA could not resume; restart the player",false);discard_incoming();return;}
     player_slot *now=atomic_load(&active);
-    printf("{\"upload\":\"committed\",\"generation\":%u,\"role\":1,\"package_sha256\":\"%s\"}\n",atomic_load(&generation),now->package.package_sha256);
+    reply_format("{\"upload\":\"committed\",\"generation\":%u,\"role\":1,\"package_sha256\":\"%s\"}\n",atomic_load(&generation),now->package.package_sha256);
     discard_incoming();return;
 fail:
     unload_slot(candidate);(void)guard_write("");if(held)end_maintenance();
@@ -369,6 +390,9 @@ static void player_info(void)
     cJSON_AddBoolToObject(o,"maintenance",atomic_load(&maintenance));add_number(o,"volume",atomic_load(&volume));
     cJSON_AddBoolToObject(o,"boot_verified",!boot_guard_pending);cJSON_AddBoolToObject(o,"storage_ready",store_ready);
     if(boot_error[0])cJSON_AddStringToObject(o,"boot_note",boot_error);
+#ifdef RNBO_S3_WIFI
+    player_network_add_status(o);
+#endif
     add_number(o,"frames",stats.frames);add_number(o,"blocks",stats.blocks);add_number(o,"render_us",stats.render_us);add_number(o,"peak_us",stats.peak_us);
     add_number(o,"output_peak_q15",stats.output_peak);cJSON_AddStringToObject(o,"output_meter_scope","final PCM after volume and saturation");
     bool current=stats.generation==atomic_load(&generation);
@@ -395,23 +419,77 @@ static void player_info(void)
             add_number(row,"min",meta->minimum);add_number(row,"max",meta->maximum);add_number(row,"initial",meta->initial);add_number(row,"actual",a);add_number(row,"normalized",n);cJSON_AddItemToArray(p,row);
         }
     }
-    char *text=cJSON_PrintUnformatted(o);if(text){puts(text);cJSON_free(text);}else error_reply("Cannot encode player status",true);cJSON_Delete(o);
+    char *text=cJSON_PrintUnformatted(o);if(text){reply_line(text);cJSON_free(text);}else error_reply("Cannot encode player status",true);cJSON_Delete(o);
 }
 static int unhex(char c){return c>='0'&&c<='9'?c-'0':c>='a'&&c<='f'?c-'a'+10:c>='A'&&c<='F'?c-'A'+10:-1;}
+#ifdef RNBO_S3_WIFI
+static bool decode_wifi_hex(const char *text,uint8_t *bytes,size_t capacity,size_t *length)
+{
+    size_t n=strlen(text);if(!strcmp(text,"-")){*length=0;return true;}
+    if(!n||(n&1)||n/2>capacity)return false;
+    for(size_t i=0;i<n;i+=2){int a=unhex(text[i]),b=unhex(text[i+1]);if(a<0||b<0)return false;bytes[i/2]=(uint8_t)(a*16+b);if(!bytes[i/2])return false;}
+    *length=n/2;return true;
+}
+static void wifi_command(char *line)
+{
+    if(command_source){error_reply("Wi-Fi settings require the physical USB connection",true);return;}
+    if(boot_guard_pending){error_reply("Wait for the Main startup check before changing Wi-Fi",true);return;}
+    if(incoming.bytes){error_reply("Finish or abort the current package before changing Wi-Fi",true);return;}
+    char error[192]={0};bool ok=false;
+    if(!strcmp(line,"player-wifi-scan")) {
+        if(!begin_maintenance(error,sizeof error)){error_reply(error,true);return;}
+        cJSON *result=cJSON_CreateObject();
+        ok=result&&player_network_scan(result,error,sizeof error);
+        bool resumed=end_maintenance();
+        if(!ok||!resumed){cJSON_Delete(result);error_reply(error[0]?error:"Network scan failed or audio could not resume",true);return;}
+        char *text=cJSON_PrintUnformatted(result);
+        if(text){reply_line(text);cJSON_free(text);}else error_reply("Cannot encode nearby networks",true);
+        cJSON_Delete(result);return;
+    }
+    if(!strcmp(line,"player-wifi-forget")) {
+        if(!begin_maintenance(error,sizeof error)){error_reply(error,true);return;}
+        ok=player_network_forget(error,sizeof error);
+    } else {
+        char ssid_hex[65],password_hex[127],key_hex[65],tail;
+        uint8_t ssid[32],password[63],key[32];size_t ssid_n,password_n;
+        if(sscanf(line,"player-wifi-setup %64s %126s %64s %c",ssid_hex,password_hex,key_hex,&tail)!=3 ||
+           !decode_wifi_hex(ssid_hex,ssid,sizeof ssid,&ssid_n)||!ssid_n||
+           !decode_wifi_hex(password_hex,password,sizeof password,&password_n)||
+           (password_n&&password_n<8)||!hash_string(key_hex)) {
+            error_reply("Invalid Wi-Fi settings; use a network name and an empty or 8-63 byte password",true);return;
+        }
+        for(unsigned i=0;i<32;++i)key[i]=(uint8_t)(unhex(key_hex[2*i])*16+unhex(key_hex[2*i+1]));
+        if(!begin_maintenance(error,sizeof error)){memset(password,0,sizeof password);memset(key,0,sizeof key);error_reply(error,true);return;}
+        ok=player_network_configure(ssid,ssid_n,password,password_n,key,error,sizeof error);
+        memset(password,0,sizeof password);memset(key,0,sizeof key);
+    }
+    bool resumed=end_maintenance();
+    if(!ok){error_reply(error[0]?error:"Cannot save Wi-Fi settings",true);return;}
+    if(!resumed){error_reply("Wi-Fi settings saved; restart the player because its audio driver did not resume",true);return;}
+    reply_line(!strcmp(line,"player-wifi-forget")?"{\"wifi_forgotten\":true}":"{\"wifi_configured\":true}");
+}
+#endif
 static void command(char *line)
 {
     if(!strcmp(line,"player-info")){player_info();return;}
-    if(!strcmp(line,"player-abort")){discard_incoming();puts("{\"upload\":\"aborted\"}");return;}
+#ifdef RNBO_S3_WIFI
+    if(!strncmp(line,"player-wifi-",12)) {wifi_command(line);return;}
+#endif
+    bool transfer=!strncmp(line,"player-begin ",13)||!strncmp(line,"player-data ",12)||!strcmp(line,"player-commit")||!strcmp(line,"player-abort");
+    if(transfer && incoming.bytes && incoming.owner!=command_source && !(command_source==0&&!strcmp(line,"player-abort"))) {
+        error_reply("Another connection owns the incoming package; abort over USB or wait for its timeout",true);return;
+    }
+    if(!strcmp(line,"player-abort")){discard_incoming();reply_line("{\"upload\":\"aborted\"}");return;}
     if(!strcmp(line,"player-commit")){if(!incoming.bytes)error_reply("No incoming package",true);else commit_incoming();return;}
-    if(!strcmp(line,"player-pause")){request_pause();puts("{\"paused\":true}");return;}
-    if(!strcmp(line,"player-resume")){if(!can_resume()){error_reply("Load a healthy Main patch, finish installation, or restart a failed audio driver",true);return;}request_resume();puts("{\"paused\":false}");return;}
+    if(!strcmp(line,"player-pause")){request_pause();reply_line("{\"paused\":true}");return;}
+    if(!strcmp(line,"player-resume")){if(!can_resume()){error_reply("Load a healthy Main patch, finish installation, or restart a failed audio driver",true);return;}request_resume();reply_line("{\"paused\":false}");return;}
     unsigned role,total,value,gen,index;float normalized;char hash[65],tail;
     if(sscanf(line,"player-begin %u %u %64s %c",&role,&total,hash,&tail)==3) {
         if(role!=1||total<128||total>PLAYER_PACKAGE_MAX_BYTES||!hash_string(hash)){error_reply("Invalid Main package size or hash",true);return;}
         discard_incoming();incoming.bytes=heap_caps_malloc(total,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
         if(!incoming.bytes){error_reply("Cannot allocate incoming package buffer",true);return;}
-        incoming.total=total;incoming.touched=esp_timer_get_time();memcpy(incoming.hash,hash,65);
-        puts("{\"upload\":\"ready\",\"offset\":0,\"chunk_bytes\":1024}");return;
+        incoming.total=total;incoming.owner=command_source;incoming.touched=esp_timer_get_time();memcpy(incoming.hash,hash,65);
+        reply_line("{\"upload\":\"ready\",\"offset\":0,\"chunk_bytes\":1024}");return;
     }
     if(!strncmp(line,"player-data ",12)) {
         char *end=NULL;unsigned long offset=strtoul(line+12,&end,10);
@@ -419,31 +497,50 @@ static void command(char *line)
         const char *data=end+1;size_t n=strlen(data);
         if(offset!=incoming.used||!n||n>2048||(n&1)||n/2>incoming.total-incoming.used){error_reply("Invalid package chunk offset or size",true);discard_incoming();return;}
         for(size_t i=0;i<n;i+=2){int a=unhex(data[i]),b=unhex(data[i+1]);if(a<0||b<0){error_reply("Invalid hex package chunk",true);discard_incoming();return;}incoming.bytes[incoming.used+i/2]=(uint8_t)((a<<4)|b);}
-        incoming.used+=n/2;incoming.touched=esp_timer_get_time();printf("{\"upload\":\"chunk\",\"offset\":%u}\n",(unsigned)incoming.used);return;
+        incoming.used+=n/2;incoming.touched=esp_timer_get_time();reply_format("{\"upload\":\"chunk\",\"offset\":%u}\n",(unsigned)incoming.used);return;
     }
-    if(sscanf(line,"player-volume %u %c",&value,&tail)==1&&post_volume(value)){printf("{\"volume\":%u,\"accepted\":true}\n",value);return;}
+    if(sscanf(line,"player-volume %u %c",&value,&tail)==1&&post_volume(value)){reply_format("{\"volume\":%u,\"accepted\":true}\n",value);return;}
     if(sscanf(line,"player-param %u %u %u %f %c",&role,&gen,&index,&normalized,&tail)==4) {
         if(role!=1||gen!=atomic_load(&generation)||index>=atomic_load(&parameter_count)||!isfinite(normalized)||normalized<0||normalized>1){error_reply("Parameter generation/index/value differs from active Main",true);return;}
         player_event e={.kind=RNBO_S3_PARAMETER_NORMALIZED,.index=index,.value=normalized,.generation=gen};
-        if(!queue_event(&e))error_reply("Main is paused, installing or its event queue is full",true);else puts("{\"queued\":true}");return;
+        if(!queue_event(&e))error_reply("Main is paused, installing or its event queue is full",true);else reply_line("{\"queued\":true}");return;
     }
     unsigned status,d1,d2;
     if(sscanf(line,"player-midi %u %u %u %u %c",&gen,&status,&d1,&d2,&tail)==4) {
         unsigned kind=status&0xf0u;
         if(gen!=atomic_load(&generation)||status<0x80||status>=0xf0||d1>127||d2>127){error_reply("Invalid complete MIDI message or generation",true);return;}
         player_event e={.kind=RNBO_S3_MIDI,.generation=gen,.midi={(uint8_t)status,(uint8_t)d1,(uint8_t)d2},.midi_length=(kind==0xc0||kind==0xd0)?2:3};
-        if(!queue_event(&e))error_reply("Main is paused, installing or its MIDI queue is full",true);else puts("{\"queued\":true}");return;
+        if(!queue_event(&e))error_reply("Main is paused, installing or its MIDI queue is full",true);else reply_line("{\"queued\":true}");return;
     }
     error_reply("Unknown player command",true);
 }
 static void control_task(void *unused)
 {
-    (void)unused;char *line=heap_caps_malloc(LINE_BYTES,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);size_t used=0;bool overflow=false;
+    (void)unused;char *line=heap_caps_malloc(LINE_BYTES,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);size_t used=0;bool overflow=false;int64_t last_usb_byte=0;
     if(!line){ESP_LOGE(TAG,"No USB command buffer");vTaskDelete(NULL);return;}
+#ifdef RNBO_S3_WIFI
+    bool radio_start_attempted=false;
+#endif
     for(;;) {
+        if(incoming.bytes&&esp_timer_get_time()-incoming.touched>30000000)discard_incoming();
+#ifdef RNBO_S3_WIFI
+        uint32_t session=used==0?player_network_poll_request(line,LINE_BYTES):0;
+        if(session) {
+            command_source=session;command(line);
+            /* Allocation/encoding failure must complete an otherwise unanswered
+             * slot too. An already answered slot treats this as a no-op. */
+            (void)player_network_respond("{\"error\":\"Player could not return a reply; query status before retrying\"}");
+            command_source=0;
+            /* Poll only at a USB line boundary so the two streams cannot overwrite one another. */
+        }
+#endif
         int c=getchar();
         if(c==EOF) {
             clearerr(stdin);
+            if(used&&esp_timer_get_time()-last_usb_byte>2000000) {
+                used=0;overflow=false;
+                error_reply("Incomplete USB line timed out; resend the complete command",true);
+            }
             if(incoming.bytes&&esp_timer_get_time()-incoming.touched>30000000)discard_incoming();
             if(boot_guard_pending) {
                 player_stats s={0};xQueuePeek(telemetry,&s,0);
@@ -451,8 +548,21 @@ static void control_task(void *unused)
                     char error[128];if(begin_maintenance(error,sizeof error)){(void)guard_write("");end_maintenance();}
                 }
             }
+#ifdef RNBO_S3_WIFI
+            /* A radio startup failure must never blame a healthy native image's
+             * recovery guard. Start only after actual image blocks clear it. */
+            if(!radio_start_attempted&&!boot_guard_pending&&atomic_load(&audio_ready)) {
+                char error[128];
+                if(begin_maintenance(error,sizeof error)) {
+                    radio_start_attempted=true;
+                    (void)player_network_start_saved(error,sizeof error);
+                    (void)end_maintenance();
+                }
+            }
+#endif
             vTaskDelay(pdMS_TO_TICKS(2));continue;
         }
+        last_usb_byte=esp_timer_get_time();
         if(c=='\r')continue;
         if(c=='\n') {line[used]=0;if(overflow){error_reply("Player command line exceeds limit",true);discard_incoming();}else command(line);used=0;overflow=false;continue;}
         if(c<32||c>126){overflow=true;continue;}
@@ -490,6 +600,10 @@ void app_main(void)
     ESP_ERROR_CHECK(board_display_start(&actions));
 #endif
     if(store_ready)restore_boot();
+#ifdef RNBO_S3_WIFI
+    /* Startup may initialise radio/NVS before DMA exists. Later settings changes park DMA. */
+    player_network_init();
+#endif
     audio_handle=xTaskCreateStaticPinnedToCore(audio_task,"rnbo_player_audio",AUDIO_STACK,NULL,20,audio_stack,&audio_tcb,1);
     control_handle=xTaskCreateStaticPinnedToCore(control_task,"rnbo_player_usb",CONTROL_STACK,NULL,5,control_stack,&control_tcb,0);
     if(!audio_handle||!control_handle){ESP_LOGE(TAG,"Cannot start player tasks");return;}

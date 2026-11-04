@@ -1,0 +1,187 @@
+{
+  "format": "rnbo-esp32s3-patch-optimisation-v1",
+  "recorded_date": "2026-11-05",
+  "scope": "Whole DDD patch and one AAA automatic-profile load; not per-object attribution or universal numerical qualification",
+  "profile": {
+    "sample_rate": 44100,
+    "block_frames": 256,
+    "block_budget_us": 5804.988662131519,
+    "scheduler_time": "float64"
+  },
+  "ddd": {
+    "original_editable_patch_changed": false,
+    "strict_generated_dsp_byte_equal_to_rejected_studio_export": true,
+    "strict_admission": {
+      "result": "rejected",
+      "callback_us": 10056,
+      "measurement": "first callback exceeding detached startup threshold; not a steady-state mean"
+    },
+    "arithmetic_profile": "float32-audio-v3",
+    "float32_delay_storage": true,
+    "delay_samples": 10000,
+    "reviewed_methods": 15,
+    "decimal_suffix_edits": 32,
+    "package": {
+      "name": "ddd",
+      "package_sha256": "a8c474cea39a08499f6e40f535c7674b259bb988025717cb664942d2844f2012",
+      "source_sha256": "e855776820ddb3161159d06bd7b08fecc7d9c1bac7bef9062dec0ffa15ef87e2",
+      "arena_bytes": 1048576,
+      "arena_used": 393712,
+      "context_bytes": 23536,
+      "parameter_count": 0
+    },
+    "firmware_elf_sha256": "fdf80071123dadccc2d1b380ec31f625683d90bfcacdc1da664dbe4cb57f45ef",
+    "initial_observation": {
+      "generation": 3,
+      "frames": 2584832,
+      "uptime_us": 61393978,
+      "render_us": 1933,
+      "peak_us": 2252,
+      "audio_cpu_percent": 33.2989453125,
+      "peak_audio_cpu_percent": 38.79421875,
+      "health": {
+        "render_deadline_overruns": 0,
+        "nonfinite": 0,
+        "write_errors": 0,
+        "dma_errors": 0,
+        "queue_errors": 0,
+        "module_errors": 0,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "late_platform_allocations": 0,
+        "allocation_fault": false
+      }
+    },
+    "later_observation": {
+      "generation": 3,
+      "frames": 9373696,
+      "uptime_us": 215334978,
+      "render_us": 2013,
+      "peak_us": 2252,
+      "audio_cpu_percent": 34.6770703125,
+      "peak_audio_cpu_percent": 38.79421875,
+      "health": {
+        "render_deadline_overruns": 0,
+        "nonfinite": 0,
+        "write_errors": 0,
+        "dma_errors": 0,
+        "queue_errors": 0,
+        "module_errors": 0,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "late_platform_allocations": 0,
+        "allocation_fault": false
+      }
+    },
+    "native": {
+      "blocks": 2048,
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "duration_seconds": 11.888616780045352,
+      "pcm_volume_percent": 100,
+      "pcm_headroom": 0.5,
+      "comparisons": [
+        {
+          "blocks": 64,
+          "prefix_of_same_2048_block_capture": true,
+          "channel_words": 32768,
+          "maximum_absolute_error": 2.0325183868408203e-05,
+          "rms_error": 1.04531847958061e-06,
+          "reference_rms": 0.3468977517103241,
+          "candidate_rms": 0.34689776311257137,
+          "relative_rms_level_change": 3.286918753802522e-08,
+          "max_pcm_lsb": 1,
+          "pcm_words_changed": 160,
+          "float_words_changed": 29900,
+          "diagnostic_gates": {
+            "max2e-6": false,
+            "pcm1": true,
+            "rms_level1e-4": true
+          }
+        },
+        {
+          "blocks": 2048,
+          "prefix_of_same_2048_block_capture": true,
+          "channel_words": 1048576,
+          "maximum_absolute_error": 0.0008099675178527832,
+          "rms_error": 0.00010085781813810894,
+          "reference_rms": 0.6658438422808393,
+          "candidate_rms": 0.6658446463334212,
+          "relative_rms_level_change": 1.2075692991399165e-06,
+          "max_pcm_lsb": 13,
+          "pcm_words_changed": 584050,
+          "float_words_changed": 1044812,
+          "diagnostic_gates": {
+            "max2e-6": false,
+            "pcm1": false,
+            "rms_level1e-4": true
+          }
+        }
+      ],
+      "source_inverse_equal": true,
+      "other_prepared_files_equal": 81,
+      "report_sha256": "42aa0d24b80febd9f9daf8c168097cca52904a4a88b80e8d36a6dac46d2b0411"
+    },
+    "storage": {
+      "arena_before": 458920,
+      "bytes_saved": 65536,
+      "float_bytes_identical": true,
+      "wav_bytes_identical": true,
+      "channel_words": 1048576,
+      "maximum_absolute_error": 0.0,
+      "report_sha256": "74e966f146c81f46c6f994414434e30d823231f5c382a9b8c6f647b4adfc01d2"
+    }
+  },
+  "automatic_profile": {
+    "name": "float32-auto-v1",
+    "studio_default": true,
+    "compiler_cli_default": "float32-strict",
+    "unknown_methods": "Retained byte-for-byte; reported as skipped",
+    "ddd_output_byte_equal_to_v3": true,
+    "all_double_removed_claimed": false
+  },
+  "aaa": {
+    "strict_admission_callback_us": 9965,
+    "reviewed_methods": 13,
+    "skipped_methods": 2,
+    "skipped_bytes_unchanged": true,
+    "package": {
+      "name": "aaa",
+      "package_sha256": "fb72e051ba0cbcf0bbef1d889be379373e7c1bf45932313af7037575d1f8ea49",
+      "source_sha256": "8c04c7fb5b8e7646741351b74b6d324b09bc9a476bb835ce4aeda2d7c987c9ec",
+      "arena_bytes": 1048576,
+      "arena_used": 459248,
+      "context_bytes": 23536,
+      "parameter_count": 0
+    },
+    "observation": {
+      "generation": 3,
+      "frames": 49452032,
+      "uptime_us": 1128380011,
+      "render_us": 2315,
+      "peak_us": 2513,
+      "audio_cpu_percent": 39.8794921875,
+      "peak_audio_cpu_percent": 43.2903515625,
+      "health": {
+        "render_deadline_overruns": 0,
+        "nonfinite": 0,
+        "write_errors": 0,
+        "dma_errors": 0,
+        "queue_errors": 0,
+        "module_errors": 0,
+        "audio_heap_allocations": 0,
+        "audio_heap_frees": 0,
+        "late_platform_allocations": 0,
+        "allocation_fault": false
+      }
+    },
+    "usb_load_replaced_ddd": true
+  },
+  "limits": [
+    "Measured render time includes PCM conversion and excludes I2S wait, not whole dual-core CPU utilisation.",
+    "Strict versus v3 numerical diagnostics fail their 2e-6 sample and 1-LSB limits; changed rounding is explicit.",
+    "Storage identity is for this authored default workload only.",
+    "Different firmware/source epochs and startup versus running timing categories do not establish a matched per-object speedup.",
+    "Gen and unrelated RNBO object qualification are separate."
+  ]
+}

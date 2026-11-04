@@ -30,7 +30,7 @@ class SettingsTests(unittest.TestCase):
         value = s.build_settings(self.valid())
         self.assertEqual(value['initial_volume'],50)
         self.assertEqual(value['voices'],1)
-        self.assertEqual(value['numerical_profile'],'float32-strict')
+        self.assertEqual(value['numerical_profile'],'float32-auto-v1')
         self.assertFalse(value['float32_delays'])
         self.assertIsNone(value['filter_delay_max_ms'])
         self.assertEqual(value['title'],'example')

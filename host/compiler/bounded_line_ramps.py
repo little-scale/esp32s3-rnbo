@@ -18,6 +18,8 @@ FILE_MAP='daf234beebf45b4b2c34549cf89e7e9f608afc64afb8a51cec5333d70b02c107'
 # Exact same41 DSP/runtime/config/graph files; the GenExpr-aware importer
 # changes only generator.json's patcher_adapter_sha256. Retain both whole maps.
 GENEXPR_FILE_MAP='4ea3d3850bd351942b1f732eebc16497a8dc43119e186b00927f7c55550adca3'
+# Reviewed integer-number UI importer epoch; only generator.json changed.
+INTEGER_UI_FILE_MAP='10181bd3c3296ba982ff73fd78b3ff803c4d92c0ecf0490ca117293336385d7f'
 UNGUARDED_SOURCE='1a3f2d4ad8854f2261dc31ea24ae944641ccd5c0e6c3fe89bbf470c8fc55a3f6'
 OPTIONS={'rnbo_version':'1.4.4','apply_fixes':True,'role':'main','sample_rate':44100,'block_frames':256,
          'audio_inputs':0,'audio_outputs':2,'numerical_profile':'float32-strict','filter_delay_max_ms':None,
@@ -192,7 +194,7 @@ def transform(files,description,options,*,code_mask):
     inventory={n:sha(v)for n,v in sorted(files.items())};runtime={n:h for n,h in inventory.items()if n.startswith('common/')}
     require(len(runtime)==36 and sha(canonical(runtime))==RUNTIME,'runtime/types/normal fixes differ')
     input_map=sha(canonical(inventory))
-    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP),'unknown file/config/source composition')
+    require(len(files)==42 and input_map in (FILE_MAP,GENEXPR_FILE_MAP,INTEGER_UI_FILE_MAP),'unknown file/config/source composition')
     text=source.decode();masked=code_mask(text)
     require(isinstance(masked,str)and len(masked)==len(text),'invalid C++ lexical mask')
     for m in METHODS:require(m['sha256']in method_hashes(text,masked,m['name']),'caller/clock/kernel differs: '+m['name'])

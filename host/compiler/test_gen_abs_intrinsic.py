@@ -68,6 +68,28 @@ class GenAbsPipelineTests(unittest.TestCase):
         cls.files={name:(cls.strict/name).read_bytes()for name in verify_prepared(cls.strict)[2]['prepared_files_sha256']if name!='patch_config.h'}
         cls.description=json.loads(cls.files['description.json'])
 
+    def test_exact_producer_epochs_and_unknown_metadata_remain_closed(self):
+        import gen_abs_intrinsic as module
+        for stamp,expected in (
+                ('56fb9edda0184c282b64f9ba66ab70817866cb981fa5aee4b3050e804bac3065',module.INPUT_MAP),
+                ('4af4ee869ca842cd9ffbd0421367b46f491767c203971d3c83fff4e89fd3ce5e',module.INTEGER_UI_INPUT_MAP)):
+            files=dict(self.files);generator=json.loads(files['generator.json'])
+            generator['patcher_adapter_sha256']=stamp
+            files['generator.json']=(json.dumps(generator,indent=2)+'\n').encode()
+            before=copy.deepcopy(files)
+            changed,record=transform(files,self.description,code_mask=cpp_code_mask)
+            self.assertEqual(files,before)
+            self.assertEqual(record['input_map_sha256'],expected)
+            self.assertEqual(module.sha(changed['rnbo_source.h']),OUTPUT)
+            for key,value in (('patcher_adapter_sha256','f'*64),('adapter_sha256','0'*64),
+                              ('generated_sha256','0'*64),('voices',2),('class_name','other'),('unknown',False)):
+                bad=dict(files);metadata=dict(generator);metadata[key]=value
+                bad['generator.json']=(json.dumps(metadata,indent=2)+'\n').encode()
+                before=copy.deepcopy(bad)
+                with self.subTest(stamp=stamp,key=key),self.assertRaises(ValueError):
+                    transform(bad,self.description,code_mask=cpp_code_mask)
+                self.assertEqual(bad,before)
+
     def test_fresh_public_option_preserves_strict_profile_and_two_callee_inverse(self):
         out=self.directory/'candidate';m=prepare(self.raw,out,'rnbos3patch','fx',gen_abs_intrinsic=True)
         provenance,_,snapshot=verify_prepared(out)
@@ -83,6 +105,13 @@ class GenAbsPipelineTests(unittest.TestCase):
         self.assertEqual(provenance['adaptations'][-1]['callee_replacements'],2)
         self.assertEqual((out/CONTRACT_FILE).read_bytes(),CONTRACT)
         self.assertIn(CONTRACT_FILE,(out/'patch_config.h').read_text())
+        from gen_arithmetic_contract import admit_module
+        fixture=json.loads((ROOT/'tests/fixtures/gen/abs-intrinsic/catalog.json').read_bytes())['fixtures'][0]
+        module={'report':{'prepared_export':{'manifest':m,'provenance':provenance},'prepared_snapshot':snapshot}}
+        admit_module(fixture,module,candidate=True)
+        changed=copy.deepcopy(module)
+        changed['report']['prepared_snapshot']['prepared_files_sha256']['generator.json']='0'*64
+        with self.assertRaises(ValueError):admit_module(fixture,changed,candidate=True)
 
     def test_unknown_or_repeated_source_maps_and_description_reject_atomically(self):
         for mutation in ('source','graph','runtime','metadata','extra','missing','mutable','repeat'):

@@ -2,6 +2,25 @@
 // Metadata reconstruction for the pinned RNBO 1.4.4 runner. Editable source is
 // never changed; message payloads and UI number attributes use native XAM forms.
 const genOptions = new Set(['expr', 'geninlets', 'genoutlets']);
+const numberFormats = ['integer', 'hex', 'octal', 'binary', 'midi', 'midi_c4', 'float'];
+
+function numberAttributes(box) {
+  if (box.rnbo_classname !== undefined && box.rnbo_classname !== 'number') throw Error(`${box.maxclass} must describe an RNBO number object`);
+  if (box.text !== undefined && box.text !== '') throw Error(`Unexpected operator text on a ${box.maxclass} UI box`);
+  const extra = box.rnbo_extra_attributes;
+  if (extra !== undefined && (!extra || typeof extra !== 'object' || Array.isArray(extra))) throw Error('Number UI saved attributes must be an object');
+  if (box.format !== undefined && (!Number.isInteger(box.format) || box.format < 0 || box.format >= numberFormats.length)) throw Error('Unsupported number UI format');
+  // XAM's number class itself defaults to Float. Max's integer number UI must
+  // explicitly supply its distinct initial format. Saved native initialFormat
+  // has priority; the GUI format/default is only a missing-metadata fallback.
+  const initialFormat = extra?.initialFormat ?? (box.format === undefined ? (box.maxclass === 'number' ? 'integer' : 'float') : numberFormats[box.format]);
+  if (!(Number.isInteger(initialFormat) && initialFormat >= 0 && initialFormat < numberFormats.length) &&
+      !(typeof initialFormat === 'string' && numberFormats.includes(initialFormat))) throw Error('Unsupported RNBO number initialFormat');
+  if (extra?.initialFormat === null) throw Error('Unsupported RNBO number initialFormat');
+  box.rnbo_classname = 'number';
+  box.rnbo_extra_attributes = {initialFormat, ...extra};
+  box.rnbo_extra_attributes.initialFormat = initialFormat;
+}
 
 function genExpression(spec, extra, xam) {
   // This route describes authored GenExpr, not a .gendsp loader. XAM ignores
@@ -59,16 +78,13 @@ export function describeFlatPatcher(source, xam) {
       // applies that rule once during the real invocation, not twice.
       box.rnbo_classname = 'message';
       compilerText = box.text ? `message @text ${box.text}` : 'message';
-    } else if (box.maxclass === 'flonum') {
-      if (box.rnbo_classname !== undefined && box.rnbo_classname !== 'number') throw Error('flonum must describe an RNBO number object');
-      if (box.text) throw Error('Unexpected operator text on a flonum UI box');
-      box.rnbo_classname = 'number';
-      box.rnbo_extra_attributes = {initialFormat: 'float', ...box.rnbo_extra_attributes};
+    } else if (box.maxclass === 'flonum' || box.maxclass === 'number') {
+      numberAttributes(box);
       compilerText = 'number';
     } else if (box.maxclass === 'newobj' && typeof box.text === 'string') {
       compilerText = box.text;
     } else {
-      throw Error('Only newobj, message, flonum, comments and panels are supported by this importer');
+      throw Error(`Unsupported box id=${JSON.stringify(box.id)} maxclass=${JSON.stringify(box.maxclass)}: only newobj, message, number, flonum, comments and panels are supported by this importer`);
     }
     const spec = xam.parseBoxText(compilerText);
     if (!spec) throw Error(`Unsupported object form: ${compilerText}`);

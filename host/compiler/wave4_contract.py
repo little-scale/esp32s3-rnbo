@@ -14,13 +14,20 @@ MODELS = ('absolute', 'minimum', 'maximum', 'subtract', 'equal', 'less',
           'sum-and-difference', 'delta-left-observer-right')
 INPUTS = ('signed-grid-v1', 'dense-binary32-v1', 'vector-boundaries-v1')
 IDENTITIES = DEFAULT_RECIPES.parent / 'identities.json'
+INTEGER_UI_IDENTITIES = DEFAULT_RECIPES.parent / 'identities.integer-ui-v1.json'
 
 
 def admit_module(fixture, module):
-    pins = json.loads(IDENTITIES.read_text())
-    expected = pins['entries'][fixture['id']]
     exported = module['report']['prepared_export']
     manifest = exported['manifest']
+    matches = []
+    for path in (IDENTITIES, INTEGER_UI_IDENTITIES):
+        identities = json.loads(path.read_bytes()); entry = identities['entries'][fixture['id']]
+        if entry['source_tree_sha256'] == manifest.get('source_tree_sha256'):
+            matches.append((path, identities, entry))
+    if len(matches) != 1:
+        raise ValueError('Wave4 exact graph/schema/source identity differs: source_tree_sha256')
+    identity_path, pins, expected = matches[0]
     snapshot = module['report'].get('prepared_snapshot', {}).get('prepared_files_sha256', {})
     raw = exported.get('provenance', {}).get('raw_files_sha256', {})
     for key in ('rnbo_version', 'numerical_profile', 'class_name', 'role',
@@ -34,6 +41,8 @@ def admit_module(fixture, module):
             snapshot.get('rnbo_source.h') != expected['prepared_source_sha256'] or
             {k: v for k, v in snapshot.items() if k.startswith('common/')} != pins['runtime_files_sha256']):
         raise ValueError('Wave4 generated header or runtime identity differs')
+    if identity_path == INTEGER_UI_IDENTITIES and snapshot != expected['prepared_files_sha256']:
+        raise ValueError('Wave4 current producer complete prepared file composition differs')
 
 
 def benchmark_fixture(catalog, directory: Path, identity: str):

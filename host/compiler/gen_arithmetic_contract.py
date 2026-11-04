@@ -8,7 +8,28 @@ import generate_gen_logic_fixtures as logic
 ROOT=Path(__file__).resolve().parents[2]
 FIXTURES=ROOT/'tests/fixtures/gen/arithmetic'
 IDENTITIES=FIXTURES/'identities.json'
+# The retained hardware identities remain unchanged. These separately derived
+# identities admit only the reviewed integer-UI producer metadata epoch.
+INTEGER_UI_IDENTITIES=FIXTURES/'identities.integer-ui-v1.json'
+INTEGER_UI_FILE_MAPS = {
+    'abs-call': '431eb882c87b7343dd0a5fb34c4b2a6f0de2b7d32ada19b3a6740ee20e716ccc',
+    'min-call': '25d6f974f2e2c6fddb66e16a4e150b80207e1763994c35e40fa883755de33291',
+    'minimum-call': '14bfdb599a41e1b0351f7f60d9cfb07f52d82568b1d99ae7152b495be65016b4',
+    'max-call': 'f8b175ecbae405ef7d9e5d8c69e878ca51ed23ed7c88d295f07987f2dadb4f3c',
+    'maximum-call': 'f2d4fed5e65bc0a9d92a7c247f9f59c6022961b0f8c03882af0a33e28ad432d5',
+    'sub-call': 'b75a106c80c0c2b2b64c6d2b134ca3dfd44fc57e46f8ee2e5349d36712af852a',
+    'subtract-infix': '8b03451d6f95d9168add2484a471dabd7ccbd8c44551fac2e99707c8d2e2a33e',
+    'eq-call': 'cb4db7cb6087640a610f8e74ba60c239a82479b5b85186522e0d6b84cb207597',
+    'equal-infix': 'ec89794970e1b126f977cd559d9d84115cf0b3e24a3250fba58bdd4bc2458ef9',
+    'lt-call': '7c6c96cb5e5c55b8e7675bcf0145540a60ddd45744d6b21a1b00826682a7cecb',
+    'less-infix': '530a90bfb9dc2753d24a463dc46c05542061058ebafa2cd063d3cd08c7ac4780',
+    'add-call': '68d4ab90f777dd12e09cf6d3e5a060d7bd983aa8c1b6581192f46d0ed31bb5f9',
+    'add-infix': 'adfaeb3ba63adf77e79702d7b506eded1ea84025f6682518080a66789a1c8dd4',
+    'mul-call': '6aff93bb489fd55ed09d69db70b84f0b22050093575d22cb1f978ed78dad88f6',
+    'mul-infix': '334c1353623b97a003c1d9b90e71192472238a20090902c2e4ce8ea1e6ed07f7',
+}
 LOGIC_IDENTITIES=ROOT/'tests/fixtures/gen/logic/identities.json'
+LOGIC_INTEGER_UI_IDENTITIES=ROOT/'tests/fixtures/gen/logic/identities.integer-ui-v1.json'
 LOGIC_FORMAT=logic.FORMAT
 LOGIC_IDS=frozenset(row[0] for row in logic.RECIPES)
 KIND='gen-arithmetic-v1'
@@ -39,9 +60,16 @@ def benchmark_fixture(catalog,directory,identity):
 def admit_module(fixture,module,*,candidate=False):
     logic_mode=fixture.get('id') in LOGIC_IDS
     if logic_mode:_logic_fixture(fixture)
-    pins=json.loads((LOGIC_IDENTITIES if logic_mode else IDENTITIES).read_bytes());expected=pins['entries'][fixture['id']]
     from gen_abs_intrinsic import ADAPTATION, OUTPUT, CONTRACT, CONTRACT_FILE, MANIFEST_CONTRACT, sha
     exported=module['report']['prepared_export'];manifest=exported['manifest']
+    identity_paths=(LOGIC_IDENTITIES,LOGIC_INTEGER_UI_IDENTITIES) if logic_mode else (IDENTITIES,INTEGER_UI_IDENTITIES)
+    matches=[]
+    for path in identity_paths:
+        identities=json.loads(path.read_bytes());entry=identities['entries'][fixture['id']]
+        if entry['source_tree_sha256']==manifest.get('source_tree_sha256'):
+            matches.append((path,identities,entry))
+    if len(matches)!=1:raise ValueError('Gen arithmetic graph/schema/source identity differs: source_tree_sha256')
+    identity_path,pins,expected=matches[0]
     profile_keys=('rnbo_version','numerical_profile','class_name','role','audio_inputs','audio_outputs',
                   'parameter_count','adaptations','sample_rate','block_frames')
     if logic_mode and canonical({k:manifest.get(k) for k in profile_keys})!=canonical({k:pins[k] for k in profile_keys}):
@@ -64,6 +92,16 @@ def admit_module(fixture,module,*,candidate=False):
     if candidate and (snapshot.get(CONTRACT_FILE)!=sha(CONTRACT) or
             snapshot.get('patch_config.h')!='f6ac5f77e0492f986a983c1ee31e1dafe9899b0aceabe2ef591fbfa43c40cdcf'):
         raise ValueError('Gen abs intrinsic type contract/configuration differs')
+    if identity_path==INTEGER_UI_IDENTITIES:
+        # Close the new metadata epoch over every prepared byte, including the
+        # generator/configuration. A candidate must invert to that exact map.
+        normal=dict(snapshot)
+        if candidate:
+            normal.pop(CONTRACT_FILE,None)
+            normal['rnbo_source.h']=expected['prepared_source_sha256']
+            normal['patch_config.h']='a0d544c36042ca826ec6cd9deb332b80b68346e0986d49af73b16f7fc5486d5b'
+        if sha(canonical(normal))!=INTEGER_UI_FILE_MAPS[fixture['id']]:
+            raise ValueError('Gen arithmetic current producer file composition differs')
     if logic_mode:
         known={'adaptations','audio_inputs','audio_outputs','block_frames','class_name','defined_int32_wrap',
             'editable_source_sha256','execution','format','format_version','midi_output_policy','midi_output_ports',

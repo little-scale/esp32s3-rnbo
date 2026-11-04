@@ -45,6 +45,7 @@ FAULT_COUNTERS = ('nonfinite', 'write_errors', 'dma_errors', 'queue_errors',
                   'late_platform_allocations', 'render_deadline_overruns')
 FATAL_MARKERS = (b'guru meditation', b'assert failed', b'assertion failed',
                  b'abort() was called', b'stack smashing', b'brownout detector',
+                 b'stack overflow', b'corrupt heap',
                  b'rnbo_smoke fault', b': fail ', b'rnbo_object_benchmark fail ')
 
 
@@ -64,6 +65,16 @@ def reject_fatal(raw):
     lowered = bytes(raw).lower()
     if any(marker in lowered for marker in FATAL_MARKERS):
         raise DeviceError('The device reported a fatal UART fault; reconnect only after diagnosing it')
+
+
+def reject_session_restart(raw):
+    # Initial boot/settling is allowed before the first verified frame counter.
+    # Later ROM/reset banners mean the state/transfer has been lost, even when
+    # the rebooted application has the same ELF and sends valid JSON next.
+    for line in bytes(raw).splitlines():
+        line = re.sub(rb'\x1b\[[0-?]*[ -/]*[@-~]', b'', line).strip().lower()
+        if line.startswith((b'esp-rom:', b'rst:0x', b'rebooting')):
+            raise DeviceError('The board restarted during the connection; the command was not retried. Reconnect and check its state.')
 
 
 def finite(value):
@@ -223,6 +234,8 @@ class DeviceBridge:
                 raise DeviceError('The complete USB command was not written')
             while self._clock() < deadline:
                 reject_fatal(self._buffer)
+                if self._last_frames is not None:
+                    reject_session_restart(self._buffer)
                 while b'\n' in self._buffer:
                     end = self._buffer.index(10)
                     line = bytes(self._buffer[:end]).strip()
@@ -378,7 +391,8 @@ class DeviceBridge:
         else:
             parameters = [] if neutral else self._parameters()
         device = dict(raw, board_model=raw['board'], board=self._board,
-                      port=self._identity['port'], serial_number=self._identity['serial_number'])
+                      port=self._identity['port'], serial_number=self._identity['serial_number'],
+                      transport='usb', device_id=mac(self._identity['serial_number']))
         return dict(device=device, parameters=parameters)
 
     def snapshot(self):
@@ -429,6 +443,54 @@ class DeviceBridge:
     def connect(self, port):
         with self._exclusive():
             return self._connect(self._select(port))
+
+    def scan_wifi(self):
+        with self._exclusive():
+            if not self._player or self._stream is None:
+                raise DeviceError('Connect the updated player over USB before scanning')
+            before = self._player_status()
+            if not before.get('wifi',{}).get('supported'):
+                raise DeviceError('Install the Wi-Fi player update first')
+            reply, _ = self._exchange(('player-wifi-scan',),'networks',timeout=20)
+            networks = reply.get('networks')
+            if type(networks) is not list or len(networks)>24:
+                raise DeviceError('Invalid nearby-network list')
+            for row in networks:
+                if (type(row) is not dict or not isinstance(row.get('ssid'),str)
+                        or not 1<=len(row['ssid'].encode('utf-8'))<=32
+                        or any(ord(c)<32 or ord(c)==127 for c in row['ssid'])
+                        or type(row.get('rssi')) is not int or not -127<=row['rssi']<=0
+                        or type(row.get('channel')) is not int or not 1<=row['channel']<=14
+                        or type(row.get('secure')) is not bool):
+                    raise DeviceError('Invalid nearby-network description')
+            return dict(networks=networks)
+
+    def configure_wifi(self, ssid, password, key):
+        if (not isinstance(ssid, str) or not isinstance(password, str) or '\0' in ssid + password
+                or not 1 <= len(ssid.encode('utf-8')) <= 32
+                or len(password.encode('utf-8')) not in (0, *range(8, 64))
+                or not isinstance(key, str) or not HASH.fullmatch(key)):
+            raise ValueError('Use a network name up to 32 bytes and an empty or 8–63 byte password')
+        with self._exclusive():
+            if not self._player or self._stream is None:
+                raise DeviceError('Connect the updated player over USB before setting up Wi-Fi')
+            before = self._player_status()
+            if not before.get('wifi', {}).get('supported'):
+                raise DeviceError('Install the Wi-Fi player update first')
+            command = 'player-wifi-setup ' + ssid.encode('utf-8').hex() + ' ' + (password.encode('utf-8').hex() or '-') + ' ' + key
+            reply, _ = self._exchange((command,), 'wifi_configured', timeout=30)
+            if reply.get('wifi_configured') is not True:
+                raise DeviceError('The board did not confirm Wi-Fi setup')
+            return self._snapshot()
+
+    def forget_wifi(self):
+        with self._exclusive():
+            if not self._player or self._stream is None:
+                raise DeviceError('Connect the player over USB to forget its Wi-Fi settings')
+            reply, _ = self._exchange(('player-wifi-forget',), 'wifi_forgotten', timeout=30)
+            if reply.get('wifi_forgotten') is not True:
+                raise DeviceError('The board did not confirm Wi-Fi removal')
+            return self._snapshot()
 
     def control(self, payload):
         if self._player:

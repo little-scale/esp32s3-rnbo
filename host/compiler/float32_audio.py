@@ -3,7 +3,8 @@
 
 Only reviewed audio methods are admitted. No generated algorithm is vendored;
 the fingerprints normalize whitespace/comments and generated object prefixes.
-Unknown forms, changed constants and already transformed input fail closed.
+Explicit profiles reject unknown forms and changed constants. Auto preserves
+unknown matched methods byte for byte and reports why they were skipped.
 """
 from __future__ import annotations
 import hashlib
@@ -53,23 +54,45 @@ _CATALOG_V2["dspexpr"].update({
 })
 _PREFIX = r"(?:(?:cycle|saw|scale|reson|comb|allpass|mtof)_tilde_\d+|dspexpr_\d+|delaytilde_\d+)"
 _METHOD_NAME = r"(?:(?:(?:cycle|saw|scale|reson|comb|allpass)_tilde_\d+|dspexpr_\d+|delaytilde_\d+)_perform|mtof_tilde_\d+_innerMtoF_next)"
+# V3 retains both earlier catalogs and adds the exact fixed-frequency, linear
+# scale, arithmetic, fixed-sample delay and lores forms reviewed in DDD. It does
+# not change fixed frequencies, integer phase algorithms or filter/ring state.
+_CATALOG_V3 = {kind: set(forms) for kind, forms in _CATALOG_V2.items()}
+_CATALOG_V3['cycle'].update({
+    'ca7240e5a82e96a66a48d11fecb975a15b594b726f96677ee6572883ad85971f',  # fixed 5 Hz
+    'f08d07541d1248dedfe3bea986935331c52865d321c460f3b1050cc0836dbc9b',  # fixed 2 Hz
+    '129c1044e662cf1e0ee329a7c5cb160abaec1800412d96b9a25ca6ea50f29afb',  # fixed .1 Hz
+})
+_CATALOG_V3['scale'].add('dc897def72abf2ae3662be09ae51cb94085a6ccd0475c6e2dffc9b93a6edf2a6')
+_CATALOG_V3['dspexpr'].update({
+    '0496b831c6b7e30aea7f8f145566dbd19a9848d7683938fc0dd4862a8a4d14b5',  # multiply .1
+    '8c544b76552adf8544729f45ee47d61bf563a1acc13fd41471b5a780809369fc',  # multiply .99
+    '9d5831719ef9b892de40dff825c8ecf2db952f850247210d497a0900f9a81268',  # multiply .7
+})
+_CATALOG_V3['delaytilde'].add('b25310abd87976d8cb7e2b5581a22a169b5912bee5ddf172ebf45f74279b4929')
+_CATALOG_V3['lores'] = {'d7645d579512b7447249b713b998a86cd1c28e720d0f5d7dda8f982a58ebcf48'}
+_PREFIX_V3 = rf"(?:{_PREFIX}|lores_\d+)"
+_METHOD_NAME_V3 = rf"(?:{_METHOD_NAME}|lores_\d+_perform)"
 # C++ decimal floating tokens, excluding integer, hexadecimal and suffixed
 # tokens. Applying this only within a full-method hash is intentional.
 _DECIMAL = re.compile(r"(?<![\w.])(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+)(?![\w.])")
 
 
 def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dict]:
-    if profile not in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2"):
+    if profile not in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1"):
         raise ValueError("Unsupported float32 audio profile")
-    catalog = _CATALOG_V2 if profile == "float32-audio-v2" else _CATALOG
+    automatic = profile == "float32-auto-v1"
+    uses_v3 = automatic or profile == "float32-audio-v3"
+    catalog = _CATALOG_V3 if uses_v3 else _CATALOG_V2 if profile == "float32-audio-v2" else _CATALOG
     text = source.decode(); masked = code_mask(text)
-    replacements = []; methods = []
-    pattern = r"\b(?:void|number)\s+(" + (_METHOD_NAME if profile.startswith("float32-audio-") else r"cycle_[A-Za-z0-9_]+_perform") + r")\s*\("
+    replacements = []; methods = []; skipped = []
+    methods_pattern = _METHOD_NAME_V3 if uses_v3 else _METHOD_NAME
+    pattern = r"\b(?:void|number)\s+(" + (methods_pattern if automatic or profile.startswith("float32-audio-") else r"cycle_[A-Za-z0-9_]+_perform") + r")\s*\("
     names = re.findall(pattern, masked)
-    if not names or len(names) != len(set(names)):
+    if (not names and not automatic) or len(names) != len(set(names)):
         raise ValueError(f"{profile}: no unique supported audio methods found")
     for name in names:
-        prefix = re.match(_PREFIX, name)
+        prefix = re.match(_PREFIX_V3 if uses_v3 else _PREFIX, name)
         if not prefix:
             raise ValueError(f"{profile}: unsupported generated name {name}")
         prefix = prefix[0]; kind = prefix.split("_", 1)[0]
@@ -78,6 +101,10 @@ def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dic
         normalized = re.sub(r"\s+", "", body).replace(prefix, "OBJECT")
         fingerprint = hashlib.sha256(normalized.encode()).hexdigest()
         if fingerprint not in catalog.get(kind, set()):
+            if automatic:
+                skipped.append({"method": name, "kernel_sha256": fingerprint,
+                                "reason": "unreviewed-method-fingerprint"})
+                continue
             raise ValueError(f"{profile}: unsupported RNBO1.4.4 audio method {name} ({fingerprint})")
         edits = []
         for token in _DECIMAL.finditer(body):
@@ -109,10 +136,16 @@ def float32_audio(source: bytes, *, code_mask, profile: str) -> tuple[bytes, dic
     for start, end, replacement in sorted(replacements, reverse=True):
         text = text[:start] + replacement + text[end:]
     prepared = text.encode()
-    return prepared, {"name": "rnbo-1.4.4-" + profile, "file": "rnbo_source.h",
+    report = {"name": "rnbo-1.4.4-" + profile, "file": "rnbo_source.h",
                       "input_sha256": hashlib.sha256(source).hexdigest(),
                       "prepared_sha256": hashlib.sha256(prepared).hexdigest(),
                       "transformer_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                       "methods": methods, "literal_suffix_count": sum(len(m["literal_changes"]) for m in methods),
                       "unchanged": "integer phase/truncation algorithms, ring interpolation, scheduler methods, double time and frame counters",
                       "numerical_change": "Audio expression rounding and expf overload selection; not a bit-identity profile"}
+    if automatic:
+        report.update({"matched_method_count": len(names), "eligible_method_count": len(methods),
+                       "known_method_count": len(methods), "skipped_method_count": len(skipped),
+                       "skipped_methods": skipped, "source_changed": prepared != source,
+                       "all_double_removed_claimed": False})
+    return prepared, report
