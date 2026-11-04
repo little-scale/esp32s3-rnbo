@@ -254,17 +254,17 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
-    if plan.get('family')=='rnbo-signal-range':
+    if plan.get('family')in('rnbo-signal-range','rnbo-signal-stateful'):
         require(plan.get('surface')=='patcher'and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0,'Signal range domains require zero automatic preparation blocks')
-    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','gen-range','gen-constants'):
+    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','gen-range','gen-constants'):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','rnbo-codebox-stateful','rnbo-codebox-filters')or event_family
+    stateful=plan.get('family')in('gen-stateful','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-signal-stateful')or event_family
     if stateful:
-        require(plan.get('surface')==('patcher'if event_family else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
+        require(plan.get('surface')==('patcher'if event_family or plan['family']=='rnbo-signal-stateful'else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
                 'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
     pool=None
@@ -303,7 +303,7 @@ def collect(build_dir,run_dir):
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
-        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters'):
+        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
@@ -340,9 +340,9 @@ def collect(build_dir,run_dir):
         'cpu_review_policy':{'timed_callbacks':16,'high_median_block_fraction':0.1,
             'peak_threshold':'greater than max(3*median, median+100us)',
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
-    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
+    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
-    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters'):
+    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
     elif plan.get('family')in('gen-math','gen-stateful','gen-range','gen-constants')and plan.get('surface')=='genexpr':

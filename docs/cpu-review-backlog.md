@@ -10,6 +10,27 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Signal-stateful and miscellaneous codebox: five queued contexts
+
+All five flagged scenarios pass their output limits. These are complete source
+callbacks, with signal objects and configured codebox APIs kept distinct.
+
+| Source context | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| Signal `average_absolute~` | 597.0 | 603 | 10.28% | Pending optimisation review |
+| Signal `average_rms~` | 743.0 | 748 | 12.80% | Pending optimisation review |
+| Codebox `safepow` | 739.0 | 739 | 12.73% | Pending optimisation review |
+| Codebox `cubicinterp` | 2,191.5 | 2,196 | 37.75% | Pending optimisation review |
+| Codebox `easexfade` | 624.0 | 625 | 10.75% | Pending optimisation review |
+
+These five median-cost flags bring the queue from 87 to **92**; there are no
+new peak-spike flags. The downsample first-capture-phase mismatch remains
+separate follow-up and does not trigger CPU review. No DSP change, measured
+saving, isolated-opcode cost or worst-case latency bound is claimed.
+
+Sources: [signal-stateful](../evidence/xiao-smoke-rnbo-signal-stateful.json) and
+[miscellaneous codebox](../evidence/xiao-smoke-rnbo-codebox-misc.json).
+
 ## RNBO codebox filters: five queued contexts
 
 All five flagged programs pass their output references. Mono-plus-copy and

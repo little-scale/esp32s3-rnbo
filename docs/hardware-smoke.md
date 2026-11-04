@@ -13,7 +13,13 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
-The latest direct signal range and codebox filter/delay batches execute **49
+The latest signal-stateful and miscellaneous codebox batches execute **37
+scenarios: 36 pass and one retains a declared capture-phase mismatch**, across
+**378,880 output values**. Five passing callback contexts add CPU-review flags,
+bringing the queue to 92. References and limits remain unchanged; no DSP
+optimisation or measured gain is claimed.
+
+The earlier direct signal range and codebox filter/delay batches execute **49
 scenarios: 46 pass their declared references and three retain signal mismatches**,
 across **501,760 output values**. Every source compiles and executes. Eleven new
 passing CPU-review contexts bring the queue to 87; no DSP optimisation or
@@ -22,8 +28,8 @@ measured gain is claimed.
 The earlier RNBO codebox shaping and stateful batches execute **51 scenarios:
 48 pass their declared references and three retain mismatches**, across
 **522,240 output values**. Two additional source forms are rejected before
-execution. Eighteen passing shaping contexts trigger CPU review; the queue now
-has 76 contexts. No DSP optimisation or measured gain is claimed.
+execution. Eighteen passing shaping contexts triggered CPU review, bringing the queue to
+76 at that stage. No DSP optimisation or measured gain is claimed.
 
 The earlier RNBO codebox range and Gen named-constant batches execute **72
 scenarios: 68 pass their declared comparisons and four retain mismatches**,
@@ -36,6 +42,74 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 **737,280 output checks**. One additional Gen `gate` source is rejected before
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## RNBO signal state across callback boundaries
+
+All **15 signal scenarios execute: 14 pass and one retains a phase-policy
+mismatch**, across 153,600 output checks. Each uses zero automatic preparation
+warm blocks, four checked manual warmups and sixteen timed callbacks. The full
+twenty-block references cover 5,120 continuous frames without resets at vector
+boundaries, including accumulation, held values, window reports and previous-
+sample history. Explicit DC gains, rates, thresholds and windows remain scoped.
+
+| Retained comparison | Observation |
+| --- | --- |
+| `downsamp~`, factors 3/5 | 7,290 mismatches; maximum error 2 against the unchanged first-capture-at-ordinal-0 reference. First difference: callback 0, interleaved word 4, actual 0.25 versus expected 0. |
+
+Primary prose does not specify first-capture phase. A source review explains
+the difference as first captures at samples 2/4 for factors 3/5, then every N
+samples. The period remains N; this is a declared phase-policy observation,
+not a universal broken-object or state-reset verdict. The reference is retained
+rather than shifted to fit output. The 640 operation zero-sign differences
+remain diagnostics; the whole batch is not bit-exact.
+
+`delta~` and `sah~` now have separate short XIAO observations alongside their
+broader native evidence. `slide~` passes this fixed 2/4-rate scenario but retains
+its partial status because the earlier long signed-rate native failure remains.
+All original qualification, optimisation and performance records are preserved;
+canonical `sah`, codebox and Gen forms inherit nothing from the alias result.
+
+Medians span 50–743 µs, peak 748 µs. The two passing average variants trigger CPU
+review: `average_absolute~` at 597 µs median/603 µs peak and `average_rms~` at
+743/748 µs. Their original dual Float64 buffers remain, with 705,760-byte measured
+high-water use under a 1 MiB reserved capacity. Other cases record zero arena
+high-water use. Every image finalises and memory/allocation gates pass. No
+one-frame host API, reset-method or arbitrary-control claim follows.
+
+See [the signal-stateful results](../evidence/xiao-smoke-rnbo-signal-stateful.json)
+and [original graphs/reference](../tests/fixtures/smoke/rnbo-signal-stateful/README.md).
+
+## Miscellaneous RNBO codebox APIs
+
+All **22 scenarios pass**, checking **225,280 output values**. The source set
+covers bounded safe arithmetic and integer operations, complex tuple outputs,
+asymmetric-point interpolation, phase shapes, the Float32 number maximum and
+three configured class APIs. Independent references and zero/2e-6 numeric
+limits precede output; 13,520 differing words lie within the declared nonzero
+limits. The overall result is not bit-identity or full-domain qualification.
+
+Interpolation models explicitly distinguish four-point Lagrange, full-slope
+Hermite, half-slope Catmull–Rom and the centered six-point quintic B-spline.
+Safe/cast/shift checks avoid undefined overflow and use only their declared
+bounded guard cases. `rint` uses a declared nearest/even half-tie policy.
+`number_max` is a bare finite Float32 constant, not a time-generator substitute.
+
+`ease` and `easexfade` use separate left/right instances, fixed In_quadratic
+enum 7, syncupdate 0 and unit phase. Their selected outputs are pointwise despite
+internal history bookkeeping; changing/synchronized modes and resets remain
+untested. `xfademul` uses one default two-channel phase/wrap/equal-power instance
+for channel 0/1 calls. Other options and general class behavior are not inferred.
+
+Zero automatic preparation warm blocks precede four checked manual warmups and
+sixteen timed callbacks. Medians span 37–2,191.5 µs, peak 2,196 µs. `safepow`,
+`cubicinterp` and the configured `easexfade` case trigger CPU review; all pass
+their output limits. Every image finalises, with zero arena high-water use and
+passing memory/allocation gates. Complete callback costs remain separate from
+signal/Gen contexts and claim no optimisation gain.
+
+See [the miscellaneous codebox results](../evidence/xiao-smoke-rnbo-codebox-misc.json),
+[original programs/reference](../tests/fixtures/smoke/rnbo-codebox-misc/README.md)
+and [CPU review queue](cpu-review-backlog.md).
 
 ## RNBO codebox filters and default delay resources
 

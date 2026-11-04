@@ -2,15 +2,25 @@
 
 ## Fast coverage runs
 
-The latest [direct signal and codebox filter checks](hardware-smoke.md#rnbo-codebox-filters-and-default-delay-resources)
+The latest [signal-stateful and miscellaneous codebox checks](hardware-smoke.md#rnbo-signal-state-across-callback-boundaries)
+execute 37 scenarios: 36 pass, while `downsamp~` differs from the declared first-
+capture phase policy. They check 378,880 values and add five passing CPU-review
+contexts, bringing the queue to 92. Memory/allocation gates pass. Native evidence
+for `delta~`, `sah~` and `slide~` remains; `slide~` keeps its partial status despite
+this short XIAO pass because its broader native failure is retained. Twelve new
+signal owners and 22 codebox owners bring the main table to 556 mapped entries
+out of 1,455, with no Gen additions. The original qualifications, optimisation
+records and 154 timing measurements remain intact.
+
+The earlier [direct signal and codebox filter checks](hardware-smoke.md#rnbo-codebox-filters-and-default-delay-resources)
 execute 49 scenarios: 46 pass and three retain signal comparison mismatches,
 checking 501,760 output values. All twelve filter/delay streams pass their full
 twenty-block references. Eleven passing contexts add CPU flags, bringing the
 queue to 87. All images finalise and memory/allocation gates pass. Default
 Float64 resources remain intact; an explicit 2 MiB smoke-only arena tier fits
 the original comb/allpass rings, while ordinary benchmark hosts keep their
-1 MiB default. Capacity and measured use are separately reported. The main
-table now maps 522 exact entries out of 1,455; no Gen rows are added.
+1 MiB default. Capacity and measured use are separately reported. Those batches brought the main
+table to 522 exact entries out of 1,455; no Gen rows are added.
 
 The [direct signal range/window batch](hardware-smoke.md#rnbo-signal-ranges-routes-windows-and-constants)
 executes 37 scenarios and checks 378,880 values: 34 pass, `step~` retains its
@@ -27,7 +37,7 @@ fails C++ compilation, while a separate port-invalid autonomous-counter fixture
 does not invalidate the passing input-driven counter form. All eleven executed
 stateful cases retain full twenty-block continuous references. Eighteen passing
 shaping contexts add CPU flags, bringing the queue to 76. Memory/allocation gates
-pass. The main table now maps 473 exact entries out of 1,455, preserving previous
+pass. Those batches brought the main table to 473 exact entries out of 1,455, preserving previous
 records and adding no Gen rows.
 
 The [RNBO codebox shaping batch](hardware-smoke.md#rnbo-codebox-shaping-windows-and-integer-helpers)

@@ -393,7 +393,11 @@ class ObjectStatusTests(unittest.TestCase):
             self.assertEqual(observation['max_absolute_error'],2.4437904357910156e-6)
         self.assertIn('not a documented universal error guarantee',rows['codebox:cosineinterp']['working']['detail'])
         self.assertEqual(rows['codebox:imod']['hardware_smoke'][0]['absolute_tolerance'],0)
-        self.assertEqual(rows['codebox:ease']['working']['status'],'unverified')
+        # The later configured class API has its own evidence; it is not
+        # inherited from these separately named easing functions.
+        self.assertEqual(rows['codebox:ease']['working']['status'],'board')
+        self.assertTrue(any(q['url'].endswith('/evidence/xiao-smoke-rnbo-codebox-misc.json')for q in rows['codebox:ease']['sources']))
+        self.assertFalse(any(q['url'].endswith('/'+source)for q in rows['codebox:ease']['sources']))
 
     def test_actual_codebox_stateful_uses_full_stream_and_only_executed_counter_source(self):
         source='evidence/xiao-smoke-rnbo-codebox-stateful.json'
@@ -479,6 +483,63 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('No independently enforced raw-word',rows['codebox:comb']['working']['detail'])
         self.assertEqual(rows['patcher:onepole~']['working']['status'],'partial')
         self.assertFalse(any(q['url'].endswith('/'+source)for q in rows['patcher:onepole~']['sources']))
+
+    def test_signal_stateful_appends_xiao_scope_without_erasing_broader_native_failure(self):
+        source='evidence/xiao-smoke-rnbo-signal-stateful.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':2,'executed':15,'output_mismatches':1,'passed':14})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),153600)
+        reviewed=set()
+        for case in data['cases']:
+            row=rows['patcher:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            expected='partial'if case['exact_name']in('downsamp~','slide~')else'board'
+            self.assertEqual(row['working']['status'],expected);self.assertTrue(row['board_evidence'])
+            self.assertEqual(observation['status'],case['status'])
+            self.assertEqual(observation['expected_block_count'],20)
+            self.assertEqual(observation['expected_stream_sha256'],case['expected_stream_sha256'])
+            self.assertEqual(observation['arena_capacity'],1048576)
+            self.assertEqual(observation['arena_high_water'],705760 if case['exact_name'].startswith('average_')else 0)
+            self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+            if case['cpu_review_reasons']:reviewed.add(case['exact_name'])
+        self.assertEqual(reviewed,{'average_absolute~','average_rms~'})
+        slide=rows['patcher:slide~']
+        self.assertEqual(slide['working']['label'],'Partial / known gaps')
+        self.assertIn('long signed-rate',slide['working']['detail'])
+        self.assertEqual(slide['hardware_smoke'][0]['status'],'pass')
+        self.assertEqual(slide['optimisation']['status'],'none')
+        for name in('delta~','sah~','slide~'):
+            row=rows['patcher:'+name]
+            for evidence in('wave3-stateful.json','xiao-smoke-rnbo-signal-stateful.json'):
+                self.assertTrue(any(q['url'].endswith('/evidence/'+evidence)for q in row['sources']))
+        self.assertEqual(rows['patcher:sah']['working']['status'],'unverified')
+        self.assertEqual(rows['patcher:downsamp~']['hardware_smoke'][0]['numeric_mismatches'],7290)
+        self.assertIn('phase-policy',rows['patcher:downsamp~']['working']['detail'])
+
+    def test_misc_codebox_keeps_pointwise_class_options_and_bounded_numeric_scope(self):
+        source='evidence/xiao-smoke-rnbo-codebox-misc.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertGreaterEqual(len(self.coverage['objects']),556)
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':3,'executed':22,'output_mismatches':0,'passed':22})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),225280)
+        reviewed=set()
+        for case in data['cases']:
+            row=rows['codebox:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(row['working']['status'],'board')
+            self.assertEqual(observation['absolute_tolerance'],case['absolute_tolerance'])
+            self.assertEqual(observation['codebox_source_sha256'],case['codebox_source_sha256'])
+            self.assertEqual(observation['numeric_mismatches'],0)
+            self.assertEqual(case['arena_high_water'],0)
+            self.assertEqual(row['optimisation']['status'],'unassessed');self.assertIsNone(row['performance'])
+            if case['cpu_review_reasons']:reviewed.add(case['exact_name'])
+        self.assertEqual(reviewed,{'safepow','cubicinterp','easexfade'})
+        self.assertIn('syncupdate 0',rows['codebox:ease']['working']['detail'])
+        self.assertIn('pointwise',rows['codebox:easexfade']['working']['detail'])
+        self.assertIn('bare named-value',rows['codebox:number_max']['working']['detail'])
+        self.assertEqual(rows['codebox:number_max']['hardware_smoke'][0]['max_absolute_error'],0)
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -605,12 +666,12 @@ class ObjectStatusTests(unittest.TestCase):
 
     def test_stateful_native_accuracy_and_alias_boundaries_remain_visible(self):
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
-        for name,state in (('onepole~','partial'),('slide~','partial'),
-                           ('delta~','native'),('sah~','native')):
+        for name,state,board in (('onepole~','partial',False),('slide~','partial',True),
+                                 ('delta~','board',True),('sah~','board',True)):
             with self.subTest(name=name):
                 row=rows['patcher:'+name]
                 self.assertEqual(row['working']['status'],state)
-                self.assertFalse(row['board_evidence'])
+                self.assertEqual(row['board_evidence'],board)
                 self.assertIsNone(row['performance'])
                 self.assertEqual(row['optimisation']['status'],'experimental' if name=='onepole~' else 'none')
                 self.assertTrue(any(s['url'].endswith('/evidence/wave3-stateful.json') for s in row['sources']))
@@ -792,7 +853,7 @@ class ShortSmokeStatusTests(unittest.TestCase):
     def test_codebox_short_result_cannot_qualify_patcher_or_gen_surface(self):
         self.numeric();self.record.update(id='codebox:floor',spelling='floor',surface='codebox')
         self.data['cases'][0].update(exact_name='floor',codebox_source_sha256='d'*64)
-        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-shaping'):
+        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-shaping','rnbo-codebox-misc'):
             self.data.update(family=family,surface='codebox',prepare_zero_warm_blocks=0)
             rows=self.result()
             self.assertEqual(rows['codebox:floor']['working']['status'],'board')
@@ -850,6 +911,17 @@ class ShortSmokeStatusTests(unittest.TestCase):
         self.data['family']='rnbo-numeric'
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
         self.data.update(family='rnbo-signal-range',prepare_zero_warm_blocks=4)
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+
+    def test_signal_stateful_status_requires_its_own_surface_and_continuous_policy(self):
+        self.numeric();self.record.update(id='patcher:change~',spelling='change~')
+        self.data.update(family='rnbo-signal-stateful',surface='patcher',prepare_zero_warm_blocks=0,
+            expected_stream_policy='Fresh prepared signal state; twenty continuous256-frame callbacks without resets')
+        case=self.data['cases'][0];case.update(exact_name='change~',expected_block_count=20,expected_stream_sha256='b'*64)
+        self.assertEqual(self.result()['patcher:change~']['hardware_smoke'][0]['expected_block_count'],20)
+        self.data['surface']='codebox'
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+        self.data['surface']='patcher';self.data['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
     def test_existing_stronger_status_and_optimisation_are_preserved(self):

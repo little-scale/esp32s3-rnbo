@@ -132,6 +132,17 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.expected['expected_blocks']=self.expected['expected_blocks'][:1]
         with self.assertRaises(ValueError):self.result()
 
+    def test_signal_stateful_stream_cannot_be_relabelled_as_codebox(self):
+        self.plan.update(family='rnbo-signal-stateful',surface='patcher',
+            expected_stream_policy='Fresh prepared signal state; twenty continuous256-frame callbacks without resets')
+        self.expected.update(exact_name='counter~',registry_lookup='counter~',syntax='signal-object')
+        result=self.result()
+        self.assertEqual(result['family'],'rnbo-signal-stateful')
+        self.assertEqual(result['cases'][0]['expected_block_count'],20)
+        self.assertNotIn('codebox_source_sha256',result['cases'][0])
+        self.plan['surface']='codebox'
+        with self.assertRaises(ValueError):self.result()
+
     def test_later_call_witness_uses_its_actual_expected_block(self):
         value=self.result();case=value['cases'][0]
         self.assertEqual(case['first_mismatch_call'],6);self.assertEqual(case['first_mismatch_word'],17)
@@ -200,7 +211,7 @@ class SmokeStatefulStreamTests(unittest.TestCase):
 
     def test_codebox_family_carries_program_identity_and_rejects_wrong_surface(self):
         self.constant();self.expected['codebox_source_sha256']='f'*64
-        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-shaping'):
+        for family in ('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-shaping','rnbo-codebox-misc'):
             self.plan.update(family=family,surface='codebox')
             result=self.result()
             self.assertEqual(result['family'],family)
