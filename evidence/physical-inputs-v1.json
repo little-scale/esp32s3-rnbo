@@ -1,0 +1,88 @@
+{
+  "feature": "physical-inputs",
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "hardware_tested": false,
+  "firmware_flashed": false,
+  "computer_checks": {
+    "compiler_suite": {
+      "tests": 514,
+      "passed": true
+    },
+    "studio_suite": {
+      "tests": 91,
+      "passed": true
+    },
+    "studio_frontend": {
+      "tests": 23,
+      "passed": true
+    },
+    "rnbo_export_and_genexpr": {
+      "tests": 14,
+      "passed": true
+    },
+    "native_c_conditioning": {
+      "tests": 1,
+      "passed": true,
+      "undefined_behavior_sanitizer": true
+    },
+    "native_c_package_store": {
+      "tests": 6,
+      "passed": true
+    },
+    "focused_v2_package_tests": {
+      "tests": 6,
+      "passed": true
+    }
+  },
+  "example": "examples/physical-inputs.rnbopat",
+  "example_source_sha256": "40bd6dc32e6da46eeed0abfbe1127cb3339c51009baaf280a95b0da6e91db0ee",
+  "builds": {
+    "xiao": {
+      "report": "build/firmware-xiao-player-physical-inputs-v1/build-report.json",
+      "artifacts": {
+        "build/firmware-xiao-player-physical-inputs-v1/rnbo_s3_xiao.elf": {
+          "bytes": 10815112,
+          "sha256": "7e25e9e3b95c4fff46560b3c8f66395cd500847588f108bca019b90bb37c337b"
+        },
+        "build/firmware-xiao-player-physical-inputs-v1/rnbo_s3_xiao.bin": {
+          "bytes": 905280,
+          "sha256": "47154d82a032cdbd3de2543991e79503f210ade6cba82974ac45aeb990adc97a"
+        },
+        "build/firmware-xiao-player-physical-inputs-v1/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+        }
+      },
+      "sdkconfig_sha256": "252d74535b75f0a3286c36dda9e5827e1bae5b7c4e9d02bf1db3081cd7e6442f",
+      "compile_commands_sha256": "04729c34045a401c4fc42ef9455dabbae3a3e13723f1c8dc41576aa63d35a810"
+    },
+    "amoled": {
+      "report": "build/firmware-amoled-player-physical-inputs-v1/build-report.json",
+      "artifacts": {
+        "build/firmware-amoled-player-physical-inputs-v1/rnbo_s3_amoled.elf": {
+          "bytes": 15155568,
+          "sha256": "3453d0c88f87e85fae0de738fbf158d7f2651898684170c577e00734ddd9d2f3"
+        },
+        "build/firmware-amoled-player-physical-inputs-v1/rnbo_s3_amoled.bin": {
+          "bytes": 1237152,
+          "sha256": "132fffa599c0bdfe2e1106c934b1d936a255ac965620f7a654b2afff8fee25e1"
+        },
+        "build/firmware-amoled-player-physical-inputs-v1/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+        }
+      },
+      "sdkconfig_sha256": "9ad4c68e1a26ec6fd3616e8928d817eec66828f2b532454f67034fe3a32d8baa",
+      "compile_commands_sha256": "c5080013b7552cd99117ddc124d01cae9cdceab90fd49c142407dadd7cf0e61a"
+    }
+  },
+  "example_package": {
+    "bytes": 64986,
+    "sha256": "c1682ce77e328c7851d15cd1134449d3f2c3c8a70e57b2fe822e54201fb04da3",
+    "envelope_version": 2,
+    "imports": [],
+    "initial_volume": 0,
+    "installed": false
+  }
+}

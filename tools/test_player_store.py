@@ -84,7 +84,7 @@ static inline int mbedtls_sha256(const uint8_t *p,size_t n,uint8_t out[32],int i
 }
 
 
-def package(metadata=None, *, role=1, arena=1048576, elf=None, metadata_bytes=None):
+def package(metadata=None, *, role=1, arena=1048576, elf=None, metadata_bytes=None, version=1):
     if metadata is None:
         metadata = {'name': 'Portable patch', 'source_sha256': 'a' * 64, 'initial_volume': 50}
     if metadata_bytes is None:
@@ -92,7 +92,7 @@ def package(metadata=None, *, role=1, arena=1048576, elf=None, metadata_bytes=No
     # Envelope-only fixture. It is deliberately not an executable module.
     if elf is None:
         elf = b'\x7fELF\x01\x01\x01' + bytes(9) + b'not-executable-test-payload'
-    header = struct.pack('<8s9I32s32s20s', b'RNBOS3P1', 128, 1, 1, role, 44100,
+    header = struct.pack('<8s9I32s32s20s', b'RNBOS3P1', 128, version, 1, role, 44100,
                          256, arena, len(metadata_bytes), len(elf), hashlib.sha256(elf).digest(),
                          hashlib.sha256(metadata_bytes).digest(), bytes(20))
     assert len(header) == 128
@@ -175,6 +175,17 @@ class PlayerStoreTests(unittest.TestCase):
         self.assertEqual(self.run_native('parse', self.fixture(raw), 'yes'), hashlib.sha256(raw).hexdigest())
         for field in base:
             self.run_native('parse', self.fixture(package({k: v for k, v in base.items() if k != field})), 'no')
+
+    def test_physical_input_envelope_cannot_be_silently_ignored(self):
+        base={'name':'Inputs','source_sha256':'a'*64,'initial_volume':50}
+        metadata=dict(base,physical_inputs={'version':1,'board':'xiao','bindings':[]})
+        # Envelope admission only; load_slot then checks actual bindings/IDs.
+        raw=package(metadata,version=2)
+        self.assertEqual(self.run_native('parse',self.fixture(raw),'yes'),hashlib.sha256(raw).hexdigest())
+        self.run_native('parse',self.fixture(package(metadata,version=1)),'no')
+        self.run_native('parse',self.fixture(package(base,version=2)),'no')
+        duplicate=json.dumps(metadata).replace('"physical_inputs":', '"physical_inputs":{},"physical_inputs":').encode()
+        self.run_native('parse',self.fixture(package(metadata_bytes=duplicate,version=2)),'no')
 
     def test_reject_corruption_reserved_trailing_json_and_length_overflows(self):
         raw = package()

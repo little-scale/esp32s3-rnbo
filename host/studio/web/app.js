@@ -387,12 +387,19 @@
 
   function showResult(result) {
     $('result-title').textContent = result.title || 'Package ready';
-    const facts = ['Main package · both boards', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
+    const bindings = result.physical_inputs?.bindings || [];
+    const facts = [bindings.length ? 'Main package · XIAO physical inputs' : 'Main package · both boards', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
       finite(result.sample_rate) ? `${number(result.sample_rate)} Hz` : null,
       finite(result.block_frames) ? `${result.block_frames} frames` : null,
       Array.isArray(result.parameters) ? `${result.parameters.length} parameters` : null].filter(Boolean);
     $('result-facts').replaceChildren(...facts.map(text => {
       const span = document.createElement('span'); span.textContent = text; return span;
+    }));
+    $('input-bindings').hidden = !bindings.length;
+    $('input-bindings').replaceChildren(...bindings.map(binding => {
+      const row = document.createElement('div');
+      row.textContent = `${binding.pin} · ${binding.type} → ${binding.parameter_id}`;
+      return row;
     }));
     $('build-result').hidden = false;
   }
@@ -673,6 +680,18 @@
     state.device = response.device || null;
     if (Array.isArray(response.parameters)) state.parameters = response.parameters;
     const device = state.device;
+    const physical = device?.main?.physical_inputs;
+    const inputStatus = $('physical-input-status');
+    inputStatus.hidden = !physical || (!physical.error && !physical.bindings?.length);
+    inputStatus.replaceChildren();
+    if (physical?.error) inputStatus.textContent = physical.error;
+    else for (const binding of physical?.bindings || []) {
+      const row = document.createElement('div');
+      const parameter = state.parameters.find(p => p.index === binding.index);
+      const status = !binding.valid ? 'waiting for input' : !binding.ready ? 'calibrating' : `${number(binding.normalized * 100)}%`;
+      row.textContent = `${binding.pin} / GPIO${binding.gpio} → ${parameter?.name || `Parameter ${binding.index + 1}`} · ${status} · raw ${binding.raw}${binding.read_errors ? ` · ${binding.read_errors} read errors` : ''}`;
+      inputStatus.append(row);
+    }
     $('connection').textContent = device ? (device.paused ?? device.panic) === true ? 'PAUSED' : 'CONNECTED' : 'OFFLINE';
     $('connection').classList.toggle('online', Boolean(device));
     $('runtime-controls').hidden = !device; $('resources').hidden = !device;

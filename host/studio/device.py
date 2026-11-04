@@ -621,6 +621,11 @@ class DeviceBridge:
             if not self._player:
                 raise DeviceError('Install the stable player before loading a package')
             before = self._player_status()
+            if package['metadata'].get('physical_inputs'):
+                if before.get('physical_inputs_version') != 1:
+                    raise DeviceError('This package uses physical inputs. Install the updated player over USB first.')
+                if self._board != 'xiao':
+                    raise DeviceError('This physical-input package requires the XIAO board profile; AMOLED pins differ.')
             self._flashing.set()
             begun = False
             try:

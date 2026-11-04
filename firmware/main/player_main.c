@@ -5,6 +5,7 @@
 #include "allocation_watch.h"
 #include "player_loader.h"
 #include "player_store.h"
+#include "player_inputs.h"
 #include "cJSON.h"
 #include "esp_app_desc.h"
 #include "esp_heap_caps.h"
@@ -40,6 +41,7 @@ typedef struct {
     player_image image;
     player_package package;
     rnbo_s3_parameter_info parameters[PLAYER_MAX_PARAMETERS];
+    player_input_plan inputs;
 } player_slot;
 typedef struct {
     unsigned kind,index,generation;
@@ -59,6 +61,9 @@ static atomic_bool paused=true,maintenance=false,parked=false,park_failed=false,
 static atomic_uint generation=1,volume=50,queue_errors=0,parameter_count=0;
 static atomic_uint maintenance_epoch=0,acknowledged_epoch=0;
 static atomic_uint actual_bits[PLAYER_MAX_PARAMETERS],normalized_bits[PLAYER_MAX_PARAMETERS];
+/* UINT32_MAX cannot encode a finite normalized value. One mailbox per parameter
+ * coalesces physical changes without competing with the bounded command queue. */
+static atomic_uint physical_pending[PLAYER_MAX_PARAMETERS];
 static QueueHandle_t events,telemetry;
 static TaskHandle_t audio_handle,control_handle;
 static StaticTask_t audio_tcb,control_tcb;
@@ -162,6 +167,12 @@ static bool queue_event(player_event *e)
     if(xQueueSend(events,e,0)==pdTRUE)return true;
     atomic_fetch_add(&queue_errors,1);request_pause();return false;
 }
+static void physical_publish(unsigned index,float normalized)
+{
+    if(index>=atomic_load(&parameter_count)||!isfinite(normalized)||normalized<0||normalized>1)return;
+    unsigned bits;memcpy(&bits,&normalized,sizeof bits);
+    atomic_store_explicit(&physical_pending[index],bits,memory_order_release);
+}
 #ifndef CONFIG_RNBO_S3_HEADLESS
 static bool post_parameter(unsigned i,float n)
 {
@@ -227,6 +238,15 @@ static void audio_task(void *unused)
             memcpy(event.midi,e.midi,sizeof event.midi);
             if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;}
             else if(e.kind!=RNBO_S3_MIDI)publish_parameter(s,e.index);
+        }
+        if(play&&!stats.fault)for(unsigned i=0;i<s->inputs.count;++i) {
+            unsigned index=s->inputs.bindings[i].parameter_index;
+            unsigned bits=atomic_exchange_explicit(&physical_pending[index],UINT32_MAX,memory_order_acq_rel);
+            if(bits==UINT32_MAX)continue;
+            float value;memcpy(&value,&bits,sizeof value);
+            rnbo_s3_event event={.struct_bytes=sizeof event,.kind=RNBO_S3_PARAMETER_NORMALIZED,.parameter_index=index,.value=value};
+            if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;break;}
+            publish_parameter(s,index);
         }
         if(play && !stats.fault) {
             if(s->image.module.process(s->image.context,NULL,outputs,256,s->image.position)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;}
@@ -301,6 +321,8 @@ static void unload_slot(player_slot *s)
     if(!s)return;
     player_image_unload(&s->image);player_package_clear(&s->package);heap_caps_free(s);
 }
+static const char *input_parameter_id(void *context,unsigned index)
+{return ((player_slot *)context)->parameters[index].id;}
 static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,size_t size)
 {
     player_slot *s=heap_caps_calloc(1,sizeof *s,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
@@ -317,6 +339,13 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
         s->parameters[i].struct_bytes=sizeof s->parameters[i];
         if(s->image.module.parameter_info(s->image.context,i,&s->parameters[i])!=RNBO_S3_OK){snprintf(error,size,"Cannot copy parameter schema");goto fail;}
     }
+#ifdef CONFIG_RNBO_S3_HEADLESS
+    if(!player_inputs_plan_parse(s->package.metadata_json,true,CONFIG_RNBO_S3_I2S_BCLK,CONFIG_RNBO_S3_I2S_WS,CONFIG_RNBO_S3_I2S_DOUT,
+                                s->image.parameter_count,input_parameter_id,s,&s->inputs,error,size))goto fail;
+#else
+    if(!player_inputs_plan_parse(s->package.metadata_json,false,-1,-1,-1,
+                                s->image.parameter_count,input_parameter_id,s,&s->inputs,error,size))goto fail;
+#endif
     /* Detached finite/CPU screen; an actual system deadline remains a hardware
      * observation. The screen advances the candidate by sixteen callbacks. */
     float left[256],right[256];float *outputs[2]={left,right};
@@ -343,6 +372,9 @@ static void activate(player_slot *s,bool autostart)
     atomic_store(&display_enabled,false);
 #endif
     atomic_store(&parameter_count,0);
+    for(unsigned i=0;i<PLAYER_MAX_PARAMETERS;++i)atomic_store(&physical_pending[i],UINT32_MAX);
+    player_input_plan empty={0};char input_error[128];
+    if(!player_inputs_open(s?&s->inputs:&empty,input_error,sizeof input_error))ESP_LOGW(TAG,"%s",input_error);
     atomic_store_explicit(&active,s,memory_order_release);
     if(s)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
     atomic_store(&parameter_count,s?s->image.parameter_count:0);
@@ -385,6 +417,7 @@ static void player_info(void)
     for(unsigned i=0;i<32;++i){firmware[2*i]=hex[app->app_elf_sha256[i]>>4];firmware[2*i+1]=hex[app->app_elf_sha256[i]&15];}firmware[64]=0;
     cJSON *o=cJSON_CreateObject();if(!o){error_reply("Cannot allocate player status",true);return;}
     cJSON_AddStringToObject(o,"runtime","rnbo-esp32s3-player");add_number(o,"api_version",1);cJSON_AddStringToObject(o,"board",BOARD_MODEL);
+    add_number(o,"physical_inputs_version",1);
     cJSON_AddStringToObject(o,"firmware_elf_sha256",firmware);add_number(o,"rate",44100);add_number(o,"block_frames",256);add_number(o,"channels",BOARD_AUDIO_CHANNELS);
     add_number(o,"generation",atomic_load(&generation));cJSON_AddBoolToObject(o,"paused",atomic_load(&paused));cJSON_AddBoolToObject(o,"panic",atomic_load(&paused)||!s);
     cJSON_AddBoolToObject(o,"maintenance",atomic_load(&maintenance));add_number(o,"volume",atomic_load(&volume));
@@ -413,6 +446,7 @@ static void player_info(void)
         cJSON_AddStringToObject(m,"source_sha256",s->package.source_sha256);add_number(m,"arena_bytes",s->image.arena_bytes);add_number(m,"arena_used",stats.arena_used);
         add_number(m,"context_bytes",s->image.info.context_bytes);add_number(m,"sample_position",stats.position);add_number(m,"parameter_count",s->image.parameter_count);
         cJSON *p=cJSON_AddArrayToObject(m,"parameters");
+        player_inputs_add_status(m);
         for(unsigned i=0;i<s->image.parameter_count;++i) {
             rnbo_s3_parameter_info *meta=&s->parameters[i];float a=meta->initial,n=0;read_parameter(i,&a,&n);
             cJSON *row=cJSON_CreateObject();add_number(row,"index",i);cJSON_AddStringToObject(row,"name",meta->name);cJSON_AddStringToObject(row,"unit",meta->unit);
@@ -522,6 +556,9 @@ static void control_task(void *unused)
     bool radio_start_attempted=false;
 #endif
     for(;;) {
+        /* This owner also installs packages. Input drivers cannot run during
+         * flash maintenance/rebinding, and the audio owner only sees mailboxes. */
+        if(!atomic_load(&maintenance))player_inputs_poll(esp_timer_get_time(),physical_publish);
         if(incoming.bytes&&esp_timer_get_time()-incoming.touched>30000000)discard_incoming();
 #ifdef RNBO_S3_WIFI
         uint32_t session=used==0?player_network_poll_request(line,LINE_BYTES):0;

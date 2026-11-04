@@ -20,6 +20,26 @@ const xam = available ? require(path.join(packageDir, 'server/node_modules/@rnbo
 const graph = (boxes, lines = []) => ({classnamespace: 'rnbo', boxes: boxes.map(box => ({box})), lines: lines.map(([source, destination]) => ({patchline: {source, destination}}))});
 const box = (id, maxclass, text, extra = {}) => ({id, maxclass, ...(text === undefined ? {} : {text}), patching_rect: [0, 0, 50, 20], ...extra});
 
+test('inline physical input metadata survives the real RNBO export with display names and stable IDs', {skip: !available, timeout: 120000}, () => {
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'rnbo-inline-inputs-'));
+  try {
+    const source = path.join(root, 'examples/physical-inputs.rnbopat');
+    const original = fs.readFileSync(source);
+    const output = path.join(temporary, 'export');
+    const result = spawnSync(process.execPath, ['host/export/export.mjs', source, '--out', output],
+      {cwd: root, encoding: 'utf8', timeout: 90000, env: process.env});
+    assert.equal(result.status, 0, result.stderr + result.stdout);
+    const parameters = JSON.parse(fs.readFileSync(path.join(output, 'description.json'), 'utf8')).parameters;
+    for (const [name, type, pin] of [['note', 'analog', 'A0'], ['gate', 'digital', 'D6'], ['accent', 'touch', 'D3']]) {
+      const p = parameters.find(p => p.name === name);
+      assert.deepEqual(p.meta, {esp32: {type, pin}});
+      assert.equal(p.paramId, `s3_${name}`);
+      assert.equal(p.displayName, name[0].toUpperCase() + name.slice(1));
+    }
+    assert.deepEqual(fs.readFileSync(source), original);
+  } finally { fs.rmSync(temporary, {recursive: true, force: true}); }
+});
+
 test('native message payload and float UI metadata preserve authored data and saved serials', {skip: !available}, () => {
   const source = graph([
     box('load', 'newobj', 'loadbang', {rnbo_serial: 9}),

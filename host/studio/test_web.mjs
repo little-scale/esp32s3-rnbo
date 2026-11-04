@@ -316,6 +316,20 @@ test('one Pause/Resume button follows the acknowledged device state', async () =
   for (const call of controls) assert.equal(call.options.headers['X-Studio-Token'], 'test-token');
 });
 
+test('physical inputs show package mappings and live raw/readiness diagnostics', async () => {
+  const app = await openStudio({parameters:[{index:0,name:'Note',min:0,max:60,initial:39,actual:30,normalized:.5}]});
+  app.backend.result.physical_inputs={version:1,board:'xiao',bindings:[{parameter_id:'s3_note',type:'analog',pin:'A0'}]};
+  await app.readyArtifact();
+  assert.equal(app.get('input-bindings').hidden,false);
+  assert.match(app.get('input-bindings').children[0].textContent,/A0 · analog → s3_note/);
+  assert.match(app.get('result-facts').children[0].textContent,/XIAO physical inputs/);
+  await app.get('connect').fire('click');
+  app.backend.device.main={physical_inputs:{bindings:[{index:0,pin:'A0',gpio:1,type:'analog',valid:true,ready:true,normalized:.5,raw:2048,read_errors:0}]}};
+  await app.runInterval(1800);
+  assert.equal(app.get('physical-input-status').hidden,false);
+  assert.match(app.get('physical-input-status').children[0].textContent,/A0 \/ GPIO1 → Note · 50% · raw 2048/);
+});
+
 test('nonlinear parameter controls show actual readback and explicitly normalized drag values', async () => {
   const app = await openStudio({parameters: [{index: 0, name: 'Frequency', min: 100, max: 10000, initial: 440, actual: 2500, normalized: .7}]});
   await app.get('connect').fire('click');

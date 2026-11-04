@@ -55,6 +55,10 @@ retained. See [patch qualification](docs/drone3-qualification.md),
 The [AMOLED controls](docs/amoled-controls.md) include Pause/Resume, a page with
 eight parameter sliders, and a post-volume output meter.
 
+XIAO player packages can bind physical knobs, buttons and capacitive touch to
+parameters through inline `@meta`. See the [pin mapping table and copyable object
+examples](docs/physical-inputs.md). Physical input hardware qualification is pending.
+
 ## Build and verify on the computer
 
 Prerequisites: an authorized local RNBO **1.4.4** installation, Node, Python 3,

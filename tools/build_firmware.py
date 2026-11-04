@@ -37,6 +37,8 @@ def verify_prepared(path: Path) -> dict:
         raise ValueError("Prepared export manifest changed after review")
     if manifest.get("role")!="main":
         raise ValueError("Initial static shell requires a Main export with zero signal inputs")
+    if manifest.get("physical_inputs"):
+        raise ValueError("Physical input bindings require a package-based player; static shells do not read inputs")
     return {"manifest":manifest,"provenance":provenance}
 
 def source_inventory() -> dict[str,str]:

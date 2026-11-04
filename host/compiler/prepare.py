@@ -563,6 +563,11 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             raise ExportError("Export must declare the fixed 44100 Hz / 256-frame Minimal profile")
     description = read_json(files["description.json"], "description.json")
     params = validate_description(description, role, midi_output_policy)
+    from physical_inputs import extract as extract_physical_inputs
+    try:
+        physical_inputs = extract_physical_inputs(params)
+    except ValueError as exc:
+        raise ExportError(str(exc)) from exc
     raw_hashes = {name: digest(data) for name, data in sorted(files.items())}
     raw_files = dict(files)
     changes = runtime_fixes(files, apply_fixes=apply_fixes)
@@ -692,6 +697,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                 "source_tree_sha256": digest(canonical(raw_hashes)),
                 "editable_source_sha256": digest(files["source.rnbopat"]) if "source.rnbopat" in files else None,
                 "adaptations": [change["name"] for change in changes]}
+    if physical_inputs is not None:
+        manifest["physical_inputs"] = physical_inputs
     if float32_onepole_clamp:
         manifest["float32_onepole_clamp"] = True
         manifest["float32_onepole_clamp_contract"] = {
@@ -924,7 +931,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("physical_inputs.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": {name: digest((Path(__file__).parent.parent / "export" / name).read_bytes())
                                              for name in ("export.mjs", "patcher.mjs", "inspect_onepole_graph.mjs")},
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,

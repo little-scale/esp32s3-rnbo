@@ -22,6 +22,17 @@ Package SHA256 identifies the entire exact header+payload. Modules have zero
 undefined imports, ABI1, fixed 44100/256 and the existing single-instance wrapper.
 Each active image has its own state, arena, context and sample position.
 
+### Envelope v2: physical inputs
+
+Input-bound packages set header `version=2` with the same layout, magic and
+module ABI. They require one `physical_inputs` object with schema version 1,
+board `xiao`, and canonical bindings keyed by stable `parameter_id`. An old
+player rejects version 2 instead of ignoring physical controls. The updated
+player accepts v1 without bindings and v2 with bindings; a version/binding
+mismatch rejects. Studio checks `physical_inputs_version:1` before transfer.
+The player separately checks binding schema, GPIO reservations and module IDs
+before activation. See [pin mappings and options](physical-inputs.md).
+
 ## USB v1
 
 UTF-8/ASCII commands terminated by newline; exactly one JSON response per command.

@@ -415,6 +415,7 @@ class Studio:
                                initial=p.get('initialValue', p['minimum'])) for p in description.get('parameters', [])]
             result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=44100,
                           block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
+                          physical_inputs=result.get('metadata', {}).get('physical_inputs'),
                           preflight_scope='native default startup screen; not target allocation proof')
             self.update(identity, state='ready', stage='Package ready to load', result=result, _build=directory / 'patch.rnbopkg')
         except Exception as error:
@@ -450,6 +451,7 @@ class Studio:
                 result = dict(kind='package', origin='imported', title=package['metadata']['name'],
                     role='main', sample_rate=44100, block_frames=256, arena_bytes=package['arena_bytes'],
                     package_bytes=len(raw), package_sha256=package['package_sha256'], elf_sha256=package['elf_sha256'],
+                    physical_inputs=package['metadata'].get('physical_inputs'),
                     preflight_scope='Saved package validated; native startup screen not rerun',
                     visual=package_preview(package['metadata'].get('visual')))
                 self.jobs[identity] = dict(id=identity, state='ready', stage='Saved package ready to load',

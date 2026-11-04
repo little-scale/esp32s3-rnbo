@@ -14,7 +14,7 @@ class Player:
     def __init__(self):
         self.frames=1024;self.uptime=100000;self.firmware='a'*64;self.generation=0
         self.paused=True;self.volume=50;self.main=None;self.commands=[];self.data=bytearray()
-        self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False
+        self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False;self.physical_version=None
     def response(self, command):
         self.commands.append(command)
         if command=='player-info':
@@ -24,6 +24,7 @@ class Player:
                 maintenance=False,volume=self.volume,main=self.main,frames=self.frames,uptime_us=self.uptime,
                 allocation_fault=False,reconstruction_failed=False,**{key:0 for key in d.FAULT_COUNTERS})
             if self.runtime_fault:reply['module_errors']=1
+            if self.physical_version is not None:reply['physical_inputs_version']=self.physical_version
         elif command.startswith('player-begin '):
             _,role,total,sha=command.split();assert role=='1';self.total=int(total);self.expected=sha;self.data.clear()
             reply=dict(upload='ready',offset=0,chunk_bytes=1024)
@@ -87,6 +88,12 @@ class PlayerTests(unittest.TestCase):
         with self.assertRaisesRegex(d.DeviceError,'offset'):self.upload()
         self.assertIn('player-abort',self.player.commands)
         self.assertNotIn('player-commit',self.player.commands);self.assertIsNone(self.player.main)
+    def test_input_package_requires_capable_player_before_any_transfer(self):
+        self.package['metadata']['physical_inputs']={'version':1,'board':'xiao','bindings':[{'parameter_id':'p'}]}
+        with self.assertRaisesRegex(d.DeviceError,'updated player'):self.upload()
+        self.assertFalse(any(command.startswith('player-begin') for command in self.player.commands))
+        self.player.physical_version=1
+        self.assertEqual(self.upload()['device']['generation'],1)
     def test_false_commit_and_changed_package_never_claim_success(self):
         self.player.bad_commit=True
         with self.assertRaisesRegex(d.DeviceError,'complete package commit'):self.upload()

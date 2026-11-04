@@ -7,6 +7,7 @@ import struct
 import tempfile
 import unittest
 from package import build, create, parse, digest, HEADER, strict_json
+from physical_inputs import extract
 
 spec = importlib.util.spec_from_file_location('package_elf_fixture', Path(__file__).resolve().parents[2] / 'tests/dynamic/test_inspect_module.py')
 f = importlib.util.module_from_spec(spec); spec.loader.exec_module(f)
@@ -20,6 +21,16 @@ def elf():
 
 class PackageTests(unittest.TestCase):
     metadata = dict(name='Test', source_sha256='b'*64, initial_volume=50)
+    def test_physical_input_plan_roundtrips_and_is_validated(self):
+        plan=extract([dict(paramId='s3_p',meta={'esp32':dict(type='analog',pin='A0')})])
+        metadata=dict(self.metadata,physical_inputs=plan)
+        raw=create(elf(),metadata,'main',4096)
+        self.assertEqual(HEADER.unpack_from(raw)[2],2)
+        self.assertEqual(parse(raw)['metadata']['physical_inputs'],plan)
+        changed=bytearray(raw);struct.pack_into('<I',changed,12,1)
+        with self.assertRaisesRegex(ValueError,'envelope'):parse(bytes(changed))
+        for bad in (None,{},dict(plan,version=2),dict(plan,bindings=[])):
+            with self.subTest(bad=bad),self.assertRaises(ValueError):create(elf(),dict(self.metadata,physical_inputs=bad),'main',4096)
     def test_roundtrip_header_hashes_role_and_metadata(self):
         raw = create(elf(), self.metadata, 'main', 1048576)
         self.assertEqual(HEADER.size, 128)

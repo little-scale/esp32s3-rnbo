@@ -38,6 +38,7 @@
       <section id="build-result" class="result" aria-labelledby="result-title" hidden>
         <div class="result-heading"><span class="success-dot" aria-hidden="true"></span><h3 id="result-title">Package ready</h3></div>
         <div id="result-facts" class="facts"></div>
+        <div id="input-bindings" class="hint" hidden></div>
         <div class="downloads"><button id="download" class="quiet" type="button">Download .rnbopkg</button></div>
       </section>
       <details id="build-output" class="build-output"><summary>Build progress and output</summary><pre id="build-log" tabindex="0">No build yet.</pre></details>
@@ -58,6 +59,7 @@
         <input id="volume" type="range" min="0" max="100" step="1" value="50" disabled>
         <div class="playback-controls"><button id="pause" class="quiet" type="button" aria-pressed="false" disabled>Pause audio</button></div>
         <div id="parameters" class="parameters"></div>
+        <div id="physical-input-status" class="hint" role="status" hidden></div>
       </section>
       <section id="resources" class="resources" aria-labelledby="resources-title" hidden>
         <h3 id="resources-title">On the board</h3><dl class="resource-grid"><div><dt>Audio render</dt><dd class="audio-reading"><span id="render-time">—</span><span id="audio-cpu" class="resource-percent">—</span></dd></div><div><dt>Audio peak</dt><dd class="audio-reading"><span id="peak-time">—</span><span id="peak-audio-cpu" class="resource-percent">—</span></dd></div><div><dt>Internal RAM free</dt><dd id="internal-free">—</dd></div><div><dt>PSRAM free</dt><dd id="psram-free">—</dd></div></dl><p id="runtime-facts" class="hint"></p><p class="hint">Audio CPU is callback time divided by the audio block's time budget. Render and peak include PCM conversion and exclude the I2S wait; this is not total dual-core CPU usage.</p>

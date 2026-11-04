@@ -1,6 +1,15 @@
 # Implementation status — 5 November 2026
 
-The reviewed player is restored on XIAO with the saved Main patch and Wi-Fi
+The object/hardware qualification goal is **paused** for the physical-input
+tangent. [Inline `@meta` input bindings](physical-inputs.md) now compile into
+XIAO player packages, with analog smoothing, debounced digital gates and
+capacitive-touch calibration/hysteresis. Studio shows mappings and live input
+diagnostics. Both board player builds pass; the updated firmware has **not been
+flashed** and physical input hardware testing remains pending. The
+[pin table and copyable examples](physical-inputs.md#exactly-how-xiao-pin-names-map)
+document aliases, reservations and the XIAO-only input profile.
+
+At the last hardware check, the reviewed player was restored on XIAO with the saved Main patch and Wi-Fi
 pairing preserved. Studio is connected over Wi-Fi, volume is 0% for the night,
 and startup remains silent. The original package with its previous startup
 volume is preserved separately. Running audio frames advance and all reported

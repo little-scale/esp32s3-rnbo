@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Create/read the checked v1 player package. Never opens a device."""
+"""Create/read checked player packages. Never opens a device.
+
+Envelope v2 uses the same layout, but requires physical_inputs v1 support. Old
+players reject it instead of silently running an input-bound patch unbound.
+Ordinary packages retain the original v1 envelope byte for byte.
+"""
 from __future__ import annotations
 import argparse
 import hashlib
@@ -13,8 +18,10 @@ import sys
 
 try:
     from .inspect_module import inspect_module
+    from .physical_inputs import checked_plan
 except ImportError:
     from inspect_module import inspect_module
+    from physical_inputs import checked_plan
 
 MAGIC = b'RNBOS3P1'
 HEADER = struct.Struct('<8s9I32s32s20s')
@@ -35,6 +42,8 @@ def metadata_checked(value):
             or not isinstance(source, str) or not HASH.fullmatch(source)
             or type(volume) is not int or not 0 <= volume <= 100):
         raise ValueError('Invalid package name, source identity or initial volume')
+    if 'physical_inputs' in value:
+        checked_plan(value['physical_inputs'])
     return value
 
 
@@ -67,7 +76,8 @@ def create(elf, metadata, role, arena_bytes):
     raw = json.dumps(metadata, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(raw) > MAX_METADATA or len(elf) > MAX_ELF:
         raise ValueError('Package payload exceeds the v1 limits')
-    return HEADER.pack(MAGIC, 128, 1, 1, ROLES[role], 44100, 256, arena_bytes,
+    version = 2 if 'physical_inputs' in metadata else 1
+    return HEADER.pack(MAGIC, 128, version, 1, ROLES[role], 44100, 256, arena_bytes,
                        len(raw), len(elf), hashlib.sha256(elf).digest(), hashlib.sha256(raw).digest(), bytes(20)) + raw + elf
 
 
@@ -75,7 +85,7 @@ def parse(raw):
     if not isinstance(raw, bytes) or len(raw) < 128:
         raise ValueError('Truncated package')
     magic, header, version, abi, role, rate, frames, arena, meta_len, elf_len, elf_hash, meta_hash, padding = HEADER.unpack_from(raw)
-    if (magic != MAGIC or (header, version, abi, rate, frames) != (128, 1, 1, 44100, 256)
+    if (magic != MAGIC or (header, abi, rate, frames) != (128, 1, 44100, 256) or version not in (1, 2)
             or role not in ROLES.values() or not 4096 <= arena <= 4194304 or padding != bytes(20)
             or not 0 < meta_len <= MAX_METADATA or not 0 < elf_len <= MAX_ELF
             or len(raw) != 128 + meta_len + elf_len):
@@ -84,6 +94,8 @@ def parse(raw):
     if hashlib.sha256(meta_raw).digest() != meta_hash or hashlib.sha256(elf).digest() != elf_hash:
         raise ValueError('Package checksum mismatch')
     metadata = metadata_checked(strict_json(meta_raw))
+    if (version == 2) != ('physical_inputs' in metadata):
+        raise ValueError('Physical-input packages require envelope v2; ordinary packages require v1')
     inspection = inspect_module(elf, allowed_imports=set())
     if inspection['imports']:
         raise ValueError('Player modules must have zero imports')
@@ -113,13 +125,15 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
             or manifest['audio_inputs'] != (0 if role == 'main' else 2) or manifest.get('audio_outputs') != 2):
         raise ValueError('Module dimensions do not match the requested player role')
     metadata = dict(name=name, source_sha256=manifest['source_tree_sha256'], initial_volume=initial_volume)
+    if 'physical_inputs' in manifest:
+        metadata['physical_inputs'] = checked_plan(manifest['physical_inputs'])
     if visual is not None:
         metadata['visual'] = visual
     arena = report['state_policy']['maximum_arena_bytes']
     raw = create(elf, metadata, role, arena)
     output = Path(output)
     output.write_bytes(raw)
-    return dict(format='rnbo-player-package-v1', path=str(output.resolve()), bytes=len(raw),
+    return dict(format='rnbo-player-package-v2' if 'physical_inputs' in metadata else 'rnbo-player-package-v1', path=str(output.resolve()), bytes=len(raw),
                 sha256=digest(raw), elf_sha256=digest(elf), role=role, arena_bytes=arena,
                 metadata=metadata, module_report_sha256=digest((directory / 'build-report.json').read_bytes()))
 

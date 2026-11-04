@@ -2,7 +2,8 @@
 
 A local browser workspace for compiling one self-contained Main `.rnbopat` into
 a `.rnbopkg` and loading it into a stable ESP32-S3 player. Include effects inside
-the Main patch. The same package works on XIAO ESP32-S3 and Waveshare AMOLED V2.
+the Main patch. Ordinary packages work on XIAO ESP32-S3 and Waveshare AMOLED V2;
+packages with physical input bindings currently require the XIAO profile.
 
 ```sh
 ./host/studio.sh
@@ -131,3 +132,10 @@ node --test host/studio/test_web.mjs
 
 HTTP tests use a temporary loopback port; all device tests use fakes. Actual player
 installation and package loading are qualified separately by the hardware owner.
+# Physical parameter inputs
+
+Use inline `@meta` on RNBO `param` objects to bind XIAO analog, digital or touch
+inputs. See the [exact pin map, syntax and options](../../docs/physical-inputs.md).
+An updated player is required once over USB; mappings then travel in each package.
+Studio shows package bindings and live raw readings. Physical hardware testing is
+pending; AMOLED external-input mappings are not enabled by this XIAO profile.
