@@ -27,7 +27,7 @@ _Static_assert(sizeof(float)==4 && RNBO_S3_BLOCK_FRAMES==256 && RNBO_S3_SAMPLE_R
 _Static_assert(SMOKE_CASE_COUNT==SMOKE_EMBEDDED_MODULE_COUNT,"header/embedded manifest case count differs");
 _Static_assert(sizeof smoke_cases/sizeof *smoke_cases==SMOKE_CASE_COUNT,"case table length differs");
 _Static_assert(sizeof smoke_inputs/sizeof *smoke_inputs==512,"one stereo input vector required");
-_Static_assert(SMOKE_ARENA_BYTES>=4096 && SMOKE_ARENA_BYTES<=1024u*1024u,"caller arena bound required");
+_Static_assert(SMOKE_ARENA_BYTES>=4096 && SMOKE_ARENA_BYTES<=2097152u,"caller arena bound required");
 enum { MANUAL_WARM_CALLS=4, TIMED_CALLS=16 };
 static StackType_t worker_stack[24576/sizeof(StackType_t)];
 static StaticTask_t worker_task;
@@ -244,7 +244,7 @@ static void worker(void *unused)
         size_t psram_before=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
         size_t internal_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
         uint32_t arena_bytes=test->arena_bytes?test->arena_bytes:SMOKE_ARENA_BYTES;
-        CHECK(arena_bytes>=4096u && arena_bytes<=1048576u);
+        CHECK(arena_bytes>=4096u && arena_bytes<=2097152u);
         object_image image;object_image_load(&image,test->payload_start,(size_t)(test->payload_end-test->payload_start),RNBO_S3_FX,arena_bytes);++images;
         object_image_prepare(&image,SMOKE_PREPARE_WARM_BLOCKS,SMOKE_SEED);
         parameter_checks parameters={0};verify_parameters(&image,test,&parameters);

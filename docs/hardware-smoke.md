@@ -13,7 +13,13 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
-The latest RNBO codebox shaping and stateful batches execute **51 scenarios:
+The latest direct signal range and codebox filter/delay batches execute **49
+scenarios: 46 pass their declared references and three retain signal mismatches**,
+across **501,760 output values**. Every source compiles and executes. Eleven new
+passing CPU-review contexts bring the queue to 87; no DSP optimisation or
+measured gain is claimed.
+
+The earlier RNBO codebox shaping and stateful batches execute **51 scenarios:
 48 pass their declared references and three retain mismatches**, across
 **522,240 output values**. Two additional source forms are rejected before
 execution. Eighteen passing shaping contexts trigger CPU review; the queue now
@@ -30,6 +36,95 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 **737,280 output checks**. One additional Gen `gate` source is rejected before
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## RNBO codebox filters and default delay resources
+
+All **twelve class-instance scenarios pass**, checking **122,880 output values**
+against full twenty-block continuous references. Zero automatic preparation
+warm blocks precede four checked manual warmups and sixteen timed callbacks.
+Each case spans 5,120 frames without a reset at 256-frame boundaries. This is
+still the production fixed-256 ABI, not a one-frame host API or reset-method test.
+
+The sources specify a two-sample delay; two-/three-sample-equivalent comb/allpass
+settings; dyadic biquad coefficients; onepole cutoffs 1,000/2,000 Hz and linear
+coefficients 0.25/0.5; mean/absolute/RMS windows 8/16; ramp counts 4/8 and 8/4;
+and positive-edge/hysteresis triggers. Independent equations and fresh-window
+`fsum` references use predeclared zero or 2e-6 numeric limits. The 320 operation
+zero-sign differences remain diagnostics; the full batch is not bit-exact.
+
+Delay, comb and allpass each use one left-channel instance with a copied right
+input; the other cases use separate left/right instances. That copy lane is
+checked under the common case tolerance, with no separately enforced raw-word
+or signed-zero observer claim. Clear/reset methods, other coefficients and
+delays, changing windows/controls and other surfaces remain unqualified.
+
+Default storage is preserved: the numerical profile is unchanged and the
+original delay/average buffers remain **Float64**. A default comb or allpass has
+two 65,536-element rings: 1,048,576 payload bytes before metadata, so 1 MiB is
+insufficient. An explicit **2 MiB smoke-only caller tier** admits these images;
+the ordinary benchmark host still defaults to 1 MiB. The existing SDK limit,
+DSP code and defaults are unchanged. The fast build cache's original 4 KiB
+control still produces the exact original whole ELF; reused support objects
+remain unchanged.
+
+| Authored program | Arena capacity | Observed high-water bytes |
+| --- | ---: | ---: |
+| Mono delay + copy lane | 2,097,152 | 524,352 |
+| Mono comb + copy lane | 2,097,152 | 1,048,704 |
+| Mono allpass + copy lane | 2,097,152 | 1,048,704 |
+| Each dual mean/absolute/RMS program | 2,097,152 | 705,760 |
+| Each of the other six programs | 2,097,152 | 0 |
+
+Capacity is reserved space, not measured consumption. Small active delays and
+windows do not shrink the original buffers. Every image finalises, and module/
+global memory and allocation gates pass.
+
+Callback medians span 67–982 µs, peak 988 µs. Comb, allpass and all three average
+variants trigger CPU review; all five pass their output limits. These are
+complete fixture callback costs, with mono-plus-copy and dual-instance contexts
+kept explicit. No isolated function cost or performance gain is inferred.
+
+See [the complete filter results](../evidence/xiao-smoke-rnbo-codebox-filters.json),
+[the original programs/reference and resource notes](../tests/fixtures/smoke/rnbo-codebox-filters/README.md)
+and [CPU review queue](cpu-review-backlog.md).
+
+## RNBO signal ranges, routes, windows and constants
+
+All **37 direct signal scenarios execute: 34 pass and three retain mismatches**,
+across 378,880 output checks. They use the actual patcher inlet roles and source
+wiring, independently from similarly named Gen or RNBO codebox forms.
+
+| Exact signal form | Retained comparison |
+| --- | --- |
+| `step~` with threshold 0 | 8,960 outputs differ, maximum error 1, against the unchanged first-input >= threshold reference. |
+| `fastpow~` | 9,400 outputs exceed the predeclared 1e-3 ideal-function screen; maximum error 0.23720312118530273. |
+| `fastexp~` | 10,240 outputs exceed that screen; maximum error 0.06756162643432617. |
+
+The fast screens are approximation-quality checks, not documented accuracy
+guarantees. `cosineinterp~` passes the same 1e-3 screen with maximum error
+0.00015687942504882812. Other references use zero numeric tolerance for simple
+dyadic/constant operations or 2e-6 for ordinary math. The 1,320 operation
+zero-sign differences remain diagnostics; the entire batch is not bit-exact.
+No input domain, mathematical convention or limit is changed after execution.
+
+The source set checks edge-first `smoothstep~`, both Cartesian/polar tuple
+outputs, fixed conditional/payload routing, window functions, separate constant
+aliases and fixed phase/quantization shapes. `quantize~` uses quantum 4/8 with
+a declared upward half-tie policy. `t60time~` inputs stay between 0.125 and 0.5,
+with results in samples. These observations do not qualify arbitrary controls,
+nonfinite inputs or stateful oscillators.
+
+Zero automatic preparation warm blocks precede four checked manual warmups and
+sixteen timed callbacks. Medians span 37–7,763 µs, peak 7,764 µs. Six passing
+contexts trigger CPU review: `cosineinterp~`, `hann~`, `hamming~`, `blackman~`,
+`t60~` and `triangle~`. The `blackman~` median is 7.763 ms against the 5.805 ms
+block period. These are complete callback costs; no optimisation is applied.
+Every executed image finalises and memory/allocation gates pass. These six
+flags precede the five separately listed filter/delay additions.
+
+See [the complete signal results](../evidence/xiao-smoke-rnbo-signal-range.json),
+[the original graphs/reference](../tests/fixtures/smoke/rnbo-signal-range/README.md)
+and [CPU review queue](cpu-review-backlog.md).
 
 ## RNBO codebox continuous-state instances
 
@@ -934,6 +1029,11 @@ this leaves room for the framework in the application partition.
 one-MiB resource ceiling while the default remains four KiB. The original cache
 control always compiles with its original four-KiB maximum and must match the
 whole cached ELF; only candidate wrapper compilations select the larger macro.
+For the preserved default filter buffers, `--max-arena-bytes 2097152` selects
+the explicit two-MiB tier. The hardware-smoke loader alone is compiled with
+that larger caller bound; the ordinary benchmark loader retains its one-MiB
+default. The original four-KiB control is still recompiled unchanged.
+
 The host then checks the actual module descriptor against the requested arena,
 and the result records reserved capacity separately from observed high-water.
 

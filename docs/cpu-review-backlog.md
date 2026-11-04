@@ -10,6 +10,49 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## RNBO codebox filters: five queued contexts
+
+All five flagged programs pass their output references. Mono-plus-copy and
+dual-instance callbacks are different fixtures, not isolated opcode costs.
+
+| Source context | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `comb` mono + copy | 756.0 | 762 | 13.02% | Pending optimisation review |
+| `allpass` mono + copy | 982.0 | 988 | 16.92% | Pending optimisation review |
+| `average` dual instances | 582.5 | 587 | 10.03% | Pending optimisation review |
+| `average_absolute` dual instances | 612.0 | 616 | 10.54% | Pending optimisation review |
+| `average_rms` dual instances | 763.0 | 766 | 13.14% | Pending optimisation review |
+
+These five median-cost flags add to six new signal contexts and 76 earlier
+contexts, bringing the queue to **87**. There are no new peak-spike flags. The
+2 MiB smoke-only capacity tier preserves original Float64 rings and defaults;
+it is not a DSP optimisation or a measured memory-use figure. No CPU saving or
+worst-case latency bound is claimed.
+
+Source: [codebox filter results](../evidence/xiao-smoke-rnbo-codebox-filters.json).
+
+## RNBO signal range/windows: six queued contexts
+
+All six flagged signal scenarios pass their output limits. Each row measures
+the complete authored callback; matching codebox/Gen names keep separate costs.
+
+| Exact signal form | Median µs | Peak µs | Median / block period | Follow-up |
+| --- | ---: | ---: | ---: | --- |
+| `cosineinterp~` | 1,874.0 | 1,874 | 32.28% | Pending optimisation review |
+| `hann~` | 4,124.5 | 4,129 | 71.05% | Pending optimisation review |
+| `hamming~` | 4,525.0 | 4,528 | 77.95% | Pending optimisation review |
+| `blackman~` | 7,763.0 | 7,764 | 133.73% | Pending optimisation review |
+| `t60~` | 5,574.0 | 5,575 | 96.02% | Pending optimisation review |
+| `triangle~` | 623.0 | 624 | 10.73% | Pending optimisation review |
+
+`blackman~` has a 7.763 ms median, about 1.34 block periods in this fixture.
+All six new flags concern median cost rather than peak spikes. They bring the
+queue from 76 to 82 before the five separate filter/delay additions. The three output
+mismatches remain separate functional/quality follow-up, and none triggers CPU
+review. No DSP change, CPU saving or worst-case latency bound is claimed.
+
+Source: [direct signal results](../evidence/xiao-smoke-rnbo-signal-range.json).
+
 ## RNBO codebox state instances: no new flags
 
 The eleven executed state-instance scenarios have callback medians 54–379.5 µs

@@ -121,13 +121,14 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.save();return collect(self.build,self.run)
 
     def test_stateful_codebox_retains_continuous_stream_and_program_identity(self):
-        self.plan.update(family='rnbo-codebox-stateful',surface='codebox',
-            expected_stream_policy='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets')
         self.expected['codebox_source_sha256']='f'*64
-        result=self.result()
-        self.assertEqual(result['surface'],'codebox')
-        self.assertEqual(result['cases'][0]['expected_block_count'],20)
-        self.assertEqual(result['cases'][0]['first_mismatch_call'],6)
+        for family in ('rnbo-codebox-stateful','rnbo-codebox-filters'):
+            self.plan.update(family=family,surface='codebox',
+                expected_stream_policy='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets')
+            result=self.result()
+            self.assertEqual(result['surface'],'codebox')
+            self.assertEqual(result['cases'][0]['expected_block_count'],20)
+            self.assertEqual(result['cases'][0]['first_mismatch_call'],6)
         self.expected['expected_blocks']=self.expected['expected_blocks'][:1]
         with self.assertRaises(ValueError):self.result()
 
@@ -218,6 +219,14 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.plan['prepare_zero_warm_blocks']=4
         with self.assertRaises(ValueError):self.result()
         self.plan['prepare_zero_warm_blocks']=0;self.plan['surface']='patcher'
+        with self.assertRaises(ValueError):self.result()
+
+    def test_signal_range_requires_its_own_surface_and_valid_prepare_epoch(self):
+        self.constant();self.plan.update(family='rnbo-signal-range',surface='patcher')
+        self.assertEqual(self.result()['surface'],'patcher')
+        self.plan['prepare_zero_warm_blocks']=4
+        with self.assertRaises(ValueError):self.result()
+        self.plan.update(prepare_zero_warm_blocks=0,surface='codebox')
         with self.assertRaises(ValueError):self.result()
 
     def test_historical_constant_record_keeps_its_public_shape(self):

@@ -33,7 +33,7 @@ ADAPTATIONS = [
     "rnbo-1.4.4-nested-clock-target-v1",
     "rnbo-1.4.4-defined-imul-v1",
 ]
-ARENA_CHOICES = (4096, 1048576)
+ARENA_CHOICES = (4096, 1048576, 2097152)
 ARENA_MACRO = "RNBO_S3_DYNAMIC_MAX_ARENA_BYTES"
 MEMBERS = ["rnbo_s3_dynamic.cpp.obj", "arena.cpp.obj", "lifecycle.cpp.obj",
            "support.cpp.obj", "integer_abs.cpp.obj"]
@@ -96,7 +96,7 @@ def rewrite_wrapper(command: list[str], old_export: Path, export: Path, output: 
 
 def checked_arena_bytes(value: int) -> int:
     if type(value) is not int or value not in ARENA_CHOICES:
-        raise ExportError("Smoke arena ceiling must be 4096 or 1048576 bytes")
+        raise ExportError("Smoke arena ceiling must be 4096, 1048576 or 2097152 bytes")
     return value
 
 

@@ -35,5 +35,7 @@ foreach(module_file IN LISTS SMOKE_MODULE_FILES)
         "extern const uint8_t smoke_payload_${index}_end[] asm(\"_binary_smoke_${index}_bin_end\");\n")
     math(EXPR index "${index}+1")
 endforeach()
-target_compile_definitions(${COMPONENT_LIB} PRIVATE SMOKE_EMBEDDED_MODULE_COUNT=${smoke_count})
+target_compile_definitions(${COMPONENT_LIB} PRIVATE
+    SMOKE_EMBEDDED_MODULE_COUNT=${smoke_count}
+    RNBO_TEST_MAX_ARENA_BYTES=2097152u)
 target_compile_options(${COMPONENT_LIB} PRIVATE -O2 -fno-fast-math -ffp-contract=off -fno-strict-aliasing)

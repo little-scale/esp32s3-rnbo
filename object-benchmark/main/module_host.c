@@ -7,6 +7,17 @@
 #include "esp_heap_caps.h"
 #include "esp_memory_utils.h"
 #include <string.h>
+
+/* Hardware smoke can admit a larger caller arena without changing other benches. */
+#ifndef RNBO_TEST_MAX_ARENA_BYTES
+#define RNBO_TEST_MAX_ARENA_BYTES (1024u*1024u)
+#endif
+_Static_assert(RNBO_TEST_MAX_ARENA_BYTES>=4096u && RNBO_TEST_MAX_ARENA_BYTES<=4u*1024u*1024u,
+               "caller arena cap must stay within the dynamic ABI");
+static bool caller_arena_allowed(uint32_t bytes)
+{
+    return bytes>=4096u && bytes<=RNBO_TEST_MAX_ARENA_BYTES;
+}
 _Static_assert(sizeof(void*)==4 && sizeof(void(*)(void))==4,"Xtensa32 ABI required");
 static bool executable(const esp_elf_t *elf,uintptr_t pointer)
 {
@@ -74,7 +85,7 @@ static void request(object_image *a,unsigned operation,void *state,uint32_t byte
 void object_image_load(object_image *a,const uint8_t *payload,size_t bytes,uint32_t role,uint32_t arena_bytes)
 {
     memset(a,0,sizeof *a);a->arena_bytes=arena_bytes;
-    CHECK(arena_bytes>=4096 && arena_bytes<=1024u*1024u);
+    CHECK(caller_arena_allowed(arena_bytes));
     CHECK(((uintptr_t)payload&3u)==0 && esp_elf_init(&a->elf)==0);
     CHECK(esp_elf_relocate(&a->elf,payload,bytes)==0);a->loaded=true;
     CHECK(executable(&a->elf,(uintptr_t)a->elf.entry) && esp_ptr_external_ram(a->elf.ptext));

@@ -1,0 +1,290 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "arity": 1,
+      "canonical_name": "delay",
+      "codebox": "delay-stateful.rnbo",
+      "exact_name": "delay",
+      "id": "delay-stateful",
+      "maximum_absolute_error": 0.0,
+      "model": 600,
+      "patch": "delay-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/delay"
+        }
+      ],
+      "registry_lookup": "delay",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance. One left filter instance; right input is source-copied and compared numerically under the same case tolerance; no independent raw-bit observer gate.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "comb",
+      "codebox": "comb-stateful.rnbo",
+      "exact_name": "comb",
+      "id": "comb-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 601,
+      "patch": "comb-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/comb"
+        }
+      ],
+      "registry_lookup": "comb",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance. One left filter instance; right input is source-copied and compared numerically under the same case tolerance; no independent raw-bit observer gate.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "allpass",
+      "codebox": "allpass-stateful.rnbo",
+      "exact_name": "allpass",
+      "id": "allpass-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 602,
+      "patch": "allpass-stateful.rnbopat",
+      "reference_policy": "declared-Schroeder-allpass-positive-feedback",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/allpass"
+        }
+      ],
+      "registry_lookup": "allpass",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance. One left filter instance; right input is source-copied and compared numerically under the same case tolerance; no independent raw-bit observer gate.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "biquad",
+      "codebox": "biquad-stateful.rnbo",
+      "exact_name": "biquad",
+      "id": "biquad-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 603,
+      "patch": "biquad-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/biquad"
+        }
+      ],
+      "registry_lookup": "biquad",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "onepole",
+      "codebox": "onepole-stateful.rnbo",
+      "exact_name": "onepole",
+      "id": "onepole-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 604,
+      "patch": "onepole-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/onepole"
+        }
+      ],
+      "registry_lookup": "onepole",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "onepole_lin",
+      "codebox": "onepole_lin-stateful.rnbo",
+      "exact_name": "onepole_lin",
+      "id": "onepole_lin-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 605,
+      "patch": "onepole_lin-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/onepole_lin"
+        }
+      ],
+      "registry_lookup": "onepole_lin",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "average",
+      "codebox": "average-stateful.rnbo",
+      "exact_name": "average",
+      "id": "average-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 606,
+      "patch": "average-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/average"
+        }
+      ],
+      "registry_lookup": "average",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "average_absolute",
+      "codebox": "average_absolute-stateful.rnbo",
+      "exact_name": "average_absolute",
+      "id": "average_absolute-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 607,
+      "patch": "average_absolute-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_absolute"
+        }
+      ],
+      "registry_lookup": "average_absolute",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "average_rms",
+      "codebox": "average_rms-stateful.rnbo",
+      "exact_name": "average_rms",
+      "id": "average_rms-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 608,
+      "patch": "average_rms-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_rms"
+        }
+      ],
+      "registry_lookup": "average_rms",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "rampsmooth",
+      "codebox": "rampsmooth-stateful.rnbo",
+      "exact_name": "rampsmooth",
+      "id": "rampsmooth-stateful",
+      "maximum_absolute_error": 2e-06,
+      "model": 609,
+      "patch": "rampsmooth-stateful.rnbopat",
+      "reference_policy": "declared-linear-ramp-first-sample-step",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/rampsmooth"
+        }
+      ],
+      "registry_lookup": "rampsmooth",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "gatetotrig",
+      "codebox": "gatetotrig-stateful.rnbo",
+      "exact_name": "gatetotrig",
+      "id": "gatetotrig-stateful",
+      "maximum_absolute_error": 0.0,
+      "model": 610,
+      "patch": "gatetotrig-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/gatetotrig"
+        }
+      ],
+      "registry_lookup": "gatetotrig",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    },
+    {
+      "arity": 1,
+      "canonical_name": "thresh",
+      "codebox": "thresh-stateful.rnbo",
+      "exact_name": "thresh",
+      "id": "thresh-stateful",
+      "maximum_absolute_error": 0.0,
+      "model": 611,
+      "patch": "thresh-stateful.rnbopat",
+      "reference_policy": "RNBO-independent-continuous-filter",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/lib/refdesc.js",
+          "sha256": "299873b10ec231f1f5b9205c01ffdbc37f371ba8e6acc683374a05ef9660c2a6",
+          "url": "https://rnbo.cycling74.com/codebox/ref/thresh"
+        }
+      ],
+      "registry_lookup": "thresh",
+      "role": "fx",
+      "scope": "Fixed authored controls, fresh state then20continuous256-frame callbacks. Default resources and storage preserved; no reset/member/alias/Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "stateful-next"
+    }
+  ],
+  "family": "rnbo-codebox-filters",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "sample_rate": 44100,
+  "scope": "12 original state/resource/filter owners. Default constructor allocation preserved; capacity/admission chosen by actual generated-source resource preflight before hardware.",
+  "surface": "codebox",
+  "timed_blocks": 16
+}

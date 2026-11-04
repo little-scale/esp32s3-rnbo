@@ -2,7 +2,24 @@
 
 ## Fast coverage runs
 
-The latest [codebox shaping and stateful checks](hardware-smoke.md#rnbo-codebox-continuous-state-instances)
+The latest [direct signal and codebox filter checks](hardware-smoke.md#rnbo-codebox-filters-and-default-delay-resources)
+execute 49 scenarios: 46 pass and three retain signal comparison mismatches,
+checking 501,760 output values. All twelve filter/delay streams pass their full
+twenty-block references. Eleven passing contexts add CPU flags, bringing the
+queue to 87. All images finalise and memory/allocation gates pass. Default
+Float64 resources remain intact; an explicit 2 MiB smoke-only arena tier fits
+the original comb/allpass rings, while ordinary benchmark hosts keep their
+1 MiB default. Capacity and measured use are separately reported. The main
+table now maps 522 exact entries out of 1,455; no Gen rows are added.
+
+The [direct signal range/window batch](hardware-smoke.md#rnbo-signal-ranges-routes-windows-and-constants)
+executes 37 scenarios and checks 378,880 values: 34 pass, `step~` retains its
+ordering mismatch, and two fast approximations exceed their predeclared quality
+screens. Six passing contexts trigger CPU review; `blackman~` has a 7.763 ms
+median against the 5.805 ms block period. Memory/allocation gates pass. These
+signal observations remain separate from matching codebox and Gen results.
+
+The earlier [codebox shaping and stateful checks](hardware-smoke.md#rnbo-codebox-continuous-state-instances)
 execute 51 scenarios: 48 pass and three retain mismatches, checking 522,240 output
 values. Two bounce curves retain their fixed-limit exceedances; `downsamp`
 differs from its declared capture-phase reference. The history class source

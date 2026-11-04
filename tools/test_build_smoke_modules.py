@@ -212,6 +212,28 @@ int main(void){
                 '-I'+str(ROOT/'hardware-smoke/main'),str(c),'-o',str(path/'compare')],check=True,capture_output=True,text=True)
             subprocess.run([str(path/'compare')],check=True,capture_output=True,text=True)
 
+    def test_actual_host_arena_gate_preserves_default_and_scopes_two_mib_override(self):
+        compiler=shutil.which('clang')or shutil.which('cc')
+        if not compiler:self.skipTest('A C compiler is needed for the actual admission helper')
+        source=(ROOT/'object-benchmark/main/module_host.c').read_text()
+        default=source[source.index('#ifndef RNBO_TEST_MAX_ARENA_BYTES'):source.index('_Static_assert(RNBO_TEST_MAX_ARENA_BYTES')]
+        helper=re.search(r'static bool caller_arena_allowed\(uint32_t bytes\).*?^}',source,re.S|re.M).group()
+        shared='assert(!caller_arena_allowed(0));assert(!caller_arena_allowed(4095));assert(caller_arena_allowed(4096));assert(caller_arena_allowed(1048576));assert(!caller_arena_allowed(UINT32_MAX));'
+        with tempfile.TemporaryDirectory()as temp:
+            root=Path(temp)
+            for large in (False,True):
+                checks=('assert(caller_arena_allowed(1048577));assert(caller_arena_allowed(2097152));assert(!caller_arena_allowed(2097153));'
+                        if large else'assert(!caller_arena_allowed(1048577));assert(!caller_arena_allowed(2097152));')
+                path=root/('large.c'if large else'default.c');binary=path.with_suffix('')
+                path.write_text('#include <stdbool.h>\n#include <stdint.h>\n#include <assert.h>\n'+default+helper+'\nint main(void){'+shared+checks+'return 0;}\n')
+                command=[compiler,'-std=c11','-Wall','-Wextra','-Werror','-fsanitize=undefined','-fno-sanitize-recover=undefined']
+                if large:command.append('-DRNBO_TEST_MAX_ARENA_BYTES=2097152u')
+                subprocess.run([*command,str(path),'-o',str(binary)],check=True,capture_output=True)
+                subprocess.run([str(binary)],check=True,capture_output=True)
+        self.assertIn('CHECK(caller_arena_allowed(arena_bytes));',source)
+        cmake=(ROOT/'hardware-smoke/main/CMakeLists.txt').read_text()
+        self.assertIn('RNBO_TEST_MAX_ARENA_BYTES=2097152u',cmake)
+
     def test_wrapper_changes_only_exact_export_paths_and_output(self):
         command = ["compiler", "-I/old", "-I/old/common", "-DNAME=/old", "-o", "old.o", "-c", "wrapper.cpp"]
         result = smoke.rewrite_wrapper(command, Path("/old"), Path("/new"), Path("/new.o"))
@@ -224,8 +246,9 @@ int main(void){
         command=['compiler','-O2','-DRNBO_S3_DYNAMIC_MAX_ARENA_BYTES=4096u','-DOTHER=4096u','-c','wrapper.cpp']
         original=command.copy()
         self.assertEqual(smoke.rewrite_arena_limit(command,4096),command)
-        changed=smoke.rewrite_arena_limit(command,1048576)
-        self.assertEqual(changed,[*command[:2],'-DRNBO_S3_DYNAMIC_MAX_ARENA_BYTES=1048576u',*command[3:]])
+        for limit in (1048576,2097152):
+            changed=smoke.rewrite_arena_limit(command,limit)
+            self.assertEqual(changed,[*command[:2],f'-DRNBO_S3_DYNAMIC_MAX_ARENA_BYTES={limit}u',*command[3:]])
         self.assertEqual(command,original)
         for bad in (True,0,8192,4194304,'1048576'):
             with self.subTest(value=bad),self.assertRaises(smoke.ExportError):smoke.rewrite_arena_limit(command,bad)
@@ -233,9 +256,9 @@ int main(void){
                             [v.replace('=4096u','=1048576u')for v in command]):
             with self.assertRaises(smoke.ExportError):smoke.rewrite_arena_limit(bad_command,1048576)
 
-    def test_cli_exposes_only_the_two_reviewed_tiers(self):
+    def test_cli_exposes_only_the_three_reviewed_tiers(self):
         args=['tool','--prepared-root','/prepared','--base-build','/cache','--out','/new']
-        for choice in (None,4096,1048576):
+        for choice in (None,4096,1048576,2097152):
             argv=args+([]if choice is None else['--max-arena-bytes',str(choice)])
             with mock.patch('sys.argv',argv),mock.patch.object(smoke,'build_batch',return_value={'result':'passed','built':1,'failed':0})as build,redirect_stdout(io.StringIO()):
                 with self.assertRaises(SystemExit)as exit:smoke.main()
@@ -256,10 +279,10 @@ int main(void){
             outputs=[{'id':'cache-control','status':'built','artifact':{'path':str(artifact)}},
                      {'id':'candidate','status':'built','artifact':{'path':'unused'}}]
             with mock.patch.object(smoke,'verify_prepared',return_value=({},manifest(),snapshot)),                 mock.patch.object(smoke,'inspect_cache',return_value=cache),                 mock.patch.object(smoke,'sources',return_value={}),                 mock.patch.object(smoke,'build_one',side_effect=outputs)as build,redirect_stdout(io.StringIO()):
-                result=smoke.build_batch(prepared,base,root/'out',1048576)
+                result=smoke.build_batch(prepared,base,root/'out',2097152)
             self.assertTrue(result['cache_control_whole_ELF_equal'])
-            self.assertEqual(result['max_arena_bytes'],1048576);self.assertEqual(result['cache_control_max_arena_bytes'],4096)
-            self.assertEqual([call.args[-1]for call in build.call_args_list],[4096,1048576])
+            self.assertEqual(result['max_arena_bytes'],2097152);self.assertEqual(result['cache_control_max_arena_bytes'],4096)
+            self.assertEqual([call.args[-1]for call in build.call_args_list],[4096,2097152])
             self.assertTrue(all(call.args[3]is cache for call in build.call_args_list))
             self.assertEqual(artifact.read_bytes(),b'unchanged control image')
 
