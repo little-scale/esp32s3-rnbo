@@ -186,6 +186,19 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.assertEqual(result['surface'],'patcher')
         self.assertNotIn('parameter_events',result['cases'][0])
 
+    def test_codebox_family_carries_program_identity_and_rejects_wrong_surface(self):
+        self.constant();self.expected['codebox_source_sha256']='f'*64
+        for family in ('rnbo-codebox','rnbo-codebox-constants'):
+            self.plan.update(family=family,surface='codebox')
+            result=self.result()
+            self.assertEqual(result['family'],family)
+            self.assertEqual(result['surface'],'codebox')
+            self.assertEqual(result['cases'][0]['codebox_source_sha256'],'f'*64)
+            self.plan['surface']='patcher'
+            with self.assertRaises(ValueError):self.result()
+        self.plan['surface']='codebox';self.expected['codebox_source_sha256']='bad'
+        with self.assertRaises(ValueError):self.result()
+
     def test_historical_constant_record_keeps_its_public_shape(self):
         self.constant();self.data.pop('first_mismatch_call');self.data.pop('expected_block_count')
         result=self.result();case=result['cases'][0]

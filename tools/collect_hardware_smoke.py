@@ -296,6 +296,10 @@ def collect(build_dir,run_dir):
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
+        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants'):
+            code_sha=expected.get('codebox_source_sha256')
+            require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
+            record['codebox_source_sha256']=code_sha
         record.update(**output,
             mean_us=mean,median_us=med,peak_us=peak,times_us=times,cpu_review_reasons=reasons,
             context_bytes=int(data['context_bytes']),arena_high_water=int(data['arena_high_water']),
@@ -331,6 +335,9 @@ def collect(build_dir,run_dir):
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
     if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
+    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants'):
+        require(plan.get('surface')=='codebox','Codebox family requires its own surface')
+        result.update(family=plan['family'],surface='codebox')
     elif plan.get('family')in('gen-math','gen-stateful')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']

@@ -2,6 +2,14 @@
 
 ## Fast coverage runs
 
+The [RNBO codebox batches](hardware-smoke.md#rnbo-codebox-arithmetic-and-named-constants)
+add 83 passing device scenarios and 849,920 output checks: 43 arithmetic/logic
+forms and 40 named-value constants. The constants are bit-exact; arithmetic
+retains 2,880 allowed operation zero-sign differences. Named `mod(a,b)` and
+`^^` infix remain unverified after compilation/frontend rejection respectively,
+with no device execution. No CPU-review flags trigger. These add 85 mapped
+codebox entries; older patcher, Gen and measured optimisation records are preserved.
+
 Two additional [event/constant batches](hardware-smoke.md#additional-events-and-signal-constants)
 execute 61 scenarios: 56 pass, with five retained event mismatches (`isdenorm`,
 `fixdenorm`, `rmod`, `!%`, `step`). They add 624,640 output checks and 840 parameter

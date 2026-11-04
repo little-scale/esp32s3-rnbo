@@ -13,6 +13,50 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
+## RNBO codebox arithmetic and named constants
+
+Two RNBO codebox batches execute **83 scenarios, all passing their declared
+checks**, with **849,920 output comparisons**. Two other authored forms are
+rejected before execution and remain unverified. These are RNBO `codebox~`
+programs, with their own source/program/module bindings; GenExpr and patcher
+object results do not transfer to them.
+
+The arithmetic/logic batch executes 43 forms and checks 440,320 values. Nonzero
+numeric outputs match exactly. Its 2,880 allowed operation zero-sign differences
+are retained, so this is not a bit-identity claim. The independent reference uses
+finite dyadic inputs, with nonzero powers of two on both lanes for division and
+signed remainder. Unary forms act per lane and binary forms reverse operands.
+
+| Rejected source form | Retained outcome |
+| --- | --- |
+| Named `mod(a,b)` call | Generated C++ failed on an unavailable `safemod` reference; not executed. The separately authored `%` infix form passes. |
+| `^^` infix expression | Frontend rejection; not compiled or executed. The separately authored `xor(a,b)` call passes. |
+
+Those failures describe the supplied closed syntax forms, not universal
+unsupported-object verdicts. No timing, heap or hardware output claim is made
+for either rejection.
+
+The named-value constant batch executes 40 exact spellings, and **all 409,600
+output words match bit-for-bit**. Thirty mathematical constant spellings and
+ten ASCII digit constants are independently authored. `CHAR_0` through `CHAR_9`
+are numeric character codes 48–57, not digit values 0–9. Both output lanes hold
+the chosen constant; declared FX inputs are unused. This qualifies the listed
+named-value syntax, without automatically qualifying zero-argument calls,
+other aliases or dynamic clock/query operations.
+
+Both batches use four automatic zero-input preparation blocks, four checked
+manual warmups and sixteen checked timed callbacks at 44.1 kHz/256 frames.
+Arithmetic/logic medians range from 42 to 274 µs, peak 279 µs. All constant
+medians are 37 µs, peak 42 µs. Every executed image finalises and memory/allocation
+gates pass. Neither batch triggers CPU review; no optimisation gain or isolated
+operation cost is claimed. The production ABI still uses complete 256-frame
+calls; these observations do not establish one-frame host calls.
+
+See [arithmetic/logic results](../evidence/xiao-smoke-rnbo-codebox.json),
+[constant results](../evidence/xiao-smoke-rnbo-codebox-constants.json),
+[the original codebox programs/reference](../tests/fixtures/smoke/rnbo-codebox/README.md)
+and [named-value sources/reference](../tests/fixtures/smoke/rnbo-codebox-constants/README.md).
+
 ## Additional events and signal constants
 
 Two further XIAO batches execute **61 scenarios: 56 pass and five retain output

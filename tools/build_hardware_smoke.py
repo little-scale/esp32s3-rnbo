@@ -28,9 +28,42 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
+
+
+def checked_codebox_source(row,source):
+    """Bind the new surface to an authored RNBO codebox~, never Gen/patcher ops."""
+    if row.get('surface')!='codebox':
+        raise ExportError('Codebox smoke requires an explicit codebox case surface')
+    try:
+        patch=json.loads(source)['patcher']
+        boxes=[entry['box']for entry in patch['boxes']]
+        texts=[box.get('text')for box in boxes]
+        program=next(box for box in boxes if box.get('text')=='codebox~')
+        code=program.get('rnbo_extra_attributes',{}).get('code')
+    except (KeyError,TypeError,ValueError,StopIteration):
+        raise ExportError('Codebox smoke needs an authored flat RNBO codebox graph')
+    if (patch.get('classnamespace')!='rnbo' or len(boxes)!=5 or
+            any(type(text)is not str for text in texts)or
+            set(texts)!={'in~ 1','in~ 2','out~ 1','out~ 2','codebox~'} or
+            any(box.get('maxclass')!='newobj'or box.get('patcher') for box in boxes) or
+            type(code)is not str or not code.strip()or '\0'in code or len(code)>65536):
+        raise ExportError('Codebox smoke requires one explicit program and plain stereo I/O')
+    try:
+        ids={box['text']:box['id']for box in boxes}
+        links=[entry['patchline']for entry in patch['lines']]
+        edges={(tuple(link['source']),tuple(link['destination']))for link in links}
+        outputs={((ids['codebox~'],lane),(ids['out~ '+str(lane+1)],0))for lane in(0,1)}
+        inputs={((ids['in~ '+str(lane+1)],0),(ids['codebox~'],lane))for lane in(0,1)}
+    except (KeyError,TypeError,ValueError):
+        raise ExportError('Codebox smoke has malformed authored connections')
+    if (len(edges)!=len(links)or any(link.get('disabled')for link in links)or
+            edges not in(outputs,outputs|inputs)):
+        raise ExportError('Codebox output must flow through the program without bypasses')
+    return hashlib.sha256(code.encode('utf-8')).hexdigest()
+
 
 
 def checked_words(words):
@@ -117,8 +150,13 @@ def prepare_plan(catalog_path,modules_path):
         if not re.fullmatch('[A-Za-z0-9_-]+',identity):raise ExportError('Unsafe smoke identity')
         module=modules[identity]
         patch=catalog_path.parent/row['patch']
-        source_hash=hashlib.sha256(read_regular(patch,1024*1024)).hexdigest()
+        source_bytes=read_regular(patch,1024*1024)
+        source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
+        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants'):
+            expression_info['codebox_source_sha256']=checked_codebox_source(row,source_bytes)
+            if 'codebox'in row and hashlib.sha256(read_regular(catalog_path.parent/row['codebox'],65536)).hexdigest()!=expression_info['codebox_source_sha256']:
+                raise ExportError('Standalone and embedded codebox programs differ')
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
                 read_regular(catalog_path.parent/row['genexpr'],65536)).hexdigest()
@@ -146,7 +184,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
+            if catalog['family'] in ('gen-math','gen-stateful','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -197,7 +235,9 @@ def prepare_plan(catalog_path,modules_path):
         'input_words_sha256':hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest(),
         'cases':cases,'compile_failures':failures,
         'scope':'Short functional vector and callback timing; not comprehensive qualification or an optimisation comparison'}
-    if catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
+    if catalog['family']in('rnbo-codebox','rnbo-codebox-constants'):
+        plan.update(family=catalog['family'],surface='codebox')
+    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra'):
         plan.update(family=catalog['family'],surface='patcher')
         if catalog['family']=='rnbo-functions':plan['prepare_zero_warm_blocks']=0
         elif catalog['family']in('rnbo-events','rnbo-events-extra'):
@@ -279,7 +319,7 @@ def sources(catalog):
         ('module_host.c','module_host.h','allocation_probe.c','allocation_probe.h','bench_check.h','mapped_range.h'))
     paths.extend(ROOT/'module-sdk/include'/name for name in ('rnbo_s3_module.h','rnbo_s3_dynamic.h'))
     for row in data['cases']:
-        paths.extend(catalog.parent/row[key] for key in ('patch','genexpr') if key in row)
+        paths.extend(catalog.parent/row[key] for key in ('patch','genexpr','codebox') if key in row)
     return {str(p.relative_to(ROOT)):sha(p) for p in sorted(set(paths)) if '__pycache__'not in p.parts}
 
 

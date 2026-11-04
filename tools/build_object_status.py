@@ -213,15 +213,17 @@ def checked_boundary_events(case,data):
 
 def checked_short_smoke(record,item,data):
     """A short exact-spelling hardware observation, with no gain attribution."""
+    codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants')
+    surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra') and data.get('surface')=='patcher' and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     selector=item.get('selector','')
     require(type(selector)is str and selector.startswith('/cases/') and selector[7:].isdigit(),'Short smoke selector must name an executed case')
     cases=data.get('cases');require(type(cases)is list and int(selector[7:])<len(cases),'Short smoke selector is outside executed cases')
     case=pointer(data,selector)
-    require(record['surface']=='patcher' and record['id']=='patcher:'+case.get('exact_name','') and
+    require(record['surface']==surface and record['id']==surface+':'+case.get('exact_name','') and
             record['spelling']==case.get('exact_name'),'Short smoke exact spelling/surface differs')
     require(case.get('status') in ('pass','output_mismatch') and case.get('finalized') is True and
             type(case.get('samples_checked')) is int and case['samples_checked']==10240,
@@ -229,6 +231,12 @@ def checked_short_smoke(record,item,data):
     bits,zeros=case.get('bit_mismatches'),case.get('zero_sign_differences')
     require(type(bits)is int and type(zeros)is int and 0<=zeros<=bits<=case['samples_checked'],
             'Short smoke output status/counters differ')
+    code_fields={}
+    if codebox:
+        code_sha=case.get('codebox_source_sha256')
+        require(type(code_sha)is str and len(code_sha)==64 and all(c in '0123456789abcdef'for c in code_sha),
+                'Codebox smoke requires an authored program identity')
+        code_fields['codebox_source_sha256']=code_sha
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
@@ -239,7 +247,7 @@ def checked_short_smoke(record,item,data):
                 'Boundary smoke requires strict right zero signs')
         strict=case['strict_zero_sign_mismatches']
         event_fields=checked_boundary_events(case,data)
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra')or present==numeric_keys),
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -282,11 +290,34 @@ def checked_short_smoke(record,item,data):
     if median>.1*256000000/44100:expected.append('median_budget')
     if peak>max(3*median,median+100):expected.append('peak_spike')
     require(reasons==expected,'Short smoke CPU review reasons differ')
-    return {**numeric,**resource,**event_fields,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
+    return {**numeric,**resource,**event_fields,**code_fields,'case':case['id'],'status':case['status'],'reference_policy':case.get('reference_policy'),
             'mean_us':mean,'median_us':median,'peak_us':peak,'cpu_review_reasons':reasons,
             'samples_checked':case['samples_checked'],'test_level':'short-functional-hardware-check',
             'full_qualification_claimed':False,'cpu_time_saved_percent':None,
             'evidence_url':PUBLIC_BASE+item['source']}
+
+
+def checked_codebox_build_failure(record,item,data):
+    """Keep a rejected exact codebox form visible without hardware qualification."""
+    require(data.get('format')=='rnbo-hardware-smoke-results-v1'and
+            data.get('family')in('rnbo-codebox','rnbo-codebox-constants')and data.get('surface')=='codebox',
+            'Codebox build failure requires its own source surface')
+    selector=item.get('selector','');parts=selector.split('/')if type(selector)is str else[]
+    require(len(parts)==3 and parts[0]==''and parts[1]in('compile_failures','admission_failures')and parts[2].isdigit(),
+            'Codebox build failure selector differs')
+    failure=pointer(data,selector)
+    require(record.get('surface')=='codebox'and record.get('id')=='codebox:'+failure.get('exact_name','')and
+            record.get('spelling')==failure.get('exact_name')and record.get('working_state')=='unverified'and
+            record.get('board_evidence')is False and not record.get('cpu_measurement_ids')and
+            record.get('optimisation_state')=='unassessed'and not record.get('optimisations'),
+            'Build rejection must not qualify device execution or optimisation')
+    require(failure.get('status')==('compile_failed'if parts[1]=='compile_failures'else'export_failed'),
+            'Codebox rejection stage differs')
+    for key in ('source_sha256','codebox_source_sha256',
+                'compile_log_sha256'if parts[1]=='compile_failures'else'failure_log_sha256'):
+        digest=failure.get(key)
+        require(type(digest)is str and len(digest)==64 and all(c in '0123456789abcdef'for c in digest),
+                'Codebox rejected source/log identity is missing')
 
 
 def public_sources(record,coverage,root,evidence_cache=None):
@@ -300,6 +331,9 @@ def public_sources(record,coverage,root,evidence_cache=None):
                     path.is_file() and not (root/source).is_symlink(),'Qualification evidence must be a public regular file')
             entry=coverage['sources'].get(source)
             require(entry is not None and digest(path)==entry['sha256'],'Qualification evidence changed: '+source)
+            if item.get('evidence_kind')=='rnbo-codebox-build-failure':
+                if source not in evidence_cache:evidence_cache[source]=load(path)
+                checked_codebox_build_failure(record,item,evidence_cache[source])
             if item.get('evidence_kind')=='xiao-rnbo-short-smoke':
                 if source not in evidence_cache:evidence_cache[source]=load(path)
                 checked_short_smoke(record,item,evidence_cache[source])

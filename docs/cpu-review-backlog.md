@@ -10,6 +10,17 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## RNBO codebox batches: no new flags
+
+The 43 arithmetic/logic scenarios have callback medians 42–274 µs and peak
+279 µs. All 40 named-value constant scenarios have median 37 µs and peak 42 µs.
+Both remain below the screening thresholds; no CPU savings are claimed.
+The two rejected syntax forms have no hardware cost observation. Existing
+mathematical CPU-review entries remain pending.
+
+Sources: [RNBO codebox arithmetic/logic](../evidence/xiao-smoke-rnbo-codebox.json)
+and [named constants](../evidence/xiao-smoke-rnbo-codebox-constants.json).
+
 ## Extra events and constants: no new flags
 
 The 40 additional event scenarios have callback medians 75–76.5 µs and peak 81 µs;

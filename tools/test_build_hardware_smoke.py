@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from types import SimpleNamespace
 
-from build_hardware_smoke import ExportError,block_pool,canonical,parameter_case,reference_path
+from build_hardware_smoke import ExportError,block_pool,canonical,parameter_case,reference_path,checked_codebox_source
 
 
 class BoundaryPlanTests(unittest.TestCase):
@@ -37,6 +37,26 @@ class BoundaryPlanTests(unittest.TestCase):
         self.assertEqual(reference_path({'family':'rnbo-constants'}),expected.parent.parent/'rnbo-constants/reference.py')
         for family in ('../rnbo-events-extra','rnbo-events-other',''):
             with self.assertRaises(ExportError):reference_path({'family':family})
+
+    def test_codebox_source_rejects_surface_substitution_and_audio_bypasses(self):
+        path=Path(__file__).resolve().parents[1]/'tests/fixtures/objects/wave4/codebox-arithmetic.rnbopat'
+        patch=json.loads(path.read_bytes());row={'surface':'codebox'}
+        code=patch['patcher']['boxes'][2]['box']['rnbo_extra_attributes']['code']
+        expected=hashlib.sha256(code.encode()).hexdigest()
+        self.assertEqual(checked_codebox_source(row,json.dumps(patch)),expected)
+        for mutation in ('gen','empty','bypass','disabled','extra','wrong-surface'):
+            candidate=copy.deepcopy(patch);case=dict(row)
+            if mutation=='gen':candidate['patcher']['boxes'][2]['box']['text']='gen~'
+            elif mutation=='empty':candidate['patcher']['boxes'][2]['box']['rnbo_extra_attributes']['code']=''
+            elif mutation=='bypass':candidate['patcher']['lines'][2]['patchline']['source']=['left',0]
+            elif mutation=='disabled':candidate['patcher']['lines'][2]['patchline']['disabled']=1
+            elif mutation=='extra':candidate['patcher']['boxes'].append(copy.deepcopy(candidate['patcher']['boxes'][0]))
+            else:case['surface']='patcher'
+            with self.subTest(mutation=mutation),self.assertRaises(ExportError):
+                checked_codebox_source(case,json.dumps(candidate))
+        # Autonomous constants use the same explicit output route with no input wires.
+        patch['patcher']['lines']=patch['patcher']['lines'][2:]
+        self.assertEqual(checked_codebox_source(row,json.dumps(patch)),expected)
 
     def test_actions_preserve_order_slots_and_independent_normalization(self):
         result=self.plan();events=result['parameter_events']

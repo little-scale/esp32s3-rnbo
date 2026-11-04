@@ -7,7 +7,7 @@ import tempfile
 from pathlib import Path
 import unittest
 
-from build_object_status import ROOT,make_status,checked_measurements,pointer,checked_short_smoke,public_sources
+from build_object_status import ROOT,make_status,checked_measurements,pointer,checked_short_smoke,public_sources,checked_codebox_build_failure
 
 
 class ObjectStatusTests(unittest.TestCase):
@@ -58,8 +58,13 @@ class ObjectStatusTests(unittest.TestCase):
             self.assertIsNone(row['performance'])
             self.assertEqual(row['optimisation']['status'],'unassessed')
             self.assertTrue(any(s['url'].endswith('/evidence/xiao-wave4.json') for s in row['sources']))
-        for identity in ('codebox:add','codebox:sub','codebox-member:delta.reset'):
-            self.assertEqual(rows[identity]['working']['status'],'unverified')
+        self.assertEqual(rows['codebox-member:delta.reset']['working']['status'],'unverified')
+        # Named add/sub calls now have their own later codebox execution;
+        # their status is not inherited from Wave4's + and - expressions.
+        for identity in ('codebox:add','codebox:sub'):
+            self.assertEqual(rows[identity]['working']['status'],'board')
+            self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-codebox.json')for s in rows[identity]['sources']))
+            self.assertFalse(any(s['url'].endswith('/evidence/xiao-wave4.json')for s in rows[identity]['sources']))
         # abs now has its own later boundary-event execution, not inherited Wave4 coverage.
         self.assertEqual(rows['patcher:abs']['working']['status'],'board')
         self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-events.json')for s in rows['patcher:abs']['sources']))
@@ -227,6 +232,60 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('explicit initial values',rows['patcher:sig~']['working']['detail'])
         self.assertIn('44,100 Hz',rows['patcher:samplerate~']['working']['detail'])
         self.assertIn('256-frame',rows['patcher:vectorsize~']['working']['detail'])
+
+    def test_actual_codebox_smoke_separates_numeric_passes_and_nonexecuted_rejections(self):
+        source='evidence/xiao-smoke-rnbo-codebox.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(data['summary'],{'admission_failures':1,'compile_failures':1,'cpu_review':0,'executed':43,'output_mismatches':0,'passed':43})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),440320)
+        self.assertEqual(sum(c['zero_sign_differences']for c in data['cases']),2880)
+        for case in data['cases']:
+            row=rows['codebox:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(row['surface'],'codebox')
+            self.assertEqual(row['working']['status'],'board')
+            self.assertEqual(observation['numeric_mismatches'],0)
+            self.assertEqual(observation['absolute_tolerance'],0)
+            self.assertEqual(observation['codebox_source_sha256'],case['codebox_source_sha256'])
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance']);self.assertIsNone(observation['cpu_time_saved_percent'])
+        for name in ('mod','^^'):
+            row=rows['codebox:'+name]
+            self.assertEqual(row['working']['status'],'unverified')
+            self.assertFalse(row['board_evidence'])
+            self.assertNotIn('hardware_smoke',row)
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance'])
+            self.assertIn('not executed'if name=='mod'else'not compiled or executed',row['working']['detail'])
+            self.assertTrue(any(s['url'].endswith('/'+source)for s in row['sources']))
+        self.assertEqual(rows['codebox:%']['working']['status'],'board')
+        self.assertEqual(rows['codebox:xor']['working']['status'],'board')
+        self.assertEqual(rows['patcher:mod']['working']['status'],'board')
+        self.assertEqual(rows['codebox-member:delta.reset']['working']['status'],'unverified')
+
+    def test_actual_codebox_named_constants_are_bit_exact_without_syntax_inheritance(self):
+        source='evidence/xiao-smoke-rnbo-codebox-constants.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertGreaterEqual(len(self.coverage['objects']),333)
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':0,'executed':40,'output_mismatches':0,'passed':40})
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),409600)
+        self.assertTrue({'CHAR_'+str(n)for n in range(10)}<={c['exact_name']for c in data['cases']})
+        for case in data['cases']:
+            row=rows['codebox:'+case['exact_name']]
+            observation=next(o for o in row['hardware_smoke']if o['case']==case['id'])
+            self.assertEqual(row['surface'],'codebox')
+            self.assertEqual(row['working']['status'],'board')
+            self.assertEqual(case['syntax'],'named-value')
+            self.assertEqual(case['bit_mismatches'],0)
+            self.assertEqual(case['zero_sign_differences'],0)
+            self.assertEqual(observation['codebox_source_sha256'],case['codebox_source_sha256'])
+            self.assertEqual(observation['absolute_tolerance'],0)
+            self.assertIn('named-value syntax',row['working']['detail'])
+            self.assertIn('Zero-argument calls',row['working']['detail'])
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance'])
 
     def test_xiao_source_selector_cannot_qualify_an_unexecuted_alias_or_program(self):
         forged=copy.deepcopy(self.coverage)
@@ -517,6 +576,37 @@ class ShortSmokeStatusTests(unittest.TestCase):
         self.assertIsNone(row['performance']);self.assertIsNone(row['hardware_smoke'][0]['cpu_time_saved_percent'])
         self.assertEqual(row['optimisation']['status'],'unassessed')
         self.assertEqual(rows['codebox:floor']['working']['status'],'unverified')
+
+    def test_rejected_codebox_form_is_visible_without_hardware_or_gain_claim(self):
+        record=dict(self.record,id='codebox:mod',spelling='mod',surface='codebox',working_state='unverified',board_evidence=False)
+        failure={'exact_name':'mod','status':'compile_failed','source_sha256':'a'*64,
+                 'codebox_source_sha256':'b'*64,'compile_log_sha256':'c'*64}
+        data=dict(self.data,family='rnbo-codebox',surface='codebox',compile_failures=[failure])
+        item=dict(self.item,selector='/compile_failures/0',evidence_kind='rnbo-codebox-build-failure')
+        checked_codebox_build_failure(record,item,data)
+        for key,value in (('spelling','%'),('surface','patcher'),('working_state','board'),('board_evidence',True),
+                          ('cpu_measurement_ids',['made-up']),('optimisation_state','available')):
+            with self.subTest(key=key),self.assertRaises(ValueError):
+                checked_codebox_build_failure(dict(record,**{key:value}),item,data)
+        failure['compile_log_sha256']='bad'
+        with self.assertRaises(ValueError):checked_codebox_build_failure(record,item,data)
+
+    def test_codebox_short_result_cannot_qualify_patcher_or_gen_surface(self):
+        self.numeric();self.record.update(id='codebox:floor',spelling='floor',surface='codebox')
+        self.data['cases'][0].update(exact_name='floor',codebox_source_sha256='d'*64)
+        for family in ('rnbo-codebox','rnbo-codebox-constants'):
+            self.data.update(family=family,surface='codebox')
+            rows=self.result()
+            self.assertEqual(rows['codebox:floor']['working']['status'],'board')
+            self.assertEqual(rows['patcher:floor']['working']['status'],'unverified')
+            observation=rows['codebox:floor']['hardware_smoke'][0]
+            self.assertEqual(observation['codebox_source_sha256'],'d'*64)
+            for surface in ('patcher','genexpr'):
+                self.data['surface']=surface
+                with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+            self.data['surface']='codebox'
+        self.data['cases'][0].pop('codebox_source_sha256')
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
     def test_existing_stronger_status_and_optimisation_are_preserved(self):
         self.record.pop('working_test_level');self.record['working_state']='in_patch'
