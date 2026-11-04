@@ -87,6 +87,27 @@ class ObjectStatusTests(unittest.TestCase):
                 self.assertEqual(row['working']['test_level'],'short-functional-hardware-check')
                 self.assertEqual(row['optimisation']['status'],'unassessed')
 
+    def test_actual_signal_routing_preserves_numeric_differences_and_no_gain_claim(self):
+        source='evidence/xiao-smoke-rnbo-signal-routing.json'
+        data=json.loads((ROOT/source).read_bytes())
+        rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
+        self.assertEqual(data['summary'],{'compile_failures':0,'cpu_review':1,'executed':20,
+                                         'output_mismatches':0,'passed':20})
+        for case in data['cases']:
+            row=rows['patcher:'+case['exact_name']]
+            observation=next(v for v in row['hardware_smoke']if v['case']==case['id'])
+            self.assertEqual(row['working']['status'],'board')
+            self.assertEqual(row['optimisation']['status'],'unassessed')
+            self.assertIsNone(row['performance'])
+            self.assertEqual(observation['input_words_sha256'],case['input_words_sha256'])
+            self.assertEqual(observation['max_absolute_error'],case['max_absolute_error'])
+            self.assertIsNone(observation['cpu_time_saved_percent'])
+        self.assertEqual(sum(c['samples_checked']for c in data['cases']),204800)
+        self.assertEqual(sum(c['within_tolerance_differences']for c in data['cases']),10240)
+        self.assertEqual(sum(c['zero_sign_differences']for c in data['cases']),3520)
+        self.assertEqual({c['exact_name']for c in data['cases']if c['cpu_review_reasons']},{'cubicinterp~'})
+        self.assertEqual(rows['patcher:gate']['working']['status'],'unverified')
+
     def test_actual_numeric_smoke_keeps_mismatches_tolerances_and_cpu_review_visible(self):
         data=json.loads((ROOT/'evidence/xiao-smoke-rnbo-numeric.json').read_bytes())
         rows={r['id']:r for r in make_status(self.inventory,self.coverage)['objects']}
@@ -922,6 +943,19 @@ class ShortSmokeStatusTests(unittest.TestCase):
         self.data['surface']='codebox'
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
         self.data['surface']='patcher';self.data['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
+        with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
+
+    def test_signal_routing_requires_numeric_fields_zero_prepare_and_its_surface(self):
+        self.numeric();self.record.update(id='patcher:gate~',spelling='gate~')
+        self.data.update(family='rnbo-signal-routing',surface='patcher',prepare_zero_warm_blocks=0)
+        case=self.data['cases'][0];case.update(exact_name='gate~')
+        observation=checked_short_smoke(self.record,self.item,self.data)
+        self.assertIsNone(observation['cpu_time_saved_percent'])
+        for changes in ({'surface':'codebox'},{'surface':'genexpr'},
+                        {'prepare_zero_warm_blocks':4},{'prepare_zero_warm_blocks':False}):
+            with self.subTest(changes=changes),self.assertRaises(ValueError):
+                checked_short_smoke(self.record,self.item,dict(self.data,**changes))
+        case.pop('input_words_sha256')
         with self.assertRaises(ValueError):checked_short_smoke(self.record,self.item,self.data)
 
     def test_existing_stronger_status_and_optimisation_are_preserved(self):

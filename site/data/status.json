@@ -1,5 +1,5 @@
 {
-  "evidence_updated": "4 Nov 2026",
+  "evidence_updated": "5 Nov 2026",
   "inventory_sources": [
     {
       "label": "RNBO object reference",
@@ -766,9 +766,31 @@
       "aliases": [
         "!=p~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "neqp~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "not-equal-pass-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 52.25,
+          "median_us": 52.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 56,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:!=p~",
       "inventory_group": "patcher:neqp~",
       "is_alias": true,
@@ -776,16 +798,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/neqp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 52.25µs, median 52.00µs, peak 56µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2386,9 +2416,31 @@
       "aliases": [
         "<=p~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ltep~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "less-equal-pass-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 52.0,
+          "median_us": 52.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 52,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:<=p~",
       "inventory_group": "patcher:ltep~",
       "is_alias": true,
@@ -2396,16 +2448,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/ltep~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 52.00µs, median 52.00µs, peak 52µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2515,9 +2575,31 @@
       "aliases": [
         "<p~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ltp~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "less-pass-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 52.0625,
+          "median_us": 52.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 53,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:<p~",
       "inventory_group": "patcher:ltp~",
       "is_alias": true,
@@ -2525,16 +2607,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/ltp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 52.06µs, median 52.00µs, peak 53µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -2757,9 +2847,31 @@
       "aliases": [
         "==p~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "eqp~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "equal-pass-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 52.0,
+          "median_us": 52.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 52,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:==p~",
       "inventory_group": "patcher:eqp~",
       "is_alias": true,
@@ -2767,16 +2879,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/eqp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 52.00µs, median 52.00µs, peak 52µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3125,9 +3245,31 @@
       "aliases": [
         ">=p~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gtep~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "greater-equal-pass-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 52.4375,
+          "median_us": 52.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 56,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:>=p~",
       "inventory_group": "patcher:gtep~",
       "is_alias": true,
@@ -3135,16 +3277,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gtep~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 52.44µs, median 52.00µs, peak 56µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3254,9 +3404,31 @@
       "aliases": [
         ">p~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gtp~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "greater-pass-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 52.5625,
+          "median_us": 52.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 57,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:>p~",
       "inventory_group": "patcher:gtp~",
       "is_alias": true,
@@ -3264,16 +3436,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gtp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 52.56µs, median 52.00µs, peak 57µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -3383,9 +3563,31 @@
       "aliases": [
         "?~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cond~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "conditional-symbol-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 50.3125,
+          "median_us": 50.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 55,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:?~",
       "inventory_group": "patcher:cond~",
       "is_alias": true,
@@ -3393,16 +3595,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/cond~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 50.31µs, median 50.00µs, peak 55µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -13802,9 +14012,33 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cubicinterp~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "cubicinterp-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77287cdc46755e16515ee6dbf3e8eb7ce46f68ac5b31b547af495683640c5480",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 3368.0,
+          "median_us": 3367.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 3371,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1760
+        }
+      ],
       "id": "patcher:cubicinterp~",
       "inventory_group": "patcher:cubicinterp~",
       "is_alias": false,
@@ -13812,16 +14046,28 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/cubicinterp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        },
+        {
+          "label": "cpu review backlog — documentation",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/cpu-review-backlog.md"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Whole callback cost is flagged for later review in the active CPU review queue; no optimisation gain is claimed. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Whole callback median/peak screening queued this exact signal context for future investigation only; no CPU saving or performance change is claimed. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 3368.00µs, median 3367.00µs, peak 3371µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 1760; numeric mismatches 0; nonfinite outputs 0. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -19558,9 +19804,31 @@
         "==~",
         "equals~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "eq~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "equals-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 54.3125,
+          "median_us": 54.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 58,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:equals~",
       "inventory_group": "patcher:eq~",
       "is_alias": true,
@@ -19568,16 +19836,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/eq~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 54.31µs, median 54.00µs, peak 58µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -20716,9 +20992,31 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "fastcubicinterp~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "fastcubicinterp-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77287cdc46755e16515ee6dbf3e8eb7ce46f68ac5b31b547af495683640c5480",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 83.5625,
+          "median_us": 83.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 87,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 320
+        }
+      ],
       "id": "patcher:fastcubicinterp~",
       "inventory_group": "patcher:fastcubicinterp~",
       "is_alias": false,
@@ -20726,16 +21024,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/fastcubicinterp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 83.56µs, median 83.00µs, peak 87µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 320; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -23696,9 +24002,31 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gate~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "gate-two-outlets",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "35a515d91f1f5f0e7ca7577b5565c08ee25ce89c4a669728d72b8d1b846fe7ec",
+          "max_absolute_error": 0.0,
+          "mean_us": 104.3125,
+          "median_us": 104.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 108,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:gate~",
       "inventory_group": "patcher:gate~",
       "is_alias": false,
@@ -23706,16 +24034,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/gate~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 104.31µs, median 104.00µs, peak 108µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -28571,9 +28907,31 @@
         "<~",
         "lessthan~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "lt~",
       "category": "Comparison",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "lessthan-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 54.75,
+          "median_us": 54.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 59,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:lessthan~",
       "inventory_group": "patcher:lt~",
       "is_alias": true,
@@ -28581,16 +28939,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/lt~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 54.75µs, median 54.00µs, peak 59µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -35173,9 +35539,31 @@
         "-~",
         "minus~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sub~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "minus-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 54.3125,
+          "median_us": 54.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 58,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:minus~",
       "inventory_group": "patcher:sub~",
       "is_alias": true,
@@ -35183,16 +35571,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sub~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 54.31µs, median 54.00µs, peak 58µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -42406,9 +42802,31 @@
       "aliases": [
         "r~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "receive~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "receive-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 47.1875,
+          "median_us": 47.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 52,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:receive~",
       "inventory_group": "patcher:receive~",
       "is_alias": false,
@@ -42416,16 +42834,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/receive~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 47.19µs, median 47.00µs, peak 52µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -43475,9 +43901,31 @@
       "aliases": [
         "r~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "receive~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "r-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 47.25,
+          "median_us": 47.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 51,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:r~",
       "inventory_group": "patcher:receive~",
       "is_alias": true,
@@ -43485,16 +43933,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/receive~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 47.25µs, median 47.00µs, peak 51µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -45099,9 +45555,31 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "selector~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "selector-two-inputs",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "35a515d91f1f5f0e7ca7577b5565c08ee25ce89c4a669728d72b8d1b846fe7ec",
+          "max_absolute_error": 0.0,
+          "mean_us": 88.125,
+          "median_us": 87.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 92,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:selector~",
       "inventory_group": "patcher:selector~",
       "is_alias": false,
@@ -45109,16 +45587,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/selector~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 88.12µs, median 87.00µs, peak 92µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -45151,9 +45637,31 @@
       "aliases": [
         "s~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "send~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "send-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 46.875,
+          "median_us": 47.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 47,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:send~",
       "inventory_group": "patcher:send~",
       "is_alias": false,
@@ -45161,16 +45669,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/send~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 46.88µs, median 47.00µs, peak 47µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -46323,9 +46839,31 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "spline6interp~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "spline6interp-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77287cdc46755e16515ee6dbf3e8eb7ce46f68ac5b31b547af495683640c5480",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 123.875,
+          "median_us": 124.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 128,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 7840
+        }
+      ],
       "id": "patcher:spline6interp~",
       "inventory_group": "patcher:spline6interp~",
       "is_alias": false,
@@ -46333,16 +46871,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/spline6interp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 123.88µs, median 124.00µs, peak 128µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 7840; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -46426,9 +46972,31 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "splineinterp~",
       "category": "Math",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "splineinterp-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "77287cdc46755e16515ee6dbf3e8eb7ce46f68ac5b31b547af495683640c5480",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 83.6875,
+          "median_us": 83.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 88,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 320
+        }
+      ],
       "id": "patcher:splineinterp~",
       "inventory_group": "patcher:splineinterp~",
       "is_alias": false,
@@ -46436,16 +47004,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/splineinterp~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 83.69µs, median 83.00µs, peak 88µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 320; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -48401,9 +48977,31 @@
       "aliases": [
         "s~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "send~",
       "category": "Route",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "s-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "96ce7fa143eeed1475deeff57563b6c0df81b4ad2004f76163f9865b9fe08191",
+          "max_absolute_error": 0.0,
+          "mean_us": 47.1875,
+          "median_us": 47.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 51,
+          "reference_policy": "documented-bounded-signal-routing",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:s~",
       "inventory_group": "patcher:send~",
       "is_alias": true,
@@ -48411,16 +49009,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/send~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo signal routing — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-signal-routing.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed the supplied bounded signal routing/interpolation scenario; other modes and domains remain unqualified. Exact parameter-free stereo RNBO signal graph: gate with zero ramp and selector use integer choices 0/1/2; named sends/receives use distinct internal graph buses; interpolation uses asymmetric fixed keyframes and phases in [0,1]; pass comparisons preserve the left operand when true. Independent references use zero tolerance for routes/comparisons or a predeclared 2e-6 for interpolation. Zero automatic preparation warm blocks, four checked manual warmups and sixteen timed 256-frame callbacks. Other modes, nonfinite inputs, dynamic keyframes, root Max buses and Gen/codebox contexts remain unqualified. Remaining scope: Only the exact authored source, finite input vector and predeclared limit are checked; full-domain and complete-mode qualification remain open. RNBO signal patcher context only; Gen, codebox, aliases and other bus scopes inherit no qualification. Signed-zero differences are retained diagnostics; interpolation passes do not imply raw-bit identity. Short XIAO check (pass): one repeated stereo vector; mean 47.19µs, median 47.00µs, peak 51µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -53088,10 +53694,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "5ff7b23ae22ffb56c682d8c9e927661bbda7eb86613d891440161a4b24a2d275",
-    "coverage_source_sha256": "631df62b961292b83fb21143934078008f1fa13351954b034cf1b1462c620b5a",
-    "exact_coverage_entries": 556,
-    "generator_sha256": "8e1a94d8242bb16dbfebe74ba99459c3261c5b5dd01f5bef8343cddcd7232331",
+    "coverage_canonical_sha256": "b4191bfb4a632e3b55db8ac0e26831e415df2af0e4401df5ad47076dd1d7a618",
+    "coverage_source_sha256": "8dadbf0f83b396559105f5aee14c9ae308ad11ade012da6b67f9b8e15012db1b",
+    "exact_coverage_entries": 576,
+    "generator_sha256": "c6816b37dd72d7d5680570bcfc9872dac00f23341af5acf12fc5027a58717883",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

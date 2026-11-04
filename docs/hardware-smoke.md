@@ -13,7 +13,13 @@ The test firmware stays installed between batches. It is quiet after completion
 and does not run I²S audio, a display or networking. The drone can be reinstalled
 when needed; it is not automatically restored after each batch.
 
-The latest signal-stateful and miscellaneous codebox batches execute **37
+The latest signal routing and interpolation batch passes **all 20 scenarios**,
+checking **204,800 output values**. `cubicinterp~` takes 3,367 µs median
+(58.00% of the audio block period) and is queued for later CPU review, bringing
+the queue to 93. Numerical differences remain separate; no optimisation gain
+is claimed.
+
+The earlier signal-stateful and miscellaneous codebox batches execute **37
 scenarios: 36 pass and one retains a declared capture-phase mismatch**, across
 **378,880 output values**. Five passing callback contexts add CPU-review flags,
 bringing the queue to 92. References and limits remain unchanged; no DSP
@@ -42,6 +48,38 @@ The earlier RNBO codebox numeric and Gen range batches execute **72 scenarios:
 **737,280 output checks**. One additional Gen `gate` source is rejected before
 execution. Twenty new CPU-review contexts bring the queue to 52; no DSP change
 or optimisation gain is claimed. RNBO codebox and Gen results remain separate.
+
+## RNBO signal routing and interpolation
+
+All **20 exact spellings pass** their independent references on XIAO. The six
+routing forms cover `gate~`, `selector~` and four named send/receive spellings.
+Gate and selector choices change within the block among 0/1/2; the gate fixes
+its ramp to zero. Named buses connect distinct stereo names inside one RNBO
+graph. Other bus scopes, feedback routes and fractional choices remain open.
+
+The four interpolation forms use asymmetric literal keyframes and Float32
+phases in [0,1], including endpoint and midpoint neighbours. References
+distinguish Lagrange, full-slope Hermite, Catmull–Rom and six-point quintic
+B-spline equations. Ten further signal spellings check pass comparisons,
+boolean aliases, subtraction and conditional selection independently.
+
+Zero automatic preparation warm blocks precede four checked manual warmups
+and sixteen timed 256-frame callbacks per source. All 204,800 output checks
+pass their predeclared limits: zero for routes/comparisons and 2e-6 for
+interpolation. There are 10,240 interpolation word differences, with maximum
+absolute error 5.960464477539063e-8, and 3,520 gate zero-sign differences.
+These remain diagnostics; the whole batch is not bit-exact.
+
+Callback medians span 47–3,367 µs. `cubicinterp~` is the sole CPU-review flag,
+at 3,367 µs median/3,371 µs peak (58.00%/58.07% of the block period).
+These are complete stereo fixture costs, not isolated operator timings.
+Every module finalises and passes memory/allocation checks; all reserve a
+4 KiB arena and report zero arena high-water use. The quiet test firmware
+remains installed. No Gen, one-frame host ABI or optimisation gain follows.
+
+See [the complete routing results](../evidence/xiao-smoke-rnbo-signal-routing.json),
+[the original graphs and references](../tests/fixtures/smoke/rnbo-signal-routing/README.md)
+and [CPU review queue](cpu-review-backlog.md).
 
 ## RNBO signal state across callback boundaries
 

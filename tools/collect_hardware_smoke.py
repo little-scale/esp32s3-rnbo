@@ -254,9 +254,16 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
-    if plan.get('family')in('rnbo-signal-range','rnbo-signal-stateful'):
+    if plan.get('family')in('rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing'):
         require(plan.get('surface')=='patcher'and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0,'Signal range domains require zero automatic preparation blocks')
+    if plan.get('family')=='rnbo-signal-routing':
+        require(all(case.get('surface')=='patcher'and case.get('role')=='fx'and
+                    case.get('syntax')=='signal-object'and
+                    not any(key in case for key in ('genexpr','codebox','expected_parameter_count','parameter_events'))and
+                    type(case.get('absolute_tolerance',0))in(int,float)and
+                    0<=case.get('absolute_tolerance',0)<=2e-6 for case in plan['cases']),
+                'Signal routing requires parameter-free signal sources and its declared accuracy limit')
     if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','gen-range','gen-constants'):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
@@ -340,7 +347,7 @@ def collect(build_dir,run_dir):
         'cpu_review_policy':{'timed_callbacks':16,'high_median_block_fraction':0.1,
             'peak_threshold':'greater than max(3*median, median+100us)',
             'action':'Record for future investigation/optimisation; do not automatically change DSP'}}
-    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
+    if plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

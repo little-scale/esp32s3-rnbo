@@ -17,6 +17,7 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from build import verify_prepared
+from build_smoke_modules import validate_manifest
 from inspect_module import inspect_module
 from prepare import canonical,ExportError,read_json,read_regular,validate_description
 from build_loader_spike import inventory,tree_digest
@@ -28,7 +29,7 @@ def save(path,value):path.write_bytes(canonical(value))
 
 def reference_path(catalog):
     family=catalog.get('family')
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -130,6 +131,17 @@ def block_pool(cases):
     return blocks,refs
 
 
+def routing_contract(row,manifest=None):
+    """The routing batch uses ordinary, parameter-free signal patchers only."""
+    if (row.get('surface')!='patcher' or row.get('role')!='fx' or
+            row.get('syntax')!='signal-object' or 'genexpr'in row or 'codebox'in row):
+        raise ExportError('Signal routing requires its own ordinary FX signal-object source')
+    if manifest is not None:
+        validate_manifest(manifest)
+        if manifest['parameter_count']!=0:
+            raise ExportError('Signal routing requires zero parameters')
+
+
 def prepare_plan(catalog_path,modules_path):
     catalog=read_json(read_regular(catalog_path,1024*1024),'smoke catalog')
     batch=read_json(read_regular(modules_path,8*1024*1024),'smoke modules')
@@ -148,6 +160,7 @@ def prepare_plan(catalog_path,modules_path):
     for row in catalog['cases']:
         identity=row['id']
         if not re.fullmatch('[A-Za-z0-9_-]+',identity):raise ExportError('Unsafe smoke identity')
+        if catalog['family']=='rnbo-signal-routing':routing_contract(row)
         module=modules[identity]
         patch=catalog_path.parent/row['patch']
         source_bytes=read_regular(patch,1024*1024)
@@ -175,16 +188,20 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
+        if catalog['family']=='rnbo-signal-routing':routing_contract(row,manifest)
         if manifest.get('editable_source_sha256')!=source_hash:
             raise ExportError('Prepared module does not match authored patch: '+identity)
         prepared=Path(module['prepared']['path'])
-        if verify_prepared(prepared)[2]!=module['prepared']['snapshot']:
+        _,actual_manifest,actual_snapshot=verify_prepared(prepared)
+        if actual_snapshot!=module['prepared']['snapshot']:
             raise ExportError('Prepared module changed: '+identity)
+        if catalog['family']=='rnbo-signal-routing'and actual_manifest!=manifest:
+            raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if module['status']!='built':
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -210,6 +227,8 @@ def prepare_plan(catalog_path,modules_path):
         if hasattr(reference,'case_input_words'):
             case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
                 absolute_tolerance=absolute_tolerance(reference,row['model']))
+        if catalog['family']=='rnbo-signal-routing'and case.get('absolute_tolerance',0)>2e-6:
+            raise ExportError('Signal routing supports exact or at most2e-6 absolute error')
         if streams is not None:
             case.update(expected_blocks=streams,expected_stream_sha256=hashlib.sha256(
                 struct.pack('<10240I',*(w for block in streams for w in block))).hexdigest())
@@ -242,9 +261,9 @@ def prepare_plan(catalog_path,modules_path):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful codebox cases require twenty continuous reference blocks')
-    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-events','rnbo-events-extra'):
+    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','rnbo-events','rnbo-events-extra'):
         plan.update(family=catalog['family'],surface='patcher')
-        if catalog['family']in('rnbo-functions','rnbo-signal-range','rnbo-signal-stateful'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('rnbo-functions','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing'):plan['prepare_zero_warm_blocks']=0
         if catalog['family']=='rnbo-signal-stateful':
             plan['expected_stream_policy']='Fresh prepared signal state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):

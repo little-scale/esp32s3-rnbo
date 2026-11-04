@@ -30,6 +30,17 @@ def manifest():
 
 
 class SmokeModuleTests(unittest.TestCase):
+    def test_signal_routing_reuses_only_the_strict_parameter_free_fx_profile(self):
+        from build_hardware_smoke import routing_contract
+        row={'surface':'patcher','role':'fx','syntax':'signal-object'}
+        routing_contract(row,manifest())
+        for field,value in (('parameter_count',1),('parameter_count',False),('audio_inputs',1),
+                            ('audio_outputs',1),('midi_output_ports',1),('required_host_services',['dataref']),
+                            ('numerical_profile','float32-auto-v1')):
+            changed=manifest();changed[field]=value
+            with self.subTest(field=field),self.assertRaises(smoke.ExportError):
+                routing_contract(row,changed)
+
     def test_other_profiles_services_and_boolean_integer_fields_reject(self):
         smoke.validate_manifest(manifest())
         for field, value in (("role", "main"), ("block_frames", 128),

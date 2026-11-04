@@ -240,6 +240,27 @@ class SmokeStatefulStreamTests(unittest.TestCase):
         self.plan.update(prepare_zero_warm_blocks=0,surface='codebox')
         with self.assertRaises(ValueError):self.result()
 
+    def test_signal_routing_preserves_vectors_and_timing_without_admitting_events(self):
+        self.constant();self.plan.update(family='rnbo-signal-routing',surface='patcher')
+        self.expected.update(surface='patcher',role='fx',syntax='signal-object')
+        result=self.result()
+        self.assertEqual(result['family'],'rnbo-signal-routing')
+        self.assertEqual(result['surface'],'patcher')
+        self.assertEqual(result['prepare_zero_warm_blocks'],0)
+        self.assertEqual(result['cases'][0]['expected_block_count'],1)
+        self.assertEqual(result['cases'][0]['samples_checked'],10240)
+        self.assertEqual(result['cpu_review_policy']['timed_callbacks'],16)
+        for key,value in (('surface','codebox'),('role','main'),('syntax','call'),
+                          ('absolute_tolerance',.001),('expected_parameter_count',1),
+                          ('parameter_events',[]),('genexpr','source.genexpr')):
+            old=copy.deepcopy(self.expected);self.expected[key]=value
+            with self.subTest(key=key),self.assertRaises(ValueError):self.result()
+            self.expected.clear();self.expected.update(old)
+        self.plan['prepare_zero_warm_blocks']=4
+        with self.assertRaises(ValueError):self.result()
+        self.plan.update(prepare_zero_warm_blocks=0,surface='codebox')
+        with self.assertRaises(ValueError):self.result()
+
     def test_historical_constant_record_keeps_its_public_shape(self):
         self.constant();self.data.pop('first_mismatch_call');self.data.pop('expected_block_count')
         result=self.result();case=result['cases'][0]

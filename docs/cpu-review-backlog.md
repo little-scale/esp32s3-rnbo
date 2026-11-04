@@ -10,6 +10,20 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Signal routing and interpolation: one queued context
+
+All 20 supplied signal scenarios pass their output limits. The new flag is
+the complete stereo `cubicinterp~` callback: **3,367 µs median, 3,371 µs peak**,
+or **58.00%/58.07%** of the 256-frame period at 44.1 kHz. This median-cost flag
+brings the queue from 92 to **93**; no peak-spike flag triggers.
+
+The asymmetric fixed-keyframe vector passes its unchanged 2e-6 limit, with
+maximum absolute error 5.960464477539063e-8. The similarly named codebox case
+remains a separate queued context. No isolated opcode cost, optimisation or
+performance gain is claimed.
+
+Source: [signal routing results](../evidence/xiao-smoke-rnbo-signal-routing.json).
+
 ## Signal-stateful and miscellaneous codebox: five queued contexts
 
 All five flagged scenarios pass their output limits. These are complete source

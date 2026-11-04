@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from types import SimpleNamespace
 
-from build_hardware_smoke import ExportError,block_pool,canonical,parameter_case,reference_path,checked_codebox_source
+from build_hardware_smoke import ExportError,block_pool,canonical,parameter_case,reference_path,checked_codebox_source,routing_contract
 
 
 class BoundaryPlanTests(unittest.TestCase):
@@ -35,10 +35,18 @@ class BoundaryPlanTests(unittest.TestCase):
         expected=Path(__file__).resolve().parents[1]/'tests/fixtures/smoke/rnbo-events-extra/reference.py'
         self.assertEqual(reference_path({'family':'rnbo-events-extra'}),expected)
         self.assertEqual(reference_path({'family':'rnbo-constants'}),expected.parent.parent/'rnbo-constants/reference.py')
-        for family in ('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-signal-range','rnbo-signal-stateful','gen-range','gen-constants'):
+        for family in ('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-routing','gen-range','gen-constants'):
             self.assertEqual(reference_path({'family':family}),expected.parent.parent/family/'reference.py')
-        for family in ('../rnbo-events-extra','rnbo-events-other',''):
+        for family in ('../rnbo-events-extra','rnbo-events-other','rnbo-signal-routing-other',''):
             with self.assertRaises(ExportError):reference_path({'family':family})
+
+    def test_signal_routing_source_route_does_not_admit_other_surfaces_or_controls(self):
+        row={'surface':'patcher','role':'fx','syntax':'signal-object'}
+        routing_contract(row)
+        for field,value in (('surface','genexpr'),('surface','codebox'),('role','main'),
+                            ('syntax','call'),('genexpr','source.genexpr'),('codebox','source.rnbo')):
+            with self.subTest(field=field),self.assertRaises(ExportError):
+                routing_contract(dict(row,**{field:value}))
 
     def test_codebox_source_rejects_surface_substitution_and_audio_bypasses(self):
         path=Path(__file__).resolve().parents[1]/'tests/fixtures/objects/wave4/codebox-arithmetic.rnbopat'

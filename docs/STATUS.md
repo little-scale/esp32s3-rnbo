@@ -19,6 +19,15 @@ pending. [Exact integration evidence](../evidence/player-xiao.json) records scop
 and artifact identities. The user has authorised continuing fast object qualification, CPU flags and
 separately recorded Float32 optimisation.
 
+The [signal routing and interpolation batch](hardware-smoke.md#rnbo-signal-routing-and-interpolation)
+passes all 20 exact spellings and 204,800 output checks. `cubicinterp~` records
+3,367 µs median/3,371 µs peak, around 58% of the block period, and brings the
+CPU-review queue to 93. Interpolation rounding and gate zero-sign differences
+are retained separately. The status page now maps 576 exact entries; this is
+scoped evidence, not complete-object qualification. Quiet smoke firmware is
+currently installed on XIAO; the previous player, package and private settings
+have a verified full-flash backup for later restoration.
+
 The [parameter-driven event batch](hardware-smoke.md#rnbo-parameter-driven-event-batch)
 passes all 35 exact event spellings,735 updates/readbacks and 358,400 output checks.
 A single linear numeric control is applied at callback boundaries; the independent

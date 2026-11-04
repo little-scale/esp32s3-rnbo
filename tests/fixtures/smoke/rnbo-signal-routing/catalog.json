@@ -1,0 +1,776 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "gate~",
+      "exact_name": "gate~",
+      "id": "gate-two-outlets",
+      "input_domains": [
+        [
+          0,
+          2
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "ramptime_ms": 0
+      },
+      "maximum_absolute_error": 0,
+      "model": 800,
+      "patch": "gate-two-outlets.rnbopat",
+      "patch_sha256": "2ca6ebe923995c1642df91dc499fa6df8b16bd7f52f8a61cea0474f7e930f6d4",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gate~.maxref.xml",
+          "sha256": "8320dc9f80bf210c9bcb74a03e6a3b75e88fadc05a74c7cf5c452c750882d8fc",
+          "url": "https://rnbo.cycling74.com/objects/ref/gate~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "gate~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "selector~",
+      "exact_name": "selector~",
+      "id": "selector-two-inputs",
+      "input_domains": [
+        [
+          0,
+          2
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "choices": [
+          0,
+          1,
+          2
+        ],
+        "second_choice": "negative-right-input"
+      },
+      "maximum_absolute_error": 0,
+      "model": 801,
+      "patch": "selector-two-inputs.rnbopat",
+      "patch_sha256": "2eb4f22107438f8836866a98b5e487f9bfc199a307939635677a8207b0e51d52",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_selector~.maxref.xml",
+          "sha256": "44d67fa9d0bfaeda9adbf499c7b629b845bf9c8d6eb41a4b17544d2d9d4940a2",
+          "url": "https://rnbo.cycling74.com/objects/ref/selector~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "selector~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "send~",
+      "exact_name": "send~",
+      "id": "send-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "bus_names": [
+          "routing_left",
+          "routing_right"
+        ]
+      },
+      "maximum_absolute_error": 0,
+      "model": 802,
+      "patch": "send-signal.rnbopat",
+      "patch_sha256": "81e3d43f01f848eed2f070eddc80af22e978b89b4164ef2dfa5a34b813430f15",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_send~.maxref.xml",
+          "sha256": "688d5eacb0dbc024f4217b8b832673ff718bb83bd9f57102a3ec161e464cb324",
+          "url": "https://rnbo.cycling74.com/objects/ref/send~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "send~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "send~",
+      "exact_name": "s~",
+      "id": "s-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "bus_names": [
+          "routing_left",
+          "routing_right"
+        ]
+      },
+      "maximum_absolute_error": 0,
+      "model": 803,
+      "patch": "s-signal.rnbopat",
+      "patch_sha256": "098662d74e12f9dd63d487b6b7160eda3b924979b582f85dd2101088772bbd7d",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_send~.maxref.xml",
+          "sha256": "688d5eacb0dbc024f4217b8b832673ff718bb83bd9f57102a3ec161e464cb324",
+          "url": "https://rnbo.cycling74.com/objects/ref/s~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "s~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "receive~",
+      "exact_name": "receive~",
+      "id": "receive-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "bus_names": [
+          "routing_left",
+          "routing_right"
+        ]
+      },
+      "maximum_absolute_error": 0,
+      "model": 804,
+      "patch": "receive-signal.rnbopat",
+      "patch_sha256": "81e3d43f01f848eed2f070eddc80af22e978b89b4164ef2dfa5a34b813430f15",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_receive~.maxref.xml",
+          "sha256": "d6c01ea6a22be04b481d30003733be91caae18afb9426828ca5b3165ac017b48",
+          "url": "https://rnbo.cycling74.com/objects/ref/receive~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "receive~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "receive~",
+      "exact_name": "r~",
+      "id": "r-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "bus_names": [
+          "routing_left",
+          "routing_right"
+        ]
+      },
+      "maximum_absolute_error": 0,
+      "model": 805,
+      "patch": "r-signal.rnbopat",
+      "patch_sha256": "2a58e14df14d945efa111df45520481a5321c67c1fea07ca8f6650699ef67024",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_receive~.maxref.xml",
+          "sha256": "d6c01ea6a22be04b481d30003733be91caae18afb9426828ca5b3165ac017b48",
+          "url": "https://rnbo.cycling74.com/objects/ref/r~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "r~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "cubicinterp~",
+      "exact_name": "cubicinterp~",
+      "id": "cubicinterp-signal",
+      "input_domains": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "literal_parameters": {
+        "left": [
+          -0.5,
+          0.25,
+          1.25,
+          -0.75
+        ],
+        "right": [
+          0.75,
+          -1.0,
+          0.5,
+          1.5
+        ]
+      },
+      "maximum_absolute_error": 2e-06,
+      "model": 806,
+      "patch": "cubicinterp-signal.rnbopat",
+      "patch_sha256": "6eb89b8820476f2b0e45d046a05001ae9f352ac9d7e57ed98eef0993c4fd726b",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_cubicinterp~.maxref.xml",
+          "sha256": "4f1ad5de6127d6484f9a7192d5c42783f2f22ba00ed7310f17792992507538d6",
+          "url": "https://rnbo.cycling74.com/objects/ref/cubicinterp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "cubicinterp~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "fastcubicinterp~",
+      "exact_name": "fastcubicinterp~",
+      "id": "fastcubicinterp-signal",
+      "input_domains": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "literal_parameters": {
+        "left": [
+          -0.5,
+          0.25,
+          1.25,
+          -0.75
+        ],
+        "right": [
+          0.75,
+          -1.0,
+          0.5,
+          1.5
+        ]
+      },
+      "maximum_absolute_error": 2e-06,
+      "model": 807,
+      "patch": "fastcubicinterp-signal.rnbopat",
+      "patch_sha256": "4afbba8ee058b2691207ee4706851cec5414c3298e4c83b6df47f1e8dc7b929a",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_fastcubicinterp~.maxref.xml",
+          "sha256": "8339f0568f7a0170a3bcb0a040f2de8a1a97e10ce5f650f9831f40bfc7c04a05",
+          "url": "https://rnbo.cycling74.com/objects/ref/fastcubicinterp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "fastcubicinterp~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "splineinterp~",
+      "exact_name": "splineinterp~",
+      "id": "splineinterp-signal",
+      "input_domains": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "literal_parameters": {
+        "left": [
+          -0.5,
+          0.25,
+          1.25,
+          -0.75
+        ],
+        "right": [
+          0.75,
+          -1.0,
+          0.5,
+          1.5
+        ]
+      },
+      "maximum_absolute_error": 2e-06,
+      "model": 808,
+      "patch": "splineinterp-signal.rnbopat",
+      "patch_sha256": "f021c88bf00d5b2aab079b7494ed994ba81a6092570dc194530b9131d5432997",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_splineinterp~.maxref.xml",
+          "sha256": "9d55789d99937c8cd90301f022830ec6e7c16b0b4cf90487aa3e779cc000e1ab",
+          "url": "https://rnbo.cycling74.com/objects/ref/splineinterp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "splineinterp~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "spline6interp~",
+      "exact_name": "spline6interp~",
+      "id": "spline6interp-signal",
+      "input_domains": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "literal_parameters": {
+        "left": [
+          -1.0,
+          0.5,
+          -0.25,
+          1.25,
+          -0.75,
+          2.0
+        ],
+        "right": [
+          0.75,
+          -1.5,
+          0.25,
+          -0.5,
+          1.5,
+          -0.25
+        ]
+      },
+      "maximum_absolute_error": 2e-06,
+      "model": 809,
+      "patch": "spline6interp-signal.rnbopat",
+      "patch_sha256": "b4f7e62ee0f0138d3ea4e9745e0634b8c6e45969a8ed908280efde7dd76aff4a",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_spline6interp~.maxref.xml",
+          "sha256": "23f5c7fb317de450046101e924722b10d52ee928fa55cfea49c849843928353a",
+          "url": "https://rnbo.cycling74.com/objects/ref/spline6interp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "spline6interp~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "eqp~",
+      "exact_name": "==p~",
+      "id": "equal-pass-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 810,
+      "patch": "equal-pass-symbol-signal.rnbopat",
+      "patch_sha256": "8d9f65ee50c2e00316a773ebf800ce5fda4693d36c1567e262057ffa519f770b",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_eqp~.maxref.xml",
+          "sha256": "3a2e277c0ce1b53e13664c9ea9f1eef13158f58eae833c81c9e7635e444d08d4",
+          "url": "https://rnbo.cycling74.com/objects/ref/%3D%3Dp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "==p~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "neqp~",
+      "exact_name": "!=p~",
+      "id": "not-equal-pass-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 811,
+      "patch": "not-equal-pass-symbol-signal.rnbopat",
+      "patch_sha256": "255a5f80dba2fc7ef1ad256814b19beef8e259fa914536b9a6559cfa62afb720",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_neqp~.maxref.xml",
+          "sha256": "b705a3971a11f93640f39ad9767eb1f2662466f9df7fcce4757a4b30c9e8a7a5",
+          "url": "https://rnbo.cycling74.com/objects/ref/%21%3Dp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "!=p~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "gtp~",
+      "exact_name": ">p~",
+      "id": "greater-pass-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 812,
+      "patch": "greater-pass-symbol-signal.rnbopat",
+      "patch_sha256": "7c3c615a22aacaa2855dfb8bcf3bc409d39da938087461c2ef2190ade4e21aa3",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gtp~.maxref.xml",
+          "sha256": "70ba5f4b551f40382c1688226727ebf8d0d9cca2f43b538910e0455201a715e3",
+          "url": "https://rnbo.cycling74.com/objects/ref/%3Ep~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": ">p~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "gtep~",
+      "exact_name": ">=p~",
+      "id": "greater-equal-pass-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 813,
+      "patch": "greater-equal-pass-symbol-signal.rnbopat",
+      "patch_sha256": "971fbce69ef99a6874198e9881eefaba5d616c384224d5c79c3b287ad9979cfa",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gtep~.maxref.xml",
+          "sha256": "0c542ae580a7406a1c4fb7374a679501f7624ebc358619ea6a2f1f2e039d8c2e",
+          "url": "https://rnbo.cycling74.com/objects/ref/%3E%3Dp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": ">=p~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "ltp~",
+      "exact_name": "<p~",
+      "id": "less-pass-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 814,
+      "patch": "less-pass-symbol-signal.rnbopat",
+      "patch_sha256": "72150f64f3977ef9a8818def990ce6ea18e78d816a4d14d2332d1143d5e18e9a",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_ltp~.maxref.xml",
+          "sha256": "ce28193e0265a3862789004fcc4681fb210c164c62dbcc0438d52474cd38f2b6",
+          "url": "https://rnbo.cycling74.com/objects/ref/%3Cp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "<p~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "ltep~",
+      "exact_name": "<=p~",
+      "id": "less-equal-pass-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 815,
+      "patch": "less-equal-pass-symbol-signal.rnbopat",
+      "patch_sha256": "6e3176a0c4a43c9985cf04be3a70cc9ebb17ac1834b4c9f6b08a4f3227129a72",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_ltep~.maxref.xml",
+          "sha256": "55301f6553d1931a4baa33fcc2ca9eac730e500036f8a2f771fa3a851af67e49",
+          "url": "https://rnbo.cycling74.com/objects/ref/%3C%3Dp~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "<=p~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "eq~",
+      "exact_name": "equals~",
+      "id": "equals-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 816,
+      "patch": "equals-signal.rnbopat",
+      "patch_sha256": "1e02cc22587baabece77c3c677cc01325328d7cb39038c9161c564b5e9ffd581",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_eq~.maxref.xml",
+          "sha256": "d4977fcd4ae557f9c88065ccbdc8223e6d1cf9d068d59fcfe272122b3d711f06",
+          "url": "https://rnbo.cycling74.com/objects/ref/equals~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "equals~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "lt~",
+      "exact_name": "lessthan~",
+      "id": "lessthan-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 817,
+      "patch": "lessthan-signal.rnbopat",
+      "patch_sha256": "6695f1af271354b484470c736289d92d18931a72c346ce418b6d65475e16303c",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_lt~.maxref.xml",
+          "sha256": "baeb2104052dccd6a730d09cd58762eb694216ef759a15c022f505cc3de4c07c",
+          "url": "https://rnbo.cycling74.com/objects/ref/lessthan~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "lessthan~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "sub~",
+      "exact_name": "minus~",
+      "id": "minus-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {},
+      "maximum_absolute_error": 0,
+      "model": 818,
+      "patch": "minus-signal.rnbopat",
+      "patch_sha256": "497d13fa113ffc459940954189c75a2191f1fd2f393c7d73dc45951e8c5ac5e7",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sub~.maxref.xml",
+          "sha256": "5338646f5e77154ba5c44d58af7b1c77a88b291d5e605839395281689379c89c",
+          "url": "https://rnbo.cycling74.com/objects/ref/minus~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "minus~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    },
+    {
+      "canonical_name": "cond~",
+      "exact_name": "?~",
+      "id": "conditional-symbol-signal",
+      "input_domains": [
+        [
+          -4,
+          4
+        ],
+        [
+          -4,
+          4
+        ]
+      ],
+      "literal_parameters": {
+        "left": [
+          1,
+          -1
+        ],
+        "right": [
+          -1,
+          1
+        ]
+      },
+      "maximum_absolute_error": 0,
+      "model": 819,
+      "patch": "conditional-symbol-signal.rnbopat",
+      "patch_sha256": "13369d7dd69da01c643267f94539ed74bed2837b33c9cdc203073ec4c7c4da3c",
+      "reference_policy": "documented-bounded-signal-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_cond~.maxref.xml",
+          "sha256": "b43e531cd0787b58801e937920903a376ce775d9bbd38a3ed0ef398c197fe24b",
+          "url": "https://rnbo.cycling74.com/objects/ref/%3F~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "?~",
+      "role": "fx",
+      "scope": "Exact owner spelling in an original local signal graph; canonical bus/negation counterparts are support only. Gate ramptime0; selector integer choices0/1/2 only. No root-Max buses, feedback, ramp changes, alias inheritance or other interpolation modes.",
+      "surface": "patcher",
+      "syntax": "signal-object"
+    }
+  ],
+  "family": "rnbo-signal-routing",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "generator_sha256": "3b3feaac914ed869f43000ec917307f7fe94d75bd0db76ef779fa4e9bb23d5fe",
+  "license": "MIT; original fixtures and independent references",
+  "manual_warmup_blocks": 4,
+  "reference_sha256": "c44a08f9472fae21d72c85a22087db427067b123edc10be5b6e50f1a062d3d4d",
+  "requested_module_max_arena_bytes": 4096,
+  "sample_rate": 44100,
+  "scope": "Twenty separately authored exact signal forms; short fixed-input functional checks and whole-fixture callback observations, not complete qualification or optimisation gains.",
+  "surface": "patcher",
+  "timed_blocks": 16
+}
