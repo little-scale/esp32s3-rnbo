@@ -1,5 +1,16 @@
 # Gen and single-sample qualification
 
+The [execution-form batch](hardware-smoke.md#gen-noise-fft-context-and-compound-assignments)
+records **24 sources: five hardware passes, 14 C++ rejections and five frontend
+rejections**, with 51,200 output-word checks. Noise passes only its declared
+range/variation screen; four local arithmetic compound assignments pass bit
+for bit. FFT context values, History compound updates, floating modulus
+assignment and bitwise compound forms retain exact route failures. Callback
+medians are 44–115 µs (0.76–1.98% of the audio period), with no new CPU flags;
+the queue stays **111**. All five images finalise and allocation/memory checks
+pass. These Gen results do not change the **778-entry RNBO** dashboard count
+or complete visual Gen, event/resource/mode or remaining RNBO qualification.
+
 The [extended data/sample batch](hardware-smoke.md#extended-gen-tables-sample-access-and-boundaries)
 adds 31 exact source scenarios: **24 execute, 17 pass and seven retain output
 mismatches**, with 245,760 output checks. Three C++ rejections, two frontend

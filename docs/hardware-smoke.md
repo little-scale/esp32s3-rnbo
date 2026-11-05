@@ -1740,3 +1740,23 @@ actions. The worker resolves live IDs, verifies initial metadata/readbacks,
 applies actions before the next full callback, and logs API timings separately.
 Shared reference pools retain complete binary32 blocks and stream hashes; sharing
 is exact storage reuse, without lowering sample count or comparison precision.
+
+## Gen noise, FFT context and compound assignments
+
+The [24-source guide](../tests/fixtures/smoke/gen-execution-forms/README.md)
+retains **five hardware passes, 14 C++ failures and five frontend failures**.
+Noise passes a finite/range/32-sample variation screen; local `+=`, `*=`, `-=`
+and `/=` pass independent arithmetic references. The 51,200 output-word checks
+have zero differences. FFT programs never execute: standalone globals are
+undeclared. History compound assignments and local modulus assignment fail C++;
+five bitwise compound forms fail parsing. No failed form is silently replaced
+with an easier passing program.
+
+Whole offline callback medians are 44–115 µs, peaks 45–120 µs, with no CPU flag;
+the queue remains 111 contexts. All five images finalise with no late/host
+allocation, zero arena high-water and unchanged free RAM. Noise flag equality
+does not compare random sequences. FFT transforms, exact default constants,
+one-frame host calls and general stateful operator aliases remain unqualified.
+See [target evidence](../evidence/xiao-smoke-gen-execution-forms.json) and
+[native/rejection evidence](../evidence/gen-execution-forms-native.json).
+The ordinary player is restored after the batch for Studio use.

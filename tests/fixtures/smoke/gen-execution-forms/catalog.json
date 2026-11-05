@@ -1,0 +1,640 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "noise",
+      "exact_name": "noise",
+      "genexpr": "noise-range-variation.genexpr",
+      "genexpr_sha256": "7020fc5d781a8477aba50d55044814fc1b551f85b21f54993c27beeaf908bd1d",
+      "id": "noise-range-variation",
+      "maximum_absolute_error": 0,
+      "model": 1700,
+      "patch": "noise-range-variation.rnbopat",
+      "patch_sha256": "f7e5dc0a79c2c5e1fc1d3679af764470cf30dcc17c3c8ad420af5af661af9bd4",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "noise",
+      "role": "fx",
+      "scope": "Noise finite [-1,1] and at least one adjacent change per32samples; no exact sequence, statistics, seed/reset or independent-instance qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftsize",
+      "exact_name": "FFTSIZE",
+      "genexpr": "fftsize-upper.genexpr",
+      "genexpr_sha256": "9e6096f01b8914484bac156e4e08e8cda765fc06c58256cae4c92210a0c249c0",
+      "id": "fftsize-upper",
+      "maximum_absolute_error": 0,
+      "model": 1701,
+      "patch": "fftsize-upper.rnbopat",
+      "patch_sha256": "c6b04633f2d6bdef9255f826c3a0b243776718322d9dea7eebd1be24ded9c8ef",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftsize",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftsize",
+      "exact_name": "fftsize",
+      "genexpr": "fftsize-lower.genexpr",
+      "genexpr_sha256": "7848ae5df8de5b722efe2c0aaa989981b83c7f61069cb2fa53f5c8a111a8a76c",
+      "id": "fftsize-lower",
+      "maximum_absolute_error": 0,
+      "model": 1702,
+      "patch": "fftsize-lower.rnbopat",
+      "patch_sha256": "91fb01683568e1ee38d4b27cbca2969acf9f30e476a60045804b6bca7b615fd5",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftsize",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftoffset",
+      "exact_name": "FFTOFFSET",
+      "genexpr": "fftoffset-upper.genexpr",
+      "genexpr_sha256": "8dcccb2f71a4dc1dab521a6f21dea5904dfeb6d4e83ac9988cdc25630e8bb240",
+      "id": "fftoffset-upper",
+      "maximum_absolute_error": 0,
+      "model": 1703,
+      "patch": "fftoffset-upper.rnbopat",
+      "patch_sha256": "f6333c4dca97153d04898549feeaf68161fdc8a7f3f37c1942ebffcd5a333e43",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftoffset",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftoffset",
+      "exact_name": "fftoffset",
+      "genexpr": "fftoffset-lower.genexpr",
+      "genexpr_sha256": "792eea402b3141d5a12c7c88ddcc0bce4b6668c913fdd19e77fe949b3abc9433",
+      "id": "fftoffset-lower",
+      "maximum_absolute_error": 0,
+      "model": 1704,
+      "patch": "fftoffset-lower.rnbopat",
+      "patch_sha256": "8a9f4ad37ba6b993ba626bd62d755998bb6ba8fba15dc8b2cc8d6c07f2364be8",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftoffset",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "ffthop",
+      "exact_name": "FFTHOP",
+      "genexpr": "ffthop-upper.genexpr",
+      "genexpr_sha256": "c4a2dcd2c81dad5aa2d68de71690f18ca00234a1a72a668b8f2a3650eddb8de4",
+      "id": "ffthop-upper",
+      "maximum_absolute_error": 0,
+      "model": 1705,
+      "patch": "ffthop-upper.rnbopat",
+      "patch_sha256": "50144141e976d1e87b6a6cff0012d994f3cca3714185692cd2e3d3daca897dc9",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "ffthop",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "ffthop",
+      "exact_name": "ffthop",
+      "genexpr": "ffthop-lower.genexpr",
+      "genexpr_sha256": "690bbf2bb3cb1798e5120e2041d66a19671b3312ef98cf3225e41e7797cf6868",
+      "id": "ffthop-lower",
+      "maximum_absolute_error": 0,
+      "model": 1706,
+      "patch": "ffthop-lower.rnbopat",
+      "patch_sha256": "c2286b6d4c6fa5129635f4c2ee08da3da821d7f1699d9272ef5d4dd8573fa077",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "ffthop",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftfullspect",
+      "exact_name": "FFTFULLSPECT",
+      "genexpr": "fftfullspect-upper.genexpr",
+      "genexpr_sha256": "17d3789f25b09dc8419b6ee788a29520dc140a76d742479d09769bf247e8cda5",
+      "id": "fftfullspect-upper",
+      "maximum_absolute_error": 0,
+      "model": 1707,
+      "patch": "fftfullspect-upper.rnbopat",
+      "patch_sha256": "da32860c1289b3d0e8345cf8e2da4e3cb2c84eba75ca0b076b56d0bbad3359c9",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftfullspect",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftfullspect",
+      "exact_name": "fftfullspect",
+      "genexpr": "fftfullspect-lower.genexpr",
+      "genexpr_sha256": "15e500099fa8bf844f57e5a28158d952ca5a0e85fadc5e6d48ea52a191254f0d",
+      "id": "fftfullspect-lower",
+      "maximum_absolute_error": 0,
+      "model": 1708,
+      "patch": "fftfullspect-lower.rnbopat",
+      "patch_sha256": "2a9b8870a05d05cdce12941216e82021c0e804f4a7aff7eac69c080d8c9ca37e",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftfullspect",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftinfo",
+      "exact_name": "fftinfo-size",
+      "genexpr": "fftinfo-size.genexpr",
+      "genexpr_sha256": "f96fa0f2ffd424ef33c785c09159b95da0ee7dd0861a869e5cf4f697095d04e3",
+      "id": "fftinfo-size",
+      "maximum_absolute_error": 0,
+      "model": 1709,
+      "patch": "fftinfo-size.rnbopat",
+      "patch_sha256": "ce5873e205367c14c194b4275895a3d9cbf2c0e1c8d2b230cd27eac1466cc0df",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftinfo",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftinfo",
+      "exact_name": "fftinfo-hop-flag",
+      "genexpr": "fftinfo-hop-flag.genexpr",
+      "genexpr_sha256": "c86c6d5bd002287695cc9c542175af8701afd100e7c753b44aee8e4052ff9a16",
+      "id": "fftinfo-hop-flag",
+      "maximum_absolute_error": 0,
+      "model": 1710,
+      "patch": "fftinfo-hop-flag.rnbopat",
+      "patch_sha256": "4fe402e8b2097852211259f77825ba2cf856de8af49a6e43abb7178e5edf4a11",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftinfo",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "fftinfo",
+      "exact_name": "fftinfo-offset",
+      "genexpr": "fftinfo-offset.genexpr",
+      "genexpr_sha256": "8990656c1354b6c1d4003def064fee5975cd38b7f78f7e98e602d8aab98a1faf",
+      "id": "fftinfo-offset",
+      "maximum_absolute_error": 0,
+      "model": 1711,
+      "patch": "fftinfo-offset.rnbopat",
+      "patch_sha256": "e784dc294c642731407f2f1ce765f32420d48bbedf037dfb2a16fc4f0a3efefe",
+      "reference_policy": "declared-basic-execution-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "fftinfo",
+      "role": "fx",
+      "scope": "Basic finite nonnegative integer FFT value screen, engineering bound1048576 (not a documented limit); full-spectrum flag binary. No exact default value, FFT context or transform qualification.",
+      "surface": "genexpr",
+      "syntax": "screen"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "+=",
+      "genexpr": "local-add-assign.genexpr",
+      "genexpr_sha256": "41c6ed2dd1b9e968076cfc9b9c1559c1b4aa0d80f81456ffc108182a9c058de4",
+      "id": "local-add-assign",
+      "maximum_absolute_error": 0,
+      "model": 1712,
+      "patch": "local-add-assign.rnbopat",
+      "patch_sha256": "fd337d36ee1fbaf05d48ce41f53fa5d3531fdcb6b059ad72cf30b6a3fdfb12ff",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "*=",
+      "genexpr": "local-multiply-assign.genexpr",
+      "genexpr_sha256": "7e8888670b4b5331dda75f6679ae9bf64df3742f826c7dc555de814897bfb18e",
+      "id": "local-multiply-assign",
+      "maximum_absolute_error": 0,
+      "model": 1713,
+      "patch": "local-multiply-assign.rnbopat",
+      "patch_sha256": "079f80a4ef60343ef9756085a682fed103b34a864a5023c016f59cad085928a4",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "-=",
+      "genexpr": "local-subtract-assign.genexpr",
+      "genexpr_sha256": "0c9235aff5ba12a8078916bcca1915152e159a1a9c24b05f7e9dde1c44c39c13",
+      "id": "local-subtract-assign",
+      "maximum_absolute_error": 0,
+      "model": 1714,
+      "patch": "local-subtract-assign.rnbopat",
+      "patch_sha256": "5725e0c78bd493672b980f994464e1d358c2f2bcc15fcd17a30b3c63a2fe34af",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "/=",
+      "genexpr": "local-divide-assign.genexpr",
+      "genexpr_sha256": "71cc7e91a48d92d72d853501bb3f010112a62de8578ff14584b796b528505a76",
+      "id": "local-divide-assign",
+      "maximum_absolute_error": 0,
+      "model": 1715,
+      "patch": "local-divide-assign.rnbopat",
+      "patch_sha256": "baabc9b50d5ff74480f63052cb526a971e24bdc3db51bf7cc23cea0224044893",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "%=",
+      "genexpr": "local-modulus-assign.genexpr",
+      "genexpr_sha256": "3ac72c596d58193e57fb7094a69066da6b7c334f86acee0b911618461554b9a3",
+      "id": "local-modulus-assign",
+      "maximum_absolute_error": 0,
+      "model": 1716,
+      "patch": "local-modulus-assign.rnbopat",
+      "patch_sha256": "068a341cfe054de6deee287472f8e14f9e7002ed84827cda984a3f66b0ed468e",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "&=",
+      "genexpr": "local-bitand-assign.genexpr",
+      "genexpr_sha256": "49080d550a0bd4c24fb0e2f898b3905cfebd2f495c8292cda25eafd0968ca8ee",
+      "id": "local-bitand-assign",
+      "maximum_absolute_error": 0,
+      "model": 1717,
+      "patch": "local-bitand-assign.rnbopat",
+      "patch_sha256": "5ca5f3b0a86cc2e04d3897f81bd1c26b04e4b4211db5aee4f94ea730d49dd410",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "|=",
+      "genexpr": "local-bitor-assign.genexpr",
+      "genexpr_sha256": "c038c7d2e028392b5d7b00b9e616797ed45041ebf5e1d2216d4dd4f58733283b",
+      "id": "local-bitor-assign",
+      "maximum_absolute_error": 0,
+      "model": 1718,
+      "patch": "local-bitor-assign.rnbopat",
+      "patch_sha256": "590b30dea748adafa9d9fd6d262ab91f45057b6b4a99ca6895afa54f2271b493",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "^=",
+      "genexpr": "local-bitxor-assign.genexpr",
+      "genexpr_sha256": "4524010fdc2d4f9f4f0b9ce2ba5ceefaa0fd7fff540a403aaca75c7f77800e5d",
+      "id": "local-bitxor-assign",
+      "maximum_absolute_error": 0,
+      "model": 1719,
+      "patch": "local-bitxor-assign.rnbopat",
+      "patch_sha256": "bcf0acbccd4ab6d6de0496dec01c3ad3d992f2dc12b9e791fcfc4c7c85444952",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "<<=",
+      "genexpr": "local-shiftleft-assign.genexpr",
+      "genexpr_sha256": "6978b39dbbd683ec3907a4280b09f00d05a261f0e1a0c990fab1649c83e754c8",
+      "id": "local-shiftleft-assign",
+      "maximum_absolute_error": 0,
+      "model": 1720,
+      "patch": "local-shiftleft-assign.rnbopat",
+      "patch_sha256": "4a183896810cb525681a4127f9952bacdca6cfd9895d2dfe3ab3fccc57c796e0",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": ">>=",
+      "genexpr": "local-shiftright-assign.genexpr",
+      "genexpr_sha256": "56c531e3d06345419ebb3bcae0a6bbdf842a3e2b72aadfd87bd56562d4f89876",
+      "id": "local-shiftright-assign",
+      "maximum_absolute_error": 0,
+      "model": 1721,
+      "patch": "local-shiftright-assign.rnbopat",
+      "patch_sha256": "98f539bf397d001bd02dd950d6fb08183f462673768d73f53cfcf9f9d8c92591",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "history-+=",
+      "genexpr": "history-add-assign.genexpr",
+      "genexpr_sha256": "038dab37f816c5bfbaf5d3771f712ea3798302e116da0813e8febd6b36f0d00c",
+      "id": "history-add-assign",
+      "maximum_absolute_error": 0,
+      "model": 1722,
+      "patch": "history-add-assign.rnbopat",
+      "patch_sha256": "1e9975340e0ca791c6bc5edc65369e1cbe27dfc03b3b38c35bfe4885a192089e",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "language-compound-assignment",
+      "exact_name": "history-*=",
+      "genexpr": "history-multiply-assign.genexpr",
+      "genexpr_sha256": "b6a5a719bb988aa8a8711967f9e42b10b54a0f28dc8ce60873bbba156825ed55",
+      "id": "history-multiply-assign",
+      "maximum_absolute_error": 0,
+      "model": 1723,
+      "patch": "history-multiply-assign.rnbopat",
+      "patch_sha256": "85afbd7d27d3fbcca4f49ef0ed48b380293433515e8769f8abad25414541327c",
+      "reference_policy": "independent-integer-arithmetic-or-absolute-prefix-parity",
+      "reference_sources": [
+        {
+          "local_package_path": "server/node_modules/@rnbo/genexpr_js/operators.json",
+          "sha256": "ea19a20e4ed03e31d5a41413db9489f3812a9c73c46217eef268fcbc9ffb9a54"
+        },
+        {
+          "url": "https://docs.cycling74.com/userguide/gen/gen_genexpr/"
+        }
+      ],
+      "registry_lookup": "language-compound-assignment",
+      "role": "fx",
+      "scope": "Exact compound assignment form, bounded finite operands; nonnegative modulus/bitwise operands and shift0..3. History output reads old state, one update per block impulse across20callbacks. No general operator alias/constructor or all-integer-domain qualification.",
+      "surface": "genexpr",
+      "syntax": "compound-assignment"
+    }
+  ],
+  "family": "gen-execution-forms",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "generator_sha256": "c413c253b21c6a619f4c36d76cdde5da4499e6971d0d905ff621d98975d043b6",
+  "license": "MIT; original source and independent bounded references",
+  "manual_warmup_blocks": 4,
+  "reference_sha256": "c2b7f6d0041fe135e4b8757a8c131243f5ef7425f2bc3343026f509c023d8c54",
+  "requested_module_max_arena_bytes": 4096,
+  "sample_rate": 44100,
+  "surface": "genexpr",
+  "timed_blocks": 16
+}

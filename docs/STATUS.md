@@ -1,5 +1,19 @@
 # Implementation status — 5 November 2026
 
+The [Gen execution-form batch](hardware-smoke.md#gen-noise-fft-context-and-compound-assignments)
+records **24 sources: five hardware passes, 14 C++ rejections and five frontend
+rejections**, with 51,200 output-word checks. Noise passes only its declared
+range/variation screen; four local arithmetic compound assignments pass bit
+for bit. FFT context values, History compound updates, floating modulus
+assignment and bitwise compound forms retain exact route failures. Callback
+medians are 44–115 µs (0.76–1.98% of the audio period), with no new CPU flags;
+the queue stays **111**. All five images finalise and allocation/memory checks
+pass. These Gen results do not change the **778-entry RNBO** dashboard count
+or complete visual Gen, event/resource/mode or remaining RNBO qualification.
+The [normal player has been restored](../evidence/xiao-gen-execution-player-restoration.json);
+its saved Main and live controls match the pre-test snapshot, USB replies and
+audio frame progress are verified, and runtime counters remain zero.
+
 The [extended Gen data batch](hardware-smoke.md#extended-gen-tables-sample-access-and-boundaries)
 records 31 sources: **24 execute on XIAO, 17 pass and seven retain mismatches**,
 with 245,760 output checks. Seven frontend/C++/adapter rejections are separate.

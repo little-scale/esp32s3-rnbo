@@ -1,0 +1,8 @@
+History previous(0), changes(0), ordinal(0), status(1);
+n = noise();
+count = changes + (n != previous);
+flag = status;
+if (ordinal == 31) { flag = count > 0; }
+out1 = (n >= -1) && (n <= 1); out2 = flag + 0*in1 + 0*in2;
+status = flag; changes = (ordinal == 31) ? 0 : count;
+previous = n; ordinal = (ordinal+1) % 32;

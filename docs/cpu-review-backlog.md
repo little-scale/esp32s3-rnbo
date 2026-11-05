@@ -10,6 +10,14 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Gen execution forms: no new CPU flags
+
+Five arithmetic/noise-screen programs measure 44–115 µs median and 45–120 µs
+peak per 256-frame offline callback. No rule triggers; the queue remains **111**.
+Noise's 115 µs includes range and variation checks, not isolated RNG cost.
+Fourteen C++ and five frontend failures have no device CPU measurement.
+See the [target record](../evidence/xiao-smoke-gen-execution-forms.json).
+
 ## Extended Gen data: one queued context
 
 Signal-indexed Gen lookup passes its reference but costs 807 µs median,
