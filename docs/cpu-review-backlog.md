@@ -13,6 +13,15 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Embedded visual Gen core: no new flags
+
+All 21 complete graph callbacks pass their references at 40–100µs median
+(0.69–1.72% of the block period), peak 104µs. Wired division measures 100µs;
+coupled feedback 48µs and a single feedback loop 44µs. No callback crosses the
+existing screen, keeping **151 queued contexts**. These are whole compiled
+graphs, not standalone operator costs or measured optimisation savings. The
+[source-bound report](gen-visual-core.md) retains numerical and build evidence.
+
 ## Event-rate maths: no new callback flags
 
 All 44 scenarios execute; 41 pass their mathematical screen and three named

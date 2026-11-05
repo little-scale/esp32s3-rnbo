@@ -83,7 +83,16 @@ try {
     source_sha256: hash(raw), generated_sha256: hash(result.code),
     adapter_sha256: hash(fs.readFileSync(fileURLToPath(import.meta.url))),
     patcher_adapter_sha256: hash(fs.readFileSync(new URL('./patcher.mjs', import.meta.url))),
+    gen_visual_adapter_sha256: hash(fs.readFileSync(new URL('./gen_visual.mjs', import.meta.url))),
     package_info_sha256: hash(fs.readFileSync(path.join(pkg, 'package-info.json'))),
+    visual_gen: patcher.boxes.filter(({box})=>box.rnbo_visual_gen).map(({box})=>({
+      box_id:box.id,policy:box.rnbo_visual_gen.policy,nodes:box.rnbo_visual_gen.nodes,
+      edges:box.rnbo_visual_gen.edges,histories:box.rnbo_visual_gen.history_count,
+      operators:box.rnbo_visual_gen.operators,
+      source_graph_sha256:hash(JSON.stringify(box.genpatcher)),
+      lowered_genexpr_sha256:hash(box.rnbo_visual_gen.expression),
+      adapter_sha256:hash(fs.readFileSync(new URL('./gen_visual.mjs',import.meta.url)))
+    })),
     generator_package_sha256: Object.fromEntries(['@rnbo/xam', '@rnbo/xam-runner'].map(name => [name,
       hash(fs.readFileSync(path.join(pkg, 'server/node_modules', name, 'package.json')))])),
     note: 'Raw generated code; prepare.py performs independently recorded runtime fixes. No FM1 DSP optimizations.'

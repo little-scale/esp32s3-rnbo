@@ -1,5 +1,11 @@
 # Gen and single-sample qualification
 
+The [embedded visual Gen core](gen-visual-core.md) now has a real importer route
+and 21 passing XIAO graph scenarios, including single-sample histories, coupled
+feedback and state rotation. This is separately source-bound visual evidence,
+not promotion of all GenExpr or visual operators. Broader visual forms, modes,
+parameters, resources and file/codebox routes remain pending.
+
 The [direct Gen partition probe](gen-direct-partitions.md) now passes **78
 XIAO renders** of three exact history programs and two stimuli. It checks
 **638,976 numerical output words** and **589,824 bit-exact partition comparisons**

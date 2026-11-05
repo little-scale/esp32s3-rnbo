@@ -50164,6 +50164,322 @@
       "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gen~",
+      "known_gaps": [
+        "Only the21 explicit core visual graphs and authored finite domains are qualified; no inference to every Gen object or complete visual-Gen support.",
+        "Remaining visual operators/attributes, parameters/reset paths, codeboxes, external files/resources and nested graphs need implementation or qualification.",
+        "GenExpr registry results remain separate; these data do not establish a one-sample production module API or an optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "identity",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/identity.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "swap",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/swap.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "add",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/add.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "subtract",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/subtract.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "multiply",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/multiply.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "divide",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/divide.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "gain-half",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/gain-half.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "offset-quarter",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/offset-quarter.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "subtract-half",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/subtract-half.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "divide-two",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/divide-two.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "negate",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/negate.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "absolute",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/absolute.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "one-sample-history",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/one-sample-history.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "two-sample-history",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/two-sample-history.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "two-state-swap",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/two-state-swap.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "history-fanout",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/history-fanout.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "feedback-half",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/feedback-half.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "cross-feedback",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/cross-feedback.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "history-read-twice",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/history-read-twice.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "unconnected-history",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/unconnected-history.rnbopat"
+        },
+        {
+          "forms": [
+            "gen~"
+          ],
+          "graph_scope": "three-state-rotation",
+          "graph_source": "tests/fixtures/smoke/gen-visual-core/three-state-rotation.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Original embedded dsp.gen graph identity through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph swap through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph add through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph subtract through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph multiply through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph divide through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph gain-half through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph offset-quarter through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph subtract-half through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph divide-two through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph negate through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph absolute through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph one-sample-history through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph two-sample-history through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph two-state-swap through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph history-fanout through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph feedback-half through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph cross-feedback through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph history-read-twice through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph unconnected-history through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        },
+        {
+          "conditions": "Original embedded dsp.gen graph three-state-rotation through source-bound visual-core lowering; no authored/cached GenExpr. Independent arithmetic, sample-delay, permutation or finite-convolution reference over twenty continuous256-frame callbacks, zero automatic warmup, four checked manual warm and sixteen timed callbacks. Fixed cold operands and history initials only; no host/sample-offset events, resources, exposed parameters, codeboxes, arbitrary operators/modes or variable-frame production ABI. Complete callback time is recorded without a matched optimisation saving.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-gen-visual-core.json"
+        }
+      ],
+      "spelling": "gen~",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: all21 original embedded visual-core graphs pass source-bound lowering and independent numerical/sample-state checks, including one-sample histories, feedback and simultaneous coupled state.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -51094,6 +51410,13 @@
       "sha256": "808bdd999351df8ea9a9b086bdef9c4fcfe3e31a60dc05e54155e66a03533c0e",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/gen-registry-routes.md"
     },
+    "docs/gen-visual-core.md": {
+      "bytes": 5122,
+      "path": "docs/gen-visual-core.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "07301a0522bf28964276249600e71b106c36399a848675d753fb44326ad4bc79",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/gen-visual-core.md"
+    },
     "docs/line-timing-modes.md": {
       "bytes": 6181,
       "path": "docs/line-timing-modes.md",
@@ -51380,6 +51703,20 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "fdfe6c539c6525b533df11158584fec4a3f4c2639ec36a69dc29a72693e163e2",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/gen-routing-causality-native.json"
+    },
+    "evidence/gen-visual-core-builds.json": {
+      "bytes": 7844,
+      "path": "evidence/gen-visual-core-builds.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f3335c5b953bb771427543bcff988f76b0773a64f903948b062c24fce72b7f2e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/gen-visual-core-builds.json"
+    },
+    "evidence/gen-visual-core-native.json": {
+      "bytes": 35300,
+      "path": "evidence/gen-visual-core-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d65329cc311188fd64a65d648b1377581e74fe0334633e70ae7b4e1ee1cde7ea",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/gen-visual-core-native.json"
     },
     "evidence/initial-validation.json": {
       "bytes": 10180,
@@ -51674,6 +52011,20 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "a778e86a2cfd94419c6604820b7d6a2b93f9a22f50a8c40fdb3485bd8ad7c68a",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-gen-routing-causality.json"
+    },
+    "evidence/xiao-smoke-gen-visual-core-player-restoration.json": {
+      "bytes": 1097,
+      "path": "evidence/xiao-smoke-gen-visual-core-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "da2ea7d1e22e5f987575d3dafe8f7ef9a55d161fcb630448abb266a6d134578f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-gen-visual-core-player-restoration.json"
+    },
+    "evidence/xiao-smoke-gen-visual-core.json": {
+      "bytes": 45377,
+      "path": "evidence/xiao-smoke-gen-visual-core.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8834b7d741bfc1c22348eb0d0079f7f1c0bab85782126f9425db53ebdb59786b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-gen-visual-core.json"
     },
     "evidence/xiao-smoke-rnbo-character-constants-part1.json": {
       "bytes": 72708,
@@ -52024,6 +52375,55 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "ace54e5109aae4c32afdb638258d2ba3f44471e8db0d1d7cca1011d42887cac6",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/hardware-smoke/main/smoke.c"
+    },
+    "host/compiler/build.py": {
+      "bytes": 8812,
+      "path": "host/compiler/build.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d1522045460720f6be6b15f28882dbef9a5c8dd05ddc18ee7a6e318a0b4d07f2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/compiler/build.py"
+    },
+    "host/compiler/build_module.py": {
+      "bytes": 13460,
+      "path": "host/compiler/build_module.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "42c2489860293b1ead812e54228764ae7b1253446a70c2a2ad3d982e41e1316f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/compiler/build_module.py"
+    },
+    "host/export/export.mjs": {
+      "bytes": 6742,
+      "path": "host/export/export.mjs",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9b67b28a83ef548f4c15becb89aea8928080964c655c7db0f48c1f0818b230ae",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/export/export.mjs"
+    },
+    "host/export/gen_visual.mjs": {
+      "bytes": 6746,
+      "path": "host/export/gen_visual.mjs",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e97b4f34550992030f58dc2ca32913a2749eadbf50ce786a58572492414f53ec",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/export/gen_visual.mjs"
+    },
+    "host/export/patcher.mjs": {
+      "bytes": 9565,
+      "path": "host/export/patcher.mjs",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "64bef057d1049ac78c9ff765ba0b1cb6485709fc2251c48d03ecc72085bdaa5a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/export/patcher.mjs"
+    },
+    "host/export/test_gen_visual.mjs": {
+      "bytes": 4893,
+      "path": "host/export/test_gen_visual.mjs",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8e9ef1255b70cf73b0feae3979b314ee203f3556ab168978dddc5a36e4314814",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/export/test_gen_visual.mjs"
+    },
+    "host/export/test_genexpr.mjs": {
+      "bytes": 13262,
+      "path": "host/export/test_genexpr.mjs",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "df4c094e0a28bfa3486facacc447cd73a0d85c0052edff88a4e891733d717f57",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/host/export/test_genexpr.mjs"
     },
     "tests/fixtures/bounded-filters.rnbopat": {
       "bytes": 5341,
@@ -53564,6 +53964,181 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "0f3cd6436003c25b33784874307fe614388b19436d624fc255b93aa60a01fffe",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-routing-causality/setparam-symbol.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/README.md": {
+      "bytes": 1824,
+      "path": "tests/fixtures/smoke/gen-visual-core/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7243ad5a1f4fc41840313d841136883b2577aad9a51c0184517b768c04ca0f43",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/README.md"
+    },
+    "tests/fixtures/smoke/gen-visual-core/absolute.rnbopat": {
+      "bytes": 5642,
+      "path": "tests/fixtures/smoke/gen-visual-core/absolute.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a506d245f420382e2422978cb699d88f1367ec7bc760112debef0353d9b09e5f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/absolute.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/add.rnbopat": {
+      "bytes": 5947,
+      "path": "tests/fixtures/smoke/gen-visual-core/add.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4b71a67655fe61ab326a01fdfedfbfa3d175d69dae21ad64f63ea9d5da8be449",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/add.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/catalog.json": {
+      "bytes": 18605,
+      "path": "tests/fixtures/smoke/gen-visual-core/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "520f2ddb7636c836110fa54bbccd3ce24c51eab1729bbf08e6564b1fa35af693",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/catalog.json"
+    },
+    "tests/fixtures/smoke/gen-visual-core/cross-feedback.rnbopat": {
+      "bytes": 9990,
+      "path": "tests/fixtures/smoke/gen-visual-core/cross-feedback.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "92f86904343e5817b62251b5ca7b2252391c774e88e9cfb2984c87c5a3c16399",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/cross-feedback.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/divide-two.rnbopat": {
+      "bytes": 5642,
+      "path": "tests/fixtures/smoke/gen-visual-core/divide-two.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "249e9089631dc2091f4c23f2f8545aefde2ad71d70c0ee463457bc8e485c3cb1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/divide-two.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/divide.rnbopat": {
+      "bytes": 5947,
+      "path": "tests/fixtures/smoke/gen-visual-core/divide.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d2da2ba4259f80279215e59c1a2325f1cb042e091d58ca92ecf65d15631e566f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/divide.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/feedback-half.rnbopat": {
+      "bytes": 7449,
+      "path": "tests/fixtures/smoke/gen-visual-core/feedback-half.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fa818950a95c351edf579e0425d9e27f40770c485a2294f50b6d49b57bb60cd2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/feedback-half.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/gain-half.rnbopat": {
+      "bytes": 5644,
+      "path": "tests/fixtures/smoke/gen-visual-core/gain-half.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b35d003d2d2178be00ace1a84957c94ef7743646adb6a4d1f02674d142b4c832",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/gain-half.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/generate.py": {
+      "bytes": 4955,
+      "path": "tests/fixtures/smoke/gen-visual-core/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a131223e957dc655615a36899afdaffbe6dfa2f8b174ba4537d08d215821c50a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/generate.py"
+    },
+    "tests/fixtures/smoke/gen-visual-core/history-fanout.rnbopat": {
+      "bytes": 7763,
+      "path": "tests/fixtures/smoke/gen-visual-core/history-fanout.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bdfccba23b92a885be0d7f029e95f3998e820c614b90a12943d9a6b1806f6a96",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/history-fanout.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/history-read-twice.rnbopat": {
+      "bytes": 7763,
+      "path": "tests/fixtures/smoke/gen-visual-core/history-read-twice.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7edb74459a47f9088ec6751cf5c6cef07015daee9a7e72d2995cbe6cd55af555",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/history-read-twice.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/identity.rnbopat": {
+      "bytes": 4902,
+      "path": "tests/fixtures/smoke/gen-visual-core/identity.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c0f6b9555bf69cd18b58ef744eec7649e4bae05b700d63e6a29948fcef0295de",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/identity.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/multiply.rnbopat": {
+      "bytes": 5947,
+      "path": "tests/fixtures/smoke/gen-visual-core/multiply.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8456fa782b54a870af101c174522918d6855cfb7bc176fb3547bb507be59463a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/multiply.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/negate.rnbopat": {
+      "bytes": 5642,
+      "path": "tests/fixtures/smoke/gen-visual-core/negate.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "204e45acff0e9baaff40a9d4f74534792933f2d2f0d4108dbbe91829921b741c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/negate.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/offset-quarter.rnbopat": {
+      "bytes": 5645,
+      "path": "tests/fixtures/smoke/gen-visual-core/offset-quarter.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ed4e6c3ffb323753be64ac273a05f8883b0a1fced46228882f2e81e443df48ea",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/offset-quarter.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/one-sample-history.rnbopat": {
+      "bytes": 5653,
+      "path": "tests/fixtures/smoke/gen-visual-core/one-sample-history.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "110a4236bda3833228bdfba8da5ef74f5a6d1a9e7e101246161fb8f7172bab10",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/one-sample-history.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/reference.py": {
+      "bytes": 3847,
+      "path": "tests/fixtures/smoke/gen-visual-core/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8b2e0414bc2a9c1d39be5239186d7041f7e8d6e58642e8b43a52dc7572e15e90",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/reference.py"
+    },
+    "tests/fixtures/smoke/gen-visual-core/subtract-half.rnbopat": {
+      "bytes": 5644,
+      "path": "tests/fixtures/smoke/gen-visual-core/subtract-half.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7e04f1a33dd46bf3e7f0932ae7bd7911490242585b318917e535e6039c980a0b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/subtract-half.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/subtract.rnbopat": {
+      "bytes": 5947,
+      "path": "tests/fixtures/smoke/gen-visual-core/subtract.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fbaebee0422a277a2bed146766969a30b9cdec5972e6525e6b971861fe15b988",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/subtract.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/swap.rnbopat": {
+      "bytes": 4902,
+      "path": "tests/fixtures/smoke/gen-visual-core/swap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2f1b51385a9c85d5ea6cc8c9e16d518fc705e0abdfad0771e3ad8248cbff4800",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/swap.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/three-state-rotation.rnbopat": {
+      "bytes": 7161,
+      "path": "tests/fixtures/smoke/gen-visual-core/three-state-rotation.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0d2cb9f67d59510161107a9099411d9599310bf637621e4f89b473d54b10ae25",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/three-state-rotation.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/two-sample-history.rnbopat": {
+      "bytes": 6407,
+      "path": "tests/fixtures/smoke/gen-visual-core/two-sample-history.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5b8e92051e3fd75f019f9a56020c2c6e0ef50906bdd608e252cbfc025dc9f679",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/two-sample-history.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/two-state-swap.rnbopat": {
+      "bytes": 6415,
+      "path": "tests/fixtures/smoke/gen-visual-core/two-state-swap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7f6e122dadfa3de0a944823cfd31606c969047fd68f570796484ec6807c98151",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/two-state-swap.rnbopat"
+    },
+    "tests/fixtures/smoke/gen-visual-core/unconnected-history.rnbopat": {
+      "bytes": 5347,
+      "path": "tests/fixtures/smoke/gen-visual-core/unconnected-history.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6650ba1545b31d6f15ce2f8caa0790d50e0b87efa1360783cf8851f40f4a6cf2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-core/unconnected-history.rnbopat"
     },
     "tests/fixtures/smoke/rnbo-codebox-analysis-members/README.md": {
       "bytes": 7810,
@@ -57192,10 +57767,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_stream_test.cpp"
     },
     "tools/build_gen_partition_probe.py": {
-      "bytes": 10905,
+      "bytes": 10983,
       "path": "tools/build_gen_partition_probe.py",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "781e578d451125276ea193b52580505e963820c1c2686591458486dc17a38378",
+      "sha256": "b9e75adb83d5f27a029035409475b98b597ea55f3182fe1a76a620b90f54f7d4",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_gen_partition_probe.py"
     },
     "tools/build_gen_route_inventory.py": {
@@ -57213,10 +57788,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/collect_gen_partition_probe.py"
     },
     "tools/export_gen_partition_probe.mjs": {
-      "bytes": 4385,
+      "bytes": 4479,
       "path": "tools/export_gen_partition_probe.mjs",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "357ecd638f024869683f99d0fdcdefe2bb77235fb4b6156b23e2e850ee738f37",
+      "sha256": "a94ea233af6ace3e1397cb0b3d2c4decbd6f94a8fc0d3e9caf75841ff73107e7",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/export_gen_partition_probe.mjs"
     },
     "tools/test_build_gen_route_inventory.py": {
@@ -57267,6 +57842,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "db930448dafa924f7874e234d5b4a64ca4dced4dfaad78a0c07dd5d695291513",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_gen_routing_causality_reference.py"
+    },
+    "tools/test_smoke_gen_visual_reference.py": {
+      "bytes": 7100,
+      "path": "tools/test_smoke_gen_visual_reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b1a96d62f8a371d03d8a7e61ec9f8596d0d2b27c4b26110f9874aac0a9a7c951",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_gen_visual_reference.py"
     },
     "tools/test_smoke_motion_members_reference.py": {
       "bytes": 7797,

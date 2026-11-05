@@ -1,5 +1,17 @@
 # Implementation status — 6 November 2026
 
+The [embedded visual Gen core](gen-visual-core.md) now imports actual
+`genpatcher.patcher` graphs and passes **21 XIAO scenarios / 215,040 output-word
+checks**, including single-sample histories, coupled feedback and state rotation.
+There are 5,422 within-limit differences (maximum 1.192e-7) and no outside-limit
+or nonfinite outputs. Complete callbacks measure 40–100µs median (0.69–1.72% CPU),
+peak 104µs; no CPU flag triggers and the queue stays 151. All images finalise and
+memory/allocation checks pass. Original sources, compiler lowering, references
+and target artifacts are bound separately. The normal player and original
+controls are restored. The dashboard adds only `gen~`, reaching **936/1455 scoped
+RNBO entries**. Remaining visual operators/forms, resources, params/reset,
+codeboxes and external files remain active work; full qualification is incomplete.
+
 The [event-rate maths batch](rnbo-event-math.md) compiles and runs **44 exact
 source forms**: **41 pass and three intentional approximations retain
 outside-screen numerical differences**, across **450,560 output-word checks**

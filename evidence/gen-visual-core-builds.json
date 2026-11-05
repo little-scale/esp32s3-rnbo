@@ -1,0 +1,175 @@
+{
+  "cache_stops": [
+    {
+      "detail": "Existing SDK cache rejected after frontend changes. Fresh IDF control/cache builds were used; no source-epoch guard was bypassed.",
+      "log_bytes": 97,
+      "log_sha256": "89244f1579b67a64adc4aaeca51ca8e6f1d10af0a368e329c95e445ad5b9d04b",
+      "stage": "source-epoch-admission"
+    }
+  ],
+  "format": "rnbo-visual-gen-build-ledger-v1",
+  "frontend_files_sha256": {
+    "host/export/export.mjs": "9b67b28a83ef548f4c15becb89aea8928080964c655c7db0f48c1f0818b230ae",
+    "host/export/gen_visual.mjs": "e97b4f34550992030f58dc2ca32913a2749eadbf50ce786a58572492414f53ec",
+    "host/export/patcher.mjs": "64bef057d1049ac78c9ff765ba0b1cb6485709fc2251c48d03ecc72085bdaa5a"
+  },
+  "literal_fix_repeat": {
+    "detail": "Negative-zero literal preservation added to the lowerer and regression-tested. All21 original graph-generated DSP files and normalized target module ELFs are byte-identical across that fix; final target run binds fresh frontend hashes. Literal-sign runtime edge cases remain a separate scope.",
+    "same_generated_dsp": true,
+    "same_normalized_target_modules": true
+  },
+  "modules": [
+    {
+      "id": "absolute",
+      "module_sha256": "65835ea7e0b1653bc45b85ff03b3ba2a9889a1f328174cebbe5bd6dcaf204673",
+      "source_sha256": "a506d245f420382e2422978cb699d88f1367ec7bc760112debef0353d9b09e5f"
+    },
+    {
+      "id": "add",
+      "module_sha256": "45994a6eab6abc61f47204b98b191da8deeaf08f92971f0e6eeb432d694a762a",
+      "source_sha256": "4b71a67655fe61ab326a01fdfedfbfa3d175d69dae21ad64f63ea9d5da8be449"
+    },
+    {
+      "id": "cross-feedback",
+      "module_sha256": "5b3ce84ea9547be5d4ce392134ea574cb4a2e0ca937d1520f165c0754998defa",
+      "source_sha256": "92f86904343e5817b62251b5ca7b2252391c774e88e9cfb2984c87c5a3c16399"
+    },
+    {
+      "id": "divide",
+      "module_sha256": "5f0bb6691def591e7b6f7474ba40583105984533230d73644e375f0f097d5d28",
+      "source_sha256": "d2da2ba4259f80279215e59c1a2325f1cb042e091d58ca92ecf65d15631e566f"
+    },
+    {
+      "id": "divide-two",
+      "module_sha256": "18e96a223fbe24ca89e72ad3546ee2fd7705ac8586e2019749152e0ea37a5429",
+      "source_sha256": "249e9089631dc2091f4c23f2f8545aefde2ad71d70c0ee463457bc8e485c3cb1"
+    },
+    {
+      "id": "feedback-half",
+      "module_sha256": "eac309bf2ff443c65d0fc7a506dbdc502d56c3d6564333879214053dd522b84f",
+      "source_sha256": "fa818950a95c351edf579e0425d9e27f40770c485a2294f50b6d49b57bb60cd2"
+    },
+    {
+      "id": "gain-half",
+      "module_sha256": "18e96a223fbe24ca89e72ad3546ee2fd7705ac8586e2019749152e0ea37a5429",
+      "source_sha256": "b35d003d2d2178be00ace1a84957c94ef7743646adb6a4d1f02674d142b4c832"
+    },
+    {
+      "id": "history-fanout",
+      "module_sha256": "04fd49957f6baff8f91a127aa7e5157e2159510dcb17e3b94c8ee03cbc581790",
+      "source_sha256": "bdfccba23b92a885be0d7f029e95f3998e820c614b90a12943d9a6b1806f6a96"
+    },
+    {
+      "id": "history-read-twice",
+      "module_sha256": "e9bc4ba019e99a37ac2d93139c8bd8019c1558ab08d410ade800f056d1fc2d84",
+      "source_sha256": "7edb74459a47f9088ec6751cf5c6cef07015daee9a7e72d2995cbe6cd55af555"
+    },
+    {
+      "id": "identity",
+      "module_sha256": "ada4a53e44f52eb5fb9781b2a02f08dddf622c683f263e2ea5b252f2e9827705",
+      "source_sha256": "c0f6b9555bf69cd18b58ef744eec7649e4bae05b700d63e6a29948fcef0295de"
+    },
+    {
+      "id": "multiply",
+      "module_sha256": "a0b4dac9b6a772d45d074cebeec716a43257569101522ec4a986de3eb4ade5ec",
+      "source_sha256": "8456fa782b54a870af101c174522918d6855cfb7bc176fb3547bb507be59463a"
+    },
+    {
+      "id": "negate",
+      "module_sha256": "6596a14e2b44d781f97e0c485798b30c01a652d3cd14c4d175bfad3d0db62d6f",
+      "source_sha256": "204e45acff0e9baaff40a9d4f74534792933f2d2f0d4108dbbe91829921b741c"
+    },
+    {
+      "id": "offset-quarter",
+      "module_sha256": "9420d1888a85bdbae9cd00aac5654d7bb8398c1ef83c45674ccc8fa85e6302ec",
+      "source_sha256": "ed4e6c3ffb323753be64ac273a05f8883b0a1fced46228882f2e81e443df48ea"
+    },
+    {
+      "id": "one-sample-history",
+      "module_sha256": "52beb425a05b1850e9fb4fc9ea675373df97f9a0725296273a5e6b81833d0ac7",
+      "source_sha256": "110a4236bda3833228bdfba8da5ef74f5a6d1a9e7e101246161fb8f7172bab10"
+    },
+    {
+      "id": "subtract",
+      "module_sha256": "4ad44dd2e9ba9c0f0ff3fb94948abc00458593ae5b46b882be08d2dfa4910c41",
+      "source_sha256": "fbaebee0422a277a2bed146766969a30b9cdec5972e6525e6b971861fe15b988"
+    },
+    {
+      "id": "subtract-half",
+      "module_sha256": "00860bf9874912c686113d6e9a7084dd0867f43c6e5ee39044b3f68e5c0dd1b7",
+      "source_sha256": "7e04f1a33dd46bf3e7f0932ae7bd7911490242585b318917e535e6039c980a0b"
+    },
+    {
+      "id": "swap",
+      "module_sha256": "c9540c2f07b242fed575d38492a82b7e3aa45fd931730dbaf195884433a844e0",
+      "source_sha256": "2f1b51385a9c85d5ea6cc8c9e16d518fc705e0abdfad0771e3ad8248cbff4800"
+    },
+    {
+      "id": "three-state-rotation",
+      "module_sha256": "32e2afcf49d47242a56dde82aa53ea2d90dffbdc7bfb214e8d6e9743a737f0bc",
+      "source_sha256": "0d2cb9f67d59510161107a9099411d9599310bf637621e4f89b473d54b10ae25"
+    },
+    {
+      "id": "two-sample-history",
+      "module_sha256": "5b6f58f32b600d98b7e207795902bb085cc9ac1ee0dc996631945b86de546f69",
+      "source_sha256": "5b8e92051e3fd75f019f9a56020c2c6e0ef50906bdd608e252cbfc025dc9f679"
+    },
+    {
+      "id": "two-state-swap",
+      "module_sha256": "ba4df1bb5c6284f8412c74131d235133b5e30d8f4883ee192c1f5e8e3e502644",
+      "source_sha256": "7f6e122dadfa3de0a944823cfd31606c969047fd68f570796484ec6807c98151"
+    },
+    {
+      "id": "unconnected-history",
+      "module_sha256": "a068c3024e2defb5a619638c36825faff8cace556d0ecb77d28dc9f67699f687",
+      "source_sha256": "6650ba1545b31d6f15ce2f8caa0790d50e0b87efa1360783cf8851f40f4a6cf2"
+    }
+  ],
+  "scope": "Original visual source, frontend-to-GenExpr bridge and independent target tests. Cache admission stops are not DSP/object rejections.",
+  "target_runs": [
+    {
+      "accepted_for_latest_publication": false,
+      "artifacts": {
+        "build/hardware-smoke-gen-visual-core-v1/build-report.json": {
+          "bytes": 5510300,
+          "sha256": "81ca6614b14266d03dbda09bf226884a0604152b60497a081c70d218e3e813bc"
+        },
+        "build/hardware/xiao-gen-visual-core-v1/hardware-smoke.json": {
+          "bytes": 27950,
+          "sha256": "76e58a754888f09a97f1813bec83c2352465015130bbda263c76ffc676eaafc7"
+        },
+        "build/hardware/xiao-gen-visual-core-v1/test-serial.log": {
+          "bytes": 31583,
+          "sha256": "a61394b7c1b83c78bc116e59a03a32be899bc120b2321110893bd0e1f17db282"
+        }
+      },
+      "case_count": 21,
+      "firmware_elf_sha256": "9bbbfd4175052fed8cdafa5832091fd9f36b34df03b20143e39f3cb142be0099",
+      "plan_sha256": "d98246b101f2adc31eeb38ea3b0363311bb4c6b044d6ae2cb461713f378cd585",
+      "result": "completed",
+      "version": 1
+    },
+    {
+      "accepted_for_latest_publication": true,
+      "artifacts": {
+        "build/hardware-smoke-gen-visual-core-v2/build-report.json": {
+          "bytes": 5510300,
+          "sha256": "8b346eea0b04a4a0fc671c2452a10da502f693862dff8463b8e4e8d78e9c24d2"
+        },
+        "build/hardware/xiao-gen-visual-core-v2/hardware-smoke.json": {
+          "bytes": 27950,
+          "sha256": "65e1e49a1d77d7bb28645683eda5ede242c90b992d849779d98f1f1615ac5a4e"
+        },
+        "build/hardware/xiao-gen-visual-core-v2/test-serial.log": {
+          "bytes": 31583,
+          "sha256": "e090c95a57401938ecf80b0076a6da03e3c97e965d439be73ea8e4f6a3214058"
+        }
+      },
+      "case_count": 21,
+      "firmware_elf_sha256": "574dd2dd31c58184b5544d235433bad1535266a4393b1dcf4454534921769189",
+      "plan_sha256": "be4021cc3e75e27d56dbb7cec917d7c38a704ba24487eba52e3cdf7188f67a04",
+      "result": "completed",
+      "version": 2
+    }
+  ]
+}

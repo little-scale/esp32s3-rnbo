@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Metadata reconstruction for the pinned RNBO 1.4.4 runner. Editable source is
 // never changed; message payloads and UI number attributes use native XAM forms.
+import { lowerVisualGen } from './gen_visual.mjs';
 const genOptions = new Set(['expr', 'geninlets', 'genoutlets']);
 const numberFormats = ['integer', 'hex', 'octal', 'binary', 'midi', 'midi_c4', 'float'];
 
@@ -88,6 +89,22 @@ export function describeFlatPatcher(source, xam) {
     }
     const spec = xam.parseBoxText(compilerText);
     if (!spec) throw Error(`Unsupported object form: ${compilerText}`);
+    if (box.genpatcher!==undefined) {
+      if (spec.xamclass!=='gen~') throw Error('genpatcher is only valid on an embedded gen~');
+      const extra=box.rnbo_extra_attributes;
+      if (extra!==undefined && (!extra || typeof extra!=='object' || Array.isArray(extra))) throw Error('Visual Gen saved attributes must be an object');
+      for (const attrs of [spec.attributes,extra??{}])for (const [key,value] of Object.entries(attrs)) {
+        if (key==='classname')continue;
+        if (key==='defaultArgs' && Array.isArray(value) && !value.length)continue;
+        if (key==='exposeparams' && (value===0 || value===false))continue;
+        throw Error(`Unsupported or ambiguous visual Gen option: ${key}`);
+      }
+      const lowered=lowerVisualGen(box.genpatcher);
+      spec.attributes={expr:lowered.expression,geninlets:lowered.geninlets,genoutlets:lowered.genoutlets};
+      box.rnbo_extra_attributes={...spec.attributes};
+      box.rnbo_visual_gen=lowered;
+    }
+
     // XAM gives explicit text priority over stale extra attributes. This is
     // significant for Max-saved message boxes whose extra text can be empty.
     if (spec.xamclass === 'gen~') genExpression(spec, box.rnbo_extra_attributes, xam);

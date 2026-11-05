@@ -44,8 +44,10 @@ ignored `build/` directories with their original notices.
 The first `.rnbopat` importer supports **flat, self-contained RNBO graphs** made
 of `newobj` and message boxes, integer `number` and floating-point `flonum` UI
 boxes, comments, and panels. Saved number formats and bounds are preserved. Explicit GenExpr inside `gen~` is also
-admitted; see the [Gen qualification record](../docs/gen-qualification.md).
-Embedded subpatches, visual Gen patchers, external abstractions, presets,
+admitted. The [embedded visual Gen core](../docs/gen-visual-core.md) now also
+accepts explicit arithmetic/history graphs; remaining visual operators, resources
+and parameter/codebox forms are not implemented.
+Other embedded RNBO subpatches, external abstractions, presets,
 external sample assets, and arbitrary Max `.maxpat` input are not admitted.
 This is a deliberately narrower input route than the upstream
 FM1 converter. The original example patch designs in `examples/` use this route.

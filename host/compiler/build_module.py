@@ -89,7 +89,7 @@ def sources():
     paths=[ROOT/"module-sdk/include/rnbo_s3_module.h",ROOT/"module-sdk/include/rnbo_s3_midi.h",ROOT/"module-sdk/include/rnbo_s3_dynamic.h",
            ROOT/"host/compiler/build_module.py",ROOT/"host/compiler/build.py",
            ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",ROOT/"host/compiler/physical_inputs.py",ROOT/"host/compiler/float32_trial.py",
-           ROOT/"host/export/export.mjs",ROOT/"host/export/patcher.mjs",ROOT/"host/export/inspect_onepole_graph.mjs",
+           ROOT/"host/export/export.mjs",ROOT/"host/export/patcher.mjs",ROOT/"host/export/gen_visual.mjs",ROOT/"host/export/inspect_onepole_graph.mjs",
            ROOT/"loader-spike/dependencies.json"]
     for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h"):
         helper=ROOT/"host/compiler"/name

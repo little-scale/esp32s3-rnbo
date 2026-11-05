@@ -99,8 +99,8 @@ build/host-sine/rnbo_render --output build/sine.wav --float-output build/sine.f3
 
 Output directories must be new. See [host/README.md](host/README.md) for manual
 Minimal C++ imports, the supported flat `.rnbopat` route, polyphony options,
-explicit MIDI-output policy, and provenance. Explicit GenExpr in `gen~` is
-admitted; visual Gen patchers, arbitrary Max projects, external assets and a
+explicit MIDI-output policy, and provenance. Explicit GenExpr in `gen~` and the [embedded visual Gen core](docs/gen-visual-core.md)
+are admitted. Remaining visual Gen forms, arbitrary Max projects, external assets and
 broader browser conversion support remain later work. RNBO Studio exposes the
 currently supported export route.
 

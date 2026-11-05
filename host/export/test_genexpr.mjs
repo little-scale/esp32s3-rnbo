@@ -158,7 +158,7 @@ test('producer variable-block history kernels preserve per-sample state across p
       .replace("'rnbo-s3-flat-rnbopat-v2'", "'private-genexpr-variable-block-test-v1'");
     const script = path.join(temporary, 'export-variable.mjs');
     fs.writeFileSync(script, variable);
-    fs.copyFileSync(path.join(root, 'host/export/patcher.mjs'), path.join(temporary, 'patcher.mjs'));
+    for (const file of ['patcher.mjs','gen_visual.mjs']) fs.copyFileSync(path.join(root, 'host/export', file), path.join(temporary, file));
     for (const [index, name] of ['history-feedback', 'two-history-swap'].entries()) {
       const exported = path.join(temporary, name, 'export');
       command(process.execPath, [script, path.join(root, 'tests/fixtures/gen', `${name}.rnbopat`), '--out', exported], `${name}-export`);

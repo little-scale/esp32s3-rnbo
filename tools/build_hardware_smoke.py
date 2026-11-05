@@ -229,7 +229,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -314,6 +314,34 @@ def event_math_catalog(catalog):
             sha(ROOT/'tests/fixtures/smoke/rnbo-events-math/catalog.json')!=EVENT_MATH_CATALOG_SHA):
         raise ExportError('Event maths requires an exact22-source partition of the44-source catalog')
     return partition
+
+
+VISUAL_GEN_FAMILY='gen-visual-core'
+VISUAL_GEN_CATALOG_SHA='520f2ddb7636c836110fa54bbccd3ce24c51eab1729bbf08e6564b1fa35af693'
+VISUAL_GEN_REFERENCE_SHA='8b2e0414bc2a9c1d39be5239186d7041f7e8d6e58642e8b43a52dc7572e15e90'
+
+
+def visual_gen_catalog(catalog):
+    if catalog.get('family')!=VISUAL_GEN_FAMILY or hashlib.sha256(canonical(catalog)).hexdigest()!=VISUAL_GEN_CATALOG_SHA:
+        raise ExportError('Visual Gen requires the exact21 original embedded graph sources')
+
+
+def visual_gen_bridge(prepared,source,row):
+    graph=read_json(source,'embedded visual source')['patcher'];boxes=[e['box']for e in graph['boxes']]
+    gen=next(b for b in boxes if b.get('text')=='gen~')
+    if len(boxes)!=5 or 'expr'in gen.get('rnbo_extra_attributes',{}) or sha(prepared/'source.rnbopat')!=hashlib.sha256(source).hexdigest():
+        raise ExportError('Visual Gen requires original source, never a cached/authored expr')
+    if hashlib.sha256(canonical(gen['genpatcher'])).hexdigest()!=row['genpatcher_sha256']:
+        raise ExportError('Embedded visual graph differs')
+    script="import fs from 'node:fs';import {lowerVisualGen} from './host/export/gen_visual.mjs';process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
+    result=subprocess.run(['node','--input-type=module','-e',script],input=json.dumps(gen['genpatcher']),text=True,capture_output=True,cwd=ROOT,check=True,timeout=10)
+    lowered=json.loads(result.stdout);meta=read_json(read_regular(prepared/'generator.json',65536),'visual generator');proof=meta.get('visual_gen',[])
+    expected=dict(box_id=gen['id'],policy=lowered['policy'],nodes=lowered['nodes'],edges=lowered['edges'],histories=lowered['history_count'],operators=lowered['operators'],
+        source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
+        lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(ROOT/'host/export/gen_visual.mjs'))
+    if proof!=[expected] or meta.get('gen_visual_adapter_sha256')!=expected['adapter_sha256']:
+        raise ExportError('Visual Gen generated bridge differs from independent source reconstruction')
+    return dict(gen_visual_lowering=expected,genpatcher_sha256=row['genpatcher_sha256'])
 
 
 def parameter_case(prepared,manifest,reference,model):
@@ -487,6 +515,9 @@ def prepare_plan(catalog_path,modules_path):
     if comparison:
         comparison_reports=comparison_contract(catalog,batch)
         if sha(reference_source)!=DBTOA_REFERENCE_SHA:raise ExportError('dbtoa mathematical reference changed')
+    if catalog.get('family')==VISUAL_GEN_FAMILY:
+        visual_gen_catalog(catalog)
+        if sha(reference_source)!=VISUAL_GEN_REFERENCE_SHA:raise ExportError('Visual Gen independent reference changed')
     if catalog.get('family')==EVENT_MATH_FAMILY:
         event_math_catalog(catalog)
         if sha(reference_source)!=EVENT_MATH_REFERENCE_SHA:raise ExportError('Event-maths independent reference changed')
@@ -509,7 +540,7 @@ def prepare_plan(catalog_path,modules_path):
         source_bytes=read_regular(patch,1024*1024)
         source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
-        if catalog.get('family')in(EVENT_RANGE_FAMILY,EVENT_MATH_FAMILY) and source_hash!=row['patch_sha256']:
+        if catalog.get('family')in(EVENT_RANGE_FAMILY,EVENT_MATH_FAMILY,VISUAL_GEN_FAMILY) and source_hash!=row['patch_sha256']:
             raise ExportError('Event-range authored source changed')
         if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
             expression_info['codebox_source_sha256']=(checked_character_source(row,source_bytes)if character
@@ -593,6 +624,9 @@ def prepare_plan(catalog_path,modules_path):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
         if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or gen_execution or gen_causal or list_functions or structures or members or delay_members or analysis_members or motion_members or context_aliases or gen_extended)and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
+        if catalog['family']==VISUAL_GEN_FAMILY:
+            if actual_manifest!=manifest or actual_manifest['editable_source_sha256']!=source_hash:raise ExportError('Visual Gen prepared manifest/source differs')
+            expression_info.update(visual_gen_bridge(prepared,source_bytes,row))
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
                 raise ExportError('dbtoa prepared manifest/graph differs from comparison source')
@@ -601,7 +635,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -689,10 +723,10 @@ def prepare_plan(catalog_path,modules_path):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful codebox cases require twenty continuous reference blocks')
-    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math'):
+    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math'):
         plan.update(family=catalog['family'],surface='patcher')
-        if catalog['family']in('rnbo-functions','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing'):plan['prepare_zero_warm_blocks']=0
-        if catalog['family']in('rnbo-signal-stateful','rnbo-signal-state-followup'):
+        if catalog['family']in('gen-visual-core','rnbo-functions','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('gen-visual-core','rnbo-signal-stateful','rnbo-signal-state-followup'):
             plan['expected_stream_policy']='Fresh prepared signal state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful signal cases require twenty continuous reference blocks')

@@ -150,3 +150,10 @@ inputs. See the [exact pin map, syntax and options](../../docs/physical-inputs.m
 An updated player is required once over USB; mappings then travel in each package.
 Studio shows package bindings and live raw readings. Physical hardware testing is
 pending; AMOLED external-input mappings are not enabled by this XIAO profile.
+
+## Embedded visual Gen
+
+Studio accepts the [documented visual Gen core](../../docs/gen-visual-core.md)
+inside `genpatcher.patcher`, alongside existing explicit GenExpr. Unsupported
+visual operators, nested/file/resource forms, codeboxes and exposed parameters
+fail with an explicit error; full visual Gen support remains active work.
