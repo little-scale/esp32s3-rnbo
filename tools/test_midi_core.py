@@ -22,7 +22,12 @@ static void validate(void *context,const uint8_t *bytes,unsigned length) {
 }
 static void equal(capture *c,unsigned i,unsigned status,unsigned a,unsigned b,unsigned n) {
     assert(i<c->count&&c->length[i]==n&&c->bytes[i][0]==status);
-    if(n>1)assert(c->bytes[i][1]==a);if(n>2)assert(c->bytes[i][2]==b);
+    if(n>1) {
+        assert(c->bytes[i][1]==a);
+    }
+    if(n>2) {
+        assert(c->bytes[i][2]==b);
+    }
 }
 int main(void) {
     midi_stream s;midi_stream_init(&s);capture c={0};
