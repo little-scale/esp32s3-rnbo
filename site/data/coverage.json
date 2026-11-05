@@ -14954,7 +14954,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         }
@@ -15819,7 +15819,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -16853,7 +16853,7 @@
       "optimisations": [],
       "qualification": [
         {
-          "conditions": "C ABI2\u21922 disjoint stereo FX comparison and Main0\u21922; fixed44.1kHz/256. AMOLED physical output is mono.",
+          "conditions": "C ABI2→2 disjoint stereo FX comparison and Main0→2; fixed44.1kHz/256. AMOLED physical output is mono.",
           "level": "S3-interface-and-FX-pass-through",
           "source": "evidence/dynamic-loader.json"
         }
@@ -17487,7 +17487,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         },
@@ -17651,7 +17651,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
@@ -18450,7 +18450,7 @@
       ],
       "qualification": [
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
@@ -18529,12 +18529,12 @@
       ],
       "qualification": [
         {
-          "conditions": "Phasor\u00b1440/0; train period441/17 samples and width0/.25/1.",
+          "conditions": "Phasor±440/0; train period441/17 samples and width0/.25/1.",
           "level": "native-only-semantics",
           "source": "evidence/objects-wave2.json"
         },
         {
-          "conditions": "SavedS3:12 warm4 Main workloads,512blocks\u00d73rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle.",
+          "conditions": "SavedS3:12 warm4 Main workloads,512blocks×3rounds,zero numeric/PCM/RMS gates,actual sparse/freeze events; allstartupwords retained. No independent target waveform oracle.",
           "level": "S3-exact-numeric-pair-private-train-hoist",
           "source": "evidence/train-reciprocal-hoist.json"
         },
@@ -18641,12 +18641,12 @@
           "source": "evidence/wrap-finite-target.json"
         },
         {
-          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)\u2192clip[0,1]\u2192pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
+          "conditions": "Tanh left grid[-4,4]; right wrap[-1,1)→clip[0,1]→pow with exponents2,.25,4 on original[-3,3] grid; unchanged2e-6 model.",
           "level": "S3-independent-chain-model-control",
           "source": "evidence/wave2-target-oracles.json"
         },
         {
-          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; \u00b12^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
+          "conditions": "Original uncorrected Int32 source: +16,777,218 maps to -2 and -33,554,436 maps to +2; ±2^32 exposes conversion/subtraction undefined behavior. These are reproduced source failures, not observed target crashes.",
           "level": "private-native-known-failure",
           "source": "evidence/wrap-finite.json"
         }
@@ -41421,7 +41421,7 @@
       ],
       "spelling": "list.push()",
       "surface": "codebox",
-      "working_note": "The exported C++ rejects use of this method\u2019s documented length return value; mutation-only use remains untested.",
+      "working_note": "The exported C++ rejects use of this method’s documented length return value; mutation-only use remains untested.",
       "working_state": "unverified"
     },
     {
@@ -41454,7 +41454,7 @@
       ],
       "spelling": "list.unshift()",
       "surface": "codebox",
-      "working_note": "The exported C++ rejects use of this method\u2019s documented length return value; mutation-only use remains untested.",
+      "working_note": "The exported C++ rejects use of this method’s documented length return value; mutation-only use remains untested.",
       "working_state": "unverified"
     },
     {
@@ -47917,6 +47917,754 @@
       "working_note": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:eqp",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "eqp 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/eqp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: eqp 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "eqp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:==p",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "==p 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/equal-pass-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: ==p 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "==p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:neqp",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "neqp 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/neqp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: neqp 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "neqp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:!=p",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "!=p 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/not-equal-pass-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: !=p 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "!=p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:ltp",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "ltp 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/ltp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: ltp 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "ltp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:<p",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "<p 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/less-pass-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: <p 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "<p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:ltep",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "ltep 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/ltep-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: ltep 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "ltep",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:<=p",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "<=p 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/less-equal-pass-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: <=p 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "<=p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gtp",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gtp 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/gtp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: gtp 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "gtp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:>p",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            ">p 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/greater-pass-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: >p 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": ">p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gtep",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gtep 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/gtep-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: gtep 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "gtep",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:>=p",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            ">=p 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/greater-equal-pass-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: >=p 2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": ">=p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:clamp",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "clamp -1 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/clamp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: clamp -1 1.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "clamp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:clip",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "clip -1 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/clip-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: clip -1 1.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "clip",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:wrap",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "wrap -1 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/wrap-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: wrap -1 1.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "wrap",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fold",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fold -1 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/fold-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: fold -1 1.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "fold",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cond",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cond 2 -2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/cond-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: cond 2 -2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "cond",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:?",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "? 2 -2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/conditional-symbol-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: ? 2 -2.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "?",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:linearinterp",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "linearinterp -1 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/linearinterp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: linearinterp -1 1. Only authored dyadic phase values in[0,1] are covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "linearinterp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:boxtotri",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "boxtotri 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/boxtotri-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: boxtotri 1. Only authored dyadic phase values in[0,1] are covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "boxtotri",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:triangle",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "triangle 0.5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/triangle-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: triangle 0.5. Only authored dyadic phase values in[0,1] are covered.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "triangle",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:delta",
+      "known_gaps": [
+        "Only the authored hot events, fixed cold arguments, domains and held signal output are qualified; arbitrary cold updates, modes, reset and within-block timestamps remain unqualified.",
+        "Exact spelling only; no inherited alias, signal, codebox or Gen status and no independent CPU saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delta"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-ranges/delta-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "One hot numeric inlet,21 ordered actual-value parameter events, four manual warm and sixteen timed full256-frame callbacks. A held left output uses zero numeric tolerance; right pilot words, including zero signs and subnormals, must match exactly. Parameter actual/normalized readbacks and ordered event logs are checked. Event setter/routing timing is separate from process timing; no within-block offsets or isolated object costs are claimed. Fixed source form: delta. Multiple same-callback events check previous-event state, including repeated-value events and callback hold gaps.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-events-ranges.json"
+        }
+      ],
+      "spelling": "delta",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -49260,6 +50008,13 @@
       "sha256": "b0c1c5bfad8399ee386acc07884ea31e0b939b87696442338a82591ff54c9033",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-structures-native.json"
     },
+    "evidence/rnbo-events-ranges-native.json": {
+      "bytes": 25867,
+      "path": "evidence/rnbo-events-ranges-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "baaba50b4371762a0c6946a5a8c95d53fc1b5d34472a9fbb496983c85d662cc7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-events-ranges-native.json"
+    },
     "evidence/rnbo-signal-state-followup-review.json": {
       "bytes": 1785,
       "path": "evidence/rnbo-signal-state-followup-review.json",
@@ -49560,6 +50315,20 @@
       "publication": "public-evidence",
       "sha256": "bd76dd2d0875c09342fa0186793721bf12fd559f4ecd2c5377026529e1bf0866",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-extra.json"
+    },
+    "evidence/xiao-smoke-rnbo-events-ranges-player-restoration.json": {
+      "bytes": 1089,
+      "path": "evidence/xiao-smoke-rnbo-events-ranges-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "77dc3b3567253b6f67b4217aecacc96e761f9394b0c29d86666b2094ee8df7c6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-ranges-player-restoration.json"
+    },
+    "evidence/xiao-smoke-rnbo-events-ranges.json": {
+      "bytes": 255903,
+      "path": "evidence/xiao-smoke-rnbo-events-ranges.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a28b9cc73e04a09bbf0f46635bc0b9d2c330dc268d7917c7b5f4bb0d9d154961",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-ranges.json"
     },
     "evidence/xiao-smoke-rnbo-events.json": {
       "bytes": 405671,
@@ -54328,6 +55097,195 @@
       "sha256": "f3ca798a4400d99fa397beb05f02bc11419ec5034b662e1fa5c67c323a06020d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat"
     },
+    "tests/fixtures/smoke/rnbo-events-ranges/README.md": {
+      "bytes": 3233,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "aec658b50ea943912fe62aa7df769616ae914ec2c6642ed73bc12535c5c4f39d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/boxtotri-event.rnbopat": {
+      "bytes": 2937,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/boxtotri-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "19cc2d47b023541ecc18f30a8bc14a3f9699f75a519c4989ba381efd438d960e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/boxtotri-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/catalog.json": {
+      "bytes": 23441,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8ce51bfcd07ae9c841ed57f68871768338ab3bf4d6676a0dd8b82b0e688bbdd3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/clamp-event.rnbopat": {
+      "bytes": 2937,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/clamp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cc2f39087e3edbc344d5cfd020be30b6424470e7257834744276f3132fe6889f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/clamp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/clip-event.rnbopat": {
+      "bytes": 2936,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/clip-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e2e454b8721b607979b351a4007903843ae44591432a763585a30fdec5d22f7d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/clip-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/cond-event.rnbopat": {
+      "bytes": 2936,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/cond-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "75bd8b268169e3c9b13725ac3630ca57ee7d9fde231ed6781bac9d2afe090d36",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/cond-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/conditional-symbol-event.rnbopat": {
+      "bytes": 2933,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/conditional-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4e85f2ebc05c2b1b3f9dec8a191e8aa67d4a914c4aed1ca883f2299e548cb113",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/conditional-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/delta-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/delta-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e38289c55c1d677e0c954b07f3e65897c3d2b15472c661f723ebc0540caf96b9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/delta-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/eqp-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/eqp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7ff16c9211152fe38c676e6e35f144776d0409aa3551c1a83f9fb9bc767fa94d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/eqp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/equal-pass-symbol-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/equal-pass-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0574e6643df87f1c91924850f7fb6ca8635453e70571a17699352e0cb0bbe1ac",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/equal-pass-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/fold-event.rnbopat": {
+      "bytes": 2936,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/fold-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "153191809e5529b6091353e4ad8d8d924a6d748216f67b8b1690cc88c33ce60e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/fold-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/generate.py": {
+      "bytes": 3522,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "796dc117e7fe622127e701bdb4b9302c94b018cd21f52dcbb647fe83b9a8b748",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/greater-equal-pass-symbol-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/greater-equal-pass-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f29b34963c3fdc772141b6d5b59ed5450102db042741182867eefcc6b72f5733",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/greater-equal-pass-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/greater-pass-symbol-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/greater-pass-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b5da2cc603fbd0f0cb8ab02b9e71e5110657bf2e23a53704b3e7d6e04dd2635f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/greater-pass-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/gtep-event.rnbopat": {
+      "bytes": 2933,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/gtep-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fd8d76fbb52180b30e29364ed0c881c5c8dd3f3248faa222fa4200006f70af4d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/gtep-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/gtp-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/gtp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6d2dc3974e4b9798472e69770409f500dd00de94424047f431ff8bc699c267e0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/gtp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/less-equal-pass-symbol-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/less-equal-pass-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b189c5e67abf77c94825ab10f726c8f4c862fd7c66b35291fee6815967a95d1c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/less-equal-pass-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/less-pass-symbol-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/less-pass-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0e1977fd78ca2d15e601f52e8919a8638146c23060127e9fd8e1d8d5a22442c7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/less-pass-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/linearinterp-event.rnbopat": {
+      "bytes": 2944,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/linearinterp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d9f0d9ae657f58c66c70d3cc8267aa766363250f77db6ca89f3f39bb12221948",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/linearinterp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/ltep-event.rnbopat": {
+      "bytes": 2933,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/ltep-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ca71d2d722963539f503ecc3389f4ff4336e9ef4de54fb2a6321059c7b27f0c9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/ltep-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/ltp-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/ltp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "37b2c8ba5880cd31856cbaa949a62da5f242b8df9893795140a24cfb4aa5e39c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/ltp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/neqp-event.rnbopat": {
+      "bytes": 2933,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/neqp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b3a1d63b3313da4c0d69bcf36fc0bdd1a8d8f7dcf1a4400a9bc6f36c32f6c2bd",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/neqp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/not-equal-pass-symbol-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/not-equal-pass-symbol-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d5cd65653ce8bd122666d81a8d7ea85b3babefdfa905e8d2cf8f922033a0a82b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/not-equal-pass-symbol-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/reference.py": {
+      "bytes": 4849,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "235fbaa130bcbb21a250dab330a5b4b3c5d77297c2f2385e422aaec6ced52da1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/triangle-event.rnbopat": {
+      "bytes": 2939,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/triangle-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f340ea4d58c07dc992f658c07c94529a900a67f9a4b95001cb22783f550b0838",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/triangle-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-ranges/wrap-event.rnbopat": {
+      "bytes": 2936,
+      "path": "tests/fixtures/smoke/rnbo-events-ranges/wrap-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "71d0c6a8f6980316cfa5af4c94a02d883f8c36e0bb988071dd860555b087825e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/wrap-event.rnbopat"
+    },
+    "tests/native/smoke_event_stream_test.cpp": {
+      "bytes": 4713,
+      "path": "tests/native/smoke_event_stream_test.cpp",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a755710919514e0fe900c7405d1e62ccc2e1cea51f65e3edf33a8a60fa69b232",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_stream_test.cpp"
+    },
     "tools/build_gen_partition_probe.py": {
       "bytes": 10905,
       "path": "tools/build_gen_partition_probe.py",
@@ -54404,6 +55362,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "f541f8b4afc827cff6f2188ca5aee373cc9117162be0e6bf3d163ae275796494",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_motion_members_reference.py"
+    },
+    "tools/test_smoke_rnbo_events_ranges_reference.py": {
+      "bytes": 6139,
+      "path": "tools/test_smoke_rnbo_events_ranges_reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dae9310aa8448d2f738da45eb5cac7fd85de8b6c89b421710324ccc5715e13ab",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_rnbo_events_ranges_reference.py"
     }
   },
   "verified_public_revision": {

@@ -834,6 +834,42 @@ def list_function_plan(plan):
                 'List-function vector/output differs from independent reference')
 
 
+def event_range_plan(plan):
+    from build_hardware_smoke import EVENT_RANGE_FAMILY,EVENT_RANGE_CATALOG_SHA,EVENT_RANGE_REFERENCE_SHA,event_range_catalog
+    directory=ROOT/'tests/fixtures/smoke/rnbo-events-ranges'
+    catalog=json.loads((directory/'catalog.json').read_bytes());event_range_catalog(catalog)
+    require(plan.get('catalog_sha256')==EVENT_RANGE_CATALOG_SHA and
+            plan.get('reference_source_sha256')==EVENT_RANGE_REFERENCE_SHA and
+            sha(directory/'reference.py')==EVENT_RANGE_REFERENCE_SHA and plan.get('surface')=='patcher' and
+            type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+            plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_block_storage')=='shared-512-word-pool', 'Event-range source/fresh-control policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals)and {r['id']for r in observed}==set(originals),'Event-range case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')), 'Event-range exact spelling/source differs')
+    spec=importlib.util.spec_from_file_location('event_range_independent',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    pool=expected_pool(plan)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model'];inputs=reference.case_input_words(model)
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==0 and
+                row.get('input_words')==list(inputs),'Event-range source/domain/tolerance differs')
+        blocks,_=expected_stream(row,True,pool)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),'Event-range reference stream differs')
+        authored=reference.parameter_events(model);observed=row.get('parameter_events',[])
+        require(len(authored)==len(observed)==21 and row.get('expected_parameter_count')==1 and
+                row.get('parameters')==[dict(id='drive',minimum=-8.,maximum=8.,initial=0.,exponent=1.,steps=0)],
+                'Event-range parameter contract differs')
+        for expected,actual in zip(authored,observed):
+            require(actual==dict(before_call=expected['before_call'],id='drive',parameter_slot=0,
+                    value_word=reference.word(expected['value']),normalized_word=reference.word((expected['value']+8)/16)),
+                    'Event-range authored action differs')
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -841,6 +877,7 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
+    if plan.get('family')=='rnbo-events-ranges':event_range_plan(plan)
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
     if plan.get('family')==STRUCTURE_FAMILY:structure_plan(plan)
     if plan.get('family')==MEMBER_FAMILY:member_plan(plan)
@@ -877,7 +914,7 @@ def collect(build_dir,run_dir):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
-    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
+    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges')
     stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
@@ -975,7 +1012,7 @@ def collect(build_dir,run_dir):
                       scope='Explicit bounded changed-rounding numerical and matched ABBA callback comparison; no general object or bit-identity qualification',
                       numerical_comparison='Each profile versus the fixed independent mathematical cache',
                       profile_comparison=dbtoa_comparison_times(records))
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-events-ranges') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

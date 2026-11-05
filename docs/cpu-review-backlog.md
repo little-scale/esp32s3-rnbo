@@ -13,6 +13,16 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Event ranges and pass comparisons: no new flags
+
+All 22 authored control/event callbacks pass their output checks at75–76µs
+median (1.29–1.31% of the block period), peak 80µs. None crosses the declared
+median/spike thresholds, leaving **151 queued contexts**. Actual parameter
+setter/routing timing is recorded separately:21-action totals 155–197µs and
+per-action peaks 31–41µs, including first-use overhead. These short callback
+figures are not per-object CPU costs or savings. See the
+[event results](hardware-smoke.md#rnbo-event-comparisons-ranges-and-event-delta).
+
 ## Direct Gen variable-frame calls: eight queued contexts
 
 Eight direct-producer contexts exceed 10% aggregate process CPU, taking the queue

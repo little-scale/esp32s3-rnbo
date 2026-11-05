@@ -1,5 +1,16 @@
 # XIAO object qualification
 
+The [event-comparison/range/state batch](hardware-smoke.md#rnbo-event-comparisons-ranges-and-event-delta)
+adds **22 passing XIAO scenarios**, **225,280 output-word checks** and 462 actual
+parameter actions, including ordered previous-event delta state. All numerical
+outputs and raw right-channel words agree; 512 left signed-zero differences
+remain diagnostic. Complete callbacks take 75–76µs median (**1.29–1.31% CPU**),
+with event setter/routing timing separate and **no new CPU flags**. The queue
+remains 151. All images finalise and allocation/memory checks pass. The normal
+player and saved controls are restored. RNBO coverage is **891/1455 scoped
+entries**, including earlier mismatches/rejections, not 891 full qualifications;
+Gen remains separate and the complete goal remains active.
+
 The [global list-function batch](hardware-smoke.md#rnbo-list-function-call-forms)
 adds ten device runs: nine passes and one duplicate-policy mismatch, with
 102,400 output checks. Seven C++ rejections, sixteen frontend rejections and

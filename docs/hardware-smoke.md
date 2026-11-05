@@ -22,6 +22,34 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## RNBO event comparisons, ranges and event delta
+
+The [22 exact event spellings](../tests/fixtures/smoke/rnbo-events-ranges/README.md)
+all compile and pass on the XIAO, across **225,280 output-word checks** and
+**462 actual-value parameter actions**. Pass-through comparisons and their
+symbol spellings, clamp/clip, wrap, fold, both conditional spellings, linear
+interpolation, triangle, box-to-triangle and event delta are independently
+exported and checked. Delta's multiple updates before one callback prove the
+supplied previous-event state path; hold gaps retain the previous output.
+Fixed arguments, valid dyadic window phases and these full-block boundaries
+are the scope, not arbitrary modes or within-block event timing.
+
+Numeric error is zero. Wrap and fold each retain 256 left signed-zero word
+differences; the independent raw right pilot is bit-exact throughout. All 22
+images finalise and allocation/memory gates pass. Median complete callbacks
+are 75–76µs (**1.29–1.31%** of the 44.1kHz/256 block period), peak 80µs. Actual event
+setter/routing time is separate:21-action totals 155–197µs and individual peaks
+31–41µs. There are **no new CPU flags**; the queue remains 151. No optimisation
+gain or isolated-opcode cost is claimed.
+
+The [target results](../evidence/xiao-smoke-rnbo-events-ranges.json),
+[secondary native preflight](../evidence/rnbo-events-ranges-native.json) and
+[player-restoration receipt](../evidence/xiao-smoke-rnbo-events-ranges-player-restoration.json)
+are separate. The normal player, saved Main and live controls are restored,
+with advancing USB/audio frames and zero runtime fault counters. The dashboard
+now maps **891/1455 RNBO entries with scoped outcomes**, including earlier
+mismatches/rejections; Gen remains separately tracked. The full goal is active.
+
 ## Direct Gen one-frame and variable partitions
 
 The [dedicated direct-producer probe](gen-direct-partitions.md) passes all 78
