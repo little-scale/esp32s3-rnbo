@@ -44,6 +44,15 @@ CONTAINER_REFERENCE_SHA='02f78c4c5d52e01c7ee7fd71da8afec1239423eb89f0abd396b7e96
 GEN_CONTROL_FAMILY='gen-control-structures'
 GEN_CONTROL_CATALOG_SHA='bf8c4a7582e2ad9c35c36de431a0815f41ff2c5d98a9a5e70902204b5d8f6a3f'
 GEN_CONTROL_REFERENCE_SHA='19717b7c849829c9b5fc6c413e33711755c95382c1e84edaca2a3517d8d37815'
+LIST_FUNCTION_FAMILY='rnbo-codebox-list-functions'
+LIST_FUNCTION_CATALOG_SHA='85227b9328fa2f533e9b415cb388c39a53574f8695d697ab15b89e6e912981b3'
+LIST_FUNCTION_REFERENCE_SHA='039e1aaa9ca582188e179bec7cf717fb56a2a76f7457c8b6f1af257ed4d78b23'
+
+
+def list_function_catalog(catalog):
+    if (catalog.get('family')!=LIST_FUNCTION_FAMILY or
+            hashlib.sha256(canonical(catalog)).hexdigest()!=LIST_FUNCTION_CATALOG_SHA):
+        raise ExportError('List-function checks require the exact34 authored flat/dotted call sources')
 
 
 def gen_control_catalog(catalog):
@@ -108,7 +117,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -261,6 +270,11 @@ def prepare_plan(catalog_path,modules_path):
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
     reference_source=reference_path(catalog)
+    list_functions=catalog.get('family')==LIST_FUNCTION_FAMILY
+    if list_functions:
+        list_function_catalog(catalog)
+        if sha(reference_source)!=LIST_FUNCTION_REFERENCE_SHA:
+            raise ExportError('List function independent reference changed')
     gen_control=catalog.get('family')==GEN_CONTROL_FAMILY
     if gen_control:
         gen_control_catalog(catalog)
@@ -306,18 +320,45 @@ def prepare_plan(catalog_path,modules_path):
         source_bytes=read_regular(patch,1024*1024)
         source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
-        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
+        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
             expression_info['codebox_source_sha256']=(checked_character_source(row,source_bytes)if character
                                                        else checked_codebox_source(row,source_bytes))
             if 'codebox'in row and hashlib.sha256(read_regular(catalog_path.parent/row['codebox'],65536)).hexdigest()!=expression_info['codebox_source_sha256']:
                 raise ExportError('Standalone and embedded codebox programs differ')
-            if containers and (source_hash!=row['patch_sha256'] or expression_info['codebox_source_sha256']!=row['codebox_sha256']):
-                raise ExportError('Container authored source changed')
+            if (containers or list_functions) and (source_hash!=row['patch_sha256'] or expression_info['codebox_source_sha256']!=row['codebox_sha256']):
+                raise ExportError('Container/list-function authored source changed')
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
                 read_regular(source_root/row['genexpr'],65536)).hexdigest()
         if gen_control and (source_hash!=row['patch_sha256'] or expression_info.get('genexpr_sha256')!=row['genexpr_sha256']):
             raise ExportError('Gen control authored source changed')
+        if module['status']=='native_preflight_failed':
+            if not list_functions:raise ExportError('Native exclusion requires its reviewed list-function family')
+            preflight=module.get('native_preflight',{})
+            log=preflight.get('run_log',{});raw=read_regular(Path(log['path']),65536)
+            result=read_json(raw,'native preflight output')
+            if (preflight.get('returncode')!=3 or type(result.get('process_status'))is not int or
+                    result['process_status']>=0 or type(result.get('fault_call'))is not int or
+                    not 0<=result['fault_call']<20 or result.get('samples')!=result['fault_call']*512 or
+                    sha(ROOT/'tests/native/smoke_stream_test.cpp')!=preflight.get('harness_sha256') or
+                    hashlib.sha256(raw).hexdigest()!=log.get('sha256') or len(raw)!=log.get('bytes')):
+                raise ExportError('Native preflight fault/log/harness identity differs')
+            _,native_manifest,native_snapshot=verify_prepared(Path(module['prepared']['path']))
+            if (native_manifest.get('editable_source_sha256')!=source_hash or
+                    native_snapshot!=module['prepared']['snapshot']):
+                raise ExportError('Native-rejected module prepared source differs')
+            vector=checked_words(reference.case_input_words(row['model'],256))
+            expected=checked_words(reference.reference_words(row['model'],vector))
+            if (preflight.get('input_words_sha256')!=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest() or
+                    preflight.get('expected_stream_sha256')!=hashlib.sha256(struct.pack('<10240I',*(expected*20))).hexdigest()):
+                raise ExportError('Native preflight vector/reference differs')
+            admission_failures.append({**{k:row[k]for k in ('id','exact_name','syntax','registry_lookup')},
+                'status':'native_preflight_failed','stage':'native-preflight','returncode':3,
+                'source_sha256':source_hash,**expression_info,'failure_log_sha256':log['sha256'],
+                'native_harness_sha256':preflight['harness_sha256'],'native_process_status':result['process_status'],
+                'native_fault_call':result['fault_call'],'native_samples_checked':result['samples'],
+                'detail':'Native module process faulted; target module compiled but is not embedded or executed in this hardware batch'})
+            continue
         if module['status'] in ('export_failed','prepare_failed'):
             stage='export' if module['status']=='export_failed' else 'prepare'
             if (module.get('source_sha256')!=source_hash or type(module.get('returncode'))is not int or
@@ -333,7 +374,7 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
-        if character or gen_data or containers or gen_control:
+        if character or gen_data or containers or gen_control or list_functions:
             validate_manifest(manifest)
             if manifest['parameter_count']!=0:
                 raise ExportError('This smoke family requires the strict parameter-free FX profile')
@@ -357,7 +398,7 @@ def prepare_plan(catalog_path,modules_path):
             if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
                     module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
-        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control)and actual_manifest!=manifest:
+        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or list_functions)and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
@@ -367,7 +408,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -445,9 +486,9 @@ def prepare_plan(catalog_path,modules_path):
     elif character:
         plan.update(family=CHARACTER_FAMILY,surface='codebox',prepare_zero_warm_blocks=0,
                     partition=character_partition,strict_zero_sign_channels=2,raw_pilot_channel=1)
-    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
+    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
         plan.update(family=catalog['family'],surface='codebox')
-        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):plan['prepare_zero_warm_blocks']=0
         if catalog['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers'):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):

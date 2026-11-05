@@ -1,0 +1,137 @@
+{
+  "patcher": {
+    "boxes": [
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "left",
+          "text": "in~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            200,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "right",
+          "text": "in~ 2"
+        }
+      },
+      {
+        "box": {
+          "id": "program",
+          "maxclass": "newobj",
+          "patching_rect": [
+            370,
+            30,
+            150,
+            24
+          ],
+          "rnbo_extra_attributes": {
+            "code": "let a:list=[in1,10,30,20,50];\nlet result=listscramble(a);\nlet shuffled:list=result[0]; let indices:list=result[1];\nlet bad=0; let total=0;\nfor (let i:Int=0; i<shuffled.length && i<indices.length && i<5; i++) {\n    let raw=indices[i];\n    let inRange=(raw==0 || raw==1 || raw==2 || raw==3 || raw==4);\n    let wanted=raw==0 ? in1 : raw==1 ? 10 : raw==2 ? 30 : raw==3 ? 20 : 50;\n    bad += (inRange && shuffled[i]==wanted) ? 0 : 1;\n    for (let j:Int=0; j<i; j++) { bad += indices[j]==raw ? 1 : 0; }\n    total+=shuffled[i];\n}\nout1=total; out2=((bad==0 && shuffled.length==5 && indices.length==5) ? 1 : 0)+0*in2;\n"
+          },
+          "rnbo_uniqueid": "program",
+          "text": "codebox~"
+        }
+      },
+      {
+        "box": {
+          "id": "out-left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            540,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "out-left",
+          "text": "out~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "out-right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            710,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "out-right",
+          "text": "out~ 2"
+        }
+      }
+    ],
+    "classnamespace": "rnbo",
+    "fileversion": 1,
+    "lines": [
+      {
+        "patchline": {
+          "destination": [
+            "program",
+            0
+          ],
+          "source": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "program",
+            1
+          ],
+          "source": [
+            "right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-left",
+            0
+          ],
+          "source": [
+            "program",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-right",
+            0
+          ],
+          "source": [
+            "program",
+            1
+          ]
+        }
+      }
+    ],
+    "rect": [
+      0,
+      0,
+      1000,
+      300
+    ]
+  }
+}

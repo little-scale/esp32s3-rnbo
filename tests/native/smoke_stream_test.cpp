@@ -37,7 +37,14 @@ int main(int argc,char **argv){
     for(unsigned i=0;i<512;++i)memcpy(&in[i%2][i/2],input+i,4);
     unsigned mismatches=0,bit_differences=0;double maximum=0;
     for(unsigned block=0;block<20;++block){
-        observing=true;int result=m->process(ctx,inputs,outputs,256,uint64_t(block)*256);observing=false;assert(result==0);
+        observing=true;int result=m->process(ctx,inputs,outputs,256,uint64_t(block)*256);observing=false;
+        if(result!=0){
+            rnbo_s3_stats fault{};fault.struct_bytes=sizeof(fault);assert(m->statistics(ctx,&fault)==0);
+            printf("{\"samples\":%u,\"process_status\":%d,\"fault_call\":%u,\"platform_errors\":%llu,\"invalid_samples\":%llu,\"late_platform_allocations\":%llu,\"late_cpp_allocations\":%u}\n",
+                block*512,result,block,(unsigned long long)fault.errors,(unsigned long long)fault.invalid_samples,
+                (unsigned long long)fault.late_platform_allocations,allocations);
+            m->destroy(ctx);return 3;
+        }
         for(unsigned i=0;i<512;++i){uint32_t actual;memcpy(&actual,&out[i%2][i/2],4);auto wanted=expected[block*512+i];
             if(actual!=wanted){++bit_differences;
                 if((actual&0x7fffffff)||(wanted&0x7fffffff)){++mismatches;float value;memcpy(&value,&wanted,4);

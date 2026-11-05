@@ -10,6 +10,26 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Global list functions: two queued contexts
+
+The list-function batch adds two passing contexts, bringing the queue from 99
+to **101**. Both trigger the median-cost rule; no peak-spike flag triggers.
+
+| Whole codebox callback | Median µs | Peak µs | Median / block period |
+| --- | ---: | ---: | ---: |
+| `listswap` | 917 | 917 | 15.80% |
+| `listunion` | 861 | 861 | 14.83% |
+
+These global-function scenarios include sample-dependent list construction,
+copies and length-sensitive weighted fingerprints. They are separate from the
+earlier list-member and Gen cases. Investigate those surrounding costs before
+attributing time to a primitive operation. The intersection output mismatch,
+seven C++ rejections, frontend call-form rejections and native-only rotation
+fault are compatibility follow-ups; the excluded rotation case has no device
+CPU measurement. No optimisation gain is claimed.
+
+Source: [global list-function results](../evidence/xiao-smoke-rnbo-codebox-list-functions.json).
+
 The subsequent [Gen control/structure batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
 adds **no flags**: 19 passing callbacks measure 42–94.5 µs median and at most
 99 µs observed peak. These complete programs include bounded looping and

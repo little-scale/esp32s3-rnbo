@@ -20,6 +20,43 @@ firmware was left installed at that checkpoint; the next Gen smoke application
 has since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## RNBO list-function call forms
+
+Thirty-four original sources cover flattened global list functions, dotted
+registry call forms and separate helper functions. **Ten execute on XIAO:
+nine pass and one retains a reference mismatch**, across **102,400 output
+checks**. Seven sources fail C++ array-bounds warning checks. Fifteen dotted
+member-call sources and the full scramble-validation program reject in the
+frontend. A wide rotation vector fails native preflight and is not flashed;
+its source, actual fault and untested hardware status remain explicit.
+
+The nine passing functions are `listindexmap`, `listjoin`, `listlace`, `listlen`,
+`listsum`, `listswap`, `listthin`, `listunion` and `listswapelements`. Length-
+sensitive weighted fingerprints expose bounded values/indices. `listsect`
+differs in all 5,120 left fingerprints from the declared duplicate-preserving
+intersection reference; its right pilot matches. The first witness, 208 versus
+314, is consistent with unique-set behavior, but is not a full list capture or
+a settled duplicate-policy contract. The reference and zero tolerance remain.
+
+All executed images finalise with memory/allocation gates passing. Medians
+span 40–917 µs, largest observed peak 917 µs. `listswap` at 917 µs and `listunion`
+at 861 µs exceed the median CPU threshold, bringing the backlog from 99 to
+**101**; no peak-spike flags trigger. These complete callbacks include list
+construction/copies/fingerprints and claim no optimisation gain. The dashboard
+maps **727 exact entries**; a rejected spelling remains unverified.
+
+The native rotation fault is a first-class admission outcome, not a failed
+target run or a compilation failure. Its log/source/vector/harness identity
+is verified before the shared target payload omits it. The newly explicit
+native diagnostic returns process statistics instead of aborting at an opaque
+assertion. Dotted inventory spellings do not inherit the separately documented
+flattened function's result. Scramble's minimal call exports, while the full
+invariant program rejects; no random-quality/device claim follows.
+
+See [target results](../evidence/xiao-smoke-rnbo-codebox-list-functions.json),
+[native checks and rejection diagnostics](../evidence/rnbo-list-functions-native.json)
+and [original sources, policy limits and timing table](../tests/fixtures/smoke/rnbo-codebox-list-functions/README.md).
+
 ## Gen control, declarations and language structures
 
 Nineteen programs execute and **all pass their zero-numeric-tolerance screen**,

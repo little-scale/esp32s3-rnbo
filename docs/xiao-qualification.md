@@ -1,5 +1,13 @@
 # XIAO object qualification
 
+The [global list-function batch](hardware-smoke.md#rnbo-list-function-call-forms)
+adds ten device runs: nine passes and one duplicate-policy mismatch, with
+102,400 output checks. Seven C++ rejections, sixteen frontend rejections and
+one native-preflight rotation fault remain separately recorded. The faulting
+native case is not flashed. Two passing callbacks join the CPU queue, now 101;
+the RNBO table maps 727 exact entries with scoped outcomes. The quiet global
+list-function test application is currently installed, and qualification remains active.
+
 The next [Gen control and language batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
 passes **19 programs and 194,560 numeric checks**, with 33,360 signed-zero word differences
 saved separately. It checks predicate pass-through aliases, defaults, elapsed

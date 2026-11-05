@@ -17973,7 +17973,8 @@
     "evidence/xiao-biquad-control.json",
     "evidence/xiao-wave4.json",
     "evidence/xiao-smoke-rnbo-codebox-containers.json",
-    "evidence/xiao-smoke-gen-control-structures.json"
+    "evidence/xiao-smoke-gen-control-structures.json",
+    "evidence/xiao-smoke-rnbo-codebox-list-functions.json"
   ],
   "Gen_scope": {
     "required": true,
@@ -17996,13 +17997,26 @@
   "latest_checkpoint": {
     "date": "2026-11-05",
     "goal_status": "active",
-    "exact_dashboard_entries_with_scoped_outcomes": 693,
+    "exact_dashboard_entries_with_scoped_outcomes": 727,
     "complete_goal_claimed": false,
-    "source": "evidence/xiao-smoke-gen-control-structures.json",
+    "source": "evidence/xiao-smoke-rnbo-codebox-list-functions.json",
     "gen_and_remaining_RNBO_scope_retained": true,
     "snapshot_note": "Original4November inventory counts/entry plan remain a historical snapshot; latest checkpoint and structure-axis scoped observations record subsequent progress.",
     "Gen_control_structures_executed": 19,
     "Gen_control_structures_frontend_rejections": 2,
-    "Gen_control_structures_compile_failures": 5
-  }
+    "Gen_control_structures_compile_failures": 5,
+    "global_list_function_sources": 34,
+    "global_list_function_target_runs": 10,
+    "global_list_function_target_passes": 9,
+    "global_list_function_native_preflight_faults": 1,
+    "cpu_review_contexts": 101
+  },
+  "native_preflight_followups": [
+    {
+      "id": "codebox:listrot",
+      "source": "evidence/rnbo-list-functions-native.json",
+      "scope": "Five-cell rotation with shifts-8..8 faults nativeprocess call0; not flashed. Needs isolated safe-mode/domain investigation and eventual device reproduction.",
+      "hardware_tested": false
+    }
+  ]
 }

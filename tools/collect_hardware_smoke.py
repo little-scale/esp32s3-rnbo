@@ -26,6 +26,8 @@ from build_hardware_smoke import (CONTAINER_FAMILY,CONTAINER_CATALOG_SHA,
                                  CONTAINER_REFERENCE_SHA,container_catalog)
 from build_hardware_smoke import (GEN_CONTROL_FAMILY,GEN_CONTROL_CATALOG_SHA,
                                  GEN_CONTROL_REFERENCE_SHA,gen_control_catalog)
+from build_hardware_smoke import (LIST_FUNCTION_FAMILY,LIST_FUNCTION_CATALOG_SHA,
+                                 LIST_FUNCTION_REFERENCE_SHA,list_function_catalog)
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -468,6 +470,41 @@ def gen_control_plan(plan):
                 'Gen control expected stream differs from independent source')
 
 
+def list_function_plan(plan):
+    directory=ROOT/'tests/fixtures/smoke/rnbo-codebox-list-functions'
+    catalog=json.loads((directory/'catalog.json').read_bytes());list_function_catalog(catalog)
+    require(plan.get('catalog_sha256')==LIST_FUNCTION_CATALOG_SHA and
+            plan.get('reference_source_sha256')==LIST_FUNCTION_REFERENCE_SHA and
+            sha(directory/'reference.py')==LIST_FUNCTION_REFERENCE_SHA and
+            plan.get('surface')=='codebox' and type(plan.get('prepare_zero_warm_blocks'))is int and
+            plan['prepare_zero_warm_blocks']==0 and plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16,
+            'List-function source/surface/fresh-list policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals) and {r['id']for r in observed}==set(originals),'List-function case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and row.get('codebox_source_sha256')==source['codebox_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')),'List-function exact call/source differs')
+        if row.get('status')=='native_preflight_failed':
+            require(row.get('stage')=='native-preflight' and row.get('returncode')==3 and
+                    type(row.get('native_process_status'))is int and row['native_process_status']<0 and
+                    type(row.get('native_fault_call'))is int and 0<=row['native_fault_call']<20 and
+                    row.get('native_samples_checked')==row['native_fault_call']*512 and
+                    all(type(row.get(k))is str and re.fullmatch('[0-9a-f]{64}',row[k]) for k in ('native_harness_sha256','failure_log_sha256')),
+                    'Native list-function fault must remain separate from hardware execution')
+    spec=importlib.util.spec_from_file_location('list_function_independent_reference',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model']
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==0 and
+                not any(k in row for k in ('parameter_events','parameters','expected_blocks','expected_stream_sha256')),
+                'List-function declaration/zero tolerance or pointwise reference policy differs')
+        inputs=reference.case_input_words(model)
+        require(row.get('input_words')==list(inputs) and row.get('expected')==list(reference.reference_words(model,inputs)),
+                'List-function vector/output differs from independent reference')
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -477,6 +514,7 @@ def collect(build_dir,run_dir):
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
     if plan.get('family')==GEN_CONTROL_FAMILY:gen_control_plan(plan)
+    if plan.get('family')==LIST_FUNCTION_FAMILY:list_function_plan(plan)
     comparison=plan.get('family')=='dbtoa-f32-comparison'
     if comparison:dbtoa_comparison_plan(plan)
     character=plan.get('family')==CHARACTER_FAMILY
@@ -497,7 +535,7 @@ def collect(build_dir,run_dir):
                     type(case.get('absolute_tolerance',0))in(int,float)and
                     0<=case.get('absolute_tolerance',0)<=2e-6 for case in plan['cases']),
                 'Signal routing requires parameter-free signal sources and its declared accuracy limit')
-    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants','gen-range','gen-constants'):
+    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants','gen-range','gen-constants'):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
@@ -551,7 +589,7 @@ def collect(build_dir,run_dir):
         if gen_data:record['owner_kind']=expected['owner_kind']
         if plan.get('family')==GEN_CONTROL_FAMILY:
             record.update({k:expected[k]for k in ('model','genexpr_sha256','scope')})
-        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
+        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
@@ -595,7 +633,7 @@ def collect(build_dir,run_dir):
                       profile_comparison=dbtoa_comparison_times(records))
     elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
-    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
+    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
     elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants')and plan.get('surface')=='genexpr':
@@ -621,6 +659,8 @@ def collect(build_dir,run_dir):
     if 'admission_failures' in plan:
         result['admission_failures']=plan['admission_failures']
         result['summary']['admission_failures']=len(plan['admission_failures'])
+        if plan.get('family')==LIST_FUNCTION_FAMILY:
+            result['summary']['native_preflight_failures']=sum(r.get('stage')=='native-preflight'for r in plan['admission_failures'])
     return result
 
 

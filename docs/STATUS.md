@@ -1,5 +1,16 @@
 # Implementation status — 5 November 2026
 
+The [list-function call batch](hardware-smoke.md#rnbo-list-function-call-forms)
+records all 34 authored sources: ten execute on XIAO, **nine pass**, and
+`listsect` retains a duplicate-policy mismatch across **102,400 output checks**.
+Seven forms fail C++ array-bounds warning checks, sixteen reject in the frontend
+(including fifteen dotted calls), and the wide rotation vector faults in native
+preflight and is deliberately not flashed. Every executed image finalises and
+passes memory/allocation gates. `listswap` and `listunion` join the CPU queue,
+bringing it to **101**. The RNBO table now maps **727 exact entries with scoped
+outcomes**, including unverified/rejected forms. The quiet list-function smoke
+firmware is installed; the complete RNBO/Gen/structure goal remains active.
+
 The next [Gen control/structure batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
 passes **19 programs and 194,560 numeric output checks** on XIAO. Twelve
 pass-gate spellings, `Param` defaults, elapsed sample counting, lowercase history,

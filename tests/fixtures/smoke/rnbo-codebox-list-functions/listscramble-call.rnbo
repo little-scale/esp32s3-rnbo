@@ -1,0 +1,13 @@
+let a:list=[in1,10,30,20,50];
+let result=listscramble(a);
+let shuffled:list=result[0]; let indices:list=result[1];
+let bad=0; let total=0;
+for (let i:Int=0; i<shuffled.length && i<indices.length && i<5; i++) {
+    let raw=indices[i];
+    let inRange=(raw==0 || raw==1 || raw==2 || raw==3 || raw==4);
+    let wanted=raw==0 ? in1 : raw==1 ? 10 : raw==2 ? 30 : raw==3 ? 20 : 50;
+    bad += (inRange && shuffled[i]==wanted) ? 0 : 1;
+    for (let j:Int=0; j<i; j++) { bad += indices[j]==raw ? 1 : 0; }
+    total+=shuffled[i];
+}
+out1=total; out2=((bad==0 && shuffled.length==5 && indices.length==5) ? 1 : 0)+0*in2;
