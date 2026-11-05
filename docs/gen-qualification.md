@@ -1,5 +1,20 @@
 # Gen and single-sample qualification
 
+The [Gen routing/causal-state batch](hardware-smoke.md#gen-routing-calls-and-causal-state-structures)
+records **26 source forms: 15 execute and all 15 pass, ten fail C++ compilation
+and one fails the frontend**, with **153,600 output-word checks**. Three-stage
+histories, fanout, coupled feedback, read/write ordering, three-state rotations,
+conditional histories and loop/function feedback pass their independent
+references. The rejected final-if form is retained alongside separately passing
+following-statement and ternary forms. Loop feedback adds one CPU review context
+at 742.5µs median (12.79% of the block period), taking the queue to **143**.
+All loaded images finalise and memory/allocation checks pass; the normal player
+and saved controls are restored. RNBO coverage stays **869 scoped entries**.
+The new [Gen source-route ledger](gen-registry-routes.md) records authored
+scenarios for **212/212 registry entries**, which is **not 212 hardware passes**
+or complete Gen qualification. Visual Gen, external/resource/mode/event and
+one-frame target-call work remains; the full goal stays active.
+
 The [execution-form batch](hardware-smoke.md#gen-noise-fft-context-and-compound-assignments)
 records **24 sources: five hardware passes, 14 C++ rejections and five frontend
 rejections**, with 51,200 output-word checks. Noise passes only its declared

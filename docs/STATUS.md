@@ -1,5 +1,20 @@
 # Implementation status — 6 November 2026
 
+The [Gen routing/causal-state batch](hardware-smoke.md#gen-routing-calls-and-causal-state-structures)
+records **26 source forms: 15 execute and all 15 pass, ten fail C++ compilation
+and one fails the frontend**, with **153,600 output-word checks**. Three-stage
+histories, fanout, coupled feedback, read/write ordering, three-state rotations,
+conditional histories and loop/function feedback pass their independent
+references. The rejected final-if form is retained alongside separately passing
+following-statement and ternary forms. Loop feedback adds one CPU review context
+at 742.5µs median (12.79% of the block period), taking the queue to **143**.
+All loaded images finalise and memory/allocation checks pass; the normal player
+and saved controls are restored. RNBO coverage stays **869 scoped entries**.
+The new [Gen source-route ledger](gen-registry-routes.md) records authored
+scenarios for **212/212 registry entries**, which is **not 212 hardware passes**
+or complete Gen qualification. Visual Gen, external/resource/mode/event and
+one-frame target-call work remains; the full goal stays active.
+
 The [phase/ramp/transition/pitch member batch](hardware-smoke.md#rnbo-codebox-phase-ramps-transitions-and-pitch-members)
 compiles and executes **all 36 sources: 28 pass and eight retain comparison
 mismatches**, across **368,640 output-word checks**. Positive phase wraps, the

@@ -44,6 +44,9 @@ CONTAINER_REFERENCE_SHA='02f78c4c5d52e01c7ee7fd71da8afec1239423eb89f0abd396b7e96
 GEN_CONTROL_FAMILY='gen-control-structures'
 GEN_CONTROL_CATALOG_SHA='bf8c4a7582e2ad9c35c36de431a0815f41ff2c5d98a9a5e70902204b5d8f6a3f'
 GEN_CONTROL_REFERENCE_SHA='19717b7c849829c9b5fc6c413e33711755c95382c1e84edaca2a3517d8d37815'
+GEN_CAUSAL_FAMILY='gen-routing-causality'
+GEN_CAUSAL_CATALOG_SHA='d162bbddda8afb270d71277033c4746d0284d9366261d742cfc5e6e5fe9ee8d3'
+GEN_CAUSAL_REFERENCE_SHA='b325f9bfcd1c19ee0ebcaa1e9bb8966b3507108f343bd29976357acaabb87717'
 GEN_EXEC_FAMILY='gen-execution-forms'
 GEN_EXEC_CATALOG_SHA='1835b6c1b863259f85b3a12962d815c8696831c84a66803b5b6a6e61ce31aa2e'
 GEN_EXEC_REFERENCE_SHA='c2b7f6d0041fe135e4b8757a8c131243f5ef7425f2bc3343026f509c023d8c54'
@@ -158,6 +161,12 @@ def gen_control_catalog(catalog):
         raise ExportError('Gen control checks require the exact26 authored comparison/declaration/structure sources')
 
 
+def gen_causal_catalog(catalog):
+    if (catalog.get('family')!=GEN_CAUSAL_FAMILY or
+            hashlib.sha256(canonical(catalog)).hexdigest()!=GEN_CAUSAL_CATALOG_SHA):
+        raise ExportError('Gen routing/causal checks require the exact26 authored routing and causal-state programs')
+
+
 def gen_execution_catalog(catalog):
     if (catalog.get('family')!=GEN_EXEC_FAMILY or
             hashlib.sha256(canonical(catalog)).hexdigest()!=GEN_EXEC_CATALOG_SHA):
@@ -220,7 +229,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -413,6 +422,11 @@ def prepare_plan(catalog_path,modules_path):
         gen_extended_partition=gen_extended_catalog(catalog)
         if sha(reference_source)!=GEN_EXT_REFERENCE_SHA:
             raise ExportError('Extended Gen data reference changed')
+    gen_causal=catalog.get('family')==GEN_CAUSAL_FAMILY
+    if gen_causal:
+        gen_causal_catalog(catalog)
+        if sha(reference_source)!=GEN_CAUSAL_REFERENCE_SHA:
+            raise ExportError('Gen routing/causal independent reference changed')
     gen_execution=catalog.get('family')==GEN_EXEC_FAMILY
     if gen_execution:
         gen_execution_catalog(catalog)
@@ -475,7 +489,7 @@ def prepare_plan(catalog_path,modules_path):
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
                 read_regular(source_root/row['genexpr'],65536)).hexdigest()
-        if (gen_control or gen_execution or gen_extended) and (source_hash!=row['patch_sha256'] or expression_info.get('genexpr_sha256')!=row['genexpr_sha256']):
+        if (gen_control or gen_execution or gen_causal or gen_extended) and (source_hash!=row['patch_sha256'] or expression_info.get('genexpr_sha256')!=row['genexpr_sha256']):
             raise ExportError('Gen control authored source changed')
         if module['status']=='native_preflight_failed':
             if not list_functions:raise ExportError('Native exclusion requires its reviewed list-function family')
@@ -519,7 +533,7 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
-        if character or gen_data or containers or gen_control or gen_execution or list_functions or structures or members or delay_members or analysis_members or motion_members or context_aliases or gen_extended:
+        if character or gen_data or containers or gen_control or gen_execution or gen_causal or list_functions or structures or members or delay_members or analysis_members or motion_members or context_aliases or gen_extended:
             validate_manifest(manifest)
             if manifest['parameter_count']!=0:
                 raise ExportError('This smoke family requires the strict parameter-free FX profile')
@@ -543,7 +557,7 @@ def prepare_plan(catalog_path,modules_path):
             if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
                     module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
-        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or gen_execution or list_functions or structures or members or delay_members or analysis_members or motion_members or context_aliases or gen_extended)and actual_manifest!=manifest:
+        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or gen_execution or gen_causal or list_functions or structures or members or delay_members or analysis_members or motion_members or context_aliases or gen_extended)and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
@@ -553,7 +567,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -660,7 +674,7 @@ def prepare_plan(catalog_path,modules_path):
         plan.update(family=catalog['family'],surface='genexpr',prepare_zero_warm_blocks=0)
     elif catalog['family']=='gen-math':
         plan.update(family='gen-math',surface='genexpr',prepare_zero_warm_blocks=0)
-    elif catalog['family']in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended'):
+    elif catalog['family']in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended'):
         plan.update(family=catalog['family'],surface='genexpr',prepare_zero_warm_blocks=0,
             expected_stream_policy='Fresh prepared state, no automatic zero warmup; four checked manual warmups then sixteen timed callbacks without resets')
         if any('expected_blocks'not in c for c in cases):

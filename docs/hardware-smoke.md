@@ -22,6 +22,43 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## Gen routing calls and causal state structures
+
+26 original source forms produce **15 XIAO passes**, ten C++ rejections and one
+frontend rejection, with **153,600 output-word checks**. The executable programs
+cover lexical ports/local-variable copies, three-stage histories, fanout,
+repeated reads, coupled feedback, sample-age impulses, internal write/reset
+ordering, three-state rotation and function/loop feedback. They use independent
+delay, last-update, permutation and finite-convolution references. All 20 blocks
+remain continuous with zero automatic warmup; this tests per-sample state inside
+256-frame callbacks, not one-frame host calls or sample-offset host events.
+
+Eleven programs are bit-exact; four have8,610 differences within their frozen
+2e-6 limits, maximum1.1920928955078125e-7. No outside-limit or signed-zero
+mismatch remains. Every image finalises, heap/allocation gates pass and observed
+arena high-water is zero under the strict 4 KiB module ceiling.
+
+The rejected calls cover graph-oriented registry spellings in/out/gen/expr,
+send/s/receive/r and two setparam forms; they have no target output or timing.
+They do not reject the corresponding visual/parent-child graph APIs. The final-if
+conditional-history source fails the frontend; separate following-statement
+and ternary versions pass the same predeclared hold/update model. The original
+rejection is preserved alongside those separately authored forms.
+
+Loop-feedback median742.5µs /peak743µs (12.79% block period) adds one CPU review
+context; the queue reaches **143** with no peak-spike flags. All other medians
+are 42–524µs. No optimisation gain is claimed. The normal player and saved
+controls are restored, with USB/audio progress and zero runtime faults checked.
+
+The [Gen registry-route ledger](gen-registry-routes.md) now binds source
+scenarios for 212/212 registry entries. That count means source attempts, not 212
+hardware passes or complete Gen/visual/mode/resource/event/one-frame coverage.
+The separate RNBO dashboard remains **869 scoped entries**. See
+[target results](../evidence/xiao-smoke-gen-routing-causality.json),
+[native and rejected-source records](../evidence/gen-routing-causality-native.json),
+[original programs/reference](../tests/fixtures/smoke/gen-routing-causality/README.md)
+and [player restoration](../evidence/xiao-gen-routing-causality-player-restoration.json).
+
 ## RNBO codebox phase, ramps, transitions and pitch members
 
 All 36 original sources compile and run in two fixed partitions: **28 pass and
@@ -52,7 +89,7 @@ establish whole-object defects. All original references and limits are retained;
 secondary native witnesses are not substituted for device oracles.
 
 The streams have 52,125 outside-limit differences and no within-limit or
-signed-zero differences. Passing bounded checks are bit-exact. All20 blocks
+signed-zero differences. Passing bounded checks are bit-exact. All 20 blocks
 remain continuous, with zero automatic preparation warmup. Phase periods
 512/1024, ramp target periods1021/1031, hysteresis holds and independent reset
 schedules witness state across callback boundaries. The fixed module ABI is

@@ -10,6 +10,19 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Gen causal structures: one queued context
+
+The three-iteration loop with persistent history measures **742.5µs median,
+743µs peak**, or **12.79%** of the block period. It passes its independent
+finite-convolution reference within 2e-6 (maximum1.49e-8). This adds one median
+budget flag, taking the queue from 142 to **143**; no peak-spike rule triggers.
+
+The callback includes a local loop and its state update; review generated
+control/state code and retained arithmetic later, preserving sample ordering
+and numerical limits. Other Gen causal medians are 42–524µs. Rejected function
+forms have no device CPU measurements. No isolated opcode timing or optimisation
+gain follows. Source: [Gen routing/causal results](../evidence/xiao-smoke-gen-routing-causality.json).
+
 ## Phase/ramp/transition/pitch members: six queued contexts
 
 Six complete authored callbacks exceed the median-budget threshold; none
