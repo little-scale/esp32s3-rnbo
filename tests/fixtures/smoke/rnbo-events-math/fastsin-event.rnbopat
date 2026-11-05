@@ -1,0 +1,162 @@
+{
+  "patcher": {
+    "boxes": [
+      {
+        "box": {
+          "id": "input-unused",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "input-unused",
+          "text": "in~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "pilot",
+          "maxclass": "newobj",
+          "patching_rect": [
+            330,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "pilot",
+          "text": "in~ 2"
+        }
+      },
+      {
+        "box": {
+          "id": "drive",
+          "maxclass": "newobj",
+          "patching_rect": [
+            630,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "drive",
+          "text": "param drive 0 @min -8 @max 8 @exponent 1 @steps 0"
+        }
+      },
+      {
+        "box": {
+          "id": "operator",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            130,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "operator",
+          "text": "fastsin"
+        }
+      },
+      {
+        "box": {
+          "id": "held",
+          "maxclass": "newobj",
+          "patching_rect": [
+            330,
+            130,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "held",
+          "text": "sig~"
+        }
+      },
+      {
+        "box": {
+          "id": "out-left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            630,
+            130,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "out-left",
+          "text": "out~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "out-right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            230,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "out-right",
+          "text": "out~ 2"
+        }
+      }
+    ],
+    "classnamespace": "rnbo",
+    "fileversion": 1,
+    "lines": [
+      {
+        "patchline": {
+          "destination": [
+            "operator",
+            0
+          ],
+          "source": [
+            "drive",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "held",
+            0
+          ],
+          "source": [
+            "operator",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-left",
+            0
+          ],
+          "source": [
+            "held",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-right",
+            0
+          ],
+          "source": [
+            "pilot",
+            0
+          ]
+        }
+      }
+    ],
+    "rect": [
+      0,
+      0,
+      1000,
+      600
+    ]
+  }
+}

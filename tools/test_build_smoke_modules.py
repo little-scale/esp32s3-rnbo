@@ -177,6 +177,7 @@ int main(int argc,char **argv){
 #define CHECK(x) do {if(!(x)){fprintf(stderr,"check %d\n",__LINE__);exit(66);}}while(0)
 enum {MANUAL_WARM_CALLS=4,TIMED_CALLS=16};
 static float storage[2][256];static float *const outputs[2]={storage[0],storage[1]};
+static uint32_t right_capture[20u*256u];
 '''
         main=r'''
 static void fill(const uint32_t *words){
@@ -191,6 +192,8 @@ int main(void){
     output_checks checks={.first_mismatch=UINT32_MAX,.first_mismatch_call=UINT32_MAX};
     for(unsigned call=0;call<20u;++call){fill(refs[call]);compare_output(&test,&checks);}
     CHECK(checks.samples==10240u&&!checks.bit_mismatches&&!checks.numeric_mismatches);
+    for(unsigned call=0;call<20u;++call)for(unsigned frame=0;frame<256u;++frame)
+        CHECK(right_capture[call*256u+frame]==refs[call][frame*2u+1u]);
     test.expected_block_refs=NULL;checks=(output_checks){.samples=2u*512u,.first_mismatch=UINT32_MAX};
     fill(flat+2u*512u);compare_output(&test,&checks);CHECK(!checks.bit_mismatches);
     test.expected_blocks=NULL;checks=(output_checks){.first_mismatch=UINT32_MAX};
@@ -204,6 +207,7 @@ int main(void){
     CHECK(checks.bit_mismatches==2u&&checks.zero_sign_differences==1u&&checks.strict_zero_sign_mismatches==1u);
     CHECK(checks.numeric_mismatches==1u&&!checks.within_tolerance_differences&&!checks.nonfinite_outputs&&checks.max_absolute_error==0.);
     CHECK(checks.first_mismatch_call==5u&&checks.first_mismatch==1u&&checks.first_actual==0x80000000u&&checks.first_expected==0u);
+    CHECK(right_capture[5u*256u]==0x80000000u&&right_capture[5u*256u+1u]==0u);
     zeros[1]=minus_zero;fill(zeros);outputs[1][0]=0.f;
     checks=(output_checks){.first_mismatch=UINT32_MAX};compare_output(&test,&checks);
     CHECK(checks.numeric_mismatches==1u&&checks.strict_zero_sign_mismatches==1u&&!checks.zero_sign_differences);

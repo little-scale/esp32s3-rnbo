@@ -48665,6 +48665,1505 @@
       "working_note": "XIAO ESP32-S3: passed the short boundary-event numeric scenario, ordered actual/normalized control checks and bit-exact independent right pilot.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:acos",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "acos"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/acos-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: acos; input domain [-0.5, 0.5]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "acos",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:acosh",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "acosh"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/acosh-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: acosh; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "acosh",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:asin",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "asin"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/asin-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: asin; input domain [-0.5, 0.5]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "asin",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:asinh",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "asinh"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/asinh-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: asinh; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "asinh",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atan",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atan"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/atan-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: atan; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "atan",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atan2",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atan2 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/atan2-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: atan2 2; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "atan2",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atanh",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atanh"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/atanh-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: atanh; input domain [-0.5, 0.5]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "atanh",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:atodb",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "atodb"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/atodb-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: atodb; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "atodb",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:blackman",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "blackman"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/blackman-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: blackman; input domain [0.0, 1.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "blackman",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cbrt",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cbrt"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/cbrt-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: cbrt; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "cbrt",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cos",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cos"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/cos-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: cos; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "cos",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosh",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosh"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/cosh-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: cosh; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "cosh",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosT8",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosT8"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/cost8-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: cosT8; input domain [-3.0, 3.0]; absolute limit 0.001.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "cosT8",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosT8safe",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosT8safe"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/cost8safe-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: cosT8safe; input domain [-8.0, 8.0]; absolute limit 0.001.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "cosT8safe",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:dbtoa",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "dbtoa"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/dbtoa-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: dbtoa; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "dbtoa",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:degrees",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "degrees"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/degrees-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: degrees; input domain [-2.0, 2.0]; absolute limit 2e-05.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "degrees",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:DEGTORAD",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "DEGTORAD"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/degtorad-uppercase-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: DEGTORAD; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "DEGTORAD",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:degtorad",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "degtorad"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/degtorad-lowercase-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: degtorad; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "degtorad",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:exp",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "exp"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/exp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: exp; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "exp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:exp2",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "exp2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/exp2-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: exp2; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "exp2",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:expm1",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "expm1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/expm1-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: expm1; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "expm1",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastcos",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastcos"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/fastcos-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: fastcos; input domain [-2.0, 2.0]; absolute limit 0.001.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part1.json"
+        }
+      ],
+      "spelling": "fastcos",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastexp",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving.",
+        "Outside-screen numerical differences are retained against the original mathematical limit; this approximation needs separate accuracy-policy review."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastexp"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/fastexp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: fastexp; input domain [-2.0, 2.0]; absolute limit 0.001. This named approximation executes but exceeds the declared exact-mathematical screen; the same difference occurs in native preflight. No universal execution failure or ESP-specific defect is inferred.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "fastexp",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: executes with finite output and an exact right pilot, but this intentional approximation exceeds the predeclared mathematical screen; the native preflight retains the same numerical differences.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastpow",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving.",
+        "Outside-screen numerical differences are retained against the original mathematical limit; this approximation needs separate accuracy-policy review."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastpow 2.5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/fastpow-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: fastpow 2.5; input domain [1.0, 5.0]; absolute limit 0.001. This named approximation executes but exceeds the declared exact-mathematical screen; the same difference occurs in native preflight. No universal execution failure or ESP-specific defect is inferred.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "fastpow",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: executes with finite output and an exact right pilot, but this intentional approximation exceeds the predeclared mathematical screen; the native preflight retains the same numerical differences.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastsin",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastsin"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/fastsin-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: fastsin; input domain [-2.0, 2.0]; absolute limit 0.001.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "fastsin",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fasttan",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving.",
+        "Outside-screen numerical differences are retained against the original mathematical limit; this approximation needs separate accuracy-policy review."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fasttan"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/fasttan-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: fasttan; input domain [-0.5, 0.5]; absolute limit 0.001. This named approximation executes but exceeds the declared exact-mathematical screen; the same difference occurs in native preflight. No universal execution failure or ESP-specific defect is inferred.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "fasttan",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: executes with finite output and an exact right pilot, but this intentional approximation exceeds the predeclared mathematical screen; the native preflight retains the same numerical differences.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:hamming",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "hamming"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/hamming-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: hamming; input domain [0.0, 1.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "hamming",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:hann",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "hann"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/hann-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: hann; input domain [0.0, 1.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "hann",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:hypot",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "hypot 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/hypot-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: hypot 2; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "hypot",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:ln",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "ln"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/ln-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: ln; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "ln",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:log",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "log"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/log-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: log; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "log",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:log10",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "log10"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/log10-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: log10; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "log10",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:log1p",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "log1p"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/log1p-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: log1p; input domain [-0.5, 0.5]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "log1p",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:log2",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "log2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/log2-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: log2; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "log2",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:pow",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "pow 2.5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/pow-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: pow 2.5; input domain [1.0, 5.0]; absolute limit 8e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "pow",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:radians",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "radians"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/radians-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: radians; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "radians",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:RADTODEG",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "RADTODEG"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/radtodeg-uppercase-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: RADTODEG; input domain [-2.0, 2.0]; absolute limit 8e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "RADTODEG",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:radtodeg",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "radtodeg"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/radtodeg-lowercase-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: radtodeg; input domain [-2.0, 2.0]; absolute limit 8e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "radtodeg",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sin",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sin"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/sin-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: sin; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "sin",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sinh",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sinh"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/sinh-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: sinh; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "sinh",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sqrt",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sqrt"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/sqrt-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: sqrt; input domain [1.0, 5.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "sqrt",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:tan",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "tan"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/tan-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: tan; input domain [-0.5, 0.5]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "tan",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:tanh",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "tanh"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/tanh-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: tanh; input domain [-2.0, 2.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "tanh",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:welch",
+      "known_gaps": [
+        "Only the authored finite domains, hot event values, fixed cold arguments and full-block boundaries are checked; arbitrary controls, reset, invalid domains and within-block timestamps remain unqualified.",
+        "Each spelling is separate. No inherited signal/codebox/Gen qualification or matched optimisation saving."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "welch"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-events-math/welch-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "21 ordered actual-value parameter actions, four manual warm and sixteen timed full256-frame callbacks. Left held output is compared with a predeclared finite-domain mathematical binary32 reference; all5120 raw right output words are independently hashed. Actual/normalized readbacks and event order are checked. Process and setter/routing timing are separate; no isolated-opcode cost or performance gain is claimed. Exact source form: welch; input domain [0.0, 1.0]; absolute limit 2e-06.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-events-math-part2.json"
+        }
+      ],
+      "spelling": "welch",
+      "surface": "patcher",
+      "working_note": "XIAO ESP32-S3: passed the authored finite-domain event mathematical screen, parameter checks and exact independent right-pilot hash.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -49658,6 +51157,13 @@
       "sha256": "5f870a9615af46a5af3a99880469d444687bf3d811c9c9734557c8d602dd9837",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/parameter-event-order.md"
     },
+    "docs/rnbo-event-math.md": {
+      "bytes": 4294,
+      "path": "docs/rnbo-event-math.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "75f7a1898adf3a1558a3cac05b86557ed04075d97784e28c02aa894e8ab7f2db",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-event-math.md"
+    },
     "docs/scalar-powers.md": {
       "bytes": 4799,
       "path": "docs/scalar-powers.md",
@@ -50008,6 +51514,20 @@
       "sha256": "b0c1c5bfad8399ee386acc07884ea31e0b939b87696442338a82591ff54c9033",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-structures-native.json"
     },
+    "evidence/rnbo-events-math-attempts.json": {
+      "bytes": 11091,
+      "path": "evidence/rnbo-events-math-attempts.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f67eeea842e1796445f050b3512af959a1b498446e1e31749b42b0826c70a615",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-events-math-attempts.json"
+    },
+    "evidence/rnbo-events-math-native.json": {
+      "bytes": 53011,
+      "path": "evidence/rnbo-events-math-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4a933ee115c0c08435c44591b23616f7cd905de5249b8ac0750147681547f517",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-events-math-native.json"
+    },
     "evidence/rnbo-events-ranges-native.json": {
       "bytes": 25867,
       "path": "evidence/rnbo-events-ranges-native.json",
@@ -50316,6 +51836,27 @@
       "sha256": "bd76dd2d0875c09342fa0186793721bf12fd559f4ecd2c5377026529e1bf0866",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-extra.json"
     },
+    "evidence/xiao-smoke-rnbo-events-math-part1.json": {
+      "bytes": 262591,
+      "path": "evidence/xiao-smoke-rnbo-events-math-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "71f143cf5d01e440d5e10b1b793e454d77e69c591b07503d74e2fb3370d20c1c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-math-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-events-math-part2.json": {
+      "bytes": 263068,
+      "path": "evidence/xiao-smoke-rnbo-events-math-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ff2b0e931847babe37445d05b68bc30afce212b85f4c152d47f8a672d238e147",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-math-part2.json"
+    },
+    "evidence/xiao-smoke-rnbo-events-math-player-restoration.json": {
+      "bytes": 1244,
+      "path": "evidence/xiao-smoke-rnbo-events-math-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "010055a5eefe5e70605554864ee29e9925b9120c3611c59426333420382d71e3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-events-math-player-restoration.json"
+    },
     "evidence/xiao-smoke-rnbo-events-ranges-player-restoration.json": {
       "bytes": 1089,
       "path": "evidence/xiao-smoke-rnbo-events-ranges-player-restoration.json",
@@ -50476,6 +52017,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "0cca8a5f01f9df115572b4eef28ef9e058c28fc3190cc81a09a29d8cf33e153d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/gen-partition-probe/sdkconfig.defaults"
+    },
+    "hardware-smoke/main/smoke.c": {
+      "bytes": 22081,
+      "path": "hardware-smoke/main/smoke.c",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ace54e5109aae4c32afdb638258d2ba3f44471e8db0d1d7cca1011d42887cac6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/hardware-smoke/main/smoke.c"
     },
     "tests/fixtures/bounded-filters.rnbopat": {
       "bytes": 5341,
@@ -55097,6 +56645,356 @@
       "sha256": "f3ca798a4400d99fa397beb05f02bc11419ec5034b662e1fa5c67c323a06020d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat"
     },
+    "tests/fixtures/smoke/rnbo-events-math/README.md": {
+      "bytes": 3856,
+      "path": "tests/fixtures/smoke/rnbo-events-math/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5609a8d23d9c07a3f928058ef6230785278da05f344050986f4d95ef1129d587",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/acos-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/acos-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e9b21f85e58f59ab95974a7f6f5a28bdf1f9d8e39472311debaabf85168148da",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/acos-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/acosh-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/acosh-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3c909db5b07e136682f51dd8bc221d1396596bf6c3a4a9cee436058b62256b76",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/acosh-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/asin-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/asin-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cf882ddbf8a63077d824e80c099819682cf062ad197759f27cb63f1f1cf853c0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/asin-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/asinh-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/asinh-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1c4d2098ad05e064b5f9881255a12d744bec59b7659fdc9d040cbad08d70ff86",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/asinh-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/atan-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/atan-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "eeed502a9f13e8a35c87f9589d31ea96039b93641dfb20c13f76ba820ee92cd0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/atan-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/atan2-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/atan2-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a3c8f3e52c4c01c581b59bb798e494d26d3bf7b964470bcba93de0ea704966c7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/atan2-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/atanh-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/atanh-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "aef20f094d956e677072a0f03b4535c945137eaedc4985f8ae2fe77563bbe48c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/atanh-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/atodb-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/atodb-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0b43489a8d976165e557e1b96b59042d8d1b642b21816fadfb012a62b74840c9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/atodb-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/blackman-event.rnbopat": {
+      "bytes": 2935,
+      "path": "tests/fixtures/smoke/rnbo-events-math/blackman-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1bfb6acb53aa1ee05efd25c2d7d7f218dafcb2446744cd5535de758e81102f2c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/blackman-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/catalog.json": {
+      "bytes": 50758,
+      "path": "tests/fixtures/smoke/rnbo-events-math/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f72b578d3d968ce1652458aab8364bbdbea5cc52a64259270b68fec2223fd8ad",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/cbrt-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/cbrt-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "86e2a3ecfa90ec1119632095fa81b2ec99fe814b17097ad790b1687502467b8d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/cbrt-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/cos-event.rnbopat": {
+      "bytes": 2930,
+      "path": "tests/fixtures/smoke/rnbo-events-math/cos-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "eaf5bf1705ec43ffbe02e5559490de58d0722cb93ae360d82d1fdc9a0e5bb717",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/cos-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/cosh-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/cosh-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9879cb3eca7474c2c17b190d35ceeb692f447bdfa3020b41152ebcb92231480a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/cosh-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/cost8-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/cost8-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5fc90ac61001e74ef792d684d22864aa6413ea9a90bebd19e2357e418cd0c7e9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/cost8-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/cost8safe-event.rnbopat": {
+      "bytes": 2936,
+      "path": "tests/fixtures/smoke/rnbo-events-math/cost8safe-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "745faf405b8f7d47ba265874c6aaf0e5c8e3a4d1e1ed76f3489bf5e728de7641",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/cost8safe-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/dbtoa-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/dbtoa-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b4061bfb6094c24c7e5f6c44fd2592afd5c3408fd7ecd8ff189f2c0983526d7f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/dbtoa-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/degrees-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/degrees-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "48bef2a12a03dd1ba986b4b735dbeaf3988d4fc9ea863649d11733ec4ff94797",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/degrees-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/degtorad-lowercase-event.rnbopat": {
+      "bytes": 2935,
+      "path": "tests/fixtures/smoke/rnbo-events-math/degtorad-lowercase-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "17e6081183c3495828430506602c82b1e50675e090edadba84220f4397e82b5d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/degtorad-lowercase-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/degtorad-uppercase-event.rnbopat": {
+      "bytes": 2935,
+      "path": "tests/fixtures/smoke/rnbo-events-math/degtorad-uppercase-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "03d55c8875755ba5d3df054ef0a11bee0e2ca81ea9f6663f81e1ce78fe9bce2f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/degtorad-uppercase-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/exp-event.rnbopat": {
+      "bytes": 2930,
+      "path": "tests/fixtures/smoke/rnbo-events-math/exp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a4098d1727c2d96fd92d057ebfc86d8879e395fa26cca7e710f570653c53a020",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/exp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/exp2-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/exp2-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5b54a1882e7d1d6b0d34028b1eb29b8b0cfa74a1d3b0b41a4ed6fff0c22a01ff",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/exp2-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/expm1-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/expm1-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e9bdbc052b372ab5fda3c7845fbd61a5bbaea9ac3a0870e05b8c7bbcbd2398bf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/expm1-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/fastcos-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/fastcos-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d6bb5a4d4a91cf68a257642c546ef33edf995bd5ce5cc504ff4f232344834252",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/fastcos-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/fastexp-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/fastexp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6da820b4400b923c894040b5554ddbfb77102d8bc7db00363ba4ab485ee4dcaf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/fastexp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/fastpow-event.rnbopat": {
+      "bytes": 2938,
+      "path": "tests/fixtures/smoke/rnbo-events-math/fastpow-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bbfa5d51685739df3cc5c4fa6a70371cc7f98cde6e1f842fab2f73a2cb94dcb1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/fastpow-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/fastsin-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/fastsin-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c9503fb8f6ab9bfcf926efaccf8b00c4289f2108decac954d9266f4f6f808e0b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/fastsin-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/fasttan-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/fasttan-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d8853d497a4d3cc7ed59c0ca7120ecb6f906a1d0be47f39ae413f55ca0613bd1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/fasttan-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/generate.py": {
+      "bytes": 3460,
+      "path": "tests/fixtures/smoke/rnbo-events-math/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4eccc9a8908d00dcfb713c07bb06af958b810ac2076d94aa76f3775de51e575c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/hamming-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/hamming-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "86a918eeee6e8511be6e9d1f8301a14882b4242b2b6eb90c34d77de21e70bb59",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/hamming-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/hann-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/hann-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d564c49c8f49f0eaac0a887d21cfd79c714ec4372a3ba1929bcbecd9bc9c077d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/hann-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/hypot-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/hypot-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5f140e389d73c55e578192c7042b825a341693f622bd73888e1dc647197923c9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/hypot-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/ln-event.rnbopat": {
+      "bytes": 2929,
+      "path": "tests/fixtures/smoke/rnbo-events-math/ln-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6bc498cf2d6b03f4fb7491885bfd113872a8accc0553dfebed57b103fc341365",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/ln-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/log-event.rnbopat": {
+      "bytes": 2930,
+      "path": "tests/fixtures/smoke/rnbo-events-math/log-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "121393d4247b01c3a71c3c169541e8b5430f92fbc36a9bdfd5ad6891c3b88112",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/log-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/log10-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/log10-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fe03043deeb92ccd0f527093c08505d3a3091e182806317de6e32cb7e8a2f57a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/log10-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/log1p-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/log1p-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "60047ec8d3f674abcba5763cb1c1d2ee59600a2136df1e57dd1ee53d08d4e3d8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/log1p-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/log2-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/log2-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b6eb2ddbc3dc55b75c1a43aa2e55abcc1cd2e891a38ab3948d8c2f05cdb64dd5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/log2-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/part1.json": {
+      "bytes": 25771,
+      "path": "tests/fixtures/smoke/rnbo-events-math/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "482cee3660879d6adef595d761a62e3ce6b90eb377912b44c43d9ad82dfbba33",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/part2.json": {
+      "bytes": 25756,
+      "path": "tests/fixtures/smoke/rnbo-events-math/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "02fdc9292702cca7ab140d97659869adc9cacd29a645cf0d911522aac3654e75",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/pow-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/pow-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3135f3063c9d89a3d3b9243ed951a25fec44d2bb7b3aad15eb6daf6c21b1820f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/pow-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/radians-event.rnbopat": {
+      "bytes": 2934,
+      "path": "tests/fixtures/smoke/rnbo-events-math/radians-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "887b0fd88e53acceb9ce864a05c7641b9298f2f8ec88381bcbdb443714b1b1dc",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/radians-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/radtodeg-lowercase-event.rnbopat": {
+      "bytes": 2935,
+      "path": "tests/fixtures/smoke/rnbo-events-math/radtodeg-lowercase-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b21f564429443484e77f98f83925e4db4102e08cdd33cf9e0e911ceba2448a25",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/radtodeg-lowercase-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/radtodeg-uppercase-event.rnbopat": {
+      "bytes": 2935,
+      "path": "tests/fixtures/smoke/rnbo-events-math/radtodeg-uppercase-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "207911b981da71dac3284a99936bdf8c5ad46ec17052fad2994ecef87a0ca177",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/radtodeg-uppercase-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/reference.py": {
+      "bytes": 6101,
+      "path": "tests/fixtures/smoke/rnbo-events-math/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3d02d7145bb11f2fc2668f96c9e7ff0d50826b38862ece9fe5153c19d09dcf03",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/sin-event.rnbopat": {
+      "bytes": 2930,
+      "path": "tests/fixtures/smoke/rnbo-events-math/sin-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "80172c91c46aa730efc157f937b368a2e84e6e2a38c9e93745a59adb7e24f21a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/sin-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/sinh-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/sinh-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1adabf2f4763f6b3bebcae4554bc2ca9a921e8fa9b2afbe6a1a9e8db7b4cfa8d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/sinh-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/sqrt-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/sqrt-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0c0da1a88aa1feaba72f037ef7093151e5eedb944b14791639c3da9aa1d7f27b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/sqrt-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/tan-event.rnbopat": {
+      "bytes": 2930,
+      "path": "tests/fixtures/smoke/rnbo-events-math/tan-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "68ccdd3b9e50a6d91b831d200a4151ade9461bfe4e91c4363b5745f25ddcd953",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/tan-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/tanh-event.rnbopat": {
+      "bytes": 2931,
+      "path": "tests/fixtures/smoke/rnbo-events-math/tanh-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c7d06f041688082898d4394d60d5182792f4e9126ee5ac195889d81c7cda961d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/tanh-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-events-math/welch-event.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-events-math/welch-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1520425293db9ca017b4467ffb4d5f5cad26e4263f1b19aaf12c267686c6d586",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-math/welch-event.rnbopat"
+    },
     "tests/fixtures/smoke/rnbo-events-ranges/README.md": {
       "bytes": 3233,
       "path": "tests/fixtures/smoke/rnbo-events-ranges/README.md",
@@ -55279,6 +57177,13 @@
       "sha256": "71d0c6a8f6980316cfa5af4c94a02d883f8c36e0bb988071dd860555b087825e",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/wrap-event.rnbopat"
     },
+    "tests/native/smoke_event_math_test.cpp": {
+      "bytes": 4999,
+      "path": "tests/native/smoke_event_math_test.cpp",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c1f469a8240ba30ea73b2a79d70c4f1138f3f500802f628acde132cf51872f90",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_math_test.cpp"
+    },
     "tests/native/smoke_event_stream_test.cpp": {
       "bytes": 4713,
       "path": "tests/native/smoke_event_stream_test.cpp",
@@ -55321,6 +57226,13 @@
       "sha256": "5b469d3bfc90a63b8317283de97ff40464bf1bcd8c648192e89cf02d762bc429",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_build_gen_route_inventory.py"
     },
+    "tools/test_build_smoke_modules.py": {
+      "bytes": 22646,
+      "path": "tools/test_build_smoke_modules.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "530864796032fd178984de6b4f360ef1f9a639af5457f613f162c2de6503774f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_build_smoke_modules.py"
+    },
     "tools/test_gen_partition_probe.py": {
       "bytes": 7069,
       "path": "tools/test_gen_partition_probe.py",
@@ -55362,6 +57274,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "f541f8b4afc827cff6f2188ca5aee373cc9117162be0e6bf3d163ae275796494",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_motion_members_reference.py"
+    },
+    "tools/test_smoke_rnbo_events_math_reference.py": {
+      "bytes": 8733,
+      "path": "tools/test_smoke_rnbo_events_math_reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9499051eac4b2e1816e628e90c339cc48aa700c2c45bc2b823c3ca12960d4308",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_rnbo_events_math_reference.py"
     },
     "tools/test_smoke_rnbo_events_ranges_reference.py": {
       "bytes": 6139,

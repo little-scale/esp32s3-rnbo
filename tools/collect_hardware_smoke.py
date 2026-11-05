@@ -205,7 +205,7 @@ def mismatch_witness(data,expected,status,output,blocks=None,stream_sha=None):
     return first,extra
 
 
-def parameter_observations(expected,data,events,enabled=False):
+def parameter_observations(expected,data,events,enabled=False,*,allow_tolerance=False):
     """Bind actual TimeNow boundary actions; these are not sample-offset events."""
     counters={'parameter_count','parameter_events_applied','event_total_us','event_peak_us'}
     present=counters.intersection(data)
@@ -222,7 +222,8 @@ def parameter_observations(expected,data,events,enabled=False):
             re.fullmatch('[0-9a-f]{64}',expected['parameter_schema_sha256'])is not None,'Invalid parameter schema identity')
     require(type(actions)is list and 1<=len(actions)<=128 and len(events)==len(actions),'Parameter event count differs')
     require(type(expected.get('strict_zero_sign_channels'))is int and expected['strict_zero_sign_channels']==2 and
-            type(expected.get('absolute_tolerance',0))in(int,float)and expected.get('absolute_tolerance',0)==0,
+            type(expected.get('absolute_tolerance',0))in(int,float)and
+            (0<=expected.get('absolute_tolerance',0)<=TOLERANCE_CEILING if allow_tolerance else expected.get('absolute_tolerance',0)==0),
             'Boundary parameter scenario requires strict right observer and zero tolerance')
     identities=set()
     for parameter in parameters:
@@ -870,6 +871,53 @@ def event_range_plan(plan):
                     'Event-range authored action differs')
 
 
+def event_math_plan(plan):
+    from build_hardware_smoke import EVENT_MATH_FAMILY,EVENT_MATH_CATALOG_SHA,EVENT_MATH_REFERENCE_SHA,EVENT_MATH_PARTITIONS,event_math_catalog
+    directory=ROOT/'tests/fixtures/smoke/rnbo-events-math'
+    partition=plan.get('partition',{});index=partition.get('index');require(type(index)is int and index in(1,2),'Invalid event-math partition')
+    catalog=json.loads((directory/('part'+str(index)+'.json')).read_bytes());event_math_catalog(catalog)
+    require(partition==catalog['partition'],'Event-math partition differs')
+    require(plan.get('catalog_sha256')==EVENT_MATH_PARTITIONS[index] and
+            plan.get('reference_source_sha256')==EVENT_MATH_REFERENCE_SHA and
+            sha(directory/'reference.py')==EVENT_MATH_REFERENCE_SHA and plan.get('surface')=='patcher' and
+            type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+            plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_block_storage')=='shared-512-word-pool', 'Event-range source/fresh-control policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals)and {r['id']for r in observed}==set(originals),'Event-range case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')), 'Event-range exact spelling/source differs')
+    spec=importlib.util.spec_from_file_location('event_range_independent',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    pool=expected_pool(plan)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model'];inputs=reference.case_input_words(model)
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0] and
+                row.get('input_words')==list(inputs),'Event-range source/domain/tolerance differs')
+        blocks,_=expected_stream(row,True,pool)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),'Event-range reference stream differs')
+        authored=reference.parameter_events(model);observed=row.get('parameter_events',[])
+        require(len(authored)==len(observed)==21 and row.get('expected_parameter_count')==1 and
+                row.get('parameters')==[dict(id='drive',minimum=-8.,maximum=8.,initial=0.,exponent=1.,steps=0)],
+                'Event-range parameter contract differs')
+        for expected,actual in zip(authored,observed):
+            require(actual==dict(before_call=expected['before_call'],id='drive',parameter_slot=0,
+                    value_word=reference.word(expected['value']),normalized_word=reference.word((expected['value']+8)/16)),
+                    'Event-range authored action differs')
+
+
+def right_pilot_observation(data,blocks):
+    require(type(blocks)is list and len(blocks)==20,'Raw right capture requires twenty reference blocks')
+    expected=hashlib.sha256(b''.join(struct.pack('<256I',*b[1::2])for b in blocks)).hexdigest()
+    observed=data.get('right_output_sha256')
+    require(type(observed)is str and re.fullmatch('[0-9a-f]{64}',observed)is not None and observed==expected,
+            'Raw right-lane output differs; mathematical tolerance cannot qualify this observer')
+    return dict(right_pilot_bit_exact=True,right_output_sha256=observed,expected_right_output_sha256=expected)
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -877,6 +925,7 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
+    if plan.get('family')=='rnbo-events-math':event_math_plan(plan)
     if plan.get('family')=='rnbo-events-ranges':event_range_plan(plan)
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
     if plan.get('family')==STRUCTURE_FAMILY:structure_plan(plan)
@@ -914,7 +963,7 @@ def collect(build_dir,run_dir):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
-    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges')
+    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math')
     stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
@@ -952,7 +1001,8 @@ def collect(build_dir,run_dir):
         output=output_metrics(data,expected,plan['input_words_sha256'],tolerance_ceiling=struct.unpack('<f',struct.pack('<f',2e-3))[0]if plan.get('family')==CONTEXT_ALIAS_FAMILY else TOLERANCE_CEILING);status=output['status']
         blocks,stream_sha=expected_stream(expected,stateful,pool)
         first,witness_metadata=mismatch_witness(data,expected,status,output,blocks,stream_sha)
-        parameters=parameter_observations(expected,data,events,event_family)
+        parameters=parameter_observations(expected,data,events,event_family,allow_tolerance=plan.get('family')=='rnbo-events-math')
+        if plan.get('family')=='rnbo-events-math':parameters.update(right_pilot_observation(data,blocks))
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
@@ -1012,7 +1062,9 @@ def collect(build_dir,run_dir):
                       scope='Explicit bounded changed-rounding numerical and matched ABBA callback comparison; no general object or bit-identity qualification',
                       numerical_comparison='Each profile versus the fixed independent mathematical cache',
                       profile_comparison=dbtoa_comparison_times(records))
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-events-ranges') and plan.get('surface')=='patcher':
+    elif plan.get('family')=='rnbo-events-math':
+        result.update(family=plan['family'],surface='patcher',partition=plan['partition'])
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

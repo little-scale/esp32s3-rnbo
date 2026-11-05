@@ -13,6 +13,18 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Event-rate maths: no new callback flags
+
+All 44 scenarios execute; 41 pass their mathematical screen and three named
+approximations retain numerical differences. Held-signal callbacks measure
+75–77µs median, peak 81µs, so none triggers the existing CPU screen and the
+queue remains 151. Parameter setter/routing costs are separate from callback
+costs: dbtoa totals 777µs across 21 actions (peak 112µs), blackman 573µs/80µs,
+and exp2 538µs/105µs. These are useful event-workload measurements, not per-sample
+kernel costs, matched performance comparisons or optimisation savings.
+[The report](rnbo-event-math.md) keeps numerical and harness-memory findings
+separate from this CPU queue.
+
 ## Event ranges and pass comparisons: no new flags
 
 All 22 authored control/event callbacks pass their output checks at75–76µs

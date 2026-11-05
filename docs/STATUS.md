@@ -1,5 +1,18 @@
 # Implementation status — 6 November 2026
 
+The [event-rate maths batch](rnbo-event-math.md) compiles and runs **44 exact
+source forms**: **41 pass and three intentional approximations retain
+outside-screen numerical differences**, across **450,560 output-word checks**
+and 924 parameter actions. Independent raw right-lane hashes match throughout.
+Complete callbacks take 75–77µs median (1.29–1.33% of the block period); actual
+setter/routing timings are separate, led by dbtoa at 777µs across 21 actions and
+112µs peak. No callback CPU flag triggers; the queue remains 151. All images
+finalise and memory/allocation gates pass after settling the observer's measured
+288-byte first-use checksum cost. Initial setup and failed-gate attempts remain
+separate; no numerical or memory limit was relaxed. The normal player and saved
+controls are restored. RNBO coverage is **935/1455 scoped entries**, including
+partial/rejected outcomes; the full goal remains active and Gen stays separate.
+
 The [event-comparison/range/state batch](hardware-smoke.md#rnbo-event-comparisons-ranges-and-event-delta)
 adds **22 passing XIAO scenarios**, **225,280 output-word checks** and 462 actual
 parameter actions, including ordered previous-event delta state. All numerical

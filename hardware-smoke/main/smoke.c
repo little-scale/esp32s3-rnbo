@@ -38,6 +38,8 @@ _Alignas(16) static float input_storage[2][RNBO_S3_BLOCK_FRAMES];
 _Alignas(16) static float output_storage[2][RNBO_S3_BLOCK_FRAMES];
 static const float *const inputs[2]={input_storage[0],input_storage[1]};
 static float *const outputs[2]={output_storage[0],output_storage[1]};
+/* Raw right-lane capture is outside process timing and never uses its tolerance. */
+static uint32_t right_capture[(MANUAL_WARM_CALLS+TIMED_CALLS)*RNBO_S3_BLOCK_FRAMES];
 
 typedef struct {
     uint64_t samples,bit_mismatches,zero_sign_differences,numeric_mismatches,within_tolerance_differences,nonfinite_outputs,strict_zero_sign_mismatches;
@@ -75,6 +77,7 @@ static void compare_output(const smoke_case *test,output_checks *checks)
     const uint32_t *expected_words=test->expected_block_refs?test->expected_block_refs[call]:
         test->expected_blocks?test->expected_blocks+call*512u:test->expected;
     CHECK(expected_words!=NULL);
+    memcpy(right_capture+call*RNBO_S3_BLOCK_FRAMES,outputs[1],RNBO_S3_BLOCK_FRAMES*sizeof(uint32_t));
     for(unsigned frame=0;frame<RNBO_S3_BLOCK_FRAMES;++frame)for(unsigned channel=0;channel<2;++channel){
         uint32_t actual;memcpy(&actual,&outputs[channel][frame],sizeof actual);
         uint32_t expected=expected_words[2u*frame+channel];++checks->samples;
@@ -220,6 +223,10 @@ static void worker(void *unused)
     /* The hardware SHA backend lazily allocates its shared lock. Establish
      * that framework resource before the module heap baseline. */
     char prewarm_sha[65];digest_hex((const uint8_t *)smoke_inputs,sizeof smoke_inputs,prewarm_sha);
+    size_t observer_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
+    digest_hex((const uint8_t *)right_capture,sizeof right_capture,prewarm_sha);
+    size_t observer_after=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
+    printf("RNBO_SMOKE OBSERVER_PREWARM internal_before=%u internal_after=%u bytes=%u\n",(unsigned)observer_before,(unsigned)observer_after,(unsigned)sizeof right_capture);
     CHECK(heap_caps_check_integrity_all(true));
     size_t psram_start=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
     size_t internal_start=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
@@ -275,6 +282,7 @@ static void worker(void *unused)
         bool high_median=med>median_limit,spike=(double)peak>spike_limit;
         if(high_median||spike)++cpu_review;
         const char *reasons=high_median?(spike?"median_budget,peak_spike":"median_budget"):(spike?"peak_spike":"none");
+        size_t print_before=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
         printf("RNBO_SMOKE CASE id=%s module_sha256=%s status=%s reference_policy=%s samples=%"PRIu64" bit_mismatches=%"PRIu64" zero_sign_differences=%"PRIu64" first_mismatch_word=%"PRIu32" first_actual=%08"PRIx32" first_expected=%08"PRIx32" mean_us=%.6f median_us=%.6f peak_us=%"PRIu64" review_cpu=%u cpu_reasons=%s median_budget_us=%.6f peak_review_limit_us=%.6f context_bytes=%"PRIu32" arena_used=%"PRIu32" arena_high_water=%"PRIu32" arena_capacity=%"PRIu32" code_bytes=%"PRIu32" cpp_new_calls=%"PRIu64" arena_requests=%"PRIu64" timed_calls=%u warm_calls=%u prepare_zero_warm_blocks=%u finalized=1 psram_before=%u psram_after=%u internal_before=%u internal_after=%u times_us=",test->id,actual_sha,output_ok?"pass":"output_mismatch",test->reference_policy,checks.samples,checks.bit_mismatches,checks.zero_sign_differences,checks.first_mismatch,checks.first_actual,checks.first_expected,mean,med,peak,(unsigned)(high_median||spike),reasons,median_limit,spike_limit,context_bytes,dynamic.arena_used,dynamic.arena_high_water,dynamic.arena_capacity,code_bytes,dynamic.cpp_new_calls,dynamic.total_arena_allocations,TIMED_CALLS,MANUAL_WARM_CALLS,(unsigned)SMOKE_PREPARE_WARM_BLOCKS,(unsigned)psram_before,(unsigned)psram_after,(unsigned)internal_before,(unsigned)internal_after);
         for(unsigned b=0;b<TIMED_CALLS;++b){printf("%s%"PRIu64,b?",":"",times[b]);}
         uint64_t error_bits;uint32_t tolerance_bits;
@@ -283,7 +291,11 @@ static void worker(void *unused)
         printf(" numeric_mismatches=%"PRIu64" within_tolerance_differences=%"PRIu64" nonfinite_outputs=%"PRIu64" max_absolute_error_bits=%016"PRIx64" absolute_tolerance_bits=%08"PRIx32" input_words_sha256=%s strict_zero_sign_mismatches=%"PRIu64,checks.numeric_mismatches,checks.within_tolerance_differences,checks.nonfinite_outputs,error_bits,tolerance_bits,input_sha,checks.strict_zero_sign_mismatches);
         printf(" first_mismatch_call=%"PRIu32" expected_block_count=%u",checks.first_mismatch_call,(test->expected_blocks||test->expected_block_refs)?20u:1u);
         printf(" parameter_count=%"PRIu32" parameter_events_applied=%"PRIu64" event_total_us=%"PRIu64" event_peak_us=%"PRIu64,test->expected_parameter_count,parameters.events,parameters.total_us,parameters.peak_us);
+        char right_sha[65];digest_hex((const uint8_t *)right_capture,sizeof right_capture,right_sha);
+        printf(" right_output_sha256=%s",right_sha);
         putchar('\n');fflush(stdout);
+        size_t print_after=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
+        printf("RNBO_SMOKE OBSERVER_HEAP id=%s internal_before=%u internal_after=%u\n",test->id,(unsigned)print_before,(unsigned)print_after);
     }
     size_t psram_end=heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
     size_t internal_end=heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);

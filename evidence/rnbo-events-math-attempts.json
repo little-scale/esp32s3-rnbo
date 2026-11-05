@@ -1,0 +1,336 @@
+{
+  "attempts": [
+    {
+      "artifacts": {
+        "build/research/rnbo-events-math-v1/admission.json": {
+          "bytes": 3340,
+          "sha256": "fe193dc38dcd213683a020e2923f37b43375109a66398d390869e95ca13e0d20"
+        }
+      },
+      "detail": "Upper/lowercase aliases collided on a case-insensitive filesystem; uppercase IDs also violated module-builder lowercase directory admission. Distinct lowercase fixture IDs were created; original spellings remain unchanged inside graphs.",
+      "export_stops": [
+        {
+          "failure_log": {
+            "bytes": 189,
+            "sha256": "d4b0145bf33de052a0f9fd9719cab361a64422ed5d72ab072d6c296e6c41728d"
+          },
+          "id": "degtorad-event",
+          "returncode": 1,
+          "source_sha256": "17e6081183c3495828430506602c82b1e50675e090edadba84220f4397e82b5d",
+          "status": "export_failed"
+        },
+        {
+          "failure_log": {
+            "bytes": 189,
+            "sha256": "2254f07a503802113702b0cae9ee7e66b47fef409d2529b83b8ea9d262e0d939"
+          },
+          "id": "RADTODEG-event",
+          "returncode": 1,
+          "source_sha256": "b21f564429443484e77f98f83925e4db4102e08cdd33cf9e0e911ceba2448a25",
+          "status": "export_failed"
+        }
+      ],
+      "outcome": "stopped",
+      "prepared": 42,
+      "stage": "host-fixture-setup"
+    },
+    {
+      "accepted_as_qualification": false,
+      "artifacts": {
+        "build/hardware-smoke-rnbo-events-math-part1-v1/build-report.json": {
+          "bytes": 2406713,
+          "sha256": "51f3cff8ecce15db07f7ee2b97c1fc38406b9a9cfc17e9c8ba209041445bcb7f"
+        },
+        "build/hardware/xiao-rnbo-events-math-part1-v1/hardware-smoke.json": {
+          "bytes": 29164,
+          "sha256": "b8d0f3086f586c1c57dcdc53180cbdf2115ca8f2f91f64984a4be8d676afa08b"
+        },
+        "build/hardware/xiao-rnbo-events-math-part1-v1/test-serial.log": {
+          "bytes": 112047,
+          "sha256": "b87d2a619c8d03f0359e9232ffde631e33b0fc329b7d976f3be461467c2cb8d7"
+        }
+      },
+      "detail": "All22 raw CASE records report numerical pass and module finalisation, but no DONE record exists. The first two module-baseline observations differ by288 internal bytes. The failed run is retained; the fault serial line was truncated after the prefix line=29.",
+      "first_internal_baseline": 292295,
+      "outcome": "failed-final-runtime-gate",
+      "plan_sha256": "18189021115e88bae9c17efd0f96ce03659d023c9221d52551ee4702a930ef0b",
+      "raw_case_count": 22,
+      "stage": "target-initial-harness",
+      "subsequent_internal_baseline": 292007
+    },
+    {
+      "artifacts": {
+        "build/hardware-smoke-rnbo-events-math-part1-v2/build-report.json": {
+          "bytes": 2406713,
+          "sha256": "2a917c2f107ec9d0dd53393d32e9fae573611ad8ef7c9b6206dca6d4a2bd4133"
+        },
+        "build/hardware/xiao-rnbo-events-math-part1-v2/hardware-smoke.json": {
+          "bytes": 29534,
+          "sha256": "f4a183cb8299965d4a6cbf0643a74adc8d58ee1aa65928d44799d5e5009ee110"
+        },
+        "build/hardware/xiao-rnbo-events-math-part1-v2/test-serial.log": {
+          "bytes": 114429,
+          "sha256": "bdd5ce35821557a22f5ef608862a173b76cf3a82490371f8c06ca3e0ec837374"
+        }
+      },
+      "detail": "The first20480-byte observer hash consumes288 bytes before the measurement baseline. Per-case printing/hash records then retain zero additional internal bytes; both global and per-module gates pass. The DSP sources, mathematical references, event plans and numerical limits are unchanged.",
+      "internal_after": 292007,
+      "internal_before": 292295,
+      "observer_hash_bytes": 20480,
+      "observer_heap_records": [
+        {
+          "id": "acos-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "acosh-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "asin-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "asinh-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "atan-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "atan2-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "atanh-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "atodb-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "blackman-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "cbrt-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "cos-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "cosh-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "cost8-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "cost8safe-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "dbtoa-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "degrees-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "degtorad-uppercase-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "degtorad-lowercase-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "exp-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "exp2-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "expm1-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "fastcos-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        }
+      ],
+      "outcome": "completed-with-unmodified-memory-gates",
+      "partition": 1,
+      "plan_sha256": "18189021115e88bae9c17efd0f96ce03659d023c9221d52551ee4702a930ef0b",
+      "stage": "target-observer-prewarm"
+    },
+    {
+      "artifacts": {
+        "build/hardware-smoke-rnbo-events-math-part2-v2/build-report.json": {
+          "bytes": 2000908,
+          "sha256": "0fff14e96e3bc70410d7879ab801956657ae00872e6073f7d420f8dd3c7cba06"
+        },
+        "build/hardware/xiao-rnbo-events-math-part2-v2/hardware-smoke.json": {
+          "bytes": 29483,
+          "sha256": "7d0a77873f9a0fc32356eca2788ddbd9457a213d6d4e08246b0290aa4f3d1af8"
+        },
+        "build/hardware/xiao-rnbo-events-math-part2-v2/test-serial.log": {
+          "bytes": 114307,
+          "sha256": "87ef4d2954e93a054b05c16f4f967ef20c67da31fc2eb0bdc8bee1dca458a1c4"
+        }
+      },
+      "detail": "The first20480-byte observer hash consumes288 bytes before the measurement baseline. Per-case printing/hash records then retain zero additional internal bytes; both global and per-module gates pass. The DSP sources, mathematical references, event plans and numerical limits are unchanged.",
+      "internal_after": 292007,
+      "internal_before": 292295,
+      "observer_hash_bytes": 20480,
+      "observer_heap_records": [
+        {
+          "id": "fastexp-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "fastpow-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "fastsin-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "fasttan-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "hamming-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "hann-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "hypot-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "ln-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "log-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "log10-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "log1p-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "log2-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "pow-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "radians-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "radtodeg-uppercase-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "radtodeg-lowercase-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "sin-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "sinh-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "sqrt-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "tan-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "tanh-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        },
+        {
+          "id": "welch-event",
+          "internal_after": "292007",
+          "internal_before": "292007"
+        }
+      ],
+      "outcome": "completed-with-unmodified-memory-gates",
+      "partition": 2,
+      "plan_sha256": "83c891696b569533f8b92155d19704c0211e1ddbe79ed02d4defe5f627b7fc3b",
+      "stage": "target-observer-prewarm"
+    }
+  ],
+  "format": "rnbo-event-math-attempt-ledger-v1",
+  "scope": "Harness/frontend stops are separate from accepted object outcomes; no failed attempt is silently promoted."
+}
