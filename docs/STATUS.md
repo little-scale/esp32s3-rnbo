@@ -1,5 +1,17 @@
 # Implementation status — 5 November 2026
 
+The [delay resource/member batch](hardware-smoke.md#delay-resources-and-member-operations)
+executes **22 programs: 17 pass and five retain mismatches**, across 225,280
+output checks. Eleven string-enum calls remain C++ rejections; separately
+sourced numeric enums execute. Fractional next size and higher-order read
+alignment remain scoped compatibility follow-ups. All images finalise and
+memory/allocation gates pass. The nine new CPU contexts bring the queue to
+**110**: default comb/allpass clear/reset scenarios take about 44 ms per callback,
+including repeated clearing of roughly 1 MiB state. The RNBO table now maps
+**778 entries with scoped outcomes**. Quiet delay-member test firmware is
+installed; the complete qualification goal remains active.
+
+
 The [explicit member batch](hardware-smoke.md#explicit-stateful-members-and-resetclear)
 records 36 original next/reset/clear programs in two uploads: **35 execute,
 27 pass and eight retain mismatches**, with 358,400 output checks. The one-pole
@@ -8,7 +20,7 @@ zero-crossing boundary differences remain visible. `history.reset()` fails C++.
 Whole-callback medians are 56–500.5 µs, peak 503 µs, with no new CPU flag; the queue
 remains **101 contexts**. All images finalise and allocation/memory gates pass.
 The dashboard now maps **765 exact entries with scoped outcomes**. The second
-quiet member-test firmware is installed and the complete goal remains active.
+quiet member-test firmware was installed at that checkpoint and the complete goal remains active.
 
 
 The [RNBO codebox structure/lifecycle batch](hardware-smoke.md#rnbo-codebox-structures-and-lifecycle)

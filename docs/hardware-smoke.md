@@ -20,6 +20,79 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## Delay resources and member operations
+
+Thirty-three original sources cover thirteen exact delay/comb/allpass member
+IDs. **22 programs execute on XIAO: 17 pass and five retain output mismatches**,
+across **225,280 output checks**. Eleven string-enum read-call programs reject
+in C++; numeric-enum counterparts are distinct sources. Rejections in the
+write/step programs occur at their accompanying read argument, rather than
+showing a write/step primitive failure. Source and log hashes remain recorded.
+
+The bounded delay requests 16 samples. Comb/allpass keep default storage.
+Observed arena high-water is 192 bytes and 1,048,704 bytes respectively, within
+the 2 MiB test arena reservation. All 22 loaded images finalise, free internal/
+PSRAM totals return unchanged and no late-allocation/process fault occurs.
+This strict unchanged-storage screen makes no Auto Float32 gain claim.
+
+| Exact scenario | Result | Median µs | Peak µs | Median / audio period | CPU review |
+| --- | --- | ---: | ---: | ---: | --- |
+| `delay-next-integer` | Pass | 243 | 248 | 4.19% | — |
+| `delay-clear-integer` | Pass | 292 | 297 | 5.03% | — |
+| `delay-reset-integer` | Pass | 309 | 310 | 5.32% | — |
+| `delay-size-capacity` | Pass | 47 | 47 | 0.81% | — |
+| `comb-next-integer` | Pass | 753 | 757 | 12.97% | Queued |
+| `comb-clear-integer` | Pass | 43960.5 | 43963 | 757.29% | Queued |
+| `comb-reset-integer` | Pass | 43971 | 43973 | 757.47% | Queued |
+| `allpass-next-integer` | Pass | 984.5 | 989 | 16.96% | Queued |
+| `allpass-clear-integer` | Pass | 44187 | 44193 | 761.19% | Queued |
+| `allpass-reset-integer` | Pass | 44189 | 44194 | 761.22% | Queued |
+| `delay-next-linear-half` | Output mismatch | 243 | 248 | 4.19% | — |
+| `delay-read-integer-numeric-enum` | Pass | 184 | 189 | 3.17% | — |
+| `delay-write-overwrite-numeric-enum` | Pass | 218 | 223 | 3.76% | — |
+| `delay-step-double-numeric-enum` | Pass | 190 | 194 | 3.27% | — |
+| `delay-read-linear-numeric-enum` | Pass | 259 | 263 | 4.46% | — |
+| `delay-read-cosine-numeric-enum` | Pass | 1418 | 1422 | 24.43% | Queued |
+| `delay-read-cubic-numeric-enum` | Output mismatch | 1454 | 1454 | 25.05% | Queued |
+| `delay-read-fastcubic-numeric-enum` | Output mismatch | 361 | 366 | 6.22% | — |
+| `delay-read-spline-numeric-enum` | Output mismatch | 1533 | 1537 | 26.41% | Queued |
+| `delay-read-spline6-numeric-enum` | Output mismatch | 550.5 | 553 | 9.48% | — |
+| `delay-read-step-numeric-enum` | Pass | 203 | 207 | 3.50% | — |
+| `delay-read-none-numeric-enum` | Pass | 202.5 | 207 | 3.49% | — |
+
+All 17 passing programs have zero numerical mismatches. The complete batch
+retains 25,591 numerical mismatches, 4,858 within-tolerance differences and zero
+signed-zero differences. No reference or tolerance was changed after output.
+Integer next/read, overwrite-before-step, double physical step, size 16,
+clear/reset and comb/allpass feedback recurrences pass. Explicit linear/cosine
+fractional reads and numeric step/none modes also pass.
+
+The five mismatches remain scoped: fractional next emits an integer size
+parameter, while explicit read accepts fractional size. Four higher-order read
+windows differ from the predeclared centered Lagrange/Hermite/B-spline physical
+alignment. This requires delay/window-alignment follow-up; it does not reject
+the separately checked scalar interpolation kernels. The original references
+and both call forms remain available for reproduction.
+
+**Nine CPU contexts join the queue, bringing it to 110.** In particular,
+default comb/allpass clear/reset scenarios take 43.96–44.19 ms per 256-frame
+callback, roughly 7.6 times the 5.805 ms audio period. Their authored schedules
+usually clear roughly 1 MiB of buffer state twice per block. These are offline
+checks, with no I²S deadline claim. Review storage settings and reset scheduling
+before considering a semantics-preserving clearing optimisation. Baseline
+comb/allpass next and cosine/cubic/spline read costs are also queued.
+No separate peak-spike rule triggers and no optimisation gain is claimed.
+
+The dashboard now maps **778 exact entries with scoped outcomes**; delay next
+and read retain partial labels. Other capacities/taps, resource sharing,
+helper return values, arbitrary parameter/rate/vector-size domains, aliases,
+Gen and complete alignment semantics remain pending. Quiet resource-test
+firmware stays installed.
+
+See [sources and detailed contract](../tests/fixtures/smoke/rnbo-codebox-delay-members/README.md),
+[hardware results](../evidence/xiao-smoke-rnbo-codebox-delay-members.json) and
+[native, enum and compiler diagnostics](../evidence/rnbo-codebox-delay-members-native.json).
+
 ## Explicit stateful members and reset/clear
 
 Thirty-six authored sources run in two fixed eighteen-source partitions.

@@ -1,0 +1,6 @@
+@state memory = new comb();
+@state sampleIndex: Int=0;
+if(sampleIndex%257==37 || sampleIndex%257==38 || sampleIndex==255 || sampleIndex==256){memory.reset();}
+out1=memory.next(in1,0.045351473922902494,.5,.5,.25);
+out2=in2;
+sampleIndex+=1;

@@ -4911,71 +4911,185 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "allpass.clear()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 1048704,
+          "case": "allpass-clear-integer",
+          "codebox_source_sha256": "c07f8faaaa24a2fcdfcf2f70fa01ad371934e7c41e5bdb2586ea87fdb61f1f72",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "6b3e31a199c89191b1e7ac22106d0781258b42eda95d8685a9b53ca452a26b16",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 44187.9375,
+          "median_us": 44187.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 44193,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 900
+        }
+      ],
       "id": "codebox-member:allpass.clear",
       "is_alias": false,
       "name": "allpass.clear()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/allpass#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source allpass-clear-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 44187.94µs, median 44187.00µs, peak 44193µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 900; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 1,048,704 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "allpass.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 1048704,
+          "case": "allpass-next-integer",
+          "codebox_source_sha256": "69d0f4ad5ee03c0110aabd5fe8daeeb96a01562ae8c0065f1e22d77e65d51051",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "d494ad37161a76acd6826d896d901dd8ba03120707ce2caf768253aca593edee",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 985.0625,
+          "median_us": 984.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 989,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1264
+        }
+      ],
       "id": "codebox-member:allpass.next",
       "is_alias": false,
       "name": "allpass.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/allpass#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source allpass-next-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 985.06µs, median 984.50µs, peak 989µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 1264; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 1,048,704 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "allpass.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 1048704,
+          "case": "allpass-reset-integer",
+          "codebox_source_sha256": "bf32e45f29163ce31800b357d2f57850bcdd4a6e1cb9ff017d81a640ec68e7de",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "6b3e31a199c89191b1e7ac22106d0781258b42eda95d8685a9b53ca452a26b16",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 1.1920928955078125e-07,
+          "mean_us": 44189.6875,
+          "median_us": 44189.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 44194,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 900
+        }
+      ],
       "id": "codebox-member:allpass.reset",
       "is_alias": false,
       "name": "allpass.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/allpass#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source allpass-reset-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 44189.69µs, median 44189.00µs, peak 44194µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.1920929e-07; within-tolerance differences 900; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 1,048,704 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -15413,71 +15527,185 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "comb.clear()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 1048704,
+          "case": "comb-clear-integer",
+          "codebox_source_sha256": "d5df90eb89a7e42e030b70d7a84190120a61ccdf75c0b6e22b133b15bb8686ac",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "196a0127ffa09f51832077ce388b4b1730f560faa0b90697d0c7da6ba6e0f4c6",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 43960.4375,
+          "median_us": 43960.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 43963,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 578
+        }
+      ],
       "id": "codebox-member:comb.clear",
       "is_alias": false,
       "name": "comb.clear()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/comb#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source comb-clear-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 43960.44µs, median 43960.50µs, peak 43963µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 578; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 1,048,704 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "comb.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 1048704,
+          "case": "comb-next-integer",
+          "codebox_source_sha256": "5e755d8ab2fed0ad39f7fae29d556891aac9309c8b07c10cbd4efe502857decf",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "0249bf312b29d85dcc6ad5f7f986cad2628f0f97a1f4724bd26cac3607e063f5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 753.8125,
+          "median_us": 753.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 757,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 638
+        }
+      ],
       "id": "codebox-member:comb.next",
       "is_alias": false,
       "name": "comb.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/comb#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source comb-next-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 753.81µs, median 753.00µs, peak 757µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 638; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 1,048,704 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "comb.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 1048704,
+          "case": "comb-reset-integer",
+          "codebox_source_sha256": "70d482a5f35232c6bd96384d76f15f9bee4cdc13eea645c4cfaaf4fc6e3a6e54",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "196a0127ffa09f51832077ce388b4b1730f560faa0b90697d0c7da6ba6e0f4c6",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 43970.6875,
+          "median_us": 43971.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 43973,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 578
+        }
+      ],
       "id": "codebox-member:comb.reset",
       "is_alias": false,
       "name": "comb.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/comb#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source comb-reset-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 43970.69µs, median 43971.00µs, peak 43973µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 578; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 1,048,704 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -18701,163 +18929,667 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.clear()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-clear-integer",
+          "codebox_source_sha256": "b3d09102ec809dcbb215e3b59cf241b4308fe3d6ed18f4fa9352188de7f8aa3c",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "7f0bdf6c44d40200c6d48139b39982986f2d820169a102353694e95c9d52c6e9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 293.625,
+          "median_us": 292.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 297,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.clear",
       "is_alias": false,
       "name": "delay.clear()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source delay-clear-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 293.62µs, median 292.00µs, peak 297µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-next-integer",
+          "codebox_source_sha256": "198067c0ce2ac779b571cc534921e5c3612020fc57c2d9ef4ab7e7c1c57f16ba",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "268917aa6524fc975bface2b942264f2364a5c43f81fbca2bab803abad475ef5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 243.5625,
+          "median_us": 243.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 248,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-next-linear-half",
+          "codebox_source_sha256": "04b64a289e63e48fdd687b2b6bec7a119dbb0d73ab6322181531d6c121fcc16f",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "382abd56b61807fff44c837b98d094a771039ecf5677e308e3ff97594b9f5f5a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.9375,
+          "mean_us": 244.0,
+          "median_us": 243.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 5118,
+          "peak_us": 248,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.next",
       "is_alias": false,
       "name": "delay.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: executable scenarios include retained reference mismatches; fractional next size or higher-order read alignment remains unresolved. Exact source delay-next-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-next-linear-half; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 243.56µs, median 243.00µs, peak 248µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Short XIAO check (output_mismatch): one repeated stereo vector; mean 244.00µs, median 243.00µs, peak 248µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0.9375; within-tolerance differences 0; numeric mismatches 5118; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.read()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-integer-numeric-enum",
+          "codebox_source_sha256": "d121d7f0a7b428b3271ea40ab4bc49dcde73faeda0d827ce1c1fbff5f22f90ec",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "268917aa6524fc975bface2b942264f2364a5c43f81fbca2bab803abad475ef5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 184.875,
+          "median_us": 184.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 189,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-linear-numeric-enum",
+          "codebox_source_sha256": "a8e2f547a44d6ebd504c63f7be50c9c00fe3f8a32b6beb15678e4f0dce75ffab",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "382abd56b61807fff44c837b98d094a771039ecf5677e308e3ff97594b9f5f5a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 259.875,
+          "median_us": 259.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 263,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-cosine-numeric-enum",
+          "codebox_source_sha256": "4480f284c0aa814719530ecda20993222f48e8b5629fe29fb13f55c114073a72",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "382abd56b61807fff44c837b98d094a771039ecf5677e308e3ff97594b9f5f5a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 1419.3125,
+          "median_us": 1418.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 1422,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-cubic-numeric-enum",
+          "codebox_source_sha256": "4f1be5239fdd794eae2badb164c765ba7128b433a6244b38c40025603b734d2e",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "4c386c07c00b172fbee27503026eb4530366ec4ff7e26f8def9fa3478c94a778",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 1.2255859375,
+          "mean_us": 1452.9375,
+          "median_us": 1454.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 5118,
+          "peak_us": 1454,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-fastcubic-numeric-enum",
+          "codebox_source_sha256": "ca913f0ece23e8df5aa6eb99723bfe0c4a381b755aedf56f7c2d9cb9c0a00a7c",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "77415b8e21c9998da3da77e4d081e52d39c0c75f333c71a2820fa3b2e07b6546",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 1.427734375,
+          "mean_us": 362.375,
+          "median_us": 361.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 5118,
+          "peak_us": 366,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-spline-numeric-enum",
+          "codebox_source_sha256": "b3b29c8723e7c1d7cfb87216b389aed28abfa046fbef3bf238e4407c7f12246d",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "08ef7360f5c0b3ebf47f06a54d096a01c1b8c900a49ec490ff3d0995d554615b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 1.4072265625,
+          "mean_us": 1534.4375,
+          "median_us": 1533.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 5118,
+          "peak_us": 1537,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-spline6-numeric-enum",
+          "codebox_source_sha256": "911d821695312e4961292859347382cb721acc5c043090685621c90011da0c80",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "f28b56f5443651e9edd1a05d37a9f532f5c4ede77ffcf323dcd03797d8d06c17",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.5398335605859756,
+          "mean_us": 550.6875,
+          "median_us": 550.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 5119,
+          "peak_us": 553,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-step-numeric-enum",
+          "codebox_source_sha256": "355136c7adfa015a1e2ddbf47917de08a2a9754aad744c2e1b8680f232e018a6",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "66d71b2a35a71bcc9c5ee257b32317080d3d024dd481d6c12a769ef5029836b7",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 203.3125,
+          "median_us": 203.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 207,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-read-none-numeric-enum",
+          "codebox_source_sha256": "a39e84fbda2f4ea30d84e697cebf568b443d57e8ecffdff497aa6f1b18d3934c",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "66d71b2a35a71bcc9c5ee257b32317080d3d024dd481d6c12a769ef5029836b7",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 203.25,
+          "median_us": 202.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 207,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.read",
       "is_alias": false,
       "name": "delay.read()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "label": "rnbo codebox delay members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-delay-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: executable scenarios include retained reference mismatches; fractional next size or higher-order read alignment remains unresolved. Exact source delay-read-integer-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-linear-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-cosine-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-cubic-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-fastcubic-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-spline-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-spline6-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-step-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Exact source delay-read-none-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Supplied string-enum read-call programs remain C++ rejected and have no device execution or CPU measurement. Numeric-enum sources are separately authored and measured; the rejected calls confer no hardware status. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 184.88µs, median 184.00µs, peak 189µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Short XIAO check (pass): one repeated stereo vector; mean 259.88µs, median 259.00µs, peak 263µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Short XIAO check (pass): one repeated stereo vector; mean 1419.31µs, median 1418.00µs, peak 1422µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Callback timing flagged for later review. Short XIAO check (output_mismatch): one repeated stereo vector; mean 1452.94µs, median 1454.00µs, peak 1454µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.22558594; within-tolerance differences 0; numeric mismatches 5118; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Callback timing flagged for later review. Short XIAO check (output_mismatch): one repeated stereo vector; mean 362.38µs, median 361.00µs, peak 366µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.42773438; within-tolerance differences 0; numeric mismatches 5118; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Short XIAO check (output_mismatch): one repeated stereo vector; mean 1534.44µs, median 1533.00µs, peak 1537µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.40722656; within-tolerance differences 0; numeric mismatches 5118; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Callback timing flagged for later review. Short XIAO check (output_mismatch): one repeated stereo vector; mean 550.69µs, median 550.50µs, peak 553µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0.539833561; within-tolerance differences 0; numeric mismatches 5119; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Short XIAO check (pass): one repeated stereo vector; mean 203.31µs, median 203.00µs, peak 207µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes. Short XIAO check (pass): one repeated stereo vector; mean 203.25µs, median 202.50µs, peak 207µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-reset-integer",
+          "codebox_source_sha256": "833e0d945a06e6d9265bfa6d126ff7448680c0b5d326c49dfdb84119d4d9d799",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "7f0bdf6c44d40200c6d48139b39982986f2d820169a102353694e95c9d52c6e9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 307.8125,
+          "median_us": 309.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 310,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.reset",
       "is_alias": false,
       "name": "delay.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source delay-reset-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 307.81µs, median 309.00µs, peak 310µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.size()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-size-capacity",
+          "codebox_source_sha256": "65b95aa61775546b83174945873432873aa6d057e45852e9ba5b1a9dfe25e68d",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "f7d0f32470824593a1c4db24f191a1043d07c8f09b946fa363331ac1e9c7d1b8",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 46.6875,
+          "median_us": 47.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 47,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.size",
       "is_alias": false,
       "name": "delay.size()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source delay-size-capacity; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 46.69µs, median 47.00µs, peak 47µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.step()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-step-double-numeric-enum",
+          "codebox_source_sha256": "7c77ea88e68a09ce7969f765ea3e7ff5496e4eee918e508c880312076892245d",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "268917aa6524fc975bface2b942264f2364a5c43f81fbca2bab803abad475ef5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 190.875,
+          "median_us": 190.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 194,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.step",
       "is_alias": false,
       "name": "delay.step()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "label": "rnbo codebox delay members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-delay-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source delay-step-double-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Supplied string-enum read-call programs remain C++ rejected and have no device execution or CPU measurement. Numeric-enum sources are separately authored and measured; the rejected calls confer no hardware status. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 190.88µs, median 190.00µs, peak 194µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "delay.write()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 192,
+          "case": "delay-write-overwrite-numeric-enum",
+          "codebox_source_sha256": "72c1aeb7014afa9c108ad163ccdfba487cdfa360f58963a8356b3aa0829eb273",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls",
+          "expected_stream_sha256": "268917aa6524fc975bface2b942264f2364a5c43f81fbca2bab803abad475ef5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "717690abc642cda9fe913b7a09f44291933225630f5be87361283c083d1c6a11",
+          "max_absolute_error": 0.0,
+          "mean_us": 219.4375,
+          "median_us": 218.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 223,
+          "reference_policy": "independent-delay-recurrence-and-declared-physical-phase-interpolation",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:delay.write",
       "is_alias": false,
       "name": "delay.write()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/delay#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox delay members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "label": "rnbo codebox delay members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-delay-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member. Exact source delay-write-overwrite-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain. Supplied string-enum read-call programs remain C++ rejected and have no device execution or CPU measurement. Numeric-enum sources are separately authored and measured; the rejected calls confer no hardware status. Remaining scope: Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification. Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 219.44µs, median 218.00µs, peak 223µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 192 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -59490,10 +60222,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "c124d4614e19636763bdd4088e49a14f1f7c12a921f4f14a152c91f2a07a1ae7",
-    "coverage_source_sha256": "6e1aeb6e9745f2bc3cff30ccee51bb9e6a475cf61908afe590d4e293d25593f2",
-    "exact_coverage_entries": 765,
-    "generator_sha256": "230c840f474ff5031dfefa0a0f106a349f800d6a28b2f0dcb5e6e1a8614ca17a",
+    "coverage_canonical_sha256": "5b2d8baa88ca7785f956617c63f188834ba5c961faa6fa9566f57c1bd4f95a17",
+    "coverage_source_sha256": "a859608a273e35f40e77e2dbf8314154a2f0bd082a42529fe3114cbbb39f364e",
+    "exact_coverage_entries": 778,
+    "generator_sha256": "52dcaf64266b5d50b45165d8b882e02a46f7415d9f8c54cbcb439292af489e47",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

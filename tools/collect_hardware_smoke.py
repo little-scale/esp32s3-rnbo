@@ -22,6 +22,8 @@ from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_RE
 from build_hardware_smoke import (CHARACTER_FAMILY,CHARACTER_PARTITIONS,CHARACTER_REFERENCE_SHA,
                                  character_catalog,GEN_DATA_FAMILY,GEN_DATA_CATALOG_SHA,
                                  GEN_DATA_REFERENCE_SHA,gen_data_catalog)
+from build_hardware_smoke import (DELAY_MEMBER_FAMILY,DELAY_MEMBER_CATALOG_SHA,
+                                 DELAY_MEMBER_REFERENCE_SHA,delay_member_catalog)
 from build_hardware_smoke import (MEMBER_FAMILY,MEMBER_CATALOG_SHA,MEMBER_REFERENCE_SHA,
                                  MEMBER_PARTITIONS,member_catalog)
 from build_hardware_smoke import (STRUCTURE_FAMILY,STRUCTURE_CATALOG_SHA,
@@ -474,6 +476,39 @@ def structure_plan(plan):
                 'Codebox structure reference stream differs from independent source')
 
 
+def delay_member_plan(plan):
+    directory=ROOT/'tests/fixtures/smoke/rnbo-codebox-delay-members'
+    catalog=json.loads((directory/'catalog.json').read_bytes());delay_member_catalog(catalog)
+    require(plan.get('catalog_sha256')==DELAY_MEMBER_CATALOG_SHA and
+            plan.get('reference_source_sha256')==DELAY_MEMBER_REFERENCE_SHA and
+            sha(directory/'reference.py')==DELAY_MEMBER_REFERENCE_SHA and
+            plan.get('surface')=='codebox' and type(plan.get('prepare_zero_warm_blocks'))is int and
+            plan['prepare_zero_warm_blocks']==0 and plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_stream_policy')=='Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls',
+            'Delay member source/surface/constructor epoch differs')
+    authored={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(authored) and {r['id']for r in observed}==set(authored),'Delay member case ledger differs')
+    for row in observed:
+        original=authored[row['id']]
+        require(row['source_sha256']==original['patch_sha256'] and
+                row['codebox_source_sha256']==original['codebox_sha256'] and
+                all(row.get(k)==original[k]for k in ('exact_name','syntax','registry_lookup')),
+                'Delay member source or surface identity differs')
+    spec=importlib.util.spec_from_file_location('delay_member_independent_reference',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    for row in plan['cases']:
+        original=authored[row['id']];model=original['model']
+        require(all(row.get(k)==v for k,v in original.items()) and row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',original['maximum_absolute_error']))[0] and row.get('arena_bytes')==2097152 and
+                not any(k in row for k in ('parameters','parameter_events','strict_zero_sign_channels')),
+                'Delay member declaration or exact numerical limit differs')
+        inputs=reference.case_input_words(model)
+        require(row.get('input_words')==list(inputs),'Delay member vector differs from independent source')
+        blocks,_=expected_stream(row,True)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),
+                'Delay member reference stream differs from independent source')
+
+
 def member_plan(plan):
     directory=ROOT/'tests/fixtures/smoke/rnbo-codebox-members'
     index=plan.get('partition',{}).get('index')
@@ -587,6 +622,7 @@ def collect(build_dir,run_dir):
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
     if plan.get('family')==STRUCTURE_FAMILY:structure_plan(plan)
     if plan.get('family')==MEMBER_FAMILY:member_plan(plan)
+    if plan.get('family')==DELAY_MEMBER_FAMILY:delay_member_plan(plan)
     if plan.get('family')==GEN_CONTROL_FAMILY:gen_control_plan(plan)
     if plan.get('family')==LIST_FUNCTION_FAMILY:list_function_plan(plan)
     comparison=plan.get('family')=='dbtoa-f32-comparison'
@@ -609,14 +645,14 @@ def collect(build_dir,run_dir):
                     type(case.get('absolute_tolerance',0))in(int,float)and
                     0<=case.get('absolute_tolerance',0)<=2e-6 for case in plan['cases']),
                 'Signal routing requires parameter-free signal sources and its declared accuracy limit')
-    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-list-functions','rnbo-character-constants','gen-range','gen-constants'):
+    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-list-functions','rnbo-character-constants','gen-range','gen-constants'):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
-        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
+        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
                 'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
     pool=None
@@ -663,7 +699,7 @@ def collect(build_dir,run_dir):
         if gen_data:record['owner_kind']=expected['owner_kind']
         if plan.get('family')==GEN_CONTROL_FAMILY:
             record.update({k:expected[k]for k in ('model','genexpr_sha256','scope')})
-        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-list-functions','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
@@ -707,7 +743,7 @@ def collect(build_dir,run_dir):
                       profile_comparison=dbtoa_comparison_times(records))
     elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
-    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
     elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants')and plan.get('surface')=='genexpr':

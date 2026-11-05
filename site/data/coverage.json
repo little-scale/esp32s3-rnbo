@@ -43865,6 +43865,646 @@
       "surface": "codebox",
       "working_note": "The documented history.reset() form reaches C++ but references missing history instance fields; not executed on hardware.",
       "working_state": "unverified"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.next",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-next-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-next-linear-half"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-next-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-next-linear-half; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "delay.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: executable scenarios include retained reference mismatches; fractional next size or higher-order read alignment remains unresolved.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.clear",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-clear-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-clear-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "delay.clear()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.reset",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-reset-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-reset-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "delay.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.size",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-size-capacity"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-size-capacity; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "delay.size()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:comb.next",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "comb-next-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source comb-next-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "comb.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:comb.clear",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "comb-clear-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source comb-clear-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "comb.clear()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:comb.reset",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "comb-reset-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source comb-reset-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "comb.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:allpass.next",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "allpass-next-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source allpass-next-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "allpass.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:allpass.clear",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "allpass-clear-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source allpass-clear-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "allpass.clear()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:allpass.reset",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "allpass-reset-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source allpass-reset-integer; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        }
+      ],
+      "spelling": "allpass.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.read",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-read-integer"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-linear"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-cosine"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-cubic"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-fastcubic"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-spline"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-spline6"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-step"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-none"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-integer-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-linear-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-cosine-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-cubic-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-fastcubic-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-spline-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-spline6-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-step-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-read-none-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-read-integer-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-linear-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-cosine-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-cubic-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-fastcubic-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-spline-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/18",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-spline6-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/19",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-step-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Exact source delay-read-none-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Supplied string-enum read-call programs remain C++ rejected and have no device execution or CPU measurement. Numeric-enum sources are separately authored and measured; the rejected calls confer no hardware status.",
+          "level": "Compiler-stage call-form documentation",
+          "source": "evidence/rnbo-codebox-delay-members-native.json"
+        }
+      ],
+      "spelling": "delay.read()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: executable scenarios include retained reference mismatches; fractional next size or higher-order read alignment remains unresolved.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.write",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-write-overwrite"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-write-overwrite-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-write-overwrite-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Supplied string-enum read-call programs remain C++ rejected and have no device execution or CPU measurement. Numeric-enum sources are separately authored and measured; the rejected calls confer no hardware status.",
+          "level": "Compiler-stage call-form documentation",
+          "source": "evidence/rnbo-codebox-delay-members-native.json"
+        }
+      ],
+      "spelling": "delay.write()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delay.step",
+      "known_gaps": [
+        "Exact authored call order, interpolation enum and tap values only; mono resource plus numeric right pilot, no standalone raw-copy observer qualification.",
+        "Delay uses maxdelay16 samples; comb/allpass retain default storage. Other capacities/rates/vector sizes, arbitrary taps, aliases, return values for reset/clear/write/step and Gen remain unqualified."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delay-step-double"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbopat"
+        },
+        {
+          "forms": [
+            "delay-step-double-numeric-enum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact source delay-step-double-numeric-enum; mono resource with right pilot, zero automatic warmups, four checked manual warmups plus16timed256-frame callbacks. Full20-block reference; predeclared error bound and source mode retained. Whole callback includes sample schedule and explicit clear/reset work; no isolated cost or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+        },
+        {
+          "conditions": "Supplied string-enum read-call programs remain C++ rejected and have no device execution or CPU measurement. Numeric-enum sources are separately authored and measured; the rejected calls confer no hardware status.",
+          "level": "Compiler-stage call-form documentation",
+          "source": "evidence/rnbo-codebox-delay-members-native.json"
+        }
+      ],
+      "spelling": "delay.step()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed all supplied executable scenarios for this exact member.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -45110,6 +45750,13 @@
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
     },
+    "evidence/rnbo-codebox-delay-members-native.json": {
+      "bytes": 25499,
+      "path": "evidence/rnbo-codebox-delay-members-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2d3dadd4d00efb3076af6e75aa6cd15f0f65f59a82a0d451878a1dbb4587e4ee",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-delay-members-native.json"
+    },
     "evidence/rnbo-codebox-members-native.json": {
       "bytes": 26754,
       "path": "evidence/rnbo-codebox-members-native.json",
@@ -45214,6 +45861,13 @@
       "publication": "public-evidence",
       "sha256": "07db0891b0dad6ba63fa55d95853d29f382bdc83ae1d967ab4d6ea7bb4b14af0",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-containers.json"
+    },
+    "evidence/xiao-smoke-rnbo-codebox-delay-members.json": {
+      "bytes": 46777,
+      "path": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f7fb862141084e693fb02a360d5589b7e4f904fd2f187e081cf6a8e1d344c6a7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-delay-members.json"
     },
     "evidence/xiao-smoke-rnbo-codebox-filters.json": {
       "bytes": 21762,
@@ -45669,6 +46323,503 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "d5393f8b2d6ab979e69e19e342e23534af9810f6c262be9632bb4b315376bc4f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/slide-signal-controls.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/README.md": {
+      "bytes": 6536,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "02aa7a0934d6cd849538684efd02278954c3cd084ab326dc98ce7a155a494170",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbo": {
+      "bytes": 234,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c07f8faaaa24a2fcdfcf2f70fa01ad371934e7c41e5bdb2586ea87fdb61f1f72",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbopat": {
+      "bytes": 2632,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "12c55eaf27bfc9eb4ecf282bae141700e9956543c7d3ec9d2d25adcb06a8a777",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-clear-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbo": {
+      "bytes": 87,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "69d0f4ad5ee03c0110aabd5fe8daeeb96a01562ae8c0065f1e22d77e65d51051",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbopat": {
+      "bytes": 2482,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "be45d741b59a0195cdbe2ee6dd03b1c9da7890bb51fb36fe71b2c93f747b6e4e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-next-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbo": {
+      "bytes": 234,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bf32e45f29163ce31800b357d2f57850bcdd4a6e1cb9ff017d81a640ec68e7de",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbopat": {
+      "bytes": 2632,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fd5aa294e475cc2ac844c9aa483716d08fd97fae2495ac51e584ce2b991a17d1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/allpass-reset-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/catalog.json": {
+      "bytes": 42081,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b179ccf1de3c09d45933050f3794837afe46a133c5004dfb35a1ceb2c71c1ca6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbo": {
+      "bytes": 239,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d5df90eb89a7e42e030b70d7a84190120a61ccdf75c0b6e22b133b15bb8686ac",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbopat": {
+      "bytes": 2637,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "24ceed826d4d43025995a375281c583717298cb6e3dd781982582247f50df219",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/comb-clear-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbo": {
+      "bytes": 92,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5e755d8ab2fed0ad39f7fae29d556891aac9309c8b07c10cbd4efe502857decf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbopat": {
+      "bytes": 2487,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fae2220a5582bb632031122d6bfd032e878c0381a9de9f0cc729d23ab196f7e2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/comb-next-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbo": {
+      "bytes": 239,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "70d482a5f35232c6bd96384d76f15f9bee4cdc13eea645c4cfaaf4fc6e3a6e54",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbopat": {
+      "bytes": 2637,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "15921917439f11337eee805fdfbece0c31ba7a702176a67e3de5c60316bb9ab1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/comb-reset-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbo": {
+      "bytes": 224,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b3d09102ec809dcbb215e3b59cf241b4308fe3d6ed18f4fa9352188de7f8aa3c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbopat": {
+      "bytes": 2622,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "684742f668d8e5a69900d66857c08e09d420930f692cb016d4fde25a4af45d50",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-clear-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbo": {
+      "bytes": 77,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "198067c0ce2ac779b571cc534921e5c3612020fc57c2d9ef4ab7e7c1c57f16ba",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbopat": {
+      "bytes": 2472,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0767967a88260375159b4f6bdb581ca7b7b8535d879cbda69493ff388fb7b68d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbo": {
+      "bytes": 79,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "04b64a289e63e48fdd687b2b6bec7a119dbb0d73ab6322181531d6c121fcc16f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbopat": {
+      "bytes": 2474,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1c970a3a7612f94dcf321e6c32971b4e167ebc1b66ff29b3add5acff0e820a9f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-next-linear-half.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbo": {
+      "bytes": 111,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4480f284c0aa814719530ecda20993222f48e8b5629fe29fb13f55c114073a72",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbopat": {
+      "bytes": 2506,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "78e54e5e19f6ed1255bcef4c02523f8a7a183cd992dadcd2b68055286a7f8512",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbo": {
+      "bytes": 118,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "06f866c54e535096821a3a29eee44ffb0f3c58652737c087e07af680d1f39dd7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbopat": {
+      "bytes": 2515,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fdcccc2ca433695c99e78bc019442983aa6ee096c422be23c04b8ec6f329d518",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cosine.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbo": {
+      "bytes": 112,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4f1be5239fdd794eae2badb164c765ba7128b433a6244b38c40025603b734d2e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbopat": {
+      "bytes": 2507,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ba08a206185087c424f44bf9b0b04bffc10729c4e3ff9f7d1c630829f116e67c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbo": {
+      "bytes": 118,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a85ba499f2a2cf76b0f84dabfb4292009b8c9c42d73ef637d21726c20f547efa",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbopat": {
+      "bytes": 2515,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b03c1f839da0cb035d174344cf04220a658c61c796e8e914a468371856b73bbf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-cubic.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbo": {
+      "bytes": 112,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ca913f0ece23e8df5aa6eb99723bfe0c4a381b755aedf56f7c2d9cb9c0a00a7c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbopat": {
+      "bytes": 2507,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8150884dd86386757be4490dff96773a4d46e17e34a408b418ee0f9e9b89afa2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbo": {
+      "bytes": 122,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4685df5ffbb09917fcd15706279a8afb534e13a26c8692a5e0eb142af0157406",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbopat": {
+      "bytes": 2519,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ff2abd018bbc9253c85473b09bd45e0ab6b18aa548933d8a43fd3ab10988389a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-fastcubic.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbo": {
+      "bytes": 109,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d121d7f0a7b428b3271ea40ab4bc49dcde73faeda0d827ce1c1fbff5f22f90ec",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbopat": {
+      "bytes": 2504,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ddb5137d66108a79118120147c98737646e4f5d88c2a5c4c92ffd728ff49bf43",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbo": {
+      "bytes": 114,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "636db721d9aa8df16f1a9723ce5830d8f12ffe448b2578552977d676ff8513c7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbopat": {
+      "bytes": 2511,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0791c49c80e0c8a9b6ebf9ec215385acdba0c59c2659fcf59709b6aa93983d18",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbo": {
+      "bytes": 111,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a8e2f547a44d6ebd504c63f7be50c9c00fe3f8a32b6beb15678e4f0dce75ffab",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbopat": {
+      "bytes": 2506,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e86d13d87dc2b3a62555ff0a3a9ef2eebbfbb33a7e5c8c941cee1a84d6d54ad0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbo": {
+      "bytes": 118,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ad6d1ccdeb87ef4b178fb048e3443c5ff3b4f3ec19fa0c41fab391df26e97fe2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbopat": {
+      "bytes": 2515,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5b89fbf308f17dffb704539e70dc70abb3d3364a499126a35c21665c635e5171",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-linear.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbo": {
+      "bytes": 111,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a39e84fbda2f4ea30d84e697cebf568b443d57e8ecffdff497aa6f1b18d3934c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbopat": {
+      "bytes": 2506,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "750eb4cf8251b1d0b3da15b1d883b3d5af0af2b392feac0137a63712a108e7bb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbo": {
+      "bytes": 116,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4cd57a45c4fc94e614814b801b3b97f43f7bb9eebe4a2ad1ce48cb28f685bbf5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbopat": {
+      "bytes": 2513,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f610a6e69c935dcee8840b924f28d3295285c2565ab7578b01ef610c74977204",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-none.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbo": {
+      "bytes": 112,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b3b29c8723e7c1d7cfb87216b389aed28abfa046fbef3bf238e4407c7f12246d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbopat": {
+      "bytes": 2507,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b973b189f1a10cebb8ae8906f458dadf4d0a8b2e3352bd4f706a4a92292380ae",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbo": {
+      "bytes": 119,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "503077ec5ecba13ab677ba5360f6c68d4cd008f11da8e8bbd45bc467f23bf34e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbopat": {
+      "bytes": 2516,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "261a91ebf1220a37530960ed65f17ab332a2d0e9fc68382cf215b52449d1f65d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbo": {
+      "bytes": 112,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "911d821695312e4961292859347382cb721acc5c043090685621c90011da0c80",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbopat": {
+      "bytes": 2507,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b3521fa29b825cd7b3f79d161603996fe95157aed830c7042f99ff928b471e76",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbo": {
+      "bytes": 120,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "97a3c5f6c7caad37dd5b2bc227da46373540af8c6c7c715e79bca9d06c9eeb91",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbopat": {
+      "bytes": 2517,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5006fdabf71c329e677a117a580ff05e4c9aa0e5d9d7dfed5b0a84af9f54e0fe",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-spline6.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbo": {
+      "bytes": 111,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "355136c7adfa015a1e2ddbf47917de08a2a9754aad744c2e1b8680f232e018a6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbopat": {
+      "bytes": 2506,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9f41a87a3835e2c42ce755ac11d29a21278e658afdf61677c554b25494337d83",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbo": {
+      "bytes": 116,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ab404263cea629ac299877e45826be94cb058d361313cd213fa88e73040c2620",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbopat": {
+      "bytes": 2513,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dbf56e323455634c175e62562639463f61b40e3a054a93c50d2f42dbdf5c1a42",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-read-step.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbo": {
+      "bytes": 224,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "833e0d945a06e6d9265bfa6d126ff7448680c0b5d326c49dfdb84119d4d9d799",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbopat": {
+      "bytes": 2622,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2ab4a5ff88acadafc3edc017ebef2f6c48a8d862b134dedb2c98f5cb09696652",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-reset-integer.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbo": {
+      "bytes": 78,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "65b95aa61775546b83174945873432873aa6d057e45852e9ba5b1a9dfe25e68d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbopat": {
+      "bytes": 2473,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b7d84080912978365ea75ef6e09c22c9ed4ffb4a255c1d0bb8ff494198d90297",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-size-capacity.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbo": {
+      "bytes": 124,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7c77ea88e68a09ce7969f765ea3e7ff5496e4eee918e508c880312076892245d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbopat": {
+      "bytes": 2519,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "360a237637c7caaf94a610f4e11471c91ef9b39dc561b4f49f8d3a794d3d8a01",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbo": {
+      "bytes": 129,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c2b7d1e92c848b89586e1035ee44a9ea49e3cb5f0e7f8d3147dc0c9ad12a0f11",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbopat": {
+      "bytes": 2526,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c6802708e032f8eb97d63a0b9fae5682c801730d0a81fef1e46b025ed49430a4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-step-double.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbo": {
+      "bytes": 129,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "72c1aeb7014afa9c108ad163ccdfba487cdfa360f58963a8356b3aa0829eb273",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbopat": {
+      "bytes": 2524,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cdf35878ff23df9da7a496f5001d4c6dff152034f5de1fdd5ac979dc6f3f1bec",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite-numeric-enum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbo": {
+      "bytes": 134,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2876fb789765661f0d0a6bd867061da4d1ecd617527c2eff18247f161edb0c53",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbopat": {
+      "bytes": 2531,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0bb70fcecdcb8d0a03554606fa94642f9197dd16142876f4b272a7daa381e567",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/delay-write-overwrite.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/generate.py": {
+      "bytes": 4911,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2f99b6ff51895625f210a4d9689bf888326fd0363848fdbc30e6ad7a562ffc7c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/native_stream_test.cpp": {
+      "bytes": 3912,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/native_stream_test.cpp",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cf0985faff9ce21de3642bdb5e59a1feb141b26838fcc959c7f9d0616c373eed",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/native_stream_test.cpp"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-delay-members/reference.py": {
+      "bytes": 4578,
+      "path": "tests/fixtures/smoke/rnbo-codebox-delay-members/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6c622b371f20432b3f1f912b73b4012c1186ed140c44f94489c4f0726f6ec93c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-delay-members/reference.py"
     },
     "tests/fixtures/smoke/rnbo-codebox-members/README.md": {
       "bytes": 5644,

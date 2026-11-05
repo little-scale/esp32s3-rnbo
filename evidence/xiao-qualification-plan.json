@@ -17946,15 +17946,21 @@
       "contract": "legal explicit feedback~, vector/sample latency; ordinary zero-delay-cycle rejection",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:feedback-topology",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_internal_feedback_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+      "observed_scope": "Default comb/allpass internal2/3-sample delay feedback recurrences pass original independent equations, including in-program clear/reset; fixed256-frame host callbacks.",
+      "remaining_scope": "This does not qualify arbitrary patcher graph cycles, feedback~/send~/receive~, other loop delays/rates or one-frame production ABI calls."
     },
     {
       "contract": "internal/external datarefs, buffer reads/writes/channel/interpolation/resize; resource ABI needed",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:resources",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+      "observed_scope": "Explicit16-sample delay read/write/step/size, scheduled member clear/reset and default comb/allpass storage run across20continuouscallbacks; arena high-water192/1048704 bytes and complete image finalisation observed.",
+      "remaining_scope": "Other capacities, external buffers/data/files, resource sharing, host lifecycle/reconstruction and complete interpolation alignment remain pending."
     },
     {
       "contract": "list/bang/number ordering, sample offsets, clocks/cancel/repeated events; observe events directly",
@@ -18003,7 +18009,8 @@
     "evidence/xiao-smoke-rnbo-codebox-list-functions.json",
     "evidence/xiao-smoke-rnbo-codebox-structures.json",
     "evidence/xiao-smoke-rnbo-codebox-members-part1.json",
-    "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+    "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
+    "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
   ],
   "Gen_scope": {
     "required": true,
@@ -18026,9 +18033,9 @@
   "latest_checkpoint": {
     "date": "2026-11-05",
     "goal_status": "active",
-    "exact_dashboard_entries_with_scoped_outcomes": 765,
+    "exact_dashboard_entries_with_scoped_outcomes": 778,
     "complete_goal_claimed": false,
-    "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
+    "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
     "gen_and_remaining_RNBO_scope_retained": true,
     "snapshot_note": "Original4November inventory counts/entry plan remain a historical snapshot; latest checkpoint and structure-axis scoped observations record subsequent progress.",
     "Gen_control_structures_executed": 19,
@@ -18038,7 +18045,7 @@
     "global_list_function_target_runs": 10,
     "global_list_function_target_passes": 9,
     "global_list_function_native_preflight_faults": 1,
-    "cpu_review_contexts": 101,
+    "cpu_review_contexts": 110,
     "codebox_structures_sources": 24,
     "codebox_structures_target_passes": 24,
     "codebox_structures_numeric_checks": 245760,
@@ -18048,7 +18055,13 @@
     "stateful_member_target_passes": 27,
     "stateful_member_target_mismatches": 8,
     "stateful_member_compile_failures": 1,
-    "stateful_member_numeric_checks": 358400
+    "stateful_member_numeric_checks": 358400,
+    "delay_member_sources": 33,
+    "delay_member_executed": 22,
+    "delay_member_target_passes": 17,
+    "delay_member_target_mismatches": 5,
+    "delay_member_compile_rejections": 11,
+    "delay_member_numeric_checks": 225280
   },
   "native_preflight_followups": [
     {
@@ -18082,6 +18095,24 @@
       "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
       "hardware_tested": false,
       "scope": "Generated member-reset C++ references missing history fields; no hardware qualification or CPU measurement."
+    },
+    {
+      "id": "codebox-member:delay.next.fractional-size",
+      "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+      "hardware_tested": true,
+      "scope": "Fractional2.5 size differs from the predeclared half-sample model. Generated next size parameter is Int; explicit fractional read passes linear/cosine models."
+    },
+    {
+      "id": "codebox-member:delay.read.window-alignment",
+      "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+      "hardware_tested": true,
+      "scope": "Four higher-order numeric interpolation modes differ from the declared centered physical read-window references. Scalar interpolation kernels retain their separate results; alignment needs follow-up."
+    },
+    {
+      "id": "codebox-member:delay.read.enum-argument",
+      "source": "evidence/rnbo-codebox-delay-members-native.json",
+      "hardware_tested": false,
+      "scope": "Eleven supplied string interpolation call programs reject as const char* to integer enum; separately authored numeric BufferInterp forms compile and execute."
     }
   ]
 }

@@ -10,6 +10,37 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Delay resources: nine queued contexts
+
+The delay/member batch adds nine contexts, taking the queue from 101 to **110**.
+All trigger the median-budget rule; no additional peak-spike rule triggers.
+
+| Complete authored callback | Median µs | Peak µs | Median / audio period | Output status |
+| --- | ---: | ---: | ---: | --- |
+| `comb-next-integer` | 753 | 757 | 12.97% | pass |
+| `comb-clear-integer` | 43960.5 | 43963 | 757.29% | pass |
+| `comb-reset-integer` | 43971 | 43973 | 757.47% | pass |
+| `allpass-next-integer` | 984.5 | 989 | 16.96% | pass |
+| `allpass-clear-integer` | 44187 | 44193 | 761.19% | pass |
+| `allpass-reset-integer` | 44189 | 44194 | 761.22% | pass |
+| `delay-read-cosine-numeric-enum` | 1418 | 1422 | 24.43% | pass |
+| `delay-read-cubic-numeric-enum` | 1454 | 1454 | 25.05% | output_mismatch |
+| `delay-read-spline-numeric-enum` | 1533 | 1537 | 26.41% | output_mismatch |
+
+Default comb/allpass each observe 1,048,704 bytes arena high-water. The reset/
+clear programs usually clear roughly 1 MiB twice in a 256-frame callback under
+unchanged strict storage; their 43.96–44.19 ms medians exceed the 5.805 ms period.
+This known repeated resource work should be separated from isolated next cost.
+Review bounded delay capacities and reset scheduling first. A lazy-clear or
+other changed implementation would require its own output/state proof.
+
+The interpolation costs are complete read/write/step callbacks. Cubic/spline
+alignment mismatches remain compatibility follow-ups even though their CPU
+cost is measured. Cosine passes its reference. None of these contexts has a
+matched optimisation comparison or a performance-gain claim.
+
+Source: [delay/member results](../evidence/xiao-smoke-rnbo-codebox-delay-members.json).
+
 ## Explicit stateful members: no new CPU flags
 
 Thirty-five executed next/reset/clear scenarios measure 56–500.5 µs median,
