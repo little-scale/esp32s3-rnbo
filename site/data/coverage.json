@@ -42561,6 +42561,108 @@
       "surface": "codebox",
       "working_note": "The full scramble invariant-validation program rejects with a nested-list type/value mismatch; a minimal call exports, but device behavior remains unqualified.",
       "working_state": "unverified"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-hook:init",
+      "known_gaps": [
+        "Only fresh44100/256 startup and the authored count/state observation are covered.",
+        "Repeated preparation, DSP restarts, sample-rate/vector-size changes, reconstruction and reset ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "init()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero automatic warmups; four checked manual warmups plus sixteen timed256-frame callbacks. Full20-block reference, zero numeric tolerance. Whole callback CPU, no I2S/network/display or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/20",
+          "source": "evidence/xiao-smoke-rnbo-codebox-structures.json"
+        }
+      ],
+      "spelling": "init()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-hook:startup",
+      "known_gaps": [
+        "Only fresh44100/256 startup and the authored count/state observation are covered.",
+        "Repeated preparation, DSP restarts, sample-rate/vector-size changes, reconstruction and reset ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "startup()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero automatic warmups; four checked manual warmups plus sixteen timed256-frame callbacks. Full20-block reference, zero numeric tolerance. Whole callback CPU, no I2S/network/display or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/21",
+          "source": "evidence/xiao-smoke-rnbo-codebox-structures.json"
+        }
+      ],
+      "spelling": "startup()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-hook:dspsetup",
+      "known_gaps": [
+        "Only fresh44100/256 startup and the authored count/state observation are covered.",
+        "Repeated preparation, DSP restarts, sample-rate/vector-size changes, reconstruction and reset ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "dspsetup()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Zero automatic warmups; four checked manual warmups plus sixteen timed256-frame callbacks. Full20-block reference, zero numeric tolerance. Whole callback CPU, no I2S/network/display or optimisation comparison.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/22",
+          "source": "evidence/xiao-smoke-rnbo-codebox-structures.json"
+        }
+      ],
+      "spelling": "dspsetup()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -43422,10 +43524,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/bringup.md"
     },
     "docs/compiler-optimisations.md": {
-      "bytes": 9204,
+      "bytes": 11521,
       "path": "docs/compiler-optimisations.md",
       "publication": "verified-remote-commit-and-local-blob",
-      "sha256": "6b9ca3cb23d527d32999d7f009d72ba14dbab5c65ca941c42e1570a54153ea90",
+      "sha256": "a0769b32dd96656de6741240368434f2f3f9d5a9a3d0ed2c0112b23defd1645c",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/compiler-optimisations.md"
     },
     "docs/drone3-qualification.md": {
@@ -43506,10 +43608,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/object-coverage-wave2.md"
     },
     "docs/object-optimisation.md": {
-      "bytes": 18801,
+      "bytes": 22566,
       "path": "docs/object-optimisation.md",
       "publication": "verified-remote-commit-and-local-blob",
-      "sha256": "eeacc76a0c15fd1ae85ab29d0bd26350867b5b78d8c213751e21f3335732079c",
+      "sha256": "03836b13b84af321f2e25c68304a02f74b1fd12dc4499e86853a5474c22fb161",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/object-optimisation.md"
     },
     "docs/object-oracles.md": {
@@ -43527,10 +43629,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/onepole-float32.md"
     },
     "docs/optimisation-next-pass.md": {
-      "bytes": 12372,
+      "bytes": 15541,
       "path": "docs/optimisation-next-pass.md",
       "publication": "verified-remote-commit-and-local-blob",
-      "sha256": "86ab75a7a604bb1bc87bd6b3d23afa05e6fdec9f8796232fd41a59539454e86b",
+      "sha256": "d1305fb8a59a7abc950c45728e54d3ed6c51dabee2eb18d08552422ae834c778",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/optimisation-next-pass.md"
     },
     "docs/parameter-event-order.md": {
@@ -43548,10 +43650,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/scalar-powers.md"
     },
     "docs/stable-onepole.md": {
-      "bytes": 9502,
+      "bytes": 14380,
       "path": "docs/stable-onepole.md",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "47a51f2b6835c45e126f97049655d36ee38d5d7b54bb2e3c54accfb10a446b52",
+      "sha256": "8ddabf5e233f2efdd3c975c9f038a591ee03e93ae55b84a4d6bf41ab63ea9c20",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/stable-onepole.md"
     },
     "docs/train-reciprocal-compiler.md": {
@@ -43806,6 +43908,13 @@
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
     },
+    "evidence/rnbo-codebox-structures-native.json": {
+      "bytes": 13807,
+      "path": "evidence/rnbo-codebox-structures-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b0c1c5bfad8399ee386acc07884ea31e0b939b87696442338a82591ff54c9033",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-structures-native.json"
+    },
     "evidence/rnbo-signal-state-followup-review.json": {
       "bytes": 1785,
       "path": "evidence/rnbo-signal-state-followup-review.json",
@@ -43945,6 +44054,13 @@
       "publication": "public-evidence",
       "sha256": "3e5eae2dcf1546bf8ab14d4fcb1ed6b1c01482b0f5bcadbb6b4af6f893858697",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-stateful.json"
+    },
+    "evidence/xiao-smoke-rnbo-codebox-structures.json": {
+      "bytes": 38676,
+      "path": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "55a17c48fcf31da30f28fdf4ca192f8085d4e4596d685995d2936d94708ba853",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json"
     },
     "evidence/xiao-smoke-rnbo-codebox.json": {
       "bytes": 60582,
@@ -44330,6 +44446,370 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "d5393f8b2d6ab979e69e19e342e23534af9810f6c262be9632bb4b315376bc4f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/slide-signal-controls.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/README.md": {
+      "bytes": 3198,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ac464784b769a630449b6857be63058b4e9a228fae3f085f56d0a7ec6fab56c2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/catalog.json": {
+      "bytes": 25287,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c2f6d0189f9ddcddc47d82275ac7bfe33f17d93f3293794a0c9613d0831dec73",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/declarations.rnbo": {
+      "bytes": 75,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/declarations.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "62a3691eab5e8c716ebccf302b3ca623c05a0d427d31d6c002a10de31eec8b39",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/declarations.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/declarations.rnbopat": {
+      "bytes": 2468,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/declarations.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "544038c04d08b5688bff7631ee8fd475a7ae913f980a0ebfa1c67dc7a816a666",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/declarations.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/do-while-bounded.rnbo": {
+      "bytes": 80,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/do-while-bounded.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "54e99bac40f3cc41521be344b21731f36f1bfbc0008d483e6e1445414fda17b5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/do-while-bounded.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/do-while-bounded.rnbopat": {
+      "bytes": 2473,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/do-while-bounded.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "778bb0882b53766fba0b870f5e950522278abf2eb8960a3aa76b209fd4acb480",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/do-while-bounded.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/for-bounded.rnbo": {
+      "bytes": 74,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/for-bounded.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "83e6e7311bfa78afdeebb4e583e9a800af3ec37a782deb233921e649cc095632",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/for-bounded.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/for-bounded.rnbopat": {
+      "bytes": 2467,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/for-bounded.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "63a8a173d0615687ad099428373e862ab4e1f20177c1003d9a17e7cf46bc536f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/for-bounded.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/for-break-continue.rnbo": {
+      "bytes": 111,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/for-break-continue.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f59b5b2ae75f309911e7da6a9789f816bd5bf7d09ecbefb74f4907cdcaa3011b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/for-break-continue.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/for-break-continue.rnbopat": {
+      "bytes": 2504,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/for-break-continue.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "11145ee191ad2a12001b9c827829288ee3f3c9c2aa656e519a926357caa8155d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/for-break-continue.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/for-nested.rnbo": {
+      "bytes": 107,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/for-nested.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3251b2bfcaccf2619e3e4502133481ad086bdcc0007aad6b79acf439ffc27ef5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/for-nested.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/for-nested.rnbopat": {
+      "bytes": 2500,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/for-nested.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a9376414c3226d4f5877958997394a7a7686d48b8adb3e1b07c16c9ef3be3a2b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/for-nested.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/function-list.rnbo": {
+      "bytes": 111,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/function-list.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bf1261d569a10852894df4e137e5265c55629713fa7e35a5eff97f75e61a32fb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/function-list.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/function-list.rnbopat": {
+      "bytes": 2504,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/function-list.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d4888ea8588aca94e544b002d99f34d978be5fa38bf3c6ee6db3d57a255ec54d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/function-list.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/function-scalar.rnbo": {
+      "bytes": 105,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/function-scalar.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "04582d4f529a6000483886dff9eef8e75861920df19bb3f45588fef6ef42d66e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/function-scalar.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/function-scalar.rnbopat": {
+      "bytes": 2498,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/function-scalar.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "250c79571e0fc5fdd2f141f0312c78ecd2d663d8c69580566cc0806c3ae9abd1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/function-scalar.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/generate.py": {
+      "bytes": 5327,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6db2451cdae0beb05a892a1678ccb8d46977f5a09b2dde377fae3a24006f8133",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-combined.rnbo": {
+      "bytes": 172,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-combined.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b6fbdaa030e6f704c244c43aac2dfcbc9a8b0af81196b95aa78c5ebf8088af7f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-combined.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-combined.rnbopat": {
+      "bytes": 2565,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-combined.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "80504efd316ad6404a420ca56fcd92767800bf6b2d412c537621cd5a23c5d66b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-combined.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbo": {
+      "bytes": 73,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "89fe3f26ac78764de71c477460f2b1777b6c3704689add56c33750af44b97839",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbopat": {
+      "bytes": 2466,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fb9f4dce5b3be05b20ebda40680a17881b5cf344ab2a64ad237235d442fd34c4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-dspsetup.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbo": {
+      "bytes": 69,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cb0a80a72cfafde5371e6978ae93aa5eaa592d608d48ef8970f5493cd6b18781",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbopat": {
+      "bytes": 2462,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d4387faa769f394fe9df26039a577fbe110f82b15f8e9b159f0db0caed1d4566",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-init.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbo": {
+      "bytes": 72,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ff8ca6a557c66d0582f1a77763645e56001a041a0da1f1bd5ae883b540413980",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbopat": {
+      "bytes": 2465,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3bf22f1126bd6f4da5a17bda3773f75329866e0f43ee5602cebad7248560e440",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/hook-startup.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/if-else.rnbo": {
+      "bytes": 83,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/if-else.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2f507a6263bbb4d669d7831d8dc32d3061da8b8fe712953ddcd80f9863e31796",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/if-else.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/if-else.rnbopat": {
+      "bytes": 2476,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/if-else.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6aa3da65e65ea5160f2b1cc20f546551749bb75e2ab5aaaa7a354ca70c507ffb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/if-else.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/lexical-shadow.rnbo": {
+      "bytes": 76,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/lexical-shadow.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2705ddf0fcce449571787463541420b6363bf35be6ca384afebab12b2bc4bf85",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/lexical-shadow.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/lexical-shadow.rnbopat": {
+      "bytes": 2469,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/lexical-shadow.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1a6d4547272e179e30d8e0c823a5ec5c12c615c45e427107500f196541421fc7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/lexical-shadow.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/logical-and-state.rnbo": {
+      "bytes": 52,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/logical-and-state.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d29b5976c31a39f392de4413b7a253a8cc814e980fe363384f9fcf2433fea3e8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/logical-and-state.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/logical-and-state.rnbopat": {
+      "bytes": 2445,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/logical-and-state.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5fe53076e8ddc7999d585bc67b74280f7630b2ee9d07cdf6816022f0ce2ba5b4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/logical-and-state.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/logical-or-state.rnbo": {
+      "bytes": 52,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/logical-or-state.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9ab021e15277b48cf3c72995a39e7313d84c8e8d86b0858ca62224df8fef825d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/logical-or-state.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/logical-or-state.rnbopat": {
+      "bytes": 2445,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/logical-or-state.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7e40626645026103cbd43d774aa23948943528d10760bc8a31b429c437c96e98",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/logical-or-state.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/param-default.rnbo": {
+      "bytes": 62,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/param-default.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fdc35884b2674b333a3158584b251415d3ef9e45e179cc1a9f0d9f1a08ddfa65",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/param-default.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/param-default.rnbopat": {
+      "bytes": 2455,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/param-default.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "317bf3480b98b5eefa441d901a144a5ade796b6ea30e5b588ae946cd8b613ed8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/param-default.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/precedence.rnbo": {
+      "bytes": 38,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/precedence.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0df32b63e376cc681dee34495d708b75fae1bff89b2a4f17b2e171499e229633",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/precedence.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/precedence.rnbopat": {
+      "bytes": 2431,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/precedence.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a36a3b77c51310b09def28413f7a298bf25cb812f4e4814b293c28fd4bccbb79",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/precedence.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/reference.py": {
+      "bytes": 3619,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "acf6851ab4761707e14d9c5d0a55ff69fc7d2c9b87472c6ce6b3a22da29fe779",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/state-delay.rnbo": {
+      "bytes": 58,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/state-delay.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6cac52a7ef33f75b9c40e735209766faa074b45aafc9d2297b6d936ec289f63e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/state-delay.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/state-delay.rnbopat": {
+      "bytes": 2451,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/state-delay.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "861509eac3a0cf5f3c7a724c7ad9babe85c90d0382729f4dd36d7663bdec52cb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/state-delay.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/state-independent.rnbo": {
+      "bytes": 88,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/state-independent.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "32258119cd607f27a3523f02de1a19eb438c703d938c1bfcde726f35ddba8b88",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/state-independent.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/state-independent.rnbopat": {
+      "bytes": 2481,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/state-independent.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0e68ecaa2aaea5b16333ec4cc35e1b5b885f68545aad26dd6e10c03ff5e16766",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/state-independent.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/switch-fallthrough.rnbo": {
+      "bytes": 98,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/switch-fallthrough.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "acca34f415b71b31d6ea4675be29940608a5386ea53c04dac27acf4f824d243e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/switch-fallthrough.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/switch-fallthrough.rnbopat": {
+      "bytes": 2491,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/switch-fallthrough.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "06fa6761eaa8cf3949d6e06e5c294abf6336cefcf7e71b32c55eded7e59b1516",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/switch-fallthrough.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/switch.rnbo": {
+      "bytes": 114,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/switch.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "857c24b3b8bfda8c95b9eb4bd1b0fa2ca5cfa02f97e8c099a8915a62a2653808",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/switch.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/switch.rnbopat": {
+      "bytes": 2507,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/switch.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2e8ff9a0be47c31158e553ece20341894ad1263212ebceafbbd520398f44ec67",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/switch.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/ternary-state.rnbo": {
+      "bytes": 70,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/ternary-state.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "05e499b3274d2cf60a9f0d0aec8f7a126dbb49561509d9300b099d2104fc1a3a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/ternary-state.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/ternary-state.rnbopat": {
+      "bytes": 2463,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/ternary-state.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8ffbb64755122b54adef6c326e13b52ed88f4b0b14a28be12781b2f3a5febf9c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/ternary-state.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/typed-declarations.rnbo": {
+      "bytes": 86,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/typed-declarations.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "13f88203202e84ac640543cac5351f660346d4e0e30db6c3f51fbf93447a5adc",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/typed-declarations.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/typed-declarations.rnbopat": {
+      "bytes": 2479,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/typed-declarations.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0f9ccc0987b51e6488f074a08843cebe47e69deb9af16f71d3876edd05f76f90",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/typed-declarations.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbo": {
+      "bytes": 75,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8a41c609bb9e6ac41427e191094e75d060a00c961ae52f778a74aa2258021ec0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat": {
+      "bytes": 2468,
+      "path": "tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f3ca798a4400d99fa397beb05f02bc11419ec5034b662e1fa5c67c323a06020d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat"
     }
   },
   "verified_public_revision": {

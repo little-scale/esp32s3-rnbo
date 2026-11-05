@@ -10,6 +10,16 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Codebox structures and lifecycle: no new flags
+
+All 24 passing language/lifecycle programs measure 41.5–86 µs median per 256-frame
+callback, with maximum observed peak 91 µs. Neither screening rule triggers;
+the cumulative queue remains **101 contexts**. These are whole authored
+programs, including bounded loops and observable state, without I²S/UI/network.
+Signed-zero differences are tracked separately; no optimisation gain is claimed.
+
+Source: [structure/lifecycle results](../evidence/xiao-smoke-rnbo-codebox-structures.json).
+
 ## Global list functions: two queued contexts
 
 The list-function batch adds two passing contexts, bringing the queue from 99

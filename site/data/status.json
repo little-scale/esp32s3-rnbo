@@ -19931,25 +19931,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "dspsetup()",
       "category": "Lifecycle hook",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "hook-dspsetup",
+          "codebox_source_sha256": "89fe3f26ac78764de71c477460f2b1777b6c3704689add56c33750af44b97839",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "82eaa19c9b9c0e1ba129713ef539ee2bea7f5b14cf84c3b6f97b3a480d2b3c3b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5d572ba0da1c73acff427ef656bc70b5a97808637b16494e21d690537f5bf021",
+          "max_absolute_error": 0.0,
+          "mean_us": 43.5,
+          "median_us": 43.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 44,
+          "reference_policy": "independent-polynomial-prefix-count-or-fresh-lifecycle-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-hook:dspsetup",
       "is_alias": false,
       "name": "dspsetup()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#special-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox structures — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks. Zero automatic warmups; four checked manual warmups plus sixteen timed256-frame callbacks. Full20-block reference, zero numeric tolerance. Whole callback CPU, no I2S/network/display or optimisation comparison. Remaining scope: Only fresh44100/256 startup and the authored count/state observation are covered. Repeated preparation, DSP restarts, sample-rate/vector-size changes, reconstruction and reset ordering remain untested. Short XIAO check (pass): one repeated stereo vector; mean 43.50µs, median 43.50µs, peak 44µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -30415,25 +30449,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "init()",
       "category": "Lifecycle hook",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "hook-init",
+          "codebox_source_sha256": "cb0a80a72cfafde5371e6978ae93aa5eaa592d608d48ef8970f5493cd6b18781",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "82eaa19c9b9c0e1ba129713ef539ee2bea7f5b14cf84c3b6f97b3a480d2b3c3b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5d572ba0da1c73acff427ef656bc70b5a97808637b16494e21d690537f5bf021",
+          "max_absolute_error": 0.0,
+          "mean_us": 44.125,
+          "median_us": 44.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 48,
+          "reference_policy": "independent-polynomial-prefix-count-or-fresh-lifecycle-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-hook:init",
       "is_alias": false,
       "name": "init()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#special-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox structures — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks. Zero automatic warmups; four checked manual warmups plus sixteen timed256-frame callbacks. Full20-block reference, zero numeric tolerance. Whole callback CPU, no I2S/network/display or optimisation comparison. Remaining scope: Only fresh44100/256 startup and the authored count/state observation are covered. Repeated preparation, DSP restarts, sample-rate/vector-size changes, reconstruction and reset ordering remain untested. Short XIAO check (pass): one repeated stereo vector; mean 44.12µs, median 44.00µs, peak 48µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -52517,25 +52585,59 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "startup()",
       "category": "Lifecycle hook",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "hook-startup",
+          "codebox_source_sha256": "ff8ca6a557c66d0582f1a77763645e56001a041a0da1f1bd5ae883b540413980",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared codebox state; twenty continuous256-frame callbacks without resets",
+          "expected_stream_sha256": "82eaa19c9b9c0e1ba129713ef539ee2bea7f5b14cf84c3b6f97b3a480d2b3c3b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "5d572ba0da1c73acff427ef656bc70b5a97808637b16494e21d690537f5bf021",
+          "max_absolute_error": 0.0,
+          "mean_us": 43.5,
+          "median_us": 43.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 44,
+          "reference_policy": "independent-polynomial-prefix-count-or-fresh-lifecycle-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-hook:startup",
       "is_alias": false,
       "name": "startup()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox#special-functions",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox structures — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-structures.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks. Zero automatic warmups; four checked manual warmups plus sixteen timed256-frame callbacks. Full20-block reference, zero numeric tolerance. Whole callback CPU, no I2S/network/display or optimisation comparison. Remaining scope: Only fresh44100/256 startup and the authored count/state observation are covered. Repeated preparation, DSP restarts, sample-rate/vector-size changes, reconstruction and reset ordering remain untested. Short XIAO check (pass): one repeated stereo vector; mean 43.50µs, median 43.50µs, peak 44µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -58195,10 +58297,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "4d5016f21162c1320e550bd4c008f870914d98504b5caa3cdd42b8ada9c6c63e",
-    "coverage_source_sha256": "11cfa99b293821e7aecae05f62666c1b6cc8eef7a3cf8f33395b09d2c71a05b4",
-    "exact_coverage_entries": 727,
-    "generator_sha256": "99b1f77144705c4617ac7cdbfc11ddde3c1c74ae03c2d25497d4390407eb3c96",
+    "coverage_canonical_sha256": "54679f93b659f62d090443b5f8a4599745e1baaa7c982475dfa78566dc9a1725",
+    "coverage_source_sha256": "ed3cb47e1d940f0490d28dc456032e5673ad464033f71addfa9f677c5a69bc84",
+    "exact_coverage_entries": 730,
+    "generator_sha256": "5fe5397ab912a8ffdd1edaf79e0ef913a5cc6493989b3ce534f29c65316ac8ee",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

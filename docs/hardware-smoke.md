@@ -16,9 +16,71 @@ when needed; it is not automatically restored after each batch.
 Before the resumed container batch, the MIDI-capable player ran the saved Main
 patch. Its settings were saved privately, audio was muted and paused, and USB
 was released before installing the quiet test application. The container smoke
-firmware was left installed at that checkpoint; the next Gen smoke application
-has since replaced it. Main package storage and Wi-Fi settings were
+firmware was left installed at that checkpoint; subsequent Gen, list-function
+and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
+
+## RNBO codebox structures and lifecycle
+
+All **24 original language/lifecycle programs pass on XIAO**, with
+**245,760 output checks**, zero finite numerical mismatches and no nonfinite
+outputs. Native preflight and hardware agree on the complete reference streams
+and **3,700 signed-zero differences** in five loop programs. These differences
+remain diagnostic; the batch establishes scoped numeric equality, not bit identity.
+
+The corpus checks declaration forms and lexical scope, precedence, if/else,
+ternary and logical short-circuit side effects, switch/default/fall-through,
+bounded for/nested-for/while/do-while/break/continue, scalar/list-return functions,
+sample delay, separate state fields, internal parameter defaults and lifecycle
+hooks. Loop counts include zero through five; sample-state checks cross all
+20 callbacks. References were fixed before compilation and use independent
+closed-form sums, prefix counts and sample age.
+
+| Exact authored scenario | Median µs | Peak µs | Signed-zero differences |
+| --- | ---: | ---: | ---: |
+| `declarations` | 47 | 51 | 0 |
+| `typed-declarations` | 47 | 51 | 0 |
+| `lexical-shadow` | 47 | 51 | 0 |
+| `precedence` | 48 | 52 | 0 |
+| `if-else` | 56 | 61 | 0 |
+| `ternary-state` | 59 | 63 | 0 |
+| `logical-and-state` | 57 | 62 | 0 |
+| `logical-or-state` | 59 | 59 | 0 |
+| `switch` | 53 | 57 | 0 |
+| `switch-fallthrough` | 56 | 60 | 0 |
+| `for-bounded` | 75 | 80 | 740 |
+| `for-nested` | 84 | 89 | 740 |
+| `for-break-continue` | 86 | 91 | 740 |
+| `while-bounded` | 77 | 82 | 1160 |
+| `do-while-bounded` | 74 | 75 | 320 |
+| `function-scalar` | 47 | 51 | 0 |
+| `function-list` | 41.5 | 46 | 0 |
+| `state-delay` | 42 | 43 | 0 |
+| `state-independent` | 47 | 51 | 0 |
+| `param-default` | 45 | 49 | 0 |
+| `hook-init` | 44 | 48 | 0 |
+| `hook-startup` | 43.5 | 44 | 0 |
+| `hook-dspsetup` | 43.5 | 44 | 0 |
+| `hook-combined` | 45 | 49 | 0 |
+
+These complete 256-frame callbacks at 44.1 kHz measure **0.71–1.48%** median
+CPU, with no new CPU-review flag. The queue remains **101 contexts**. All 24
+images finalise, with zero arena high-water, no late-allocation faults and
+unchanged internal/PSRAM totals. The quiet structure-test firmware remains
+installed. No DSP optimisation or percentage performance gain is claimed.
+
+The lifecycle check observes one call to each hook during fresh initialize/
+prepare, and startup observing init's state. Later DSP restarts, repeated prepare,
+reset/reconstruction and sample-rate/vector-size changes remain untested.
+The internal parameter test covers only its default value. Arbitrary programs,
+integer conversion endpoints, event codebox, recursion and Gen are separate
+scope. The three exact lifecycle entries enter the RNBO table; other structures
+update the qualification plan. The table now maps **730 entries with scoped
+outcomes**, not 730 fully qualified objects.
+
+See [original sources and execution policy](../tests/fixtures/smoke/rnbo-codebox-structures/README.md),
+[hardware results](../evidence/xiao-smoke-rnbo-codebox-structures.json) and
+[native preflight](../evidence/rnbo-codebox-structures-native.json).
 
 ## RNBO list-function call forms
 

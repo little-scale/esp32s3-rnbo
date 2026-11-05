@@ -1,5 +1,20 @@
 # Implementation status — 5 November 2026
 
+The [RNBO codebox structure/lifecycle batch](hardware-smoke.md#rnbo-codebox-structures-and-lifecycle)
+passes **all 24 programs and 245,760 numeric output checks** on XIAO. It covers
+bounded control flow, short-circuit side effects, scalar/list-return functions,
+sample/block state and fresh lifecycle counts. **3,700 signed-zero differences**
+remain explicit. Whole callback medians span 41.5–86 µs, peak 91 µs; no new CPU
+flags, so the queue remains **101**. All images finalise and memory/allocation
+gates pass. The three lifecycle hooks bring the RNBO table to **730 exact
+entries with scoped outcomes**. The quiet structure-test firmware is installed;
+the complete RNBO/Gen/structure goal remains active.
+
+The GitHub Linux workflow is also fixed: strict GCC rejected misleading
+indentation in the MIDI parser test helper. Explicit braces preserve the test
+and warnings; all stages passed after commit `5c089b7`.
+
+
 The [list-function call batch](hardware-smoke.md#rnbo-list-function-call-forms)
 records all 34 authored sources: ten execute on XIAO, **nine pass**, and
 `listsect` retains a duplicate-policy mismatch across **102,400 output checks**.
@@ -9,7 +24,7 @@ preflight and is deliberately not flashed. Every executed image finalises and
 passes memory/allocation gates. `listswap` and `listunion` join the CPU queue,
 bringing it to **101**. The RNBO table now maps **727 exact entries with scoped
 outcomes**, including unverified/rejected forms. The quiet list-function smoke
-firmware is installed; the complete RNBO/Gen/structure goal remains active.
+firmware was installed at that checkpoint; the complete RNBO/Gen/structure goal remains active.
 
 The next [Gen control/structure batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
 passes **19 programs and 194,560 numeric output checks** on XIAO. Twelve

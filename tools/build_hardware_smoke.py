@@ -49,6 +49,17 @@ LIST_FUNCTION_CATALOG_SHA='85227b9328fa2f533e9b415cb388c39a53574f8695d697ab15b89
 LIST_FUNCTION_REFERENCE_SHA='039e1aaa9ca582188e179bec7cf717fb56a2a76f7457c8b6f1af257ed4d78b23'
 
 
+STRUCTURE_FAMILY='rnbo-codebox-structures'
+STRUCTURE_CATALOG_SHA='c2f6d0189f9ddcddc47d82275ac7bfe33f17d93f3293794a0c9613d0831dec73'
+STRUCTURE_REFERENCE_SHA='acf6851ab4761707e14d9c5d0a55ff69fc7d2c9b87472c6ce6b3a22da29fe779'
+
+
+def structure_catalog(catalog):
+    if (catalog.get('family')!=STRUCTURE_FAMILY or
+            hashlib.sha256(canonical(catalog)).hexdigest()!=STRUCTURE_CATALOG_SHA):
+        raise ExportError('Codebox structures require the exact24 authored language/lifecycle sources')
+
+
 def list_function_catalog(catalog):
     if (catalog.get('family')!=LIST_FUNCTION_FAMILY or
             hashlib.sha256(canonical(catalog)).hexdigest()!=LIST_FUNCTION_CATALOG_SHA):
@@ -117,7 +128,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-list-functions','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -270,6 +281,11 @@ def prepare_plan(catalog_path,modules_path):
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
     reference_source=reference_path(catalog)
+    structures=catalog.get('family')==STRUCTURE_FAMILY
+    if structures:
+        structure_catalog(catalog)
+        if sha(reference_source)!=STRUCTURE_REFERENCE_SHA:
+            raise ExportError('Codebox structure independent reference changed')
     list_functions=catalog.get('family')==LIST_FUNCTION_FAMILY
     if list_functions:
         list_function_catalog(catalog)
@@ -320,12 +336,12 @@ def prepare_plan(catalog_path,modules_path):
         source_bytes=read_regular(patch,1024*1024)
         source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
-        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
+        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-list-functions','rnbo-character-constants'):
             expression_info['codebox_source_sha256']=(checked_character_source(row,source_bytes)if character
                                                        else checked_codebox_source(row,source_bytes))
             if 'codebox'in row and hashlib.sha256(read_regular(catalog_path.parent/row['codebox'],65536)).hexdigest()!=expression_info['codebox_source_sha256']:
                 raise ExportError('Standalone and embedded codebox programs differ')
-            if (containers or list_functions) and (source_hash!=row['patch_sha256'] or expression_info['codebox_source_sha256']!=row['codebox_sha256']):
+            if (containers or list_functions or structures) and (source_hash!=row['patch_sha256'] or expression_info['codebox_source_sha256']!=row['codebox_sha256']):
                 raise ExportError('Container/list-function authored source changed')
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
@@ -374,7 +390,7 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
-        if character or gen_data or containers or gen_control or list_functions:
+        if character or gen_data or containers or gen_control or list_functions or structures:
             validate_manifest(manifest)
             if manifest['parameter_count']!=0:
                 raise ExportError('This smoke family requires the strict parameter-free FX profile')
@@ -398,7 +414,7 @@ def prepare_plan(catalog_path,modules_path):
             if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
                     module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
-        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or list_functions)and actual_manifest!=manifest:
+        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or list_functions or structures)and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
@@ -408,7 +424,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-list-functions','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -486,10 +502,10 @@ def prepare_plan(catalog_path,modules_path):
     elif character:
         plan.update(family=CHARACTER_FAMILY,surface='codebox',prepare_zero_warm_blocks=0,
                     partition=character_partition,strict_zero_sign_channels=2,raw_pilot_channel=1)
-    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):
+    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-list-functions','rnbo-character-constants'):
         plan.update(family=catalog['family'],surface='codebox')
-        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-list-functions','rnbo-character-constants'):plan['prepare_zero_warm_blocks']=0
-        if catalog['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers'):
+        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-list-functions','rnbo-character-constants'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures'):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful codebox cases require twenty continuous reference blocks')

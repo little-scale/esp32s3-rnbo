@@ -17800,29 +17800,41 @@
       "contract": "let/var/const, number/integer/Float32/Time type boundaries; casts; lexical scope",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:declarations-types",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "var/let/const, explicit number/Int, lexical shadowing with finite dyadic inputs pass over20continuouscallbacks.",
+      "remaining_scope": "Integer conversion/range endpoints, other explicit type forms and broader lexical scopes remain pending."
     },
     {
       "contract": "unary/binary/assignment/compound operators and precedence; integer conversion boundaries",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:expression-precedence",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Multiplication/addition precedence and grouped addition, plus local compound assignment in declaration/branch programs pass.",
+      "remaining_scope": "Broader unary/binary/assignment precedence and integer conversion endpoints remain pending."
     },
     {
       "contract": "if/else, ternary, logical short-circuit with observable side effects",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:branch-laziness",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "if/else-if/else and ternary/&&/|| programs with observable persistent side effects pass; absolute prefix counts cross20callbacks.",
+      "remaining_scope": "Other expression forms, side-effecting function/operator calls and event-rate branching remain pending."
     },
     {
       "contract": "switch/case/default/fall-through/break; parser acceptance does not establish backend support",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:switch",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Separate switch/default/break and fall-through programs pass for six integer-valued inputs.",
+      "remaining_scope": "Other selector types, nested switches and event-rate switch remain pending."
     },
     {
       "contract": "0/1/N loop iterations, index endpoints, nested loops, break/continue",
@@ -17830,16 +17842,19 @@
       "id": "structure:bounded-for",
       "on_XIAO_executed": true,
       "status": "partial_scoped_XIAO_scenario",
-      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
-      "observed_scope": "Typed bounded loop visits each list cell and computes index-weighted sum for the list return/mutation witnesses.",
-      "remaining_scope": "Zero-trip, one-trip, nested loops, break/continue and general loop endpoint cases remain untested."
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "0..5-trip loops, two-level nested loops, skipped continue and early break pass independent polynomial references.",
+      "remaining_scope": "Arbitrary bounds, index conversion endpoints, broader nesting and runtime limit policy remain pending."
     },
     {
       "contract": "while/do-while with statically bounded trip count; never deploy an unbounded loop",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:bounded-while-do",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Bounded while and do-while pass0..5-count references, including mandatory one do-while trip when requested count is zero.",
+      "remaining_scope": "Other bounds/exit forms and malformed/unbounded program admission remain pending."
     },
     {
       "contract": "custom calls, arguments, returns, local scoping; recursion separate pending domain",
@@ -17847,9 +17862,9 @@
       "id": "structure:functions",
       "on_XIAO_executed": true,
       "status": "partial_scoped_XIAO_scenario",
-      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
-      "observed_scope": "Original score(values:list):number custom function, typed list argument, local accumulator, scalar return and calls inside the sample loop; complete outputs checked on XIAO.",
-      "remaining_scope": "Broader return types, recursion, scope/shadowing and arbitrary argument combinations remain untested."
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Typed scalar arguments/returns and explicit list-return custom functions pass; earlier list-score functions retain their own observations.",
+      "remaining_scope": "Recursion, broader local scopes, indirect calls and arbitrary argument/return combinations remain pending."
     },
     {
       "contract": "empty/1/15/16/17 entries, reads/writes, output alias/copy, index bounds",
@@ -17884,23 +17899,29 @@
       "id": "structure:state-decorators",
       "on_XIAO_executed": true,
       "status": "partial_scoped_XIAO_scenario",
-      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-containers.json",
-      "observed_scope": "A separate @state five-cell array and typed cursor in each of17constructor programs persist over samples and20hostcallbacks, with explicit initialization.",
-      "remaining_scope": "Multiple interacting instances, explicit reset and reconstruction across repeated contexts remain untested in this batch."
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Nonzero-initialized scalar sample delay and independent scalar prefix-count fields pass over20continuouscallbacks; prior array/cursor evidence remains separate.",
+      "remaining_scope": "Multiple interacting object instances, explicit reset/reconstruction and repeated contexts remain pending."
     },
     {
       "contract": "@param metadata, actual/normalized maps, event ordering and repeated values",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:parameters-decorators",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Internal @param({min:0,max:1}) gain=.25 default is observed in output on both channels.",
+      "remaining_scope": "Codebox parameter host-message updates, normalized mapping, metadata variations, ordering and repeated values remain pending."
     },
     {
       "contract": "init/startup/dspsetup ordering; reprepare vs reconstruction vs explicit reset",
       "current_registry_not_exhaustive_grammar_claim": true,
       "id": "structure:lifecycle-hooks",
-      "on_XIAO_executed": false,
-      "status": "pending_finite_structure_corpus"
+      "on_XIAO_executed": true,
+      "status": "partial_scoped_XIAO_scenario",
+      "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+      "observed_scope": "Separate init/startup/dspsetup counters each equal one during fresh initialize/prepare. Combined count111 and startup observation of completed init state pass.",
+      "remaining_scope": "Relative dspsetup/startup ordering, repeated prepare, later DSP restart, sample-rate/vector changes, reset and reconstruction remain pending."
     },
     {
       "contract": "inline subpatcher, named abstraction dependency closure, inlet/outlet order",
@@ -17974,7 +17995,8 @@
     "evidence/xiao-wave4.json",
     "evidence/xiao-smoke-rnbo-codebox-containers.json",
     "evidence/xiao-smoke-gen-control-structures.json",
-    "evidence/xiao-smoke-rnbo-codebox-list-functions.json"
+    "evidence/xiao-smoke-rnbo-codebox-list-functions.json",
+    "evidence/xiao-smoke-rnbo-codebox-structures.json"
   ],
   "Gen_scope": {
     "required": true,
@@ -17997,9 +18019,9 @@
   "latest_checkpoint": {
     "date": "2026-11-05",
     "goal_status": "active",
-    "exact_dashboard_entries_with_scoped_outcomes": 727,
+    "exact_dashboard_entries_with_scoped_outcomes": 730,
     "complete_goal_claimed": false,
-    "source": "evidence/xiao-smoke-rnbo-codebox-list-functions.json",
+    "source": "evidence/xiao-smoke-rnbo-codebox-structures.json",
     "gen_and_remaining_RNBO_scope_retained": true,
     "snapshot_note": "Original4November inventory counts/entry plan remain a historical snapshot; latest checkpoint and structure-axis scoped observations record subsequent progress.",
     "Gen_control_structures_executed": 19,
@@ -18009,7 +18031,11 @@
     "global_list_function_target_runs": 10,
     "global_list_function_target_passes": 9,
     "global_list_function_native_preflight_faults": 1,
-    "cpu_review_contexts": 101
+    "cpu_review_contexts": 101,
+    "codebox_structures_sources": 24,
+    "codebox_structures_target_passes": 24,
+    "codebox_structures_numeric_checks": 245760,
+    "codebox_structures_signed_zero_differences": 3700
   },
   "native_preflight_followups": [
     {
