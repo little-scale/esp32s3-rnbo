@@ -1,5 +1,5 @@
 {
-  "evidence_updated": "5 Nov 2026",
+  "evidence_updated": "6 Nov 2026",
   "inventory_sources": [
     {
       "label": "RNBO object reference",
@@ -6371,48 +6371,188 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "average.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average-next",
+          "codebox_source_sha256": "7cb64256bcd4b3cf24b9f8358cd0eb848777eff9ea29f3da405493786564d78b",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "c2457eb407bfecf401b84e3f65d30fcd7865d6e6bcdd024d86b6a0a96e070d08",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 586.625,
+          "median_us": 587.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 593,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average-input-reset",
+          "codebox_source_sha256": "9fc27a842b4a4de9d558bad2b748696cbc1ec9a96bfe1d419288bfe525bf5b31",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "0c63113fb47c6c39da294b29c9eb0a77921f3e6baeb3401dee707c47588ea2c4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 652.125,
+          "median_us": 653.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 655,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average-window-change-named-list",
+          "codebox_source_sha256": "90bc2d9c6eb77032bb99de222596f415d6a5e34363d8b446f2d98b32515bf93e",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "f22aa942aee4ab2387e1401d0912a16cd0cf5c68cb9edf2aa38e892a9eb1cd3d",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 1.449999988079071,
+          "mean_us": 604.75,
+          "median_us": 604.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 6715,
+          "peak_us": 620,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:average.next",
       "is_alias": false,
       "name": "average.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/average#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: fixed/reset scenarios pass but the named-list window-change scenario retains a per-sample reference mismatch. Exact authored average-next; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored average-input-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored average-window-change-named-list; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Direct list-literal indexing window sources fail C++; separate named-list sources execute and retain per-sample scheduling mismatches. Their selectors are hoisted outside the producer sample loop. Short XIAO check (pass): one repeated stereo vector; mean 586.62µs, median 587.00µs, peak 593µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review. Short XIAO check (pass): one repeated stereo vector; mean 652.12µs, median 653.00µs, peak 655µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review. Short XIAO check (output_mismatch): one repeated stereo vector; mean 604.75µs, median 604.50µs, peak 620µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 1.44999999; within-tolerance differences 0; numeric mismatches 6715; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "average.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average-reset",
+          "codebox_source_sha256": "182e70226f8fddf9f5e2a8492f444b131ddc010630fb05c547d8cc47c48b3d3a",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "8335632c131af500695892987777dc2eb780954f19d941c27d61ccc5da65f766",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 636.1875,
+          "median_us": 637.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 638,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:average.reset",
       "is_alias": false,
       "name": "average.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/average#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: all supplied executable exact-member scenarios pass their declared references. Exact authored average-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 636.19µs, median 637.50µs, peak 638µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -6507,48 +6647,188 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "average_absolute.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_absolute-next",
+          "codebox_source_sha256": "4ecf8e5d1c14f8e28e8f286057084f88e91255602872d978dcb91fcb08fc0372",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "c54f04ef2049745ab353522f59c9097278178551352a689b65d97d935cc59279",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 620.4375,
+          "median_us": 621.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 624,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_absolute-input-reset",
+          "codebox_source_sha256": "a7c35933b69339db01e18a9dae4cdc6b1a11463488ede067eae1d244d35244de",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "982919609b681e59cd671bc2c1ac46d3abf156163c2e2dfad5712f2cbf00e902",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 676.5625,
+          "median_us": 678.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 679,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_absolute-window-change-named-list",
+          "codebox_source_sha256": "651b3828fc90a17697217f1caa4597e3820ff801e22ae6a1aa5180d1e1ca1cd7",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "2145c7dac8529d60516538e4dc74ccdca91643f4a4cf5339271e678ab98681ee",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.5625,
+          "mean_us": 646.75,
+          "median_us": 645.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 6767,
+          "peak_us": 662,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:average_absolute.next",
       "is_alias": false,
       "name": "average_absolute.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/average_absolute#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: fixed/reset scenarios pass but the named-list window-change scenario retains a per-sample reference mismatch. Exact authored average_absolute-next; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored average_absolute-input-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored average_absolute-window-change-named-list; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Direct list-literal indexing window sources fail C++; separate named-list sources execute and retain per-sample scheduling mismatches. Their selectors are hoisted outside the producer sample loop. Short XIAO check (pass): one repeated stereo vector; mean 620.44µs, median 621.00µs, peak 624µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review. Short XIAO check (pass): one repeated stereo vector; mean 676.56µs, median 678.00µs, peak 679µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review. Short XIAO check (output_mismatch): one repeated stereo vector; mean 646.75µs, median 645.00µs, peak 662µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0.5625; within-tolerance differences 0; numeric mismatches 6767; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "average_absolute.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_absolute-reset",
+          "codebox_source_sha256": "7b671ab863d90bb3b3d9abd9f5028cee2241565b05aa94a33d4b7e00cd630017",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "c0d96ba2546795604cff7e02e8985aed8e4bc74ed0698be6b0699571a629c6ec",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 682.0,
+          "median_us": 683.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 687,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:average_absolute.reset",
       "is_alias": false,
       "name": "average_absolute.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/average_absolute#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: all supplied executable exact-member scenarios pass their declared references. Exact authored average_absolute-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 682.00µs, median 683.00µs, peak 687µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -6708,48 +6988,188 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "average_rms.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_rms-next",
+          "codebox_source_sha256": "5597b16625aede3832892914925a3f14f478a8ff4e1e984a5c9fa9fc17269134",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "71bfd53ebde00926f094b5e5c386b200355f4e28456e57c93ed73cc1fc547b78",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 758.875,
+          "median_us": 758.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 763,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_rms-input-reset",
+          "codebox_source_sha256": "a821af534cf559cbf925ad546eb830daea676d366b4f72120b81549488897620",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "17752f18e35f8b07ce9b05520174131a9f4c1cf4c69b029e539c373707cf7705",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 820.9375,
+          "median_us": 820.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 825,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 41
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_rms-window-change-named-list",
+          "codebox_source_sha256": "0941b78f20057643537bdf131afa2084f7b96770d79a5831cd76b36069a04b25",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "98ba1cb5de40f4f8e456057a740e0de04b81f408579452e2baa61c9dde52a303",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.6075694561004639,
+          "mean_us": 766.0625,
+          "median_us": 764.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 6788,
+          "peak_us": 781,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 128
+        }
+      ],
       "id": "codebox-member:average_rms.next",
       "is_alias": false,
       "name": "average_rms.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/average_rms#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: fixed/reset scenarios pass but the named-list window-change scenario retains a per-sample reference mismatch. Exact authored average_rms-next; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored average_rms-input-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored average_rms-window-change-named-list; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Direct list-literal indexing window sources fail C++; separate named-list sources execute and retain per-sample scheduling mismatches. Their selectors are hoisted outside the producer sample loop. Short XIAO check (pass): one repeated stereo vector; mean 758.88µs, median 758.50µs, peak 763µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 3; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review. Short XIAO check (pass): one repeated stereo vector; mean 820.94µs, median 820.00µs, peak 825µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 41; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review. Short XIAO check (output_mismatch): one repeated stereo vector; mean 766.06µs, median 764.00µs, peak 781µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0.607569456; within-tolerance differences 128; numeric mismatches 6788; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "average_rms.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 705760,
+          "case": "average_rms-reset",
+          "codebox_source_sha256": "91f56595d3ccd33e1dd6adfcfdfce4e0e40d09f825bbc989d7fefd3814e97501",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "94202afa1722e76fc3cafd9ea916c1e28cc61c57f9707eb5a204c4db5d5d22da",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 5.960464477539063e-08,
+          "mean_us": 814.6875,
+          "median_us": 815.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 818,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 46
+        }
+      ],
       "id": "codebox-member:average_rms.reset",
       "is_alias": false,
       "name": "average_rms.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/average_rms#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: all supplied executable exact-member scenarios pass their declared references. Exact authored average_rms-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 814.69µs, median 815.00µs, peak 818µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 5.96046448e-08; within-tolerance differences 46; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 705,760 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -17744,48 +18164,180 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cycle.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 65648,
+          "case": "cycle-next",
+          "codebox_source_sha256": "4ef25a92c26589ddead21719caf2dc8a50e2b743feccf1c5af462be18ca90ce0",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "37cf78d3903a404d193296b81ac9e15496a5e9fddfddb2fddf677865a8e9582b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 3.980720988765095e-15,
+          "mean_us": 430.3125,
+          "median_us": 433.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 444,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 26
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 65648,
+          "case": "cycle-phase-output",
+          "codebox_source_sha256": "a2a9086bf9d91fe9abf15253e0d6dc9c72c47ba8de6519eb509d75103cd6fec7",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "7b5e1b62b6d4747eecf8af2058da7cd97553aa2f03dc110e2149190ace2305a0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 446.625,
+          "median_us": 445.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 450,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 65648,
+          "case": "cycle-phase-index",
+          "codebox_source_sha256": "7a1d570e4cd118c3b980f74c6d334289626b9bb0c40e2e1a050aad18365883bb",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "49148b4cfe371eac1fd6597c19a3aa3ccc378a39d5f9c583604111bcccf8dec9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 2.4492935728214377e-16,
+          "mean_us": 548.375,
+          "median_us": 550.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 552,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "codebox-member:cycle.next",
       "is_alias": false,
       "name": "cycle.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/cycle#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: all supplied executable exact-member scenarios pass their declared references. Exact authored cycle-next; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored cycle-phase-output; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Exact authored cycle-phase-index; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 430.31µs, median 433.00µs, peak 444µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 3.98072099e-15; within-tolerance differences 26; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 65,648 bytes. Short XIAO check (pass): one repeated stereo vector; mean 446.62µs, median 445.00µs, peak 450µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 65,648 bytes. Short XIAO check (pass): one repeated stereo vector; mean 548.38µs, median 550.00µs, peak 552µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 2.44929357e-16; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 65,648 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "cycle.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 65648,
+          "case": "cycle-reset",
+          "codebox_source_sha256": "f34429707a216e9736439b28f634f56508fe9f28267f415129c1433f1fb76771",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "450b62ea4373e28614b055d93ceb4b4a36e4c05a4e33a395204003da04f755d3",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 463.1875,
+          "median_us": 464.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 477,
+          "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:cycle.reset",
       "is_alias": false,
       "name": "cycle.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/cycle#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: all supplied executable exact-member scenarios pass their declared references. Exact authored cycle-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Short XIAO check (pass): one repeated stereo vector; mean 463.19µs, median 464.00µs, peak 477µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 65,648 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -43467,71 +44019,191 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "noise.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "noise-next",
+          "codebox_source_sha256": "c520cdbe04d50eccb42194e135299be0ccdb28b033332a31e97b9659270f5341",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "f581c77ad0ea6a56ebae54111d304ec3928f192a270f5fdd95c51854a48d93e0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 156.5625,
+          "median_us": 155.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 160,
+          "reference_policy": "basic-noise-range-variation-and-equal-seed-screen",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:noise.next",
       "is_alias": false,
       "name": "noise.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/noise#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: basic range/variation/paired-seed screen passes; random sequence and distribution remain unverified. Exact authored noise-next; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Hardware pass covers finite/range and32-sample variation flags; seed case additionally checks equality of two equally seeded streams, not an independently known RNG sequence. Short XIAO check (pass): one repeated stereo vector; mean 156.56µs, median 155.00µs, peak 160µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "noise.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "noise-reset",
+          "codebox_source_sha256": "1bb3cdf4f459d1586fe7cd72b71c60695e3ca7903c8cdf09b2dee6a9076840de",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "f581c77ad0ea6a56ebae54111d304ec3928f192a270f5fdd95c51854a48d93e0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 287.9375,
+          "median_us": 287.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 291,
+          "reference_policy": "basic-noise-range-variation-and-equal-seed-screen",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:noise.reset",
       "is_alias": false,
       "name": "noise.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/noise#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: basic range/variation/paired-seed screen passes; random sequence and distribution remain unverified. Exact authored noise-reset; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Hardware pass covers finite/range and32-sample variation flags; seed case additionally checks equality of two equally seeded streams, not an independently known RNG sequence. Reset calls are exercised with post-call range/variation checks; a particular random-state transition or entropy source is not independently verified. Short XIAO check (pass): one repeated stereo vector; mean 287.94µs, median 287.00µs, peak 291µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "noise.seed()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "noise-seed",
+          "codebox_source_sha256": "edb9bfd304174e065b704606bd833996e5adfd5439dd342c2b27a546b25fdd90",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions",
+          "expected_stream_sha256": "f581c77ad0ea6a56ebae54111d304ec3928f192a270f5fdd95c51854a48d93e0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "516c62def2a51ee22a5feab1fb45c2c7a1105015d4c0c063903e065876386742",
+          "max_absolute_error": 0.0,
+          "mean_us": 230.375,
+          "median_us": 230.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 234,
+          "reference_policy": "basic-noise-range-variation-and-equal-seed-screen",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:noise.seed",
       "is_alias": false,
       "name": "noise.seed()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/noise#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox analysis members — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-analysis-members.json"
+        },
+        {
+          "label": "rnbo codebox analysis members native — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-analysis-members-native.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO ESP32-S3: basic range/variation/paired-seed screen passes; random sequence and distribution remain unverified. Exact authored noise-seed; two instances, zero automatic warmup, four checked manual and16timed256-frame callbacks. Declared reference/limit, method/reset/window variant and source identities retained. Whole callback cost, no isolated operation cost or optimisation gain. Three literal-index sources retain C++ failures; secondary native callback-held-selector diagnostic does not replace the fixed per-sample reference or promote the mismatches. Noise sequence is not compared. Remaining scope: Exact authored member/options and bounded finite inputs only. No canonical/alias, patcher or Gen inheritance; no one-frame ABI or host event qualification. Default physical average-buffer wrap, arbitrary window limits, external oscillator tables/modes, reset return values and RNG sequence/distribution/independence remain unqualified. Hardware pass covers finite/range and32-sample variation flags; seed case additionally checks equality of two equally seeded streams, not an independently known RNG sequence. Short XIAO check (pass): one repeated stereo vector; mean 230.38µs, median 230.00µs, peak 234µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -60222,10 +60894,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "3fbff56fb6080847d6daefeb847ec5ca1cc8478aa9e1882ccca08421e8eb4d69",
-    "coverage_source_sha256": "560c38f390c5c0428d259bca867537e095407eb7fc1cf81334a44c6036305b5d",
-    "exact_coverage_entries": 778,
-    "generator_sha256": "52dcaf64266b5d50b45165d8b882e02a46f7415d9f8c54cbcb439292af489e47",
+    "coverage_canonical_sha256": "4fd3c1019f67cf66c453f807c0d38972cb7dcdcebff7cd34517c9f8d1f6d121b",
+    "coverage_source_sha256": "36422069d97f113d7630c8310af38f7b669762a5f8bec9ea03f95997cda75f06",
+    "exact_coverage_entries": 789,
+    "generator_sha256": "2a829f1306aaa302dd6812704176fcb5ea44638d3d4a30f7105ff4892696e1d8",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

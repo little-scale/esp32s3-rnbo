@@ -1,0 +1,6 @@
+@state left = new cycle();
+@state right = new cycle();
+@state ordinal: Int = 0;
+let a=left.next(44100/512,0); let b=right.next(44100/1024,.25);
+out1=a[0]+0*in1; out2=b[0]+0*in2;
+ordinal+=1;

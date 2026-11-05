@@ -1,0 +1,11 @@
+@state left = new noise();
+@state right = new noise();
+@state ordinal: Int = 0;
+if(ordinal%257==37 || ordinal%257==38 || ordinal==255 || ordinal==256){left.reset();}
+if(ordinal%263==91 || ordinal%263==92 || ordinal==511 || ordinal==512){right.reset();}
+@state previousA=0; @state previousB=0; @state changesA=0; @state changesB=0; @state status=1;
+let a=left.next(); let b=right.next(); changesA+=(a!=previousA); changesB+=(b!=previousB);
+if(ordinal%32==31){status=changesA>0 && changesB>0; changesA=0; changesB=0;}
+out1=(a>=-1 && a<=1 && b>=-1 && b<=1)+0*in1; out2=status+0*in2;
+previousA=a; previousB=b;
+ordinal+=1;

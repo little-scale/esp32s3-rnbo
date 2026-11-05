@@ -10,6 +10,42 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Analysis/oscillator/noise members: twelve queued contexts
+
+All twelve authored average scenarios trigger the median rule; no peak-spike
+rule triggers. The queue grows from 111 to **123 contexts**. Three window-change
+scenarios retain source-scheduling mismatches; their CPU observations remain
+useful but do not qualify their outputs.
+
+| Complete callback | Median µs | Peak µs | Median / audio period | Output |
+| --- | ---: | ---: | ---: | --- |
+| `average-next` | 587 | 593 | 10.11% | pass |
+| `average-reset` | 637.5 | 638 | 10.98% | pass |
+| `average-input-reset` | 653 | 655 | 11.25% | pass |
+| `average_absolute-next` | 621 | 624 | 10.70% | pass |
+| `average_absolute-reset` | 683 | 687 | 11.77% | pass |
+| `average_absolute-input-reset` | 678 | 679 | 11.68% | pass |
+| `average_rms-next` | 758.5 | 763 | 13.07% | pass |
+| `average_rms-reset` | 815 | 818 | 14.04% | pass |
+| `average_rms-input-reset` | 820 | 825 | 14.13% | pass |
+| `average-window-change-named-list` | 604.5 | 620 | 10.41% | output_mismatch |
+| `average_absolute-window-change-named-list` | 645 | 662 | 11.11% | output_mismatch |
+| `average_rms-window-change-named-list` | 764 | 781 | 13.16% | output_mismatch |
+
+Every averaging pair observes 705,760 bytes arena high-water: two default
+44,101-sample Float64 buffers plus overhead, despite logical windows of 3–16
+samples. Review explicit capacity bounds and Float32 storage when optimisation
+resumes. Preserve startup, reset, changed-window and odd-window numerical
+behaviour. Existing patcher `average~` optimisation does not qualify codebox
+members by inheritance. The selector hoisting mismatch is a separate source/
+scheduling follow-up, not an output model to fit away.
+
+The four cycle scenarios measure 433–550 µs median; the three noise screens
+measure 155–287 µs. Neither group triggers a rule. These are complete offline
+callbacks including test logic, without I²S/UI/network work; no optimisation
+percentage is claimed. See the [member batch](../tests/fixtures/smoke/rnbo-codebox-analysis-members/README.md)
+and [target evidence](../evidence/xiao-smoke-rnbo-codebox-analysis-members.json).
+
 ## Gen execution forms: no new CPU flags
 
 Five arithmetic/noise-screen programs measure 44–115 µs median and 45–120 µs

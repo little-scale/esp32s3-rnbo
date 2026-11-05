@@ -1,0 +1,6 @@
+@state left = new average_rms();
+@state right = new average_rms();
+@state ordinal: Int = 0;
+let leftWindows=[8,5,3]; let rightWindows=[16,7,4]; let wl=leftWindows[trunc(ordinal/73)%3]; let wr=rightWindows[trunc(ordinal/91)%3];
+out1=left.next(in1,wl,false); out2=right.next(in2,wr,false);
+ordinal+=1;

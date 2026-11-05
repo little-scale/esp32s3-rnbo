@@ -1,4 +1,17 @@
-# Implementation status — 5 November 2026
+# Implementation status — 6 November 2026
+
+The [analysis/oscillator/noise member batch](hardware-smoke.md#analysis-oscillator-and-noise-member-methods)
+records **22 sources: 19 execute, 16 pass, three retain output mismatches and
+three fail C++**, across 194,560 output-word checks. Fixed means, explicit and
+input resets, oscillator phase/state and bounded noise screens pass. Three
+named-list selectors are evaluated once per callback, retaining their per-sample
+window-change mismatches; a separate native diagnostic explains that schedule
+without changing the primary oracle. The 11 exact member IDs bring the RNBO
+dashboard to **789 scoped entries**. Twelve average CPU contexts (587–820 µs
+median and 705,760-byte arena high-water) bring the review queue to **123**.
+All images finalise and allocation/memory gates pass. The normal player and
+saved controls are restored and USB/audio progress verified. The full RNBO/Gen
+qualification goal remains active and incomplete.
 
 The [Gen execution-form batch](hardware-smoke.md#gen-noise-fft-context-and-compound-assignments)
 records **24 sources: five hardware passes, 14 C++ rejections and five frontend

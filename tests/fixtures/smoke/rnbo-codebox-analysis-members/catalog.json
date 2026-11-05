@@ -1,0 +1,566 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "average",
+      "codebox": "average-next.rnbo",
+      "codebox_sha256": "7cb64256bcd4b3cf24b9f8358cd0eb848777eff9ea29f3da405493786564d78b",
+      "exact_name": "average.next()",
+      "id": "average-next",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1800,
+      "owner": "average",
+      "patch": "average-next.rnbopat",
+      "patch_sha256": "953fd976c89e65b20bdecddcfc47a1636c58fdc344f176b1ecf9709221ea669a",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average"
+        }
+      ],
+      "registry_lookup": "codebox-member:average.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "next"
+    },
+    {
+      "canonical_name": "average",
+      "codebox": "average-reset.rnbo",
+      "codebox_sha256": "182e70226f8fddf9f5e2a8492f444b131ddc010630fb05c547d8cc47c48b3d3a",
+      "exact_name": "average.reset()",
+      "id": "average-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "reset",
+      "model": 1801,
+      "owner": "average",
+      "patch": "average-reset.rnbopat",
+      "patch_sha256": "2c4a947639399afd4c8594e8b4f28874534493ca50e40037f5fbd5e6a141b5f1",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average"
+        }
+      ],
+      "registry_lookup": "codebox-member:average.reset",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "reset"
+    },
+    {
+      "canonical_name": "average",
+      "codebox": "average-input-reset.rnbo",
+      "codebox_sha256": "9fc27a842b4a4de9d558bad2b748696cbc1ec9a96bfe1d419288bfe525bf5b31",
+      "exact_name": "average.next()",
+      "id": "average-input-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1802,
+      "owner": "average",
+      "patch": "average-input-reset.rnbopat",
+      "patch_sha256": "7b52e9278987c272c7155fc9bf19652cac32a60a7fba893b0f49424343450354",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average"
+        }
+      ],
+      "registry_lookup": "codebox-member:average.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "input-reset"
+    },
+    {
+      "canonical_name": "average",
+      "codebox": "average-window-change.rnbo",
+      "codebox_sha256": "326b0a7ed758c6c1af9f91ebb2dff40932e6df291ded088102db81fb4c95d75b",
+      "exact_name": "average.next()",
+      "id": "average-window-change",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1803,
+      "owner": "average",
+      "patch": "average-window-change.rnbopat",
+      "patch_sha256": "3cade9de318184e567127edeee091cead167bfb089b2f89459e8c0c8678fda71",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average"
+        }
+      ],
+      "registry_lookup": "codebox-member:average.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "window-change"
+    },
+    {
+      "canonical_name": "average_absolute",
+      "codebox": "average_absolute-next.rnbo",
+      "codebox_sha256": "4ecf8e5d1c14f8e28e8f286057084f88e91255602872d978dcb91fcb08fc0372",
+      "exact_name": "average_absolute.next()",
+      "id": "average_absolute-next",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1804,
+      "owner": "average_absolute",
+      "patch": "average_absolute-next.rnbopat",
+      "patch_sha256": "59e2852af317f1ddd15e0970af1000a7ea79e4103319c03788511c7d4c2a40db",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_absolute"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_absolute.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "next"
+    },
+    {
+      "canonical_name": "average_absolute",
+      "codebox": "average_absolute-reset.rnbo",
+      "codebox_sha256": "7b671ab863d90bb3b3d9abd9f5028cee2241565b05aa94a33d4b7e00cd630017",
+      "exact_name": "average_absolute.reset()",
+      "id": "average_absolute-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "reset",
+      "model": 1805,
+      "owner": "average_absolute",
+      "patch": "average_absolute-reset.rnbopat",
+      "patch_sha256": "a92aa12d65b6bf1932c790e4908e8adcc138dcf6989c9510868098726184552c",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_absolute"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_absolute.reset",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "reset"
+    },
+    {
+      "canonical_name": "average_absolute",
+      "codebox": "average_absolute-input-reset.rnbo",
+      "codebox_sha256": "a7c35933b69339db01e18a9dae4cdc6b1a11463488ede067eae1d244d35244de",
+      "exact_name": "average_absolute.next()",
+      "id": "average_absolute-input-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1806,
+      "owner": "average_absolute",
+      "patch": "average_absolute-input-reset.rnbopat",
+      "patch_sha256": "44cf9f1c21dad82bf6f62dd5925d8b38f8df4cd19d69f0a5c660e525fe004f3d",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_absolute"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_absolute.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "input-reset"
+    },
+    {
+      "canonical_name": "average_absolute",
+      "codebox": "average_absolute-window-change.rnbo",
+      "codebox_sha256": "acf596e1dc27b8bd864aa3fce5187c2085cf7ff70e82660e7d58ef3ec84459e2",
+      "exact_name": "average_absolute.next()",
+      "id": "average_absolute-window-change",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1807,
+      "owner": "average_absolute",
+      "patch": "average_absolute-window-change.rnbopat",
+      "patch_sha256": "e245057fe25dd8245bc56e95019432a20f13cea7d1fc7256115f65fd5f5fe838",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_absolute"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_absolute.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "window-change"
+    },
+    {
+      "canonical_name": "average_rms",
+      "codebox": "average_rms-next.rnbo",
+      "codebox_sha256": "5597b16625aede3832892914925a3f14f478a8ff4e1e984a5c9fa9fc17269134",
+      "exact_name": "average_rms.next()",
+      "id": "average_rms-next",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1808,
+      "owner": "average_rms",
+      "patch": "average_rms-next.rnbopat",
+      "patch_sha256": "23c5d41db29b9a4192827438e9304db1abe1f90c1e294cf055743ec0882aa810",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_rms"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_rms.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "next"
+    },
+    {
+      "canonical_name": "average_rms",
+      "codebox": "average_rms-reset.rnbo",
+      "codebox_sha256": "91f56595d3ccd33e1dd6adfcfdfce4e0e40d09f825bbc989d7fefd3814e97501",
+      "exact_name": "average_rms.reset()",
+      "id": "average_rms-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "reset",
+      "model": 1809,
+      "owner": "average_rms",
+      "patch": "average_rms-reset.rnbopat",
+      "patch_sha256": "ef3479f6103a5136eb2ce0572496abaefeb525fb6a12e0386001f0f7bf754549",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_rms"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_rms.reset",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "reset"
+    },
+    {
+      "canonical_name": "average_rms",
+      "codebox": "average_rms-input-reset.rnbo",
+      "codebox_sha256": "a821af534cf559cbf925ad546eb830daea676d366b4f72120b81549488897620",
+      "exact_name": "average_rms.next()",
+      "id": "average_rms-input-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1810,
+      "owner": "average_rms",
+      "patch": "average_rms-input-reset.rnbopat",
+      "patch_sha256": "65c21a56ebd421c140c7463f893a88bb77579c7175dd45bf9d5e3d42e10010da",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_rms"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_rms.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "input-reset"
+    },
+    {
+      "canonical_name": "average_rms",
+      "codebox": "average_rms-window-change.rnbo",
+      "codebox_sha256": "ec3db4b9cd97ec15c21a77cac3eaca2d85bfa08aaf9d226c1fa4381a43dc299b",
+      "exact_name": "average_rms.next()",
+      "id": "average_rms-window-change",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1811,
+      "owner": "average_rms",
+      "patch": "average_rms-window-change.rnbopat",
+      "patch_sha256": "073cc3d80ab89a4ca1391ed50b446dc304be35cd1ff6ac3e104e051f68868186",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_rms"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_rms.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "window-change"
+    },
+    {
+      "canonical_name": "cycle",
+      "codebox": "cycle-next.rnbo",
+      "codebox_sha256": "4ef25a92c26589ddead21719caf2dc8a50e2b743feccf1c5af462be18ca90ce0",
+      "exact_name": "cycle.next()",
+      "id": "cycle-next",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1812,
+      "owner": "cycle",
+      "patch": "cycle-next.rnbopat",
+      "patch_sha256": "a8e41487e0ace68be1ea241d3679277ef80fd4a3eaef009e2ab552078cf1c44e",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/cycle"
+        }
+      ],
+      "registry_lookup": "codebox-member:cycle.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "next"
+    },
+    {
+      "canonical_name": "cycle",
+      "codebox": "cycle-reset.rnbo",
+      "codebox_sha256": "f34429707a216e9736439b28f634f56508fe9f28267f415129c1433f1fb76771",
+      "exact_name": "cycle.reset()",
+      "id": "cycle-reset",
+      "maximum_absolute_error": 2e-06,
+      "member": "reset",
+      "model": 1813,
+      "owner": "cycle",
+      "patch": "cycle-reset.rnbopat",
+      "patch_sha256": "b637cc96d86393efd8827fbb061cc528481ed6316a987d078e02e4cfa3ecfdba",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/cycle"
+        }
+      ],
+      "registry_lookup": "codebox-member:cycle.reset",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "reset"
+    },
+    {
+      "canonical_name": "cycle",
+      "codebox": "cycle-phase-output.rnbo",
+      "codebox_sha256": "a2a9086bf9d91fe9abf15253e0d6dc9c72c47ba8de6519eb509d75103cd6fec7",
+      "exact_name": "cycle.next()",
+      "id": "cycle-phase-output",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1814,
+      "owner": "cycle",
+      "patch": "cycle-phase-output.rnbopat",
+      "patch_sha256": "bbc92082491208787db38b7aa0fe9b695f6bea15c43923b989b2d8036919456d",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/cycle"
+        }
+      ],
+      "registry_lookup": "codebox-member:cycle.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "phase-output"
+    },
+    {
+      "canonical_name": "cycle",
+      "codebox": "cycle-phase-index.rnbo",
+      "codebox_sha256": "7a1d570e4cd118c3b980f74c6d334289626b9bb0c40e2e1a050aad18365883bb",
+      "exact_name": "cycle.next()",
+      "id": "cycle-phase-index",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1815,
+      "owner": "cycle",
+      "patch": "cycle-phase-index.rnbopat",
+      "patch_sha256": "632388875efe0cbcfcad13f2ee1a02590799e7025db4aba5494442d4a47eaf79",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/cycle"
+        }
+      ],
+      "registry_lookup": "codebox-member:cycle.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "phase-index"
+    },
+    {
+      "canonical_name": "noise",
+      "codebox": "noise-next.rnbo",
+      "codebox_sha256": "c520cdbe04d50eccb42194e135299be0ccdb28b033332a31e97b9659270f5341",
+      "exact_name": "noise.next()",
+      "id": "noise-next",
+      "maximum_absolute_error": 0,
+      "member": "next",
+      "model": 1816,
+      "owner": "noise",
+      "patch": "noise-next.rnbopat",
+      "patch_sha256": "91d7c87640389c60763c1f561afb7a75c39709ea60e680c3df3504a11bb8bf16",
+      "reference_policy": "basic-noise-range-variation-and-equal-seed-screen",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/noise"
+        }
+      ],
+      "registry_lookup": "codebox-member:noise.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "next"
+    },
+    {
+      "canonical_name": "noise",
+      "codebox": "noise-reset.rnbo",
+      "codebox_sha256": "1bb3cdf4f459d1586fe7cd72b71c60695e3ca7903c8cdf09b2dee6a9076840de",
+      "exact_name": "noise.reset()",
+      "id": "noise-reset",
+      "maximum_absolute_error": 0,
+      "member": "reset",
+      "model": 1817,
+      "owner": "noise",
+      "patch": "noise-reset.rnbopat",
+      "patch_sha256": "e8d06a3d9ee0d1698ca50c51f13df36b5867a21f52edbfff5aa0c9524a725dff",
+      "reference_policy": "basic-noise-range-variation-and-equal-seed-screen",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/noise"
+        }
+      ],
+      "registry_lookup": "codebox-member:noise.reset",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "reset"
+    },
+    {
+      "canonical_name": "noise",
+      "codebox": "noise-seed.rnbo",
+      "codebox_sha256": "edb9bfd304174e065b704606bd833996e5adfd5439dd342c2b27a546b25fdd90",
+      "exact_name": "noise.seed()",
+      "id": "noise-seed",
+      "maximum_absolute_error": 0,
+      "member": "seed",
+      "model": 1818,
+      "owner": "noise",
+      "patch": "noise-seed.rnbopat",
+      "patch_sha256": "0005d7b73a215a00d3e5a07b74b0a9d9a93078deb77c90a86e8c641ce48cd09c",
+      "reference_policy": "basic-noise-range-variation-and-equal-seed-screen",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/noise"
+        }
+      ],
+      "registry_lookup": "codebox-member:noise.seed",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "seed"
+    },
+    {
+      "canonical_name": "average",
+      "codebox": "average-window-change-named-list.rnbo",
+      "codebox_sha256": "90bc2d9c6eb77032bb99de222596f415d6a5e34363d8b446f2d98b32515bf93e",
+      "exact_name": "average.next()",
+      "id": "average-window-change-named-list",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1819,
+      "owner": "average",
+      "patch": "average-window-change-named-list.rnbopat",
+      "patch_sha256": "484ae1afa4a646663e8bd02f08892848acc10de5b02454eea6e8ad7f6aff76a2",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average"
+        }
+      ],
+      "registry_lookup": "codebox-member:average.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "window-change-named-list"
+    },
+    {
+      "canonical_name": "average_absolute",
+      "codebox": "average_absolute-window-change-named-list.rnbo",
+      "codebox_sha256": "651b3828fc90a17697217f1caa4597e3820ff801e22ae6a1aa5180d1e1ca1cd7",
+      "exact_name": "average_absolute.next()",
+      "id": "average_absolute-window-change-named-list",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1820,
+      "owner": "average_absolute",
+      "patch": "average_absolute-window-change-named-list.rnbopat",
+      "patch_sha256": "81b35459b27f1487250062b7ed889e8b242250ad57c12bf88dac3f5980ae945d",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_absolute"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_absolute.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "window-change-named-list"
+    },
+    {
+      "canonical_name": "average_rms",
+      "codebox": "average_rms-window-change-named-list.rnbo",
+      "codebox_sha256": "0941b78f20057643537bdf131afa2084f7b96770d79a5831cd76b36069a04b25",
+      "exact_name": "average_rms.next()",
+      "id": "average_rms-window-change-named-list",
+      "maximum_absolute_error": 2e-06,
+      "member": "next",
+      "model": 1821,
+      "owner": "average_rms",
+      "patch": "average_rms-window-change-named-list.rnbopat",
+      "patch_sha256": "1fcdcd19d10d36f5ee9043c824182ce4a6975d723dcdd409bbaf14f6bddfe420",
+      "reference_policy": "independent-window-sums-or-absolute-age-cosine-current-phase",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/average_rms"
+        }
+      ],
+      "registry_lookup": "codebox-member:average_rms.next",
+      "role": "fx",
+      "scope": "Two instances; exact authored member/options,20continuous256-frame callbacks, explicit per-channel reset schedules. Available-history moving means and fresh epochs on window changes; current/pre-increment oscillator phase and ideal cosine with2e-6 limit. Noise finite/range/32sample variation screen and same-seed pair equality only, not RNG sequence/distribution/independence proof. No aliases, external buffers, arbitrary modes, host events, reset return values or Gen qualification.",
+      "surface": "codebox",
+      "syntax": "stateful-member-call",
+      "variant": "window-change-named-list"
+    }
+  ],
+  "family": "rnbo-codebox-analysis-members",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "generator_sha256": "fd359d504b979283642fb0ac7667bca3d2093520902d0824de0ec9382cc7775b",
+  "license": "MIT; original sources and independent bounded references",
+  "manual_warmup_blocks": 4,
+  "reference_sha256": "0000215aaca15dab10131e568f62280a0f06b94ce1586b2676f313585a563a5e",
+  "requested_module_max_arena_bytes": 2097152,
+  "sample_rate": 44100,
+  "surface": "codebox",
+  "timed_blocks": 16
+}

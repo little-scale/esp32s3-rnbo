@@ -1760,3 +1760,29 @@ one-frame host calls and general stateful operator aliases remain unqualified.
 See [target evidence](../evidence/xiao-smoke-gen-execution-forms.json) and
 [native/rejection evidence](../evidence/gen-execution-forms-native.json).
 The ordinary player is restored after the batch for Studio use.
+
+## Analysis, oscillator and noise member methods
+
+The [22-source member guide](../tests/fixtures/smoke/rnbo-codebox-analysis-members/README.md)
+records **19 executions: 16 passes and three output mismatches**, with 194,560
+output-word checks. Three direct-list-index window programs fail C++. Named-list
+variants execute, but their state-only selectors are hoisted before the sample
+loop; they retain their original per-sample reference mismatches. A secondary
+native callback-held model explains these observations without replacing the
+original oracle. Fixed/reset/input-reset means, oscillator audio/current phase/
+reset/phase-index checks and basic noise/paired-seed screens pass.
+
+Twelve complete average callbacks trigger CPU review at 587–820 µs median,
+raising the queue to **123 contexts**. Their two original Float64 rings observe
+705,760 bytes arena high-water despite 3–16-sample logical windows. Cycle
+scenarios use 65,648 bytes and noise scenarios zero arena bytes; a 2 MiB capacity
+ceiling is not consumption. All 19 images finalise with no late/host allocations
+or frees, and unchanged completion RAM totals.
+
+Results bind eleven exact member IDs, taking the RNBO dashboard to **789 scoped
+entries**, without inheriting results into bare names, aliases, patcher objects
+or Gen. Default physical buffer wrap, full noise semantics and general modes
+remain outside the checks. The normal player, saved Main and live controls are
+[restored and verified](../evidence/xiao-analysis-members-player-restoration.json).
+See [target results](../evidence/xiao-smoke-rnbo-codebox-analysis-members.json) and
+[native diagnostics](../evidence/rnbo-codebox-analysis-members-native.json).
