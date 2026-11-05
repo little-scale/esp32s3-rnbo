@@ -1,0 +1,735 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp",
+      "fixed_arguments": "-1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6",
+      "hot_inlet": 0,
+      "id": "interp-spline6",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3016,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-spline6.rnbopat",
+      "patch_sha256": "af13068491909f5a899c59e36bdc91380811baf67b7ebafe35fa321c70ee36bb",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp.maxref.xml",
+          "sha256": "a147521cf963435623b447071a94e0eb827a84f66f73595ed32937632b42e79b",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp.maxhelp",
+          "sha256": "d2126c99d8021411bb68e622d4679f9036a0412851f6255536efbc63f5be250f",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "interp -1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "spline6"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp",
+      "fixed_arguments": "@mode spline6",
+      "hot_inlet": 0,
+      "id": "interp-spline6-inlets",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3017,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-spline6-inlets.rnbopat",
+      "patch_sha256": "cf67a19b5f38f31d0994e1b17085d90198dce2ec67c526b59614490c1601b891",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp.maxref.xml",
+          "sha256": "a147521cf963435623b447071a94e0eb827a84f66f73595ed32937632b42e79b",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp.maxhelp",
+          "sha256": "d2126c99d8021411bb68e622d4679f9036a0412851f6255536efbc63f5be250f",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "interp @mode spline6",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "spline6-inlets"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "0.25 1.25 @mode linear",
+      "hot_inlet": 0,
+      "id": "interp-signal-linear",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3018,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-linear.rnbopat",
+      "patch_sha256": "f0a2eb79a990f6650c6106a731ace3d52d5a724214522aa6256db958f57499d6",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ 0.25 1.25 @mode linear",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "linear"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "0.25 1.25 @mode cosine",
+      "hot_inlet": 0,
+      "id": "interp-signal-cosine",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0.001,
+      "maximum_absolute_error": 0.001,
+      "model": 3019,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-cosine.rnbopat",
+      "patch_sha256": "71dcda094f01e68fc4a69eb5ba900f10240badac556ce43ac3ff7fe57168e586",
+      "reference_policy": "ideal-cosine-screen",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ 0.25 1.25 @mode cosine",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "cosine"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "-0.5 0.25 1.25 -0.75 @mode cubic",
+      "hot_inlet": 0,
+      "id": "interp-signal-cubic",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3020,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-cubic.rnbopat",
+      "patch_sha256": "d5ec5eb007e545e2f382cd5242692590d35fe40b701445bd65a67de8dc68a8e3",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ -0.5 0.25 1.25 -0.75 @mode cubic",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "cubic"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "-0.5 0.25 1.25 -0.75 @mode fastcubic",
+      "hot_inlet": 0,
+      "id": "interp-signal-fastcubic",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3021,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-fastcubic.rnbopat",
+      "patch_sha256": "32bb056d3ea85901ba6c940a47d55a58289ec2f967e5e46095f439bf4864c977",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ -0.5 0.25 1.25 -0.75 @mode fastcubic",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "fastcubic"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "-0.5 0.25 1.25 -0.75 @mode spline",
+      "hot_inlet": 0,
+      "id": "interp-signal-spline",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3022,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-spline.rnbopat",
+      "patch_sha256": "30273b1de4c9f3810ec83ab7e410cead96ae7446d4ca7f7bc86f737c2c50c98a",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ -0.5 0.25 1.25 -0.75 @mode spline",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "spline"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "-1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6",
+      "hot_inlet": 0,
+      "id": "interp-signal-spline6",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3023,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-spline6.rnbopat",
+      "patch_sha256": "f8ed7531f00c3fe2d905633916f16d5801df2022810c2ceec672985b6dd83ca3",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ -1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "spline6"
+    },
+    {
+      "canonical_name": "interp",
+      "exact_name": "interp~",
+      "fixed_arguments": "@mode spline6",
+      "hot_inlet": 0,
+      "id": "interp-signal-spline6-inlets",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3024,
+      "observed_outlet": 0,
+      "operation": "interpolation",
+      "patch": "interp-signal-spline6-inlets.rnbopat",
+      "patch_sha256": "4205d34b32de23f5e9708c3fc8b439957c26116b23f49af6c0fc8d963d2b1798",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_interp~.maxref.xml",
+          "sha256": "c64a1241462b59b0b8e4e92a384b67e7009d5a58d63f744d756c00f92ddd6cbb",
+          "url": "https://rnbo.cycling74.com/objects/ref/interp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_interp~.maxhelp",
+          "sha256": "7bed8f48a56369070bdd4e835e3c6c54232792b7db54ae0d19d1163ba6eccedb",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/interp.js",
+          "sha256": "b3470d1ecc10f50ac71c92e92f144f2f972a7ea92b9e386b46da6855acebf97f",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "interp",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "interp~ @mode spline6",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "spline6-inlets"
+    },
+    {
+      "canonical_name": "kink",
+      "exact_name": "kink",
+      "fixed_arguments": "2.0",
+      "hot_inlet": 0,
+      "id": "kink-slope2p0",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3025,
+      "observed_outlet": 0,
+      "operation": "kink",
+      "patch": "kink-slope2p0.rnbopat",
+      "patch_sha256": "8c1a1a3181b18b1db9176062316dcac3d6b246e2040720f8522bfe68e1abe279",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_kink.maxref.xml",
+          "sha256": "a3e52fb2b3a564010fd9bc8657c44f64191a7b8a7f6080b77baa10884d525814",
+          "url": "https://rnbo.cycling74.com/objects/ref/kink?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_kink.maxhelp",
+          "sha256": "4ce73784b597b414d99dda7eae0723ca9f73dc0fec3e3b9ffb2b167d7e6b798d",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/kink.js",
+          "sha256": "998155483c884a725fbe47e52ea56ce9ced26f422cd9039436dc86fda9bd8f9e",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "kink",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "kink 2.0",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "2.0"
+    },
+    {
+      "canonical_name": "kink",
+      "exact_name": "kink",
+      "fixed_arguments": "0.75",
+      "hot_inlet": 0,
+      "id": "kink-slope0p75",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3026,
+      "observed_outlet": 0,
+      "operation": "kink",
+      "patch": "kink-slope0p75.rnbopat",
+      "patch_sha256": "cc472507a2aea5dbd30eba0f967cba257582bb4efbcfccd26f3a7455ce14c2ab",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_kink.maxref.xml",
+          "sha256": "a3e52fb2b3a564010fd9bc8657c44f64191a7b8a7f6080b77baa10884d525814",
+          "url": "https://rnbo.cycling74.com/objects/ref/kink?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_kink.maxhelp",
+          "sha256": "4ce73784b597b414d99dda7eae0723ca9f73dc0fec3e3b9ffb2b167d7e6b798d",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/kink.js",
+          "sha256": "998155483c884a725fbe47e52ea56ce9ced26f422cd9039436dc86fda9bd8f9e",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "kink",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "kink 0.75",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "0.75"
+    },
+    {
+      "canonical_name": "mix",
+      "exact_name": "mix",
+      "fixed_arguments": "0.25 -0.5",
+      "hot_inlet": 0,
+      "id": "mix-weight0p25",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3027,
+      "observed_outlet": 0,
+      "operation": "mix",
+      "patch": "mix-weight0p25.rnbopat",
+      "patch_sha256": "55fbe08ae0160b65b4e02831ef49fffc0a7e09b50c9dbd164322e80e696c10a3",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mix.maxref.xml",
+          "sha256": "4a32dba78862351e275cd2c22ce837599b2899d2a811fc228d0a889778bb5c74",
+          "url": "https://rnbo.cycling74.com/objects/ref/mix?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_mix.maxhelp",
+          "sha256": "a210b2c9a19ca216e1ec07382c33866343102c22ebe4721f591b527af8a3d169",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "mix",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "mix 0.25 -0.5",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "0.25"
+    },
+    {
+      "canonical_name": "mix",
+      "exact_name": "mix",
+      "fixed_arguments": "0.75 -0.5",
+      "hot_inlet": 0,
+      "id": "mix-weight0p75",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3028,
+      "observed_outlet": 0,
+      "operation": "mix",
+      "patch": "mix-weight0p75.rnbopat",
+      "patch_sha256": "8dbd0eed8ddfbdfb8c92a3a1b651a02cb97b1b2ba4dd43cc78cc6f719fae9aff",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mix.maxref.xml",
+          "sha256": "4a32dba78862351e275cd2c22ce837599b2899d2a811fc228d0a889778bb5c74",
+          "url": "https://rnbo.cycling74.com/objects/ref/mix?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_mix.maxhelp",
+          "sha256": "a210b2c9a19ca216e1ec07382c33866343102c22ebe4721f591b527af8a3d169",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "mix",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "mix 0.75 -0.5",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "0.75"
+    },
+    {
+      "canonical_name": "mix",
+      "exact_name": "mix",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "mix-moving-weight",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3029,
+      "observed_outlet": 0,
+      "operation": "mix",
+      "patch": "mix-moving-weight.rnbopat",
+      "patch_sha256": "1586241b1890ae33a0dc8702daa2661043f6835576758e365de336af6d049639",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mix.maxref.xml",
+          "sha256": "4a32dba78862351e275cd2c22ce837599b2899d2a811fc228d0a889778bb5c74",
+          "url": "https://rnbo.cycling74.com/objects/ref/mix?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_mix.maxhelp",
+          "sha256": "a210b2c9a19ca216e1ec07382c33866343102c22ebe4721f591b527af8a3d169",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "mix",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "mix",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "moving-weight"
+    },
+    {
+      "canonical_name": "pan",
+      "exact_name": "pan",
+      "fixed_arguments": "2 @inputs 1 @fademode lin @boundmode clip @positionmode phase",
+      "hot_inlet": 0,
+      "id": "pan-lin-out0",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3030,
+      "observed_outlet": 0,
+      "operation": "pan",
+      "patch": "pan-lin-out0.rnbopat",
+      "patch_sha256": "dd288c902d756f76c8e56c68bb2d9efecfa3b4f736092cb02e7ae81b66565be4",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pan.maxref.xml",
+          "sha256": "c736926b56738710884b2d48a802b0788faf6b5fc8702709e5fb1837128672fb",
+          "url": "https://rnbo.cycling74.com/objects/ref/pan?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_pan.maxhelp",
+          "sha256": "7831c2050e7feac7e8a5b77c3696bd028dfe86dda1d786c8ad781730220301b2",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/xfademul.js",
+          "sha256": "c483acded91497b676fd8f33bc09714637a43009a002dbe051b4b2285789dc05",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/pan.js",
+          "sha256": "fc35e5cae49f4b4d155dc754ec242b9ce5cd37cdb324ffc047e04f27e7683a63",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "pan",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "pan 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "lin"
+    },
+    {
+      "canonical_name": "pan",
+      "exact_name": "pan",
+      "fixed_arguments": "2 @inputs 1 @fademode lin @boundmode clip @positionmode phase",
+      "hot_inlet": 0,
+      "id": "pan-lin-out1",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3031,
+      "observed_outlet": 1,
+      "operation": "pan",
+      "patch": "pan-lin-out1.rnbopat",
+      "patch_sha256": "7597b981705793cfa47c6e22d997138764ca71b469b7e15697c365a4ff59564c",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pan.maxref.xml",
+          "sha256": "c736926b56738710884b2d48a802b0788faf6b5fc8702709e5fb1837128672fb",
+          "url": "https://rnbo.cycling74.com/objects/ref/pan?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_pan.maxhelp",
+          "sha256": "7831c2050e7feac7e8a5b77c3696bd028dfe86dda1d786c8ad781730220301b2",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/xfademul.js",
+          "sha256": "c483acded91497b676fd8f33bc09714637a43009a002dbe051b4b2285789dc05",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/pan.js",
+          "sha256": "fc35e5cae49f4b4d155dc754ec242b9ce5cd37cdb324ffc047e04f27e7683a63",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "pan",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "pan 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "lin"
+    }
+  ],
+  "family": "rnbo-mixing-shaping",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 16,
+    "index": 2,
+    "parent_catalog_sha256": "2d9a4a61ff4e40b23fdcdf7d8138ea08bbb9a8974c7ef1a3a36fd5f098599e4e",
+    "total": 4
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "63 event/signal scenarios across22 exact spellings: coordinate outputs, interpolation modes, panning/crossfade curves, shaping and decay math.",
+  "timed_blocks": 16
+}

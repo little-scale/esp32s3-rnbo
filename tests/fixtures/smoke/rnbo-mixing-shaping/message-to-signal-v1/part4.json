@@ -1,0 +1,710 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "phasewrap",
+      "exact_name": "phasewrap",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "phasewrap-wide",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3048,
+      "observed_outlet": 0,
+      "operation": "phasewrap",
+      "patch": "phasewrap-wide.rnbopat",
+      "patch_sha256": "f7f1867b42dff2fb33c40de9abf796628662c34e8c0e62579363edcf6ed7396c",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_phasewrap.maxref.xml",
+          "sha256": "f808f0a88062d09dc875f9798660a00c433d074aa5853d803d47a21fe9030ac9",
+          "url": "https://rnbo.cycling74.com/objects/ref/phasewrap?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_phasewrap.maxhelp",
+          "sha256": "1b8e83f5ab97dda987a892ce5db6eac83555e52022ca5d78082db0257e1d0205",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "phasewrap",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "phasewrap",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "quantize",
+      "exact_name": "quantize",
+      "fixed_arguments": "4",
+      "hot_inlet": 0,
+      "id": "quantize-q4",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3049,
+      "observed_outlet": 0,
+      "operation": "quantize",
+      "patch": "quantize-q4.rnbopat",
+      "patch_sha256": "43a583879c992918cb859313f65ec1b99c5235b6b2af2f34134938707297267e",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_quantize.maxref.xml",
+          "sha256": "7ff0edd1f2fff479018e5a4b22e3c8005a3c330b13d2b2f45db43cefbda2cb2c",
+          "url": "https://rnbo.cycling74.com/objects/ref/quantize?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_quantize.maxhelp",
+          "sha256": "ae9725bbbc9c6515dff9714b51378ff55a0bfe117f4bd983f6370894d9b11145",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/quantize.js",
+          "sha256": "3a5f90dac72c3b934dfc2b5bab9c90588afc5113e98275f0e9cab33da52072cd",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "quantize",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "quantize 4",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "4"
+    },
+    {
+      "canonical_name": "quantize",
+      "exact_name": "quantize",
+      "fixed_arguments": "8",
+      "hot_inlet": 0,
+      "id": "quantize-q8",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3050,
+      "observed_outlet": 0,
+      "operation": "quantize",
+      "patch": "quantize-q8.rnbopat",
+      "patch_sha256": "e1988f13a2e9629542a4ef2b05344d3ec99bbbf96584ae4373d28efb3eb4860c",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_quantize.maxref.xml",
+          "sha256": "7ff0edd1f2fff479018e5a4b22e3c8005a3c330b13d2b2f45db43cefbda2cb2c",
+          "url": "https://rnbo.cycling74.com/objects/ref/quantize?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_quantize.maxhelp",
+          "sha256": "ae9725bbbc9c6515dff9714b51378ff55a0bfe117f4bd983f6370894d9b11145",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/quantize.js",
+          "sha256": "3a5f90dac72c3b934dfc2b5bab9c90588afc5113e98275f0e9cab33da52072cd",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "quantize",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "quantize 8",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "8"
+    },
+    {
+      "canonical_name": "smoothstep",
+      "exact_name": "smoothstep",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "smoothstep-rising",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3051,
+      "observed_outlet": 0,
+      "operation": "smoothstep",
+      "patch": "smoothstep-rising.rnbopat",
+      "patch_sha256": "522fa363af763fd7da169390b4bc5cdb75f6fbc22dae7c9e6f5b0bfc0bd3dfd1",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_smoothstep.maxref.xml",
+          "sha256": "75eae598539a2be370f8ffeab0713a917bf331da6797ed486f10bb553e85884a",
+          "url": "https://rnbo.cycling74.com/objects/ref/smoothstep?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_smoothstep.maxhelp",
+          "sha256": "5d2a63d7a4993b910ba61c2ccb3ce3d717663c494abaaa39fd28fa4b91940fff",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/smoothstep.js",
+          "sha256": "68ddf676cade01a55452cc5c72d6c54e5828a9c256e24b5b0d7b86f86a4cd837",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "smoothstep",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "smoothstep",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "rising"
+    },
+    {
+      "canonical_name": "smoothstep",
+      "exact_name": "smoothstep",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "smoothstep-falling",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3052,
+      "observed_outlet": 0,
+      "operation": "smoothstep",
+      "patch": "smoothstep-falling.rnbopat",
+      "patch_sha256": "51cc098f428d60f0a16ed6649612d9c847d9632eba96905f646ac076338a96a2",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_smoothstep.maxref.xml",
+          "sha256": "75eae598539a2be370f8ffeab0713a917bf331da6797ed486f10bb553e85884a",
+          "url": "https://rnbo.cycling74.com/objects/ref/smoothstep?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_smoothstep.maxhelp",
+          "sha256": "5d2a63d7a4993b910ba61c2ccb3ce3d717663c494abaaa39fd28fa4b91940fff",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/smoothstep.js",
+          "sha256": "68ddf676cade01a55452cc5c72d6c54e5828a9c256e24b5b0d7b86f86a4cd837",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "smoothstep",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "smoothstep",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "falling"
+    },
+    {
+      "canonical_name": "t60",
+      "exact_name": "t60",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "t60-decay",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3053,
+      "observed_outlet": 0,
+      "operation": "t60",
+      "patch": "t60-decay.rnbopat",
+      "patch_sha256": "5e6a4296d734771a83548248bf48a692930ddfc9619e984782280c44b650c928",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_t60.maxref.xml",
+          "sha256": "bb4d8f1beec18a7d29531d743d3ff9cb0ed0485994cba84a1396408fc2e81565",
+          "url": "https://rnbo.cycling74.com/objects/ref/t60?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_t60.maxhelp",
+          "sha256": "23656c1bfb368279049710f9f87adfde26e57c064c1c373d1a9af655050e5fae",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/t60.js",
+          "sha256": "c698bbc8fcad4b66cc0f01f70648b5630b381749184317feb7d06c043f2f04e6",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "t60",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "t60",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "t60time",
+      "exact_name": "t60time",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "t60time-duration",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0.0001,
+      "maximum_absolute_error": 0.0001,
+      "model": 3054,
+      "observed_outlet": 0,
+      "operation": "t60time",
+      "patch": "t60time-duration.rnbopat",
+      "patch_sha256": "58c2b1e07750123e42abd48b3d98a8f186f6dae24a800e0d17cbaa18844d5fad",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_t60time.maxref.xml",
+          "sha256": "03aea249d23cee46008913c7c70f4ec88e04f357303232bd4933df952542dece",
+          "url": "https://rnbo.cycling74.com/objects/ref/t60time?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_t60time.maxhelp",
+          "sha256": "c21ddb43f37e9daa5086cb2a346f8246fa25a054604a20984b7d49fdadf8fb19",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/t60time.js",
+          "sha256": "982cbd2ef91bdc41f7552167110a647d2b1312c39015556957e09a70a0f74b47",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "t60time",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "t60time",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "trapezoid",
+      "exact_name": "trapezoid",
+      "fixed_arguments": ".25 .75",
+      "hot_inlet": 0,
+      "id": "trapezoid-plateau",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3055,
+      "observed_outlet": 0,
+      "operation": "trapezoid",
+      "patch": "trapezoid-plateau.rnbopat",
+      "patch_sha256": "5cad5d21e95a63f3b3870e5a0892251f747948d113cba189879cd7c18c6fb7b8",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_trapezoid.maxref.xml",
+          "sha256": "3849580138369224cf334b1ee6b693fafc21230d01c62447f33d50508cba0d15",
+          "url": "https://rnbo.cycling74.com/objects/ref/trapezoid?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_trapezoid.maxhelp",
+          "sha256": "daf6b17affdb83e749ae7e91b77ef4dca813662d2b2067b5f03a16a626497c56",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/trapezoid.js",
+          "sha256": "9152ca7deb8ba6d2aff610c0ac12f3c5e7e193632cd9f80bf21e7b6850226ddb",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "trapezoid",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "trapezoid .25 .75",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "plateau"
+    },
+    {
+      "canonical_name": "trapezoid",
+      "exact_name": "trapezoid",
+      "fixed_arguments": ".5 .5",
+      "hot_inlet": 0,
+      "id": "trapezoid-triangle",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3056,
+      "observed_outlet": 0,
+      "operation": "trapezoid",
+      "patch": "trapezoid-triangle.rnbopat",
+      "patch_sha256": "1172e96a57807b265db471f50ffc6c311439ed1fcd19a52e2794f9e2f0dd78fe",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_trapezoid.maxref.xml",
+          "sha256": "3849580138369224cf334b1ee6b693fafc21230d01c62447f33d50508cba0d15",
+          "url": "https://rnbo.cycling74.com/objects/ref/trapezoid?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_trapezoid.maxhelp",
+          "sha256": "daf6b17affdb83e749ae7e91b77ef4dca813662d2b2067b5f03a16a626497c56",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/trapezoid.js",
+          "sha256": "9152ca7deb8ba6d2aff610c0ac12f3c5e7e193632cd9f80bf21e7b6850226ddb",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "trapezoid",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "trapezoid .5 .5",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "triangle"
+    },
+    {
+      "canonical_name": "trapezoid~",
+      "exact_name": "trapezoid~",
+      "fixed_arguments": ".25 .75",
+      "hot_inlet": 0,
+      "id": "trapezoid-signal-plateau",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3057,
+      "observed_outlet": 0,
+      "operation": "trapezoid",
+      "patch": "trapezoid-signal-plateau.rnbopat",
+      "patch_sha256": "f34f78218d41950275fc158f3ca3614625a5e97f435b844a3a5ed88370a89026",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_trapezoid~.maxref.xml",
+          "sha256": "3cdc8b7356dd3222149ced721a751bfb93fbedd39d8036d7fb7fdecc752067a7",
+          "url": "https://rnbo.cycling74.com/objects/ref/trapezoid~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_trapezoid~.maxhelp",
+          "sha256": "9ee67a212755ae23ac4b2ab890fedf94de7ebeb5e322d65db0bb66829de7898b",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/trapezoid.js",
+          "sha256": "9152ca7deb8ba6d2aff610c0ac12f3c5e7e193632cd9f80bf21e7b6850226ddb",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "trapezoid~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "trapezoid~ .25 .75",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "plateau"
+    },
+    {
+      "canonical_name": "trapezoid~",
+      "exact_name": "trapezoid~",
+      "fixed_arguments": ".5 .5",
+      "hot_inlet": 0,
+      "id": "trapezoid-signal-triangle",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3058,
+      "observed_outlet": 0,
+      "operation": "trapezoid",
+      "patch": "trapezoid-signal-triangle.rnbopat",
+      "patch_sha256": "e63645040275e4a915329c048ae93c225170ffe255d4694561deb4de74fe4a5c",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_trapezoid~.maxref.xml",
+          "sha256": "3cdc8b7356dd3222149ced721a751bfb93fbedd39d8036d7fb7fdecc752067a7",
+          "url": "https://rnbo.cycling74.com/objects/ref/trapezoid~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_trapezoid~.maxhelp",
+          "sha256": "9ee67a212755ae23ac4b2ab890fedf94de7ebeb5e322d65db0bb66829de7898b",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/trapezoid.js",
+          "sha256": "9152ca7deb8ba6d2aff610c0ac12f3c5e7e193632cd9f80bf21e7b6850226ddb",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "trapezoid~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "trapezoid~ .5 .5",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "triangle"
+    },
+    {
+      "canonical_name": "pan",
+      "exact_name": "pan",
+      "fixed_arguments": "3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase",
+      "hot_inlet": 0,
+      "id": "pan-three-wrap",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3059,
+      "observed_outlet": 2,
+      "operation": "pan",
+      "patch": "pan-three-wrap.rnbopat",
+      "patch_sha256": "dd0cd768b7d352245e10ca8e3a2e767fa83db63281c472f01f4c398eaf7bab04",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pan.maxref.xml",
+          "sha256": "c736926b56738710884b2d48a802b0788faf6b5fc8702709e5fb1837128672fb",
+          "url": "https://rnbo.cycling74.com/objects/ref/pan?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_pan.maxhelp",
+          "sha256": "7831c2050e7feac7e8a5b77c3696bd028dfe86dda1d786c8ad781730220301b2",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/xfademul.js",
+          "sha256": "c483acded91497b676fd8f33bc09714637a43009a002dbe051b4b2285789dc05",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/pan.js",
+          "sha256": "fc35e5cae49f4b4d155dc754ec242b9ce5cd37cdb324ffc047e04f27e7683a63",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "pan",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "pan 3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "three-wrap"
+    },
+    {
+      "canonical_name": "pan",
+      "exact_name": "pan~",
+      "fixed_arguments": "3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase",
+      "hot_inlet": 0,
+      "id": "pan-signal-three-wrap",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3060,
+      "observed_outlet": 2,
+      "operation": "pan",
+      "patch": "pan-signal-three-wrap.rnbopat",
+      "patch_sha256": "03ad4ee2d670bd2ab33f0893dad1bd7ce3806ad963b2247bf6f06a7993ffa087",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pan~.maxref.xml",
+          "sha256": "6e8fd5abb5fc89a2d27b94aa2e78ad9b88c527fc69be2bd787e185de04ace779",
+          "url": "https://rnbo.cycling74.com/objects/ref/pan~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_pan~.maxhelp",
+          "sha256": "5e1d5dd8715b45835b177b8ce2e31412dff53a2ae6a78043bbc2629e93b2cc20",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/xfademul.js",
+          "sha256": "c483acded91497b676fd8f33bc09714637a43009a002dbe051b4b2285789dc05",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/pan.js",
+          "sha256": "fc35e5cae49f4b4d155dc754ec242b9ce5cd37cdb324ffc047e04f27e7683a63",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "pan",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "pan~ 3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "three-wrap"
+    },
+    {
+      "canonical_name": "xfade",
+      "exact_name": "xfade",
+      "fixed_arguments": "3 @fademode lin @boundmode wrap @positionmode phase",
+      "hot_inlet": 0,
+      "id": "xfade-three-wrap",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3061,
+      "observed_outlet": 0,
+      "operation": "xfade",
+      "patch": "xfade-three-wrap.rnbopat",
+      "patch_sha256": "85b5b1da419802bbb87d6f6176a53ea5f0ea3b505ee481e4f2c41df419246a39",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_xfade.maxref.xml",
+          "sha256": "cc9176f203e6d91d1da96a34c49db42ae019bb49cee28ca8635a2b93ac6d1fb1",
+          "url": "https://rnbo.cycling74.com/objects/ref/xfade?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_xfade.maxhelp",
+          "sha256": "a1a195b46d52f6079d96f8b1e44f342a8623baf539a3bcae237708ff6f56651d",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/xfademul.js",
+          "sha256": "c483acded91497b676fd8f33bc09714637a43009a002dbe051b4b2285789dc05",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/xfade.js",
+          "sha256": "e8c8278c6a51e547d954d1408d41a1bd085e81033a3b0d3639442c8cf6c723f1",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "xfade",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "xfade 3 @fademode lin @boundmode wrap @positionmode phase",
+      "surface": "patcher",
+      "syntax": "armed-mixing-shaping-object",
+      "variant": "three-wrap"
+    },
+    {
+      "canonical_name": "xfade",
+      "exact_name": "xfade~",
+      "fixed_arguments": "3 @fademode lin @boundmode wrap @positionmode phase",
+      "hot_inlet": 0,
+      "id": "xfade-signal-three-wrap",
+      "input_domain": [
+        0.0,
+        1.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3062,
+      "observed_outlet": 0,
+      "operation": "xfade",
+      "patch": "xfade-signal-three-wrap.rnbopat",
+      "patch_sha256": "a6029dab30baa202e8226339043719299a1730c542beecae7335a976d86a1039",
+      "reference_policy": "independent-finite-maths-and-fade-contract",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_xfade~.maxref.xml",
+          "sha256": "d17e4aec1a117e813042e2229972e1894b0663e33cf4f34f84a8f76e35c1e606",
+          "url": "https://rnbo.cycling74.com/objects/ref/xfade~?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_xfade~.maxhelp",
+          "sha256": "deb993ba0d6d126834ad0510ab4fb92deae665b53c272b03485b3a3cc8ec30b3",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "source/operators/xfademul.js",
+          "sha256": "c483acded91497b676fd8f33bc09714637a43009a002dbe051b4b2285789dc05",
+          "source_kind": "installed-primary-source-or-help"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/xfade.js",
+          "sha256": "e8c8278c6a51e547d954d1408d41a1bd085e81033a3b0d3639442c8cf6c723f1",
+          "source_kind": "installed-primary-source-or-help"
+        }
+      ],
+      "registry_lookup": "xfade",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact finite maths/mixing form, selected output and explicit constructor/inlet mode. One arm and21 drives; signal phases vary within blocks. Ideal equations and predetermined limits, independently captured raw right lane. No alias, auxiliary-object or complete-domain inheritance.",
+      "signal_input": "clip(binary32(current drive + varying left input),0,1)",
+      "source_form": "xfade~ 3 @fademode lin @boundmode wrap @positionmode phase",
+      "surface": "patcher",
+      "syntax": "signal-mixing-shaping-object",
+      "variant": "three-wrap"
+    }
+  ],
+  "family": "rnbo-mixing-shaping",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 15,
+    "index": 4,
+    "parent_catalog_sha256": "101aaa5a7acf4e00684b21387baf4be122ecbde8a20e5061d3c9e752914fd23b",
+    "total": 4
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "63 event/signal scenarios across22 exact spellings: coordinate outputs, interpolation modes, panning/crossfade curves, shaping and decay math.",
+  "timed_blocks": 16
+}

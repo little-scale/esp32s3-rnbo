@@ -56124,6 +56124,1289 @@
       "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cartopol",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cartopol 0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "cartopol 0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "cartopol -0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "cartopol -0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario cartopol-positive-y-out0; source form cartopol 0.75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario cartopol-positive-y-out1; source form cartopol 0.75; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario cartopol-negative-y-out0; source form cartopol -0.75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario cartopol-negative-y-out1; source form cartopol -0.75; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "cartopol",
+      "surface": "patcher",
+      "working_note": "XIAO: all 4 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cosineinterp",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cosineinterp 0.25 1.25"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/cosineinterp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario cosineinterp-event; source form cosineinterp 0.25 1.25; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0.001 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "cosineinterp",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:cubicinterp",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "cubicinterp -0.5 0.25 1.25 -0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/cubicinterp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario cubicinterp-event; source form cubicinterp -0.5 0.25 1.25 -0.75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "cubicinterp",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:fastcubicinterp",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "fastcubicinterp -0.5 0.25 1.25 -0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/fastcubicinterp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario fastcubicinterp-event; source form fastcubicinterp -0.5 0.25 1.25 -0.75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "fastcubicinterp",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:interp",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification.",
+        "Six-point constructor point assignments remain incompatible with the intended control points; installed primary constructor code supplies an investigation lead. Inlet controls do not qualify the failing constructor form."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "interp 0.25 1.25 @mode linear"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-linear.rnbopat"
+        },
+        {
+          "forms": [
+            "interp 0.25 1.25 @mode cosine"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-cosine.rnbopat"
+        },
+        {
+          "forms": [
+            "interp -0.5 0.25 1.25 -0.75 @mode cubic"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-cubic.rnbopat"
+        },
+        {
+          "forms": [
+            "interp -0.5 0.25 1.25 -0.75 @mode fastcubic"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-fastcubic.rnbopat"
+        },
+        {
+          "forms": [
+            "interp -0.5 0.25 1.25 -0.75 @mode spline"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline.rnbopat"
+        },
+        {
+          "forms": [
+            "interp -1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6.rnbopat"
+        },
+        {
+          "forms": [
+            "interp @mode spline6"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6-inlets.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario interp-linear; source form interp 0.25 1.25 @mode linear; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-cosine; source form interp 0.25 1.25 @mode cosine; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0.001 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-cubic; source form interp -0.5 0.25 1.25 -0.75 @mode cubic; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-fastcubic; source form interp -0.5 0.25 1.25 -0.75 @mode fastcubic; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-spline; source form interp -0.5 0.25 1.25 -0.75 @mode spline; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-spline6; source form interp -1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim. This original six-point constructor retains the output discrepancy; separately authored six-inlet controls do not replace it.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-spline6-inlets; source form interp @mode spline6; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        }
+      ],
+      "spelling": "interp",
+      "surface": "patcher",
+      "working_note": "XIAO: generic six-point constructor form retains 5,120 outside-screen words, maximum error 0.4500000477, against the unchanged 2e-6 screen. Its separately authored six-inlet control and all other authored modes pass. Native preflight retains the same constructor discrepancy.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:interp~",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification.",
+        "Six-point constructor point assignments remain incompatible with the intended control points; installed primary constructor code supplies an investigation lead. Inlet controls do not qualify the failing constructor form."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "interp~ 0.25 1.25 @mode linear"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-linear.rnbopat"
+        },
+        {
+          "forms": [
+            "interp~ 0.25 1.25 @mode cosine"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cosine.rnbopat"
+        },
+        {
+          "forms": [
+            "interp~ -0.5 0.25 1.25 -0.75 @mode cubic"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cubic.rnbopat"
+        },
+        {
+          "forms": [
+            "interp~ -0.5 0.25 1.25 -0.75 @mode fastcubic"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-fastcubic.rnbopat"
+        },
+        {
+          "forms": [
+            "interp~ -0.5 0.25 1.25 -0.75 @mode spline"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline.rnbopat"
+        },
+        {
+          "forms": [
+            "interp~ -1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6.rnbopat"
+        },
+        {
+          "forms": [
+            "interp~ @mode spline6"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6-inlets.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-linear; source form interp~ 0.25 1.25 @mode linear; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-cosine; source form interp~ 0.25 1.25 @mode cosine; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0.001 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-cubic; source form interp~ -0.5 0.25 1.25 -0.75 @mode cubic; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-fastcubic; source form interp~ -0.5 0.25 1.25 -0.75 @mode fastcubic; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-spline; source form interp~ -0.5 0.25 1.25 -0.75 @mode spline; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-spline6; source form interp~ -1.0 0.5 -0.25 1.25 -0.75 2.0 @mode spline6; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim. This original six-point constructor retains the output discrepancy; separately authored six-inlet controls do not replace it.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario interp-signal-spline6-inlets; source form interp~ @mode spline6; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        }
+      ],
+      "spelling": "interp~",
+      "surface": "patcher",
+      "working_note": "XIAO: generic six-point constructor form retains 5,120 outside-screen words, maximum error 0.4500000477, against the unchanged 2e-6 screen. Its separately authored six-inlet control and all other authored modes pass. Native preflight retains the same constructor discrepancy.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:kink",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "kink 2.0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope2p0.rnbopat"
+        },
+        {
+          "forms": [
+            "kink 0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope0p75.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario kink-slope2p0; source form kink 2.0; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario kink-slope0p75; source form kink 0.75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        }
+      ],
+      "spelling": "kink",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mix",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mix 0.25 -0.5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p25.rnbopat"
+        },
+        {
+          "forms": [
+            "mix 0.75 -0.5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p75.rnbopat"
+        },
+        {
+          "forms": [
+            "mix"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/mix-moving-weight.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario mix-weight0p25; source form mix 0.25 -0.5; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario mix-weight0p75; source form mix 0.75 -0.5; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario mix-moving-weight; source form mix; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        }
+      ],
+      "spelling": "mix",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:pan",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "pan 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "pan 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "pan 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "pan 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "pan 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "pan 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "pan 3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-three-wrap.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario pan-lin-out0; source form pan 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-lin-out1; source form pan 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-eqpower-out0; source form pan 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-eqpower-out1; source form pan 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-cos-out0; source form pan 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-cos-out1; source form pan 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-three-wrap; source form pan 3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase; observed outlet 2. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "pan",
+      "surface": "patcher",
+      "working_note": "XIAO: all 7 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:pan~",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "pan~ 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "pan~ 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "pan~ 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "pan~ 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "pan~ 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "pan~ 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "pan~ 3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-three-wrap.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-lin-out0; source form pan~ 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-lin-out1; source form pan~ 2 @inputs 1 @fademode lin @boundmode clip @positionmode phase; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-eqpower-out0; source form pan~ 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-eqpower-out1; source form pan~ 2 @inputs 1 @fademode eqpower @boundmode clip @positionmode phase; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-cos-out0; source form pan~ 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-cos-out1; source form pan~ 2 @inputs 1 @fademode cos @boundmode clip @positionmode phase; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario pan-signal-three-wrap; source form pan~ 3 @inputs 1 @fademode lin @boundmode wrap @positionmode phase; observed outlet 2. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "pan~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 7 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:phasewrap",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "phasewrap"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/phasewrap-wide.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario phasewrap-wide; source form phasewrap; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "phasewrap",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:poltocar",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "poltocar"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "poltocar"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario poltocar-out0; source form poltocar; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario poltocar-out1; source form poltocar; observed outlet 1. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "poltocar",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:quantize",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "quantize 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q4.rnbopat"
+        },
+        {
+          "forms": [
+            "quantize 8"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q8.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario quantize-q4; source form quantize 4; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario quantize-q8; source form quantize 8; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "quantize",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:smoothstep",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "smoothstep"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-rising.rnbopat"
+        },
+        {
+          "forms": [
+            "smoothstep"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-falling.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario smoothstep-rising; source form smoothstep; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario smoothstep-falling; source form smoothstep; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "smoothstep",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:spline6interp",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "spline6interp -1.0 0.5 -0.25 1.25 -0.75 2.0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/spline6interp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario spline6interp-event; source form spline6interp -1.0 0.5 -0.25 1.25 -0.75 2.0; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "spline6interp",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:splineinterp",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "splineinterp -0.5 0.25 1.25 -0.75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/splineinterp-event.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario splineinterp-event; source form splineinterp -0.5 0.25 1.25 -0.75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+        }
+      ],
+      "spelling": "splineinterp",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:t60",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "t60"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/t60-decay.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario t60-decay; source form t60; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "t60",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:t60time",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "t60time"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/t60time-duration.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario t60time-duration; source form t60time; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0.0001 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "t60time",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:trapezoid",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "trapezoid .25 .75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-plateau.rnbopat"
+        },
+        {
+          "forms": [
+            "trapezoid .5 .5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-triangle.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario trapezoid-plateau; source form trapezoid .25 .75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario trapezoid-triangle; source form trapezoid .5 .5; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "trapezoid",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:trapezoid~",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "trapezoid~ .25 .75"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-plateau.rnbopat"
+        },
+        {
+          "forms": [
+            "trapezoid~ .5 .5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-triangle.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario trapezoid-signal-plateau; source form trapezoid~ .25 .75; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario trapezoid-signal-triangle; source form trapezoid~ .5 .5; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "trapezoid~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:xfade",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "xfade 2 @fademode lin @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-lin.rnbopat"
+        },
+        {
+          "forms": [
+            "xfade 2 @fademode eqpower @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-eqpower.rnbopat"
+        },
+        {
+          "forms": [
+            "xfade 2 @fademode cos @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-cos.rnbopat"
+        },
+        {
+          "forms": [
+            "xfade 3 @fademode lin @boundmode wrap @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-three-wrap.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario xfade-lin; source form xfade 2 @fademode lin @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario xfade-eqpower; source form xfade 2 @fademode eqpower @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario xfade-cos; source form xfade 2 @fademode cos @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario xfade-three-wrap; source form xfade 3 @fademode lin @boundmode wrap @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: ordered actual drive events. Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "xfade",
+      "surface": "patcher",
+      "working_note": "XIAO: all 4 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:xfade~",
+      "known_gaps": [
+        "Only authored finite unit-phase/transformed domains, selected outputs, modes and static control points are checked. Other inlet dynamics, domains/singularities, nonfinite values, channel/options combinations and within-block host events remain unqualified.",
+        "Callback/setter costs cover complete compiled fixtures, not isolated operations, total chip CPU or matched optimisation gains. Auxiliary objects, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "xfade~ 2 @fademode lin @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-lin.rnbopat"
+        },
+        {
+          "forms": [
+            "xfade~ 2 @fademode eqpower @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-eqpower.rnbopat"
+        },
+        {
+          "forms": [
+            "xfade~ 2 @fademode cos @boundmode clip @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-cos.rnbopat"
+        },
+        {
+          "forms": [
+            "xfade~ 3 @fademode lin @boundmode wrap @positionmode phase"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-three-wrap.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact maths/mixing scenario xfade-signal-lin; source form xfade~ 2 @fademode lin @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario xfade-signal-eqpower; source form xfade~ 2 @fademode eqpower @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario xfade-signal-cos; source form xfade~ 2 @fademode cos @boundmode clip @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 2e-06 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+        },
+        {
+          "conditions": "Exact maths/mixing scenario xfade-signal-three-wrap; source form xfade~ 3 @fademode lin @boundmode wrap @positionmode phase; observed outlet 0. One arm then 21 ordered drive events, repeated/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm plus 16 timed full 256-frame callbacks. Signal input policy: clip(binary32(current drive + varying left input),0,1). Independent ideal/piecewise/interpolation-basis reference and separately hashed raw right capture. Absolute limit 0 fixed before compilation. Only eleven signal-input fixture graphs were corrected before hardware; all 63 original expected streams and limits remain unchanged. No auxiliary-object, alias, complete-domain or optimisation-gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+        }
+      ],
+      "spelling": "xfade~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 4 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -56131,17 +57414,17 @@
   "snapshot_date": "2026-11-06",
   "sources": {
     ".github/workflows/host.yml": {
-      "bytes": 2037,
+      "bytes": 2099,
       "path": ".github/workflows/host.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "ca4cf71548a6da61067b903a0c50b5112ee3e1e37aee6eca58ecb1aea8d6119b",
+      "sha256": "9412bfe85225ca64b00fd2e0824abac7dd2c5d403320073727c0466e28e70abf",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/host.yml"
     },
     ".github/workflows/pages.yml": {
-      "bytes": 1307,
+      "bytes": 1369,
       "path": ".github/workflows/pages.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "6dd95140de413fdde1ecace240456bbbc5b5da3433e927ffdd9aa74249a4fe6f",
+      "sha256": "24137587554bf27288c5a4d834a1962fa9f71b3f9221cb5abd751573be9b3443",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/pages.yml"
     },
     "build/audit/rnbo-object-inventory-v1/inventory.json": {
@@ -57173,6 +58456,13 @@
       "sha256": "3e061510bdbdf4ea6bec7d6be40f4eca1770e87fa5ccbdc14bfbcfac1c2ed56f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-list-extended.md"
     },
+    "docs/rnbo-mixing-shaping.md": {
+      "bytes": 13801,
+      "path": "docs/rnbo-mixing-shaping.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f101547d86e6ece3fba0405cecc72c6a58435010707a4503170b47e896a4bcda",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-mixing-shaping.md"
+    },
     "docs/rnbo-unit-conversions.md": {
       "bytes": 9056,
       "path": "docs/rnbo-unit-conversions.md",
@@ -57683,6 +58973,34 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "c87026b7edd713689540598775d7b9c1ee155a45bd2c0fd0625b61cb69813123",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-list-extended-status.json"
+    },
+    "evidence/rnbo-mixing-shaping-builds.json": {
+      "bytes": 7244,
+      "path": "evidence/rnbo-mixing-shaping-builds.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "72fe53bb74583ac2a17318892b83be9ebfaed76213931e902e0e61ccc5756a7a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-mixing-shaping-builds.json"
+    },
+    "evidence/rnbo-mixing-shaping-initial-fixtures.json": {
+      "bytes": 36926,
+      "path": "evidence/rnbo-mixing-shaping-initial-fixtures.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "37dd3329c5a502f248d990d62cd93a8703161ab3d9d247f9ee0e5ffc21fa48da",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-mixing-shaping-initial-fixtures.json"
+    },
+    "evidence/rnbo-mixing-shaping-native.json": {
+      "bytes": 85864,
+      "path": "evidence/rnbo-mixing-shaping-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8390e28c1038868b3648bda1460d8d511a238a14cf5865f0c6c58c8cfcc3e6cb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-mixing-shaping-native.json"
+    },
+    "evidence/rnbo-mixing-shaping-status.json": {
+      "bytes": 81623,
+      "path": "evidence/rnbo-mixing-shaping-status.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a21d19df7318b2ae66e3e2924a620819c397412151542c3e7cab3e3da519a558",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-mixing-shaping-status.json"
     },
     "evidence/rnbo-signal-state-followup-review.json": {
       "bytes": 1785,
@@ -58222,6 +59540,41 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "576adc4838869f88b9c6d00fa564436899eea59dcdd82350cd1e7eef6a36ffe6",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-list-extended-player-restoration.json"
+    },
+    "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json": {
+      "bytes": 211380,
+      "path": "evidence/xiao-smoke-rnbo-mixing-shaping-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f295e8f677609c6ce9db68b79dc5a1ef7c2bedb5f25871cc8b142c8274b28717",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-mixing-shaping-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json": {
+      "bytes": 212142,
+      "path": "evidence/xiao-smoke-rnbo-mixing-shaping-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dfe95ed42b4b9c208367c2045f3a9b15de0553a3e5afe761b4f75378146347c4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-mixing-shaping-part2.json"
+    },
+    "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json": {
+      "bytes": 212867,
+      "path": "evidence/xiao-smoke-rnbo-mixing-shaping-part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e6464b5f8c6e0b1b9f3adfe4a15fdc1ce3aeb98039a0d817e8d92ed0d2776868",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-mixing-shaping-part3.json"
+    },
+    "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json": {
+      "bytes": 197982,
+      "path": "evidence/xiao-smoke-rnbo-mixing-shaping-part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "be1d719795cb375223864475d049e3adf1cc8aafd95f95d4deb86497cc62fb8e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-mixing-shaping-part4.json"
+    },
+    "evidence/xiao-smoke-rnbo-mixing-shaping-player-restoration.json": {
+      "bytes": 1351,
+      "path": "evidence/xiao-smoke-rnbo-mixing-shaping-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "560b17f4e6be605bb61675e10e367298ef9693cd6a8f265c21fa13dc39d0cb54",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-mixing-shaping-player-restoration.json"
     },
     "evidence/xiao-smoke-rnbo-numeric.json": {
       "bytes": 44123,
@@ -66049,6 +67402,643 @@
       "sha256": "ece161d3857aff0ef8cab8c1a522cf7fb61ae7cf3d3696a35d779fe04420cafa",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/reference.py"
     },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/README.md": {
+      "bytes": 1874,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6ed989fb82ea24b0e34aeac70963f3122adc5b8d6a136652ce23f13c447168da",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out0.rnbopat": {
+      "bytes": 5397,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "150b2f6b2d0a22cf40543ee7a7ea2f0496f1909d3e50e5030db3033e32655d73",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out1.rnbopat": {
+      "bytes": 5397,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "53f5341134a77c4cfee95624886d4c3f2ad9d30e9f4cce484ee972ab64ca2e42",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-negative-y-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out0.rnbopat": {
+      "bytes": 5396,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9d49efb0b683ebe77bf6ff88b1b4a51105d7a2ad9c6792d646148c6471d732d8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out1.rnbopat": {
+      "bytes": 5396,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "94468edc616984d1467454197d722bc62baca3e8d9d181c1146d1f54999266ff",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/cartopol-positive-y-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/catalog.json": {
+      "bytes": 127594,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2d9a4a61ff4e40b23fdcdf7d8138ea08bbb9a8974c7ef1a3a36fd5f098599e4e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/cosineinterp-event.rnbopat": {
+      "bytes": 4410,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/cosineinterp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a8e561235aabcceddcaed4b9b961465512cf73e47cdfff083dbb3c086d69550f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/cosineinterp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/cubicinterp-event.rnbopat": {
+      "bytes": 4420,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/cubicinterp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9b6bdb7374d60c9f0f3089f7501e1ad256b09dae9a33f7a40d3847677dc2239b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/cubicinterp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/fastcubicinterp-event.rnbopat": {
+      "bytes": 4424,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/fastcubicinterp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f6850a4283dcfe3dd7bbf23a24627a2bd1a2389da64c25b16fd5b0359d3a8d6b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/fastcubicinterp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/generate.py": {
+      "bytes": 7610,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8d2028fd0ffa7b163421733eb249ea7fa08cfd2a75c804b72191839889e35387",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-cosine.rnbopat": {
+      "bytes": 4417,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-cosine.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0c26f154a8c8be50f92840cb17d796f9fc3b7bc4abb4386067c935e74b70b07c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-cosine.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-cubic.rnbopat": {
+      "bytes": 4427,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-cubic.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "13bda9dcd4239e3fc59033b95b10c143018a297a3face30316f108c15b64cc2d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-cubic.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-fastcubic.rnbopat": {
+      "bytes": 4431,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-fastcubic.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fad71cda5b58251c7c4065950d756a841d7d6e575ce3ce4176c51d258b82d392",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-fastcubic.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-linear.rnbopat": {
+      "bytes": 4417,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-linear.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cba85d97c14fe1200522d9f5d09d650698f54702f8001ce10ef6a571a138862f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-linear.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cosine.rnbopat": {
+      "bytes": 5549,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cosine.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "71dcda094f01e68fc4a69eb5ba900f10240badac556ce43ac3ff7fe57168e586",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cosine.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cubic.rnbopat": {
+      "bytes": 5559,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cubic.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d5ec5eb007e545e2f382cd5242692590d35fe40b701445bd65a67de8dc68a8e3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-cubic.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-fastcubic.rnbopat": {
+      "bytes": 5563,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-fastcubic.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "32bb056d3ea85901ba6c940a47d55a58289ec2f967e5e46095f439bf4864c977",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-fastcubic.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-linear.rnbopat": {
+      "bytes": 5549,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-linear.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f0a2eb79a990f6650c6106a731ace3d52d5a724214522aa6256db958f57499d6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-linear.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline.rnbopat": {
+      "bytes": 5560,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "30273b1de4c9f3810ec83ab7e410cead96ae7446d4ca7f7bc86f737c2c50c98a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6-inlets.rnbopat": {
+      "bytes": 9572,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6-inlets.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4205d34b32de23f5e9708c3fc8b439957c26116b23f49af6c0fc8d963d2b1798",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6-inlets.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6.rnbopat": {
+      "bytes": 5570,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f8ed7531f00c3fe2d905633916f16d5801df2022810c2ceec672985b6dd83ca3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-signal-spline6.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline.rnbopat": {
+      "bytes": 4428,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "97957e0fb48c421781e8610721388f41899cedbbc57d5931f11299e62c82dd4c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6-inlets.rnbopat": {
+      "bytes": 8440,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6-inlets.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cf67a19b5f38f31d0994e1b17085d90198dce2ec67c526b59614490c1601b891",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6-inlets.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6.rnbopat": {
+      "bytes": 4438,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "af13068491909f5a899c59e36bdc91380811baf67b7ebafe35fa321c70ee36bb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/interp-spline6.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope0p75.rnbopat": {
+      "bytes": 4397,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope0p75.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cc472507a2aea5dbd30eba0f967cba257582bb4efbcfccd26f3a7455ce14c2ab",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope0p75.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope2p0.rnbopat": {
+      "bytes": 4396,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope2p0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8c1a1a3181b18b1db9176062316dcac3d6b246e2040720f8522bfe68e1abe279",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/kink-slope2p0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/README.md": {
+      "bytes": 663,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "74db65d2d210f846a62cd47aef05d4d989ae1d070a29c3a4a1c38888345a1f70",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/catalog.json": {
+      "bytes": 127594,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "101aaa5a7acf4e00684b21387baf4be122ecbde8a20e5061d3c9e752914fd23b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/generate.py": {
+      "bytes": 7347,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d4f15b55216dc285bc64a4f4d6304fb54fd85f6365b33afa985f9b474276e9cf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-cos-out0.rnbopat": {
+      "bytes": 6277,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-cos-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "85611fd64ffbcdf1b99ee5ed4d6811ffeeb5570b96cf9335b2ba33b7d4898e9e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-cos-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-cos-out1.rnbopat": {
+      "bytes": 6277,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-cos-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e82eedb8cc34b3a997e766abde09e55829b0f83da5f1ff86042f418259dead19",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-cos-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-eqpower-out0.rnbopat": {
+      "bytes": 6281,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-eqpower-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cc80f5da1ea69053b10e80b73566209a796cbd5f8f3421ad26dfb2dc9ce0aaf9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-eqpower-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-eqpower-out1.rnbopat": {
+      "bytes": 6281,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-eqpower-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "85d4106ef70df5267cc62287c35fa6812cee6022348480065071af819a9b72c9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-eqpower-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-lin-out0.rnbopat": {
+      "bytes": 6277,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-lin-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5963f6729d6ea4f1d29d3d39aa0e5a73b10e1366a277a9690a994b8ea4889e07",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-lin-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-lin-out1.rnbopat": {
+      "bytes": 6277,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-lin-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "365e3eae35396cb7242cdc183499a000490549e72a35c8aa567f0e9bf80af88c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-lin-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-three-wrap.rnbopat": {
+      "bytes": 7274,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-three-wrap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "03ad4ee2d670bd2ab33f0893dad1bd7ce3806ad963b2247bf6f06a7993ffa087",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/pan-signal-three-wrap.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part1.json": {
+      "bytes": 30370,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4c2596e724811f01dcae9e10d4762a14667675bd02e014930dc7d9fd178e064c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part2.json": {
+      "bytes": 31880,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0d5b49dc04adb70bf7499c8127bd03aa454e0c235623fe67f724ad46e91b6716",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part3.json": {
+      "bytes": 36807,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b5fc4db011d0379c937ade5ac2dd5f5f1667fd2ec597f0a943b3d3adfbd24534",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part3.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part4.json": {
+      "bytes": 30557,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "319d98aaba9091059ea81eeff511d4c25c7547d8634ff880080655a63b59d6f7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/part4.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/reference.py": {
+      "bytes": 8684,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "81b204e68d10e0d3bd82bfed6ec0af1952984411f33a361350c1bac05e82dc94",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/source-locations.json": {
+      "bytes": 9751,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/source-locations.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "eaa1116ee090aab6f2c0332807b1009b6d48c3d7b61437b39db8e76f1c011c45",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/source-locations.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-cos.rnbopat": {
+      "bytes": 6949,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-cos.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "30ef4e283d6a758215e9ad626c93dc08d057e214d4fbbffa117d09ee2fe87ba3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-cos.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-eqpower.rnbopat": {
+      "bytes": 6953,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-eqpower.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ec3b45fb5d93423ae2a38f599c661060e32b6b5609443169d7aa3a8aecfa31be",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-eqpower.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-lin.rnbopat": {
+      "bytes": 6949,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-lin.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "05f8554b8807f336d57adfc088384cfd10bbd685af973514248e6db65bdda692",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-lin.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-three-wrap.rnbopat": {
+      "bytes": 8634,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-three-wrap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a6029dab30baa202e8226339043719299a1730c542beecae7335a976d86a1039",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/message-to-signal-v1/xfade-signal-three-wrap.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/mix-moving-weight.rnbopat": {
+      "bytes": 6277,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/mix-moving-weight.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1586241b1890ae33a0dc8702daa2661043f6835576758e365de336af6d049639",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/mix-moving-weight.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p25.rnbopat": {
+      "bytes": 5396,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p25.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "55fbe08ae0160b65b4e02831ef49fffc0a7e09b50c9dbd164322e80e696c10a3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p25.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p75.rnbopat": {
+      "bytes": 5396,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p75.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8dbd0eed8ddfbdfb8c92a3a1b651a02cb97b1b2ba4dd43cc78cc6f719fae9aff",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/mix-weight0p75.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out0.rnbopat": {
+      "bytes": 5659,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c91aa7e271577e3e189d29051e8c23e829de326416d68781b04ac3e81873a153",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out1.rnbopat": {
+      "bytes": 5659,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "55d70548f4c11e58cbd48c86deb140a9c7f20e3a1ee29b22960c5858aae5352d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-cos-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out0.rnbopat": {
+      "bytes": 5663,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ad9be6179cd99b5665a6882fbcd713ede895d378c2ccfd24cdacbe5f03e0e289",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out1.rnbopat": {
+      "bytes": 5663,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4650b43e30500aa7a87b674a84007deadc76f5b8e2ea9152c339e6dc54eefd88",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-eqpower-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out0.rnbopat": {
+      "bytes": 5659,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dd288c902d756f76c8e56c68bb2d9efecfa3b4f736092cb02e7ae81b66565be4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out1.rnbopat": {
+      "bytes": 5659,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7597b981705793cfa47c6e22d997138764ca71b469b7e15697c365a4ff59564c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-lin-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out0.rnbopat": {
+      "bytes": 6076,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8da858e7b0f7e4bfc8ef7e5c486b327ec01a76864faedc3223c67411bcbe7386",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out1.rnbopat": {
+      "bytes": 6076,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "711d61fcd15594aefe68a4db53a3c3aa201770b296905e89b96f93250625e44c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-cos-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out0.rnbopat": {
+      "bytes": 6080,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "00d4fea55f213e67a06c7ad0931af8b2d57c37c800d3b2bd17bdf8c0eb6807b6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out1.rnbopat": {
+      "bytes": 6080,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f10d7c1c838a5f99c32bad9c0ef0f0401097878d3513f3dba1e13ec8a5f2d5a4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-eqpower-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out0.rnbopat": {
+      "bytes": 6076,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9be583fe7529a5524f52673b117d8f7f7d6c163c9aaffc5b2665650c468b374d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out1.rnbopat": {
+      "bytes": 6076,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "17d4a5b6156a10f3faf5cbc98aab313c42d7549e5a36e236daa7976ed037882a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-lin-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-three-wrap.rnbopat": {
+      "bytes": 7073,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-three-wrap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a9925c6046f5fa0de8b4c47a9f0abcfdc0b23861d4f5e6dd23d6713c70d56f15",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-signal-three-wrap.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/pan-three-wrap.rnbopat": {
+      "bytes": 6654,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/pan-three-wrap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dd0cd768b7d352245e10ca8e3a2e767fa83db63281c472f01f4c398eaf7bab04",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/pan-three-wrap.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/part1.json": {
+      "bytes": 30370,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "455aea9810c2371514da69fdfb77108bec9d33a2c4c6b86890466877dbebd31c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/part2.json": {
+      "bytes": 31880,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "96ee8a0f13508699f46852352c24bdd38b266dcd73dd398800c06f4e011d39b9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/part3.json": {
+      "bytes": 36807,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1ecede68030522c14e146f013893ec985527360e584380baaee8d9e3f6219c8f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/part3.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/part4.json": {
+      "bytes": 30557,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "573c79e4d502aa7cbc4e95be66bf539a510169f47ab8154329dc6c2aa60ffbed",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/part4.json"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/phasewrap-wide.rnbopat": {
+      "bytes": 5393,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/phasewrap-wide.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f7f1867b42dff2fb33c40de9abf796628662c34e8c0e62579363edcf6ed7396c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/phasewrap-wide.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out0.rnbopat": {
+      "bytes": 6597,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "751ed6205ab4f9ae5288f32695cb200109130de2decbfbde50e863abd1525194",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out1.rnbopat": {
+      "bytes": 6597,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b6b7d7e4d2287343643ad82bbef8efe44dbbeccbb3cbbb699966d2442a0d038f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/poltocar-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q4.rnbopat": {
+      "bytes": 5393,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q4.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "43a583879c992918cb859313f65ec1b99c5235b6b2af2f34134938707297267e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q4.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q8.rnbopat": {
+      "bytes": 5393,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q8.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e1988f13a2e9629542a4ef2b05344d3ec99bbbf96584ae4373d28efb3eb4860c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/quantize-q8.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/reference.py": {
+      "bytes": 8684,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "81b204e68d10e0d3bd82bfed6ec0af1952984411f33a361350c1bac05e82dc94",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-falling.rnbopat": {
+      "bytes": 6280,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-falling.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "51cc098f428d60f0a16ed6649612d9c847d9632eba96905f646ac076338a96a2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-falling.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-rising.rnbopat": {
+      "bytes": 6280,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-rising.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "522fa363af763fd7da169390b4bc5cdb75f6fbc22dae7c9e6f5b0bfc0bd3dfd1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/smoothstep-rising.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/spline6interp-event.rnbopat": {
+      "bytes": 4431,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/spline6interp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a684c7d8d3c8ef4432955d1ca8db338380c9ada40efe6db96c3a800c1963a63c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/spline6interp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/splineinterp-event.rnbopat": {
+      "bytes": 4421,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/splineinterp-event.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9e6cdf3b784a411a770384d6bcfc8e63f32c0ba2d8cb6f4b1c308694cc016dfc",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/splineinterp-event.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/t60-decay.rnbopat": {
+      "bytes": 5388,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/t60-decay.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5e6a4296d734771a83548248bf48a692930ddfc9619e984782280c44b650c928",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/t60-decay.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/t60time-duration.rnbopat": {
+      "bytes": 5396,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/t60time-duration.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "58c2b1e07750123e42abd48b3d98a8f186f6dae24a800e0d17cbaa18844d5fad",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/t60time-duration.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-plateau.rnbopat": {
+      "bytes": 4405,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-plateau.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5cad5d21e95a63f3b3870e5a0892251f747948d113cba189879cd7c18c6fb7b8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-plateau.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-plateau.rnbopat": {
+      "bytes": 5537,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-plateau.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f34f78218d41950275fc158f3ca3614625a5e97f435b844a3a5ed88370a89026",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-plateau.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-triangle.rnbopat": {
+      "bytes": 5535,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-triangle.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e63645040275e4a915329c048ae93c225170ffe255d4694561deb4de74fe4a5c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-signal-triangle.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-triangle.rnbopat": {
+      "bytes": 4403,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-triangle.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1172e96a57807b265db471f50ffc6c311439ed1fcd19a52e2794f9e2f0dd78fe",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/trapezoid-triangle.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-cos.rnbopat": {
+      "bytes": 6331,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-cos.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "174ced624f3c5d389a0c24629920281b96705126481e3e2b0549ea7ed43dd1c6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-cos.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-eqpower.rnbopat": {
+      "bytes": 6335,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-eqpower.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2e5cd4ddec7193e5f60569739e458138e9821e315e3006672adbef32c79e622b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-eqpower.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-lin.rnbopat": {
+      "bytes": 6331,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-lin.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c6e8e654d25eb47ada8ff45490407500bd3aaad1a7fce012959769ed43d6a78b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-lin.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-cos.rnbopat": {
+      "bytes": 6550,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-cos.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5931c52462713f7082b4e473e3b83b9ec798aeadf5bf48d4606b50bc6d3caf05",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-cos.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-eqpower.rnbopat": {
+      "bytes": 6554,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-eqpower.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d19317d2349acf076fe3a57ae66da2f150382d535bb70b86125d3746a3b00ff7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-eqpower.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-lin.rnbopat": {
+      "bytes": 6550,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-lin.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ea64d2452711e2589c844d64bd9c5df092ca2bf745e8d8e75626267317e2f662",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-lin.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-three-wrap.rnbopat": {
+      "bytes": 8035,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-three-wrap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "77b44232c6a0d463b3be118d4525ff885cdb0c4072c10f491d13a04c8ac7497a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-signal-three-wrap.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-three-wrap.rnbopat": {
+      "bytes": 8014,
+      "path": "tests/fixtures/smoke/rnbo-mixing-shaping/xfade-three-wrap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "85b5b1da419802bbb87d6f6176a53ea5f0ea3b505ee481e4f2c41df419246a39",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-mixing-shaping/xfade-three-wrap.rnbopat"
+    },
     "tests/fixtures/smoke/rnbo-unit-conversions/README.md": {
       "bytes": 2689,
       "path": "tests/fixtures/smoke/rnbo-unit-conversions/README.md",
@@ -66420,6 +68410,13 @@
       "sha256": "8b70c4509b13db9763417d1ce8ed4b9a6e44dae9946be9daaf7119d03febc7fe",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_list_extended_report.py"
     },
+    "tools/build_mixing_shaping_report.py": {
+      "bytes": 10826,
+      "path": "tools/build_mixing_shaping_report.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0bc0bbda1a814a3ffde225b12eeb7aed198c731ed2a3e6a579436e4087adf82d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_mixing_shaping_report.py"
+    },
     "tools/build_unit_conversion_report.py": {
       "bytes": 10092,
       "path": "tools/build_unit_conversion_report.py",
@@ -66566,6 +68563,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "08298cb7a05f1920bf4550f4e5f80dc447f10ec5c76eb67cd720906265665252",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_list_extended.py"
+    },
+    "tools/test_smoke_mixing_shaping.py": {
+      "bytes": 11722,
+      "path": "tools/test_smoke_mixing_shaping.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8060c6abf47ca358b56aaa4b83a5320cf37f8074e3fa7fdb896fa1cc1096d730",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_mixing_shaping.py"
     },
     "tools/test_smoke_motion_members_reference.py": {
       "bytes": 7797,

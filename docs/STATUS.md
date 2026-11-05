@@ -1,5 +1,20 @@
 # Implementation status — 6 November 2026
 
+The [maths/interpolation/mixing batch](rnbo-mixing-shaping.md) adds **22 exact
+spellings across 63 completed XIAO scenarios**. **61 pass**, while the generic
+six-point `interp` and `interp~` constructor forms retain **10,240 outside-screen
+words**, maximum error 0.4500000477, against unchanged 2e-6 limits. Their separate
+inlet-driven controls pass. Checks cover **645,120 output words and 1,386 control
+actions**, with 54,800 within-limit differences, no nonfinite/zero-sign errors and
+exact raw right captures. Eleven initial native-only fixture amplitude omissions
+are corrected using explicit signals; all 63 expected streams/limits and 52 other
+modules stay unchanged. **Five callback contexts** join CPU review, now **162**:
+signal cosine/cubic interpolation and three signal cosine pan/crossfade contexts.
+The slowest is cosine xfade~ at 3,905µs median (**67.27%**), peak 3,989µs. All images
+finalise and memory/allocation gates pass. The normal player and saved controls
+are restored. RNBO coverage reaches **1056/1455 scoped outcomes**, including
+partials; Gen remains separate and the complete qualification goal stays active.
+
 The [extended list/storage batch](rnbo-list-extended.md) adds **17 exact
 spellings across 32 scenarios**. **27 complete output checks pass**, one
 `list.union` screen retains **1,536 policy differences**, and four original

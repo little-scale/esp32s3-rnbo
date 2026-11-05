@@ -13,6 +13,27 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Maths/interpolation/mixing: five new callback contexts
+
+The [maths/mixing report](rnbo-mixing-shaping.md) retains five threshold-crossing
+signal contexts, bringing the queue from 157 to **162**. All five pass their fixed
+output screens; the two six-point constructor gaps remain separate.
+
+| Context | Median / peak µs | Callback CPU |
+| --- | ---: | ---: |
+| `interp-signal-cosine` | 1195 / 1218 | 20.59% |
+| `interp-signal-cubic` | 1204.5 / 1210 | 20.75% |
+| `pan-signal-cos-out0` | 3869.5 / 3954 | 66.66% |
+| `pan-signal-cos-out1` | 3871 / 3955 | 66.68% |
+| `xfade-signal-cos` | 3905 / 3989 | 67.27% |
+
+These are complete compiled contexts including phase preparation and the raw
+pilot, not isolated operation timings or optimisation gains. Event-rate work is
+separately timed: xfade cos totals 443µs (peak 43µs), pan cos output1 440µs
+(peak 43µs), pan cos output0 432µs (peak 42µs), and t60 409µs (peak 44µs), each over
+22 actions including arming. The original 63 reference streams/limits stay fixed.
+Signal-only input fixture omissions were corrected before any hardware run.
+
 ## Extended list/storage: no new callback flags
 
 The 28 completed list contexts measure **75–76µs median**, peak 81µs, so no new

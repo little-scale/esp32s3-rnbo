@@ -989,6 +989,47 @@ def event_state_plan(plan):
                     'Event-state authored arm/drive action differs')
 
 
+def mixing_shaping_plan(plan):
+    from build_hardware_smoke import MIXING_SHAPING_FAMILY,MIXING_SHAPING_CATALOG_SHA,MIXING_SHAPING_REFERENCE_SHA,MIXING_SHAPING_PARTITIONS,mixing_shaping_catalog
+    directory=ROOT/'tests/fixtures/smoke/rnbo-mixing-shaping'
+    partition=plan.get('partition',{});index=partition.get('index');require(type(index)is int and index in(1,2,3,4),'Invalid mixing/shaping partition')
+    catalog=json.loads((directory/('part'+str(index)+'.json')).read_bytes());mixing_shaping_catalog(catalog)
+    require(partition==catalog['partition'],'Mixing/shaping partition differs')
+    require(plan.get('catalog_sha256')==MIXING_SHAPING_PARTITIONS[index] and
+            plan.get('reference_source_sha256')==MIXING_SHAPING_REFERENCE_SHA and
+            sha(directory/'reference.py')==MIXING_SHAPING_REFERENCE_SHA and plan.get('surface')=='patcher' and
+            type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+            plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_block_storage')=='shared-512-word-pool', 'Mixing/shaping source/fresh-control policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals)and {r['id']for r in observed}==set(originals),'Mixing/shaping case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')), 'Mixing/shaping exact spelling/source differs')
+    spec=importlib.util.spec_from_file_location('mixing_shaping_independent',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    pool=expected_pool(plan)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model'];inputs=reference.case_input_words(model)
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0] and
+                row.get('input_words')==list(inputs),'Mixing/shaping source/domain/tolerance differs')
+        blocks,_=expected_stream(row,True,pool)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),'Mixing/shaping reference stream differs')
+        authored=reference.parameter_events(model);observed=row.get('parameter_events',[])
+        parameters=row.get('parameters',[])
+        require(len(authored)==len(observed)==22 and row.get('expected_parameter_count')==2 and
+                len(parameters)==2 and {p['id']:p for p in parameters}=={p['id']:p for p in reference.parameters()},
+                'Mixing/shaping armed parameter contract differs')
+        for expected,actual in zip(authored,observed):
+            slot=next(i for i,p in enumerate(parameters)if p['id']==expected['id']);p=parameters[slot]
+            normalized=(expected['value']-p['minimum'])/(p['maximum']-p['minimum'])
+            require(actual==dict(before_call=expected['before_call'],id=expected['id'],parameter_slot=slot,
+                    value_word=reference.word(expected['value']),normalized_word=reference.word(normalized)),
+                    'Mixing/shaping authored arm/drive action differs')
+
+
 def list_extended_plan(plan):
     from build_hardware_smoke import LIST_EXTENDED_FAMILY,LIST_EXTENDED_CATALOG_SHA,LIST_EXTENDED_REFERENCE_SHA,LIST_EXTENDED_PARTITIONS,list_extended_catalog
     directory=ROOT/'tests/fixtures/smoke/rnbo-list-extended'
@@ -1164,6 +1205,7 @@ def collect(build_dir,run_dir):
     if plan.get('family')=='rnbo-unit-conversions':unit_conversion_plan(plan)
     if plan.get('family')=='rnbo-event-state':event_state_plan(plan)
     if plan.get('family')=='rnbo-list-extended':list_extended_plan(plan)
+    if plan.get('family')=='rnbo-mixing-shaping':mixing_shaping_plan(plan)
     if plan.get('family')=='rnbo-event-routing':event_routing_plan(plan)
     if plan.get('family')=='rnbo-events-ranges':event_range_plan(plan)
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
@@ -1202,7 +1244,7 @@ def collect(build_dir,run_dir):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
-    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended')
+    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping')
     stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
@@ -1240,8 +1282,8 @@ def collect(build_dir,run_dir):
         output=output_metrics(data,expected,plan['input_words_sha256'],tolerance_ceiling=struct.unpack('<f',struct.pack('<f',.008))[0]if plan.get('family')=='rnbo-unit-conversions'else struct.unpack('<f',struct.pack('<f',2e-3))[0]if plan.get('family')==CONTEXT_ALIAS_FAMILY else TOLERANCE_CEILING);status=output['status']
         blocks,stream_sha=expected_stream(expected,stateful,pool)
         first,witness_metadata=mismatch_witness(data,expected,status,output,blocks,stream_sha)
-        parameters=parameter_observations(expected,data,events,event_family,allow_tolerance=plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state'),tolerance_ceiling=struct.unpack('<f',struct.pack('<f',2e-6))[0]if plan.get('family')=='rnbo-event-state'else struct.unpack('<f',struct.pack('<f',.008))[0]if plan.get('family')=='rnbo-unit-conversions'else TOLERANCE_CEILING)
-        if plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended'):parameters.update(right_pilot_observation(data,blocks))
+        parameters=parameter_observations(expected,data,events,event_family,allow_tolerance=plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-mixing-shaping'),tolerance_ceiling=struct.unpack('<f',struct.pack('<f',2e-6))[0]if plan.get('family')=='rnbo-event-state'else struct.unpack('<f',struct.pack('<f',.008))[0]if plan.get('family')=='rnbo-unit-conversions'else TOLERANCE_CEILING)
+        if plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping'):parameters.update(right_pilot_observation(data,blocks))
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
@@ -1251,6 +1293,8 @@ def collect(build_dir,run_dir):
         if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
                                                          'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
         if gen_data:record['owner_kind']=expected['owner_kind']
+        if plan.get('family')=='rnbo-mixing-shaping':
+            record.update({k:expected[k]for k in('model','scope','source_form','operation','variant','observed_outlet','signal_input','hot_inlet','input_domain')})
         if plan.get('family')=='rnbo-list-extended':
             record.update({k:expected[k]for k in('model','scope','source_form','operation','variant','observed_outlet','output_kind','list_observer','input_domain')})
         if plan.get('family')=='rnbo-event-routing':
@@ -1313,12 +1357,12 @@ def collect(build_dir,run_dir):
                       scope='Explicit bounded changed-rounding numerical and matched ABBA callback comparison; no general object or bit-identity qualification',
                       numerical_comparison='Each profile versus the fixed independent mathematical cache',
                       profile_comparison=dbtoa_comparison_times(records))
-    elif plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended'):
+    elif plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping'):
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'])
         if plan['family']=='rnbo-event-routing':result['collector_dependencies_sha256']={'tools/event_routing_provenance.py':sha(ROOT/'tools/event_routing_provenance.py')}
     elif plan.get('family')=='gen-visual-math':
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'],collector_dependencies_sha256={'tools/visual_gen_provenance.py':sha(ROOT/'tools/visual_gen_provenance.py')})
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended') and plan.get('surface')=='patcher':
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
