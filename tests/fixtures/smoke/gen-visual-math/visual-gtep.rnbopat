@@ -1,0 +1,264 @@
+{
+  "patcher": {
+    "boxes": [
+      {
+        "box": {
+          "id": "left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "left",
+          "text": "in~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            190,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "right",
+          "text": "in~ 2"
+        }
+      },
+      {
+        "box": {
+          "genpatcher": {
+            "patcher": {
+              "boxes": [
+                {
+                  "box": {
+                    "id": "a",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "patching_rect": [
+                      30,
+                      30,
+                      100,
+                      24
+                    ],
+                    "text": "in 1"
+                  }
+                },
+                {
+                  "box": {
+                    "id": "b",
+                    "maxclass": "newobj",
+                    "numinlets": 0,
+                    "numoutlets": 1,
+                    "patching_rect": [
+                      110,
+                      30,
+                      100,
+                      24
+                    ],
+                    "text": "in 2"
+                  }
+                },
+                {
+                  "box": {
+                    "id": "op",
+                    "maxclass": "newobj",
+                    "numinlets": 2,
+                    "numoutlets": 1,
+                    "patching_rect": [
+                      190,
+                      30,
+                      100,
+                      24
+                    ],
+                    "text": "gtep"
+                  }
+                },
+                {
+                  "box": {
+                    "id": "l",
+                    "maxclass": "newobj",
+                    "numinlets": 1,
+                    "numoutlets": 0,
+                    "patching_rect": [
+                      270,
+                      30,
+                      100,
+                      24
+                    ],
+                    "text": "out 1"
+                  }
+                },
+                {
+                  "box": {
+                    "id": "r",
+                    "maxclass": "newobj",
+                    "numinlets": 1,
+                    "numoutlets": 0,
+                    "patching_rect": [
+                      350,
+                      30,
+                      100,
+                      24
+                    ],
+                    "text": "out 2"
+                  }
+                }
+              ],
+              "classnamespace": "dsp.gen",
+              "fileversion": 1,
+              "lines": [
+                {
+                  "patchline": {
+                    "destination": [
+                      "l",
+                      0
+                    ],
+                    "source": [
+                      "op",
+                      0
+                    ]
+                  }
+                },
+                {
+                  "patchline": {
+                    "destination": [
+                      "r",
+                      0
+                    ],
+                    "source": [
+                      "b",
+                      0
+                    ]
+                  }
+                },
+                {
+                  "patchline": {
+                    "destination": [
+                      "op",
+                      0
+                    ],
+                    "source": [
+                      "a",
+                      0
+                    ]
+                  }
+                },
+                {
+                  "patchline": {
+                    "destination": [
+                      "op",
+                      1
+                    ],
+                    "source": [
+                      "b",
+                      0
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "id": "gen",
+          "maxclass": "newobj",
+          "patching_rect": [
+            350,
+            30,
+            150,
+            24
+          ],
+          "rnbo_extra_attributes": {
+            "exposeparams": 0
+          },
+          "rnbo_uniqueid": "gen",
+          "text": "gen~"
+        }
+      },
+      {
+        "box": {
+          "id": "out-left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            510,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "out-left",
+          "text": "out~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "out-right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            670,
+            30,
+            150,
+            24
+          ],
+          "rnbo_uniqueid": "out-right",
+          "text": "out~ 2"
+        }
+      }
+    ],
+    "classnamespace": "rnbo",
+    "fileversion": 1,
+    "lines": [
+      {
+        "patchline": {
+          "destination": [
+            "gen",
+            0
+          ],
+          "source": [
+            "left",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "gen",
+            1
+          ],
+          "source": [
+            "right",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-left",
+            0
+          ],
+          "source": [
+            "gen",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-right",
+            0
+          ],
+          "source": [
+            "gen",
+            1
+          ]
+        }
+      }
+    ]
+  }
+}

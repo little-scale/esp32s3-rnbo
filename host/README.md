@@ -331,3 +331,8 @@ compiler warning without disabling the warning or changing numerical semantics,
 Float64 storage or processing order. The original delay and feedback programs
 now pass a [marked XIAO rerun](../docs/gen-delay-bool-clamp.md); unknown read
 forms remain untouched. No new flag or numerical profile is required.
+
+Visual Gen now also supports the [qualified stateless maths, comparison and
+constant spellings](../docs/gen-visual-math.md). The report lists individual
+checks and CPU costs. Remaining operators/modes, parameters, resources,
+codeboxes and external/nested forms remain active work.

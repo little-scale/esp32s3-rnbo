@@ -12,6 +12,7 @@ import json
 import math
 import re
 import struct
+from visual_gen_provenance import resolve_lowerer
 from datetime import datetime
 from pathlib import Path
 
@@ -289,7 +290,7 @@ def checked_short_smoke(record,item,data):
     codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')
     surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
@@ -342,9 +343,24 @@ def checked_short_smoke(record,item,data):
         proof=case.get('gen_visual_lowering',{})
         require(proof.get('policy')=='embedded-visual-gen-core-v1'and proof.get('box_id')=='gen' and
                 all(type(proof.get(k))is str and re.fullmatch('[0-9a-f]{64}',proof[k])for k in('source_graph_sha256','lowered_genexpr_sha256','adapter_sha256'))and
-                proof['adapter_sha256']==hashlib.sha256((ROOT/'host/export/gen_visual.mjs').read_bytes()).hexdigest(),
+                proof['adapter_sha256']==hashlib.sha256(resolve_lowerer(proof).read_bytes()).hexdigest(),
                 'Visual Gen requires its source-bound lowering proof')
         stream_fields=dict(expected_block_count=20,expected_stream_sha256=case['expected_stream_sha256'],genpatcher_sha256=case['genpatcher_sha256'],gen_visual_lowering=proof)
+    if data.get('family')=='gen-visual-math':
+        index=data.get('partition',{}).get('index');require(type(index)is int and index in(1,2,3,4),'Invalid visual maths partition')
+        catalog=json.loads((ROOT/'tests/fixtures/smoke/gen-visual-math'/('part'+str(index)+'.json')).read_bytes());source=next((c for c in catalog['cases']if c['id']==case['id']),None)
+        require(data['partition']==catalog['partition']and data.get('prepare_zero_warm_blocks')==0 and
+                case.get('syntax')=='embedded-visual-gen-maths'and case.get('expected_block_count')==1 and source is not None and
+                all(case.get(k)==source[k]for k in('visual_operator','visual_kind','canonical_operation','source_form','input_domains','genpatcher_sha256'))and
+                case.get('source_sha256')==source['patch_sha256']and
+                case.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0],
+                'Visual mathematics exact source/domain/limits differ')
+        proof=case.get('gen_visual_lowering',{});digest=case.get('right_output_sha256')
+        require(proof.get('policy')=='embedded-visual-gen-math-v1'and proof.get('box_id')=='gen'and
+                proof.get('adapter_sha256')==hashlib.sha256(resolve_lowerer(proof).read_bytes()).hexdigest()and
+                case.get('right_pilot_bit_exact')is True and type(digest)is str and re.fullmatch('[0-9a-f]{64}',digest)and
+                digest==case.get('expected_right_output_sha256'),'Visual mathematics bridge/right observer differs')
+        code_fields={k:case[k]for k in('gen_visual_lowering','genpatcher_sha256','visual_operator','visual_kind','canonical_operation','source_form','input_domains','right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')}
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
@@ -389,7 +405,7 @@ def checked_short_smoke(record,item,data):
             require(case.get('right_pilot_bit_exact')is True and type(digest)is str and re.fullmatch('[0-9a-f]{64}',digest)is not None and
                     digest==case.get('expected_right_output_sha256'),'Event maths requires its independent raw right observer')
             event_fields.update({k:case[k]for k in('right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')})
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -399,7 +415,7 @@ def checked_short_smoke(record,item,data):
         tolerance=number(case['absolute_tolerance']);maximum=number(case['max_absolute_error'])
         # Float32(1e-3) is slightly greater than decimal1e-3. Only this
         # new unit-aware/approximation family may use that larger ceiling.
-        maximum_tolerance=0.0020000000949949026 if data['family']=='rnbo-codebox-context-aliases'else 0.0010000000474974513 if data['family']in('rnbo-functions','rnbo-signal-range','rnbo-codebox-range','rnbo-codebox-shaping','rnbo-codebox-misc','rnbo-codebox-motion-members','rnbo-events-math')else 2e-6
+        maximum_tolerance=0.0020000000949949026 if data['family']=='rnbo-codebox-context-aliases'else 0.0010000000474974513 if data['family']in('rnbo-functions','rnbo-signal-range','rnbo-codebox-range','rnbo-codebox-shaping','rnbo-codebox-misc','rnbo-codebox-motion-members','rnbo-events-math','gen-visual-math')else 2e-6
         require(0<=tolerance<=maximum_tolerance and maximum>=0 and(not within or tolerance>0),
                 'Short numeric smoke tolerance/error is invalid')
         require((mismatches==0 and maximum<=tolerance)or

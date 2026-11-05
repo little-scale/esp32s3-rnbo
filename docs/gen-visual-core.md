@@ -7,7 +7,7 @@ inherited qualification from earlier authored GenExpr programs. Cycling '74's
 visual Gen, file loading and single-sample feedback; the broader documented
 feature set remains part of our qualification goal.
 
-The current core admits `in`, `out`, `+`, `-`, `*`, `/`, `abs`, `neg` and `history`.
+The initial qualified core admits `in`, `out`, `+`, `-`, `*`, `/`, `abs`, `neg` and `history`.
 Binary operators take two connected inputs or one connected input and one fixed
 numeric argument. Port ordinals must be dense. Named histories retain their
 names and initial values. Histories are snapshotted before graph computations;
@@ -16,7 +16,7 @@ sample reads, fanout and simultaneous coupled-state updates across callbacks.
 Negative-zero literals retain their sign in emitted code; their wider runtime
 semantics remain unqualified by this batch.
 
-Unknown nodes/options, implicit disconnected arithmetic defaults, multiple
+Within that initial core, unknown nodes/options, implicit disconnected arithmetic defaults, multiple
 connections to one inlet, algebraic loops, shared history names, nested graphs,
 external files/assets, exposed parameters and visual codeboxes reject. A graph
 cannot be overridden by a stale saved `expr` or `file` attribute. Existing
@@ -75,3 +75,10 @@ retain separate scopes. The RNBO dashboard adds only the exact `gen~` row,
 bringing it to **936/1,455 scoped entries**. The 212-entry GenExpr source-route
 ledger stays separate and does not inherit visual-graph outcomes. The full
 RNBO/Gen qualification goal remains active.
+
+The [visual maths/constant batch](gen-visual-math.md) adds 101 separately checked
+spellings. Core receipts now resolve the immutable
+[`qualified_lowerer.mjs`](../tests/fixtures/smoke/gen-visual-core/qualified_lowerer.mjs)
+snapshot, rather than requiring the production compiler to remain unchanged.
+The new producer emits byte-identical lowerings for these 21 core fixtures;
+their historical target results and numerical limits are preserved.

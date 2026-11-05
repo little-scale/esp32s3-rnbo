@@ -1,5 +1,18 @@
 # XIAO object qualification
 
+The [visual Gen maths/constant batch](gen-visual-math.md) runs **101 exact
+spellings**: **99 pass and two intentional approximations retain outside-screen
+numerical differences**, across **1,034,240 output-word checks**. Every raw
+right-lane capture matches; there are no nonfinite outputs. Five logarithm/
+exponential callback contexts join the CPU queue, now **156**; exp2 is highest
+at 3,777µs median (**65.06%** of the block period). All 101 images finalise and
+runtime allocation/memory checks pass. Historical core evidence resolves its
+immutable lowerer snapshot, with all 21 old lowerings unchanged. The normal
+player and original controls are restored. The RNBO table remains **936/1455
+scoped entries**; the 101 visual spellings have a separate operator report.
+Remaining RNBO/Gen operators, structures, modes and resources keep the full
+goal active. No optimisation gain is claimed.
+
 The [embedded visual Gen core](gen-visual-core.md) now imports actual
 `genpatcher.patcher` graphs and passes **21 XIAO scenarios / 215,040 output-word
 checks**, including single-sample histories, coupled feedback and state rotation.

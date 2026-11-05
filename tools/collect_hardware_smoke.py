@@ -16,6 +16,7 @@ ROOT=Path(__file__).resolve().parents[1]
 TOLERANCE_CEILING=struct.unpack('<f',struct.pack('<f',.001))[0]
 sys.path.insert(0,str(ROOT/'host/compiler'))
 from prepare import canonical
+from visual_gen_provenance import resolve_lowerer
 from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_REFERENCE_SHA,
                                 gen_delay_catalog,GEN_DELAY_RERUN,GEN_DELAY_REFERENCE_SHA,
                                 GEN_DELAY_PROOFS,GEN_DELAY_REFERENCE_PROOFS)
@@ -942,11 +943,47 @@ def visual_gen_plan(plan):
         raw=(directory/source['patch']).read_bytes();patch=json.loads(raw)['patcher'];gen=next(b['box']for b in patch['boxes']if b['box'].get('text')=='gen~')
         require(hashlib.sha256(raw).hexdigest()==source['patch_sha256']and 'expr'not in gen['rnbo_extra_attributes']and
                 hashlib.sha256(canonical(gen['genpatcher'])).hexdigest()==source['genpatcher_sha256'],'Original visual source/graph differs')
-        script="import fs from 'node:fs';import {lowerVisualGen} from './host/export/gen_visual.mjs';process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
+        adapter=resolve_lowerer(row.get('gen_visual_lowering',{}),allow_current=True)
+        script="import fs from 'node:fs';import {lowerVisualGen} from "+json.dumps(adapter.as_uri())+";process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
         lowered=json.loads(subprocess.run(['node','--input-type=module','-e',script],input=json.dumps(gen['genpatcher']),text=True,capture_output=True,cwd=ROOT,check=True,timeout=10).stdout)
         expected=dict(box_id=gen['id'],policy=lowered['policy'],nodes=lowered['nodes'],edges=lowered['edges'],histories=lowered['history_count'],operators=lowered['operators'],
             source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
-            lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(ROOT/'host/export/gen_visual.mjs'))
+            lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(adapter))
+        require(row.get('gen_visual_lowering')==expected,'Visual Gen bridge/lowerer identity differs')
+
+
+def visual_math_plan(plan):
+    from build_hardware_smoke import VISUAL_MATH_CATALOG_SHA,VISUAL_MATH_REFERENCE_SHA,VISUAL_MATH_PARTITIONS,visual_math_catalog
+    import subprocess
+    directory=ROOT/'tests/fixtures/smoke/gen-visual-math';index=plan.get('partition',{}).get('index')
+    require(type(index)is int and index in(1,2,3,4),'Invalid visual mathematics partition')
+    catalog=json.loads((directory/('part'+str(index)+'.json')).read_bytes());visual_math_catalog(catalog)
+    require(plan['partition']==catalog['partition'],'Visual mathematics partition differs')
+    require(plan.get('catalog_sha256')==VISUAL_MATH_PARTITIONS[index] and plan.get('reference_source_sha256')==VISUAL_MATH_REFERENCE_SHA and
+            sha(directory/'reference.py')==VISUAL_MATH_REFERENCE_SHA and plan.get('surface')=='patcher' and
+            type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+            plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16,'Visual Gen source/fresh-state policy differs')
+    originals={r['id']:r for r in catalog['cases']};observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals)and {r['id']for r in observed}==set(originals),'Visual Gen source ledger differs')
+    spec=importlib.util.spec_from_file_location('visual_gen_independent',directory/'reference.py');ref=importlib.util.module_from_spec(spec);spec.loader.exec_module(ref)
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256']and all(row.get(k)==source[k]for k in('exact_name','syntax','registry_lookup')),'Visual Gen exact source differs')
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model'];inputs=ref.case_input_words(model)
+        require(all(row.get(k)==v for k,v in source.items())and row.get('input_words')==list(inputs) and
+                row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0] and
+                not any(k in row for k in('genexpr','codebox','parameters','parameter_events','expected_block_indices','expected_blocks','expected_stream_sha256')),'Visual Gen graph/domain/tolerance differs')
+        require(row.get('expected')==list(ref.reference_words(model,inputs)),'Visual mathematics reference differs')
+        raw=(directory/source['patch']).read_bytes();patch=json.loads(raw)['patcher'];gen=next(b['box']for b in patch['boxes']if b['box'].get('text')=='gen~')
+        require(hashlib.sha256(raw).hexdigest()==source['patch_sha256']and 'expr'not in gen['rnbo_extra_attributes']and
+                hashlib.sha256(canonical(gen['genpatcher'])).hexdigest()==source['genpatcher_sha256'],'Original visual source/graph differs')
+        adapter=resolve_lowerer(row.get('gen_visual_lowering',{}),allow_current=True)
+        script="import fs from 'node:fs';import {lowerVisualGen} from "+json.dumps(adapter.as_uri())+";process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
+        lowered=json.loads(subprocess.run(['node','--input-type=module','-e',script],input=json.dumps(gen['genpatcher']),text=True,capture_output=True,cwd=ROOT,check=True,timeout=10).stdout)
+        expected=dict(box_id=gen['id'],policy=lowered['policy'],nodes=lowered['nodes'],edges=lowered['edges'],histories=lowered['history_count'],operators=lowered['operators'],
+            source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
+            lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(adapter))
         require(row.get('gen_visual_lowering')==expected,'Visual Gen bridge/lowerer identity differs')
 
 
@@ -957,6 +994,7 @@ def collect(build_dir,run_dir):
     require(run['format']=='rnbo-hardware-smoke-run-v1' and run['board']=='xiao' and
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
+    if plan.get('family')=='gen-visual-math':visual_math_plan(plan)
     if plan.get('family')=='gen-visual-core':visual_gen_plan(plan)
     if plan.get('family')=='rnbo-events-math':event_math_plan(plan)
     if plan.get('family')=='rnbo-events-ranges':event_range_plan(plan)
@@ -1057,7 +1095,10 @@ def collect(build_dir,run_dir):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
-        if plan.get('family')=='gen-visual-core':record.update({k:expected[k]for k in('gen_visual_lowering','genpatcher_sha256')})
+        if plan.get('family')in('gen-visual-core','gen-visual-math'):record.update({k:expected[k]for k in('gen_visual_lowering','genpatcher_sha256')})
+        if plan.get('family')=='gen-visual-math':
+            record.update({k:expected[k]for k in('visual_operator','visual_kind','canonical_operation','source_form','input_domains')})
+            record.update(right_pilot_observation(data,[expected['expected']]*20))
         record.update(**output,
             mean_us=mean,median_us=med,peak_us=peak,times_us=times,cpu_review_reasons=reasons,
             context_bytes=int(data['context_bytes']),arena_high_water=int(data['arena_high_water']),
@@ -1098,7 +1139,9 @@ def collect(build_dir,run_dir):
                       profile_comparison=dbtoa_comparison_times(records))
     elif plan.get('family')=='rnbo-events-math':
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'])
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math') and plan.get('surface')=='patcher':
+    elif plan.get('family')=='gen-visual-math':
+        result.update(family=plan['family'],surface='patcher',partition=plan['partition'],collector_dependencies_sha256={'tools/visual_gen_provenance.py':sha(ROOT/'tools/visual_gen_provenance.py')})
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

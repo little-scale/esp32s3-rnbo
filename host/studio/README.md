@@ -157,3 +157,8 @@ Studio accepts the [documented visual Gen core](../../docs/gen-visual-core.md)
 inside `genpatcher.patcher`, alongside existing explicit GenExpr. Unsupported
 visual operators, nested/file/resource forms, codeboxes and exposed parameters
 fail with an explicit error; full visual Gen support remains active work.
+
+Visual Gen now also supports the [qualified stateless maths, comparison and
+constant spellings](../../docs/gen-visual-math.md). The report lists individual
+checks and CPU costs. Remaining operators/modes, parameters, resources,
+codeboxes and external/nested forms remain active work.

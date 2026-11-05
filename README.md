@@ -195,3 +195,8 @@ Fifteen [GenExpr arithmetic spellings](docs/gen-arithmetic-qualification.md) als
 The separate [Gen abs intrinsic comparison](docs/gen-abs-intrinsic.md) now measures 36.19% less callback time with exact finite magnitude bits in four XIAO cases.
 Twenty additional [Gen comparison/logic forms](docs/gen-logic-qualification.md) pass individual XIAO checks; `step` retains a documented-order mismatch and `sign(-0)` is observed as `+0`.
 Coverage now prioritises [fast hardware smoke batches](docs/hardware-smoke.md), with costly cases queued for later optimisation. The latest parameter/event batch passes 35 exact event spellings,735 ordered updates/readbacks and 358,400 output checks at full-block boundaries. Gen has a [separate test record](docs/gen-qualification.md), including continuous sample-state checks. Quiet test firmware can remain installed between batches.
+
+Visual Gen now also supports the [qualified stateless maths, comparison and
+constant spellings](./docs/gen-visual-math.md). The report lists individual
+checks and CPU costs. Remaining operators/modes, parameters, resources,
+codeboxes and external/nested forms remain active work.

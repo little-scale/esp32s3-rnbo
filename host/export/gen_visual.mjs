@@ -5,7 +5,23 @@ const numeric = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 const number = text => { if (!numeric.test(text) || !Number.isFinite(Number(text))) throw Error('Visual Gen requires a finite numeric literal'); return Object.is(Number(text),-0)?'-0.0':String(Number(text)); };
 const index = text => { if (!/^[1-9]\d*$/.test(text) || Number(text)>64) throw Error('Visual Gen port index must be 1..64'); return Number(text); };
 const boxFields=new Set(['id','maxclass','text','numinlets','numoutlets','patching_rect','outlettype','fontname','fontsize','fontface','linecount','comment','annotation','color','textcolor','bgcolor','hidden','presentation','presentation_rect','style','rnbo_extra_attributes']);
-const binary = new Set(['+', '-', '*', '/']);
+const coreOperators=new Set(['in','out','+','-','*','/','abs','neg','history']);
+const binary = new Map([
+ ['+','+'],['-','-'],['*','*'],['/','/'],['add','+'],['sub','-'],['mul','*'],['div','/'],
+ ['<','<'],['lt','<'],['<=','<='],['lte','<='],['>','>'],['gt','>'],['>=','>='],['gte','>='],['==','=='],['eq','=='],['!=','!='],['neq','!='],
+ ['<p','<p'],['ltp','<p'],['<=p','<=p'],['ltep','<=p'],['>p','>p'],['gtp','>p'],['>=p','>=p'],['gtep','>=p'],['==p','==p'],['eqp','==p'],['!=p','!=p'],['neqp','!=p'],
+ ['&&','&&'],['and','&&'],['||','||'],['or','||'],['^^','^^'],['xor','^^']
+]);
+const functions = new Map([
+ ...['acos','acosh','asin','asinh','atan','atanh','cos','cosh','sin','sinh','tan','tanh','exp','exp2','log','log2','log10','sqrt','ceil','floor','trunc','fract','sign','fastsin','fastcos','fasttan','fastexp'].map(name=>[name,{name,arity:1}]),
+ ['ln',{name:'log',arity:1}],
+ ...['pow','atan2','hypot','min','max'].map(name=>[name,{name,arity:2}]),
+ ['minimum',{name:'min',arity:2}],['maximum',{name:'max',arity:2}]
+]);
+const constants=new Map();
+for(const [lower,upper] of [['pi','PI'],['e','E'],['twopi','TWOPI'],['halfpi','HALFPI'],['degtorad','DEGTORAD'],['radtodeg','RADTODEG'],['ln2','LN2'],['ln10','LN10'],['log2e','LOG2E'],['log10e','LOG10E'],['sqrt2','SQRT2'],['sqrt1_2','SQRT1_2'],['invpi','INVPI'],['phi','PHI']]){
+ constants.set(lower,upper);constants.set(upper,upper);
+}
 const unary = new Map([['abs','abs'],['neg','negative']]);
 export function lowerVisualGen(document) {
   if (!document || typeof document!=='object' || Array.isArray(document) || !document.patcher) throw Error('Visual Gen needs genpatcher.patcher');
@@ -33,6 +49,17 @@ export function lowerVisualGen(document) {
       n.arity=args.length?1:2;if (args.length)n.cold=number(args[0]);
     } else if (unary.has(op)) {
       if (args.length) throw Error('Visual Gen unary core takes no arguments');n.arity=1;
+    } else if (functions.has(op)) {
+      if(args.length)throw Error('Visual Gen maths functions currently require fully connected inputs');
+      n.fn=functions.get(op).name;n.arity=functions.get(op).arity;
+    } else if (op==='not'||op==='!'||op==='bool') {
+      if(args.length)throw Error('Visual Gen unary logic currently requires one connected input');n.arity=1;
+    } else if (constants.has(op)||op==='constant') {
+      if(op==='constant'){
+        if(args.length!==1)throw Error('Visual Gen constant requires one explicit finite literal');n.constant=number(args[0]);
+      }else{
+        if(args.length)throw Error('Visual Gen named constant takes no arguments');n.constant=constants.get(op);
+      }
     } else if (op==='history') {
       n.arity=1;n.initial='0';n.state=`vg_h${nodes.size}`;
       if (args.length>2) throw Error('Unsupported visual Gen history arguments');
@@ -79,12 +106,16 @@ export function lowerVisualGen(document) {
     if (n.op==='history')continue;
     if (n.op==='out')lines.push(`out${n.port} = ${input[0]};`);
     else if (n.op==='in')lines.push(`${n.variable} = in${n.port};`);
-    else if (binary.has(n.op))lines.push(`${n.variable} = ${input[0]} ${n.op} ${n.cold??input[1]};`);
+    else if (binary.has(n.op))lines.push(`${n.variable} = ${input[0]} ${binary.get(n.op)} ${n.cold??input[1]};`);
+    else if (n.constant!==undefined)lines.push(`${n.variable} = ${n.constant};`);
+    else if (n.fn)lines.push(`${n.variable} = ${n.fn}(${input.join(', ')});`);
+    else if (n.op==='not'||n.op==='!')lines.push(`${n.variable} = !${input[0]};`);
+    else if (n.op==='bool')lines.push(`${n.variable} = (${input[0]} != 0);`);
     else if (n.op==='neg')lines.push(`${n.variable} = -${input[0]};`);
     else lines.push(`${n.variable} = ${unary.get(n.op)}(${input[0]});`);
   }
   for (const n of nodes.values())if (n.op==='history' && n.inputs[0])lines.push(`${n.state} = ${n.inputs[0].variable};`);
   return {expression:lines.join('\n')+'\n',geninlets:ins.size,genoutlets:outs.size,
-    policy:'embedded-visual-gen-core-v1',nodes:nodes.size,edges:graph.lines.length,
+    policy:[...nodes.values()].every(n=>coreOperators.has(n.op))?'embedded-visual-gen-core-v1':'embedded-visual-gen-math-v1',nodes:nodes.size,edges:graph.lines.length,
     history_count:[...nodes.values()].filter(n=>n.op==='history').length,operators:[...new Set([...nodes.values()].map(n=>n.op))].sort()};
 }

@@ -13,6 +13,27 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Visual Gen maths: five queued contexts
+
+The 101 single-operation visual spellings all execute; 99 pass the mathematical
+screen and two named approximations retain accuracy differences. Five callback
+costs exceed the existing median threshold, bringing the queue to **156**:
+
+| Exact visual spelling | Median callback | Peak | Block CPU |
+| --- | ---: | ---: | ---: |
+| `exp2` | 3,777µs | 3,778µs | 65.06% |
+| `log` | 1,845µs | 1,846µs | 31.78% |
+| `ln` | 1,845µs | 1,846µs | 31.78% |
+| `log2` | 2,368µs | 2,372µs | 40.79% |
+| `log10` | 2,139µs | 2,144µs | 36.85% |
+
+These are whole compiled FX callbacks including dispatch and the right pilot;
+`log` and `ln` are separately authored alias contexts. Inspect generated precision
+and library calls when optimisation resumes. The measurements do not establish
+a cause, standalone opcode cost or saving. Numerical findings stay separate in
+the [101-spelling report](gen-visual-math.md). All images finalise and runtime
+memory/allocation gates pass; normal player and original controls are restored.
+
 ## Embedded visual Gen core: no new flags
 
 All 21 complete graph callbacks pass their references at 40–100µs median
