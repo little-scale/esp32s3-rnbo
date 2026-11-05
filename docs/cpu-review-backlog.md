@@ -13,6 +13,18 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Extended list/storage: no new callback flags
+
+The 28 completed list contexts measure **75–76µs median**, peak 81µs, so no new
+callback flag triggers and the queue stays **157**. Setter totals across 22 actions
+include iteration/list observers: iter chunk1 totals 446µs (peak 60µs), funnel
+offset2 390µs (peak 49µs), iter chunk2 380µs (peak 58µs), funnel offset0 380µs
+(peak 41µs). These are whole event/routing contexts, not standalone object costs.
+The four separately target-confirmed FIFO/LIFO capacity-growth allocation faults
+and one union policy mismatch are compatibility findings, not callback CPU spikes.
+The [extended-list report](rnbo-list-extended.md) retains all original growth
+sources plus four passing bounded controls; no optimisation gain is claimed.
+
 ## Numeric/list routing: no new callback flags
 
 All 58 completed routing/list contexts pass exact output checks. Their held-output

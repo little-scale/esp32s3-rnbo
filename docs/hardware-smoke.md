@@ -1,5 +1,20 @@
 # Fast hardware functionality checks
 
+The [extended list/storage batch](rnbo-list-extended.md) adds **17 exact
+spellings across 32 scenarios**. **27 complete output checks pass**, one
+`list.union` screen retains **1,536 policy differences**, and four original
+queue/stack growth cases fault at the eighth drive with late allocations.
+All four separately authored bounded FIFO/LIFO controls pass. The completed
+checks cover **286,720 output words and 616 actions**, with exact raw right
+captures, no nonfinite outputs and no zero-sign differences. All original 28
+sources, expected streams and zero limits are unchanged; added controls do not
+replace the growth faults. Held callbacks measure **75–76µs median**, peak 81µs;
+setter costs remain separate. No new CPU flag triggers; the queue stays **157**.
+Completed images finalise and memory/allocation gates pass; aborted probes make
+no completed output/finalisation claim. Normal player and saved controls are
+restored. The RNBO table reaches **1034/1455 scoped outcomes**, including
+partials; Gen remains separate and the complete qualification goal stays active.
+
 Coverage now starts with a short device check. Each object gets a small input
 vector with known expected outputs, a few warmup calls, and 16 timed callbacks.
 Multiple modules share one firmware upload. An output mismatch is recorded and

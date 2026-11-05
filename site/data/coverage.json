@@ -55348,6 +55348,782 @@
       "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:iter",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "iter 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/iter-chunk1.rnbopat"
+        },
+        {
+          "forms": [
+            "iter 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/iter-chunk2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source iter-chunk1; form iter 1; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source iter-chunk2; form iter 2; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        }
+      ],
+      "spelling": "iter",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.change",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.change"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-change-emission-sum.rnbopat"
+        },
+        {
+          "forms": [
+            "list.change"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-change-flag.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-change-emission-sum; form list.change; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-change-flag; form list.change; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.change",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.compare",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.compare 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-compare-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.compare 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-compare-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-compare-out0; form list.compare 1 4; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-compare-out1; form list.compare 1 4; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.compare",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.delace",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.delace"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-delace-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.delace"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-delace-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-delace-out0; form list.delace; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-delace-out1; form list.delace; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.delace",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.filter",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.filter 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-filter-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.filter 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-filter-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-filter-out0; form list.filter 1 4; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-filter-out1; form list.filter 1 4; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.filter",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.group",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.group 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-group-three.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-group-three; form list.group 3; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        }
+      ],
+      "spelling": "list.group",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.indexmap",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.indexmap 2 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-indexmap.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-indexmap; form list.indexmap 2 0; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        }
+      ],
+      "spelling": "list.indexmap",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.lace",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.lace 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-lace.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-lace; form list.lace 1 4; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.lace",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.lookup",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.lookup 2 5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-lookup.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-lookup; form list.lookup 2 5; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        }
+      ],
+      "spelling": "list.lookup",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.queue",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order.",
+        "Capacity-growth fault remains unresolved; passing bounded controls do not qualify larger storage."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.queue"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.queue"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "list.queue"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-queue-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.queue"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-queue-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-queue-bounded-out0; form list.queue; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-queue-bounded-out1; form list.queue; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Original growing-storage source list-queue-out0 pushes3 items and pops1 per drive. XIAO faults on drive8 before callback7, event status-4 with positive late-platform-allocation statistics. Seven callbacks precede failure; no complete output/capture/finalization pass is claimed. Separate bounded controls do not replace this source.",
+          "evidence_kind": "xiao-list-growth-fault",
+          "level": "S3-XIAO-capacity-growth-event-fault",
+          "selector": "/",
+          "source": "evidence/xiao-list-extended-growth-fault-part3.json"
+        },
+        {
+          "conditions": "Original growing-storage source list-queue-out1 pushes3 items and pops1 per drive. XIAO faults on drive8 before callback7, event status-4 with positive late-platform-allocation statistics. Seven callbacks precede failure; no complete output/capture/finalization pass is claimed. Separate bounded controls do not replace this source.",
+          "evidence_kind": "xiao-list-growth-fault",
+          "level": "S3-XIAO-capacity-growth-event-fault",
+          "selector": "/",
+          "source": "evidence/xiao-list-extended-growth-fault-part4.json"
+        }
+      ],
+      "spelling": "list.queue",
+      "surface": "patcher",
+      "working_note": "XIAO: both bounded push-three/pop-three controls pass. Both original growing push-three/pop-one sources fault on drive8 with late-platform-allocation statistics, matching native preflight. Aborted probes make no complete output, capture or finalization pass claim.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.reg",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.reg"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-reg-hot.rnbopat"
+        },
+        {
+          "forms": [
+            "list.reg"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-reg-cold-store-bang.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-reg-hot; form list.reg; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-reg-cold-store-bang; form list.reg; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.reg",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.stack",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order.",
+        "Capacity-growth fault remains unresolved; passing bounded controls do not qualify larger storage."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.stack"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.stack"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "list.stack"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stack-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.stack"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stack-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-stack-bounded-out0; form list.stack; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-stack-bounded-out1; form list.stack; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Original growing-storage source list-stack-out0 pushes3 items and pops1 per drive. XIAO faults on drive8 before callback7, event status-4 with positive late-platform-allocation statistics. Seven callbacks precede failure; no complete output/capture/finalization pass is claimed. Separate bounded controls do not replace this source.",
+          "evidence_kind": "xiao-list-growth-fault",
+          "level": "S3-XIAO-capacity-growth-event-fault",
+          "selector": "/",
+          "source": "evidence/xiao-list-extended-growth-fault-part5.json"
+        },
+        {
+          "conditions": "Original growing-storage source list-stack-out1 pushes3 items and pops1 per drive. XIAO faults on drive8 before callback7, event status-4 with positive late-platform-allocation statistics. Seven callbacks precede failure; no complete output/capture/finalization pass is claimed. Separate bounded controls do not replace this source.",
+          "evidence_kind": "xiao-list-growth-fault",
+          "level": "S3-XIAO-capacity-growth-event-fault",
+          "selector": "/",
+          "source": "evidence/xiao-list-extended-growth-fault-part6.json"
+        }
+      ],
+      "spelling": "list.stack",
+      "surface": "patcher",
+      "working_note": "XIAO: both bounded push-three/pop-three controls pass. Both original growing push-three/pop-one sources fault on drive8 with late-platform-allocation statistics, matching native preflight. Aborted probes make no complete output, capture or finalization pass claim.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.stream",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.stream 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stream-forward.rnbopat"
+        },
+        {
+          "forms": [
+            "list.stream -3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stream-reverse.rnbopat"
+        },
+        {
+          "forms": [
+            "list.stream 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-stream-ready.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-stream-forward; form list.stream 3; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-stream-reverse; form list.stream -3; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source list-stream-ready; form list.stream 3; observed outlet 1. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        }
+      ],
+      "spelling": "list.stream",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.thin",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.thin"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-thin.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-thin; form list.thin; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.thin",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.union",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order.",
+        "Resolve duplicate-removal policy using original primary documentation and explicit controls; original expected streams and zero limits are unchanged."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.union 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-union.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-union; form list.union 1 4; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim. The installed help and reference XML leave a duplicate-removal policy ambiguity. This original screen preserves left-list duplicates; its native and target difference is retained, without captured-output substitution.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.union",
+      "surface": "patcher",
+      "working_note": "XIAO: the original union screen retains 1536 outside-policy words, maximum code difference 47680, matching native preflight. Installed help/XML descriptions differ in how broadly duplicates are removed; this is an unresolved policy finding, not an ESP32-only defect.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.unique",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.unique 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/list-unique.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source list-unique; form list.unique 1 4; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part1.json"
+        }
+      ],
+      "spelling": "list.unique",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:listfunnel",
+      "known_gaps": [
+        "Only exact authored lengths, integer lists, constructor modes, storage patterns and observed outlets are checked. Other types, empty/invalid indexing, resets, random list operations and within-block host offsets remain unqualified.",
+        "No auxiliary-object, alias, signal, codebox or Gen inheritance; no complete-object or optimisation-gain claim. Setter/routing work is separate from held-output callback timing. Emission-code sums do not losslessly encode arbitrary event order."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "listfunnel 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset0.rnbopat"
+        },
+        {
+          "forms": [
+            "listfunnel 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed extended-list source listfunnel-offset0; form listfunnel 0; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        },
+        {
+          "conditions": "Exact armed extended-list source listfunnel-offset2; form listfunnel 2; observed outlet 0. One arm then21 ordered drive actions, including repeated identical lists, actual/normalised parameter readbacks and independent raw right capture. Four manual warm plus16 timed full256-frame callbacks. All numerical limits0. List codes preserve up to5 integer digits0..7 and length; accumulated emission-code sums check content totals/suppression, not arbitrary event order. Auxiliary objects and aliases inherit no status; no complete-domain or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-list-extended-part2.json"
+        }
+      ],
+      "spelling": "listfunnel",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored extended-list scenarios pass exact output checks, ordered arm/drive readbacks and independently hashed raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -55355,17 +56131,17 @@
   "snapshot_date": "2026-11-06",
   "sources": {
     ".github/workflows/host.yml": {
-      "bytes": 1976,
+      "bytes": 2037,
       "path": ".github/workflows/host.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "caa786cd3058e7a49d36fcea581dc6ee52f542f0467faef7e4f0c08269456078",
+      "sha256": "ca4cf71548a6da61067b903a0c50b5112ee3e1e37aee6eca58ecb1aea8d6119b",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/host.yml"
     },
     ".github/workflows/pages.yml": {
-      "bytes": 1246,
+      "bytes": 1307,
       "path": ".github/workflows/pages.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "3244bf7289d7510ab2ddae9d5f5eec320626f7bcb7dc83d322a38eb83bcb9fca",
+      "sha256": "6dd95140de413fdde1ecace240456bbbc5b5da3433e927ffdd9aa74249a4fe6f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/pages.yml"
     },
     "build/audit/rnbo-object-inventory-v1/inventory.json": {
@@ -56390,6 +57166,13 @@
       "sha256": "f1594bddd5d4476a8cdb2d7b3c68540666bd62d14f956af9b780a67bae4fcef7",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-event-state.md"
     },
+    "docs/rnbo-list-extended.md": {
+      "bytes": 8251,
+      "path": "docs/rnbo-list-extended.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3e061510bdbdf4ea6bec7d6be40f4eca1770e87fa5ccbdc14bfbcfac1c2ed56f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-list-extended.md"
+    },
     "docs/rnbo-unit-conversions.md": {
       "bytes": 9056,
       "path": "docs/rnbo-unit-conversions.md",
@@ -56880,6 +57663,27 @@
       "sha256": "baaba50b4371762a0c6946a5a8c95d53fc1b5d34472a9fbb496983c85d662cc7",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-events-ranges-native.json"
     },
+    "evidence/rnbo-list-extended-builds.json": {
+      "bytes": 16343,
+      "path": "evidence/rnbo-list-extended-builds.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e3a4ede8523ccdf96d458fa1855bfd12e3353ab8a77a3acf80d4ffedb2b3c3b2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-list-extended-builds.json"
+    },
+    "evidence/rnbo-list-extended-native.json": {
+      "bytes": 44016,
+      "path": "evidence/rnbo-list-extended-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "21bedb1348e52c805784ddece9d538970545a79e055c957e87b1ee6a35f1449c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-list-extended-native.json"
+    },
+    "evidence/rnbo-list-extended-status.json": {
+      "bytes": 43154,
+      "path": "evidence/rnbo-list-extended-status.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c87026b7edd713689540598775d7b9c1ee155a45bd2c0fd0625b61cb69813123",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-list-extended-status.json"
+    },
     "evidence/rnbo-signal-state-followup-review.json": {
       "bytes": 1785,
       "path": "evidence/rnbo-signal-state-followup-review.json",
@@ -57019,6 +57823,34 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "58ec8986aa03a86fe25e26c6dead44492f19297778243f25e237931aafb3ecf5",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-gen-routing-causality-player-restoration.json"
+    },
+    "evidence/xiao-list-extended-growth-fault-part3.json": {
+      "bytes": 1835,
+      "path": "evidence/xiao-list-extended-growth-fault-part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0159533976cc3d2ce82c53708f8b71fd9f9de5484dec92a6d5b221efe037129b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-list-extended-growth-fault-part3.json"
+    },
+    "evidence/xiao-list-extended-growth-fault-part4.json": {
+      "bytes": 1835,
+      "path": "evidence/xiao-list-extended-growth-fault-part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0d03971a8627f4071d4fa90391ea72802c970375df02f4833f6d97b8ace16838",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-list-extended-growth-fault-part4.json"
+    },
+    "evidence/xiao-list-extended-growth-fault-part5.json": {
+      "bytes": 1835,
+      "path": "evidence/xiao-list-extended-growth-fault-part5.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9e820683ba1977f31bd3796f2cdf01c30c981c8152d152d9569b59446e30bb23",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-list-extended-growth-fault-part5.json"
+    },
+    "evidence/xiao-list-extended-growth-fault-part6.json": {
+      "bytes": 1835,
+      "path": "evidence/xiao-list-extended-growth-fault-part6.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b2735c294c4e68a8d88ae989858327c1e8951c405d3e6b6aaeb0407a86640d78",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-list-extended-growth-fault-part6.json"
     },
     "evidence/xiao-motion-members-player-restoration.json": {
       "bytes": 1167,
@@ -57370,6 +58202,27 @@
       "sha256": "6406276fa9e579ea63227ac8bff940ca98a6056726364b2f4b51bf403de34e3b",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-functions.json"
     },
+    "evidence/xiao-smoke-rnbo-list-extended-part1.json": {
+      "bytes": 184059,
+      "path": "evidence/xiao-smoke-rnbo-list-extended-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ef31c5ae4e48f169ae1f669c25b0391e3150fca733e9cfd5f29655b617e88b9f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-list-extended-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-list-extended-part2.json": {
+      "bytes": 184034,
+      "path": "evidence/xiao-smoke-rnbo-list-extended-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0fbc92bc87812e5ee0d2e89306225cd639e62170a51e06cc5f815646183d201b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-list-extended-part2.json"
+    },
+    "evidence/xiao-smoke-rnbo-list-extended-player-restoration.json": {
+      "bytes": 1468,
+      "path": "evidence/xiao-smoke-rnbo-list-extended-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "576adc4838869f88b9c6d00fa564436899eea59dcdd82350cd1e7eef6a36ffe6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-list-extended-player-restoration.json"
+    },
     "evidence/xiao-smoke-rnbo-numeric.json": {
       "bytes": 44123,
       "path": "evidence/xiao-smoke-rnbo-numeric.json",
@@ -57525,10 +58378,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/gen-partition-probe/sdkconfig.defaults"
     },
     "hardware-smoke/main/smoke.c": {
-      "bytes": 22484,
+      "bytes": 22966,
       "path": "hardware-smoke/main/smoke.c",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "f44795b0c144dadee89b0638e15eb00cb23f2078be7a10b58fe4e453c8eef5f9",
+      "sha256": "f4779eea5319a656613ac164f06d970b98ed321f0c82ff1f5adad05792ab85cc",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/hardware-smoke/main/smoke.c"
     },
     "host/compiler/build.py": {
@@ -64860,6 +65713,342 @@
       "sha256": "71d0c6a8f6980316cfa5af4c94a02d883f8c36e0bb988071dd860555b087825e",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-events-ranges/wrap-event.rnbopat"
     },
+    "tests/fixtures/smoke/rnbo-list-extended/README.md": {
+      "bytes": 2122,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1a1867a0e6c94a7b7e090fe8e53a22204ba939f4b091d964735e090bbc3699e8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/catalog.json": {
+      "bytes": 52287,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "986989935ba47d85a4e263ade114f2ef87ff4f974d14e8572da0128effadb2fc",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/generate.py": {
+      "bytes": 7887,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3dd4d3210576f957ab6c06aabf1bc7e97b4982e4579702ecde1eb0619c1c862c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/README.md": {
+      "bytes": 575,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "762a9c18b4435b6ed01974f43e00c5c73767b5f1de87ffaf1687442b7feeeff6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/catalog.json": {
+      "bytes": 45855,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f121ec543507413301bc9ef17e652a71300e407ab76ae4da78f4e7ae30f6843d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/generate.py": {
+      "bytes": 7414,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bf124af55f8e65050b352a52ca55b79e90fe1a057c9b33228aa4a2720297fb67",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/part1.json": {
+      "bytes": 23310,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5b5e551871c8df8270648bb4d5d94b61b157146d96684020bdff60fc267c7736",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/part2.json": {
+      "bytes": 23318,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8b5ee30bb7c63662d7a0bb4d4da5d2b6a2de3852dfec8d1c19b3f951a773c364",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/reference.py": {
+      "bytes": 6927,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e3c1d3172b8a66ef5ffb1f9fc9673fb92f493f47d718d1d66358331ff4d58f9a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/initial-28-v1/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/iter-chunk1.rnbopat": {
+      "bytes": 17174,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/iter-chunk1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b554851f0eaf28803310d0437de3e12a2f767eb347f397ce3fbed3a8a47085a6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/iter-chunk1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/iter-chunk2.rnbopat": {
+      "bytes": 17174,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/iter-chunk2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "daa0d99ff756dacbeaa7d6465e5b04cc5a670769a7a15e96a0f0b495e5b701fb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/iter-chunk2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-change-emission-sum.rnbopat": {
+      "bytes": 17179,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-change-emission-sum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "518b4626142c4eba70195a8052e1a6f4099688fbe117fbbdb6d9ce4edfd53412",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-change-emission-sum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-change-flag.rnbopat": {
+      "bytes": 8603,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-change-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e92effa6bbd6ed7d3cdfc75f260b9bdeef5e52da19b98b560261f111991e9efb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-change-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-compare-out0.rnbopat": {
+      "bytes": 7043,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-compare-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "18625ae3acc5cf0cf26d499f6236a9dc38719df7dd64a897fbe116524fb6f3f6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-compare-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-compare-out1.rnbopat": {
+      "bytes": 15104,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-compare-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "af704de64ce5a7e02c8cd392f8a4c4c4fe48459c7e9fd5fa6801b084efcfedf2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-compare-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-delace-out0.rnbopat": {
+      "bytes": 16664,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-delace-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "eb2f790cca0b522651c83220e8b3923615c857e666d4184801ec4801a6216348",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-delace-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-delace-out1.rnbopat": {
+      "bytes": 16664,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-delace-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "54a6ab74adba2d19af6b9d863043b4f71c9963c9b92c157b143a9bdad701b449",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-delace-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-filter-out0.rnbopat": {
+      "bytes": 16668,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-filter-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bb36405a59980c4501faa41a53560d271058cec12d47b5b987f69e60eb9dd6c5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-filter-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-filter-out1.rnbopat": {
+      "bytes": 16668,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-filter-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "719f341937841b8a4c3d9db8c564dd18bcdba431846d93752d547e2891087e01",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-filter-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-group-three.rnbopat": {
+      "bytes": 13461,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-group-three.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "68d55b0e2c3c7aa138e2699c6afb0f04f39e649da475e7f584020e58db18822b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-group-three.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-indexmap.rnbopat": {
+      "bytes": 16670,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-indexmap.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6eb2c9bd337428613f614eeee4667f946e452b91480d995adaa4516be582de3c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-indexmap.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-lace.rnbopat": {
+      "bytes": 16666,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-lace.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6f95c3894e1d42c2b3717a2daad39767d834a82b330e7d9664e9384f05ed8bae",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-lace.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-lookup.rnbopat": {
+      "bytes": 16077,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-lookup.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "612370a0e1af427ff46395f5422ad1e71dac23592ba7cad8f23044b9c697f825",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-lookup.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out0.rnbopat": {
+      "bytes": 9737,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "179e81b913abce461e8d38b31bb181d515bae4169bcf1e76311c3e6087d039b6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out1.rnbopat": {
+      "bytes": 10252,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "41fdabc4509b4323e551530134ec9cacd8c18bc8c880da07ce2d7f4d1d55f02b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-queue-bounded-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-queue-out0.rnbopat": {
+      "bytes": 9317,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-queue-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1b84916c193e0de890523e12e52dc30dbb63490a09afd62b332d7a4bd8fd8e36",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-queue-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-queue-out1.rnbopat": {
+      "bytes": 9317,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-queue-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7efc863539fd9870a3f234c7d672e32b444c660b70e2f1d5261c854126c288c2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-queue-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-reg-cold-store-bang.rnbopat": {
+      "bytes": 17376,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-reg-cold-store-bang.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a6aa31937224f545d00c339b24a7da9252ffce624cc3a841e4d2e31adfe124a5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-reg-cold-store-bang.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-reg-hot.rnbopat": {
+      "bytes": 16661,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-reg-hot.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "49dcbd59244779239a79a3dbdfc71484a88e8582e288ed898ca689e76ddd2928",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-reg-hot.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out0.rnbopat": {
+      "bytes": 9737,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b38856ac55e5ad5f118c87915d67146ac01183a5ff7421c728835061c64306c9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out1.rnbopat": {
+      "bytes": 10252,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6963b6e1bb3a4ba8176be345c6f51c1d9069c26b0039e9a8a5327e11c0480a8b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stack-bounded-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stack-out0.rnbopat": {
+      "bytes": 9317,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stack-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5c2c8e0f84979ab0ccb2e26eed958f2b7a13a1e323914711efaf87a28d6774c3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stack-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stack-out1.rnbopat": {
+      "bytes": 9317,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stack-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e39ec61ef7c5f89e306cee7b0e9188504063a1c4f80fa64e1d14527b74264a45",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stack-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stream-forward.rnbopat": {
+      "bytes": 13462,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stream-forward.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b57019fb8219a6babef1b25eec729231a4aecfbdcd6e164b35617942edf9b7bf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stream-forward.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stream-ready.rnbopat": {
+      "bytes": 5401,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stream-ready.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bd46b5c1b543d4b625898e5f5c11d2e652fa2b404e914b8fe21e7eb927875929",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stream-ready.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-stream-reverse.rnbopat": {
+      "bytes": 13463,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-stream-reverse.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d4e6d57e20383d60146dbbe8588795287fb3faf7a1c3543572a4ff77c1f408f4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-stream-reverse.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-thin.rnbopat": {
+      "bytes": 16662,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-thin.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9a43545b24d22825aae7b470dd97bda1464d27869d63256585dd875c04d925ad",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-thin.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-union.rnbopat": {
+      "bytes": 16667,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-union.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "953755b220e7d05648b5b66815cc89dcb65b22c949fda94372b58755bfd9af5e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-union.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/list-unique.rnbopat": {
+      "bytes": 16668,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/list-unique.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "24e484441dec26374471657a69fa018869cb442f51e2b71be54fbcbe1490aa2b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/list-unique.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset0.rnbopat": {
+      "bytes": 17180,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ac78f341fa8ba82fa60ee1978dfbf3211b88f3a40f1ed24671a5f8cd9bdd867e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset2.rnbopat": {
+      "bytes": 17180,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4de8c789730c385369e702079f8cdb236a2bc4f355c94895ac47d6349724b5d0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/listfunnel-offset2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/part1.json": {
+      "bytes": 23310,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2a51d02833375264f1769c0d9f7d54f0c580ed246dcf120f94117aff0f030712",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/part2.json": {
+      "bytes": 23430,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "65df6e80070087b35f02016b04fee19f1563af66e4c5e869f1aeb9b3eff10c7f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/part3.json": {
+      "bytes": 2180,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c36bb32327d76deefd6af2d6f5eca2053ad4c1d301b60e42eb1f81f8e44a93ea",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/part3.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/part4.json": {
+      "bytes": 2180,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1c6b12d5eb4a103db72d99b8f863519043afd7382bc9f6992efa8e807fcfebea",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/part4.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/part5.json": {
+      "bytes": 2180,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/part5.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e58cb2a48c8c33de5f0e2ccc65184b2b4f1b1c35ff5895338806f46979774688",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/part5.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/part6.json": {
+      "bytes": 2180,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/part6.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "87ca6597609dcecdad2759a737480bc9c4b7a13440d7018a2a774c58866d0864",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/part6.json"
+    },
+    "tests/fixtures/smoke/rnbo-list-extended/reference.py": {
+      "bytes": 7403,
+      "path": "tests/fixtures/smoke/rnbo-list-extended/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ece161d3857aff0ef8cab8c1a522cf7fb61ae7cf3d3696a35d779fe04420cafa",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-list-extended/reference.py"
+    },
     "tests/fixtures/smoke/rnbo-unit-conversions/README.md": {
       "bytes": 2689,
       "path": "tests/fixtures/smoke/rnbo-unit-conversions/README.md",
@@ -65224,6 +66413,13 @@
       "sha256": "7d0c4cd6eb9aff14972891b3eda3f8241757596ea4ba31c512288b0c356c9ac8",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_gen_visual_math_report.py"
     },
+    "tools/build_list_extended_report.py": {
+      "bytes": 11267,
+      "path": "tools/build_list_extended_report.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8b70c4509b13db9763417d1ce8ed4b9a6e44dae9946be9daaf7119d03febc7fe",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_list_extended_report.py"
+    },
     "tools/build_unit_conversion_report.py": {
       "bytes": 10092,
       "path": "tools/build_unit_conversion_report.py",
@@ -65244,6 +66440,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "385aa52e058edc21111f42306986040acbb3d31feaf6e74c220b3c77b54de0a7",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/collect_gen_partition_probe.py"
+    },
+    "tools/collect_list_extended_fault.py": {
+      "bytes": 5987,
+      "path": "tools/collect_list_extended_fault.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cf3b78dcd6ee364a28c53da26b3706c469427da7dc3092c839e17a874b509237",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/collect_list_extended_fault.py"
     },
     "tools/event_routing_provenance.py": {
       "bytes": 4131,
@@ -65356,6 +66559,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "b1a96d62f8a371d03d8a7e61ec9f8596d0d2b27c4b26110f9874aac0a9a7c951",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_gen_visual_reference.py"
+    },
+    "tools/test_smoke_list_extended.py": {
+      "bytes": 13115,
+      "path": "tools/test_smoke_list_extended.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "08298cb7a05f1920bf4550f4e5f80dc447f10ec5c76eb67cd720906265665252",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_list_extended.py"
     },
     "tools/test_smoke_motion_members_reference.py": {
       "bytes": 7797,

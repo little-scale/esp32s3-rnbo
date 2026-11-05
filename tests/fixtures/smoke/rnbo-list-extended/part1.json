@@ -1,0 +1,566 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "list.thin",
+      "exact_name": "list.thin",
+      "fixed_arguments": "",
+      "id": "list-thin",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2900,
+      "observed_outlet": 0,
+      "operation": "list.thin",
+      "output_kind": "list",
+      "patch": "list-thin.rnbopat",
+      "patch_sha256": "9a43545b24d22825aae7b470dd97bda1464d27869d63256585dd875c04d925ad",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.thin.maxref.xml",
+          "sha256": "3f70fde669f71841b257b162423aeee4476a77b9d98b7e17e0c6de73a8df2792",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.thin?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.thin.maxhelp",
+          "sha256": "906234289755b1db9966eba328f9fc8ff7a657bac6fb2e3f3e7c30182856fc5e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.thin",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.thin",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.unique",
+      "exact_name": "list.unique",
+      "fixed_arguments": "1 4",
+      "id": "list-unique",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2901,
+      "observed_outlet": 0,
+      "operation": "list.unique",
+      "output_kind": "list",
+      "patch": "list-unique.rnbopat",
+      "patch_sha256": "24e484441dec26374471657a69fa018869cb442f51e2b71be54fbcbe1490aa2b",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.unique.maxref.xml",
+          "sha256": "539b832d85e06f95f58a72f4d2d4d9df9d914475a7ada27a09eef78dc0cfe1ef",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.unique?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.unique.maxhelp",
+          "sha256": "d1e2aeef4d6993903f029314deb22d37dd84b6945c49aeb38b70c35ba883c1de",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.unique",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.unique 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.union",
+      "exact_name": "list.union",
+      "fixed_arguments": "1 4",
+      "id": "list-union",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2902,
+      "observed_outlet": 0,
+      "operation": "list.union",
+      "output_kind": "list",
+      "patch": "list-union.rnbopat",
+      "patch_sha256": "953755b220e7d05648b5b66815cc89dcb65b22c949fda94372b58755bfd9af5e",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.union.maxref.xml",
+          "sha256": "11ea51b569a4aa59cb71cfaa5717e6a41867d60923bd7cff15c89ce090694f8d",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.union?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.union.maxhelp",
+          "sha256": "54932323d900952b5874063beac3e6c590640c133ec98ee84ab80b7fafa1dfb0",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.union",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.union 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.lace",
+      "exact_name": "list.lace",
+      "fixed_arguments": "1 4",
+      "id": "list-lace",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2903,
+      "observed_outlet": 0,
+      "operation": "list.lace",
+      "output_kind": "list",
+      "patch": "list-lace.rnbopat",
+      "patch_sha256": "6f95c3894e1d42c2b3717a2daad39767d834a82b330e7d9664e9384f05ed8bae",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.lace.maxref.xml",
+          "sha256": "63f0183166e2edeed753a5c5912c5f9c999ebddaf3a3beac09744f310ebf6225",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.lace?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.lace.maxhelp",
+          "sha256": "a72723cb4e12db912d36e762ebd0d58ce056cdb9d15d958a3d5ddaec5a5f6ad5",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.lace",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.lace 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.delace",
+      "exact_name": "list.delace",
+      "fixed_arguments": "",
+      "id": "list-delace-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2904,
+      "observed_outlet": 0,
+      "operation": "list.delace",
+      "output_kind": "list",
+      "patch": "list-delace-out0.rnbopat",
+      "patch_sha256": "eb2f790cca0b522651c83220e8b3923615c857e666d4184801ec4801a6216348",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.delace.maxref.xml",
+          "sha256": "8fc615cb5d873482612966d10db7add5f2c9147ce66861f96b8e60d22232d50e",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.delace?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.delace.maxhelp",
+          "sha256": "1051c1498f8dd2fbc9511688e908ab080c95c74f0d169f1314c9a30d1974b4e4",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.delace",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.delace",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.filter",
+      "exact_name": "list.filter",
+      "fixed_arguments": "1 4",
+      "id": "list-filter-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2905,
+      "observed_outlet": 0,
+      "operation": "list.filter",
+      "output_kind": "list",
+      "patch": "list-filter-out0.rnbopat",
+      "patch_sha256": "bb36405a59980c4501faa41a53560d271058cec12d47b5b987f69e60eb9dd6c5",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.filter.maxref.xml",
+          "sha256": "2b925725b71cdd5857c6d882abf2dfadb00324d1d22766d36fce072a4c1910e2",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.filter?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.filter.maxhelp",
+          "sha256": "d651c292248a1917c8d7386ad5eb291259dacfbc2440863ef21d7c1949e0cd27",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.filter",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.filter 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.compare",
+      "exact_name": "list.compare",
+      "fixed_arguments": "1 4",
+      "id": "list-compare-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar",
+      "maximum_absolute_error": 0,
+      "model": 2906,
+      "observed_outlet": 0,
+      "operation": "list.compare",
+      "output_kind": "scalar",
+      "patch": "list-compare-out0.rnbopat",
+      "patch_sha256": "18625ae3acc5cf0cf26d499f6236a9dc38719df7dd64a897fbe116524fb6f3f6",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.compare.maxref.xml",
+          "sha256": "9c382d8f6bbb1d1cfe26de9ae249e2ae3c5d224aae66657847fd2f631fcdedce",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.compare?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.compare.maxhelp",
+          "sha256": "fcdd9eb133b737913fbf23d302864e11bd8a735edb34338cd5bf695aa6895e85",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.compare",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.compare 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.delace",
+      "exact_name": "list.delace",
+      "fixed_arguments": "",
+      "id": "list-delace-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2907,
+      "observed_outlet": 1,
+      "operation": "list.delace",
+      "output_kind": "list",
+      "patch": "list-delace-out1.rnbopat",
+      "patch_sha256": "54a6ab74adba2d19af6b9d863043b4f71c9963c9b92c157b143a9bdad701b449",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.delace.maxref.xml",
+          "sha256": "8fc615cb5d873482612966d10db7add5f2c9147ce66861f96b8e60d22232d50e",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.delace?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.delace.maxhelp",
+          "sha256": "1051c1498f8dd2fbc9511688e908ab080c95c74f0d169f1314c9a30d1974b4e4",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.delace",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.delace",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.filter",
+      "exact_name": "list.filter",
+      "fixed_arguments": "1 4",
+      "id": "list-filter-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2908,
+      "observed_outlet": 1,
+      "operation": "list.filter",
+      "output_kind": "list",
+      "patch": "list-filter-out1.rnbopat",
+      "patch_sha256": "719f341937841b8a4c3d9db8c564dd18bcdba431846d93752d547e2891087e01",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.filter.maxref.xml",
+          "sha256": "2b925725b71cdd5857c6d882abf2dfadb00324d1d22766d36fce072a4c1910e2",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.filter?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.filter.maxhelp",
+          "sha256": "d651c292248a1917c8d7386ad5eb291259dacfbc2440863ef21d7c1949e0cd27",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.filter",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.filter 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.compare",
+      "exact_name": "list.compare",
+      "fixed_arguments": "1 4",
+      "id": "list-compare-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2909,
+      "observed_outlet": 1,
+      "operation": "list.compare",
+      "output_kind": "list",
+      "patch": "list-compare-out1.rnbopat",
+      "patch_sha256": "af704de64ce5a7e02c8cd392f8a4c4c4fe48459c7e9fd5fa6801b084efcfedf2",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.compare.maxref.xml",
+          "sha256": "9c382d8f6bbb1d1cfe26de9ae249e2ae3c5d224aae66657847fd2f631fcdedce",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.compare?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.compare.maxhelp",
+          "sha256": "fcdd9eb133b737913fbf23d302864e11bd8a735edb34338cd5bf695aa6895e85",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.compare",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.compare 1 4",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.change",
+      "exact_name": "list.change",
+      "fixed_arguments": "",
+      "id": "list-change-emission-sum",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7; accumulated emission-code sum; not lossless event-order encoding",
+      "maximum_absolute_error": 0,
+      "model": 2910,
+      "observed_outlet": 0,
+      "operation": "list.change",
+      "output_kind": "code-sum",
+      "patch": "list-change-emission-sum.rnbopat",
+      "patch_sha256": "518b4626142c4eba70195a8052e1a6f4099688fbe117fbbdb6d9ce4edfd53412",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.change.maxref.xml",
+          "sha256": "eacd2b77e878b4b647038745da842d52afcab0413217647071c4a1f2d41c885e",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.change?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.change.maxhelp",
+          "sha256": "1acba1014a2aec1116ccbd52ccf166a5d567ec14ba9bd348a9dc5d5d9c7489e1",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.change",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.change",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.change",
+      "exact_name": "list.change",
+      "fixed_arguments": "",
+      "id": "list-change-flag",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar",
+      "maximum_absolute_error": 0,
+      "model": 2911,
+      "observed_outlet": 1,
+      "operation": "list.change",
+      "output_kind": "scalar",
+      "patch": "list-change-flag.rnbopat",
+      "patch_sha256": "e92effa6bbd6ed7d3cdfc75f260b9bdeef5e52da19b98b560261f111991e9efb",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.change.maxref.xml",
+          "sha256": "eacd2b77e878b4b647038745da842d52afcab0413217647071c4a1f2d41c885e",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.change?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.change.maxhelp",
+          "sha256": "1acba1014a2aec1116ccbd52ccf166a5d567ec14ba9bd348a9dc5d5d9c7489e1",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.change",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.change",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.reg",
+      "exact_name": "list.reg",
+      "fixed_arguments": "",
+      "id": "list-reg-hot",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2912,
+      "observed_outlet": 0,
+      "operation": "list.reg",
+      "output_kind": "list",
+      "patch": "list-reg-hot.rnbopat",
+      "patch_sha256": "49dcbd59244779239a79a3dbdfc71484a88e8582e288ed898ca689e76ddd2928",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.reg.maxref.xml",
+          "sha256": "7a1e2aa2b5049dacd4c6717f5a6831a56d692216cbaffc0764e5e3c3e16b36b3",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.reg?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.reg.maxhelp",
+          "sha256": "1fbcad7b37f6ec6e7af175e23fff9da823f61af205ed6b90e4478e2abbfcc8f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.reg",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.reg",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "hot"
+    },
+    {
+      "canonical_name": "list.reg",
+      "exact_name": "list.reg",
+      "fixed_arguments": "",
+      "id": "list-reg-cold-store-bang",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2913,
+      "observed_outlet": 0,
+      "operation": "list.reg",
+      "output_kind": "list",
+      "patch": "list-reg-cold-store-bang.rnbopat",
+      "patch_sha256": "a6aa31937224f545d00c339b24a7da9252ffce624cc3a841e4d2e31adfe124a5",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.reg.maxref.xml",
+          "sha256": "7a1e2aa2b5049dacd4c6717f5a6831a56d692216cbaffc0764e5e3c3e16b36b3",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.reg?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.reg.maxhelp",
+          "sha256": "1fbcad7b37f6ec6e7af175e23fff9da823f61af205ed6b90e4478e2abbfcc8f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.reg",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.reg",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "cold-store-bang"
+    }
+  ],
+  "family": "rnbo-list-extended",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 14,
+    "index": 1,
+    "parent_catalog_sha256": "986989935ba47d85a4e263ade114f2ef87ff4f974d14e8572da0128effadb2fc",
+    "total": 6
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "32 armed scenarios across17 exact spellings; bounded lists, repeated inputs, explicit storage-before-bang and raw right capture.",
+  "timed_blocks": 16
+}

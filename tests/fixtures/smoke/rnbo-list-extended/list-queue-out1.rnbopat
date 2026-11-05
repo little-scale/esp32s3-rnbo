@@ -1,0 +1,510 @@
+{
+  "patcher": {
+    "boxes": [
+      {
+        "box": {
+          "id": "input-unused",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "input-unused",
+          "text": "in~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "pilot",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "pilot",
+          "text": "in~ 2"
+        }
+      },
+      {
+        "box": {
+          "id": "drive",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "drive",
+          "text": "param drive 0 @min -8 @max 8 @exponent 1 @steps 0"
+        }
+      },
+      {
+        "box": {
+          "id": "arm",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "arm",
+          "text": "param arm 0 @min 0 @max 1 @exponent 1 @steps 0"
+        }
+      },
+      {
+        "box": {
+          "id": "arm-order",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "arm-order",
+          "text": "t f f"
+        }
+      },
+      {
+        "box": {
+          "id": "armed-input",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "armed-input",
+          "text": "gate 1 0"
+        }
+      },
+      {
+        "box": {
+          "id": "held",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "held",
+          "text": "sig~"
+        }
+      },
+      {
+        "box": {
+          "id": "out-left",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "out-left",
+          "text": "out~ 1"
+        }
+      },
+      {
+        "box": {
+          "id": "out-right",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "out-right",
+          "text": "out~ 2"
+        }
+      },
+      {
+        "box": {
+          "id": "operator",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "operator",
+          "text": "list.queue"
+        }
+      },
+      {
+        "box": {
+          "id": "make-list",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "make-list",
+          "text": "pack 0 0 0"
+        }
+      },
+      {
+        "box": {
+          "id": "list-order",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "list-order",
+          "text": "t f f f"
+        }
+      },
+      {
+        "box": {
+          "id": "crumb-0",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "crumb-0",
+          "text": "fract"
+        }
+      },
+      {
+        "box": {
+          "id": "crumb-1",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "crumb-1",
+          "text": "* 8"
+        }
+      },
+      {
+        "box": {
+          "id": "middle-0",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "middle-0",
+          "text": "floor"
+        }
+      },
+      {
+        "box": {
+          "id": "first-0",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "first-0",
+          "text": "floor"
+        }
+      },
+      {
+        "box": {
+          "id": "first-1",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "first-1",
+          "text": "* -1"
+        }
+      },
+      {
+        "box": {
+          "id": "first-2",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "first-2",
+          "text": "+ 7"
+        }
+      },
+      {
+        "box": {
+          "id": "store-before-pop",
+          "maxclass": "newobj",
+          "patching_rect": [
+            30,
+            30,
+            280,
+            24
+          ],
+          "rnbo_uniqueid": "store-before-pop",
+          "text": "t b l"
+        }
+      }
+    ],
+    "classnamespace": "rnbo",
+    "fileversion": 1,
+    "lines": [
+      {
+        "patchline": {
+          "destination": [
+            "armed-input",
+            1
+          ],
+          "source": [
+            "drive",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "arm-order",
+            0
+          ],
+          "source": [
+            "arm",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "armed-input",
+            0
+          ],
+          "source": [
+            "arm-order",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-right",
+            0
+          ],
+          "source": [
+            "pilot",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "out-left",
+            0
+          ],
+          "source": [
+            "held",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "list-order",
+            0
+          ],
+          "source": [
+            "armed-input",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "crumb-0",
+            0
+          ],
+          "source": [
+            "list-order",
+            2
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "crumb-1",
+            0
+          ],
+          "source": [
+            "crumb-0",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "make-list",
+            2
+          ],
+          "source": [
+            "crumb-1",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "middle-0",
+            0
+          ],
+          "source": [
+            "list-order",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "make-list",
+            1
+          ],
+          "source": [
+            "middle-0",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "first-0",
+            0
+          ],
+          "source": [
+            "list-order",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "first-1",
+            0
+          ],
+          "source": [
+            "first-0",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "first-2",
+            0
+          ],
+          "source": [
+            "first-1",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "make-list",
+            0
+          ],
+          "source": [
+            "first-2",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "store-before-pop",
+            0
+          ],
+          "source": [
+            "make-list",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "operator",
+            0
+          ],
+          "source": [
+            "store-before-pop",
+            1
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "operator",
+            0
+          ],
+          "source": [
+            "store-before-pop",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "destination": [
+            "held",
+            0
+          ],
+          "source": [
+            "operator",
+            1
+          ]
+        }
+      }
+    ],
+    "rect": [
+      0,
+      0,
+      1000,
+      600
+    ]
+  }
+}

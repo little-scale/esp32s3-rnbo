@@ -1,0 +1,59 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "list.stack",
+      "exact_name": "list.stack",
+      "fixed_arguments": "",
+      "id": "list-stack-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar",
+      "maximum_absolute_error": 0,
+      "model": 2922,
+      "observed_outlet": 0,
+      "operation": "list.stack",
+      "output_kind": "scalar",
+      "patch": "list-stack-out0.rnbopat",
+      "patch_sha256": "5c2c8e0f84979ab0ccb2e26eed958f2b7a13a1e323914711efaf87a28d6774c3",
+      "reference_policy": "documented-finite-list-and-ordered-storage",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.stack.maxref.xml",
+          "sha256": "510bf8579d3e5996ab69e03238af61fccccb09f58cfd29d002fe130c197e4677",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.stack?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.stack.maxhelp",
+          "sha256": "418ac92f01b3e671caf2aadd40a508dba63e2062a35c33f43c763a02ebef9a6e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.stack",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite list/storage form; one arm then21 drive actions with repeated identical lists. Code-sums verify emission sums, not arbitrary event order. Auxiliary objects gain no inherited qualification.",
+      "source_form": "list.stack",
+      "surface": "patcher",
+      "syntax": "armed-extended-list-object",
+      "variant": "default"
+    }
+  ],
+  "family": "rnbo-list-extended",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 1,
+    "index": 5,
+    "parent_catalog_sha256": "986989935ba47d85a4e263ade114f2ef87ff4f974d14e8572da0128effadb2fc",
+    "total": 6
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "32 armed scenarios across17 exact spellings; bounded lists, repeated inputs, explicit storage-before-bang and raw right capture.",
+  "timed_blocks": 16
+}
