@@ -28,6 +28,20 @@ remain deferred; broader RNBO, Gen and structure coverage remains active work.
 
 ## Fast coverage runs
 
+The [direct Gen partition probe](gen-direct-partitions.md) now passes **78
+XIAO renders** of three exact history programs and two stimuli. It checks
+**638,976 numerical output words** and **589,824 bit-exact partition comparisons**
+across 1-, 2-, 7-, 255-, 256-frame and mixed calls, clipped at fixed reset/prepare
+samples. All 78 native/device capture hashes agree. This qualifies a separate
+variable-frame generated-producer route; the player/module ABI stays fixed at
+256 frames. Processing and observed reset/prepare calls allocate/free no heap.
+PSRAM returns to baseline; an unexplained **288-byte internal heap decrease**
+remains a lifecycle/first-use follow-up. Eight small-call CPU contexts bring the
+queue to **151**, including expected per-call dispatch cost. The normal player
+and saved controls are restored. RNBO coverage remains **869 scoped entries**;
+other Gen operators/forms, resources/modes/events and visual Gen remain, so the
+full goal is still active. No variable-frame production API is claimed.
+
 The [Gen routing/causal-state batch](hardware-smoke.md#gen-routing-calls-and-causal-state-structures)
 records **26 source forms: 15 execute and all 15 pass, ten fail C++ compilation
 and one fails the frontend**, with **153,600 output-word checks**. Three-stage

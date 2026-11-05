@@ -10,6 +10,36 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+Direct variable-frame probes use their separately stated aggregate-render cycle
+screen below; those observations include short-call dispatch overhead.
+
+## Direct Gen variable-frame calls: eight queued contexts
+
+Eight direct-producer contexts exceed 10% aggregate process CPU, taking the queue
+from 143 to **151**. These use a separately labelled screen: median of two 4096-
+frame elapsed-process-cycle ratios (three for nominal 1). The core is pinned at
+240MHz. Counters/dispatch and possible interrupts are included; input/reference/
+guard/control work is excluded. No counter overhead is subtracted, no player
+module performance is implied, and mixed-call maxima are not isolated spikes.
+
+| Complete direct-producer context | Median normalised CPU |
+| --- | ---: |
+| `history-feedback-dyadic-p1` | 20.22% |
+| `history-feedback-dyadic-p2` | 13.26% |
+| `history-feedback-boundary-impulses-p1` | 19.12% |
+| `history-feedback-boundary-impulses-p2` | 12.14% |
+| `two-history-swap-dyadic-p1` | 14.16% |
+| `two-history-swap-boundary-impulses-p1` | 14.15% |
+| `three-history-rotation-dyadic-p1` | 14.22% |
+| `three-history-rotation-boundary-impulses-p1` | 14.23% |
+
+All outputs pass. Short-call dispatch overhead is expected and can be investigated
+if a production one-frame path is developed; no individual Gen opcode is blamed
+and no optimisation gain is claimed. Full nominal 256/mixed costs and the
+separate 288-byte internal-heap follow-up are retained in
+[the experiment](gen-direct-partitions.md) and
+[target evidence](../evidence/xiao-gen-direct-partitions.json).
+
 ## Gen causal structures: one queued context
 
 The three-iteration loop with persistent history measures **742.5µs median,

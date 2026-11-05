@@ -22,6 +22,37 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## Direct Gen one-frame and variable partitions
+
+The [dedicated direct-producer probe](gen-direct-partitions.md) passes all 78
+renders across three original history graphs and two stimuli. It independently
+checks 638,976 numerical output words and 589,824 exact partition comparisons.
+One-frame calls, nominal 2/7/255/256 and mixed calls are shortened at the same
+absolute reset/prepare sample positions. All 78 device/native capture hashes
+agree. There are 62,036 within-limit feedback differences, maximum 7.45e-9, and
+no outside-limit or partition-bit mismatches.
+
+The 312 reset actions include repeated identical values, with 234 independently
+observable output changes; 156 forced prepares are also checked. Input/output
+guards cover 106,536 process calls. Process and observed set/prepare methods
+make zero heap allocations/frees. PSRAM free returns to baseline, while internal
+free memory ends 288 bytes lower: lifecycle/first-use retention remains an explicit
+follow-up. The experiment does not claim balanced total heaps or an arena tier.
+
+The application uses an explicitly labelled variable-frame producer route.
+Production player/module calls remain fixed 256; no visual Gen, arbitrary
+operator/resource/mode or one-frame I²S deadline guarantee follows. Cycle-based
+aggregate CPU costs include dispatch/counter overhead and possible interruption.
+Eight small-call budget contexts bring the global queue to 151. These use a
+separate two-render (three for 1) aggregate-cycle screen, not isolated opcode
+costs, mixed-size spike attribution or an optimisation gain. The normal player,
+saved Main and controls are restored and checked.
+
+See [hardware counters/timings](../evidence/xiao-gen-direct-partitions.json),
+[native captures](../evidence/gen-direct-partitions-native.json),
+[frozen original reference](../tests/fixtures/gen/partitions/catalog.json) and
+[player restoration](../evidence/xiao-gen-direct-partitions-player-restoration.json).
+
 ## Gen routing calls and causal state structures
 
 26 original source forms produce **15 XIAO passes**, ten C++ rejections and one

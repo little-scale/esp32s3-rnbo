@@ -1,0 +1,78 @@
+{
+  "absolute_tolerance": 2e-06,
+  "automatic_warmup_blocks": 0,
+  "execution_route": "direct-variable-producer",
+  "force_prepare_before_samples": [
+    257,
+    1300
+  ],
+  "format": "rnbo-gen-direct-partition-catalog-v1",
+  "frames_per_instance": 4096,
+  "gen_surface": "GenExpr",
+  "generator_sha256": "88a282d19ee48ce433fb24bb5d4faf3f037997efe106555f30e6c473ae72ed70",
+  "instances_per_program_stimulus": 13,
+  "maximum_block_frames": 256,
+  "mixed_partition_pattern": [
+    1,
+    2,
+    7,
+    255,
+    256,
+    3,
+    17
+  ],
+  "module_abi": false,
+  "nominal_partitions": [
+    1,
+    2,
+    7,
+    255,
+    256,
+    0
+  ],
+  "player_abi_changed": false,
+  "producer_fixedblocksize": 0,
+  "programs": [
+    {
+      "class_name": "genpartition1",
+      "genexpr": "tests/fixtures/gen/history-feedback.genexpr",
+      "genexpr_sha256": "503accf2f7bdb3b232125f1ec79b73c509536aef51144a77417b04839c925aee",
+      "id": "history-feedback",
+      "model": 1,
+      "patch": "tests/fixtures/gen/history-feedback.rnbopat",
+      "patch_sha256": "cc73307e6aaad1f7f3636c28e7d79baffe15eae9d59ac14bdef64dafbae6990e"
+    },
+    {
+      "class_name": "genpartition2",
+      "genexpr": "tests/fixtures/gen/two-history-swap.genexpr",
+      "genexpr_sha256": "aaa452c8711f4a321b8a9f0c106e6a1158e71a8a3e8297c9e1f239736664fbae",
+      "id": "two-history-swap",
+      "model": 2,
+      "patch": "tests/fixtures/gen/two-history-swap.rnbopat",
+      "patch_sha256": "8302cae732b243f6198c12b690a3e479ab179983c249e028784c336cc67571aa"
+    },
+    {
+      "class_name": "genpartition3",
+      "genexpr": "tests/fixtures/gen/three-history-rotation.genexpr",
+      "genexpr_sha256": "b6eb327b5edbc5f1a73680fdaec1162b11ebe84073662ae714082fa815b52453",
+      "id": "three-history-rotation",
+      "model": 3,
+      "patch": "tests/fixtures/gen/three-history-rotation.rnbopat",
+      "patch_sha256": "8352cd42553f02d5fe542c390d60665249ff0b0e71914dc011cb2c40d86b64f4"
+    }
+  ],
+  "reference_sha256": "6ccf2d449cf9f7f7fda72fd9ea95e032a910444d3cee9be61dffa9fe3fdda5ea",
+  "reset_before_samples": [
+    513,
+    1024,
+    2051,
+    3001
+  ],
+  "sample_rate": 44100,
+  "scope": "Three exact original GenExpr history graphs, two bounded stimuli, three fresh1-frame renders plus reconstructed2/7/255/256/mixed renders; each nominal partition clips at fixed absolute reset/prepare positions. Direct variable-frame generated producer only, no production module ABI, player audio throughput, visual Gen, external resources, all operators, nonfinite domains or optimisation gain.",
+  "stimuli": [
+    "dyadic",
+    "boundary-impulses"
+  ],
+  "visual_Gen_qualified": false
+}

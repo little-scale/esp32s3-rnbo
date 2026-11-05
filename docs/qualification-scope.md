@@ -19,6 +19,14 @@ Acceptance by the exporter is only the first gate; it does not establish
 correctness, timing or precision on the ESP32-S3. Standalone Gen exports, if
 used as a reference or a separate execution route, must remain distinguishable.
 
+The [direct XIAO partition probe](gen-direct-partitions.md) now adds scoped
+one-frame target evidence for the three original History programs. It compares
+1/2/7/255/256/mixed calls, event-boundary fragments and reconstructed instances,
+with sparse impulses around every 256-sample boundary. Its variable-frame
+producer is a dedicated qualification application. Production player/module
+calls remain fixed at 256 frames; other operators, visual forms, arbitrary
+resources and module-level sample-offset scheduling do not inherit this result.
+
 Single-sample qualification must include:
 
 - One-sample `history` delay, specified initial values and reset/reconstruction.

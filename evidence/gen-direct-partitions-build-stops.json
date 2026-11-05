@@ -1,0 +1,32 @@
+{
+  "format": "rnbo-gen-direct-partition-integration-stops-v1",
+  "plan_sha256": "f60ad88663deaaf30c721309c1a928803c6a86c874516f8289952745ab2c9440",
+  "scope": "Development harness compile/configuration stops, not object DSP failures; no output oracle or program change. Successful hardware cohort is the separately identified fourth build.",
+  "stops": [
+    {
+      "attempt": 1,
+      "log_sha256": "fca3ed7777dfe34e9e24ba0e946e0ce3a90fd4dca1de7c49f55c4dffac768947",
+      "part_of_recorded_hardware_cohort": false,
+      "primary_plan_unchanged": true,
+      "reason": "C++ literal/PRI macro spacing in the new report formatter",
+      "stage": "host harness compilation"
+    },
+    {
+      "attempt": 2,
+      "log_sha256": "ac8d512876762f96eacb86ab50a2991c08380cc72ad29e6bd280cd17f7a0a5fc",
+      "part_of_recorded_hardware_cohort": false,
+      "primary_plan_unchanged": true,
+      "reason": "Configuration-dependent sources were requested during early component expansion",
+      "stage": "ESP-IDF component configuration"
+    },
+    {
+      "attempt": 3,
+      "log_sha256": "8d79b7399226ccd573dd39b3e09444dee21e449438690df360713fae1670393a",
+      "part_of_recorded_hardware_cohort": false,
+      "primary_plan_unchanged": true,
+      "reason": "Target uint32_t printf argument types differed from host unsigned int",
+      "stage": "target harness compilation"
+    }
+  ],
+  "successful_build_report_sha256": "41ee563c8bbce7cc5ab243d71ecd84ddaadfcb73f9560a8c52e31436343d9f49"
+}

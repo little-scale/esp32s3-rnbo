@@ -25,6 +25,8 @@ jobs:
         run: |
           python tools/build_object_status.py --check
           python tools/build_gen_route_inventory.py --check
+          python tests/fixtures/gen/partitions/generate.py --check
+          node --check tools/export_gen_partition_probe.mjs
           node --check site/app.js
           node --check host/studio/web/app.js
           node --test host/studio/test_web.mjs
