@@ -16,8 +16,43 @@ when needed; it is not automatically restored after each batch.
 Before the resumed container batch, the MIDI-capable player ran the saved Main
 patch. Its settings were saved privately, audio was muted and paused, and USB
 was released before installing the quiet test application. The container smoke
-firmware is now left installed. Main package storage and Wi-Fi settings were
+firmware was left installed at that checkpoint; the next Gen smoke application
+has since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
+
+## Gen control, declarations and language structures
+
+Nineteen programs execute and **all pass their zero-numeric-tolerance screen**,
+checking **194,560 output values** over twenty continuous callbacks each.
+Twelve GenExpr pass-gate spellings (`eqp`/`==p`, `neqp`/`!=p`, `ltp`/`<p`,
+`ltep`/`<=p`, `gtp`/`>p`, `gtep`/`>=p`) are independently authored. Uppercase
+`Param` default gain, lowercase `elapsed`, lowercase `history`, a function with
+two independent local-History instances, and bounded for/while/break/continue
+also pass. Delay samples and elapsed ordinals cross all host callback edges.
+
+Both native and target retain **33,360 signed-zero word differences**, with
+matching per-case counts and zero finite numerical error. Those differences
+are outside the numeric zero gate and remain visible; no bit-identity claim,
+tolerance relaxation or target-fitted reference follows. All images finalise
+and memory/allocation checks pass, with zero arena high-water and unchanged
+free internal/PSRAM totals. The context is 12,720 bytes for every program.
+
+Five source forms fail C++: lowercase `param` declaration, uppercase `ELAPSED`,
+bare `voice` and `VOICE`, and `constant(...)`. A multiple-return custom function
+and an if/else-if History program are rejected by the Gen frontend before C++.
+These exact forms keep their source/rejection hashes; their outcomes do not
+qualify or reject another alias, visual Gen operator or language construct.
+
+Medians span 42–94.5 µs (at most 1.63% of the block period), peak 99 µs
+(1.71%). No CPU flag triggers, so the backlog remains 99. Whole callback
+timings are not isolated opcode costs or speedups. All sources keep their
+original strict storage/processing policy. Host parameter updates, voice
+polyphony, visual Gen, one-frame production calls and broader domains remain
+pending within the active goal.
+
+See [target evidence](../evidence/xiao-smoke-gen-control-structures.json),
+[native checks and diagnostics](../evidence/gen-control-structures-native.json)
+and [original programs, models and timing table](../tests/fixtures/smoke/gen-control-structures/README.md).
 
 ## RNBO codebox lists and fixed arrays
 

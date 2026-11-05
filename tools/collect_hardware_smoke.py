@@ -24,6 +24,8 @@ from build_hardware_smoke import (CHARACTER_FAMILY,CHARACTER_PARTITIONS,CHARACTE
                                  GEN_DATA_REFERENCE_SHA,gen_data_catalog)
 from build_hardware_smoke import (CONTAINER_FAMILY,CONTAINER_CATALOG_SHA,
                                  CONTAINER_REFERENCE_SHA,container_catalog)
+from build_hardware_smoke import (GEN_CONTROL_FAMILY,GEN_CONTROL_CATALOG_SHA,
+                                 GEN_CONTROL_REFERENCE_SHA,gen_control_catalog)
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -434,6 +436,38 @@ def container_plan(plan):
                 'Container reference stream differs from independent source')
 
 
+def gen_control_plan(plan):
+    directory=ROOT/'tests/fixtures/smoke/gen-control-structures'
+    catalog=json.loads((directory/'catalog.json').read_bytes());gen_control_catalog(catalog)
+    require(plan.get('catalog_sha256')==GEN_CONTROL_CATALOG_SHA and
+            plan.get('reference_source_sha256')==GEN_CONTROL_REFERENCE_SHA and
+            sha(directory/'reference.py')==GEN_CONTROL_REFERENCE_SHA and
+            plan.get('surface')=='genexpr' and type(plan.get('prepare_zero_warm_blocks'))is int and
+            plan['prepare_zero_warm_blocks']==0 and plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16,
+            'Gen control source/surface/fresh-state policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals) and {r['id']for r in observed}==set(originals),'Gen control case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and
+                row.get('genexpr_sha256')==source['genexpr_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')),
+                'Gen control source or exact language form differs')
+    spec=importlib.util.spec_from_file_location('gen_control_independent_reference',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model']
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==0 and
+                not any(k in row for k in ('parameter_events','parameters','strict_zero_sign_channels')),
+                'Gen control declaration/limits or default-only parameter scope differs')
+        inputs=reference.case_input_words(model)
+        require(row.get('input_words')==list(inputs),'Gen control vector differs from independent source')
+        blocks,_=expected_stream(row,True)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),
+                'Gen control expected stream differs from independent source')
+
+
 def collect(build_dir,run_dir):
     build_path=build_dir/'build-report.json';run_path=run_dir/'hardware-smoke.json'
     build=json.loads(build_path.read_bytes());run=json.loads(run_path.read_bytes())
@@ -442,6 +476,7 @@ def collect(build_dir,run_dir):
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
+    if plan.get('family')==GEN_CONTROL_FAMILY:gen_control_plan(plan)
     comparison=plan.get('family')=='dbtoa-f32-comparison'
     if comparison:dbtoa_comparison_plan(plan)
     character=plan.get('family')==CHARACTER_FAMILY
@@ -467,7 +502,7 @@ def collect(build_dir,run_dir):
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
@@ -514,6 +549,8 @@ def collect(build_dir,run_dir):
         if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
                                                          'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
         if gen_data:record['owner_kind']=expected['owner_kind']
+        if plan.get('family')==GEN_CONTROL_FAMILY:
+            record.update({k:expected[k]for k in ('model','genexpr_sha256','scope')})
         if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
@@ -561,7 +598,7 @@ def collect(build_dir,run_dir):
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
-    elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-range','gen-constants')and plan.get('surface')=='genexpr':
+    elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']

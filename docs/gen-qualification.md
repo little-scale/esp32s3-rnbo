@@ -6,6 +6,17 @@ language constructs and evidence remain separate from RNBO objects and RNBO
 See the [full requirements](qualification-scope.md).
 
 Coverage now also uses [short batched hardware checks](hardware-smoke.md).
+The [control/declaration/structure batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
+adds **19 passing programs and 194,560 numeric output checks**, including all
+twelve named/infix pass-gate spellings, `Param` defaults, elapsed sample counts,
+lowercase history, two independent function-local histories and bounded
+for/while/break/continue. Native and target share all input/reference hashes and
+33,360 signed-zero differences; finite numerical error is zero, but this does
+not establish bit identity. Five C++ and two frontend source-form rejections
+remain visible. All executed images pass finalisation/allocation gates, and
+42–94.5 µs callback medians add no CPU flags. Exact forms, diagnostics and limits
+are in the [source guide](../tests/fixtures/smoke/gen-control-structures/README.md).
+
 The [local Data/indexed-storage batch](hardware-smoke.md#gen-local-data-and-indexed-storage)
 passes all eight programs and 81,920 output checks. It covers the local
 `Data(7,2)` declaration and separate `dim`, `channels`, `peek`, `poke`,

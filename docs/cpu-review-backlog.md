@@ -10,6 +10,12 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+The subsequent [Gen control/structure batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
+adds **no flags**: 19 passing callbacks measure 42–94.5 µs median and at most
+99 µs observed peak. These complete programs include bounded looping and
+function-local sample state. The cumulative queue remains **99**; rejected
+source forms and signed-zero differences are separate compatibility follow-ups.
+
 ## Codebox containers: five queued contexts
 
 All 26 executable list/array programs pass their exact output references.

@@ -1,5 +1,13 @@
 # XIAO object qualification
 
+The next [Gen control and language batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
+passes **19 programs and 194,560 numeric checks**, with 33,360 signed-zero word differences
+saved separately. It checks predicate pass-through aliases, defaults, elapsed
+sample counting, independent function-local histories and bounded loops.
+Five C++ forms and two frontend forms reject; no new CPU flag triggers.
+The complete RNBO/Gen/structure goal remains active, and the quiet Gen test
+application is now installed. Gen cases do not inflate the RNBO table count.
+
 Qualification resumed on 5 November after the physical-input/MIDI tangents.
 The [codebox list/array batch](hardware-smoke.md#rnbo-codebox-lists-and-fixed-arrays)
 adds **26 passing device scenarios and 266,240 exact output checks**, including

@@ -1,5 +1,16 @@
 # Implementation status — 5 November 2026
 
+The next [Gen control/structure batch](hardware-smoke.md#gen-control-declarations-and-language-structures)
+passes **19 programs and 194,560 numeric output checks** on XIAO. Twelve
+pass-gate spellings, `Param` defaults, elapsed sample counting, lowercase history,
+two independent function-local histories and bounded for/while/break/continue
+pass with zero finite numerical error. **33,360 signed-zero differences** remain
+explicit; this is not bit-identity qualification. Five exact forms fail C++ and
+two fail the Gen frontend, with source/log identities saved. No CPU flag
+triggers (42–94.5 µs medians, 99 µs largest peak); the queue remains 99.
+Gen evidence stays separate from the 693 mapped RNBO entries. The latest quiet
+Gen smoke firmware is installed and the complete qualification goal stays active.
+
 The qualification goal has **resumed**. The new
 [codebox container batch](hardware-smoke.md#rnbo-codebox-lists-and-fixed-arrays)
 passes all 26 executable programs on XIAO: all seventeen fixed-array
