@@ -13,6 +13,18 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Signal analysis and sample clocks: no new callback flags
+
+The [analysis/timing report](rnbo-analysis-timing.md) records 23 completed
+scenarios, with 19 passing screens and four report/clock-policy differences
+retained. Callbacks measure **75–145µs median (1.29–2.50%)**, peak 150µs;
+no new CPU flag triggers, so the queue stays **164**. Event setters/routing
+are timed separately. The three seven-value event averages each consume
+**352,880 arena bytes** in the explicit 1 MiB ceiling. The installed operator
+reserves a sample-rate-sized Float64 buffer even for this small event window.
+A bounded event-window implementation is a memory optimisation candidate;
+no numerical, dynamic-window/reset or allocation-equivalence claim is made yet.
+
 ## Visual Gen range/state: two new callback contexts
 
 The [visual-flow report](gen-visual-flow.md) brings the queue from 162 to **164**.

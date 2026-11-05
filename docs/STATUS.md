@@ -1,5 +1,23 @@
 # Implementation status — 6 November 2026
 
+The [signal-analysis and sample-clock batch](rnbo-analysis-timing.md) adds
+**23 completed XIAO scenarios across 16 exact spellings**: **19 pass** and four
+retain report/clock timing-policy differences, also present in native preflight.
+Checks cover **235,520 output words and 506 control actions**, with exact raw
+right captures, five within-limit differences and no nonfinite/zero-sign errors.
+Manual peak/snapshot, threshold boundaries, zero crossings, event mean/absolute/
+RMS averages, samplecount, event sample time and elapsed/reset cases pass.
+The avg observer's deferred report, block-valued currentsampletime~ and host-time
+origins remain explicit gaps against the original sample-position screen;
+these are not four established DSP defects. Callbacks measure **75–145µs median**
+(1.29–2.50%), peak 150µs, with no new CPU flag; the review queue stays **164**.
+The three seven-value event averages each use **352,880 arena bytes** under an
+explicit 1 MiB ceiling, a memory optimisation candidate. All images finalise and
+allocation/memory gates pass; normal player and saved controls are restored.
+RNBO coverage reaches **1072/1455 scoped outcomes**, including partials; Gen
+remains separate and complete qualification stays active. No optimisation gain
+is claimed.
+
 The [visual Gen range/state batch](gen-visual-flow.md) covers **42 scenarios
 across 33 exact visual spellings**. **39 hardware checks pass**, fractional
 `ftom` retains **640 outside-screen words** (maximum 0.25 notes), and `mod`/`%`

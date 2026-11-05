@@ -57997,6 +57997,648 @@
       "working_note": "XIAO: all 4 authored maths/mixing scenarios pass fixed independent output screens, ordered parameter readbacks and raw right captures. Constructor/inlet variants, outputs and modes are separately authored; no alias status transfer.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:average",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Seven-value event window consumes352880arena bytes because primary implementation reserves sample-rate-sized Float64 storage. Bounded event storage is an unimplemented memory optimisation candidate."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "average 7"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/average-seven.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario average-seven; source average 7. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 2e-06 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "average",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:average_absolute",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Seven-value event window consumes352880arena bytes because primary implementation reserves sample-rate-sized Float64 storage. Bounded event storage is an unimplemented memory optimisation candidate."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "average_absolute 7"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/average_absolute-seven.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario average_absolute-seven; source average_absolute 7. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 2e-06 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "average_absolute",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:average_rms",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Seven-value event window consumes352880arena bytes because primary implementation reserves sample-rate-sized Float64 storage. Bounded event storage is an unimplemented memory optimisation candidate."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "average_rms 7"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/average_rms-seven.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario average_rms-seven; source average_rms 7. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 2e-06 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "average_rms",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:avg~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Report latency, block-valued signal clocks or host-time origin differs from this sample-position screen. This form is not fully qualified; separate scheduling-aware observers/host-time contracts remain work."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "avg~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/avg-manual.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario avg-manual; source avg~. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy binary32(drive * varying left input). Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 2e-06 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        }
+      ],
+      "spelling": "avg~",
+      "surface": "patcher",
+      "working_note": "XIAO and native preflight retain 3328 outside-screen words for the authored report/clock policy. Original streams and limits remain unchanged. See the analysis/timing report for deferred report or block-time semantics; no universal DSP defect is claimed.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:currentsampletime",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "currentsampletime"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario currentsampletime; source currentsampletime. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "currentsampletime",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:currentsampletime~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Report latency, block-valued signal clocks or host-time origin differs from this sample-position screen. This form is not fully qualified; separate scheduling-aware observers/host-time contracts remain work."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "currentsampletime~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario currentsampletime-signal; source currentsampletime~. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "currentsampletime~",
+      "surface": "patcher",
+      "working_note": "XIAO and native preflight retain 5100 outside-screen words for the authored report/clock policy. Original streams and limits remain unchanged. See the analysis/timing report for deferred report or block-time semantics; no universal DSP defect is claimed.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:currenttime",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Report latency, block-valued signal clocks or host-time origin differs from this sample-position screen. This form is not fully qualified; separate scheduling-aware observers/host-time contracts remain work."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "currenttime"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/currenttime.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario currenttime; source currenttime. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 2e-05 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "currenttime",
+      "surface": "patcher",
+      "working_note": "XIAO and native preflight retain 4864 outside-screen words for the authored report/clock policy. Original streams and limits remain unchanged. See the analysis/timing report for deferred report or block-time semantics; no universal DSP defect is claimed.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:currenttime~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification.",
+        "Report latency, block-valued signal clocks or host-time origin differs from this sample-position screen. This form is not fully qualified; separate scheduling-aware observers/host-time contracts remain work."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "currenttime~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/currenttime-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario currenttime-signal; source currenttime~. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 2e-05 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "currenttime~",
+      "surface": "patcher",
+      "working_note": "XIAO and native preflight retain 5100 outside-screen words for the authored report/clock policy. Original streams and limits remain unchanged. See the analysis/timing report for deferred report or block-time semantics; no universal DSP defect is claimed.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:elapsed~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "elapsed~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/elapsed-free.rnbopat"
+        },
+        {
+          "forms": [
+            "elapsed~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/elapsed-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario elapsed-free; source elapsed~. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario elapsed-reset; source elapsed~. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "elapsed~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:peakamp~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "peakamp~ 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/peakamp-manual.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario peakamp-manual; source peakamp~ 0. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy binary32(drive * varying left input). Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        }
+      ],
+      "spelling": "peakamp~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:samplecount~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "samplecount~"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/samplecount-signal.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario samplecount-signal; source samplecount~. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "samplecount~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:snapshot~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "snapshot~ 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/snapshot-manual.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario snapshot-manual; source snapshot~ 0. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy binary32(drive * varying left input). Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        }
+      ],
+      "spelling": "snapshot~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:thresh",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "thresh -0.25 0.25"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-hysteresis.rnbopat"
+        },
+        {
+          "forms": [
+            "thresh 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-zero.rnbopat"
+        },
+        {
+          "forms": [
+            "thresh 0.25 0.25"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-positive.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario thresh-hysteresis; source thresh -0.25 0.25. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario thresh-equal-zero; source thresh 0 0. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario thresh-equal-positive; source thresh 0.25 0.25. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        }
+      ],
+      "spelling": "thresh",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:thresh~",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "thresh~ -0.25 0.25"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-hysteresis.rnbopat"
+        },
+        {
+          "forms": [
+            "thresh~ 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-zero.rnbopat"
+        },
+        {
+          "forms": [
+            "thresh~ 0.25 0.25"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-positive.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario thresh-signal-hysteresis; source thresh~ -0.25 0.25. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy binary32(drive + varying left input). Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario thresh-signal-equal-zero; source thresh~ 0 0. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy binary32(drive + varying left input). Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario thresh-signal-equal-positive; source thresh~ 0.25 0.25. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy binary32(drive + varying left input). Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        }
+      ],
+      "spelling": "thresh~",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:zerox",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "zerox"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-events.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario zerox-events; source zerox. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        }
+      ],
+      "spelling": "zerox",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:zerox_count",
+      "known_gaps": [
+        "Only authored manual reports, finite event windows, fixed thresholds and clock/reset policies are checked. Periodic reporting, dynamic windows/thresholds/resets, absolute/transport origins and within-block host events remain unqualified.",
+        "Costs cover complete compiled fixtures and event routing; no isolated operation, whole-chip CPU or measured optimisation saving. A1MiB arena is explicit;4KiB configurations are not qualified. Auxiliary objects, aliases, other surfaces and Gen inherit no qualification."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "zerox_count 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-2.rnbopat"
+        },
+        {
+          "forms": [
+            "zerox_count 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-3.rnbopat"
+        },
+        {
+          "forms": [
+            "zerox_count 7"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-7.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact analysis/timing scenario zerox-count-2; source zerox_count 2. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario zerox-count-3; source zerox_count 3. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+        },
+        {
+          "conditions": "Exact analysis/timing scenario zerox-count-7; source zerox_count 7. One arm then21 ordered signed drive events, repeats/same-callback updates, parameter-ID actual/normalised readbacks, four manual warm+16 timed256-frame callbacks, no automatic warmup. Signal policy ordered drive events or elapsed sample ordinals. Independent window/hysteresis/sample-ordinal reference and exact raw right capture. Original absolute limit 0 remains fixed. Report visible in next rendered block, origin-zero per-sample clock and event boundary requirements are explicit screens; differing report latency/block time is retained as partial scope, not an established DSP defect. All cases reserve1MiB; average operators consume352880bytes. No auxiliary-object/alias, complete-domain or optimisation-gain inheritance.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+        }
+      ],
+      "spelling": "zerox_count",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored analysis/timing scenarios pass fixed output screens, parameter readbacks and exact raw right captures. Window/threshold/report/clock forms remain distinct; no alias status transfer.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -58004,17 +58646,17 @@
   "snapshot_date": "2026-11-06",
   "sources": {
     ".github/workflows/host.yml": {
-      "bytes": 2162,
+      "bytes": 2225,
       "path": ".github/workflows/host.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "f959758fd1a7ebae300d137241cb639034d17080ae9d481133a9b8736e8eb2bd",
+      "sha256": "6ee8fd675b816cd005d40137f9e5d0e2a9f502394cec69a22400653eb236f9a6",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/host.yml"
     },
     ".github/workflows/pages.yml": {
-      "bytes": 1432,
+      "bytes": 1495,
       "path": ".github/workflows/pages.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "054c22d38de7778952585aa4ca0f45b82ad81060a8b23fe3db6ae1192c3959fe",
+      "sha256": "27d76f9c4ffc8d4ebd6c41fc0f335bb83604de2f3e6e56efeb3a3c78cb4dd9ae",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/pages.yml"
     },
     "build/audit/rnbo-object-inventory-v1/inventory.json": {
@@ -59025,6 +59667,13 @@
       "sha256": "5f870a9615af46a5af3a99880469d444687bf3d811c9c9734557c8d602dd9837",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/579fa3f94f22ca86a6d69003a7063113f17ab538/docs/parameter-event-order.md"
     },
+    "docs/rnbo-analysis-timing.md": {
+      "bytes": 8764,
+      "path": "docs/rnbo-analysis-timing.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "94b3c88836ab4fa9429545cdf88101f0dc87e2b6cdc4c78a834050ede0b6a5da",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-analysis-timing.md"
+    },
     "docs/rnbo-event-math.md": {
       "bytes": 4294,
       "path": "docs/rnbo-event-math.md",
@@ -59437,6 +60086,27 @@
       "publication": "included-with-status-snapshot",
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
+    },
+    "evidence/rnbo-analysis-timing-builds.json": {
+      "bytes": 2815,
+      "path": "evidence/rnbo-analysis-timing-builds.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "aed62b9cf68f7719a54c8961c1d0a7d76c5600b126752bcd6081113c7f578380",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-analysis-timing-builds.json"
+    },
+    "evidence/rnbo-analysis-timing-native.json": {
+      "bytes": 34708,
+      "path": "evidence/rnbo-analysis-timing-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "49764dbe645276a71457ac76fe02d78b58d3b94f520988bccffa5e7210bad02d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-analysis-timing-native.json"
+    },
+    "evidence/rnbo-analysis-timing-status.json": {
+      "bytes": 33463,
+      "path": "evidence/rnbo-analysis-timing-status.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d68789aca42a05c2415c882da5769378308e47a232c6c2780fb4f38987a0474d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-analysis-timing-status.json"
     },
     "evidence/rnbo-codebox-analysis-members-native.json": {
       "bytes": 19712,
@@ -59906,6 +60576,27 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "410eb92d1abd5ffb0b09b5f3261a4390940d31fef25684359595a92a33f19d99",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-gen-visual-math-player-restoration.json"
+    },
+    "evidence/xiao-smoke-rnbo-analysis-timing-part1.json": {
+      "bytes": 161006,
+      "path": "evidence/xiao-smoke-rnbo-analysis-timing-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "334ae87d9e6a031f041a025cb1a5ea8f607353925e332eddd69fe1f5099236b7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-analysis-timing-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-analysis-timing-part2.json": {
+      "bytes": 148291,
+      "path": "evidence/xiao-smoke-rnbo-analysis-timing-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bc35309e816aa6f37f0af8d949f3a10555985ada9aecdadec4f751f88475049a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-analysis-timing-part2.json"
+    },
+    "evidence/xiao-smoke-rnbo-analysis-timing-player-restoration.json": {
+      "bytes": 1238,
+      "path": "evidence/xiao-smoke-rnbo-analysis-timing-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a2b5e7877338898e928fd7aabf6c8f4d1f0a3778bf75feefe70d14aad035ebe1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-analysis-timing-player-restoration.json"
     },
     "evidence/xiao-smoke-rnbo-character-constants-part1.json": {
       "bytes": 72708,
@@ -63378,6 +64069,202 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "e53799a1f796bcb25ee9a52f75c8f1f858896e062fffc5f2a3d0ff06d7f93f39",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/gen-visual-math/visual-xor.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/average-seven.rnbopat": {
+      "bytes": 3954,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/average-seven.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f14efb011236720e55a94cb2324e710036f805c36881c0bc3f91a20d7eea92cf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/average-seven.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/average_absolute-seven.rnbopat": {
+      "bytes": 3963,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/average_absolute-seven.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c83a93ccd2496fb46c324e8d4e5147e98d778b6aa84092d647485932254e37e3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/average_absolute-seven.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/average_rms-seven.rnbopat": {
+      "bytes": 3958,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/average_rms-seven.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9dfeb77d1326f4076347ca58bf185d9ca17ba4034f39028f3aaf02c6c85d4488",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/average_rms-seven.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/avg-manual.rnbopat": {
+      "bytes": 5826,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/avg-manual.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "49be8f56e076b72daf64ede4cc393b780c81f1da5238230ff1dda4f7c5c0ca59",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/avg-manual.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/catalog.json": {
+      "bytes": 43629,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3b6b2ef1169aff616b612efb86a26501b06acac6756cb13aade4c79ec3f914d5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime-signal.rnbopat": {
+      "bytes": 3266,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime-signal.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7d0298891bdf21d6765eec62aebd559a960da2ec4eadd2b0c5c94581a6534481",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime-signal.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime.rnbopat": {
+      "bytes": 4447,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a9d24d851f39ad16ac9c9cce96b81bd6de5c78d4da53bb69a8629eee4fedae98",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/currentsampletime.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/currenttime-signal.rnbopat": {
+      "bytes": 3260,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/currenttime-signal.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f187853bc932c17664f38494b10961024e121e8a6de08505a9bc2604cda823d9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/currenttime-signal.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/currenttime.rnbopat": {
+      "bytes": 4441,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/currenttime.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c57cde628e2792cb633a87e0e1f702b2089a57ca7cd0df2a60c4c7bcb8a203d0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/currenttime.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/elapsed-free.rnbopat": {
+      "bytes": 3256,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/elapsed-free.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fc42c023c2f7cf9d4a2a567874253c4d8fd15c7356a0f6240020180d079d49c6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/elapsed-free.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/elapsed-reset.rnbopat": {
+      "bytes": 3940,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/elapsed-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "867c82650dafdc20bd5a9da3dbf3944f9391e4b51d39e14e3a8dc56a68b5e35c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/elapsed-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/generate.py": {
+      "bytes": 5742,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "edf554671625340579459af860f29885b2e683d4d2442c406f385c745c425b08",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/part1.json": {
+      "bytes": 22961,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3f653f6850de2cb31ffbf3ac9bf379d8e3ef7151c0935890578195a7bda85b3f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/part2.json": {
+      "bytes": 21450,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d8d44ba2636922610f97457128aa4206cbabb13f60ac67064f1349cbd90c4de1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/peakamp-manual.rnbopat": {
+      "bytes": 5832,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/peakamp-manual.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6017a8a00993b6ee05b6885fa2be6383ec82187eb9169aaeeeb2fa34afaeb9db",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/peakamp-manual.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/reference.py": {
+      "bytes": 6572,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "44d660826614bea3c46822cc6ac3cd74e1a030a49c738533834244fc631d199a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/samplecount-signal.rnbopat": {
+      "bytes": 3260,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/samplecount-signal.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dc8bbc1d4726462d48ad93496c558bb5969ea24089a59a8870512ad3dee51cf9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/samplecount-signal.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/snapshot-manual.rnbopat": {
+      "bytes": 5833,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/snapshot-manual.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "276a7ec19d0e2bb31e3fd4b2534014b21e43ebc2a50faa671de870b1f40c2522",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/snapshot-manual.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-positive.rnbopat": {
+      "bytes": 3961,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-positive.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "852721ad44929d07de86a5c1ff46858b8c3e41698b65212ed7f5d66b76bfd363",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-positive.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-zero.rnbopat": {
+      "bytes": 3955,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-zero.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6812698f33d57f55f9b5f4289afb7cc6b4bdf2bb0c0f38f399acdaf2c81396f7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/thresh-equal-zero.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/thresh-hysteresis.rnbopat": {
+      "bytes": 3962,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-hysteresis.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "25a1c9df12db3e35ab7918fa7e0ed13b17790b0c79ecb2f1a0142b0d11d10ee0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/thresh-hysteresis.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-positive.rnbopat": {
+      "bytes": 4625,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-positive.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8978bbee71e4d3450a480bfef2854ed204efab877f67ffd8f339cf7d084d5808",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-positive.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-zero.rnbopat": {
+      "bytes": 4619,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-zero.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bb180119ff12cec96d07d931e5cadaac85631381ad17f5580f111d606aad08fb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-equal-zero.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-hysteresis.rnbopat": {
+      "bytes": 4626,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-hysteresis.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "773f8a7660fe36453a8619a85d1d3b20f517718da48dd70639cfe6ad9733ad9d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/thresh-signal-hysteresis.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-2.rnbopat": {
+      "bytes": 3958,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bcaddcf13114b55e9a1bff494d26df411ea26a0796ad1f31719bac43c5ee844e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-3.rnbopat": {
+      "bytes": 3958,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-3.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d23dd9f8113ba4a6a58b57d23910335799091f7514fd77a22930496f21e0dd68",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-3.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-7.rnbopat": {
+      "bytes": 3958,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-7.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "56b7be0c08199b188e3c449541c98a500c7e2b2443ed46d2316fe4791331b997",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/zerox-count-7.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-analysis-timing/zerox-events.rnbopat": {
+      "bytes": 3950,
+      "path": "tests/fixtures/smoke/rnbo-analysis-timing/zerox-events.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "be00ed62f6c572f94d45950794a008b421d950af0a800d87f6eddf37ff31604b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-analysis-timing/zerox-events.rnbopat"
     },
     "tests/fixtures/smoke/rnbo-codebox-analysis-members/README.md": {
       "bytes": 7810,
@@ -69427,6 +70314,13 @@
       "sha256": "746fbc754cadd2f0e1b6497938fe7c02c6b51f1708a4197451e3532ac8a1d6cc",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-unit-conversions/tickstosamps-signal.rnbopat"
     },
+    "tests/native/smoke_analysis_timing_test.cpp": {
+      "bytes": 6114,
+      "path": "tests/native/smoke_analysis_timing_test.cpp",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "01ae313304dd651177f83fa0b9a2633b63083a739a3ea404cb1e2d5d49b584f3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_analysis_timing_test.cpp"
+    },
     "tests/native/smoke_event_math_test.cpp": {
       "bytes": 4999,
       "path": "tests/native/smoke_event_math_test.cpp",
@@ -69468,6 +70362,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "232c76bb26fdbdc3bd323c87348736f72f5d7be9a8061b59e71c7de06e7bc893",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_visual_flow_stream_test.cpp"
+    },
+    "tools/build_analysis_timing_report.py": {
+      "bytes": 12407,
+      "path": "tools/build_analysis_timing_report.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4ca7f5b03d302ef4fd89f75ab621d36116f70246c1b6af705ced8d59a65eec27",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_analysis_timing_report.py"
     },
     "tools/build_event_routing_report.py": {
       "bytes": 12837,
@@ -69615,6 +70516,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "2a330141299ea0e7eda9e691d55bb3ade4f958132ce95821a7414f886b055e2f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_analysis_members_reference.py"
+    },
+    "tools/test_smoke_analysis_timing.py": {
+      "bytes": 10052,
+      "path": "tools/test_smoke_analysis_timing.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "06da8f90ce9c5b88cdc236b19938b2f16875b22f0b100600806670505d9f13f6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_analysis_timing.py"
     },
     "tools/test_smoke_context_aliases_reference.py": {
       "bytes": 9964,

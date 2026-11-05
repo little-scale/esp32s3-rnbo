@@ -1,0 +1,934 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "avg~",
+      "exact_name": "avg~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "avg-manual",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3300,
+      "observed_outlet": 0,
+      "operation": "report",
+      "patch": "avg-manual.rnbopat",
+      "patch_sha256": "49be8f56e076b72daf64ede4cc393b780c81f1da5238230ff1dda4f7c5c0ca59",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_avg~.maxref.xml",
+          "sha256": "94d5d3c8ca363779b59092280493442cd7cf9ca5b63a17d865c297c1b7218508",
+          "url": "https://rnbo.cycling74.com/objects/ref/avg~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/avg.js",
+          "sha256": "429573cccdc4535cfaabca76eab7672168da28fcb3593c76c10ed302b86b137f",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "avg~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "avg~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "mean-absolute"
+    },
+    {
+      "canonical_name": "peakamp~",
+      "exact_name": "peakamp~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "peakamp-manual",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3301,
+      "observed_outlet": 0,
+      "operation": "report",
+      "patch": "peakamp-manual.rnbopat",
+      "patch_sha256": "6017a8a00993b6ee05b6885fa2be6383ec82187eb9169aaeeeb2fa34afaeb9db",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_peakamp~.maxref.xml",
+          "sha256": "8380e62360a600d41af9b25b3f75108e8aba4d57c5c2d9b539ec78d1efa5d132",
+          "url": "https://rnbo.cycling74.com/objects/ref/peakamp~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/peakamp.js",
+          "sha256": "8d1570af13724c70b23c4e830297c8f911ff80685c04512429ac00c072d9c342",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "peakamp~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "peakamp~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "peak"
+    },
+    {
+      "canonical_name": "snapshot~",
+      "exact_name": "snapshot~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "snapshot-manual",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3302,
+      "observed_outlet": 0,
+      "operation": "report",
+      "patch": "snapshot-manual.rnbopat",
+      "patch_sha256": "276a7ec19d0e2bb31e3fd4b2534014b21e43ebc2a50faa671de870b1f40c2522",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_snapshot~.maxref.xml",
+          "sha256": "b976c2eae2797cc93d243df1658babb14f27f78815474ff2ac80e88fda2db853",
+          "url": "https://rnbo.cycling74.com/objects/ref/snapshot~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/snapshot.js",
+          "sha256": "b8c0ee079c19fa40be85a7ce64a20f33bf4753c3073fbb6e2debaaae6cb55d87",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "snapshot~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "snapshot~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "last"
+    },
+    {
+      "canonical_name": "thresh",
+      "exact_name": "thresh",
+      "fixed_arguments": "-0.25 0.25",
+      "hot_inlet": 0,
+      "id": "thresh-hysteresis",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3303,
+      "observed_outlet": 0,
+      "operation": "threshold",
+      "patch": "thresh-hysteresis.rnbopat",
+      "patch_sha256": "25a1c9df12db3e35ab7918fa7e0ed13b17790b0c79ecb2f1a0142b0d11d10ee0",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_thresh.maxref.xml",
+          "sha256": "fe12102be7f2ee59187a434e9ac47ec32bfc3831bc3e3799ee17fb7a885dff36",
+          "url": "https://rnbo.cycling74.com/objects/ref/thresh?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/thresh.js",
+          "sha256": "46d07a1569bd7043b1ad7496f435c30aa00ed193c5b18e09a2d4d6121b905648",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "thresh",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "thresh -0.25 0.25",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "hysteresis"
+    },
+    {
+      "canonical_name": "thresh",
+      "exact_name": "thresh",
+      "fixed_arguments": "0 0",
+      "hot_inlet": 0,
+      "id": "thresh-equal-zero",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3304,
+      "observed_outlet": 0,
+      "operation": "threshold",
+      "patch": "thresh-equal-zero.rnbopat",
+      "patch_sha256": "6812698f33d57f55f9b5f4289afb7cc6b4bdf2bb0c0f38f399acdaf2c81396f7",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_thresh.maxref.xml",
+          "sha256": "fe12102be7f2ee59187a434e9ac47ec32bfc3831bc3e3799ee17fb7a885dff36",
+          "url": "https://rnbo.cycling74.com/objects/ref/thresh?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/thresh.js",
+          "sha256": "46d07a1569bd7043b1ad7496f435c30aa00ed193c5b18e09a2d4d6121b905648",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "thresh",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "thresh 0 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "equal-zero"
+    },
+    {
+      "canonical_name": "thresh",
+      "exact_name": "thresh",
+      "fixed_arguments": "0.25 0.25",
+      "hot_inlet": 0,
+      "id": "thresh-equal-positive",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3305,
+      "observed_outlet": 0,
+      "operation": "threshold",
+      "patch": "thresh-equal-positive.rnbopat",
+      "patch_sha256": "852721ad44929d07de86a5c1ff46858b8c3e41698b65212ed7f5d66b76bfd363",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_thresh.maxref.xml",
+          "sha256": "fe12102be7f2ee59187a434e9ac47ec32bfc3831bc3e3799ee17fb7a885dff36",
+          "url": "https://rnbo.cycling74.com/objects/ref/thresh?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/thresh.js",
+          "sha256": "46d07a1569bd7043b1ad7496f435c30aa00ed193c5b18e09a2d4d6121b905648",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "thresh",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "thresh 0.25 0.25",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "equal-positive"
+    },
+    {
+      "canonical_name": "thresh~",
+      "exact_name": "thresh~",
+      "fixed_arguments": "-0.25 0.25",
+      "hot_inlet": 0,
+      "id": "thresh-signal-hysteresis",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3306,
+      "observed_outlet": 0,
+      "operation": "threshold",
+      "patch": "thresh-signal-hysteresis.rnbopat",
+      "patch_sha256": "773f8a7660fe36453a8619a85d1d3b20f517718da48dd70639cfe6ad9733ad9d",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_thresh~.maxref.xml",
+          "sha256": "7064879059da7ed7142bba71e3d160923fbb86ba28f20ef74db2d94131e36d94",
+          "url": "https://rnbo.cycling74.com/objects/ref/thresh~?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/thresh.js",
+          "sha256": "46d07a1569bd7043b1ad7496f435c30aa00ed193c5b18e09a2d4d6121b905648",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "thresh~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "binary32(drive + varying left input)",
+      "source_form": "thresh~ -0.25 0.25",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "hysteresis"
+    },
+    {
+      "canonical_name": "thresh~",
+      "exact_name": "thresh~",
+      "fixed_arguments": "0 0",
+      "hot_inlet": 0,
+      "id": "thresh-signal-equal-zero",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3307,
+      "observed_outlet": 0,
+      "operation": "threshold",
+      "patch": "thresh-signal-equal-zero.rnbopat",
+      "patch_sha256": "bb180119ff12cec96d07d931e5cadaac85631381ad17f5580f111d606aad08fb",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_thresh~.maxref.xml",
+          "sha256": "7064879059da7ed7142bba71e3d160923fbb86ba28f20ef74db2d94131e36d94",
+          "url": "https://rnbo.cycling74.com/objects/ref/thresh~?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/thresh.js",
+          "sha256": "46d07a1569bd7043b1ad7496f435c30aa00ed193c5b18e09a2d4d6121b905648",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "thresh~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "binary32(drive + varying left input)",
+      "source_form": "thresh~ 0 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "equal-zero"
+    },
+    {
+      "canonical_name": "thresh~",
+      "exact_name": "thresh~",
+      "fixed_arguments": "0.25 0.25",
+      "hot_inlet": 0,
+      "id": "thresh-signal-equal-positive",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3308,
+      "observed_outlet": 0,
+      "operation": "threshold",
+      "patch": "thresh-signal-equal-positive.rnbopat",
+      "patch_sha256": "8978bbee71e4d3450a480bfef2854ed204efab877f67ffd8f339cf7d084d5808",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_thresh~.maxref.xml",
+          "sha256": "7064879059da7ed7142bba71e3d160923fbb86ba28f20ef74db2d94131e36d94",
+          "url": "https://rnbo.cycling74.com/objects/ref/thresh~?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/thresh.js",
+          "sha256": "46d07a1569bd7043b1ad7496f435c30aa00ed193c5b18e09a2d4d6121b905648",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "thresh~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "binary32(drive + varying left input)",
+      "source_form": "thresh~ 0.25 0.25",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "equal-positive"
+    },
+    {
+      "canonical_name": "zerox",
+      "exact_name": "zerox",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "zerox-events",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3309,
+      "observed_outlet": 0,
+      "operation": "zerox",
+      "patch": "zerox-events.rnbopat",
+      "patch_sha256": "be00ed62f6c572f94d45950794a008b421d950af0a800d87f6eddf37ff31604b",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_zerox.maxref.xml",
+          "sha256": "00aa7c0661b8ea5138d21869462fee37f6e381056a8274e7629643bd84690ac0",
+          "url": "https://rnbo.cycling74.com/objects/ref/zerox?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/zerox.js",
+          "sha256": "8bdc1eba358381b405a86be475f8df369e9e6a0c51833fdb98aa3bdbe60e0ca4",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "zerox",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "zerox",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "zerox_count",
+      "exact_name": "zerox_count",
+      "fixed_arguments": "2",
+      "hot_inlet": 0,
+      "id": "zerox-count-2",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3310,
+      "observed_outlet": 0,
+      "operation": "zerox_count",
+      "patch": "zerox-count-2.rnbopat",
+      "patch_sha256": "bcaddcf13114b55e9a1bff494d26df411ea26a0796ad1f31719bac43c5ee844e",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_zerox_count.maxref.xml",
+          "sha256": "85e4f0263c978ba1e18debcae6dad03434f73504c82f6daff1759702ce3312c5",
+          "url": "https://rnbo.cycling74.com/objects/ref/zerox_count?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/zerox_count.js",
+          "sha256": "5341d2aaffd4659d1dd97e90e16ef31b816dfe11dd23e50d5ba37189e4627def",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "zerox_count",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "zerox_count 2",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "2"
+    },
+    {
+      "canonical_name": "zerox_count",
+      "exact_name": "zerox_count",
+      "fixed_arguments": "3",
+      "hot_inlet": 0,
+      "id": "zerox-count-3",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3311,
+      "observed_outlet": 0,
+      "operation": "zerox_count",
+      "patch": "zerox-count-3.rnbopat",
+      "patch_sha256": "d23dd9f8113ba4a6a58b57d23910335799091f7514fd77a22930496f21e0dd68",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_zerox_count.maxref.xml",
+          "sha256": "85e4f0263c978ba1e18debcae6dad03434f73504c82f6daff1759702ce3312c5",
+          "url": "https://rnbo.cycling74.com/objects/ref/zerox_count?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/zerox_count.js",
+          "sha256": "5341d2aaffd4659d1dd97e90e16ef31b816dfe11dd23e50d5ba37189e4627def",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "zerox_count",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "zerox_count 3",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "3"
+    },
+    {
+      "canonical_name": "zerox_count",
+      "exact_name": "zerox_count",
+      "fixed_arguments": "7",
+      "hot_inlet": 0,
+      "id": "zerox-count-7",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3312,
+      "observed_outlet": 0,
+      "operation": "zerox_count",
+      "patch": "zerox-count-7.rnbopat",
+      "patch_sha256": "56b7be0c08199b188e3c449541c98a500c7e2b2443ed46d2316fe4791331b997",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_zerox_count.maxref.xml",
+          "sha256": "85e4f0263c978ba1e18debcae6dad03434f73504c82f6daff1759702ce3312c5",
+          "url": "https://rnbo.cycling74.com/objects/ref/zerox_count?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/zerox_count.js",
+          "sha256": "5341d2aaffd4659d1dd97e90e16ef31b816dfe11dd23e50d5ba37189e4627def",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "zerox_count",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "zerox_count 7",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "7"
+    },
+    {
+      "canonical_name": "average",
+      "exact_name": "average",
+      "fixed_arguments": "7",
+      "hot_inlet": 0,
+      "id": "average-seven",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3313,
+      "observed_outlet": 0,
+      "operation": "average",
+      "patch": "average-seven.rnbopat",
+      "patch_sha256": "f14efb011236720e55a94cb2324e710036f805c36881c0bc3f91a20d7eea92cf",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_average.maxref.xml",
+          "sha256": "800c378b1b0406affad0426f521e1d9a3b152d5c7c61f3eba6d33dfc3ee62001",
+          "url": "https://rnbo.cycling74.com/objects/ref/average?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/average.js",
+          "sha256": "dfe8e313ac9c56fad4e418e755a9d0ce36c96a79b4bf50b3af14dd011e253564",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "average",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "average 7",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "average"
+    },
+    {
+      "canonical_name": "average_absolute",
+      "exact_name": "average_absolute",
+      "fixed_arguments": "7",
+      "hot_inlet": 0,
+      "id": "average_absolute-seven",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3314,
+      "observed_outlet": 0,
+      "operation": "average",
+      "patch": "average_absolute-seven.rnbopat",
+      "patch_sha256": "c83a93ccd2496fb46c324e8d4e5147e98d778b6aa84092d647485932254e37e3",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_average_absolute.maxref.xml",
+          "sha256": "74f2f3a8374f26d4b1a9c07246822d2d847ff59b6e3b7158531876c53bb15ea2",
+          "url": "https://rnbo.cycling74.com/objects/ref/average_absolute?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/average_absolute.js",
+          "sha256": "5fa133e67ae5cb3f37a25b3825aaf4fa05e8200ae67230eb044e1b9d03b0f0d4",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "average_absolute",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "average_absolute 7",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "average_absolute"
+    },
+    {
+      "canonical_name": "average_rms",
+      "exact_name": "average_rms",
+      "fixed_arguments": "7",
+      "hot_inlet": 0,
+      "id": "average_rms-seven",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-06,
+      "maximum_absolute_error": 2e-06,
+      "model": 3315,
+      "observed_outlet": 0,
+      "operation": "average",
+      "patch": "average_rms-seven.rnbopat",
+      "patch_sha256": "9dfeb77d1326f4076347ca58bf185d9ca17ba4034f39028f3aaf02c6c85d4488",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_average_rms.maxref.xml",
+          "sha256": "4b86eb14069cdd08c1334da0abd5aa965354a4adacf6c18c2fbef35d27c0b55b",
+          "url": "https://rnbo.cycling74.com/objects/ref/average_rms?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/average_rms.js",
+          "sha256": "0f144afbb33ff83f61db6f6d97cbcb1940171bc6bcb1f536eee33abd40a414d6",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "average_rms",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "average_rms 7",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "average_rms"
+    },
+    {
+      "canonical_name": "samplecount~",
+      "exact_name": "samplecount~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "samplecount-signal",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3316,
+      "observed_outlet": 0,
+      "operation": "clock",
+      "patch": "samplecount-signal.rnbopat",
+      "patch_sha256": "dc8bbc1d4726462d48ad93496c558bb5969ea24089a59a8870512ad3dee51cf9",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_samplecount~.maxref.xml",
+          "sha256": "b41a47d783e9dba40445b2a58dc6c7ecbdd8d26978917ea48c1ca40c45597789",
+          "url": "https://rnbo.cycling74.com/objects/ref/samplecount~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/samplecount.js",
+          "sha256": "9006915dafc44275c60552473331613a9eac39fee5e66cf6bb86682e71403418",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "samplecount~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "samplecount~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "samples-signal"
+    },
+    {
+      "canonical_name": "currentsampletime",
+      "exact_name": "currentsampletime",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "currentsampletime",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3317,
+      "observed_outlet": 0,
+      "operation": "clock",
+      "patch": "currentsampletime.rnbopat",
+      "patch_sha256": "a9d24d851f39ad16ac9c9cce96b81bd6de5c78d4da53bb69a8629eee4fedae98",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_currentsampletime.maxref.xml",
+          "sha256": "6e92d4a3a97e7d7c1e44ef58616d23b94b3a03c4fb1bf552d61b9391dd63ff8d",
+          "url": "https://rnbo.cycling74.com/objects/ref/currentsampletime?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/currentsampletime.js",
+          "sha256": "43b74f9e8d4631a777bef78c46d05d90221284c27c8db2e7d407a8932421e983",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "currentsampletime",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "currentsampletime",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "samples-event"
+    },
+    {
+      "canonical_name": "currentsampletime~",
+      "exact_name": "currentsampletime~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "currentsampletime-signal",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3318,
+      "observed_outlet": 0,
+      "operation": "clock",
+      "patch": "currentsampletime-signal.rnbopat",
+      "patch_sha256": "7d0298891bdf21d6765eec62aebd559a960da2ec4eadd2b0c5c94581a6534481",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_currentsampletime~.maxref.xml",
+          "sha256": "e99cc3e5746213aa88531aff2ac8d99a737ba7290770d874a07a296fd9aac6ab",
+          "url": "https://rnbo.cycling74.com/objects/ref/currentsampletime~?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/currentsampletime.js",
+          "sha256": "43b74f9e8d4631a777bef78c46d05d90221284c27c8db2e7d407a8932421e983",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "currentsampletime~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "currentsampletime~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "samples-signal"
+    },
+    {
+      "canonical_name": "currenttime",
+      "exact_name": "currenttime",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "currenttime",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3319,
+      "observed_outlet": 0,
+      "operation": "clock",
+      "patch": "currenttime.rnbopat",
+      "patch_sha256": "c57cde628e2792cb633a87e0e1f702b2089a57ca7cd0df2a60c4c7bcb8a203d0",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_currenttime.maxref.xml",
+          "sha256": "fba897fcd6a0c8b92bbfafbe58b30e8639d82b31418bfbcf9c060a2fde20914c",
+          "url": "https://rnbo.cycling74.com/objects/ref/currenttime?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "currenttime",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "currenttime",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "milliseconds-event"
+    },
+    {
+      "canonical_name": "currenttime~",
+      "exact_name": "currenttime~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "currenttime-signal",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3320,
+      "observed_outlet": 0,
+      "operation": "clock",
+      "patch": "currenttime-signal.rnbopat",
+      "patch_sha256": "f187853bc932c17664f38494b10961024e121e8a6de08505a9bc2604cda823d9",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_currenttime~.maxref.xml",
+          "sha256": "cdbf907f6524f374cdef99ef39e6489d47d8dab307e1b1738ab06e7dd307a71e",
+          "url": "https://rnbo.cycling74.com/objects/ref/currenttime~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "currenttime~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "currenttime~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "milliseconds-signal"
+    },
+    {
+      "canonical_name": "elapsed~",
+      "exact_name": "elapsed~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "elapsed-free",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3321,
+      "observed_outlet": 0,
+      "operation": "elapsed",
+      "patch": "elapsed-free.rnbopat",
+      "patch_sha256": "fc42c023c2f7cf9d4a2a567874253c4d8fd15c7356a0f6240020180d079d49c6",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_elapsed~.maxref.xml",
+          "sha256": "f2c116ac836cbe20dbe03def005ca6a98f8831a8bb6ef50b7967db118f0e8116",
+          "url": "https://rnbo.cycling74.com/objects/ref/elapsed~?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/elapsed.js",
+          "sha256": "96df2a292fbcf29551bf8f261c2c528e7d248d1cbe38c23e60c4510587417734",
+          "source_kind": "installed-primary-source"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/elapsed.js",
+          "sha256": "bcf6b7ebb1132b8556bfa2c80c04666d7d5dcbb33e13b4570825dfd986535dfc",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "elapsed~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "elapsed~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "free"
+    },
+    {
+      "canonical_name": "elapsed~",
+      "exact_name": "elapsed~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "elapsed-reset",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3322,
+      "observed_outlet": 0,
+      "operation": "elapsed",
+      "patch": "elapsed-reset.rnbopat",
+      "patch_sha256": "867c82650dafdc20bd5a9da3dbf3944f9391e4b51d39e14e3a8dc56a68b5e35c",
+      "reference_policy": "independent-event-windows-hysteresis-and-sample-ordinals-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_elapsed~.maxref.xml",
+          "sha256": "f2c116ac836cbe20dbe03def005ca6a98f8831a8bb6ef50b7967db118f0e8116",
+          "url": "https://rnbo.cycling74.com/objects/ref/elapsed~?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/elapsed.js",
+          "sha256": "96df2a292fbcf29551bf8f261c2c528e7d248d1cbe38c23e60c4510587417734",
+          "source_kind": "installed-primary-source"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/elapsed.js",
+          "sha256": "bcf6b7ebb1132b8556bfa2c80c04666d7d5dcbb33e13b4570825dfd986535dfc",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "elapsed~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact manual-report, finite window, threshold or clock form. One arm and21 drives; fresh0-warm state then20 continuous256-frame callbacks. Intended report is visible in next rendered block; manual reports observe all samples since prior bang, snapshot observes prior final sample. Clock origin0, per-sample signal ordinals; reset elapsed starts0 on next sample. Other modes/transport origins and periodic reporting remain separate work.",
+      "signal_input": "ordered drive events or elapsed sample ordinals",
+      "source_form": "elapsed~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "reset"
+    }
+  ],
+  "family": "rnbo-analysis-timing",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "23 explicit event/signal analysis and sample-clock scenarios; 1MiB module ceiling admits averaging buffers; actual high-water recorded.",
+  "timed_blocks": 16
+}
