@@ -1,0 +1,7 @@
+@state left = new counter();
+@state right = new counter();
+@state sampleIndex: Int = 0;
+if(sampleIndex%257==37 || sampleIndex%257==38 || sampleIndex==255 || sampleIndex==256){left.reset();}
+if(sampleIndex%263==91 || sampleIndex%263==92 || sampleIndex==511 || sampleIndex==512){right.reset();}
+let a=left.next(in1,0,7); let b=right.next(in2,0,5); out1=a[0]; out2=b[0];
+sampleIndex+=1;

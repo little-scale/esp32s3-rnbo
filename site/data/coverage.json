@@ -19304,6 +19304,12 @@
             "codebox-delta-state"
           ],
           "graph_source": "tests/fixtures/objects/wave4/codebox-delta-state.rnbopat"
+        },
+        {
+          "forms": [
+            "delta.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbopat"
         }
       ],
       "optimisation_state": "unassessed",
@@ -19320,6 +19326,13 @@
           "conditions": "Absolute callback time belongs to the complete fixture: two patcher operators, or the declared codebox program/observer.",
           "level": "documentation",
           "source": "docs/xiao-qualification.md"
+        },
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
         }
       ],
       "spelling": "delta.next()",
@@ -42663,6 +42676,1195 @@
       "working_note": "XIAO ESP32-S3: this exact hook runs once during fresh initialize/prepare, with its count observed over20continuouscallbacks.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:delta.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "delta.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "delta.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:change.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "change.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "change.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:change.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "change.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "change.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:latch.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "latch.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "latch.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:latch.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "latch.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "latch.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:sah.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sah.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "sah.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:sah.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sah.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "sah.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:slide.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "slide.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "slide.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:slide.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "slide.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "slide.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:dcblock.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "dcblock.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "dcblock.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:dcblock.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "dcblock.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "dcblock.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:accum.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "accum.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "accum.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:accum.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "accum.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "accum.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:counter.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "counter.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "counter.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:counter.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "counter.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "counter.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:deltaclip.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "deltaclip.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "deltaclip.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:deltaclip.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "deltaclip.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+        }
+      ],
+      "spelling": "deltaclip.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:downsamp.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "downsamp.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "downsamp.next()",
+      "surface": "codebox",
+      "working_note": "XIAO: differs from the declared first-capture-at-zero/held-phase reference; capture-phase convention remains follow-up.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:downsamp.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "downsamp.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "downsamp.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO: differs from the declared first-capture-at-zero/held-phase reference; capture-phase convention remains follow-up.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:zerox.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "zerox.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "zerox.next()",
+      "surface": "codebox",
+      "working_note": "XIAO: differs from the declared strict opposite-nonzero crossing/count policy at zero-containing inputs; boundary convention remains follow-up.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:zerox.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "zerox.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "zerox.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO: differs from the declared strict opposite-nonzero crossing/count policy at zero-containing inputs; boundary convention remains follow-up.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:zerox_count.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "zerox_count.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "zerox_count.next()",
+      "surface": "codebox",
+      "working_note": "XIAO: differs from the declared strict opposite-nonzero crossing/count policy at zero-containing inputs; boundary convention remains follow-up.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:zerox_count.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "zerox_count.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "zerox_count.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO: differs from the declared strict opposite-nonzero crossing/count policy at zero-containing inputs; boundary convention remains follow-up.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:onepole.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "onepole.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:onepole.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "onepole.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO: reset/clear at unchanged cutoff leaves zero coefficients and output, differing from the declared fresh-filter-state reference.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:onepole_lin.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole_lin.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "onepole_lin.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:onepole_lin.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole_lin.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "onepole_lin.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:biquad.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "biquad.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "biquad.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:biquad.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "biquad.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "biquad.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:elapsed.next",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "elapsed.next()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "elapsed.next()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:elapsed.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "elapsed.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "elapsed.reset()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:onepole.clear",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole.clear()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "onepole.clear()",
+      "surface": "codebox",
+      "working_note": "XIAO: reset/clear at unchanged cutoff leaves zero coefficients and output, differing from the declared fresh-filter-state reference.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:onepole_lin.clear",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "onepole_lin.clear()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "onepole_lin.clear()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:biquad.clear",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "biquad.clear()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Four checked warmups and16timed256-frame callbacks, zero automatic warmups. Stateful20-block independent references. Zero tolerance except predeclared2e-6 for filters/smoothing; signed-zero and within-tolerance differences stay separate. Complete callback includes reset schedule/modulo work; no isolated opcode or optimisation gain claim.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "biquad.clear()",
+      "surface": "codebox",
+      "working_note": "XIAO ESP32-S3: passed this exact bounded member scenario over20continuouscallbacks.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": false,
+      "cpu_measurement_ids": [],
+      "id": "codebox-member:history.reset",
+      "known_gaps": [
+        "Exact authored owner/member, two instances, finite parameters and reset/clear schedules only; no constructor, alias or Gen status inheritance.",
+        "Other rates/vector sizes/options, member return values for reset/clear, all counter tuple outputs, host reset/reconstruction and arbitrary call ordering remain untested."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "history.reset()"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Source and strict C++ rejection log identities retained; no device CPU or optimisation claim.",
+          "evidence_kind": "rnbo-codebox-build-failure",
+          "level": "RNBO-codebox-C++-rejection",
+          "selector": "/compile_failures/0",
+          "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+        }
+      ],
+      "spelling": "history.reset()",
+      "surface": "codebox",
+      "working_note": "The documented history.reset() form reaches C++ but references missing history instance fields; not executed on hardware.",
+      "working_state": "unverified"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -43908,6 +45110,13 @@
       "sha256": "ffee042fa3a1f5200429d5f66535765b6e3854750f01ac4d5accee05ea8fbcdd",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/power-admission-v1.json"
     },
+    "evidence/rnbo-codebox-members-native.json": {
+      "bytes": 26754,
+      "path": "evidence/rnbo-codebox-members-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8f394fe881f927a4ea655f29c772b05b6fc58f9b02647195cd6f2c7fd2a16bfb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-members-native.json"
+    },
     "evidence/rnbo-codebox-structures-native.json": {
       "bytes": 13807,
       "path": "evidence/rnbo-codebox-structures-native.json",
@@ -44019,6 +45228,20 @@
       "publication": "public-evidence",
       "sha256": "15933002ab21a52ea0b2edf3f89249f932a177e9da45e34d9a132cebdf8f05d8",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-list-functions.json"
+    },
+    "evidence/xiao-smoke-rnbo-codebox-members-part1.json": {
+      "bytes": 29976,
+      "path": "evidence/xiao-smoke-rnbo-codebox-members-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f446cf4d9e179e3a6a3da147f2d2a39410f023b3a606ed11a3d58b5690580d7d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-members-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-codebox-members-part2.json": {
+      "bytes": 30279,
+      "path": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "63008af30cffef603f4684dc97bf4dc892cef2f7bbafb7c434654a37b65a1059",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-members-part2.json"
     },
     "evidence/xiao-smoke-rnbo-codebox-misc.json": {
       "bytes": 32826,
@@ -44446,6 +45669,552 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "d5393f8b2d6ab979e69e19e342e23534af9810f6c262be9632bb4b315376bc4f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/objects/wave3/slide-signal-controls.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/README.md": {
+      "bytes": 5644,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bb4e9ec50b8b409f4a602ca95a35b03f84f50f7ec4df289642d7c625f55b86e3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbo": {
+      "bytes": 124,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "41418b0ffd4307a4f28aee34bb9c34ba7b6c3339402e5709761e6487d581bd02",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbopat": {
+      "bytes": 2519,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "31abd10aaeaed6da41233ecbb7b4d0f4768703a19214e59821f9abafafc56b0c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/accum-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbo": {
+      "bytes": 374,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c9c3ccffea90490d3997d11fdc53ee8015d22288b86036b2867a4b6ea5debf18",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbopat": {
+      "bytes": 2773,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8ac5f8d76e9023434735fb0f98a96e6461089922872bddfd438e64d297009600",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/accum-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbo": {
+      "bytes": 406,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6efcf3444b101bab661662c6bc5f0534fb9a8261ec0765a5b57381f1e0ff977e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbopat": {
+      "bytes": 2805,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "17253d2d6029ea54468c93aa0c8e921aa37ccf3da40b364099de4814ca6a327c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/biquad-clear.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbo": {
+      "bytes": 156,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f8ecb3f64ad995ff81e4c44de63e45f512737c32c868ce340b1d1006df4ec309",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbopat": {
+      "bytes": 2551,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d38e2881ad530cd869ca4a440c6e969ae57210c33b0d9b051ab25b2dc5b09a91",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/biquad-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbo": {
+      "bytes": 406,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cdc5b0a6be01995ef7e270dabc000b48c4357e6eae3148eb922954aceec49c95",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbopat": {
+      "bytes": 2805,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "00fa6e822ea55de3e0ef5a084dfd785aa0427b1f7c2dd40b36dd34781723f06e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/biquad-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/catalog.json": {
+      "bytes": 42717,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6a06b4d4d0531f01a65dbae2dbac517867a327dac5f62522a8f751c380502c96",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbo": {
+      "bytes": 112,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a3c102d186b11d38054d858358622f0c1706182ae98c8d56aa83ed9fd804728b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbopat": {
+      "bytes": 2507,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "642b787fa79d51f7128e23596a200549409d9ac047cdaed869ac9e68973c02ca",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/change-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbo": {
+      "bytes": 362,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "380de5cacbb1b7454803809e61c3f99076abb98451f550de621e4c4075ffd28e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbopat": {
+      "bytes": 2761,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ee139357caac383d9cfc201026273faccc9702e3610e51be2b7bd649e7e0ba30",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/change-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbo": {
+      "bytes": 134,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "83877b75937673413ecd53a07d631bdce12e3e2680022a564eb0857c7f63d4a3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbopat": {
+      "bytes": 2529,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f98d990f3f40176920c833ab57784b93d1faa3394a329e00b94b1a31191fdfa2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/counter-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbo": {
+      "bytes": 384,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8b34f6a6c3da146f066428199c6855c4f8242ad6df5ca556dc03ffe2d3ca61b9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbopat": {
+      "bytes": 2783,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "05e3ac253f9db478455affe0afd4cfd3c178b940ad7b2c323f4968c476b9a3db",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/counter-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbo": {
+      "bytes": 121,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5e9bca4540a75ba96389ebb46fc0de1c511d700abe9d34f9e6580a9817948c73",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbopat": {
+      "bytes": 2516,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1325f51f221beb7f1eac5626f03e643d23fb20c2950bfb9eeda5f44d99778acb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/dcblock-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbo": {
+      "bytes": 371,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a2d30a58a0dc825798cac903e2d7af732f25df62eac6fca1240ef8a9443c08c3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbopat": {
+      "bytes": 2770,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cad5872fe72b05e5f4de051bb686f937b601b06dc8f80ec639ee316ebc934912",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/dcblock-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbo": {
+      "bytes": 110,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "98b5b1f621dc4088aeffb92b10f149d0603d9c2e8f2e2dc457543a6c0cf4e18b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbopat": {
+      "bytes": 2505,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "31b40909e64f5361c367f255de6bcae4d70fc4327416783429374aeee9f65e6c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/delta-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbo": {
+      "bytes": 360,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6e95a3822a2331c9d838ec2761ffa79c12290d5ba8e3693855fda606d81959f6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbopat": {
+      "bytes": 2759,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ddb18e9548c32f4f7fc9c0bc5c257002a7a5c00dcec85f67e227fa3a34639d1e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/delta-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbo": {
+      "bytes": 138,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a9877d1c44dadf79e26976331c52bd96cadcc4b422799cd490d74ee07e6e3da9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbopat": {
+      "bytes": 2533,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ce2bcaa56b47aff54e8cde09790ddfe91491ae7888266525f786f2f04aa6c026",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/deltaclip-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbo": {
+      "bytes": 388,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9b2bacbdd526e491a1d026b9b311921532039907e42ff5ec6fe97b0f581c932c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbopat": {
+      "bytes": 2787,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "525a7af4195ee94cd8a753fc7921b197cbd817930570ab5f5a279cb9ab04941d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/deltaclip-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbo": {
+      "bytes": 120,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e02fef53541702772bf2bac2d29157947c62f3653420179a0470bc3ccfcecba2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbopat": {
+      "bytes": 2515,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "016a513854eaecd422470d640cce06edc284b2c37881aa2d8f414d85588b426c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/downsamp-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbo": {
+      "bytes": 370,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "002c9df2f83e815b00684b0d43aa16d7662ed27c7639681d08bd28f9a6d9ac27",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbopat": {
+      "bytes": 2769,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bc9ce249377e678e59134f98edaa153202cef310ae2d57b2dcf5fa7501208649",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/downsamp-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbo": {
+      "bytes": 108,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "59190d4a3a6b722c5c113b1f2fffa2f3f4cedcccae3dac32dad6e319f1604e03",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbopat": {
+      "bytes": 2503,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8008fa385d6f40473aab675e224bf27c42ba44b2cd80130f4e7ef0366068baac",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/elapsed-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbo": {
+      "bytes": 358,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1bb65075f3d0672d1b4b846eb969ca07837cb45fc6e723baae055a4798529542",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbopat": {
+      "bytes": 2757,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cc2d75217cc50cd5e47e16aae3ae3bff98f9dcab8f8c3d175d8c68bea75b35ed",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/elapsed-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/generate.py": {
+      "bytes": 4919,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8abdae009b38b578ed49503983379747a7940b9a7a989aa6b7bff27e2ee1b0df",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbo": {
+      "bytes": 353,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "30f6c0a765aa98eaf575074efacd8244f4c0edf4f54cbe6f8b577da950a6fa83",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbopat": {
+      "bytes": 2752,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "af9b087489b8e26a22ea33b38758e9140b5b8b24b4a666a6c0c7a7d838a9174d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/history-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbo": {
+      "bytes": 118,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e3135055baca51a7d7efee4d1b54e3c0acff07a0fe42a96923f2acd3406aada5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbopat": {
+      "bytes": 2513,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4129f3dd19978da840be29d5c5f7e346dc0291317bddb57ef057fc95c11a10e2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/latch-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbo": {
+      "bytes": 368,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9c4f7b4d148b16eaebfdf394ae3356a181de2ca47968bf11e036424365561d84",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbopat": {
+      "bytes": 2767,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "46de3171cf2b652d0cc0d7a86e427fad5be25e1be587d22cb34ae91c0a01f230",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/latch-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbo": {
+      "bytes": 374,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "95e3da23c0c16147b001444aaf24f707deedfafd390d9fd954893e3362cb9080",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbopat": {
+      "bytes": 2773,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "41c4be004a003c37e32f1339f54411bb436c32ec5595dd91d6f56ce3a5ee08b5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole-clear.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbo": {
+      "bytes": 124,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2b9df32e1d05efbfdafecb795b52b2d073364396ac7bc20ff70751b354d7ebed",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbopat": {
+      "bytes": 2519,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "968b15d5d90fa8c38a1da8667ef9f97e19a2fe59d509ef25ea45118319dbb253",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbo": {
+      "bytes": 374,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3571a858e0e9b0917c4c3e315653bad32d5ee2cd04bb6122852897581a6d7f11",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbopat": {
+      "bytes": 2773,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "33871ead90be7c91db1056b9a24fb7f8b9d50291ef6d912794095c9961fad518",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbo": {
+      "bytes": 379,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a4a02f03df9e2591535850852159db11ba872735012438c9f073881b584dea5f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbopat": {
+      "bytes": 2778,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ca27c24437b8a8c050d2b88a8612b9d91dd251f8ddf0446bee9fc4463e023f16",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-clear.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbo": {
+      "bytes": 129,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9bd126458ea63a746fdd7d2eecfaf276eb8faac24a2022742ce830d4e3770af8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbopat": {
+      "bytes": 2524,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0e7831186693956a717d4cba7704d34b7a075287494e2cff6c2e1d9419139258",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbo": {
+      "bytes": 379,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b4e78e82bc2013e23971c341c0ff7a30f63045f5b1b8f57f1a5514e3dc5bb4ff",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbopat": {
+      "bytes": 2778,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "facbf3583d88be4cb4fe3d7f72f7f3bc39df8446e711f9098572702e4a3aad4f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/onepole_lin-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/part1.json": {
+      "bytes": 21643,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "db88a71dc914b7564f62b11efe9d04002648fe084787efe25c4815a8194b19f6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/part2.json": {
+      "bytes": 21971,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "48da2b83c339340971e997f301327dedd1a46d41761c5e4991942060d0d6e657",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/reference.py": {
+      "bytes": 5248,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5e67c4f165e30223ed1b78b0c0be7d572eac7434c3c00b1acc8a57ef21ddb33f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbo": {
+      "bytes": 119,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2790679e65d196c2d59fc28f710d216287651fef6b1a93eab70b063dfd4aa239",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbopat": {
+      "bytes": 2514,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0e48e7bb07466a1fe93c27e6e5975d91e3f1d166afa0a08ba89ff5036db9958f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/sah-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbo": {
+      "bytes": 369,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cb7461c7821b5655c0ed8fc8cc2a36819e240ebe7fded9e31698b4f330043b41",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbopat": {
+      "bytes": 2768,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2839b298415b6a7bda4fc7361acdae8ad845f617243daf6fa8a89195df374198",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/sah-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbo": {
+      "bytes": 118,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2c01e0a8947b9f3a3829e897012661be2a9c30852b6c79d4d515321722eb4255",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbopat": {
+      "bytes": 2513,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fe45bac1947963ee5d265f5ef7dfd53074fd187a2865532d1d76d336f896154e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/slide-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbo": {
+      "bytes": 368,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2d55c0e9328c270999a81187b6b62766930d047183f2ed6a3ff7f1ff446591c1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbopat": {
+      "bytes": 2767,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "97b6aac35a6de66c0c61868adb3ed7d4aafbf9ce0992801020005f0f6eb972fb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/slide-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbo": {
+      "bytes": 110,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "becc2e6b2e52140c05914ccf1d6ca9cb5e2677109583aa085729b326213461f8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbopat": {
+      "bytes": 2505,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "11b383a017c8cc8c92635c952ecf43748da91296d6389aef89eb864b317aff8f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbo": {
+      "bytes": 360,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4e9becb15386c7df33d11a79bb86ce5c85f0c5894f407ed3a740a76302bc91c1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbopat": {
+      "bytes": 2759,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "93d10f3d5812a310ad2d638426a07faa1b94484c56171a432874474a5788809c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbo": {
+      "bytes": 126,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "966f83a630058f151498285da9237be18dff1aab5718b74d56c9632670b5e8e7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbopat": {
+      "bytes": 2521,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d79b5736a66ff466344432fade7d01c46587884de881987895f9fba7db14b9c0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox_count-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbo": {
+      "bytes": 376,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbo",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d471d5cda71dcbd039fde500d9d9f1382bfcd42c29700f4c7503f237430fc885",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbo"
+    },
+    "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbopat": {
+      "bytes": 2775,
+      "path": "tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e70ca77ef25205115dd31d6a1b3fc8560647a462eb887f018dc7bd04c49477e2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-members/zerox_count-reset.rnbopat"
     },
     "tests/fixtures/smoke/rnbo-codebox-structures/README.md": {
       "bytes": 3198,

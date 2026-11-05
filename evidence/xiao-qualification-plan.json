@@ -17901,7 +17901,12 @@
       "status": "partial_scoped_XIAO_scenario",
       "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-structures.json",
       "observed_scope": "Nonzero-initialized scalar sample delay and independent scalar prefix-count fields pass over20continuouscallbacks; prior array/cursor evidence remains separate.",
-      "remaining_scope": "Multiple interacting object instances, explicit reset/reconstruction and repeated contexts remain pending."
+      "remaining_scope": "Host reset/reconstruction, repeated prepare, arbitrary object graphs/parameters, remaining stateful methods and complete object semantics remain pending.",
+      "additional_member_hardware_evidence": [
+        "evidence/xiao-smoke-rnbo-codebox-members-part1.json",
+        "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
+      ],
+      "additional_observed_scope": "Two independent instances per exact next/reset/clear scenario, consecutive and block-boundary member calls over20continuouscallbacks.27passed/8mismatched/1C++rejected. Scalar/filter state reset results and onepole cache/zero-crossing/downsample limits are explicit; previous @state array/declaration evidence remains separate."
     },
     {
       "contract": "@param metadata, actual/normalized maps, event ordering and repeated values",
@@ -17996,7 +18001,9 @@
     "evidence/xiao-smoke-rnbo-codebox-containers.json",
     "evidence/xiao-smoke-gen-control-structures.json",
     "evidence/xiao-smoke-rnbo-codebox-list-functions.json",
-    "evidence/xiao-smoke-rnbo-codebox-structures.json"
+    "evidence/xiao-smoke-rnbo-codebox-structures.json",
+    "evidence/xiao-smoke-rnbo-codebox-members-part1.json",
+    "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
   ],
   "Gen_scope": {
     "required": true,
@@ -18019,9 +18026,9 @@
   "latest_checkpoint": {
     "date": "2026-11-05",
     "goal_status": "active",
-    "exact_dashboard_entries_with_scoped_outcomes": 730,
+    "exact_dashboard_entries_with_scoped_outcomes": 765,
     "complete_goal_claimed": false,
-    "source": "evidence/xiao-smoke-rnbo-codebox-structures.json",
+    "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
     "gen_and_remaining_RNBO_scope_retained": true,
     "snapshot_note": "Original4November inventory counts/entry plan remain a historical snapshot; latest checkpoint and structure-axis scoped observations record subsequent progress.",
     "Gen_control_structures_executed": 19,
@@ -18035,7 +18042,13 @@
     "codebox_structures_sources": 24,
     "codebox_structures_target_passes": 24,
     "codebox_structures_numeric_checks": 245760,
-    "codebox_structures_signed_zero_differences": 3700
+    "codebox_structures_signed_zero_differences": 3700,
+    "stateful_member_sources": 36,
+    "stateful_member_executed": 35,
+    "stateful_member_target_passes": 27,
+    "stateful_member_target_mismatches": 8,
+    "stateful_member_compile_failures": 1,
+    "stateful_member_numeric_checks": 358400
   },
   "native_preflight_followups": [
     {
@@ -18043,6 +18056,32 @@
       "source": "evidence/rnbo-list-functions-native.json",
       "scope": "Five-cell rotation with shifts-8..8 faults nativeprocess call0; not flashed. Needs isolated safe-mode/domain investigation and eventual device reproduction.",
       "hardware_tested": false
+    }
+  ],
+  "compatibility_followups": [
+    {
+      "id": "codebox-member:onepole.reset-clear",
+      "source": "evidence/rnbo-codebox-members-native.json",
+      "hardware_tested": true,
+      "scope": "Both exact reset/clear paths zero output at unchanged cutoff. Cached frequency/update state survives coefficient clearing; repair and separate changed-frequency recovery check pending."
+    },
+    {
+      "id": "codebox-member:downsamp.phase",
+      "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
+      "hardware_tested": true,
+      "scope": "next/reset differ from predeclared first-capture-at-age-zero reference. Capture phase/default reset boundary needs explicit contract and deeper follow-up."
+    },
+    {
+      "id": "codebox-member:zerox.zero-boundary",
+      "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
+      "hardware_tested": true,
+      "scope": "zerox and zerox_count next/reset differ on zero-containing vector from strict opposite-nonzero crossing reference. Boundary/window convention remains follow-up."
+    },
+    {
+      "id": "codebox-member:history.reset",
+      "source": "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
+      "hardware_tested": false,
+      "scope": "Generated member-reset C++ references missing history fields; no hardware qualification or CPU measurement."
     }
   ]
 }

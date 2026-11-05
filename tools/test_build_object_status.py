@@ -58,7 +58,12 @@ class ObjectStatusTests(unittest.TestCase):
             self.assertIsNone(row['performance'])
             self.assertEqual(row['optimisation']['status'],'unassessed')
             self.assertTrue(any(s['url'].endswith('/evidence/xiao-wave4.json') for s in row['sources']))
-        self.assertEqual(rows['codebox-member:delta.reset']['working']['status'],'unverified')
+        # Explicit reset now has its own later hardware run; it is not inherited from next().
+        self.assertEqual(rows['codebox-member:delta.reset']['working']['status'],'board')
+        self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-codebox-members-part1.json')
+                            for s in rows['codebox-member:delta.reset']['sources']))
+        self.assertFalse(any(s['url'].endswith('/evidence/xiao-wave4.json')
+                             for s in rows['codebox-member:delta.reset']['sources']))
         # Named add/sub calls now have their own later codebox execution;
         # their status is not inherited from Wave4's + and - expressions.
         for identity in ('codebox:add','codebox:sub'):
@@ -353,7 +358,12 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertEqual(rows['codebox:%']['working']['status'],'board')
         self.assertEqual(rows['codebox:xor']['working']['status'],'board')
         self.assertEqual(rows['patcher:mod']['working']['status'],'board')
-        self.assertEqual(rows['codebox-member:delta.reset']['working']['status'],'unverified')
+        # Explicit reset now has its own later hardware run; it is not inherited from next().
+        self.assertEqual(rows['codebox-member:delta.reset']['working']['status'],'board')
+        self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-codebox-members-part1.json')
+                            for s in rows['codebox-member:delta.reset']['sources']))
+        self.assertFalse(any(s['url'].endswith('/evidence/xiao-wave4.json')
+                             for s in rows['codebox-member:delta.reset']['sources']))
 
     def test_actual_codebox_named_constants_are_bit_exact_without_syntax_inheritance(self):
         source='evidence/xiao-smoke-rnbo-codebox-constants.json'

@@ -1,5 +1,16 @@
 # Implementation status — 5 November 2026
 
+The [explicit member batch](hardware-smoke.md#explicit-stateful-members-and-resetclear)
+records 36 original next/reset/clear programs in two uploads: **35 execute,
+27 pass and eight retain mismatches**, with 358,400 output checks. The one-pole
+reset/clear cache issue is reproduced on native and XIAO; downsample phase and
+zero-crossing boundary differences remain visible. `history.reset()` fails C++.
+Whole-callback medians are 56–500.5 µs, peak 503 µs, with no new CPU flag; the queue
+remains **101 contexts**. All images finalise and allocation/memory gates pass.
+The dashboard now maps **765 exact entries with scoped outcomes**. The second
+quiet member-test firmware is installed and the complete goal remains active.
+
+
 The [RNBO codebox structure/lifecycle batch](hardware-smoke.md#rnbo-codebox-structures-and-lifecycle)
 passes **all 24 programs and 245,760 numeric output checks** on XIAO. It covers
 bounded control flow, short-circuit side effects, scalar/list-return functions,
@@ -7,7 +18,7 @@ sample/block state and fresh lifecycle counts. **3,700 signed-zero differences**
 remain explicit. Whole callback medians span 41.5–86 µs, peak 91 µs; no new CPU
 flags, so the queue remains **101**. All images finalise and memory/allocation
 gates pass. The three lifecycle hooks bring the RNBO table to **730 exact
-entries with scoped outcomes**. The quiet structure-test firmware is installed;
+entries with scoped outcomes**. The quiet structure-test firmware was installed at that checkpoint;
 the complete RNBO/Gen/structure goal remains active.
 
 The GitHub Linux workflow is also fixed: strict GCC rejected misleading

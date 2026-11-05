@@ -1,0 +1,7 @@
+@state left = new zerox();
+@state right = new zerox();
+@state sampleIndex: Int = 0;
+if(sampleIndex%257==37 || sampleIndex%257==38 || sampleIndex==255 || sampleIndex==256){left.reset();}
+if(sampleIndex%263==91 || sampleIndex%263==92 || sampleIndex==511 || sampleIndex==512){right.reset();}
+out1=left.next(in1)+0*in1; out2=right.next(in2)+0*in2;
+sampleIndex+=1;

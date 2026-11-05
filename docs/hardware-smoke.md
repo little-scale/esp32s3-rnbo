@@ -20,6 +20,84 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## Explicit stateful members and reset/clear
+
+Thirty-six authored sources run in two fixed eighteen-source partitions.
+**35 execute on XIAO: 27 pass, eight retain output mismatches**, across
+**358,400 output checks**. `history.reset()` fails C++ compilation and is not
+executed. These exact member observations are separate from owner constructors,
+aliases and Gen. An existing detailed `delta.next()` qualification is retained;
+35 additional member entries bring the RNBO table to **765 scoped mappings**.
+
+Two independent instances step bounded inputs. Reset/clear cases use different
+per-channel schedules, including consecutive calls and resets at absolute
+samples 255/256 and 511/512. They compare 20 continuous callbacks without an implicit
+host-boundary reset. Ideal mathematical filter/slide references use the original
+predeclared 2e-6 limit; other cases use zero tolerance. Inputs, references and
+limits were fixed before native/target output. The results separately retain
+**43,712 numerical mismatches, 42,569 within-tolerance differences and 1,292
+signed-zero differences**.
+
+| Authored scenario | Result | Median µs | Peak µs | Numerical mismatches |
+| --- | --- | ---: | ---: | ---: |
+| `delta.next()` | Pass | 58 | 63 | 0 |
+| `delta.reset()` | Pass | 141 | 145 | 0 |
+| `change.next()` | Pass | 73 | 78 | 0 |
+| `change.reset()` | Pass | 165 | 170 | 0 |
+| `latch.next()` | Pass | 67 | 68 | 0 |
+| `latch.reset()` | Pass | 152 | 156 | 0 |
+| `sah.next()` | Pass | 84 | 89 | 0 |
+| `sah.reset()` | Pass | 164 | 168 | 0 |
+| `slide.next()` | Pass | 402 | 402 | 0 |
+| `slide.reset()` | Pass | 500.5 | 503 | 0 |
+| `dcblock.next()` | Pass | 70 | 71 | 0 |
+| `dcblock.reset()` | Pass | 152 | 157 | 0 |
+| `accum.next()` | Pass | 61 | 61 | 0 |
+| `accum.reset()` | Pass | 145 | 150 | 0 |
+| `counter.next()` | Pass | 71 | 71 | 0 |
+| `counter.reset()` | Pass | 166 | 171 | 0 |
+| `deltaclip.next()` | Pass | 74 | 74 | 0 |
+| `deltaclip.reset()` | Pass | 162 | 167 | 0 |
+| `downsamp.next()` | Output mismatch | 104 | 108 | 7290 |
+| `downsamp.reset()` | Output mismatch | 194 | 199 | 7308 |
+| `zerox.next()` | Output mismatch | 73 | 78 | 640 |
+| `zerox.reset()` | Output mismatch | 166 | 171 | 659 |
+| `zerox_count.next()` | Output mismatch | 118 | 123 | 3840 |
+| `zerox_count.reset()` | Output mismatch | 207 | 212 | 3785 |
+| `onepole.next()` | Pass | 122.5 | 126 | 0 |
+| `onepole.reset()` | Output mismatch | 221 | 225 | 10095 |
+| `onepole_lin.next()` | Pass | 106.5 | 111 | 0 |
+| `onepole_lin.reset()` | Pass | 190 | 195 | 0 |
+| `biquad.next()` | Pass | 91 | 95 | 0 |
+| `biquad.reset()` | Pass | 172 | 173 | 0 |
+| `elapsed.next()` | Pass | 56 | 60 | 0 |
+| `elapsed.reset()` | Pass | 140 | 144 | 0 |
+| `onepole.clear()` | Output mismatch | 221 | 226 | 10095 |
+| `onepole_lin.clear()` | Pass | 192 | 196 | 0 |
+| `biquad.clear()` | Pass | 172 | 176 | 0 |
+| `history.reset()` | C++ rejection; not executed | — | — | — |
+
+The compatibility follow-ups remain explicit. Downsample capture phase differs
+from the declared capture-at-age-zero convention. Zero-crossing and windowed
+counts differ on zero-containing inputs from the strict opposite-nonzero policy.
+One-pole reset/clear produces zero output at unchanged cutoff: source inspection
+shows coefficients are cleared while cached cutoff/update state is preserved,
+so the next call does not recompute them. Its first left numerical discrepancy
+is at frame 38, with maximum error about 0.67885. The documented history member
+fails because generated C++ references missing history instance fields.
+
+All 35 images finalise and pass memory/allocation gates, with zero arena
+high-water. Medians span 56–500.5 µs (**0.96–8.62%** of the block period), with
+largest peak 503 µs. **No new CPU flag** triggers, leaving 101 contexts queued.
+Whole callbacks include scheduling/modulo/branch work and occasional reset
+calls; these are not isolated member costs or optimisation gains. The second
+quiet member-test firmware stays installed. No DSP repair is made in this batch.
+
+See [original sources and detailed policy](../tests/fixtures/smoke/rnbo-codebox-members/README.md),
+[target part 1](../evidence/xiao-smoke-rnbo-codebox-members-part1.json),
+[target part 2](../evidence/xiao-smoke-rnbo-codebox-members-part2.json) and
+[native diagnostics](../evidence/rnbo-codebox-members-native.json).
+
 ## RNBO codebox structures and lifecycle
 
 All **24 original language/lifecycle programs pass on XIAO**, with

@@ -10,6 +10,18 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Explicit stateful members: no new CPU flags
+
+Thirty-five executed next/reset/clear scenarios measure 56–500.5 µs median,
+with maximum observed peak 503 µs. Neither rule triggers; the queue remains
+**101 contexts**. Reset cases include sample-counter/remainder/branch overhead
+and occasional member calls, so these costs do not isolate reset or clear.
+The eight output mismatches and history member C++ rejection are compatibility
+follow-ups, with no DSP repair or performance-gain claim in this batch.
+
+Source: [member part 1](../evidence/xiao-smoke-rnbo-codebox-members-part1.json)
+and [part 2](../evidence/xiao-smoke-rnbo-codebox-members-part2.json).
+
 ## Codebox structures and lifecycle: no new flags
 
 All 24 passing language/lifecycle programs measure 41.5–86 µs median per 256-frame
