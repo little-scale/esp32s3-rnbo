@@ -1,0 +1,23 @@
+Data memory(8,2);
+History initialized(0);
+if(initialized==0){
+poke(memory,-0.75,0,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.125,1,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,1.0,2,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,-0.5,3,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.25,4,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.875,5,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,-0.125,6,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.625,7,0,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.5,0,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,-1.0,1,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.25,2,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.75,3,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,-0.25,4,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,0.125,5,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,1.0,6,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+poke(memory,-0.875,7,1,0,index="samples", boundmode="ignore", channelmode="ignore");
+initialized=1;
+}
+a,ia=peek(memory,in1,in2,channels=1,index="samples",interp="none",boundmode="ignore",channelmode="wrap");
+out1=a;out2=in2;

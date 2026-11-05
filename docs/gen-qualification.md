@@ -1,5 +1,18 @@
 # Gen and single-sample qualification
 
+The [extended data/sample batch](hardware-smoke.md#extended-gen-tables-sample-access-and-boundaries)
+adds 31 exact source scenarios: **24 execute, 17 pass and seven retain output
+mismatches**, with 245,760 output checks. Three C++ rejections, two frontend
+failures and two external-buffer preparation rejections remain explicit.
+The long 512/1024-period oscillator and cumulative/half-mix splat streams pass
+sample-state checks across host boundaries. Negative-channel handling exposes
+five native/XIAO disagreements and a confirmed host float-to-unsigned sanitizer
+failure; hardware and native results remain separate. Only signal lookup is
+CPU-flagged at 807 µs median (13.90% of the block period), bringing the overall
+queue to 111. These Gen observations do not promote RNBO names or complete
+visual Gen, external resources, all modes or one-frame production ABI scope.
+
+
 Gen/`gen~` is explicitly part of the active XIAO qualification goal. Its names,
 language constructs and evidence remain separate from RNBO objects and RNBO
 `codebox~`. A matching name does not transfer a result between those contexts.

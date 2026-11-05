@@ -1,5 +1,17 @@
 # Implementation status — 5 November 2026
 
+The [extended Gen data batch](hardware-smoke.md#extended-gen-tables-sample-access-and-boundaries)
+records 31 sources: **24 execute on XIAO, 17 pass and seven retain mismatches**,
+with 245,760 output checks. Seven frontend/C++/adapter rejections are separate.
+Long-period oscillators and weighted writes pass cross-block sample-state
+checks. Five channel cases differ between native and Xtensa; a host sanitizer
+confirms an out-of-range negative-float-to-unsigned conversion before boundary
+handling. Signal lookup adds one CPU context at 807 µs median, bringing the queue
+to **111**. All loaded images finalise and memory/allocation gates pass. Quiet
+Gen part 2 firmware is installed. The RNBO table remains **778 scoped entries**;
+Gen/visual/resource/remaining RNBO qualification stays active and incomplete.
+
+
 The [delay resource/member batch](hardware-smoke.md#delay-resources-and-member-operations)
 executes **22 programs: 17 pass and five retain mismatches**, across 225,280
 output checks. Eleven string-enum calls remain C++ rejections; separately
@@ -8,8 +20,8 @@ alignment remain scoped compatibility follow-ups. All images finalise and
 memory/allocation gates pass. The nine new CPU contexts bring the queue to
 **110**: default comb/allpass clear/reset scenarios take about 44 ms per callback,
 including repeated clearing of roughly 1 MiB state. The RNBO table now maps
-**778 entries with scoped outcomes**. Quiet delay-member test firmware is
-installed; the complete qualification goal remains active.
+**778 entries with scoped outcomes**. Quiet delay-member test firmware was
+installed at that checkpoint; the complete qualification goal remains active.
 
 
 The [explicit member batch](hardware-smoke.md#explicit-stateful-members-and-resetclear)

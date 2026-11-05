@@ -20,6 +20,89 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## Extended Gen tables, sample access and boundaries
+
+Thirty-one original GenExpr sources run in two fixed sixteen/fifteen-source
+partitions. **24 execute on XIAO: 17 pass and seven retain output mismatches**,
+across **245,760 output checks**. Three C++ rejections, two Gen frontend
+failures and two external-resource adapter-preparation rejections stay separate
+and are not executed. Gen evidence is separate from the 778 RNBO table mappings.
+
+The programs cover wave/lookup forms, builtin and local-table cycle forms,
+weighted splat writes, index/channel modes, returned indices, registered
+read/write spellings and declaration forms. Tables are initialized explicitly;
+original Float32 Data storage is preserved. The long oscillator uses 512/1024-
+sample periods so a host reset at 256 samples changes the expected output.
+Splat accumulation uses absolute prefix sums across all 20 callbacks; half mix
+uses an ideal recurrence. Both those write-state cases pass their full streams.
+
+| Exact authored scenario | Result | Median µs | Peak µs | Numerical mismatches |
+| --- | --- | ---: | ---: | ---: |
+| `wave-section` | Output mismatch | 188 | 188 | 9620 |
+| `lookup-signal` | Pass | 807 | 811 | 0 |
+| `lookup-samples` | Pass | 150 | 151 | 0 |
+| `cycle-phase` | Pass | 554 | 556 | 0 |
+| `cycle-frequency` | Pass | 328.5 | 330 | 0 |
+| `cycle-local-name` | Output mismatch | 563 | 566 | 10240 |
+| `splat-isolated` | Pass | 367 | 371 | 0 |
+| `splat-accum` | Pass | 195 | 200 | 0 |
+| `splat-mix-half` | Pass | 200.5 | 205 | 0 |
+| `splat-phase` | Pass | 378 | 383 | 0 |
+| `peek-bound-ignore` | Pass | 91 | 95 | 0 |
+| `peek-bound-wrap` | Pass | 258 | 263 | 0 |
+| `cycle-frequency-long-period` | Pass | 410 | 436 | 0 |
+| `peek-bound-clamp` | Pass | 96 | 100 | 0 |
+| `peek-bound-fold` | Output mismatch | 175.5 | 180 | 5120 |
+| `peek-bound-mirror` | Pass | 175 | 180 | 0 |
+| `peek-channel-ignore` | Pass | 72 | 76 | 0 |
+| `peek-channel-wrap` | Pass | 91 | 96 | 0 |
+| `peek-channel-clamp` | Output mismatch | 82 | 86 | 1600 |
+| `peek-channel-fold` | Output mismatch | 89 | 93 | 5120 |
+| `peek-channel-mirror` | Output mismatch | 88.5 | 94 | 2240 |
+| `peek-return-index` | Pass | 89 | 93 | 0 |
+| `sample-return-index` | Output mismatch | 171 | 176 | 1400 |
+| `data-lowercase` | Pass | 58 | 63 | 0 |
+
+The batch retains 35,340 numerical mismatches, 8,296 within-tolerance differences
+and 1,920 signed-zero differences. No input, tolerance or reference is fitted
+after target output. Wave section, named local-table cycle, index fold,
+channel clamp/fold/mirror and returned wrapped phase indices retain gaps against
+the declared reference policies. Builtin cycle, long-period sample state,
+lookup, weighted splat writes, index ignore/wrap/clamp/mirror, channel ignore/
+wrap on XIAO, returned sample indices and lowercase data dimensions pass.
+
+**Five negative-channel cases differ between native and target execution.**
+Generated channel arguments convert floating values to unsigned Index before
+boundary handling. A separate host UBSan/float-cast-overflow run stops on -2
+converting to unsigned int. This is an evidenced portability issue; native
+results are not substituted for the device oracle. Channel ignore/wrap pass
+on this XIAO image while failing the native screen; clamp does the reverse.
+Fold/mirror policies and signed conversion still require qualification/repair.
+The sanitizer run is a host diagnostic, not target sanitizer coverage.
+
+The failed source forms are explicit. Wave sample/phase constructors fail
+frontend boundmode handling. Positional local-table cycle passes a buffer
+reference to a numeric oscillator argument. Standalone read/write emit an
+undeclared Delay identifier; write also retains an unreviewed bool-compare
+warning. Upper/lower Buffer declarations reject externalDataRefs during normal
+adapter admission, so no real external buffer binding is claimed.
+
+Only signal-indexed lookup triggers CPU review: 807 µs median, 811 µs peak,
+**13.90%** of the audio period. The queue rises to **111 contexts**. Other
+medians span 58–563 µs and no peak-spike rule triggers. These are complete
+callbacks, without I²S/network/display work or an optimisation comparison.
+Data programs observe 128 bytes arena high-water, builtin oscillator pairs
+65,648 bytes and the named-table cycle program 65,776 bytes. The 2 MiB arena is
+only a test ceiling. All 24 images finalise and memory/allocation gates pass.
+Quiet part 2 firmware remains installed.
+
+See [original sources and reference policy](../tests/fixtures/smoke/gen-data-extended/README.md),
+[target part 1](../evidence/xiao-smoke-gen-data-extended-part1.json),
+[target part 2](../evidence/xiao-smoke-gen-data-extended-part2.json) and
+[native/sanitizer and rejection diagnostics](../evidence/gen-data-extended-native.json).
+Remaining Gen modes, resources, visual forms and one-frame production calls
+stay in the full goal.
+
 ## Delay resources and member operations
 
 Thirty-three original sources cover thirteen exact delay/comb/allpass member

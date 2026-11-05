@@ -10,6 +10,24 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Extended Gen data: one queued context
+
+Signal-indexed Gen lookup passes its reference but costs 807 µs median,
+811 µs observed peak per 256-frame callback: **13.90%** of the audio period.
+It adds one context, bringing the queue from 110 to **111**. Other extended
+Gen data/oscillator/boundary medians are 58–563 µs. No peak-spike rule triggers.
+
+The callback includes two independently initialized local-table reads with
+signal-to-index mapping and linear interpolation. It is distinct from explicit
+sample-index lookup, which measures 150 µs in its own source. These are absolute
+costs of different authored programs, not a matched optimisation comparison or
+isolated opcode timings. The seven device mismatches and negative-channel
+sanitizer/portability issue remain compatibility follow-ups.
+
+Sources: [part 1](../evidence/xiao-smoke-gen-data-extended-part1.json),
+[part 2](../evidence/xiao-smoke-gen-data-extended-part2.json) and
+[native/diagnostic record](../evidence/gen-data-extended-native.json).
+
 ## Delay resources: nine queued contexts
 
 The delay/member batch adds nine contexts, taking the queue from 101 to **110**.

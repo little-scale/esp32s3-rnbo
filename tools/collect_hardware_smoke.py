@@ -30,6 +30,8 @@ from build_hardware_smoke import (STRUCTURE_FAMILY,STRUCTURE_CATALOG_SHA,
                                  STRUCTURE_REFERENCE_SHA,structure_catalog)
 from build_hardware_smoke import (CONTAINER_FAMILY,CONTAINER_CATALOG_SHA,
                                  CONTAINER_REFERENCE_SHA,container_catalog)
+from build_hardware_smoke import (GEN_EXT_FAMILY,GEN_EXT_CATALOG_SHA,GEN_EXT_REFERENCE_SHA,
+                                 GEN_EXT_PARTITIONS,gen_extended_catalog)
 from build_hardware_smoke import (GEN_CONTROL_FAMILY,GEN_CONTROL_CATALOG_SHA,
                                  GEN_CONTROL_REFERENCE_SHA,gen_control_catalog)
 from build_hardware_smoke import (LIST_FUNCTION_FAMILY,LIST_FUNCTION_CATALOG_SHA,
@@ -577,6 +579,42 @@ def gen_control_plan(plan):
                 'Gen control expected stream differs from independent source')
 
 
+def gen_extended_plan(plan):
+    directory=ROOT/'tests/fixtures/smoke/gen-data-extended'
+    index=plan.get('partition',{}).get('index')
+    require(type(index)is int and index in GEN_EXT_PARTITIONS,'Invalid extended Gen partition')
+    catalog=json.loads((directory/f'part{index}.json').read_bytes());partition=gen_extended_catalog(catalog)
+    require(plan.get('partition')==partition and all(plan.get(k)==catalog[k]for k in ('storage_policy','producer_storage_view')),'Extended Gen partition/storage scope differs')
+    require(plan.get('catalog_sha256')==GEN_EXT_PARTITIONS[index] and
+            plan.get('reference_source_sha256')==GEN_EXT_REFERENCE_SHA and
+            sha(directory/'reference.py')==GEN_EXT_REFERENCE_SHA and
+            plan.get('surface')=='genexpr' and type(plan.get('prepare_zero_warm_blocks'))is int and
+            plan['prepare_zero_warm_blocks']==0 and plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_stream_policy')=='Fresh prepared state, no automatic zero warmup; four checked manual warmups then sixteen timed callbacks without resets',
+            'Extended Gen data source/surface/fresh-state policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals) and {r['id']for r in observed}==set(originals),'Extended Gen data case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and
+                row.get('genexpr_sha256')==source['genexpr_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')),
+                'Extended Gen data source or exact language form differs')
+    spec=importlib.util.spec_from_file_location('gen_extended_independent_reference',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model']
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0] and row.get('arena_bytes')==2097152 and
+                not any(k in row for k in ('parameter_events','parameters','strict_zero_sign_channels')),
+                'Extended Gen data declaration/limits or default-only parameter scope differs')
+        inputs=reference.case_input_words(model)
+        require(row.get('input_words')==list(inputs),'Extended Gen data vector differs from independent source')
+        blocks,_=expected_stream(row,True)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),
+                'Extended Gen data expected stream differs from independent source')
+
+
 def list_function_plan(plan):
     directory=ROOT/'tests/fixtures/smoke/rnbo-codebox-list-functions'
     catalog=json.loads((directory/'catalog.json').read_bytes());list_function_catalog(catalog)
@@ -624,6 +662,7 @@ def collect(build_dir,run_dir):
     if plan.get('family')==MEMBER_FAMILY:member_plan(plan)
     if plan.get('family')==DELAY_MEMBER_FAMILY:delay_member_plan(plan)
     if plan.get('family')==GEN_CONTROL_FAMILY:gen_control_plan(plan)
+    if plan.get('family')==GEN_EXT_FAMILY:gen_extended_plan(plan)
     if plan.get('family')==LIST_FUNCTION_FAMILY:list_function_plan(plan)
     comparison=plan.get('family')=='dbtoa-f32-comparison'
     if comparison:dbtoa_comparison_plan(plan)
@@ -650,7 +689,7 @@ def collect(build_dir,run_dir):
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
@@ -697,7 +736,7 @@ def collect(build_dir,run_dir):
         if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
                                                          'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
         if gen_data:record['owner_kind']=expected['owner_kind']
-        if plan.get('family')==GEN_CONTROL_FAMILY:
+        if plan.get('family')in(GEN_CONTROL_FAMILY,GEN_EXT_FAMILY):
             record.update({k:expected[k]for k in ('model','genexpr_sha256','scope')})
         if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-list-functions','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
@@ -746,7 +785,7 @@ def collect(build_dir,run_dir):
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
-    elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-range','gen-constants')and plan.get('surface')=='genexpr':
+    elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-data-extended','gen-range','gen-constants')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
@@ -754,6 +793,8 @@ def collect(build_dir,run_dir):
         result.update(partition=plan['partition'],strict_zero_sign_channels=2,raw_pilot_channel=1,
             scope='Exact bare RNBO codebox ASCII named values and finite raw right-word pilot; no call/patcher/Gen qualification')
     if plan.get('family')==MEMBER_FAMILY:result['partition']=plan['partition']
+    if plan.get('family')==GEN_EXT_FAMILY:
+        result.update({key:plan[key]for key in ('partition','producer_storage_view','storage_policy')})
     if gen_data:
         result.update({key:plan[key]for key in ('producer_storage_view','storage_policy')})
         result['scope']='Eight local Data/indexed-storage source scenarios with original backend-default Float32 storage; Data declaration and function owners remain distinct, no standalone alias or Gen64 storage equivalence'

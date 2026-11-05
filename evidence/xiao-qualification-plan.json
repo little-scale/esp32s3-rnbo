@@ -17906,7 +17906,9 @@
         "evidence/xiao-smoke-rnbo-codebox-members-part1.json",
         "evidence/xiao-smoke-rnbo-codebox-members-part2.json"
       ],
-      "additional_observed_scope": "Two independent instances per exact next/reset/clear scenario, consecutive and block-boundary member calls over20continuouscallbacks.27passed/8mismatched/1C++rejected. Scalar/filter state reset results and onepole cache/zero-crossing/downsample limits are explicit; previous @state array/declaration evidence remains separate."
+      "additional_observed_scope": "Two independent instances per exact next/reset/clear scenario, consecutive and block-boundary member calls over20continuouscallbacks.27passed/8mismatched/1C++rejected. Scalar/filter state reset results and onepole cache/zero-crossing/downsample limits are explicit; previous @state array/declaration evidence remains separate.",
+      "additional_Gen_state_evidence": "evidence/xiao-smoke-gen-data-extended-part1.json",
+      "additional_Gen_state_scope": "Cumulative splat and ideal half-overdub recurrence span20callbacks; long-period oscillator output differs across256-frame boundaries and passes its fixed reference. This does not qualify arbitrary reconstruction/reset APIs."
     },
     {
       "contract": "@param metadata, actual/normalized maps, event ordering and repeated values",
@@ -17960,7 +17962,12 @@
       "status": "partial_scoped_XIAO_scenario",
       "hardware_evidence": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
       "observed_scope": "Explicit16-sample delay read/write/step/size, scheduled member clear/reset and default comb/allpass storage run across20continuouscallbacks; arena high-water192/1048704 bytes and complete image finalisation observed.",
-      "remaining_scope": "Other capacities, external buffers/data/files, resource sharing, host lifecycle/reconstruction and complete interpolation alignment remain pending."
+      "remaining_scope": "Other capacities, external buffers/data/files, resource sharing, host lifecycle/reconstruction and complete interpolation alignment remain pending.",
+      "additional_Gen_hardware_evidence": [
+        "evidence/xiao-smoke-gen-data-extended-part1.json",
+        "evidence/xiao-smoke-gen-data-extended-part2.json"
+      ],
+      "additional_Gen_scope": "Explicitly initialized8x2 Float32 local Data reads/writes and builtin oscillator tables run; high-water128/65648/65776 bytes. Real external Buffer service remains rejected by static adapter preparation."
     },
     {
       "contract": "list/bang/number ordering, sample offsets, clocks/cancel/repeated events; observe events directly",
@@ -17989,9 +17996,9 @@
       "id": "structure:gen-language",
       "on_XIAO_executed": true,
       "status": "partial_scoped_GenExpr_XIAO_scenarios",
-      "hardware_evidence": "evidence/xiao-smoke-gen-control-structures.json",
-      "observed_scope": "Nineteen exact GenExpr comparison/declaration/control/structure programs, including two independent function-local History instances and bounded for/while/break/continue, pass194560numeric checks over20continuousfixed256callbacks. Twelve pass-gate spellings are independent sources; no alias inheritance.",
-      "remaining_scope": "Five C++-rejected and two frontend-rejected forms are retained. Visual Gen, broader operators/modes, function multiple-return, if/else-if history, parameter host events, polyphonic voice contexts, arbitrary bounds and one-frame production callbacks remain unqualified."
+      "hardware_evidence": "evidence/xiao-smoke-gen-data-extended-part2.json",
+      "observed_scope": "Extended explicit GenExpr Data/lookup/cycle/splat/boundary programs:24XIAO executions,17passes and7mismatches. Long512/1024-sample oscillators and cumulative/half-mix writes pass full20block state references. Earlier independent Gen comparison/declaration/history evidence remains separate.",
+      "remaining_scope": "Seven frontend/C++/adapter rejections, full channel conversion/endpoint/index conventions, oscillator local table binding, visual Gen, broader operators/modes/resources, parameter events, voice contexts and one-frame production ABI remain unqualified."
     },
     {
       "contract": "Max wrappers/editor decoration are not XIAO DSP operations; exported UI value semantics remain testable",
@@ -18010,14 +18017,20 @@
     "evidence/xiao-smoke-rnbo-codebox-structures.json",
     "evidence/xiao-smoke-rnbo-codebox-members-part1.json",
     "evidence/xiao-smoke-rnbo-codebox-members-part2.json",
-    "evidence/xiao-smoke-rnbo-codebox-delay-members.json"
+    "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+    "evidence/xiao-smoke-gen-data-extended-part1.json",
+    "evidence/xiao-smoke-gen-data-extended-part2.json"
   ],
   "Gen_scope": {
     "required": true,
     "separate_inventory": "site/data/gen-inventory.json",
     "native_program_evidence": "evidence/gen-single-sample-native.json",
     "hardware_qualified": false,
-    "RNBO_rows_are_not_Gen_evidence": true
+    "RNBO_rows_are_not_Gen_evidence": true,
+    "additional_hardware_evidence": [
+      "evidence/xiao-smoke-gen-data-extended-part1.json",
+      "evidence/xiao-smoke-gen-data-extended-part2.json"
+    ]
   },
   "initial_site_snapshot_counts": {
     "scoped_entries": 43,
@@ -18035,7 +18048,7 @@
     "goal_status": "active",
     "exact_dashboard_entries_with_scoped_outcomes": 778,
     "complete_goal_claimed": false,
-    "source": "evidence/xiao-smoke-rnbo-codebox-delay-members.json",
+    "source": "evidence/xiao-smoke-gen-data-extended-part2.json",
     "gen_and_remaining_RNBO_scope_retained": true,
     "snapshot_note": "Original4November inventory counts/entry plan remain a historical snapshot; latest checkpoint and structure-axis scoped observations record subsequent progress.",
     "Gen_control_structures_executed": 19,
@@ -18045,7 +18058,7 @@
     "global_list_function_target_runs": 10,
     "global_list_function_target_passes": 9,
     "global_list_function_native_preflight_faults": 1,
-    "cpu_review_contexts": 110,
+    "cpu_review_contexts": 111,
     "codebox_structures_sources": 24,
     "codebox_structures_target_passes": 24,
     "codebox_structures_numeric_checks": 245760,
@@ -18061,7 +18074,16 @@
     "delay_member_target_passes": 17,
     "delay_member_target_mismatches": 5,
     "delay_member_compile_rejections": 11,
-    "delay_member_numeric_checks": 225280
+    "delay_member_numeric_checks": 225280,
+    "Gen_extended_data_sources": 31,
+    "Gen_extended_data_executed": 24,
+    "Gen_extended_data_target_passes": 17,
+    "Gen_extended_data_target_mismatches": 7,
+    "Gen_extended_data_compile_failures": 3,
+    "Gen_extended_data_frontend_failures": 2,
+    "Gen_extended_data_preparation_failures": 2,
+    "Gen_extended_data_numeric_checks": 245760,
+    "Gen_extended_data_native_target_disagreements": 5
   },
   "native_preflight_followups": [
     {
@@ -18113,6 +18135,42 @@
       "source": "evidence/rnbo-codebox-delay-members-native.json",
       "hardware_tested": false,
       "scope": "Eleven supplied string interpolation call programs reject as const char* to integer enum; separately authored numeric BufferInterp forms compile and execute."
+    },
+    {
+      "id": "genexpr:negative-channel-portability",
+      "source": "evidence/gen-data-extended-native.json",
+      "hardware_tested": true,
+      "scope": "Five channelmode programs have native/Xtensa differences. Host UBSan confirms float-2 to unsigned Index overflow before boundary handling. Signed validation/portable conversion and non-power-of-two channel counts remain follow-up."
+    },
+    {
+      "id": "genexpr:wave-forms-and-section",
+      "source": "evidence/xiao-smoke-gen-data-extended-part1.json",
+      "hardware_tested": true,
+      "scope": "Wave section differs from declared1..6 sample window. Explicit sample/phase forms reject in Gen frontend boundmode handling; other exact forms remain pending."
+    },
+    {
+      "id": "genexpr:cycle-local-data",
+      "source": "evidence/xiao-smoke-gen-data-extended-part1.json",
+      "hardware_tested": true,
+      "scope": "Builtin phase/frequency and long-period state pass. Named local table differs; positional table form fails C++. No general local-table cycle qualification."
+    },
+    {
+      "id": "genexpr:boundary-and-return-index-conventions",
+      "source": "evidence/xiao-smoke-gen-data-extended-part2.json",
+      "hardware_tested": true,
+      "scope": "Fold endpoints, channel clamp/fold/mirror and unwrapped returned phase index policies retain mismatches. No reference was fitted after output."
+    },
+    {
+      "id": "genexpr:global-read-write",
+      "source": "evidence/xiao-smoke-gen-data-extended-part2.json",
+      "hardware_tested": false,
+      "scope": "Registered standalone read/write spellings compile to an undeclared Delay identifier; unreviewed two-sample bool-compare warning remains. Earlier reviewed member Delay sources are separate."
+    },
+    {
+      "id": "genexpr:external-buffer-admission",
+      "source": "evidence/xiao-smoke-gen-data-extended-part2.json",
+      "hardware_tested": false,
+      "scope": "Upper/lower Buffer declarations reach static adapter preparation, which rejects externalDataRefs. Real external resources remain unimplemented/unqualified."
     }
   ]
 }
