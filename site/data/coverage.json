@@ -53903,6 +53903,1451 @@
       "working_note": "XIAO: all 3 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:append",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "append 4 5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/append-two-values.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario append-two-values; source form append 4 5; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "append",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:gate",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "gate 3 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/gate-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "gate 3 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/gate-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "gate 3 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/gate-out2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario gate-out0; source form gate 3 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario gate-out1; source form gate 3 0; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario gate-out2; source form gate 3 0; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        }
+      ],
+      "spelling": "gate",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:join",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "join 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/join-two-inputs.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario join-two-inputs; source form join 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "join",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.ecils",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.ecils 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-ecils-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.ecils 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-ecils-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-ecils-out0; source form list.ecils 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-ecils-out1; source form list.ecils 1; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.ecils",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.index",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.index 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-index-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.index 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-index-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-index-out0; source form list.index 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-index-out1; source form list.index 1; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.index",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.join",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.join 4 5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-join-two-values.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-join-two-values; source form list.join 4 5; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.join",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.len",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.len"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-len.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-len; source form list.len; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.len",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.median",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.median"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-median.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-median; source form list.median; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.median",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.mth",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.mth 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-mth-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.mth 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-mth-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-mth-out0; source form list.mth 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-mth-out1; source form list.mth 1; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.mth",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.nth",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.nth 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-nth-element.rnbopat"
+        },
+        {
+          "forms": [
+            "list.nth 2 6"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-nth-replacement.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-nth-element; source form list.nth 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-nth-replacement; source form list.nth 2 6; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.nth",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.rev",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.rev"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-reverse.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-reverse; source form list.rev; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.rev",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.rot",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks.",
+        "Positive rotation has a confirmed target event fault;cause still requires investigation."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.rot -1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-rotate-left.rnbopat"
+        },
+        {
+          "forms": [
+            "list.rot 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-rotate-right.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-rotate-left; source form list.rot -1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-rotate-right; source form list.rot 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain. This original positive rotation has a separately published XIAO event-fault probe; it is not embedded in the normal output batch.",
+          "evidence_kind": "rnbo-routing-rejection",
+          "level": "native-event-fault-separate-target-probe",
+          "selector": "/admission_failures/0",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        },
+        {
+          "conditions": "Original list.rot 1 source: successful arm, first drive 0.125 returns RNBO_S3_FAULT (-4) on XIAO; no audio callback/output comparison or finalization claim. Negative rotation passes separately.",
+          "evidence_kind": "xiao-routing-event-fault",
+          "level": "S3-XIAO-event-fault-observation",
+          "selector": "/",
+          "source": "evidence/xiao-event-routing-rotation-fault.json"
+        }
+      ],
+      "spelling": "list.rot",
+      "surface": "patcher",
+      "working_note": "XIAO: negative rotation passes its exact output screen; the original positive rotation faults in its first target drive event (-4), matching native preflight. No output, callback or finalization pass is claimed for positive rotation.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.sect",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.sect 1 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-intersection.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-intersection; source form list.sect 1 4; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.sect",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.slice",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.slice 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-slice-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.slice 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-slice-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-slice-out0; source form list.slice 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-slice-out1; source form list.slice 1; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.slice",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.sort",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.sort 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-sort-ascending.rnbopat"
+        },
+        {
+          "forms": [
+            "list.sort -1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-sort-descending.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-sort-ascending; source form list.sort 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-sort-descending; source form list.sort -1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.sort",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.sub",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.sub 1 @base 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-sub-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "list.sub 1 @base 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-sub-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-sub-out0; source form list.sub 1 @base 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-sub-out1; source form list.sub 1 @base 0; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.sub",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.sum",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.sum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-sum.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-sum; source form list.sum; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "list.sum",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:list.swap",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "list.swap 0 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/list-swap-zero-two.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario list-swap-zero-two; source form list.swap 0 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "list.swap",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:message",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks.",
+        "Literal lists [0 0 0], [1 2 3 0] and [7 0 1 4 5] do not compile for the target; do not infer arbitrary message/list compatibility."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/message-observer-1.rnbopat"
+        },
+        {
+          "forms": [
+            "0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/message-observer-2.rnbopat"
+        },
+        {
+          "forms": [
+            "0 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/message-observer-3.rnbopat"
+        },
+        {
+          "forms": [
+            "1 2 3 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/message-observer-4.rnbopat"
+        },
+        {
+          "forms": [
+            "7 0 1 4 5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/message-observer-5.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario message-observer-1; source form 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario message-observer-2; source form 0 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario message-observer-3; source form 0 0 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain. This exact literal message fails target C++ array-bounds checks; no target execution or output comparison is claimed.",
+          "evidence_kind": "rnbo-routing-rejection",
+          "level": "target-C++-compile-failed",
+          "selector": "/compile_failures/0",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario message-observer-4; source form 1 2 3 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain. This exact literal message fails target C++ array-bounds checks; no target execution or output comparison is claimed.",
+          "evidence_kind": "rnbo-routing-rejection",
+          "level": "target-C++-compile-failed",
+          "selector": "/compile_failures/1",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario message-observer-5; source form 7 0 1 4 5; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain. This exact literal message fails target C++ array-bounds checks; no target execution or output comparison is claimed.",
+          "evidence_kind": "rnbo-routing-rejection",
+          "level": "target-C++-compile-failed",
+          "selector": "/compile_failures/2",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        }
+      ],
+      "spelling": "message",
+      "surface": "patcher",
+      "working_note": "XIAO: two shorter literal-message controls pass; three tested longer literal forms fail target C++ array-bounds checks. All five controls execute natively, which is not target qualification for the rejected forms.",
+      "working_state": "partial",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:pak",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "pak 0 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/pak-all-inputs.rnbopat"
+        },
+        {
+          "forms": [
+            "pak 0 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/pak-cold-input.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario pak-all-inputs; source form pak 0 0 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario pak-cold-input; source form pak 0 0 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "pak",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:prepend",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "prepend 4 5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/prepend-two-values.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario prepend-two-values; source form prepend 4 5; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part1.json"
+        }
+      ],
+      "spelling": "prepend",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:route",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "route 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/route-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "route 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/route-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "route 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/route-out2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario route-out0; source form route 1 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario route-out1; source form route 1 2; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario route-out2; source form route 1 2; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        }
+      ],
+      "spelling": "route",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:routepass",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "routepass 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/routepass-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "routepass 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/routepass-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "routepass 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/routepass-out2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario routepass-out0; source form routepass 1 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario routepass-out1; source form routepass 1 2; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario routepass-out2; source form routepass 1 2; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        }
+      ],
+      "spelling": "routepass",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sel",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sel 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/sel-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "sel 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/sel-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "sel 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/sel-out2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario sel-out0; source form sel 1 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario sel-out1; source form sel 1 2; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario sel-out2; source form sel 1 2; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        }
+      ],
+      "spelling": "sel",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:select",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "select 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/select-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "select 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/select-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "select 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/select-out2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario select-out0; source form select 1 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario select-out1; source form select 1 2; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario select-out2; source form select 1 2; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        }
+      ],
+      "spelling": "select",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:split",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "split 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/split-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "split 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/split-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario split-out0; source form split 1 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario split-out1; source form split 1 2; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        }
+      ],
+      "spelling": "split",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:swap",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "swap 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/swap-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "swap 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/swap-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "swap 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/swap-right-before-left.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario swap-out0; source form swap 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario swap-out1; source form swap 0; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario swap-right-before-left; source form swap 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        }
+      ],
+      "spelling": "swap",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:switch",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "switch 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/switch-three-inputs.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario switch-three-inputs; source form switch 3; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part4.json"
+        }
+      ],
+      "spelling": "switch",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:unjoin",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "unjoin 2 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "unjoin 2 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "unjoin 2 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out2.rnbopat"
+        },
+        {
+          "forms": [
+            "unjoin 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "unjoin 1 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out1.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario unjoin-single-out0; source form unjoin 2 1; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario unjoin-single-out1; source form unjoin 2 1; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario unjoin-single-out2; source form unjoin 2 1; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario unjoin-pair-out0; source form unjoin 1 2; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario unjoin-pair-out1; source form unjoin 1 2; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part3.json"
+        }
+      ],
+      "spelling": "unjoin",
+      "surface": "patcher",
+      "working_note": "XIAO: all 5 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:unpack",
+      "known_gaps": [
+        "Only the exact authored lengths, lists, constructor modes, inlets/outlets and numeric domains are checked. Larger or negative lists, other types/options/reset modes and within-block host events remain unqualified.",
+        "No complete-object claim or inherited auxiliary-object, signal, codebox or Gen qualification; no matched optimisation saving. State work is measured in setters separately from held-output callbacks."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "unpack 0 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unpack-out0.rnbopat"
+        },
+        {
+          "forms": [
+            "unpack 0 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unpack-out1.rnbopat"
+        },
+        {
+          "forms": [
+            "unpack 0 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-routing/unpack-out2.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Exact armed numeric/list routing scenario unpack-out0; source form unpack 0 0 0; observed outlet 0. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario unpack-out1; source form unpack 0 0 0; observed outlet 1. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        },
+        {
+          "conditions": "Exact armed numeric/list routing scenario unpack-out2; source form unpack 0 0 0; observed outlet 2. One arm then 21 ordered drive events; fixed finite lists/ranges, exact zero-error screen and separately hashed raw right pilot. List order/length are preserved by a bounded injective code; no-match secondary notifications are explicitly observed where authored. No full-domain, alias/surface inheritance or optimisation gain.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-event-routing-part2.json"
+        }
+      ],
+      "spelling": "unpack",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored routing/list source scenarios pass exact output checks, ordered parameter readbacks and independent raw right capture.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -53910,17 +55355,17 @@
   "snapshot_date": "2026-11-06",
   "sources": {
     ".github/workflows/host.yml": {
-      "bytes": 1915,
+      "bytes": 1976,
       "path": ".github/workflows/host.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "2aefb32413c9d7f0b0136527ae393ab057cdd1a1ba6c21c6c5b3c6644e4ddf51",
+      "sha256": "caa786cd3058e7a49d36fcea581dc6ee52f542f0467faef7e4f0c08269456078",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/host.yml"
     },
     ".github/workflows/pages.yml": {
-      "bytes": 1185,
+      "bytes": 1246,
       "path": ".github/workflows/pages.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "4d0d8806231e88be10ce6b6797021f6693ae35a2c5f85c0c616c275ae5bba21a",
+      "sha256": "3244bf7289d7510ab2ddae9d5f5eec320626f7bcb7dc83d322a38eb83bcb9fca",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/pages.yml"
     },
     "build/audit/rnbo-object-inventory-v1/inventory.json": {
@@ -54931,6 +56376,13 @@
       "sha256": "75f7a1898adf3a1558a3cac05b86557ed04075d97784e28c02aa894e8ab7f2db",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-event-math.md"
     },
+    "docs/rnbo-event-routing.md": {
+      "bytes": 13380,
+      "path": "docs/rnbo-event-routing.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e9e2533cb9d1a7ec27534239308c92189d8ac0596a22dfcf3e239032d4775202",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-event-routing.md"
+    },
     "docs/rnbo-event-state.md": {
       "bytes": 9580,
       "path": "docs/rnbo-event-state.md",
@@ -55330,6 +56782,55 @@
       "sha256": "b0c1c5bfad8399ee386acc07884ea31e0b939b87696442338a82591ff54c9033",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-structures-native.json"
     },
+    "evidence/rnbo-event-routing-builds.json": {
+      "bytes": 20730,
+      "path": "evidence/rnbo-event-routing-builds.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "306abb2faa6ae40c77a98f176049811d7bc75b194a2bb31702955ecb375fbcc2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-builds.json"
+    },
+    "evidence/rnbo-event-routing-initial-screen-part1.json": {
+      "bytes": 199768,
+      "path": "evidence/rnbo-event-routing-initial-screen-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "33e013147db6b499e2159af382e07a2c3d1c5071be4d0202d7cd4873f2d502c4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-initial-screen-part1.json"
+    },
+    "evidence/rnbo-event-routing-initial-screen-part2.json": {
+      "bytes": 209768,
+      "path": "evidence/rnbo-event-routing-initial-screen-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f7e7c4e67fb6fa25f640a6ea77ccecef644edeb6f9f0f1fb6ceefb90502e2052",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-initial-screen-part2.json"
+    },
+    "evidence/rnbo-event-routing-initial-screen-part3.json": {
+      "bytes": 172111,
+      "path": "evidence/rnbo-event-routing-initial-screen-part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "eb44f05502f3bd8d6dd8d816e9f0ea743b8a6f0c2625c0737891bfad57584951",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-initial-screen-part3.json"
+    },
+    "evidence/rnbo-event-routing-initial-screens.json": {
+      "bytes": 32576,
+      "path": "evidence/rnbo-event-routing-initial-screens.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2119fe8e4a154a6f42bfc3a47887c96e9878cb501c1359a6dccd590bae136894",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-initial-screens.json"
+    },
+    "evidence/rnbo-event-routing-native.json": {
+      "bytes": 83453,
+      "path": "evidence/rnbo-event-routing-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "60942e9d99f333812ad9d2bfaff5a965ac9dab0c75826559dc8ae701288e71d0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-native.json"
+    },
+    "evidence/rnbo-event-routing-status.json": {
+      "bytes": 70731,
+      "path": "evidence/rnbo-event-routing-status.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a4f96856fd8eace59b708bb7cd9a134c0523e7b03b89e357540b418f94dc8af8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-routing-status.json"
+    },
     "evidence/rnbo-event-state-builds.json": {
       "bytes": 10508,
       "path": "evidence/rnbo-event-state-builds.json",
@@ -55483,6 +56984,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "5c5c33e5ce109a81b9b0aeea6cacab54452076c56b70cea9ed3d71d4241bd581",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-context-aliases-player-restoration.json"
+    },
+    "evidence/xiao-event-routing-rotation-fault.json": {
+      "bytes": 1535,
+      "path": "evidence/xiao-event-routing-rotation-fault.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5bd62db39a1af64859a9280b176dc652f97444f0e2bcbf8cdb60b9799cc54a44",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-event-routing-rotation-fault.json"
     },
     "evidence/xiao-gen-direct-partitions-player-restoration.json": {
       "bytes": 1100,
@@ -55750,6 +57258,41 @@
       "sha256": "b8a7b8c9faff2410a471fad86b35f27da75ec946503a8f71ffd2d550e6b2b50b",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-constants.json"
     },
+    "evidence/xiao-smoke-rnbo-event-routing-part1.json": {
+      "bytes": 199594,
+      "path": "evidence/xiao-smoke-rnbo-event-routing-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bfe209c609294853f63ad9f2b5de1e582db4562d6f42c688dd41ee8689e0c13b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-routing-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-routing-part2.json": {
+      "bytes": 209761,
+      "path": "evidence/xiao-smoke-rnbo-event-routing-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "600dd32f48c29d63c5f95a26e06d64d22c4ab6f0ac106c3d152a86710dcc86d6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-routing-part2.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-routing-part3.json": {
+      "bytes": 172116,
+      "path": "evidence/xiao-smoke-rnbo-event-routing-part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b80cb5ed50bf92d9793e072e63bf8f370e425131070eaacca641d332d5c0f852",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-routing-part3.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-routing-part4.json": {
+      "bytes": 183465,
+      "path": "evidence/xiao-smoke-rnbo-event-routing-part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8a5789f7b66823aa4def071190778bd7364e174b9b0dbda7bfcfb3b543a5954c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-routing-part4.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-routing-player-restoration.json": {
+      "bytes": 1401,
+      "path": "evidence/xiao-smoke-rnbo-event-routing-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "92648aff45bcd3cfb481f6c176b3cf8e096be867f3a0516e50c59694fdd60a31",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-routing-player-restoration.json"
+    },
     "evidence/xiao-smoke-rnbo-event-state-part1.json": {
       "bytes": 233568,
       "path": "evidence/xiao-smoke-rnbo-event-state-part1.json",
@@ -55982,10 +57525,10 @@
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/gen-partition-probe/sdkconfig.defaults"
     },
     "hardware-smoke/main/smoke.c": {
-      "bytes": 22081,
+      "bytes": 22484,
       "path": "hardware-smoke/main/smoke.c",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "ace54e5109aae4c32afdb638258d2ba3f44471e8db0d1d7cca1011d42887cac6",
+      "sha256": "f44795b0c144dadee89b0638e15eb00cb23f2078be7a10b58fe4e453c8eef5f9",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/hardware-smoke/main/smoke.c"
     },
     "host/compiler/build.py": {
@@ -61616,6 +63159,587 @@
       "sha256": "f3ca798a4400d99fa397beb05f02bc11419ec5034b662e1fa5c67c323a06020d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat"
     },
+    "tests/fixtures/smoke/rnbo-event-routing/README.md": {
+      "bytes": 2497,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e16028d027b93d0fcf98255a130241980ace6a1408b8d00c5653c24e0f266fcd",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/append-two-values.rnbopat": {
+      "bytes": 16663,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/append-two-values.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "01d33ac841d99f9724129877b4d6550be8e8b835c87179e6977bf25b811ea1ab",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/append-two-values.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/catalog.json": {
+      "bytes": 96123,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c636bb3416d5f874baee29156d76482e37e73cbc73b137efbc1fd64c9715aa74",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/gate-out0.rnbopat": {
+      "bytes": 6088,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/gate-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9fea50b1a998592c34a0049bcb16d24cd6728ec5395a7ff5b61a84929a101a9b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/gate-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/gate-out1.rnbopat": {
+      "bytes": 6088,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/gate-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ea8af0abec855924b42af00f00602423004176bf641b6cd3379fb614a4c5cf92",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/gate-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/gate-out2.rnbopat": {
+      "bytes": 6088,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/gate-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9fa68208372963f694293edc9b5f9fb3532f8f0a78bdd34fe7bbc41b4865b146",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/gate-out2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/generate.py": {
+      "bytes": 9521,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4298927ec4f3b79ca9ea9a46521f2a3b03b84bac7b4da2c627bbbb706552aee2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/join-two-inputs.rnbopat": {
+      "bytes": 17342,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/join-two-inputs.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6c4bde2846775a1482dbe66bc1c7328f2d506c41063de57752b5828f08c6d1ea",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/join-two-inputs.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-ecils-out0.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-ecils-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2e65d62c1391c0e5aabed5c055805851141d5eeb095464f5325f94fd2513301b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-ecils-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-ecils-out1.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-ecils-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2e037f4cf732c624e98cf678fb0f735d346b1d115a300adf1b0dbea96fe23cd5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-ecils-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-index-out0.rnbopat": {
+      "bytes": 8604,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-index-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2e1642acad5dbef75746ea9ee065da329f59115545c6d5e23cc6588f17522f5e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-index-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-index-out1.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-index-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8ac7f3978e87d78a5d84076108f3a55ab5edcb0f80010e7f109b83373ac5fd00",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-index-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-intersection.rnbopat": {
+      "bytes": 17354,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-intersection.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "971d32f0acd131f850170365639cab5e13ba33eba39bce92d620b18d581b9de6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-intersection.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-join-two-values.rnbopat": {
+      "bytes": 16666,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-join-two-values.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3bfc2b52764e62b86ac017bc35cba40d738a65006dd02155126a9d16bb295063",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-join-two-values.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-len.rnbopat": {
+      "bytes": 8600,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-len.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4366d06969a107cb44d9495cf332e6fe14abb6f392d33f774b58118b9a658fb8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-len.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-median.rnbopat": {
+      "bytes": 8603,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-median.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "faba266115b1307b7e74d1ca99ca5681f378a8397822de878b3206a95a8760a2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-median.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-mth-out0.rnbopat": {
+      "bytes": 8602,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-mth-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d2e05503ece9fc4767df944bb34ea7b1ad719f45410b2e5018ee5d8cade2f1bb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-mth-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-mth-out1.rnbopat": {
+      "bytes": 16663,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-mth-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2d839936428216281d2057656d7a050c10371bf4473b6a6d99727ccf4f167dc9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-mth-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-nth-element.rnbopat": {
+      "bytes": 8602,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-nth-element.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f6f5d17bd9756a58f69af83aa87e6429193a37f3f220e1133e6a91a2953a416b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-nth-element.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-nth-replacement.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-nth-replacement.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9e2a971cb3ed66b4f6154a534653f18d245110068d8cb3642590bcc064730602",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-nth-replacement.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-reverse.rnbopat": {
+      "bytes": 16661,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-reverse.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "da053c9ac1f5015de8d228645a5710f6ed4b090e54c7982f876c880fc0d5e2b0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-reverse.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-rotate-left.rnbopat": {
+      "bytes": 16664,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-rotate-left.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "46e00507199c5f2174a8f85b32d825e61b83b7faf177977315edb2f8945fb0fe",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-rotate-left.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-rotate-right.rnbopat": {
+      "bytes": 16663,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-rotate-right.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a9c903fa25f3708676bfb399f2ac387f96d705579213f6df9a6ced8af9f0038c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-rotate-right.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-slice-out0.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-slice-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4c06a854e0ec5b3916dc422dd1d057bd521fd744871ff5fe9080e9392d006ff8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-slice-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-slice-out1.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-slice-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "635b55e3b46adf184cd8432fbe60064c1439624969618a94440093c8a017d647",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-slice-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-sort-ascending.rnbopat": {
+      "bytes": 16664,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-sort-ascending.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e7a6413de6b8b97e46af078e05cb41fd75f4d6ca56a80db95f82d72627593464",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-sort-ascending.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-sort-descending.rnbopat": {
+      "bytes": 16665,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-sort-descending.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a00334fbd3d628aa626bb55e601de13cefa2de720750b99aaeb767cb0b28a5bf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-sort-descending.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-sub-out0.rnbopat": {
+      "bytes": 17862,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-sub-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c8f056a5147072c2aed191657635e3230cc3d979cd5904bb5fd2202cd748e20f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-sub-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-sub-out1.rnbopat": {
+      "bytes": 8610,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-sub-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7c307e48e525c501d0a312ca5fb9cff823ce7edf9c872702fd49c00967e3fc91",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-sub-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-sum.rnbopat": {
+      "bytes": 8600,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-sum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9220efea8dfab368bd30ddd1c575a06def130c659b777358ebd267794124f537",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-sum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/list-swap-zero-two.rnbopat": {
+      "bytes": 16666,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/list-swap-zero-two.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "583d15aa378ae21f86f4ee1be0b73c4015b866b79096bce7178d5afa8b01636a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/list-swap-zero-two.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/message-observer-1.rnbopat": {
+      "bytes": 12455,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/message-observer-1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1d8cfbb2a4793928fe20c782b7c7c59d8a0b7f635a4d2a43969d4a879d587ab7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/message-observer-1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/message-observer-2.rnbopat": {
+      "bytes": 12457,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/message-observer-2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9ced2d45e70e6e920f06fb06d0a04f66c141a16eed8447d74123279f74432d1d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/message-observer-2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/message-observer-3.rnbopat": {
+      "bytes": 12459,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/message-observer-3.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b9d94fb40bcff88d9c037b8fa25d262d4b48148f413eb125df60e919af2589e6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/message-observer-3.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/message-observer-4.rnbopat": {
+      "bytes": 12461,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/message-observer-4.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "343be40fa8420873a3de8d2abd0a645cd30d5f644338b329e3f9f9cd27ae2d38",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/message-observer-4.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/message-observer-5.rnbopat": {
+      "bytes": 12463,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/message-observer-5.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "375a43cb9f11fe6fb691832eebcda84a9b6ac42ada53284c7930ea81f34bebef",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/message-observer-5.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/pak-all-inputs.rnbopat": {
+      "bytes": 16176,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/pak-all-inputs.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "84c8b42d69f286cca22cf53b884e11f9a1b2c58c9e2f29f3bc1fc4e5eec93bce",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/pak-all-inputs.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/pak-cold-input.rnbopat": {
+      "bytes": 13426,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/pak-cold-input.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c7c379ff5916df03e3835442cb789916e59e43ae115f2fa36a31b217666e6c9b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/pak-cold-input.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/part0.json": {
+      "bytes": 2334,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/part0.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3899a980f6d692bb4b552b73e57da0541560279fac2030673d99b50339797d45",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/part0.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/part1.json": {
+      "bytes": 25993,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4d02f9853ffdf15216974e64f32ab6a6f82c47cdcc6d6ccc1a1e64aea5803588",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/part2.json": {
+      "bytes": 25176,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "39e01fefdee71c4fbc7942492bff911926f4aacc33ade825165c38d10e69534a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/part3.json": {
+      "bytes": 25540,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9a5e6c973d05ddf5d76b48531f6f1cbd666910df2514ec7a564fc45d60175630",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/part3.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/part4.json": {
+      "bytes": 21425,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e73643efdb0284aa84a20cff1352919498df915104c922e5e228b08782eebab0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/part4.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/prepend-two-values.rnbopat": {
+      "bytes": 16664,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/prepend-two-values.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "22b23af0289594ceffb2d265acc56f6c48aa0844a2f555813661531921defc7f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/prepend-two-values.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/reference.py": {
+      "bytes": 8795,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "974c510de62aaf2c7058d60efa6b79a6b646ae81b99719666360d8ddc6278312",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/route-out0.rnbopat": {
+      "bytes": 16670,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/route-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e26de760d028d646ebc1b8d67c4bdbe5a8f8e5121171373839c9cf2337b9c835",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/route-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/route-out1.rnbopat": {
+      "bytes": 16670,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/route-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5ebe30f2d955e82a85d689dd0995b05c44e1431555f200c179e822ea72c15d02",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/route-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/route-out2.rnbopat": {
+      "bytes": 16670,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/route-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ccfb515501d48638368e1fe1b9e42cea66069ae676be6895892221cc8f5e169e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/route-out2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/routepass-out0.rnbopat": {
+      "bytes": 16674,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/routepass-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b98ce98245737f36ee41c35c67a8fdc46b0e985938bdcb2b24400a72e2e4790e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/routepass-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/routepass-out1.rnbopat": {
+      "bytes": 16674,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/routepass-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "afa6d62e5435dc196449fa8a3a8099852400caf478479bb3359ab1556a43ab88",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/routepass-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/routepass-out2.rnbopat": {
+      "bytes": 16674,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/routepass-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9c9f5951d33835c6c4d799d0ec2861a6ab352dcd793c9db9a4938e2280012a65",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/routepass-out2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/sel-out0.rnbopat": {
+      "bytes": 5865,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/sel-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "94411773efe3b37a2b8520dc0c0beecb7a5520a3f6baaeb4e786026115c3300e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/sel-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/sel-out1.rnbopat": {
+      "bytes": 5865,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/sel-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "bf2426f7def92942a352156c84375d7a19e14ec2d3fe2dc28f0b3aa00e5982c6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/sel-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/sel-out2.rnbopat": {
+      "bytes": 5865,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/sel-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "71a02bc9e2328e869049f6e091a733d75a87e6bad206efde05181479a2369235",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/sel-out2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/select-out0.rnbopat": {
+      "bytes": 5868,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/select-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9d6362c076e22f4180226d2f7f0b8fb38262276e9b4f46ea499264e7d832e618",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/select-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/select-out1.rnbopat": {
+      "bytes": 5868,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/select-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d75c1a461fa48cd6df8afae44c67dc92e1741cea6acd76f13afd508f7d6f85e7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/select-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/select-out2.rnbopat": {
+      "bytes": 5868,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/select-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "55e2e7b6028163287d1a35231ce7742e6d939f7b033cfc4fd41fc7223afea519",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/select-out2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/split-out0.rnbopat": {
+      "bytes": 4401,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/split-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "72163418082f8bc9590d27e84bd9b33dd3d8c4eff75f74297074726cd342206b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/split-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/split-out1.rnbopat": {
+      "bytes": 4401,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/split-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6250167b2c39863b7e2d00d34980a9a430f3717e1e54fb71b0ce9ff4e19f865c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/split-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/swap-out0.rnbopat": {
+      "bytes": 7520,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/swap-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "15a0eef42353529ed9ebbb79140eedac6e87239b6c25774410618b87f5ea6017",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/swap-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/swap-out1.rnbopat": {
+      "bytes": 7520,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/swap-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c9ea5cc5d0061eb61532106e31030508a97b2a58a4621fc01e3f8a383c39ff89",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/swap-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/swap-right-before-left.rnbopat": {
+      "bytes": 8241,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/swap-right-before-left.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c926415c4ab3cbdb3a76b9ab500e4be0315227123e24edecf108ab5f6917111f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/swap-right-before-left.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/switch-three-inputs.rnbopat": {
+      "bytes": 7516,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/switch-three-inputs.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1491845ea3998f179dbaec23a51facb2d2362202fc4650c4db4eb989b2cc35d7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/switch-three-inputs.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out0.rnbopat": {
+      "bytes": 16663,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f7ecff4e577b90b931100dc1ae28aca4b94d3aa69337ada1a8483a5bda25db3e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out1.rnbopat": {
+      "bytes": 16663,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cd1e80cf6e786b76acd64aca0dc7cfd7e35b48a8cacaeaaae31526a2b7b01725",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unjoin-pair-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out0.rnbopat": {
+      "bytes": 8602,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7edca01ad7979b35cda9dbf7571af3050620b6cef0f9e184fa74f9b2bcc82d6e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out1.rnbopat": {
+      "bytes": 8602,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "231122e5a097500aa88a370dc1f62d3086ee3908850d687063432c5a8469f859",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out2.rnbopat": {
+      "bytes": 16663,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e284dcbf223ec731a970fd565ac10dde0149c88bf99a1a052d62248e9d3fc335",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unjoin-single-out2.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/README.md": {
+      "bytes": 1356,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "9463b1fb30da9a0863863057a4bb1a9482ced7a9194854441bde31d0f6ad9f01",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/catalog.json": {
+      "bytes": 96065,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5b46a8f0f5e630ea3f0e19317e8b16122c994279ded730cc8e4b38f0233d1224",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/generate.py": {
+      "bytes": 8941,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "81504f5fb39d14da3789eab263309a4c98cd5c26e47c6a7825c5441aeedeb1ec",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/list-intersection.rnbopat": {
+      "bytes": 16666,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/list-intersection.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "018336185298094c8f47fd8fea314711f5790fd01b44303342d010aab61ab7a6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/list-intersection.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/list-sub-out0.rnbopat": {
+      "bytes": 16671,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/list-sub-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fe77ba1f7ab74c7288e807223524af7a2c40f4d23918eb63b5e2fe9b4a6352bd",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/list-sub-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part0.json": {
+      "bytes": 2334,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part0.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3899a980f6d692bb4b552b73e57da0541560279fac2030673d99b50339797d45",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part0.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part1.json": {
+      "bytes": 25935,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a62466ea31a86f3d1eee98bf35983df9054cec4f62c09bfdc092031f07767fca",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part2.json": {
+      "bytes": 25176,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "883f37bb2e3010c84f32f361b42d885c7e6d3ee7d106397264cba0de194691be",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part3.json": {
+      "bytes": 25540,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part3.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c832e673a4749369e6e7317b054dea1fbef030a3b7a109c6e48f39aaa10c6a04",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part3.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part4.json": {
+      "bytes": 21425,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part4.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "266e33123481515fb3b69a3dea266511e6980c17d4788eb3a3914f08966c9e8a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/part4.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/reference.py": {
+      "bytes": 8655,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8b5e12985aee34c6974de4c2dce3e39fa52bb6a423ec1de1a9e9f3a04627cf75",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/source-locations.json": {
+      "bytes": 9802,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/source-locations.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1bed45408db8eaa846e35728a3a066f99044400ae1e3182ca4050feb6afe2ff5",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unobserved-no-match-v1/source-locations.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unpack-out0.rnbopat": {
+      "bytes": 8604,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unpack-out0.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "08ad6e24dc3caf3ed9f685bc63c09ad71342a42d639735d2cb519211c6263fe7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unpack-out0.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unpack-out1.rnbopat": {
+      "bytes": 8604,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unpack-out1.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "81b47bea20cf83fc0cdfa5360e0ee5150e66000f9f550ac78e8b694cc51b8424",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unpack-out1.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-routing/unpack-out2.rnbopat": {
+      "bytes": 8604,
+      "path": "tests/fixtures/smoke/rnbo-event-routing/unpack-out2.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "394ae5c43375af608072da25a8c67c8b118acfc662d25a6355a1d1b1cfb75e35",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-routing/unpack-out2.rnbopat"
+    },
     "tests/fixtures/smoke/rnbo-event-state/README.md": {
       "bytes": 2556,
       "path": "tests/fixtures/smoke/rnbo-event-state/README.md",
@@ -63037,6 +65161,13 @@
       "sha256": "c1f469a8240ba30ea73b2a79d70c4f1138f3f500802f628acde132cf51872f90",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_math_test.cpp"
     },
+    "tests/native/smoke_event_routing_test.cpp": {
+      "bytes": 6111,
+      "path": "tests/native/smoke_event_routing_test.cpp",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "332ad2ef98cee87b0ab560ab51493bb2f095751e4c860b7fb6289b02fcabb098",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_routing_test.cpp"
+    },
     "tests/native/smoke_event_state_test.cpp": {
       "bytes": 5474,
       "path": "tests/native/smoke_event_state_test.cpp",
@@ -63057,6 +65188,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "fac2e90ca5f6288ca3995a3fec422f77edb889b18d97ac5befdae582521fa234",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_units_test.cpp"
+    },
+    "tools/build_event_routing_report.py": {
+      "bytes": 12837,
+      "path": "tools/build_event_routing_report.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e5e95cc78914321c3c2cd73c7abc4b325290824719d3dc00de8932e8d1a67fa6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_event_routing_report.py"
     },
     "tools/build_event_state_report.py": {
       "bytes": 11231,
@@ -63093,12 +65231,26 @@
       "sha256": "68c25567906728cc70fe98bc58c98bb8e0b53326422dd9dc8916f4cb0e53e252",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_unit_conversion_report.py"
     },
+    "tools/collect_event_routing_probe.py": {
+      "bytes": 5482,
+      "path": "tools/collect_event_routing_probe.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "2b9318c5d1faa88e8a0534d07b97831111acf2da119dac9681cc2cf6eacf5377",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/collect_event_routing_probe.py"
+    },
     "tools/collect_gen_partition_probe.py": {
       "bytes": 16923,
       "path": "tools/collect_gen_partition_probe.py",
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "385aa52e058edc21111f42306986040acbb3d31feaf6e74c220b3c77b54de0a7",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/collect_gen_partition_probe.py"
+    },
+    "tools/event_routing_provenance.py": {
+      "bytes": 4131,
+      "path": "tools/event_routing_provenance.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4846d38bb040c17e65f1b10e642a0f4482850205826508d1de2c68619fc7155a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/event_routing_provenance.py"
     },
     "tools/export_gen_partition_probe.mjs": {
       "bytes": 4479,
@@ -63107,6 +65259,13 @@
       "sha256": "a94ea233af6ace3e1397cb0b3d2c4decbd6f94a8fc0d3e9caf75841ff73107e7",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/export_gen_partition_probe.mjs"
     },
+    "tools/run_hardware_smoke.py": {
+      "bytes": 12877,
+      "path": "tools/run_hardware_smoke.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "921ea34b8627c5cd50d6f0ebd5bdfe01a44b7361bc0c160a34b145a3fb268593",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/run_hardware_smoke.py"
+    },
     "tools/test_build_gen_route_inventory.py": {
       "bytes": 2943,
       "path": "tools/test_build_gen_route_inventory.py",
@@ -63114,12 +65273,26 @@
       "sha256": "5b469d3bfc90a63b8317283de97ff40464bf1bcd8c648192e89cf02d762bc429",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_build_gen_route_inventory.py"
     },
+    "tools/test_build_object_status.py": {
+      "bytes": 95170,
+      "path": "tools/test_build_object_status.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5d13940ebde0be650cec26d490f1a66db66f21eeb81374edc23a655c62341d35",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_build_object_status.py"
+    },
     "tools/test_build_smoke_modules.py": {
       "bytes": 22646,
       "path": "tools/test_build_smoke_modules.py",
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "530864796032fd178984de6b4f360ef1f9a639af5457f613f162c2de6503774f",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_build_smoke_modules.py"
+    },
+    "tools/test_event_routing_provenance.py": {
+      "bytes": 3511,
+      "path": "tools/test_event_routing_provenance.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7bb930177cef7cc603b157b1641b9723d1560612eae7aa767bf9a7d7ff6d4115",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_event_routing_provenance.py"
     },
     "tools/test_gen_partition_probe.py": {
       "bytes": 7069,
@@ -63141,6 +65314,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "e77a40ceb7f80d5eb6037ae2850990df27b2772cc707d8668bdf142454ee6c4c",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_context_aliases_reference.py"
+    },
+    "tools/test_smoke_event_routing.py": {
+      "bytes": 13373,
+      "path": "tools/test_smoke_event_routing.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "56004e8a2de00a459b80ae0afff2b83e41ce4f951b332be215f2531a34514239",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_event_routing.py"
     },
     "tools/test_smoke_event_state.py": {
       "bytes": 11816,

@@ -1,5 +1,21 @@
 # XIAO object qualification
 
+The [numeric/list routing batch](rnbo-event-routing.md) adds **30 exact
+spellings across 62 source scenarios**. **58 complete XIAO output checks pass
+exactly**, covering **593,920 output words and 1,276 control actions**. Positive
+`list.rot 1` is separately confirmed to fault in its first target drive event;
+three longer literal-message forms retain target C++ array-bounds failures.
+Those gaps remain explicit, while all completed cases have zero word/sign/
+nonfinite errors and exact raw right captures. Two initial no-match comparisons
+were fixture omissions; documented no-match outlets are now observed explicitly,
+with all 62 expected streams and zero-error limits unchanged. Held-output
+callbacks measure 75–77µs median, peak 82µs; setter costs are separate and no new
+callback flag triggers, leaving **157 queued contexts**. All 58 completed images
+finalise and allocation/memory gates pass; the fault probe makes no such claim.
+Normal player and saved controls are restored. The RNBO table reaches
+**1017/1455 scoped outcomes**, including partials; Gen stays separate and the full
+qualification goal remains active.
+
 The [ordered event-state batch](rnbo-event-state.md) passes **36 hardware
 scenarios across 15 exact spellings**, checking **368,640 output words and 792
 control actions**. Prefix sums/products, neutral resets, latches, changed-event

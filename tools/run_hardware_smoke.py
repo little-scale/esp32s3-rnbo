@@ -29,7 +29,7 @@ FAULTS = (b"RNBO_SMOKE FAULT", b": FAIL ", b"Guru Meditation", b"assert failed",
           b"Brownout detector")
 
 
-def collect_serial(connection, expected_elf, timeout, captured, case_lines):
+def collect_serial(connection, expected_elf, timeout, captured, case_lines, *, complete_fault_line=False):
     """Accept only complete, firmware-bound DONE; faults take precedence."""
     deadline = time.monotonic() + timeout
     pending = bytearray()
@@ -42,6 +42,14 @@ def collect_serial(connection, expected_elf, timeout, captured, case_lines):
             raise RuntimeError("Smoke serial output limit exceeded")
         # Include partial fault lines, including a fault following DONE in this read.
         fault = any(marker in pending for marker in FAULTS)
+        if fault and complete_fault_line:
+            first=min(pending.find(marker)for marker in FAULTS if marker in pending)
+            if b"\n" not in pending[first:]:
+                # The serial connection has a bounded read timeout. Preserve the
+                # complete diagnostic instead of stopping midway through FAIL.
+                tail=connection.read_until(b"\n",65536)
+                captured.extend(tail);pending.extend(tail)
+                if len(captured)>MAX_SERIAL_BYTES:raise RuntimeError("Smoke serial output limit exceeded")
         while b"\n" in pending:
             raw, _, remainder = pending.partition(b"\n")
             pending[:] = remainder
@@ -78,6 +86,7 @@ def main(argv=None):
     parser.add_argument("--backup", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--timeout", type=float, default=60)
+    parser.add_argument("--complete-fault-line",action="store_true",help="Capture the remainder of a fault line before recording failure")
     parser.add_argument("--board", choices=("xiao",), default="xiao")
     parser.add_argument("--mute-current-instrument", action="store_true",
                         help="Verify --current-build, then mute and Panic before replacing it")
@@ -199,7 +208,7 @@ def main(argv=None):
         flashed = True
         connection = connect()
         try:
-            done = collect_serial(connection, test["elf_sha256"], args.timeout, captured, cases)
+            done = collect_serial(connection, test["elf_sha256"], args.timeout, captured, cases,complete_fault_line=args.complete_fault_line)
         finally:
             connection.close()
     except BaseException as failure:
@@ -218,6 +227,7 @@ def main(argv=None):
                   "controls": controls, "flash_attempted": flash_attempted,
                   "left_installed": True if flashed else (None if flash_attempted else False),
                   "restore_attempted": False, "completion_means_all_cases_passed": False,
+                  "complete_fault_line":args.complete_fault_line,
                   "done_line": done, "case_lines": cases,
                   "serial_log_sha256": sha(serial_log), "flash_log_sha256": sha(output / "flash.log")}
         (output / "hardware-smoke.json").write_text(json.dumps(report, indent=2) + "\n")

@@ -111,7 +111,10 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertEqual(sum(c['within_tolerance_differences']for c in data['cases']),10240)
         self.assertEqual(sum(c['zero_sign_differences']for c in data['cases']),3520)
         self.assertEqual({c['exact_name']for c in data['cases']if c['cpu_review_reasons']},{'cubicinterp~'})
-        self.assertEqual(rows['patcher:gate']['working']['status'],'unverified')
+        # The numeric gate now has its own three-outlet routing scenarios.
+        self.assertEqual(rows['patcher:gate']['working']['status'],'board')
+        self.assertTrue(any('xiao-smoke-rnbo-event-routing-part' in s['url']for s in rows['patcher:gate']['sources']))
+        self.assertFalse(any(s['url'].endswith('/'+source)for s in rows['patcher:gate']['sources']))
 
     def test_dbtoa_experiment_uses_only_matched_target_times_and_keeps_precision_scope(self):
         data=json.loads((ROOT/'evidence/dbtoa-float32.json').read_bytes())

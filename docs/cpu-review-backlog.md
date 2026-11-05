@@ -13,6 +13,19 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Numeric/list routing: no new callback flags
+
+All 58 completed routing/list contexts pass exact output checks. Their held-output
+callbacks measure **75–77µs median**, peak 82µs, so no new flag triggers and the
+queue stays **157**. Setters perform routing, list work and observation separately:
+list.sort ascending totals 388µs across 22 actions (62µs peak), pak all-inputs
+381µs (41µs peak), and descending sort 378µs (60µs peak). These are whole
+setter/routing contexts including arm/observer work, not standalone operation
+costs or optimisation gains. Positive rotation's separately confirmed event fault
+and three literal-message C++ failures are compatibility gaps, not CPU spikes.
+The [routing report](rnbo-event-routing.md) preserves them alongside the corrected
+no-match observation fixtures and original numerical limits.
+
 ## Ordered event state: no new callback flags
 
 All 36 armed scenarios across 15 exact spellings pass. Held-output callbacks

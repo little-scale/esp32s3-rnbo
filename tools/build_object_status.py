@@ -179,7 +179,7 @@ def checked_boundary_events(case,data):
                 'Boundary parameter contract must be binary32')
         require(minimum<maximum and minimum<=initial<=maximum and exponent==1 and type(parameter['steps'])is int and parameter['steps']==0,
                 'Boundary parameter must be linear and unstepped')
-    action_count=22 if data.get('family')=='rnbo-event-state'else 21
+    action_count=22 if data.get('family')in('rnbo-event-state','rnbo-event-routing')else 21
     require(type(events)is list and len(events)==action_count and type(case.get('parameter_events_applied'))is int and case['parameter_events_applied']==action_count,
             'Boundary smoke observed action count differs')
     resolved={};indices={};last_call=0;total=0;peak=0
@@ -292,7 +292,7 @@ def checked_short_smoke(record,item,data):
     codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')
     surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
@@ -366,7 +366,7 @@ def checked_short_smoke(record,item,data):
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
-    boundary=data.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state');event_fields={};strict=0
+    boundary=data.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing');event_fields={};strict=0
     character=data.get('family')=='rnbo-character-constants'
     if character:
         partition=data.get('partition',{});index=partition.get('index')
@@ -453,7 +453,33 @@ def checked_short_smoke(record,item,data):
                 all(e['before_call']==a['before_call']and e['id']==a['id']and e['value_word']==reference.word(a['value'])for e,a in zip(case['parameter_events'],authored)),
                 'Event-state published actions differ')
         event_fields.update({k:case[k]for k in('right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')})
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
+    if data.get('family')=='rnbo-event-routing':
+        from build_hardware_smoke import event_routing_catalog,EVENT_ROUTING_REFERENCE_SHA
+        directory=ROOT/'tests/fixtures/smoke/rnbo-event-routing';index=data.get('partition',{}).get('index')
+        require(type(index)is int and index in(1,2,3,4),'Invalid event-routing partition')
+        catalog=json.loads((directory/f'part{index}.json').read_bytes());event_routing_catalog(catalog)
+        require(data['partition']==catalog['partition']and data.get('reference_source_sha256')==EVENT_ROUTING_REFERENCE_SHA and
+                hashlib.sha256((directory/'reference.py').read_bytes()).hexdigest()==EVENT_ROUTING_REFERENCE_SHA,'Event-routing reference identity differs')
+        source=next((r for r in catalog['cases']if r['id']==case['id']),None)
+        require(source is not None and case['source_sha256']==source['patch_sha256']and
+                all(case.get(k)==source[k]for k in('model','scope','source_form','operation','variant','observed_outlet','output_kind','list_observer','input_domain','exact_name','syntax','registry_lookup'))and
+                case['absolute_tolerance']==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0], 'Event-routing exact scenario/limit differs')
+        spec=importlib.util.spec_from_file_location('published_event_routing_reference',directory/'reference.py')
+        reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+        blocks=reference.reference_blocks(source['model'],reference.input_words())
+        expected=hashlib.sha256(b''.join(struct.pack('<512I',*b)for b in blocks)).hexdigest()
+        pilot=hashlib.sha256(b''.join(struct.pack('<256I',*b[1::2])for b in blocks)).hexdigest()
+        input_digest=hashlib.sha256(struct.pack('<512I',*reference.input_words())).hexdigest()
+        require(case.get('expected_stream_sha256')==expected and case.get('right_pilot_bit_exact')is True and
+                case.get('right_output_sha256')==case.get('expected_right_output_sha256')==pilot and case.get('input_words_sha256')==input_digest,
+                'Event-routing rational stream/input/raw pilot differs')
+        authored=reference.parameter_events(source['model'])
+        require(len(case['parameter_events'])==len(authored)==22 and case['parameter_count']==2 and
+                {p['id']:p for p in case['parameters']}=={p['id']:p for p in reference.parameters()} and
+                all(e['before_call']==a['before_call']and e['id']==a['id']and e['value_word']==reference.word(a['value'])for e,a in zip(case['parameter_events'],authored)),
+                'Event-routing published actions differ')
+        event_fields.update({k:case[k]for k in('right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')})
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -534,6 +560,51 @@ def checked_codebox_build_failure(record,item,data):
                 'Codebox rejected source/log identity is missing')
 
 
+def checked_routing_rejection(record,item,data):
+    """Preserve exact C++/native-event gaps without inventing target output passes."""
+    from build_hardware_smoke import event_routing_catalog
+    require(data.get('format')=='rnbo-hardware-smoke-results-v1'and data.get('family')=='rnbo-event-routing'and data.get('surface')=='patcher',
+            'Routing rejection requires its own result ledger')
+    index=data.get('partition',{}).get('index');require(type(index)is int and index in(1,2,3,4),'Invalid routing rejection partition')
+    catalog=json.loads((ROOT/f'tests/fixtures/smoke/rnbo-event-routing/part{index}.json').read_bytes());event_routing_catalog(catalog)
+    require(data['partition']==catalog['partition'],'Routing rejection partition differs')
+    selector=item.get('selector','');parts=selector.split('/')if type(selector)is str else[]
+    require(len(parts)==3 and parts[0]==''and parts[1]in('compile_failures','admission_failures')and parts[2].isdigit(),'Routing rejection selector differs')
+    failure=pointer(data,selector);source=next((r for r in catalog['cases']if r['id']==failure.get('id')),None)
+    require(source is not None and failure.get('source_sha256')==source['patch_sha256']and
+            all(failure.get(k)==source[k]for k in('exact_name','syntax','registry_lookup'))and record.get('surface')=='patcher'and
+            record.get('id')=='patcher:'+source['exact_name']and record.get('spelling')==source['exact_name'],'Routing rejected source/form differs')
+    require(record.get('working_state')in('partial','unverified')and type(record.get('board_evidence'))is bool and
+            not record.get('cpu_measurement_ids')and record.get('optimisation_state')=='unassessed'and not record.get('optimisations'),
+            'Routing rejection cannot qualify complete execution or optimisation')
+    if parts[1]=='compile_failures':
+        require(failure.get('status')=='compile_failed'and source['id']in('message-observer-3','message-observer-4','message-observer-5')and
+                type(failure.get('compile_log_sha256'))is str and re.fullmatch('[0-9a-f]{64}',failure['compile_log_sha256']),
+                'Routing C++ failure/source identity differs')
+    else:
+        from event_routing_provenance import checked_rejection_record
+        checked_rejection_record(failure)
+    require(not any(k in failure for k in('samples_checked','median_us','numeric_mismatches','finalized')),'Rejected routing form must not claim completed output checks')
+
+
+def checked_routing_target_fault(record,item,data):
+    from build_hardware_smoke import event_routing_catalog
+    catalog=json.loads((ROOT/'tests/fixtures/smoke/rnbo-event-routing/part0.json').read_bytes());event_routing_catalog(catalog);source=catalog['cases'][0]
+    require(data.get('format')=='rnbo-event-routing-target-fault-v1'and data.get('board')=='xiao'and
+            data.get('case_id')==source['id']and data.get('exact_name')==source['exact_name']and data.get('source_sha256')==source['patch_sha256']and
+            record.get('id')=='patcher:list.rot'and record.get('spelling')=='list.rot'and record.get('surface')=='patcher'and
+            record.get('working_state')=='partial'and record.get('board_evidence')is True,'Target event fault requires its exact partial rotation source')
+    require(data.get('hardware_attempted')is True and data.get('arm_observed')is True and data.get('before_call')==0 and
+            data.get('fault_event')==1 and data.get('value_word')=='3e000000'and data.get('event_status')==-4 and data.get('readback_status')==0 and
+            data.get('output_words_checked')==0 and data.get('completed_callbacks')==0 and data.get('finalization_checked')is False and
+            data.get('raw_right_capture_checked')is False and data.get('numeric_pass_claimed')is False and data.get('full_qualification_claimed')is False,
+            'Target event rejection must not become a numerical pass or memory/finalization claim')
+    require(type(data.get('event_elapsed_us'))is int and data['event_elapsed_us']>=0 and not record.get('cpu_measurement_ids')and
+            record.get('optimisation_state')=='unassessed'and not record.get('optimisations'),'Fault timing is not an optimisation gain')
+    for key in('module_sha256','firmware_elf_sha256','plan_sha256','build_report_sha256','hardware_report_sha256','serial_log_sha256','collector_source_sha256'):
+        require(type(data.get(key))is str and re.fullmatch('[0-9a-f]{64}',data[key]),'Target event fault provenance is missing')
+
+
 def public_sources(record,coverage,root,evidence_cache=None):
     if evidence_cache is None:evidence_cache={}
     result={}
@@ -548,6 +619,9 @@ def public_sources(record,coverage,root,evidence_cache=None):
             if item.get('evidence_kind')=='rnbo-codebox-build-failure':
                 if source not in evidence_cache:evidence_cache[source]=load(path)
                 checked_codebox_build_failure(record,item,evidence_cache[source])
+            if item.get('evidence_kind')in('rnbo-routing-rejection','xiao-routing-event-fault'):
+                if source not in evidence_cache:evidence_cache[source]=load(path)
+                (checked_routing_rejection if item['evidence_kind']=='rnbo-routing-rejection'else checked_routing_target_fault)(record,item,evidence_cache[source])
             if item.get('evidence_kind')=='xiao-rnbo-short-smoke':
                 if source not in evidence_cache:evidence_cache[source]=load(path)
                 checked_short_smoke(record,item,evidence_cache[source])
@@ -643,11 +717,12 @@ def make_status(inventory,coverage,root=ROOT):
                 if observation['cpu_review_reasons']:row['working']['detail']+=' Callback timing flagged for later review.'
         if record.get('working_test_level')=='short-functional-hardware-check':
             require(smoke and working in ('board','partial'),'Short smoke label requires a bound hardware scenario')
-            require((working=='board' and all(item['status']=='pass'for item in smoke))or
-                    (working=='partial' and any(item['status']=='output_mismatch'for item in smoke)),
+            execution_gap=any(q.get('evidence_kind')in('rnbo-routing-rejection','xiao-routing-event-fault')for q in record.get('qualification',[]))
+            require((working=='board' and all(item['status']=='pass'for item in smoke)and not execution_gap)or
+                    (working=='partial' and(any(item['status']=='output_mismatch'for item in smoke)or execution_gap)),
                     'Short smoke working label differs from observed output status')
             row['working']['label']='Short hardware check' if working=='board' else 'Short check / known gaps'
-            row['working']['short']='One short hardware scenario' if working=='board' else 'Short hardware mismatch'
+            row['working']['short']='One short hardware scenario' if working=='board' else 'Short check / known gaps'if execution_gap else'Short hardware mismatch'
             row['working']['test_level']='short-functional-hardware-check'
         group=PRIMARY_GROUPS.get(identity)
         if group:

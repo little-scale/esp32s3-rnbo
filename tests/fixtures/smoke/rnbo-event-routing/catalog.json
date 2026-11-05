@@ -1,0 +1,2407 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "append",
+      "exact_name": "append",
+      "fixed_arguments": "4 5",
+      "id": "append-two-values",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2800,
+      "observed_outlet": 0,
+      "operation": "append",
+      "output_kind": "list",
+      "patch": "append-two-values.rnbopat",
+      "patch_sha256": "01d33ac841d99f9724129877b4d6550be8e8b835c87179e6977bf25b811ea1ab",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_append.maxref.xml",
+          "sha256": "01018ad47038c08926c49aa3e2f77806b6488d084f2f1b22688da4a3eb46fd1d",
+          "url": "https://rnbo.cycling74.com/objects/ref/append?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_append.maxhelp",
+          "sha256": "024564cec863c470b1eb8a8c7e67e5d2765f475924401cb877bc86393c2dfb1b",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "append",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "append 4 5",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "prepend",
+      "exact_name": "prepend",
+      "fixed_arguments": "4 5",
+      "id": "prepend-two-values",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2801,
+      "observed_outlet": 0,
+      "operation": "prepend",
+      "output_kind": "list",
+      "patch": "prepend-two-values.rnbopat",
+      "patch_sha256": "22b23af0289594ceffb2d265acc56f6c48aa0844a2f555813661531921defc7f",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_prepend.maxref.xml",
+          "sha256": "0ed7bc094cfbc250425984a33a931917157a64b2271064571ccad60df034335a",
+          "url": "https://rnbo.cycling74.com/objects/ref/prepend?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_prepend.maxhelp",
+          "sha256": "a60a426fb13e605f057dbcd63e7821563dec980c7aaeabbb8ba6a976f42a8a8a",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "prepend",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "prepend 4 5",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "join",
+      "exact_name": "join",
+      "fixed_arguments": "2",
+      "id": "join-two-inputs",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2802,
+      "observed_outlet": 0,
+      "operation": "join",
+      "output_kind": "list",
+      "patch": "join-two-inputs.rnbopat",
+      "patch_sha256": "6c4bde2846775a1482dbe66bc1c7328f2d506c41063de57752b5828f08c6d1ea",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_join.maxref.xml",
+          "sha256": "5bb91ba08dda9228373f287628a13513730cf021a0e93438bb0c423597638633",
+          "url": "https://rnbo.cycling74.com/objects/ref/join?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_join.maxhelp",
+          "sha256": "b3613c0ab6c9e11ddcd8d9ff0e8d3d3af5a6d9836fbf063d47b8e5d6a7242ea2",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "join",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "join 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.join",
+      "exact_name": "list.join",
+      "fixed_arguments": "4 5",
+      "id": "list-join-two-values",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2803,
+      "observed_outlet": 0,
+      "operation": "list.join",
+      "output_kind": "list",
+      "patch": "list-join-two-values.rnbopat",
+      "patch_sha256": "3bfc2b52764e62b86ac017bc35cba40d738a65006dd02155126a9d16bb295063",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.join.maxref.xml",
+          "sha256": "d074510bb8a3956d181b6bacb130b667df75bcba81727e04a014c81a1936bbe2",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.join?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.join.maxhelp",
+          "sha256": "1db6eb3a7eea81ee56d6a5b6382e86cb10da6c52ae0a55b3325b2070ece4e42a",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.join",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.join 4 5",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.rev",
+      "exact_name": "list.rev",
+      "fixed_arguments": "",
+      "id": "list-reverse",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2804,
+      "observed_outlet": 0,
+      "operation": "list.rev",
+      "output_kind": "list",
+      "patch": "list-reverse.rnbopat",
+      "patch_sha256": "da053c9ac1f5015de8d228645a5710f6ed4b090e54c7982f876c880fc0d5e2b0",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.rev.maxref.xml",
+          "sha256": "477309be80e7b6e6fa75f2d15fdf6f74199fcdc51a9c9ddc0cc1b5e2d19e60de",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.rev?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.rev.maxhelp",
+          "sha256": "6dc3f1a5424662203d1216410679077bf9ddf1da0d0b46d8dadc832d8fa014cc",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.rev",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.rev",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.rot",
+      "exact_name": "list.rot",
+      "fixed_arguments": "-1",
+      "id": "list-rotate-left",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2805,
+      "observed_outlet": 0,
+      "operation": "list.rot",
+      "output_kind": "list",
+      "patch": "list-rotate-left.rnbopat",
+      "patch_sha256": "46e00507199c5f2174a8f85b32d825e61b83b7faf177977315edb2f8945fb0fe",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.rot.maxref.xml",
+          "sha256": "89ac4189a7c76b20d894ecda3c4e79871ca233e53b283398ac2cb5b926b4a05c",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.rot?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.rot.maxhelp",
+          "sha256": "bb69c23f2a3085e799dc143654396246ca4dd6b076c48177c8042249ae26d107",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.rot",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.rot -1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "left"
+    },
+    {
+      "canonical_name": "list.rot",
+      "exact_name": "list.rot",
+      "fixed_arguments": "1",
+      "id": "list-rotate-right",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2806,
+      "observed_outlet": 0,
+      "operation": "list.rot",
+      "output_kind": "list",
+      "patch": "list-rotate-right.rnbopat",
+      "patch_sha256": "a9c903fa25f3708676bfb399f2ac387f96d705579213f6df9a6ced8af9f0038c",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.rot.maxref.xml",
+          "sha256": "89ac4189a7c76b20d894ecda3c4e79871ca233e53b283398ac2cb5b926b4a05c",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.rot?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.rot.maxhelp",
+          "sha256": "bb69c23f2a3085e799dc143654396246ca4dd6b076c48177c8042249ae26d107",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.rot",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.rot 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "right"
+    },
+    {
+      "canonical_name": "list.slice",
+      "exact_name": "list.slice",
+      "fixed_arguments": "1",
+      "id": "list-slice-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2807,
+      "observed_outlet": 0,
+      "operation": "list.slice",
+      "output_kind": "list",
+      "patch": "list-slice-out0.rnbopat",
+      "patch_sha256": "4c06a854e0ec5b3916dc422dd1d057bd521fd744871ff5fe9080e9392d006ff8",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.slice.maxref.xml",
+          "sha256": "01e30923b45ef9d20a0c7f5eb33a6d1924114fb3b7f1d95a822602e4d7606668",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.slice?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.slice.maxhelp",
+          "sha256": "b2efb8612a69a8a9c7574450995e9c45dc94dacf447522a1a4feefbe94da0825",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.slice",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.slice 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.slice",
+      "exact_name": "list.slice",
+      "fixed_arguments": "1",
+      "id": "list-slice-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2808,
+      "observed_outlet": 1,
+      "operation": "list.slice",
+      "output_kind": "list",
+      "patch": "list-slice-out1.rnbopat",
+      "patch_sha256": "635b55e3b46adf184cd8432fbe60064c1439624969618a94440093c8a017d647",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.slice.maxref.xml",
+          "sha256": "01e30923b45ef9d20a0c7f5eb33a6d1924114fb3b7f1d95a822602e4d7606668",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.slice?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.slice.maxhelp",
+          "sha256": "b2efb8612a69a8a9c7574450995e9c45dc94dacf447522a1a4feefbe94da0825",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.slice",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.slice 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.ecils",
+      "exact_name": "list.ecils",
+      "fixed_arguments": "1",
+      "id": "list-ecils-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2809,
+      "observed_outlet": 0,
+      "operation": "list.ecils",
+      "output_kind": "list",
+      "patch": "list-ecils-out0.rnbopat",
+      "patch_sha256": "2e65d62c1391c0e5aabed5c055805851141d5eeb095464f5325f94fd2513301b",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.ecils.maxref.xml",
+          "sha256": "7d5421de2894f2a45aad57a5c1684fe476b2aba88c9331704575156b3973b51f",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.ecils?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.ecils.maxhelp",
+          "sha256": "801c231ae6bc67a09113f1534a2d761ebe3a02e2f3cd3a3fee3d9923f4db54b0",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.ecils",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.ecils 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.ecils",
+      "exact_name": "list.ecils",
+      "fixed_arguments": "1",
+      "id": "list-ecils-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2810,
+      "observed_outlet": 1,
+      "operation": "list.ecils",
+      "output_kind": "list",
+      "patch": "list-ecils-out1.rnbopat",
+      "patch_sha256": "2e037f4cf732c624e98cf678fb0f735d346b1d115a300adf1b0dbea96fe23cd5",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.ecils.maxref.xml",
+          "sha256": "7d5421de2894f2a45aad57a5c1684fe476b2aba88c9331704575156b3973b51f",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.ecils?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.ecils.maxhelp",
+          "sha256": "801c231ae6bc67a09113f1534a2d761ebe3a02e2f3cd3a3fee3d9923f4db54b0",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.ecils",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.ecils 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.sub",
+      "exact_name": "list.sub",
+      "fixed_arguments": "1 @base 0",
+      "id": "list-sub-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7; no-match code0 from outlet1",
+      "maximum_absolute_error": 0,
+      "model": 2811,
+      "observed_outlet": 0,
+      "operation": "list.sub",
+      "output_kind": "list",
+      "patch": "list-sub-out0.rnbopat",
+      "patch_sha256": "c8f056a5147072c2aed191657635e3230cc3d979cd5904bb5fd2202cd748e20f",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.sub.maxref.xml",
+          "sha256": "18188ac673d521cba66ddc1e75fc6be70f7d1983410e7bd5fc0c0f9567be9155",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.sub?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.sub.maxhelp",
+          "sha256": "bfb10b6a53ff93ab72c69c34cd44ba2bf184a1f81a3e1973aa09316b025e5838",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.sub",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.sub 1 @base 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.sub",
+      "exact_name": "list.sub",
+      "fixed_arguments": "1 @base 0",
+      "id": "list-sub-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2812,
+      "observed_outlet": 1,
+      "operation": "list.sub",
+      "output_kind": "scalar",
+      "patch": "list-sub-out1.rnbopat",
+      "patch_sha256": "7c307e48e525c501d0a312ca5fb9cff823ce7edf9c872702fd49c00967e3fc91",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.sub.maxref.xml",
+          "sha256": "18188ac673d521cba66ddc1e75fc6be70f7d1983410e7bd5fc0c0f9567be9155",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.sub?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.sub.maxhelp",
+          "sha256": "bfb10b6a53ff93ab72c69c34cd44ba2bf184a1f81a3e1973aa09316b025e5838",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.sub",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.sub 1 @base 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.sect",
+      "exact_name": "list.sect",
+      "fixed_arguments": "1 4",
+      "id": "list-intersection",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7; no-match code0 from outlet1",
+      "maximum_absolute_error": 0,
+      "model": 2813,
+      "observed_outlet": 0,
+      "operation": "list.sect",
+      "output_kind": "list",
+      "patch": "list-intersection.rnbopat",
+      "patch_sha256": "971d32f0acd131f850170365639cab5e13ba33eba39bce92d620b18d581b9de6",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.sect.maxref.xml",
+          "sha256": "cc33895ded38f43590eb539c66f08343bf1b4c6b8e9ee1fdf8897bfcad4105ea",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.sect?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.sect.maxhelp",
+          "sha256": "590796b4d90fbffdc5244d3592470bff1d1a76e8521c2c62fa4661ec44dab715",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.sect",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.sect 1 4",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.swap",
+      "exact_name": "list.swap",
+      "fixed_arguments": "0 2",
+      "id": "list-swap-zero-two",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2814,
+      "observed_outlet": 0,
+      "operation": "list.swap",
+      "output_kind": "list",
+      "patch": "list-swap-zero-two.rnbopat",
+      "patch_sha256": "583d15aa378ae21f86f4ee1be0b73c4015b866b79096bce7178d5afa8b01636a",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.swap.maxref.xml",
+          "sha256": "0c82461650392aed5fa48ebe9089e75537ddf879e1bb6698414ba3fa47b5c07d",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.swap?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.swap.maxhelp",
+          "sha256": "ac6ede3a55ce1813a4094849387dd48fd3430bb259d335c6426f71d39d6885c7",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.swap",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.swap 0 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.sort",
+      "exact_name": "list.sort",
+      "fixed_arguments": "1",
+      "id": "list-sort-ascending",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2815,
+      "observed_outlet": 0,
+      "operation": "list.sort",
+      "output_kind": "list",
+      "patch": "list-sort-ascending.rnbopat",
+      "patch_sha256": "e7a6413de6b8b97e46af078e05cb41fd75f4d6ca56a80db95f82d72627593464",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.sort.maxref.xml",
+          "sha256": "5933830b0be3120c15a36d6244c7142253de4756a43890426f7585e7dddd84ed",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.sort?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.sort.maxhelp",
+          "sha256": "7ee0ac84cb7056e0bfba18a87c6dd4a313587e56760f042b51fd449c0a6a17b6",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.sort",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.sort 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "ascending"
+    },
+    {
+      "canonical_name": "list.sort",
+      "exact_name": "list.sort",
+      "fixed_arguments": "-1",
+      "id": "list-sort-descending",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2816,
+      "observed_outlet": 0,
+      "operation": "list.sort",
+      "output_kind": "list",
+      "patch": "list-sort-descending.rnbopat",
+      "patch_sha256": "a00334fbd3d628aa626bb55e601de13cefa2de720750b99aaeb767cb0b28a5bf",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.sort.maxref.xml",
+          "sha256": "5933830b0be3120c15a36d6244c7142253de4756a43890426f7585e7dddd84ed",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.sort?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.sort.maxhelp",
+          "sha256": "7ee0ac84cb7056e0bfba18a87c6dd4a313587e56760f042b51fd449c0a6a17b6",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.sort",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.sort -1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "descending"
+    },
+    {
+      "canonical_name": "list.median",
+      "exact_name": "list.median",
+      "fixed_arguments": "",
+      "id": "list-median",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2817,
+      "observed_outlet": 0,
+      "operation": "list.median",
+      "output_kind": "scalar",
+      "patch": "list-median.rnbopat",
+      "patch_sha256": "faba266115b1307b7e74d1ca99ca5681f378a8397822de878b3206a95a8760a2",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.median.maxref.xml",
+          "sha256": "b2669c13af836f5d48fe5c36316a157b466048094bf6159be725d21496065c68",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.median?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.median.maxhelp",
+          "sha256": "8b8420333af198f2fcf3e6bddaf1ae7eb2cccf1845f83ef263f25ae51e31a97b",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.median",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.median",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.sum",
+      "exact_name": "list.sum",
+      "fixed_arguments": "",
+      "id": "list-sum",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2818,
+      "observed_outlet": 0,
+      "operation": "list.sum",
+      "output_kind": "scalar",
+      "patch": "list-sum.rnbopat",
+      "patch_sha256": "9220efea8dfab368bd30ddd1c575a06def130c659b777358ebd267794124f537",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.sum.maxref.xml",
+          "sha256": "a757ef3dfbad4e2ca4cffa8e74e239541f357f2a943268c1a0e1552b48e83b93",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.sum?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.sum.maxhelp",
+          "sha256": "cacc0f2a4739978deb43c035c8a0f901c352a6c5e404e3a49e7ba672c634a082",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.sum",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.sum",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.len",
+      "exact_name": "list.len",
+      "fixed_arguments": "",
+      "id": "list-len",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2819,
+      "observed_outlet": 0,
+      "operation": "list.len",
+      "output_kind": "scalar",
+      "patch": "list-len.rnbopat",
+      "patch_sha256": "4366d06969a107cb44d9495cf332e6fe14abb6f392d33f774b58118b9a658fb8",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.len.maxref.xml",
+          "sha256": "4348e9350b0cf4354a7692829f631a5a71dd01581e8aac291057c601c0c7df66",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.len?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.len.maxhelp",
+          "sha256": "0f24a43d46d25a47b27bdac38e6f27015e19f7c0ca99da09a3a470c05aa57726",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.len",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.len",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.nth",
+      "exact_name": "list.nth",
+      "fixed_arguments": "2",
+      "id": "list-nth-element",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2820,
+      "observed_outlet": 0,
+      "operation": "list.nth",
+      "output_kind": "scalar",
+      "patch": "list-nth-element.rnbopat",
+      "patch_sha256": "f6f5d17bd9756a58f69af83aa87e6429193a37f3f220e1133e6a91a2953a416b",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.nth.maxref.xml",
+          "sha256": "999c3b293203a92d7b2c44103d721ec2f6329398a837d9509258ba7af7ad3bc8",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.nth?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.nth.maxhelp",
+          "sha256": "ce2f02d16cd12e82023eb3bef7288cc05f463e3bc5ef8c1d712f88d8325525b4",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.nth",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.nth 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.nth",
+      "exact_name": "list.nth",
+      "fixed_arguments": "2 6",
+      "id": "list-nth-replacement",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2821,
+      "observed_outlet": 1,
+      "operation": "list.nth",
+      "output_kind": "list",
+      "patch": "list-nth-replacement.rnbopat",
+      "patch_sha256": "9e2a971cb3ed66b4f6154a534653f18d245110068d8cb3642590bcc064730602",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.nth.maxref.xml",
+          "sha256": "999c3b293203a92d7b2c44103d721ec2f6329398a837d9509258ba7af7ad3bc8",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.nth?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.nth.maxhelp",
+          "sha256": "ce2f02d16cd12e82023eb3bef7288cc05f463e3bc5ef8c1d712f88d8325525b4",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.nth",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.nth 2 6",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "replacement"
+    },
+    {
+      "canonical_name": "list.mth",
+      "exact_name": "list.mth",
+      "fixed_arguments": "1",
+      "id": "list-mth-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2822,
+      "observed_outlet": 0,
+      "operation": "list.mth",
+      "output_kind": "scalar",
+      "patch": "list-mth-out0.rnbopat",
+      "patch_sha256": "d2e05503ece9fc4767df944bb34ea7b1ad719f45410b2e5018ee5d8cade2f1bb",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.mth.maxref.xml",
+          "sha256": "5ef8d72b3d38af3b0c52588ce51dd68013a30caf9362115fb57d1ae480e6d9f7",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.mth?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.mth.maxhelp",
+          "sha256": "ff542063c4f448ad2287b639bf60b551c0a55fc3aa2c5e13f64ada91b404513e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.mth",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.mth 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.mth",
+      "exact_name": "list.mth",
+      "fixed_arguments": "1",
+      "id": "list-mth-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2823,
+      "observed_outlet": 1,
+      "operation": "list.mth",
+      "output_kind": "list",
+      "patch": "list-mth-out1.rnbopat",
+      "patch_sha256": "2d839936428216281d2057656d7a050c10371bf4473b6a6d99727ccf4f167dc9",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.mth.maxref.xml",
+          "sha256": "5ef8d72b3d38af3b0c52588ce51dd68013a30caf9362115fb57d1ae480e6d9f7",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.mth?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.mth.maxhelp",
+          "sha256": "ff542063c4f448ad2287b639bf60b551c0a55fc3aa2c5e13f64ada91b404513e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.mth",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.mth 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.mth",
+      "exact_name": "list.index",
+      "fixed_arguments": "1",
+      "id": "list-index-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2824,
+      "observed_outlet": 0,
+      "operation": "list.index",
+      "output_kind": "scalar",
+      "patch": "list-index-out0.rnbopat",
+      "patch_sha256": "2e1642acad5dbef75746ea9ee065da329f59115545c6d5e23cc6588f17522f5e",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.mth.maxref.xml",
+          "sha256": "5ef8d72b3d38af3b0c52588ce51dd68013a30caf9362115fb57d1ae480e6d9f7",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.mth?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "list.mth",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.index 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "list.mth",
+      "exact_name": "list.index",
+      "fixed_arguments": "1",
+      "id": "list-index-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2825,
+      "observed_outlet": 1,
+      "operation": "list.index",
+      "output_kind": "list",
+      "patch": "list-index-out1.rnbopat",
+      "patch_sha256": "8ac7f3978e87d78a5d84076108f3a55ab5edcb0f80010e7f109b83373ac5fd00",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.mth.maxref.xml",
+          "sha256": "5ef8d72b3d38af3b0c52588ce51dd68013a30caf9362115fb57d1ae480e6d9f7",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.mth?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "list.mth",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.index 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "pack",
+      "exact_name": "pak",
+      "fixed_arguments": "0 0 0",
+      "id": "pak-all-inputs",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2826,
+      "observed_outlet": 0,
+      "operation": "pak",
+      "output_kind": "list",
+      "patch": "pak-all-inputs.rnbopat",
+      "patch_sha256": "84c8b42d69f286cca22cf53b884e11f9a1b2c58c9e2f29f3bc1fc4e5eec93bce",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pak.maxref.xml",
+          "sha256": "e98d8457c8b2f3cf99297a506b1f1586ecbe6f91543999cc84a99e1ce02647ef",
+          "url": "https://rnbo.cycling74.com/objects/ref/pak?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_pak.maxhelp",
+          "sha256": "815195acd00fd6c84661955c7e3179ed4580830699399ce45c2d9abb77d73097",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "pack",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "pak 0 0 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "pack",
+      "exact_name": "pak",
+      "fixed_arguments": "0 0 0",
+      "id": "pak-cold-input",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2827,
+      "observed_outlet": 0,
+      "operation": "pak",
+      "output_kind": "list",
+      "patch": "pak-cold-input.rnbopat",
+      "patch_sha256": "c7c379ff5916df03e3835442cb789916e59e43ae115f2fa36a31b217666e6c9b",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pak.maxref.xml",
+          "sha256": "e98d8457c8b2f3cf99297a506b1f1586ecbe6f91543999cc84a99e1ce02647ef",
+          "url": "https://rnbo.cycling74.com/objects/ref/pak?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_pak.maxhelp",
+          "sha256": "815195acd00fd6c84661955c7e3179ed4580830699399ce45c2d9abb77d73097",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "pack",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "pak 0 0 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "cold-only"
+    },
+    {
+      "canonical_name": "unpack",
+      "exact_name": "unpack",
+      "fixed_arguments": "0 0 0",
+      "id": "unpack-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2828,
+      "observed_outlet": 0,
+      "operation": "unpack",
+      "output_kind": "scalar",
+      "patch": "unpack-out0.rnbopat",
+      "patch_sha256": "08ad6e24dc3caf3ed9f685bc63c09ad71342a42d639735d2cb519211c6263fe7",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unpack.maxref.xml",
+          "sha256": "a31d2ea1b25f10218bc47cf5fcf355f9f2a9079c4ae50eae8ab256b15faf04b4",
+          "url": "https://rnbo.cycling74.com/objects/ref/unpack?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unpack.maxhelp",
+          "sha256": "c0b3c2d903c45c19b4b9bd025a02fe3f10fb55d85cdb61bd39d791b0df61fcb0",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unpack",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unpack 0 0 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "unpack",
+      "exact_name": "unpack",
+      "fixed_arguments": "0 0 0",
+      "id": "unpack-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2829,
+      "observed_outlet": 1,
+      "operation": "unpack",
+      "output_kind": "scalar",
+      "patch": "unpack-out1.rnbopat",
+      "patch_sha256": "81b47bea20cf83fc0cdfa5360e0ee5150e66000f9f550ac78e8b694cc51b8424",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unpack.maxref.xml",
+          "sha256": "a31d2ea1b25f10218bc47cf5fcf355f9f2a9079c4ae50eae8ab256b15faf04b4",
+          "url": "https://rnbo.cycling74.com/objects/ref/unpack?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unpack.maxhelp",
+          "sha256": "c0b3c2d903c45c19b4b9bd025a02fe3f10fb55d85cdb61bd39d791b0df61fcb0",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unpack",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unpack 0 0 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "unpack",
+      "exact_name": "unpack",
+      "fixed_arguments": "0 0 0",
+      "id": "unpack-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2830,
+      "observed_outlet": 2,
+      "operation": "unpack",
+      "output_kind": "scalar",
+      "patch": "unpack-out2.rnbopat",
+      "patch_sha256": "394ae5c43375af608072da25a8c67c8b118acfc662d25a6355a1d1b1cfb75e35",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unpack.maxref.xml",
+          "sha256": "a31d2ea1b25f10218bc47cf5fcf355f9f2a9079c4ae50eae8ab256b15faf04b4",
+          "url": "https://rnbo.cycling74.com/objects/ref/unpack?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unpack.maxhelp",
+          "sha256": "c0b3c2d903c45c19b4b9bd025a02fe3f10fb55d85cdb61bd39d791b0df61fcb0",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unpack",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unpack 0 0 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "unjoin",
+      "exact_name": "unjoin",
+      "fixed_arguments": "2 1",
+      "id": "unjoin-single-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2831,
+      "observed_outlet": 0,
+      "operation": "unjoin",
+      "output_kind": "scalar",
+      "patch": "unjoin-single-out0.rnbopat",
+      "patch_sha256": "7edca01ad7979b35cda9dbf7571af3050620b6cef0f9e184fa74f9b2bcc82d6e",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unjoin.maxref.xml",
+          "sha256": "aafc1c3b37719baa30228a906a141d9a71422a8523ee2d77902df1818a6a2ee3",
+          "url": "https://rnbo.cycling74.com/objects/ref/unjoin?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unjoin.maxhelp",
+          "sha256": "f392ced2e3276cc26f703f33ef26ff78c8ed184627d1d585ccec10f14aa839f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unjoin",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unjoin 2 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "single"
+    },
+    {
+      "canonical_name": "unjoin",
+      "exact_name": "unjoin",
+      "fixed_arguments": "2 1",
+      "id": "unjoin-single-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2832,
+      "observed_outlet": 1,
+      "operation": "unjoin",
+      "output_kind": "scalar",
+      "patch": "unjoin-single-out1.rnbopat",
+      "patch_sha256": "231122e5a097500aa88a370dc1f62d3086ee3908850d687063432c5a8469f859",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unjoin.maxref.xml",
+          "sha256": "aafc1c3b37719baa30228a906a141d9a71422a8523ee2d77902df1818a6a2ee3",
+          "url": "https://rnbo.cycling74.com/objects/ref/unjoin?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unjoin.maxhelp",
+          "sha256": "f392ced2e3276cc26f703f33ef26ff78c8ed184627d1d585ccec10f14aa839f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unjoin",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unjoin 2 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "single"
+    },
+    {
+      "canonical_name": "unjoin",
+      "exact_name": "unjoin",
+      "fixed_arguments": "2 1",
+      "id": "unjoin-single-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2833,
+      "observed_outlet": 2,
+      "operation": "unjoin",
+      "output_kind": "list",
+      "patch": "unjoin-single-out2.rnbopat",
+      "patch_sha256": "e284dcbf223ec731a970fd565ac10dde0149c88bf99a1a052d62248e9d3fc335",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unjoin.maxref.xml",
+          "sha256": "aafc1c3b37719baa30228a906a141d9a71422a8523ee2d77902df1818a6a2ee3",
+          "url": "https://rnbo.cycling74.com/objects/ref/unjoin?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unjoin.maxhelp",
+          "sha256": "f392ced2e3276cc26f703f33ef26ff78c8ed184627d1d585ccec10f14aa839f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unjoin",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unjoin 2 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "single"
+    },
+    {
+      "canonical_name": "unjoin",
+      "exact_name": "unjoin",
+      "fixed_arguments": "1 2",
+      "id": "unjoin-pair-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2834,
+      "observed_outlet": 0,
+      "operation": "unjoin",
+      "output_kind": "list",
+      "patch": "unjoin-pair-out0.rnbopat",
+      "patch_sha256": "f7ecff4e577b90b931100dc1ae28aca4b94d3aa69337ada1a8483a5bda25db3e",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unjoin.maxref.xml",
+          "sha256": "aafc1c3b37719baa30228a906a141d9a71422a8523ee2d77902df1818a6a2ee3",
+          "url": "https://rnbo.cycling74.com/objects/ref/unjoin?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unjoin.maxhelp",
+          "sha256": "f392ced2e3276cc26f703f33ef26ff78c8ed184627d1d585ccec10f14aa839f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unjoin",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unjoin 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "pair"
+    },
+    {
+      "canonical_name": "unjoin",
+      "exact_name": "unjoin",
+      "fixed_arguments": "1 2",
+      "id": "unjoin-pair-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2835,
+      "observed_outlet": 1,
+      "operation": "unjoin",
+      "output_kind": "list",
+      "patch": "unjoin-pair-out1.rnbopat",
+      "patch_sha256": "cd1e80cf6e786b76acd64aca0dc7cfd7e35b48a8cacaeaaae31526a2b7b01725",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_unjoin.maxref.xml",
+          "sha256": "aafc1c3b37719baa30228a906a141d9a71422a8523ee2d77902df1818a6a2ee3",
+          "url": "https://rnbo.cycling74.com/objects/ref/unjoin?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_unjoin.maxhelp",
+          "sha256": "f392ced2e3276cc26f703f33ef26ff78c8ed184627d1d585ccec10f14aa839f8",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "unjoin",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "unjoin 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "pair"
+    },
+    {
+      "canonical_name": "message",
+      "exact_name": "message",
+      "fixed_arguments": "0",
+      "id": "message-observer-1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2836,
+      "observed_outlet": 0,
+      "operation": "message",
+      "output_kind": "list",
+      "patch": "message-observer-1.rnbopat",
+      "patch_sha256": "1d8cfbb2a4793928fe20c782b7c7c59d8a0b7f635a4d2a43969d4a879d587ab7",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_message.maxref.xml",
+          "sha256": "b247726fb9bece913fb04fd234fe78c27e6f38431500f20a574ec0b282efa616",
+          "url": "https://rnbo.cycling74.com/objects/ref/message?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_message.maxhelp",
+          "sha256": "2012c550c41688d055dffefef343d316d17b130e512e3b06c0f5421cc77b095f",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "message",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "0",
+      "surface": "patcher",
+      "syntax": "message-box",
+      "variant": "control1"
+    },
+    {
+      "canonical_name": "message",
+      "exact_name": "message",
+      "fixed_arguments": "0 0",
+      "id": "message-observer-2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2837,
+      "observed_outlet": 0,
+      "operation": "message",
+      "output_kind": "list",
+      "patch": "message-observer-2.rnbopat",
+      "patch_sha256": "9ced2d45e70e6e920f06fb06d0a04f66c141a16eed8447d74123279f74432d1d",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_message.maxref.xml",
+          "sha256": "b247726fb9bece913fb04fd234fe78c27e6f38431500f20a574ec0b282efa616",
+          "url": "https://rnbo.cycling74.com/objects/ref/message?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_message.maxhelp",
+          "sha256": "2012c550c41688d055dffefef343d316d17b130e512e3b06c0f5421cc77b095f",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "message",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "0 0",
+      "surface": "patcher",
+      "syntax": "message-box",
+      "variant": "control2"
+    },
+    {
+      "canonical_name": "message",
+      "exact_name": "message",
+      "fixed_arguments": "0 0 0",
+      "id": "message-observer-3",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2838,
+      "observed_outlet": 0,
+      "operation": "message",
+      "output_kind": "list",
+      "patch": "message-observer-3.rnbopat",
+      "patch_sha256": "b9d94fb40bcff88d9c037b8fa25d262d4b48148f413eb125df60e919af2589e6",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_message.maxref.xml",
+          "sha256": "b247726fb9bece913fb04fd234fe78c27e6f38431500f20a574ec0b282efa616",
+          "url": "https://rnbo.cycling74.com/objects/ref/message?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_message.maxhelp",
+          "sha256": "2012c550c41688d055dffefef343d316d17b130e512e3b06c0f5421cc77b095f",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "message",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "0 0 0",
+      "surface": "patcher",
+      "syntax": "message-box",
+      "variant": "control3"
+    },
+    {
+      "canonical_name": "message",
+      "exact_name": "message",
+      "fixed_arguments": "1 2 3 0",
+      "id": "message-observer-4",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2839,
+      "observed_outlet": 0,
+      "operation": "message",
+      "output_kind": "list",
+      "patch": "message-observer-4.rnbopat",
+      "patch_sha256": "343be40fa8420873a3de8d2abd0a645cd30d5f644338b329e3f9f9cd27ae2d38",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_message.maxref.xml",
+          "sha256": "b247726fb9bece913fb04fd234fe78c27e6f38431500f20a574ec0b282efa616",
+          "url": "https://rnbo.cycling74.com/objects/ref/message?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_message.maxhelp",
+          "sha256": "2012c550c41688d055dffefef343d316d17b130e512e3b06c0f5421cc77b095f",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "message",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "1 2 3 0",
+      "surface": "patcher",
+      "syntax": "message-box",
+      "variant": "control4"
+    },
+    {
+      "canonical_name": "message",
+      "exact_name": "message",
+      "fixed_arguments": "7 0 1 4 5",
+      "id": "message-observer-5",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2840,
+      "observed_outlet": 0,
+      "operation": "message",
+      "output_kind": "list",
+      "patch": "message-observer-5.rnbopat",
+      "patch_sha256": "375a43cb9f11fe6fb691832eebcda84a9b6ac42ada53284c7930ea81f34bebef",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_message.maxref.xml",
+          "sha256": "b247726fb9bece913fb04fd234fe78c27e6f38431500f20a574ec0b282efa616",
+          "url": "https://rnbo.cycling74.com/objects/ref/message?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_message.maxhelp",
+          "sha256": "2012c550c41688d055dffefef343d316d17b130e512e3b06c0f5421cc77b095f",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "message",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "7 0 1 4 5",
+      "surface": "patcher",
+      "syntax": "message-box",
+      "variant": "control5"
+    },
+    {
+      "canonical_name": "route",
+      "exact_name": "route",
+      "fixed_arguments": "1 2",
+      "id": "route-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2841,
+      "observed_outlet": 0,
+      "operation": "route",
+      "output_kind": "list",
+      "patch": "route-out0.rnbopat",
+      "patch_sha256": "e26de760d028d646ebc1b8d67c4bdbe5a8f8e5121171373839c9cf2337b9c835",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_route.maxref.xml",
+          "sha256": "e100828ed0ac9cdd8ca01c8107fa02af1bf5ab7c293fb587a0bee83d8154e8f9",
+          "url": "https://rnbo.cycling74.com/objects/ref/route?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_route.maxhelp",
+          "sha256": "82dc523f8089984b72528914118d795e6849556717296854ec24a2e9edb47337",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "route",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "route 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "tagged"
+    },
+    {
+      "canonical_name": "route",
+      "exact_name": "route",
+      "fixed_arguments": "1 2",
+      "id": "route-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2842,
+      "observed_outlet": 1,
+      "operation": "route",
+      "output_kind": "list",
+      "patch": "route-out1.rnbopat",
+      "patch_sha256": "5ebe30f2d955e82a85d689dd0995b05c44e1431555f200c179e822ea72c15d02",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_route.maxref.xml",
+          "sha256": "e100828ed0ac9cdd8ca01c8107fa02af1bf5ab7c293fb587a0bee83d8154e8f9",
+          "url": "https://rnbo.cycling74.com/objects/ref/route?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_route.maxhelp",
+          "sha256": "82dc523f8089984b72528914118d795e6849556717296854ec24a2e9edb47337",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "route",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "route 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "tagged"
+    },
+    {
+      "canonical_name": "route",
+      "exact_name": "route",
+      "fixed_arguments": "1 2",
+      "id": "route-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2843,
+      "observed_outlet": 2,
+      "operation": "route",
+      "output_kind": "list",
+      "patch": "route-out2.rnbopat",
+      "patch_sha256": "ccfb515501d48638368e1fe1b9e42cea66069ae676be6895892221cc8f5e169e",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_route.maxref.xml",
+          "sha256": "e100828ed0ac9cdd8ca01c8107fa02af1bf5ab7c293fb587a0bee83d8154e8f9",
+          "url": "https://rnbo.cycling74.com/objects/ref/route?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_route.maxhelp",
+          "sha256": "82dc523f8089984b72528914118d795e6849556717296854ec24a2e9edb47337",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "route",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "route 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "tagged"
+    },
+    {
+      "canonical_name": "route",
+      "exact_name": "routepass",
+      "fixed_arguments": "1 2",
+      "id": "routepass-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2844,
+      "observed_outlet": 0,
+      "operation": "routepass",
+      "output_kind": "list",
+      "patch": "routepass-out0.rnbopat",
+      "patch_sha256": "b98ce98245737f36ee41c35c67a8fdc46b0e985938bdcb2b24400a72e2e4790e",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_routepass.maxref.xml",
+          "sha256": "4c4efd0da9453dad742187a10214714717de7b852c63c58fc2800d75069ce39e",
+          "url": "https://rnbo.cycling74.com/objects/ref/routepass?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_routepass.maxhelp",
+          "sha256": "932870bf9c19710a8ff39f6b8c92f7a20305ddb4ad3fe931cfb04ca3686750db",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "route",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "routepass 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "tagged"
+    },
+    {
+      "canonical_name": "route",
+      "exact_name": "routepass",
+      "fixed_arguments": "1 2",
+      "id": "routepass-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2845,
+      "observed_outlet": 1,
+      "operation": "routepass",
+      "output_kind": "list",
+      "patch": "routepass-out1.rnbopat",
+      "patch_sha256": "afa6d62e5435dc196449fa8a3a8099852400caf478479bb3359ab1556a43ab88",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_routepass.maxref.xml",
+          "sha256": "4c4efd0da9453dad742187a10214714717de7b852c63c58fc2800d75069ce39e",
+          "url": "https://rnbo.cycling74.com/objects/ref/routepass?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_routepass.maxhelp",
+          "sha256": "932870bf9c19710a8ff39f6b8c92f7a20305ddb4ad3fe931cfb04ca3686750db",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "route",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "routepass 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "tagged"
+    },
+    {
+      "canonical_name": "route",
+      "exact_name": "routepass",
+      "fixed_arguments": "1 2",
+      "id": "routepass-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2846,
+      "observed_outlet": 2,
+      "operation": "routepass",
+      "output_kind": "list",
+      "patch": "routepass-out2.rnbopat",
+      "patch_sha256": "9c9f5951d33835c6c4d799d0ec2861a6ab352dcd793c9db9a4938e2280012a65",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_routepass.maxref.xml",
+          "sha256": "4c4efd0da9453dad742187a10214714717de7b852c63c58fc2800d75069ce39e",
+          "url": "https://rnbo.cycling74.com/objects/ref/routepass?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_routepass.maxhelp",
+          "sha256": "932870bf9c19710a8ff39f6b8c92f7a20305ddb4ad3fe931cfb04ca3686750db",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "route",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "routepass 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "tagged"
+    },
+    {
+      "canonical_name": "gate",
+      "exact_name": "gate",
+      "fixed_arguments": "3 0",
+      "id": "gate-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2847,
+      "observed_outlet": 0,
+      "operation": "gate",
+      "output_kind": "scalar",
+      "patch": "gate-out0.rnbopat",
+      "patch_sha256": "9fea50b1a998592c34a0049bcb16d24cd6728ec5395a7ff5b61a84929a101a9b",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gate.maxref.xml",
+          "sha256": "d90e795b2a0369f60e02fb9421aea1528ea1ff671d4fed46d9291e8f3ca22217",
+          "url": "https://rnbo.cycling74.com/objects/ref/gate?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_gate.maxhelp",
+          "sha256": "cee5a3a9a3f8b2b88a69dde62592fdbe8bfc8f7dc5535f5dcf1088a1e274c45a",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "gate",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "gate 3 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "gate",
+      "exact_name": "gate",
+      "fixed_arguments": "3 0",
+      "id": "gate-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2848,
+      "observed_outlet": 1,
+      "operation": "gate",
+      "output_kind": "scalar",
+      "patch": "gate-out1.rnbopat",
+      "patch_sha256": "ea8af0abec855924b42af00f00602423004176bf641b6cd3379fb614a4c5cf92",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gate.maxref.xml",
+          "sha256": "d90e795b2a0369f60e02fb9421aea1528ea1ff671d4fed46d9291e8f3ca22217",
+          "url": "https://rnbo.cycling74.com/objects/ref/gate?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_gate.maxhelp",
+          "sha256": "cee5a3a9a3f8b2b88a69dde62592fdbe8bfc8f7dc5535f5dcf1088a1e274c45a",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "gate",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "gate 3 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "gate",
+      "exact_name": "gate",
+      "fixed_arguments": "3 0",
+      "id": "gate-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2849,
+      "observed_outlet": 2,
+      "operation": "gate",
+      "output_kind": "scalar",
+      "patch": "gate-out2.rnbopat",
+      "patch_sha256": "9fa68208372963f694293edc9b5f9fb3532f8f0a78bdd34fe7bbc41b4865b146",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gate.maxref.xml",
+          "sha256": "d90e795b2a0369f60e02fb9421aea1528ea1ff671d4fed46d9291e8f3ca22217",
+          "url": "https://rnbo.cycling74.com/objects/ref/gate?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_gate.maxhelp",
+          "sha256": "cee5a3a9a3f8b2b88a69dde62592fdbe8bfc8f7dc5535f5dcf1088a1e274c45a",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "gate",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "gate 3 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "switch",
+      "exact_name": "switch",
+      "fixed_arguments": "3",
+      "id": "switch-three-inputs",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2850,
+      "observed_outlet": 0,
+      "operation": "switch",
+      "output_kind": "scalar",
+      "patch": "switch-three-inputs.rnbopat",
+      "patch_sha256": "1491845ea3998f179dbaec23a51facb2d2362202fc4650c4db4eb989b2cc35d7",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_switch.maxref.xml",
+          "sha256": "2898ad069aa1003ad405bf3bfa4630158caebe9b6c3a8602fe8f0e9b791ca900",
+          "url": "https://rnbo.cycling74.com/objects/ref/switch?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_switch.maxhelp",
+          "sha256": "0b6a9b9e919fd922dc2c5b0255452664734e6e8d9836302ad770cd697c0117e3",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "switch",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "switch 3",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "split",
+      "exact_name": "split",
+      "fixed_arguments": "1 2",
+      "id": "split-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2851,
+      "observed_outlet": 0,
+      "operation": "split",
+      "output_kind": "scalar",
+      "patch": "split-out0.rnbopat",
+      "patch_sha256": "72163418082f8bc9590d27e84bd9b33dd3d8c4eff75f74297074726cd342206b",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_split.maxref.xml",
+          "sha256": "4323b585744cd3bb545cb66ea1615cbbfe5e9e9044175e1d00b0cb3939916481",
+          "url": "https://rnbo.cycling74.com/objects/ref/split?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_split.maxhelp",
+          "sha256": "5452f243ce0d3e0dcf90a3b54eaca715f7666911ca59719950037131a2f4b568",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "split",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "split 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "split",
+      "exact_name": "split",
+      "fixed_arguments": "1 2",
+      "id": "split-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2852,
+      "observed_outlet": 1,
+      "operation": "split",
+      "output_kind": "scalar",
+      "patch": "split-out1.rnbopat",
+      "patch_sha256": "6250167b2c39863b7e2d00d34980a9a430f3717e1e54fb71b0ce9ff4e19f865c",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_split.maxref.xml",
+          "sha256": "4323b585744cd3bb545cb66ea1615cbbfe5e9e9044175e1d00b0cb3939916481",
+          "url": "https://rnbo.cycling74.com/objects/ref/split?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_split.maxhelp",
+          "sha256": "5452f243ce0d3e0dcf90a3b54eaca715f7666911ca59719950037131a2f4b568",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "split",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "split 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "select",
+      "exact_name": "select",
+      "fixed_arguments": "1 2",
+      "id": "select-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2853,
+      "observed_outlet": 0,
+      "operation": "select",
+      "output_kind": "count",
+      "patch": "select-out0.rnbopat",
+      "patch_sha256": "9d6362c076e22f4180226d2f7f0b8fb38262276e9b4f46ea499264e7d832e618",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_select.maxref.xml",
+          "sha256": "0c46f39d2c23d23bf2d13ef157319ef0e2debb639c4767918b579ade97c6cdec",
+          "url": "https://rnbo.cycling74.com/objects/ref/select?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_select.maxhelp",
+          "sha256": "5d5d074376291af5b30f2ed27b0cc634ad5ee8663f7e96e19437629316492835",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "select",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "select 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "select",
+      "exact_name": "select",
+      "fixed_arguments": "1 2",
+      "id": "select-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2854,
+      "observed_outlet": 1,
+      "operation": "select",
+      "output_kind": "count",
+      "patch": "select-out1.rnbopat",
+      "patch_sha256": "d75c1a461fa48cd6df8afae44c67dc92e1741cea6acd76f13afd508f7d6f85e7",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_select.maxref.xml",
+          "sha256": "0c46f39d2c23d23bf2d13ef157319ef0e2debb639c4767918b579ade97c6cdec",
+          "url": "https://rnbo.cycling74.com/objects/ref/select?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_select.maxhelp",
+          "sha256": "5d5d074376291af5b30f2ed27b0cc634ad5ee8663f7e96e19437629316492835",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "select",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "select 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "select",
+      "exact_name": "select",
+      "fixed_arguments": "1 2",
+      "id": "select-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2855,
+      "observed_outlet": 2,
+      "operation": "select",
+      "output_kind": "count",
+      "patch": "select-out2.rnbopat",
+      "patch_sha256": "55e2e7b6028163287d1a35231ce7742e6d939f7b033cfc4fd41fc7223afea519",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_select.maxref.xml",
+          "sha256": "0c46f39d2c23d23bf2d13ef157319ef0e2debb639c4767918b579ade97c6cdec",
+          "url": "https://rnbo.cycling74.com/objects/ref/select?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_select.maxhelp",
+          "sha256": "5d5d074376291af5b30f2ed27b0cc634ad5ee8663f7e96e19437629316492835",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "select",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "select 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "select",
+      "exact_name": "sel",
+      "fixed_arguments": "1 2",
+      "id": "sel-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2856,
+      "observed_outlet": 0,
+      "operation": "sel",
+      "output_kind": "count",
+      "patch": "sel-out0.rnbopat",
+      "patch_sha256": "94411773efe3b37a2b8520dc0c0beecb7a5520a3f6baaeb4e786026115c3300e",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_select.maxref.xml",
+          "sha256": "0c46f39d2c23d23bf2d13ef157319ef0e2debb639c4767918b579ade97c6cdec",
+          "url": "https://rnbo.cycling74.com/objects/ref/select?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "select",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "sel 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "select",
+      "exact_name": "sel",
+      "fixed_arguments": "1 2",
+      "id": "sel-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2857,
+      "observed_outlet": 1,
+      "operation": "sel",
+      "output_kind": "count",
+      "patch": "sel-out1.rnbopat",
+      "patch_sha256": "bf2426f7def92942a352156c84375d7a19e14ec2d3fe2dc28f0b3aa00e5982c6",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_select.maxref.xml",
+          "sha256": "0c46f39d2c23d23bf2d13ef157319ef0e2debb639c4767918b579ade97c6cdec",
+          "url": "https://rnbo.cycling74.com/objects/ref/select?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "select",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "sel 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "select",
+      "exact_name": "sel",
+      "fixed_arguments": "1 2",
+      "id": "sel-out2",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2858,
+      "observed_outlet": 2,
+      "operation": "sel",
+      "output_kind": "count",
+      "patch": "sel-out2.rnbopat",
+      "patch_sha256": "71a02bc9e2328e869049f6e091a733d75a87e6bad206efde05181479a2369235",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_select.maxref.xml",
+          "sha256": "0c46f39d2c23d23bf2d13ef157319ef0e2debb639c4767918b579ade97c6cdec",
+          "url": "https://rnbo.cycling74.com/objects/ref/select?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "select",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "sel 1 2",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "swap",
+      "exact_name": "swap",
+      "fixed_arguments": "0",
+      "id": "swap-out0",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2859,
+      "observed_outlet": 0,
+      "operation": "swap",
+      "output_kind": "scalar",
+      "patch": "swap-out0.rnbopat",
+      "patch_sha256": "15a0eef42353529ed9ebbb79140eedac6e87239b6c25774410618b87f5ea6017",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_swap.maxref.xml",
+          "sha256": "85c13306f3c186de793005246e4ddc74c23e6425b6e8283c64400255a1928eca",
+          "url": "https://rnbo.cycling74.com/objects/ref/swap?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_swap.maxhelp",
+          "sha256": "6936cd693b06e1f8c601b2bd0f12b2bfd94d62aba35a006e8775169d33bdd14e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "swap",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "swap 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "swap",
+      "exact_name": "swap",
+      "fixed_arguments": "0",
+      "id": "swap-out1",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2860,
+      "observed_outlet": 1,
+      "operation": "swap",
+      "output_kind": "scalar",
+      "patch": "swap-out1.rnbopat",
+      "patch_sha256": "c9ea5cc5d0061eb61532106e31030508a97b2a58a4621fc01e3f8a383c39ff89",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_swap.maxref.xml",
+          "sha256": "85c13306f3c186de793005246e4ddc74c23e6425b6e8283c64400255a1928eca",
+          "url": "https://rnbo.cycling74.com/objects/ref/swap?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_swap.maxhelp",
+          "sha256": "6936cd693b06e1f8c601b2bd0f12b2bfd94d62aba35a006e8775169d33bdd14e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "swap",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "swap 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "swap",
+      "exact_name": "swap",
+      "fixed_arguments": "0",
+      "id": "swap-right-before-left",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "held scalar or emitted-event count",
+      "maximum_absolute_error": 0,
+      "model": 2861,
+      "observed_outlet": 0,
+      "operation": "swap",
+      "output_kind": "scalar",
+      "patch": "swap-right-before-left.rnbopat",
+      "patch_sha256": "c926415c4ab3cbdb3a76b9ab500e4be0315227123e24edecf108ab5f6917111f",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_swap.maxref.xml",
+          "sha256": "85c13306f3c186de793005246e4ddc74c23e6425b6e8283c64400255a1928eca",
+          "url": "https://rnbo.cycling74.com/objects/ref/swap?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_swap.maxhelp",
+          "sha256": "6936cd693b06e1f8c601b2bd0f12b2bfd94d62aba35a006e8775169d33bdd14e",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "swap",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "swap 0",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "order"
+    }
+  ],
+  "family": "rnbo-event-routing",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "62 armed scenarios across30 exact spellings;independent finite routing/list contracts and lossless bounded list observer, raw right capture.",
+  "timed_blocks": 16
+}

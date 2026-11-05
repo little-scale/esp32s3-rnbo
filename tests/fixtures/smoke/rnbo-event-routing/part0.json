@@ -1,0 +1,63 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "list.rot",
+      "exact_name": "list.rot",
+      "fixed_arguments": "1",
+      "id": "list-rotate-right",
+      "input_domain": [
+        0.0,
+        3.875
+      ],
+      "list_observer": "length*32768+sum(item[i]*8**i),0..5 items in0..7",
+      "maximum_absolute_error": 0,
+      "model": 2806,
+      "observed_outlet": 0,
+      "operation": "list.rot",
+      "output_kind": "list",
+      "patch": "list-rotate-right.rnbopat",
+      "patch_sha256": "a9c903fa25f3708676bfb399f2ac387f96d705579213f6df9a6ced8af9f0038c",
+      "reference_policy": "documented-bounded-list-and-event-routing",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_list.rot.maxref.xml",
+          "sha256": "89ac4189a7c76b20d894ecda3c4e79871ca233e53b283398ac2cb5b926b4a05c",
+          "url": "https://rnbo.cycling74.com/objects/ref/list.rot?v=1.4.4"
+        },
+        {
+          "local_package_path": "help/rnbo_list.rot.maxhelp",
+          "sha256": "bb69c23f2a3085e799dc143654396246ca4dd6b076c48177c8042249ae26d107",
+          "source_kind": "installed-primary-help"
+        }
+      ],
+      "registry_lookup": "list.rot",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact armed finite numeric-list/routing form;one arm then21 drive actions. Lists use an injective bounded order/length observer; auxiliary objects gain no inherited qualification.",
+      "source_form": "list.rot 1",
+      "surface": "patcher",
+      "syntax": "armed-list-and-routing-object",
+      "variant": "right"
+    }
+  ],
+  "family": "rnbo-event-routing",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 1,
+    "index": 0,
+    "parent_catalog_sha256": "5b46a8f0f5e630ea3f0e19317e8b16122c994279ded730cc8e4b38f0233d1224",
+    "total": 1
+  },
+  "right_observer_bit_exact": true,
+  "runtime_probe": {
+    "expectation": "Record the original event result; a fault is not a numerical pass",
+    "id": "list-rotate-right"
+  },
+  "sample_rate": 44100,
+  "scope": "62 armed scenarios across30 exact spellings;independent finite routing/list contracts and lossless bounded list observer, raw right capture.",
+  "timed_blocks": 16
+}

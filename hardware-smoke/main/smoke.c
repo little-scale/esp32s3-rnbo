@@ -176,6 +176,10 @@ static void apply_parameter_events(object_image *image,const smoke_case *test,pa
         int64_t elapsed=esp_timer_get_time()-start;
         float actual=NAN,normalized=NAN;
         int readback=image->module.parameter_value(image->context,index,&actual,&normalized);allocation_probe_end();
+        if(result!=RNBO_S3_OK || elapsed<0 || readback!=RNBO_S3_OK)
+            printf("RNBO_SMOKE EVENT_RESULT case_id=%s ordinal=%" PRIu32 " before_call=%" PRIu32 " parameter_slot=%" PRIu32 " value_word=%08" PRIx32
+                   " status=%d readback_status=%d elapsed_us=%" PRIi64 "\n",
+                   test->id,ordinal,call,action->parameter_slot,action->value_word,result,readback,elapsed);
         CHECK(result==RNBO_S3_OK && elapsed>=0 && readback==RNBO_S3_OK);
         CHECK(!allocation_probe_allocations()&&!allocation_probe_frees());
         uint32_t actual_word=float_word(actual),normalized_word=float_word(normalized);
