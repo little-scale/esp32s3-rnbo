@@ -10,6 +10,37 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Context and unit conversions: thirteen queued contexts
+
+Thirteen conversion callbacks exceed the median-budget threshold; none
+triggers the peak-spike rule. The queue grows from 123 to **136 contexts**.
+
+| Complete callback | Median µs | Peak µs | Median / audio period |
+| --- | ---: | ---: | ---: |
+| `beatstohz` | 665 | 665 | 11.46% |
+| `beatstoms` | 664 | 664 | 11.44% |
+| `beatstosamps` | 676 | 677 | 11.65% |
+| `hztobeats` | 676.5 | 677 | 11.65% |
+| `hztoticks` | 956 | 956 | 16.47% |
+| `mstobeats` | 2104 | 2108 | 36.24% |
+| `mstoticks` | 853.5 | 854 | 14.70% |
+| `sampstobeats` | 748 | 749 | 12.89% |
+| `sampstoticks` | 673 | 674 | 11.59% |
+| `tickstohz` | 855 | 855 | 14.73% |
+| `tickstoms` | 762 | 763 | 13.13% |
+| `tickstosamps` | 762 | 763 | 13.13% |
+| `tickstosamples` | 762 | 763 | 13.13% |
+
+All thirteen pass their predeclared unit-aware numerical limits. These are
+strict Float32 modules with unchanged runtime/context and original storage,
+using two conversions per sample at fresh stopped 120 BPM defaults. Investigate
+scalar conversion/context work and retained precision when optimisation resumes;
+these measurements alone do not identify an isolated expensive instruction.
+No optimisation gain or changed-tempo/event qualification is claimed.
+
+Source: [context/unit part 2](../evidence/xiao-smoke-rnbo-codebox-context-aliases-part2.json)
+and [original contracts/limits](../tests/fixtures/smoke/rnbo-codebox-context-aliases/README.md).
+
 ## Analysis/oscillator/noise members: twelve queued contexts
 
 All twelve authored average scenarios trigger the median rule; no peak-spike

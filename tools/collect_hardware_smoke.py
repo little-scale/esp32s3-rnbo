@@ -22,6 +22,8 @@ from build_smoke_modules import (DBTOA_PROFILE_PROOFS,DBTOA_CATALOG_SHA,DBTOA_RE
 from build_hardware_smoke import (CHARACTER_FAMILY,CHARACTER_PARTITIONS,CHARACTER_REFERENCE_SHA,
                                  character_catalog,GEN_DATA_FAMILY,GEN_DATA_CATALOG_SHA,
                                  GEN_DATA_REFERENCE_SHA,gen_data_catalog)
+from build_hardware_smoke import (CONTEXT_ALIAS_FAMILY,CONTEXT_ALIAS_CATALOG_SHA,
+                                 CONTEXT_ALIAS_REFERENCE_SHA,CONTEXT_ALIAS_PARTITIONS,context_alias_catalog)
 from build_hardware_smoke import (ANALYSIS_MEMBER_FAMILY,ANALYSIS_MEMBER_CATALOG_SHA,
                                  ANALYSIS_MEMBER_REFERENCE_SHA,analysis_member_catalog)
 from build_hardware_smoke import (DELAY_MEMBER_FAMILY,DELAY_MEMBER_CATALOG_SHA,
@@ -82,7 +84,7 @@ def cpu_metrics(times):
     return med,mean,peak,reasons
 
 
-def output_metrics(data,expected,common_input_sha):
+def output_metrics(data,expected,common_input_sha,*,tolerance_ceiling=TOLERANCE_CEILING):
     bits=int(data['bit_mismatches']);zeros=int(data['zero_sign_differences']);samples=int(data['samples'])
     require(samples==20*512 and 0<=zeros<=bits<=samples,'Output comparison counts differ')
     metrics={'samples_checked':samples,'bit_mismatches':bits,'zero_sign_differences':zeros}
@@ -108,7 +110,7 @@ def output_metrics(data,expected,common_input_sha):
             error=float(data['max_absolute_error']);tolerance=float(data['absolute_tolerance'])
         require(0<=nonfinite<=numeric<=bits and 0<=strict<=numeric-nonfinite and 0<=within<=bits and numeric+within+zeros==bits,
             'Numerical comparison counters differ')
-        require(math.isfinite(tolerance) and 0<=tolerance<=TOLERANCE_CEILING and tolerance==expected.get('absolute_tolerance',0) and
+        require(math.isfinite(tolerance) and 0<=tolerance<=tolerance_ceiling and tolerance==expected.get('absolute_tolerance',0) and
                 math.isfinite(error) and error>=0 and (within==0 or tolerance>0),
                 'Predeclared error tolerance or observed error differs')
         require((numeric>0 or error<=tolerance) and (numeric==nonfinite+strict or error>tolerance),
@@ -548,6 +550,44 @@ def analysis_member_plan(plan):
                 'Analysis member reference stream differs from independent source')
 
 
+def context_alias_plan(plan):
+    directory=ROOT/'tests/fixtures/smoke/rnbo-codebox-context-aliases'
+    index=plan.get('partition',{}).get('index')
+    require(type(index)is int and index in CONTEXT_ALIAS_PARTITIONS,'Invalid context/alias partition')
+    catalog=json.loads((directory/f'part{index}.json').read_bytes());partition=context_alias_catalog(catalog)
+    require(plan.get('partition')==partition,'Context/alias partition receipt differs')
+    require(plan.get('catalog_sha256')==CONTEXT_ALIAS_PARTITIONS[index] and
+            plan.get('reference_source_sha256')==CONTEXT_ALIAS_REFERENCE_SHA and
+            sha(directory/'reference.py')==CONTEXT_ALIAS_REFERENCE_SHA and
+            plan.get('surface')=='codebox' and type(plan.get('prepare_zero_warm_blocks'))is int and
+            plan['prepare_zero_warm_blocks']==0 and plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_stream_policy')=='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets',
+            'Context/alias source/surface/constructor epoch differs')
+    require(plan.get('expected_block_storage')=='shared-512-word-pool','Context/alias references require lossless shared blocks')
+    pool=expected_pool(plan)
+    authored={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(authored) and {r['id']for r in observed}==set(authored),'Context/alias case ledger differs')
+    for row in observed:
+        original=authored[row['id']]
+        require(row['source_sha256']==original['patch_sha256'] and
+                row['codebox_source_sha256']==original['codebox_sha256'] and
+                all(row.get(k)==original[k]for k in ('exact_name','syntax','registry_lookup')),
+                'Context/alias source or surface identity differs')
+    spec=importlib.util.spec_from_file_location('context_alias_independent_reference',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    for row in plan['cases']:
+        original=authored[row['id']];model=original['model']
+        require(all(row.get(k)==v for k,v in original.items()) and row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',original['maximum_absolute_error']))[0] and row.get('arena_bytes',4096)==4096 and
+                not any(k in row for k in ('parameters','parameter_events','strict_zero_sign_channels')),
+                'Context/alias declaration or exact numerical limit differs')
+        inputs=reference.case_input_words(model)
+        require(row.get('input_words')==list(inputs),'Context/alias vector differs from independent source')
+        blocks,_=expected_stream(row,True,pool)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),
+                'Context/alias reference stream differs from independent source')
+
+
 def member_plan(plan):
     directory=ROOT/'tests/fixtures/smoke/rnbo-codebox-members'
     index=plan.get('partition',{}).get('index')
@@ -731,6 +771,7 @@ def collect(build_dir,run_dir):
     if plan.get('family')==MEMBER_FAMILY:member_plan(plan)
     if plan.get('family')==DELAY_MEMBER_FAMILY:delay_member_plan(plan)
     if plan.get('family')==ANALYSIS_MEMBER_FAMILY:analysis_member_plan(plan)
+    if plan.get('family')==CONTEXT_ALIAS_FAMILY:context_alias_plan(plan)
     if plan.get('family')==GEN_CONTROL_FAMILY:gen_control_plan(plan)
     if plan.get('family')==GEN_EXEC_FAMILY:gen_execution_plan(plan)
     if plan.get('family')==GEN_EXT_FAMILY:gen_extended_plan(plan)
@@ -755,18 +796,18 @@ def collect(build_dir,run_dir):
                     type(case.get('absolute_tolerance',0))in(int,float)and
                     0<=case.get('absolute_tolerance',0)<=2e-6 for case in plan['cases']),
                 'Signal routing requires parameter-free signal sources and its declared accuracy limit')
-    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants','gen-range','gen-constants'):
+    if plan.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants','gen-range','gen-constants'):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup')or event_family
     if stateful:
-        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
+        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
                 'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
     pool=None
-    if event_family:
+    if event_family or plan.get('family')==CONTEXT_ALIAS_FAMILY:
         require(plan.get('expected_block_storage')=='shared-512-word-pool','Boundary expected block storage differs')
         pool=expected_pool(plan)
     # Runner field names are checked against its saved receipt and actual log.
@@ -794,7 +835,7 @@ def collect(build_dir,run_dir):
         med,mean,peak,reasons=cpu_metrics(times)
         require(abs(float(data['median_us'])-med)<1e-5 and abs(float(data['mean_us'])-mean)<1e-5 and
                 int(data['peak_us'])==peak,'Callback metrics differ from raw times')
-        output=output_metrics(data,expected,plan['input_words_sha256']);status=output['status']
+        output=output_metrics(data,expected,plan['input_words_sha256'],tolerance_ceiling=struct.unpack('<f',struct.pack('<f',2e-3))[0]if plan.get('family')==CONTEXT_ALIAS_FAMILY else TOLERANCE_CEILING);status=output['status']
         blocks,stream_sha=expected_stream(expected,stateful,pool)
         first,witness_metadata=mismatch_witness(data,expected,status,output,blocks,stream_sha)
         parameters=parameter_observations(expected,data,events,event_family)
@@ -807,11 +848,13 @@ def collect(build_dir,run_dir):
         if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
                                                          'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
         if gen_data:record['owner_kind']=expected['owner_kind']
+        if plan.get('family')==CONTEXT_ALIAS_FAMILY:
+            record.update({k:expected[k]for k in ('model','scope')})
         if plan.get('family')==ANALYSIS_MEMBER_FAMILY:
             record.update({k:expected[k]for k in ('owner','member','variant','model','scope')})
         if plan.get('family')in(GEN_CONTROL_FAMILY,GEN_EXEC_FAMILY,GEN_EXT_FAMILY):
             record.update({k:expected[k]for k in ('model','genexpr_sha256','scope')})
-        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+        if plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
@@ -855,11 +898,12 @@ def collect(build_dir,run_dir):
                       profile_comparison=dbtoa_comparison_times(records))
     elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
-    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+    elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')
         result.update(family=plan['family'],surface='codebox')
     elif plan.get('family')in('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants')and plan.get('surface')=='genexpr':
         result.update(family=plan['family'],surface='genexpr')
+    if plan.get('family')==CONTEXT_ALIAS_FAMILY:result['partition']=plan['partition']
     if 'input_vector_policy' in plan:result['input_vector_policy']=plan['input_vector_policy']
     if 'expected_stream_policy'in plan:result['expected_stream_policy']=plan['expected_stream_policy']
     if character:
@@ -874,7 +918,7 @@ def collect(build_dir,run_dir):
     if delay_rerun:
         result['rerun']=plan['rerun']
         result['scope']='Additive rerun of two original Delay declaration/read/write programs after the pinned bool-clamp repair; previous outcomes retained, no standalone method qualification'
-    if event_family:
+    if event_family or plan.get('family')==CONTEXT_ALIAS_FAMILY:
         result['expected_block_storage']=plan['expected_block_storage']
         result['expected_reference_unique_blocks']=len(pool)
     if 'prepare_zero_warm_blocks' in plan:

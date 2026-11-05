@@ -1,0 +1,594 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "eqp",
+      "codebox": "pass-equal-alias.rnbo",
+      "codebox_sha256": "d06b338cad9c0e97b00f100ea536a123f92bbd7ff0ff95cd4c446b29782159ab",
+      "exact_name": "==p",
+      "id": "pass-equal-alias",
+      "maximum_absolute_error": 0,
+      "model": 1900,
+      "patch": "pass-equal-alias.rnbopat",
+      "patch_sha256": "d268a8dbadf70efe38350a0d64405294673acc925a174a78d7b647a702971528",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/eqp"
+        }
+      ],
+      "registry_lookup": "==p",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "neqp",
+      "codebox": "pass-not-equal-alias.rnbo",
+      "codebox_sha256": "c845bf8ce7a95648faceb0af493aada786f51b137f57d8ccea9cfc39c0df1121",
+      "exact_name": "!=p",
+      "id": "pass-not-equal-alias",
+      "maximum_absolute_error": 0,
+      "model": 1901,
+      "patch": "pass-not-equal-alias.rnbopat",
+      "patch_sha256": "ec4719787922c1c4845867f4a767e377c6dbe789c490c8afde9fa00c2cdfa548",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/neqp"
+        }
+      ],
+      "registry_lookup": "!=p",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "ltp",
+      "codebox": "pass-less-alias.rnbo",
+      "codebox_sha256": "880b050489076dbf3648bf161fbc721654338c910bda6abf3bfae0a9871d585f",
+      "exact_name": "<p",
+      "id": "pass-less-alias",
+      "maximum_absolute_error": 0,
+      "model": 1902,
+      "patch": "pass-less-alias.rnbopat",
+      "patch_sha256": "6e4f419bdb794ea53b33e359121af6f82ab049a88d1544e57b05cc0dc332e7ab",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/ltp"
+        }
+      ],
+      "registry_lookup": "<p",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "ltep",
+      "codebox": "pass-less-equal-alias.rnbo",
+      "codebox_sha256": "cc288e5684ee069a16a6331d5ddddc73e52a79d9e1f6cf45fe092eca5d51b005",
+      "exact_name": "<=p",
+      "id": "pass-less-equal-alias",
+      "maximum_absolute_error": 0,
+      "model": 1903,
+      "patch": "pass-less-equal-alias.rnbopat",
+      "patch_sha256": "eddf7800437afacd83e8d7832fa0623a946d9d059d033ff4df8455ade4434226",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/ltep"
+        }
+      ],
+      "registry_lookup": "<=p",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "gtp",
+      "codebox": "pass-greater-alias.rnbo",
+      "codebox_sha256": "c7b36852debbbb4b1b5e4c7cdc7395fb64c64b8ba0aaeb17aad768956a232d72",
+      "exact_name": ">p",
+      "id": "pass-greater-alias",
+      "maximum_absolute_error": 0,
+      "model": 1904,
+      "patch": "pass-greater-alias.rnbopat",
+      "patch_sha256": "b14fb39313955f492d08d6684ed6db83a39db3bba3b1394d116cc8c3dffa9abd",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/gtp"
+        }
+      ],
+      "registry_lookup": ">p",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "gtep",
+      "codebox": "pass-greater-equal-alias.rnbo",
+      "codebox_sha256": "e0dc9d5723febc993f3d18d6c17ccc3e0f2993c107a4bbbba9e6a84d30d09173",
+      "exact_name": ">=p",
+      "id": "pass-greater-equal-alias",
+      "maximum_absolute_error": 0,
+      "model": 1905,
+      "patch": "pass-greater-equal-alias.rnbopat",
+      "patch_sha256": "58e5bbd010ded166ac10b6a56ec65b49ae6c9836da23930c12780e93ddd093c4",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/gtep"
+        }
+      ],
+      "registry_lookup": ">=p",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "rsub",
+      "codebox": "reverse-subtract-alias.rnbo",
+      "codebox_sha256": "3c33a0fe6ae8de85bc309d2dc67639f698baa4ea9f1155f78a9b02ff4f7305a1",
+      "exact_name": "!-",
+      "id": "reverse-subtract-alias",
+      "maximum_absolute_error": 0,
+      "model": 1906,
+      "patch": "reverse-subtract-alias.rnbopat",
+      "patch_sha256": "38f9b918ea8acf2a834f03f73056f77cca94fa97b3b7bae564f475b389322321",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/rsub"
+        }
+      ],
+      "registry_lookup": "!-",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "rdiv",
+      "codebox": "reverse-divide-alias.rnbo",
+      "codebox_sha256": "c4fc52cb15e9642566c51be13cd8662181609fe3aa5fac8ac3ef35507ab6a4b5",
+      "exact_name": "!/",
+      "id": "reverse-divide-alias",
+      "maximum_absolute_error": 0,
+      "model": 1907,
+      "patch": "reverse-divide-alias.rnbopat",
+      "patch_sha256": "dbc60a79bfd50005d009fe1e5b65d0d7a0fbe10b4313d54d792ca8408a818345",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/rdiv"
+        }
+      ],
+      "registry_lookup": "!/",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "rmod",
+      "codebox": "reverse-modulus-alias.rnbo",
+      "codebox_sha256": "064c90278d1f3528b7b49491b7048045d7f788674bdc04d5b2c074d2b5ae3340",
+      "exact_name": "!%",
+      "id": "reverse-modulus-alias",
+      "maximum_absolute_error": 0,
+      "model": 1908,
+      "patch": "reverse-modulus-alias.rnbopat",
+      "patch_sha256": "a029100c65a520f586690486d5b68ba66dcb151f4891b5628fe3fcf35db0ca08",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/rmod"
+        }
+      ],
+      "registry_lookup": "!%",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "xor",
+      "codebox": "xor-alias.rnbo",
+      "codebox_sha256": "52c1dba0a41096384e46b84c365e1dbaf794d5cdcb618222ed844fd6610db9b7",
+      "exact_name": "^^",
+      "id": "xor-alias",
+      "maximum_absolute_error": 0,
+      "model": 1909,
+      "patch": "xor-alias.rnbopat",
+      "patch_sha256": "9eb6c1f0aef5aa876c5a3eef33e594c512d7817df1fb0bb0408591808517cf12",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/xor"
+        }
+      ],
+      "registry_lookup": "^^",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "cond",
+      "codebox": "ternary-alias.rnbo",
+      "codebox_sha256": "479335d6796eecdd8b0dbfd0591c45d810451b06240a8d1acaaffa0054886865",
+      "exact_name": "?",
+      "id": "ternary-alias",
+      "maximum_absolute_error": 0,
+      "model": 1910,
+      "patch": "ternary-alias.rnbopat",
+      "patch_sha256": "50d473ebf1616effe375dfe364297ec82e5ec45af7940a3548253bbc20abec47",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/cond"
+        }
+      ],
+      "registry_lookup": "?",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "infix"
+    },
+    {
+      "canonical_name": "sub",
+      "codebox": "minus.rnbo",
+      "codebox_sha256": "551e2ea752fac59ae7e25a723aaf79bdefeac87e5db3b974a7132113b40035c7",
+      "exact_name": "minus",
+      "id": "minus",
+      "maximum_absolute_error": 0,
+      "model": 1911,
+      "patch": "minus.rnbopat",
+      "patch_sha256": "46ef00b3b010e16600451f81d533ba23abb6779bd72c9e41d1cb404eca245d1a",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/sub"
+        }
+      ],
+      "registry_lookup": "minus",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "call"
+    },
+    {
+      "canonical_name": "accum",
+      "codebox": "plusequals.rnbo",
+      "codebox_sha256": "99df8a40f92b9b2c5931b7b80c65ee5c8a32e4107bb9bb0f3aca32244a183577",
+      "exact_name": "plusequals",
+      "id": "plusequals",
+      "maximum_absolute_error": 0,
+      "model": 1912,
+      "patch": "plusequals.rnbopat",
+      "patch_sha256": "c5fe8e73ed4e9a2fe060703fc204b1c8fcd297ccd2259f0ed673183d1abf5a44",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/accum"
+        }
+      ],
+      "registry_lookup": "plusequals",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "constructor-alias"
+    },
+    {
+      "canonical_name": "mulequals",
+      "codebox": "mulequals.rnbo",
+      "codebox_sha256": "aadaada458feaba891dee42b4dc32358feebd2805bf36e56911687e3507dc59e",
+      "exact_name": "mulequals",
+      "id": "mulequals",
+      "maximum_absolute_error": 0,
+      "model": 1913,
+      "patch": "mulequals.rnbopat",
+      "patch_sha256": "eeea5e812114da20e8d341e02b39e7a253f053e29b2d578d6d45e4973643ab11",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/mulequals"
+        }
+      ],
+      "registry_lookup": "mulequals",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "constructor-alias"
+    },
+    {
+      "canonical_name": "accum",
+      "codebox": "add-alias-constructor.rnbo",
+      "codebox_sha256": "d988ecddf60c6521379c4716b5e4a451b50811a81c7446e13d4c8bb4a6f130cd",
+      "exact_name": "+=",
+      "id": "add-alias-constructor",
+      "maximum_absolute_error": 0,
+      "model": 1914,
+      "patch": "add-alias-constructor.rnbopat",
+      "patch_sha256": "fb9fb80dec83a07143a7f0c62657b44b349ea7a1ac377d3701ab08154ff9081d",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/accum"
+        }
+      ],
+      "registry_lookup": "+=",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "constructor-alias"
+    },
+    {
+      "canonical_name": "mulequals",
+      "codebox": "multiply-alias-constructor.rnbo",
+      "codebox_sha256": "3e18e959af7a7e76f24c8358a503a1e87a380cb202e5e0f2c8c1fe100e1782b1",
+      "exact_name": "*=",
+      "id": "multiply-alias-constructor",
+      "maximum_absolute_error": 0,
+      "model": 1915,
+      "patch": "multiply-alias-constructor.rnbopat",
+      "patch_sha256": "346267a5b9c03b639eeef97a654508be8e4d7390e7e664d2e95aeb52c5c5bdf8",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/mulequals"
+        }
+      ],
+      "registry_lookup": "*=",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "constructor-alias"
+    },
+    {
+      "canonical_name": "compound-add-state",
+      "codebox": "compound-add-state.rnbo",
+      "codebox_sha256": "4662a3affba1a26a752f24f86ab917590480b3577d1a5bac17d01ad34b6ebcdf",
+      "exact_name": "compound-add-state",
+      "id": "compound-add-state",
+      "maximum_absolute_error": 0,
+      "model": 1916,
+      "patch": "compound-add-state.rnbopat",
+      "patch_sha256": "46cb5a2375cf94bec46fa5c237bdb5b99636db1c7262c89c6ef6c7fdbd60d543",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/compound-add-state"
+        }
+      ],
+      "registry_lookup": "language:compound-add-state",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "compound-multiply-state",
+      "codebox": "compound-multiply-state.rnbo",
+      "codebox_sha256": "4335fa94a64b4a8a446943df68200f8305a435f967119ac1774b9703fcb70a9d",
+      "exact_name": "compound-multiply-state",
+      "id": "compound-multiply-state",
+      "maximum_absolute_error": 0,
+      "model": 1917,
+      "patch": "compound-multiply-state.rnbopat",
+      "patch_sha256": "17858d76d006f0d94da3a69dae040a86e71a38144964fc2c9f5a0f033cf9a65e",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/compound-multiply-state"
+        }
+      ],
+      "registry_lookup": "language:compound-multiply-state",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "compound-assignment"
+    },
+    {
+      "canonical_name": "currenttime",
+      "codebox": "currenttime.rnbo",
+      "codebox_sha256": "c0e843e1ea65988c055ee2db88cdd1066a05d2e82774ee1b4d7167cb784127b5",
+      "exact_name": "currenttime",
+      "id": "currenttime",
+      "maximum_absolute_error": 2e-05,
+      "model": 1918,
+      "patch": "currenttime.rnbopat",
+      "patch_sha256": "41cbc5c72e6bed18fb35d36469caa4f7a1cd31178b9c019f358406fb1fa573a3",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/currenttime"
+        }
+      ],
+      "registry_lookup": "currenttime",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "samplecount",
+      "codebox": "samplecount.rnbo",
+      "codebox_sha256": "f5459168e7659067faf45d94e0efeb6991512bc094c15848139963a09d598eb2",
+      "exact_name": "samplecount",
+      "id": "samplecount",
+      "maximum_absolute_error": 0,
+      "model": 1919,
+      "patch": "samplecount.rnbopat",
+      "patch_sha256": "5eb2114591982077715ee8594aa1ac187d1dc524c91b4f917e1852a70695d153",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/samplecount"
+        }
+      ],
+      "registry_lookup": "samplecount",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "sampleoffset",
+      "codebox": "sampleoffset.rnbo",
+      "codebox_sha256": "a0a4a4f1f0da92474224045ba68f053a4fbbdfb477daf45bfb6e7bade39c910f",
+      "exact_name": "sampleoffset",
+      "id": "sampleoffset",
+      "maximum_absolute_error": 0,
+      "model": 1920,
+      "patch": "sampleoffset.rnbopat",
+      "patch_sha256": "ea5ef2742edb3779115cfe3d30db5d9745ec2bf18625e76c5fdc550cd63c7a5b",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/sampleoffset"
+        }
+      ],
+      "registry_lookup": "sampleoffset",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "samplerate",
+      "codebox": "samplerate.rnbo",
+      "codebox_sha256": "5648c0f1c773f8b9d7da2aed40cc7d139774b88cb68fa532fc94196f71959c7b",
+      "exact_name": "samplerate",
+      "id": "samplerate",
+      "maximum_absolute_error": 0,
+      "model": 1921,
+      "patch": "samplerate.rnbopat",
+      "patch_sha256": "46b7e4019813abea3e02ea6c087c5efa1eb40b6540167b03fae27b3e136021b4",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/samplerate"
+        }
+      ],
+      "registry_lookup": "samplerate",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "vectorsize",
+      "codebox": "vectorsize.rnbo",
+      "codebox_sha256": "f9a249d3bb4fc7a735618b40ba899046094325f785d2ddfc0cc0f5565de7b9b6",
+      "exact_name": "vectorsize",
+      "id": "vectorsize",
+      "maximum_absolute_error": 0,
+      "model": 1922,
+      "patch": "vectorsize.rnbopat",
+      "patch_sha256": "fb81902dcf15c577b6e300b2b1178444ec51ed9d9d65ee0ce1ab3f9a005447e7",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/vectorsize"
+        }
+      ],
+      "registry_lookup": "vectorsize",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "mc_channel",
+      "codebox": "mc_channel.rnbo",
+      "codebox_sha256": "6f9933d8d57c7190ad41660c68a208d0b444d6403de253c23fa9ddc1315b515b",
+      "exact_name": "mc_channel",
+      "id": "mc_channel",
+      "maximum_absolute_error": 0,
+      "model": 1923,
+      "patch": "mc_channel.rnbopat",
+      "patch_sha256": "bff77da46635d78e55b5710b84b5a71d1fe9d047897621d9d8f981ae9927d8c0",
+      "reference_policy": "bounded-finite-integer-context-screen",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/mc_channel"
+        }
+      ],
+      "registry_lookup": "mc_channel",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "mc_channelcount",
+      "codebox": "mc_channelcount.rnbo",
+      "codebox_sha256": "f38ab5f25b2453ebad2a55dcca7b61b74e86e52197908ca6b52ca9d651c602ed",
+      "exact_name": "mc_channelcount",
+      "id": "mc_channelcount",
+      "maximum_absolute_error": 0,
+      "model": 1924,
+      "patch": "mc_channelcount.rnbopat",
+      "patch_sha256": "2f8a35c41ea4c162f0dd636d180ccbee113c1705b098c48409f6d06ee1bf06c8",
+      "reference_policy": "bounded-finite-integer-context-screen",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/mc_channelcount"
+        }
+      ],
+      "registry_lookup": "mc_channelcount",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "named-value"
+    },
+    {
+      "canonical_name": "currentsampletime",
+      "codebox": "currentsampletime.rnbo",
+      "codebox_sha256": "60296c6843fd4f694936185e7c3982a737b3109c428f136da3e5e04afbccef72",
+      "exact_name": "currentsampletime",
+      "id": "currentsampletime",
+      "maximum_absolute_error": 0,
+      "model": 1925,
+      "patch": "currentsampletime.rnbopat",
+      "patch_sha256": "4234c5b2ac69a224b404cec477bfe43bcf22a6ff46deeebe2a58a24bb782c0b1",
+      "reference_policy": "independent-alias-math-unit-ratios-or-fresh-context-time",
+      "reference_sources": [
+        {
+          "url": "https://rnbo.cycling74.com/codebox/ref/currentsampletime"
+        }
+      ],
+      "registry_lookup": "currentsampletime",
+      "role": "fx",
+      "scope": "Exact authored codebox spelling/form, bounded finite vector; bare names and calls remain distinct. Fresh stopped120BPM/4-4/480PPQ defaults,44100Hz/256frames; no host transport/MIDI clock or tempo/meter events. Per-sample currenttime/offset and callback-origin samplecount are explicit expectations, not fitted to producer output. Non-MC queries use only a nonnegative integer screen0..64, no exact MC semantics. Prefix/parity forms use two independent state variables/instances. Compound language forms do not qualify registered stateful constructor aliases. No arbitrary domains/options, aliases, patcher or Gen inheritance.",
+      "surface": "codebox",
+      "syntax": "call"
+    }
+  ],
+  "family": "rnbo-codebox-context-aliases",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "generator_sha256": "37a95931ec14184f6868cc2526bd956961be1f9b5e64ec64f8d585adaa9b8da1",
+  "license": "MIT; original sources and independent finite references",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 26,
+    "index": 1,
+    "parent_catalog_sha256": "d535f45997bc79dd0c759d0f5e74a47da1557b8b3b50b1d9e0bd9242970f12f8",
+    "total": 2
+  },
+  "reference_sha256": "50453766b94a9e6f3b27c50ed62a1802bb91af115d70925e72959832a5f8a9fe",
+  "requested_module_max_arena_bytes": 4096,
+  "sample_rate": 44100,
+  "surface": "codebox",
+  "timed_blocks": 16
+}

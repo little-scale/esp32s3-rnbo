@@ -63,6 +63,12 @@ MEMBER_REFERENCE_SHA='5e67c4f165e30223ed1b78b0c0be7d572eac7434c3c00b1acc8a57ef21
 MEMBER_PARTITIONS={1:'db88a71dc914b7564f62b11efe9d04002648fe084787efe25c4815a8194b19f6',2:'48da2b83c339340971e997f301327dedd1a46d41761c5e4991942060d0d6e657'}
 
 
+CONTEXT_ALIAS_FAMILY='rnbo-codebox-context-aliases'
+CONTEXT_ALIAS_CATALOG_SHA='d535f45997bc79dd0c759d0f5e74a47da1557b8b3b50b1d9e0bd9242970f12f8'
+CONTEXT_ALIAS_REFERENCE_SHA='50453766b94a9e6f3b27c50ed62a1802bb91af115d70925e72959832a5f8a9fe'
+CONTEXT_ALIAS_PARTITIONS={1:'a53ab063003391345382cd6e4c7909293847b7cfbd9e6ded92a1b68939ef5897',2:'2073390de13d70bff383ce8813acc61a2b3541f31812c0958ed283794dc00016'}
+
+
 ANALYSIS_MEMBER_FAMILY='rnbo-codebox-analysis-members'
 ANALYSIS_MEMBER_CATALOG_SHA='6b46678ecbf1a2f7cbc05a19a52078ef81cac857ccc98b93f222d7e3c71b2e92'
 ANALYSIS_MEMBER_REFERENCE_SHA='0000215aaca15dab10131e568f62280a0f06b94ce1586b2676f313585a563a5e'
@@ -119,6 +125,15 @@ def gen_extended_catalog(catalog):
             index not in GEN_EXT_PARTITIONS or hashlib.sha256(canonical(catalog)).hexdigest()!=GEN_EXT_PARTITIONS[index]or
             sha(ROOT/'tests/fixtures/smoke/gen-data-extended/catalog.json')!=GEN_EXT_CATALOG_SHA):
         raise ExportError('Extended Gen data requires an exact16/15-source partition of the authored31-source catalog')
+    return partition
+
+
+def context_alias_catalog(catalog):
+    partition=catalog.get('partition',{});index=partition.get('index')
+    if (catalog.get('family')!=CONTEXT_ALIAS_FAMILY or type(index)is not int or
+            index not in CONTEXT_ALIAS_PARTITIONS or hashlib.sha256(canonical(catalog)).hexdigest()!=CONTEXT_ALIAS_PARTITIONS[index]or
+            sha(ROOT/'tests/fixtures/smoke/rnbo-codebox-context-aliases/catalog.json')!=CONTEXT_ALIAS_CATALOG_SHA):
+        raise ExportError('Context/alias checks require an exact26/25-source partition of the authored51-source catalog')
     return partition
 
 
@@ -190,7 +205,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -236,9 +251,9 @@ def checked_words(words):
     return words
 
 
-def absolute_tolerance(reference,model):
+def absolute_tolerance(reference,model,*,ceiling=1e-3):
     value=getattr(reference,'ABSOLUTE_TOLERANCES',{}).get(model,0)
-    if type(value) not in (int,float) or not math.isfinite(value) or not 0<=value<=1e-3:
+    if type(value) not in (int,float) or not math.isfinite(value) or not 0<=value<=ceiling:
         raise ExportError('Invalid predeclared absolute error tolerance')
     return struct.unpack('<f',struct.pack('<f',value))[0]
 
@@ -343,6 +358,11 @@ def prepare_plan(catalog_path,modules_path):
             batch.get('format')!='rnbo-smoke-modules-v1' or not batch.get('cache_control_whole_ELF_equal')):
         raise ExportError('Unsupported smoke catalog or unchecked module cache')
     reference_source=reference_path(catalog)
+    context_aliases=catalog.get('family')==CONTEXT_ALIAS_FAMILY
+    if context_aliases:
+        context_alias_partition=context_alias_catalog(catalog)
+        if sha(reference_source)!=CONTEXT_ALIAS_REFERENCE_SHA:
+            raise ExportError('Context/alias independent reference changed')
     analysis_members=catalog.get('family')==ANALYSIS_MEMBER_FAMILY
     if analysis_members:
         analysis_member_catalog(catalog)
@@ -423,12 +443,12 @@ def prepare_plan(catalog_path,modules_path):
         source_bytes=read_regular(patch,1024*1024)
         source_hash=hashlib.sha256(source_bytes).hexdigest()
         expression_info={}
-        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+        if catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
             expression_info['codebox_source_sha256']=(checked_character_source(row,source_bytes)if character
                                                        else checked_codebox_source(row,source_bytes))
             if 'codebox'in row and hashlib.sha256(read_regular(catalog_path.parent/row['codebox'],65536)).hexdigest()!=expression_info['codebox_source_sha256']:
                 raise ExportError('Standalone and embedded codebox programs differ')
-            if (containers or list_functions or structures or members or delay_members or analysis_members or gen_extended) and (source_hash!=row['patch_sha256'] or expression_info['codebox_source_sha256']!=row['codebox_sha256']):
+            if (containers or list_functions or structures or members or delay_members or analysis_members or context_aliases or gen_extended) and (source_hash!=row['patch_sha256'] or expression_info['codebox_source_sha256']!=row['codebox_sha256']):
                 raise ExportError('Container/list-function authored source changed')
         if 'genexpr' in row:
             expression_info['genexpr_sha256']=hashlib.sha256(
@@ -477,7 +497,7 @@ def prepare_plan(catalog_path,modules_path):
                 'detail':stage.capitalize()+' rejected this source; not compiled or executed'})
             continue
         manifest=module.get('prepared',{}).get('manifest',{})
-        if character or gen_data or containers or gen_control or gen_execution or list_functions or structures or members or delay_members or analysis_members or gen_extended:
+        if character or gen_data or containers or gen_control or gen_execution or list_functions or structures or members or delay_members or analysis_members or context_aliases or gen_extended:
             validate_manifest(manifest)
             if manifest['parameter_count']!=0:
                 raise ExportError('This smoke family requires the strict parameter-free FX profile')
@@ -501,7 +521,7 @@ def prepare_plan(catalog_path,modules_path):
             if (actual_manifest!=manifest or repair!=GEN_DELAY_PROOFS.get(identity) or
                     module.get('gen_delay_fix_contract')!=repair or module.get('status')!='built'):
                 raise ExportError('Gen Delay rerun requires both exact repaired module exports')
-        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or gen_execution or list_functions or structures or members or delay_members or analysis_members or gen_extended)and actual_manifest!=manifest:
+        if (catalog['family']in('rnbo-signal-routing','rnbo-signal-state-followup')or character or gen_data or containers or gen_control or gen_execution or list_functions or structures or members or delay_members or analysis_members or context_aliases or gen_extended)and actual_manifest!=manifest:
             raise ExportError('Signal routing module manifest differs from prepared files: '+identity)
         if comparison:
             if actual_manifest!=manifest or source_hash!=DBTOA_PATCH:
@@ -511,7 +531,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','rnbo-events','rnbo-events-extra','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -534,12 +554,13 @@ def prepare_plan(catalog_path,modules_path):
         if delay_rerun is not None:case['gen_delay_fix_contract']=repair
         arena=module.get('arena_bytes_ceiling',4096)
         if (delay_members or analysis_members or gen_extended) and arena!=2097152:raise ExportError('This resource family requires its declared2MiB arena ceiling')
+        if context_aliases and arena!=4096:raise ExportError('Context/alias family requires its strict4KiB arena')
         if type(arena)is not int or arena not in(4096,1048576,2097152):
             raise ExportError('Unsupported module arena tier: '+identity)
         if arena!=4096:case['arena_bytes']=arena
         if hasattr(reference,'case_input_words'):
             case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
-                absolute_tolerance=absolute_tolerance(reference,row['model']))
+                absolute_tolerance=absolute_tolerance(reference,row['model'],ceiling=2e-3 if context_aliases else 1e-3))
         if character and (arena!=4096 or case.get('absolute_tolerance')!=0 or
                 type(getattr(reference,'STRICT_ZERO_SIGN_CHANNELS',None))is not int or
                 reference.STRICT_ZERO_SIGN_CHANNELS!=2 or row['strict_zero_sign_channels']!=2 or
@@ -566,10 +587,11 @@ def prepare_plan(catalog_path,modules_path):
             case.update(parameter_case(prepared,manifest,reference,row['model']))
         cases.append(case)
         payloads.append(artifact)
-    pooled=catalog['family']in('rnbo-events','rnbo-events-extra')
-    if pooled and any(c.get('absolute_tolerance',0)!=0 for c in cases):
+    boundary_events=catalog['family']in('rnbo-events','rnbo-events-extra')
+    pooled=boundary_events or context_aliases
+    if boundary_events and any(c.get('absolute_tolerance',0)!=0 for c in cases):
         raise ExportError('Boundary-event references require zero absolute tolerance')
-    if pooled and any('expected_blocks'not in c or not c.get('expected_parameter_count')for c in cases):
+    if boundary_events and any('expected_blocks'not in c or not c.get('expected_parameter_count')for c in cases):
         raise ExportError('Boundary-event cases need parameters and twenty-block references')
     stream_bytes=4*sum(len(block)for c in cases for block in c.get('expected_blocks',()))
     if pooled:stream_bytes=4*512*len(block_pool(cases)[0])+4*20*len(cases)
@@ -590,10 +612,10 @@ def prepare_plan(catalog_path,modules_path):
     elif character:
         plan.update(family=CHARACTER_FAMILY,surface='codebox',prepare_zero_warm_blocks=0,
                     partition=character_partition,strict_zero_sign_channels=2,raw_pilot_channel=1)
-    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):
+    elif catalog['family']in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         plan.update(family=catalog['family'],surface='codebox')
-        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-list-functions','rnbo-character-constants'):plan['prepare_zero_warm_blocks']=0
-        if catalog['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members'):
+        if catalog['family']in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):plan['prepare_zero_warm_blocks']=0
+        if catalog['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-context-aliases'):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful codebox cases require twenty continuous reference blocks')
@@ -627,6 +649,13 @@ def prepare_plan(catalog_path,modules_path):
     if members:
         plan['partition']=member_partition
         plan['expected_stream_policy']='Fresh prepared member state; twenty continuous256-frame callbacks with only authored in-program member reset/clear calls'
+    if context_aliases:
+        plan['partition']=context_alias_partition
+        pool,refs=block_pool(cases)
+        plan.update(expected_block_storage='shared-512-word-pool',expected_reference_unique_blocks=len(pool),expected_block_pool=pool)
+        for case,indices in zip(cases,refs):
+            case['expected_block_indices']=indices
+            del case['expected_blocks']
     if analysis_members:plan['expected_stream_policy']='Fresh prepared analysis/resource member state; twenty continuous256-frame callbacks with only authored reset/seed/window-change actions'
     if delay_members:plan['expected_stream_policy']='Fresh prepared resource member state; twenty continuous256-frame callbacks with only authored in-program clear/reset calls'
     if gen_extended:
@@ -646,6 +675,8 @@ def generate_header(plan,inputs):
         'static const uint32_t smoke_inputs[512]={'+words(inputs)+'};']
     if 'prepare_zero_warm_blocks' in plan:
         lines.append('#define SMOKE_PREPARE_WARM_BLOCKS %du'%plan['prepare_zero_warm_blocks'])
+    if plan.get('family')==CONTEXT_ALIAS_FAMILY:
+        lines.append('#define SMOKE_ABSOLUTE_TOLERANCE_CEILING 0x1.0624dep-9f')
     pooled=plan.get('expected_block_storage')=='shared-512-word-pool'
     if pooled:
         pool=plan['expected_block_pool'];refs=[c['expected_block_indices']for c in plan['cases']]

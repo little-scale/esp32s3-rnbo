@@ -28,6 +28,20 @@ remain deferred; broader RNBO, Gen and structure coverage remains active work.
 
 ## Fast coverage runs
 
+The [context/unit/alias batch](hardware-smoke.md#rnbo-codebox-context-units-and-exact-aliases)
+records **51 sources: 43 execute, 40 pass, three retain clock comparison
+mismatches and eight remain frontend rejections**, across **440,320 output-word
+checks**. A secondary native diagnosis is consistent with callback-held clock
+queries; it does not replace the original per-sample expectations. Thirteen
+conversion CPU contexts bring the queue to **136**, led by mstobeats at 2.104 ms
+median (36.25% of the block period). The dashboard now maps **837 exact RNBO
+entries with scoped outcomes**, including gaps and unverified forms. Auxiliary
+lexical state syntax is separate from rejected constructor aliases. All loaded
+images finalise and allocation/memory checks pass. The normal player and saved
+controls are restored, with USB frame progress and zero runtime faults checked.
+An initial harness-limit stop is retained separately from the identical-plan
+successful rerun. The complete RNBO/Gen qualification goal remains active.
+
 The latest [signal-stateful and miscellaneous codebox checks](hardware-smoke.md#rnbo-signal-state-across-callback-boundaries)
 execute 37 scenarios: 36 pass, while `downsamp~` differs from the declared first-
 capture phase policy. They check 378,880 values and add five passing CPU-review

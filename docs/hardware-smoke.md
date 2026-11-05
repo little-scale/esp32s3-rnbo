@@ -9,9 +9,11 @@ These results mean **checked on hardware in the listed scenario**, not complete
 mode/domain qualification. Deeper investigation is reserved for failures and
 CPU-review flags. Existing, more extensive qualification records remain separate.
 
-The test firmware stays installed between batches. It is quiet after completion
-and does not run I²S audio, a display or networking. The drone can be reinstalled
-when needed; it is not automatically restored after each batch.
+The test firmware is quiet after completion and does not run I²S audio, a display
+or networking. Earlier batches sometimes left it installed, as their records
+state. Current batches restore the normal player, saved Main and live controls,
+then verify USB replies, advancing audio frames and runtime counters. This
+prevents Studio reconnects from being stranded on a test-only application.
 
 Before the resumed container batch, the MIDI-capable player ran the saved Main
 patch. Its settings were saved privately, audio was muted and paused, and USB
@@ -19,6 +21,57 @@ was released before installing the quiet test application. The container smoke
 firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
+
+## RNBO codebox context, units and exact aliases
+
+51 exact sources run in two fixed partitions. **43 execute, 40 pass, three
+retain per-sample clock comparison mismatches and eight are frontend rejections**,
+with **440,320 output-word checks**. Four pass predicates, ternary/subtraction,
+stateful named aliases, lexical compound assignments, context defaults and
+fifteen conversions pass their exact bounded checks. MC values only pass a
+finite integer screen in a non-MC patch; no exact MC semantics follow.
+
+The currenttime, sampleoffset and currentsampletime primary references expect
+per-sample values. Each retains 5,100 outside-limit differences. Separate native
+SDK captures are consistent with callback-origin held values; sampleoffset is
+zero. This diagnosis preserves all original mismatches and limits, and does
+not assert an RNBO clock defect. Samplecount passes its callback-origin model.
+Transport/conversion checks use fresh stopped 120 BPM, 4/4 and 480 PPQ defaults;
+changed tempo/meter and host/MIDI clock events remain unqualified.
+
+The rejected forms are exact infix `==p`, `!=p`, `!-`, `!/`, `!%`, `^^` and
+`new +=()` / `new *=()` constructors. The two independently passing lexical
+compound state programs do not qualify those constructor aliases. Their
+auxiliary language checks do not add dashboard object rows. Preserving existing
+`^^` evidence and adding 48 exact IDs brings the table to **837 scoped entries**.
+Neither passing nor rejected spellings inherit across RNBO/Gen/patcher surfaces.
+
+Every successful image finalises; all heap/allocation gates pass and arena
+high-water is zero. References remain continuous for twenty 256-frame calls,
+with zero automatic warmup and strict Float32 modules/original storage. Lossless
+reference pooling stores 90/15 unique blocks and reconstructs the same complete
+streams. There are 15,300 outside-limit differences, 16,005 within-limit
+differences and 7,680 signed-zero differences, retained separately.
+
+An initial second-partition run stopped at a device harness tolerance guard,
+after 15 CASE lines and before hztoticks processing. The original per-case
+0.002 output-unit limit exceeded the harness's 0.001 ceiling. The repair retains
+that default for existing families and generates 0.002 only for this pinned
+family. The rerun plan/modules/references/limits are identical; no primary
+oracle is fitted. Stopped-run hashes remain in the native record, and partial
+CASE lines supply no published completed-run measurements.
+
+Thirteen conversion contexts exceed the median CPU budget, taking the queue
+to **136**; no peak-spike rule triggers. mstobeats measures 2,104 µs median,
+2,108 µs peak (36.25% of the block period). These are complete offline callback
+costs, not isolated operation timings or measured optimisation gains. The
+normal player, same saved Main and live controls are restored and checked.
+
+See [part 1](../evidence/xiao-smoke-rnbo-codebox-context-aliases-part1.json),
+[part 2](../evidence/xiao-smoke-rnbo-codebox-context-aliases-part2.json),
+[native and stopped-run record](../evidence/rnbo-codebox-context-aliases-native.json),
+[original sources/reference](../tests/fixtures/smoke/rnbo-codebox-context-aliases/README.md)
+and [player restoration](../evidence/xiao-context-aliases-player-restoration.json).
 
 ## Extended Gen tables, sample access and boundaries
 

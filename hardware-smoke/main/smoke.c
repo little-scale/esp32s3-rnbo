@@ -20,6 +20,9 @@
 #ifndef SMOKE_PLAN_SHA256
 #error "Generated smoke_cases.h must bind SMOKE_PLAN_SHA256"
 #endif
+#ifndef SMOKE_ABSOLUTE_TOLERANCE_CEILING
+#define SMOKE_ABSOLUTE_TOLERANCE_CEILING .001f
+#endif
 #ifndef SMOKE_PREPARE_WARM_BLOCKS
 #define SMOKE_PREPARE_WARM_BLOCKS 4u
 #endif
@@ -224,7 +227,7 @@ static void worker(void *unused)
     for(unsigned n=0;n<SMOKE_CASE_COUNT;++n){
         const smoke_case *test=&smoke_cases[n];CHECK(token(test->id)&&hex_digest(test->sha));
         CHECK(test->reference_policy && (!strcmp(test->reference_policy,"documented-basic")||!strcmp(test->reference_policy,"observational-signed-fraction")||!strcmp(test->reference_policy,"mathematical-approximation")));
-        CHECK(isfinite(test->absolute_tolerance) && test->absolute_tolerance>=0 && test->absolute_tolerance<=.001f);
+        CHECK(isfinite(test->absolute_tolerance) && test->absolute_tolerance>=0 && test->absolute_tolerance<=SMOKE_ABSOLUTE_TOLERANCE_CEILING);
         CHECK((test->strict_zero_sign_channels&~3u)==0u);
         CHECK((uintptr_t)test->payload_end>(uintptr_t)test->payload_start);
         for(unsigned i=0;i<512;++i)CHECK(word_finite(test->expected[i]));
