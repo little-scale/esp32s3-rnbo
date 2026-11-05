@@ -8378,9 +8378,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstohz",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "beatstohz-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 180,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "7c259466e612b774d9fc6d631a9d93bc26aae1b7cd6c867c2001eedbfbe83868",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstohz",
       "inventory_group": "patcher:beatstohz",
       "is_alias": false,
@@ -8388,23 +8424,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstohz?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstohz; input domain [1.0, 5.0]; absolute output-unit limit 2e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.56µs, median 76.00µs, peak 80µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 180µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstohz~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "beatstohz-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 155,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "c3c0ec41ec3f90fa61656773840db2e5a5d9d03161ee1d372f62bac211b729c7",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 402.8125,
+          "median_us": 403.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 407,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstohz~",
       "inventory_group": "patcher:beatstohz~",
       "is_alias": false,
@@ -8412,16 +8492,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstohz~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstohz~; input domain [0.75, 5.25]; absolute output-unit limit 2e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 402.81µs, median 403.00µs, peak 407µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 155µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -8486,9 +8574,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstoms",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "beatstoms-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 38,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 185,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "d723b0898d5d1b938688b068c4c6a335eb2c503bb7bcdce9ed75b190d3d90d9f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstoms",
       "inventory_group": "patcher:beatstoms",
       "is_alias": false,
@@ -8496,23 +8620,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstoms?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstoms; input domain [-8.0, 8.0]; absolute output-unit limit 0. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.56µs, median 76.00µs, peak 81µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 185µs, peak 38µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstoms~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "beatstoms-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 154,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "1504f15c5d7d4b13ae2f58d7c9ded1ec5c8bfb9c2657196aef02eee0f2809f99",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 405.9375,
+          "median_us": 406.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 410,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstoms~",
       "inventory_group": "patcher:beatstoms~",
       "is_alias": false,
@@ -8520,16 +8688,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstoms~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstoms~; input domain [-8.25, 8.25]; absolute output-unit limit 0. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 405.94µs, median 406.00µs, peak 410µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 154µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -8594,9 +8770,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstosamps",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "beatstosamps-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 192,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "4ada9e706baa4f7e1eda2a66fbb3e773adc623277b5f21b28fac98e753603d10",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.1875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstosamps",
       "inventory_group": "patcher:beatstosamps",
       "is_alias": false,
@@ -8604,23 +8816,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstosamps?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstosamps; input domain [-8.0, 8.0]; absolute output-unit limit 0. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.19µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 192µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstosamps~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "beatstosamps-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 153,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "02f4ece9b16424abfe3d6592119f82849fbd77fd93c1c931a854884520726147",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.015625,
+          "mean_us": 411.3125,
+          "median_us": 410.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 128,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 414,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstosamps~",
       "inventory_group": "patcher:beatstosamps~",
       "is_alias": false,
@@ -8628,16 +8884,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstosamps~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: executes with finite output and correct parameter/pilot checks;128 words differ from the exact rational output screen by at most0.015625samples, also seen natively. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstosamps~; input domain [-8.25, 8.25]; absolute output-unit limit 0.128 words differ from the zero-tolerance rational reference, maximum0.015625samples; native preflight retains the same rounding finding. Execution, parameter checks and raw pilot pass. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Outside-screen rounding differences remain against the original zero-tolerance rational reference; this is not an execution failure. Short XIAO check (output_mismatch): one repeated stereo vector; mean 411.31µs, median 410.00µs, peak 414µs. Declared absolute tolerance 0; maximum finite error 0.015625; within-tolerance differences 0; numeric mismatches 128; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 153µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -8700,9 +8964,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstoticks",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "beatstoticks-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 44,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 168,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "b080a96e3391d5d48d34746a23aa397daff0b6d54bb30e880a82e4bf556a033c",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.1875,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstoticks",
       "inventory_group": "patcher:beatstoticks",
       "is_alias": false,
@@ -8710,23 +9010,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstoticks?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstoticks; input domain [-8.0, 8.0]; absolute output-unit limit 0. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.19µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 168µs, peak 44µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "beatstoticks~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "case": "beatstoticks-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 159,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "7d4c1be3dab73b705471e4341ebd766a488e90cf0405137844cc50b391a33c85",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 91.0625,
+          "median_us": 91.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 95,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:beatstoticks~",
       "inventory_group": "patcher:beatstoticks~",
       "is_alias": false,
@@ -8734,16 +9078,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/beatstoticks~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: beatstoticks~; input domain [-8.25, 8.25]; absolute output-unit limit 0. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 91.06µs, median 91.00µs, peak 95µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 159µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -40655,9 +41007,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztobeats",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "hztobeats-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 184,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "7c259466e612b774d9fc6d631a9d93bc26aae1b7cd6c867c2001eedbfbe83868",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztobeats",
       "inventory_group": "patcher:hztobeats",
       "is_alias": false,
@@ -40665,23 +41053,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztobeats?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: hztobeats; input domain [1.0, 5.0]; absolute output-unit limit 2e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.12µs, median 76.00µs, peak 80µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 184µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztobeats~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "case": "hztobeats-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 154,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "c3c0ec41ec3f90fa61656773840db2e5a5d9d03161ee1d372f62bac211b729c7",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 409.5625,
+          "median_us": 408.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 413,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztobeats~",
       "inventory_group": "patcher:hztobeats~",
       "is_alias": false,
@@ -40689,16 +41121,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztobeats~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: hztobeats~; input domain [0.75, 5.25]; absolute output-unit limit 2e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 409.56µs, median 408.00µs, peak 413µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 154µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -40760,9 +41200,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztoms",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.00019999999494757503,
+          "case": "hztoms-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 36,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 163,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "4acaa6cd90d5f79389590af5739192a156a94bcc63646297ef71f0c64d1eca65",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.1875,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztoms",
       "inventory_group": "patcher:hztoms",
       "is_alias": false,
@@ -40770,16 +41246,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztoms?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: hztoms; input domain [1.0, 5.0]; absolute output-unit limit 0.0002. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.19µs, median 75.50µs, peak 80µs. Declared absolute tolerance 0.000199999995; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 163µs, peak 36µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -40897,9 +41381,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztosamps",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.00800000037997961,
+          "case": "hztosamps-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 162,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "cc1a04aac7e488a491fe61f1fbbee10e0a784c9596fe07de32ac5095d3f71e0f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztosamps",
       "inventory_group": "patcher:hztosamps",
       "is_alias": false,
@@ -40907,16 +41427,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztosamps?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: hztosamps; input domain [1.0, 5.0]; absolute output-unit limit 0.008. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.12µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0.00800000038; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 162µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -41037,9 +41565,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztoticks",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0020000000949949026,
+          "case": "hztoticks-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 37,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 197,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "8d617bd2e9370a9daad015cae3fc3f0277f78ae93f09853ea042cd4c3a46d645",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:hztoticks",
       "inventory_group": "patcher:hztoticks",
       "is_alias": false,
@@ -41047,23 +41611,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztoticks?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: hztoticks; input domain [1.0, 5.0]; absolute output-unit limit 0.002. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.62µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0.00200000009; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 197µs, peak 37µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "hztoticks~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0020000000949949026,
+          "case": "hztoticks-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 154,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "686ecdb8a0932a0de8f8b472e87facc4313988c72a3fe46e12147e0edd1c1bfe",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0001220703125,
+          "mean_us": 550.4375,
+          "median_us": 552.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 553,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 2544
+        }
+      ],
       "id": "patcher:hztoticks~",
       "inventory_group": "patcher:hztoticks~",
       "is_alias": false,
@@ -41071,16 +41679,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/hztoticks~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: hztoticks~; input domain [0.75, 5.25]; absolute output-unit limit 0.002. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 550.44µs, median 552.00µs, peak 553µs. Declared absolute tolerance 0.00200000009; maximum finite error 0.000122070312; within-tolerance differences 2544; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 154µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -52015,9 +52631,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstobeats",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999943436137e-09,
+          "case": "mstobeats-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 54,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 250,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "fe1e11af466d01c88b97b16a1805c34ece1ddcde3c1eca2ab23177f464ae1ed0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstobeats",
       "inventory_group": "patcher:mstobeats",
       "is_alias": false,
@@ -52025,23 +52677,69 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstobeats?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: mstobeats; input domain [-8.0, 8.0]; absolute output-unit limit 2e-09. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.00µs, median 76.00µs, peak 80µs. Declared absolute tolerance 1.99999994e-09; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 250µs, peak 54µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstobeats~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999943436137e-09,
+          "case": "mstobeats-signal",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 158,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "105c6ce13082329e8fc1e50e7f8fece50fb81d90164ab12eff05317673eef134",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 1112.9375,
+          "median_us": 1111.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 1129,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstobeats~",
       "inventory_group": "patcher:mstobeats~",
       "is_alias": false,
@@ -52049,16 +52747,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstobeats~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: mstobeats~; input domain [-8.25, 8.25]; absolute output-unit limit 2e-09. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 1112.94µs, median 1111.50µs, peak 1129µs. Declared absolute tolerance 1.99999994e-09; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 158µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches). Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -52120,9 +52826,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstohz",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.00019999999494757503,
+          "case": "mstohz-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 36,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 162,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "4acaa6cd90d5f79389590af5739192a156a94bcc63646297ef71f0c64d1eca65",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 75.8125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstohz",
       "inventory_group": "patcher:mstohz",
       "is_alias": false,
@@ -52130,16 +52872,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstohz?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: mstohz; input domain [1.0, 5.0]; absolute output-unit limit 0.0002. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 75.81µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0.000199999995; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 162µs, peak 36µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -52257,9 +53007,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstosamps",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 4.999999873689376e-05,
+          "case": "mstosamps-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 38,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 170,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "64baedd09df87672515f043457b24564361e84e0b973d98da5a1e2ca4f6db675",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.75,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstosamps",
       "inventory_group": "patcher:mstosamps",
       "is_alias": false,
@@ -52267,16 +53053,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstosamps?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: mstosamps; input domain [-8.0, 8.0]; absolute output-unit limit 5e-05. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.75µs, median 76.00µs, peak 81µs. Declared absolute tolerance 4.99999987e-05; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 170µs, peak 38µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -52397,9 +53191,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstoticks",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 9.999999974752427e-07,
+          "case": "mstoticks-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 45,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 197,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "cdfe36cb18b8c399db2062b8f0e683985bad56b06c23497f3eeeaf3d9c299262",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstoticks",
       "inventory_group": "patcher:mstoticks",
       "is_alias": false,
@@ -52407,23 +53237,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstoticks?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: mstoticks; input domain [-8.0, 8.0]; absolute output-unit limit 1e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.50µs, median 76.00µs, peak 81µs. Declared absolute tolerance 9.99999997e-07; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 197µs, peak 45µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mstoticks~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 9.999999974752427e-07,
+          "case": "mstoticks-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 152,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "1aac39138428193ac4749cc19210f311c8b89fe4a389e1652cbad82a2c4a0807",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 498.875,
+          "median_us": 499.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 500,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:mstoticks~",
       "inventory_group": "patcher:mstoticks~",
       "is_alias": false,
@@ -52431,16 +53305,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/mstoticks~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: mstoticks~; input domain [-8.25, 8.25]; absolute output-unit limit 1e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 498.88µs, median 499.50µs, peak 500µs. Declared absolute tolerance 9.99999997e-07; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 152µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -62142,9 +63024,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstobeats",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.000000013351432e-10,
+          "case": "sampstobeats-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 44,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 194,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "64c715b77878edf16a34513bf1656bde41fcb801a702848df8fb3066987d4320",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.375,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstobeats",
       "inventory_group": "patcher:sampstobeats",
       "is_alias": false,
@@ -62152,23 +63070,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstobeats?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: sampstobeats; input domain [-8.0, 8.0]; absolute output-unit limit 1e-10. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.38µs, median 76.00µs, peak 80µs. Declared absolute tolerance 1.00000001e-10; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 194µs, peak 44µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstobeats~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.000000013351432e-10,
+          "case": "sampstobeats-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 156,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "95c1736fe7ace784919cd5d22548eaf597ddc493b309e8c2985cdf0348301816",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 441.6875,
+          "median_us": 441.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 446,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstobeats~",
       "inventory_group": "patcher:sampstobeats~",
       "is_alias": false,
@@ -62176,16 +63138,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstobeats~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: sampstobeats~; input domain [-8.25, 8.25]; absolute output-unit limit 1e-10. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 441.69µs, median 441.00µs, peak 446µs. Declared absolute tolerance 1.00000001e-10; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 156µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -62247,9 +63217,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstohz",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.00800000037997961,
+          "case": "sampstohz-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 162,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "cc1a04aac7e488a491fe61f1fbbee10e0a784c9596fe07de32ac5095d3f71e0f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.5,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstohz",
       "inventory_group": "patcher:sampstohz",
       "is_alias": false,
@@ -62257,16 +63263,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstohz?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: sampstohz; input domain [1.0, 5.0]; absolute output-unit limit 0.008. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.50µs, median 76.00µs, peak 80µs. Declared absolute tolerance 0.00800000038; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 162µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -62384,9 +63398,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstoms",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999987845058e-08,
+          "case": "sampstoms-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 161,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "1bfd6751ac03aa11d6effeb621ff5467b0d3d866ad9a04044c9992c3da57ed33",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.4375,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstoms",
       "inventory_group": "patcher:sampstoms",
       "is_alias": false,
@@ -62394,16 +63444,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstoms?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: sampstoms; input domain [-8.0, 8.0]; absolute output-unit limit 2e-08. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.44µs, median 76.00µs, peak 80µs. Declared absolute tolerance 1.99999999e-08; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 161µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -62524,9 +63582,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstoticks",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999987845058e-08,
+          "case": "sampstoticks-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 185,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "285539834334b7612a7c0f3046bf9de663aca8a1ec4a931ace211b6ac1abbacd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.125,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstoticks",
       "inventory_group": "patcher:sampstoticks",
       "is_alias": false,
@@ -62534,23 +63628,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstoticks?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: sampstoticks; input domain [-8.0, 8.0]; absolute output-unit limit 2e-08. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.12µs, median 76.00µs, peak 80µs. Declared absolute tolerance 1.99999999e-08; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 185µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "sampstoticks~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999987845058e-08,
+          "case": "sampstoticks-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 157,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "094eac972bb3b6adb9442f6a44fee71530d11a42b277749c8070dbb84947015f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 398.8125,
+          "median_us": 398.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 403,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:sampstoticks~",
       "inventory_group": "patcher:sampstoticks~",
       "is_alias": false,
@@ -62558,16 +63696,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/sampstoticks~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: sampstoticks~; input domain [-8.25, 8.25]; absolute output-unit limit 2e-08. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 398.81µs, median 398.00µs, peak 403µs. Declared absolute tolerance 1.99999999e-08; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 157µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -68034,9 +69180,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstobeats",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999943436137e-09,
+          "case": "tickstobeats-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 159,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "f0ee8d038a75c3dc43b77e6eb5a4014d219c66f1a6e92a9f8d0eb079c779bca4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 76.0,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:tickstobeats",
       "inventory_group": "patcher:tickstobeats",
       "is_alias": false,
@@ -68044,23 +69226,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstobeats?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstobeats; input domain [-8.0, 8.0]; absolute output-unit limit 2e-09. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.00µs, median 75.50µs, peak 80µs. Declared absolute tolerance 1.99999994e-09; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 159µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstobeats~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.999999943436137e-09,
+          "case": "tickstobeats-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 154,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "04d5cef0a93f8794567874e546e81040663800f1d944d7b3aef21f77b01280a8",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0,
+          "mean_us": 136.5,
+          "median_us": 135.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 141,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "patcher:tickstobeats~",
       "inventory_group": "patcher:tickstobeats~",
       "is_alias": false,
@@ -68068,16 +69294,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstobeats~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstobeats~; input domain [-8.25, 8.25]; absolute output-unit limit 2e-09. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 136.50µs, median 135.00µs, peak 141µs. Declared absolute tolerance 1.99999994e-09; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 154µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -68142,9 +69376,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstohz",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0020000000949949026,
+          "case": "tickstohz-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 36,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 193,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "8d617bd2e9370a9daad015cae3fc3f0277f78ae93f09853ea042cd4c3a46d645",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 6.103515625e-05,
+          "mean_us": 76.375,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 81,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1280
+        }
+      ],
       "id": "patcher:tickstohz",
       "inventory_group": "patcher:tickstohz",
       "is_alias": false,
@@ -68152,23 +69422,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstohz?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part1.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstohz; input domain [1.0, 5.0]; absolute output-unit limit 0.002. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.38µs, median 76.00µs, peak 81µs. Declared absolute tolerance 0.00200000009; maximum finite error 6.10351562e-05; within-tolerance differences 1280; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 193µs, peak 36µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstohz~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0020000000949949026,
+          "case": "tickstohz-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 34,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 161,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "686ecdb8a0932a0de8f8b472e87facc4313988c72a3fe46e12147e0edd1c1bfe",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 0.0001220703125,
+          "mean_us": 499.8125,
+          "median_us": 499.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 502,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1232
+        }
+      ],
       "id": "patcher:tickstohz~",
       "inventory_group": "patcher:tickstohz~",
       "is_alias": false,
@@ -68176,16 +69490,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstohz~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstohz~; input domain [0.75, 5.25]; absolute output-unit limit 0.002. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 499.81µs, median 499.50µs, peak 502µs. Declared absolute tolerance 0.00200000009; maximum finite error 0.000122070312; within-tolerance differences 1232; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 161µs, peak 34µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -68250,9 +69572,45 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstoms",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 9.999999974752427e-07,
+          "case": "tickstoms-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 36,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 184,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "62f76ec801600c25dec85238fe83754a5566c483ff69070dbdc855961c30405f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 9.5367431640625e-07,
+          "mean_us": 75.625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3072
+        }
+      ],
       "id": "patcher:tickstoms",
       "inventory_group": "patcher:tickstoms",
       "is_alias": false,
@@ -68260,23 +69618,67 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstoms?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstoms; input domain [-8.0, 8.0]; absolute output-unit limit 1e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 75.62µs, median 76.00µs, peak 76µs. Declared absolute tolerance 9.99999997e-07; maximum finite error 9.53674316e-07; within-tolerance differences 3072; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 184µs, peak 36µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstoms~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 9.999999974752427e-07,
+          "case": "tickstoms-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 158,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "c00bd1cfe1f288ee8293845485b0b46fa87b909e201317236a51a61bb81f6503",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 9.5367431640625e-07,
+          "mean_us": 454.5,
+          "median_us": 453.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 457,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 1456
+        }
+      ],
       "id": "patcher:tickstoms~",
       "inventory_group": "patcher:tickstoms~",
       "is_alias": false,
@@ -68284,16 +69686,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstoms~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstoms~; input domain [-8.25, 8.25]; absolute output-unit limit 1e-06. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 454.50µs, median 453.00µs, peak 457µs. Declared absolute tolerance 9.99999997e-07; maximum finite error 9.53674316e-07; within-tolerance differences 1456; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 158µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -68362,9 +69772,45 @@
       "aliases": [
         "tickstosamples"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstosamps",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 4.999999873689376e-05,
+          "case": "tickstosamples-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 187,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "0b17aa00a2fbf01b3342e1ec7fda68b2985de2e10744b0d9d2dba9adfd0336b0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 3.0517578125e-05,
+          "mean_us": 76.5625,
+          "median_us": 76.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 80,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3072
+        }
+      ],
       "id": "patcher:tickstosamples",
       "inventory_group": "patcher:tickstosamps",
       "is_alias": true,
@@ -68372,25 +69818,69 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstosamps?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstosamples; input domain [-8.0, 8.0]; absolute output-unit limit 5e-05. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 76.56µs, median 76.00µs, peak 80µs. Declared absolute tolerance 4.99999987e-05; maximum finite error 3.05175781e-05; within-tolerance differences 3072; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 187µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [
         "tickstosamples~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstosamps~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 4.999999873689376e-05,
+          "case": "tickstosamples-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 155,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "d353c5bafa80a076f0a2baf34f7fd58cc71d9c3f374988e095079b80a51afdee",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 3.0517578125e-05,
+          "mean_us": 454.6875,
+          "median_us": 455.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 457,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 992
+        }
+      ],
       "id": "patcher:tickstosamples~",
       "inventory_group": "patcher:tickstosamps~",
       "is_alias": true,
@@ -68398,16 +69888,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstosamps~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstosamples~; input domain [-8.25, 8.25]; absolute output-unit limit 5e-05. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 454.69µs, median 455.00µs, peak 457µs. Declared absolute tolerance 4.99999987e-05; maximum finite error 3.05175781e-05; within-tolerance differences 992; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 155µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -68476,9 +69974,45 @@
       "aliases": [
         "tickstosamples"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstosamps",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 4.999999873689376e-05,
+          "case": "tickstosamps-event",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 35,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 184,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "0b17aa00a2fbf01b3342e1ec7fda68b2985de2e10744b0d9d2dba9adfd0336b0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 3.0517578125e-05,
+          "mean_us": 75.5,
+          "median_us": 75.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 76,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 3072
+        }
+      ],
       "id": "patcher:tickstosamps",
       "inventory_group": "patcher:tickstosamps",
       "is_alias": false,
@@ -68486,25 +70020,69 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstosamps?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstosamps; input domain [-8.0, 8.0]; absolute output-unit limit 5e-05. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 75.50µs, median 75.50µs, peak 76µs. Declared absolute tolerance 4.99999987e-05; maximum finite error 3.05175781e-05; within-tolerance differences 3072; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 184µs, peak 35µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [
         "tickstosamples~"
       ],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "tickstosamps~",
       "category": "Conversion",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 4.999999873689376e-05,
+          "case": "tickstosamps-signal",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "event_peak_us": 33,
+          "event_timing_scope": "Wrapper/setter/routing callback only; readbacks and logging excluded, not isolated opcode cost",
+          "event_total_us": 161,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json",
+          "expected_block_count": 20,
+          "expected_right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "expected_stream_sha256": "d353c5bafa80a076f0a2baf34f7fd58cc71d9c3f374988e095079b80a51afdee",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "37490509d35d746de052e7f07f523c77cdca84a447be54f4280add022d4111a1",
+          "max_absolute_error": 3.0517578125e-05,
+          "mean_us": 453.875,
+          "median_us": 453.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "parameter_count": 1,
+          "parameter_event_scope": "Actual TimeNow controls before full256-frame callbacks; no within-block event offsets",
+          "parameter_events_applied": 21,
+          "parameter_schema_sha256": "ecdc2af579d4a714d95ed0c402f8839863aecd4b927888a760e75ee384fc4c8c",
+          "peak_us": 457,
+          "reference_policy": "rational-unit-conversion-fixed-transport",
+          "right_output_sha256": "70e9f858c32f98d8388e0aad551e911a8e0feb998506c084bd964ec092963509",
+          "right_pilot_bit_exact": true,
+          "samples_checked": 10240,
+          "status": "pass",
+          "strict_zero_sign_channels": 2,
+          "strict_zero_sign_mismatches": 0,
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 992
+        }
+      ],
       "id": "patcher:tickstosamps~",
       "inventory_group": "patcher:tickstosamps~",
       "is_alias": false,
@@ -68512,16 +70090,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/objects/ref/tickstosamps~?v=1.4.4",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo unit conversions part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-unit-conversions-part2.json"
+        }
+      ],
       "surface": "patcher",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture. Fixed stopped120BPM/480PPQ/4-4 transport,44100Hz/256frames.21 ordered actual-value actions with actual/normalised readbacks, four manual warm and sixteen timed callbacks; signal forms additionally vary inside blocks. Independent rational reference, frozen output-unit tolerance and separately hashed5120-word raw right capture. Setter/routing and whole-callback timing are separate; no isolated opcode cost or optimisation gain. Exact source form: tickstosamps~; input domain [-8.25, 8.25]; absolute output-unit limit 5e-05. Remaining scope: Only the authored finite event/signal domains and fixed default transport are checked. Changed tempo/transport, reset/constructor options, reciprocal-zero/nonfinite inputs and within-block host event offsets remain unqualified. Aliases and patcher/codebox/Gen surfaces are separate. No complete-object claim or matched optimisation saving. Short XIAO check (pass): one repeated stereo vector; mean 453.88µs, median 453.00µs, peak 457µs. Declared absolute tolerance 4.99999987e-05; maximum finite error 3.05175781e-05; within-tolerance differences 992; numeric mismatches 0; nonfinite outputs 0. 21 parameter events with actual/normalized readbacks; setter/routing total 161µs, peak 33µs, separate from callback times. Controls apply before full 256-frame callbacks; no within-block timing or isolated-opcode cost is claimed. Right pilot zero signs are strict (0 mismatches).",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -72678,10 +74264,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "bd5cd2f2415dbd947c16f8731acf3b2b726ed0b75b5598af2c43d0eb4d6a042e",
-    "coverage_source_sha256": "bd5cd2f2415dbd947c16f8731acf3b2b726ed0b75b5598af2c43d0eb4d6a042e",
-    "exact_coverage_entries": 936,
-    "generator_sha256": "b0edc2a5a3a26093f7e75884b821ecebb32b3e449c644136297a7f5f71986890",
+    "coverage_canonical_sha256": "120b31297f8ce041c51fec0abafe008fad096053013aa2f8a294c48efc7bb195",
+    "coverage_source_sha256": "120b31297f8ce041c51fec0abafe008fad096053013aa2f8a294c48efc7bb195",
+    "exact_coverage_entries": 972,
+    "generator_sha256": "a50e3cba927eadaed525b1e4e776af27adf0470a068564fa54abfcf2622a3e75",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",

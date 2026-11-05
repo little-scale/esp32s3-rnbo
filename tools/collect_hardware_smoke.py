@@ -206,7 +206,7 @@ def mismatch_witness(data,expected,status,output,blocks=None,stream_sha=None):
     return first,extra
 
 
-def parameter_observations(expected,data,events,enabled=False,*,allow_tolerance=False):
+def parameter_observations(expected,data,events,enabled=False,*,allow_tolerance=False,tolerance_ceiling=TOLERANCE_CEILING):
     """Bind actual TimeNow boundary actions; these are not sample-offset events."""
     counters={'parameter_count','parameter_events_applied','event_total_us','event_peak_us'}
     present=counters.intersection(data)
@@ -224,7 +224,7 @@ def parameter_observations(expected,data,events,enabled=False,*,allow_tolerance=
     require(type(actions)is list and 1<=len(actions)<=128 and len(events)==len(actions),'Parameter event count differs')
     require(type(expected.get('strict_zero_sign_channels'))is int and expected['strict_zero_sign_channels']==2 and
             type(expected.get('absolute_tolerance',0))in(int,float)and
-            (0<=expected.get('absolute_tolerance',0)<=TOLERANCE_CEILING if allow_tolerance else expected.get('absolute_tolerance',0)==0),
+            (0<=expected.get('absolute_tolerance',0)<=tolerance_ceiling if allow_tolerance else expected.get('absolute_tolerance',0)==0),
             'Boundary parameter scenario requires strict right observer and zero tolerance')
     identities=set()
     for parameter in parameters:
@@ -910,6 +910,44 @@ def event_math_plan(plan):
                     'Event-range authored action differs')
 
 
+def unit_conversion_plan(plan):
+    from build_hardware_smoke import UNIT_CONVERSION_FAMILY,UNIT_CONVERSION_CATALOG_SHA,UNIT_CONVERSION_REFERENCE_SHA,UNIT_CONVERSION_PARTITIONS,unit_conversion_catalog
+    directory=ROOT/'tests/fixtures/smoke/rnbo-unit-conversions'
+    partition=plan.get('partition',{});index=partition.get('index');require(type(index)is int and index in(1,2),'Invalid unit-conversion partition')
+    catalog=json.loads((directory/('part'+str(index)+'.json')).read_bytes());unit_conversion_catalog(catalog)
+    require(partition==catalog['partition'],'Unit-conversion partition differs')
+    require(plan.get('catalog_sha256')==UNIT_CONVERSION_PARTITIONS[index] and
+            plan.get('reference_source_sha256')==UNIT_CONVERSION_REFERENCE_SHA and
+            sha(directory/'reference.py')==UNIT_CONVERSION_REFERENCE_SHA and plan.get('surface')=='patcher' and
+            type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+            plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16 and
+            plan.get('expected_block_storage')=='shared-512-word-pool', 'Unit-conversion source/fresh-control policy differs')
+    originals={r['id']:r for r in catalog['cases']}
+    observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals)and {r['id']for r in observed}==set(originals),'Unit-conversion case ledger differs')
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256'] and
+                all(row.get(k)==source[k]for k in ('exact_name','syntax','registry_lookup')), 'Unit-conversion exact spelling/source differs')
+    spec=importlib.util.spec_from_file_location('unit_conversion_independent',directory/'reference.py')
+    reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+    pool=expected_pool(plan)
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model'];inputs=reference.case_input_words(model)
+        require(all(row.get(k)==v for k,v in source.items()) and row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0] and
+                row.get('input_words')==list(inputs),'Unit-conversion source/domain/tolerance differs')
+        blocks,_=expected_stream(row,True,pool)
+        require(tuple(tuple(b)for b in blocks)==reference.reference_blocks(model,inputs),'Unit-conversion reference stream differs')
+        authored=reference.parameter_events(model);observed=row.get('parameter_events',[])
+        require(len(authored)==len(observed)==21 and row.get('expected_parameter_count')==1 and
+                row.get('parameters')==[dict(id='drive',minimum=-8.,maximum=8.,initial=0.,exponent=1.,steps=0)],
+                'Unit-conversion parameter contract differs')
+        for expected,actual in zip(authored,observed):
+            require(actual==dict(before_call=expected['before_call'],id='drive',parameter_slot=0,
+                    value_word=reference.word(expected['value']),normalized_word=reference.word((expected['value']+8)/16)),
+                    'Unit-conversion authored action differs')
+
+
 def right_pilot_observation(data,blocks):
     require(type(blocks)is list and len(blocks)==20,'Raw right capture requires twenty reference blocks')
     expected=hashlib.sha256(b''.join(struct.pack('<256I',*b[1::2])for b in blocks)).hexdigest()
@@ -997,6 +1035,7 @@ def collect(build_dir,run_dir):
     if plan.get('family')=='gen-visual-math':visual_math_plan(plan)
     if plan.get('family')=='gen-visual-core':visual_gen_plan(plan)
     if plan.get('family')=='rnbo-events-math':event_math_plan(plan)
+    if plan.get('family')=='rnbo-unit-conversions':unit_conversion_plan(plan)
     if plan.get('family')=='rnbo-events-ranges':event_range_plan(plan)
     if plan.get('family')==CONTAINER_FAMILY:container_plan(plan)
     if plan.get('family')==STRUCTURE_FAMILY:structure_plan(plan)
@@ -1034,7 +1073,7 @@ def collect(build_dir,run_dir):
         require(type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
-    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math')
+    event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions')
     stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core')or event_family
     if stateful:
         require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
@@ -1069,11 +1108,11 @@ def collect(build_dir,run_dir):
         med,mean,peak,reasons=cpu_metrics(times)
         require(abs(float(data['median_us'])-med)<1e-5 and abs(float(data['mean_us'])-mean)<1e-5 and
                 int(data['peak_us'])==peak,'Callback metrics differ from raw times')
-        output=output_metrics(data,expected,plan['input_words_sha256'],tolerance_ceiling=struct.unpack('<f',struct.pack('<f',2e-3))[0]if plan.get('family')==CONTEXT_ALIAS_FAMILY else TOLERANCE_CEILING);status=output['status']
+        output=output_metrics(data,expected,plan['input_words_sha256'],tolerance_ceiling=struct.unpack('<f',struct.pack('<f',.008))[0]if plan.get('family')=='rnbo-unit-conversions'else struct.unpack('<f',struct.pack('<f',2e-3))[0]if plan.get('family')==CONTEXT_ALIAS_FAMILY else TOLERANCE_CEILING);status=output['status']
         blocks,stream_sha=expected_stream(expected,stateful,pool)
         first,witness_metadata=mismatch_witness(data,expected,status,output,blocks,stream_sha)
-        parameters=parameter_observations(expected,data,events,event_family,allow_tolerance=plan.get('family')=='rnbo-events-math')
-        if plan.get('family')=='rnbo-events-math':parameters.update(right_pilot_observation(data,blocks))
+        parameters=parameter_observations(expected,data,events,event_family,allow_tolerance=plan.get('family')in('rnbo-events-math','rnbo-unit-conversions'),tolerance_ceiling=struct.unpack('<f',struct.pack('<f',.008))[0]if plan.get('family')=='rnbo-unit-conversions'else TOLERANCE_CEILING)
+        if plan.get('family')in('rnbo-events-math','rnbo-unit-conversions'):parameters.update(right_pilot_observation(data,blocks))
         require(data['review_cpu']==str(int(bool(reasons))) and data['cpu_reasons']==(','.join(reasons)if reasons else'none'),
                 'CPU review flags differ from observations')
         record={k:expected[k]for k in ('id','exact_name','syntax','registry_lookup','reference_policy','module_sha256','source_sha256')}
@@ -1083,6 +1122,8 @@ def collect(build_dir,run_dir):
         if character:record.update({k:expected[k]for k in ('model','ascii_decimal','raw_pilot_channel',
                                                          'codebox_inlet_names','codebox_pilot_inlet_ordinal')})
         if gen_data:record['owner_kind']=expected['owner_kind']
+        if plan.get('family')=='rnbo-unit-conversions':
+            record.update({k:expected[k]for k in('model','scope','source_form','transport_contract','signal_input','input_domain')})
         if plan.get('family')in(CONTEXT_ALIAS_FAMILY,MOTION_MEMBER_FAMILY):
             record.update({k:expected[k]for k in ('model','scope')})
         if plan.get('family')==MOTION_MEMBER_FAMILY:
@@ -1137,11 +1178,11 @@ def collect(build_dir,run_dir):
                       scope='Explicit bounded changed-rounding numerical and matched ABBA callback comparison; no general object or bit-identity qualification',
                       numerical_comparison='Each profile versus the fixed independent mathematical cache',
                       profile_comparison=dbtoa_comparison_times(records))
-    elif plan.get('family')=='rnbo-events-math':
+    elif plan.get('family')in('rnbo-events-math','rnbo-unit-conversions'):
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'])
     elif plan.get('family')=='gen-visual-math':
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'],collector_dependencies_sha256={'tools/visual_gen_provenance.py':sha(ROOT/'tools/visual_gen_provenance.py')})
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math') and plan.get('surface')=='patcher':
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

@@ -1,5 +1,18 @@
 # Implementation status — 6 November 2026
 
+The [event/signal unit-conversion batch](rnbo-unit-conversions.md) executes
+**36 exact spellings: 35 pass** their rational output screens and `beatstosamps~`
+retains **128 rounding differences**, maximum **0.015625 samples**, against its
+unchanged zero-tolerance screen. The native preflight retains the same finding.
+Across **368,640 output-word checks and 756 ordered parameter actions**, every
+raw right capture matches and no nonfinite output occurs. Signal inputs vary
+inside each block; transport remains at the default 120 BPM/480 PPQ. One new
+CPU context, `mstobeats~` at **1,111.5µs median (19.15%)**, brings the review queue
+to **157**. All images finalise and allocation/memory gates pass. The normal
+player and saved controls are restored. The RNBO dashboard now contains
+**972/1455 scoped outcomes**, including partial results; complete RNBO/Gen
+qualification remains active and no optimisation gain is claimed.
+
 The [visual Gen maths/constant batch](gen-visual-math.md) runs **101 exact
 spellings**: **99 pass and two intentional approximations retain outside-screen
 numerical differences**, across **1,034,240 output-word checks**. Every raw

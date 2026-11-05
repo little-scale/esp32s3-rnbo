@@ -1,0 +1,776 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "tickstoms",
+      "declared_outputs": 1,
+      "exact_name": "tickstoms",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstoms-event",
+      "input_domain": [
+        -8.0,
+        8.0
+      ],
+      "maximum_absolute_error": 1e-06,
+      "model": 2618,
+      "observed_outlet": 0,
+      "patch": "tickstoms-event.rnbopat",
+      "patch_sha256": "db885ad32bb5c5b80105a003d0dc17065b413e7950b0906d3404b88874aa9c60",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstoms.maxref.xml",
+          "sha256": "a3093a3dd943ca10d31382fba7407d78cef961eb35610b2ec2c447e7f721b137",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstoms?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstoms",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "tickstoms",
+      "surface": "patcher",
+      "syntax": "numeric-event-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstosamps",
+      "declared_outputs": 1,
+      "exact_name": "tickstosamples",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstosamples-event",
+      "input_domain": [
+        -8.0,
+        8.0
+      ],
+      "maximum_absolute_error": 5e-05,
+      "model": 2619,
+      "observed_outlet": 0,
+      "patch": "tickstosamples-event.rnbopat",
+      "patch_sha256": "b11c25267f5b114de2ac76aea1b2f9e96bf4a29c22c75611f76ea1ecace34a72",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstosamps.maxref.xml",
+          "sha256": "8a9c3f8c3e8eece63116eaf85d9aec387f0afeab5d6bea9adc34c4a0807accb9",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstosamps?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstosamps",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "tickstosamples",
+      "surface": "patcher",
+      "syntax": "numeric-event-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstosamps",
+      "declared_outputs": 1,
+      "exact_name": "tickstosamps",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstosamps-event",
+      "input_domain": [
+        -8.0,
+        8.0
+      ],
+      "maximum_absolute_error": 5e-05,
+      "model": 2620,
+      "observed_outlet": 0,
+      "patch": "tickstosamps-event.rnbopat",
+      "patch_sha256": "910ee3225f8afe27bfbd6f30b135cc1052d4f52c31c3913e7727006d48435ea5",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstosamps.maxref.xml",
+          "sha256": "8a9c3f8c3e8eece63116eaf85d9aec387f0afeab5d6bea9adc34c4a0807accb9",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstosamps?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstosamps",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "ordered actual drive events",
+      "source_form": "tickstosamps",
+      "surface": "patcher",
+      "syntax": "numeric-event-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "beatstohz~",
+      "declared_outputs": 1,
+      "exact_name": "beatstohz~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "beatstohz-signal",
+      "input_domain": [
+        0.75,
+        5.25
+      ],
+      "maximum_absolute_error": 2e-06,
+      "model": 2621,
+      "observed_outlet": 0,
+      "patch": "beatstohz-signal.rnbopat",
+      "patch_sha256": "4507235637d6cefb49c53c84f799569042b262cb5c1b91010ecdc52738a9b832",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_beatstohz~.maxref.xml",
+          "sha256": "c25c580984f17edda94ccdea7673d27893de1410d5efb491081d582a10dbee40",
+          "url": "https://rnbo.cycling74.com/objects/ref/beatstohz~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "beatstohz~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "beatstohz~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "beatstoms~",
+      "declared_outputs": 1,
+      "exact_name": "beatstoms~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "beatstoms-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 0,
+      "model": 2622,
+      "observed_outlet": 0,
+      "patch": "beatstoms-signal.rnbopat",
+      "patch_sha256": "60bd99b28e2f09d277c5f96c63d8541663425550d04aba25c102c55a81441176",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_beatstoms~.maxref.xml",
+          "sha256": "da79e6aff35186d88a34a2bc8d06b0f68f3d9724c9184cfb7932b1b259159bca",
+          "url": "https://rnbo.cycling74.com/objects/ref/beatstoms~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "beatstoms~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "beatstoms~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "beatstosamps~",
+      "declared_outputs": 1,
+      "exact_name": "beatstosamps~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "beatstosamps-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 0,
+      "model": 2623,
+      "observed_outlet": 0,
+      "patch": "beatstosamps-signal.rnbopat",
+      "patch_sha256": "adff602be1fac315c806351e4a11fb60a7f94c2214d5cfb140638059a6831110",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_beatstosamps~.maxref.xml",
+          "sha256": "43ea71514a69e6e88dd99e37f12c1ae8e702eeac2fe4078c688e0edfe526c306",
+          "url": "https://rnbo.cycling74.com/objects/ref/beatstosamps~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "beatstosamps~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "beatstosamps~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "beatstoticks~",
+      "declared_outputs": 1,
+      "exact_name": "beatstoticks~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "beatstoticks-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 0,
+      "model": 2624,
+      "observed_outlet": 0,
+      "patch": "beatstoticks-signal.rnbopat",
+      "patch_sha256": "271d8221165a3bb5c9eefd2375ffec1afccc257d56b5b2fe07dd3d1df262a19a",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_beatstoticks~.maxref.xml",
+          "sha256": "b5f59e24a5e8982609e49e00ff1b86c26fcc64b879a63bf83a16f8dac47f1c11",
+          "url": "https://rnbo.cycling74.com/objects/ref/beatstoticks~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "beatstoticks~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "beatstoticks~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "hztobeats~",
+      "declared_outputs": 1,
+      "exact_name": "hztobeats~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "hztobeats-signal",
+      "input_domain": [
+        0.75,
+        5.25
+      ],
+      "maximum_absolute_error": 2e-06,
+      "model": 2625,
+      "observed_outlet": 0,
+      "patch": "hztobeats-signal.rnbopat",
+      "patch_sha256": "e34d981a001283e5eb50433e71a5c5f3eed9a204706f48afb2e50ad4d34d0941",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_hztobeats~.maxref.xml",
+          "sha256": "0bbcc8ed952e8ea3007753f6831d7412ae88e455dfc0a5d901f59ffd431dc608",
+          "url": "https://rnbo.cycling74.com/objects/ref/hztobeats~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "hztobeats~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "hztobeats~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "hztoticks~",
+      "declared_outputs": 1,
+      "exact_name": "hztoticks~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "hztoticks-signal",
+      "input_domain": [
+        0.75,
+        5.25
+      ],
+      "maximum_absolute_error": 0.002,
+      "model": 2626,
+      "observed_outlet": 0,
+      "patch": "hztoticks-signal.rnbopat",
+      "patch_sha256": "8cbe8f27d40892894928587cd6637086b7e7e2e95534d387faca77e89538152f",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_hztoticks~.maxref.xml",
+          "sha256": "08af2fb777b613d44b7c1246b285cee4d6a668c3be29bc524e3b7aeebbf96f70",
+          "url": "https://rnbo.cycling74.com/objects/ref/hztoticks~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "hztoticks~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "hztoticks~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "mstobeats~",
+      "declared_outputs": 1,
+      "exact_name": "mstobeats~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "mstobeats-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 2e-09,
+      "model": 2627,
+      "observed_outlet": 0,
+      "patch": "mstobeats-signal.rnbopat",
+      "patch_sha256": "8309ad35ed7eec914807fea7ff7ecb2c2ea606057505896f8d9ed70c062795be",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mstobeats~.maxref.xml",
+          "sha256": "c17861e3ffe51cbdc9961340648ada2870f20e71e585a3b7a6051c0780fb7e07",
+          "url": "https://rnbo.cycling74.com/objects/ref/mstobeats~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "mstobeats~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "mstobeats~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "mstoticks~",
+      "declared_outputs": 1,
+      "exact_name": "mstoticks~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "mstoticks-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 1e-06,
+      "model": 2628,
+      "observed_outlet": 0,
+      "patch": "mstoticks-signal.rnbopat",
+      "patch_sha256": "5708e050a3199b7202f131621238a0c1497f5749f6d54a72dc5708f5bceb0083",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_mstoticks~.maxref.xml",
+          "sha256": "c8722024a1a5716cf3254acc887aaadc372242b37d85e2c179292897a806d989",
+          "url": "https://rnbo.cycling74.com/objects/ref/mstoticks~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "mstoticks~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "mstoticks~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "sampstobeats~",
+      "declared_outputs": 1,
+      "exact_name": "sampstobeats~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "sampstobeats-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 1e-10,
+      "model": 2629,
+      "observed_outlet": 0,
+      "patch": "sampstobeats-signal.rnbopat",
+      "patch_sha256": "7c0a8aa65bda4913ebd734c0a91ff0e8d6b8564390cad3a9771754812a91accb",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sampstobeats~.maxref.xml",
+          "sha256": "098c4941137f856adc64ef7aded85c7cdde3718059c0d788ead1a930a5b22909",
+          "url": "https://rnbo.cycling74.com/objects/ref/sampstobeats~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "sampstobeats~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "sampstobeats~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "sampstoticks~",
+      "declared_outputs": 1,
+      "exact_name": "sampstoticks~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "sampstoticks-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 2e-08,
+      "model": 2630,
+      "observed_outlet": 0,
+      "patch": "sampstoticks-signal.rnbopat",
+      "patch_sha256": "3332a6d4de83ee981bdb875c8be85444d74e1220e7f20ff984407277e515b3b4",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_sampstoticks~.maxref.xml",
+          "sha256": "f46667393f52245bb741fbd94a2bf2ba039f2ae21bfd014b232e86a077bf2979",
+          "url": "https://rnbo.cycling74.com/objects/ref/sampstoticks~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "sampstoticks~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "sampstoticks~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstobeats~",
+      "declared_outputs": 1,
+      "exact_name": "tickstobeats~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstobeats-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 2e-09,
+      "model": 2631,
+      "observed_outlet": 0,
+      "patch": "tickstobeats-signal.rnbopat",
+      "patch_sha256": "8d190c2bfe2c652d4770ac6bf794062deeba70323c89885aff7643761179bec5",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstobeats~.maxref.xml",
+          "sha256": "acd050e22ba6148c00f91f97b6dcf822d3ff063c7988aec7a9a22d95f3bba9c5",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstobeats~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstobeats~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "tickstobeats~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstohz~",
+      "declared_outputs": 1,
+      "exact_name": "tickstohz~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstohz-signal",
+      "input_domain": [
+        0.75,
+        5.25
+      ],
+      "maximum_absolute_error": 0.002,
+      "model": 2632,
+      "observed_outlet": 0,
+      "patch": "tickstohz-signal.rnbopat",
+      "patch_sha256": "a7e850dd74e2724de97062d47d8d063f6995425f4bb7cf34d83e34ef122ba233",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstohz~.maxref.xml",
+          "sha256": "a34cf0912c3cee45be88d24cf7e4ae013f6c232b37832a03343406f133ef976e",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstohz~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstohz~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "tickstohz~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstoms~",
+      "declared_outputs": 1,
+      "exact_name": "tickstoms~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstoms-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 1e-06,
+      "model": 2633,
+      "observed_outlet": 0,
+      "patch": "tickstoms-signal.rnbopat",
+      "patch_sha256": "b18d139d366f0493a3aefcf30eb2bdc0b2a0a92d7b5086b26898e41a8985c2fd",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstoms~.maxref.xml",
+          "sha256": "abf94737fafbc51404c77749ec5ccf109a0d51e7474d0cfac63179b1dbac9193",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstoms~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstoms~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "tickstoms~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstosamps~",
+      "declared_outputs": 1,
+      "exact_name": "tickstosamples~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstosamples-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 5e-05,
+      "model": 2634,
+      "observed_outlet": 0,
+      "patch": "tickstosamples-signal.rnbopat",
+      "patch_sha256": "754ef4f2ca00bdeb3a06fe626c3537a0cd3df51e70b4f11d248c14916ec8f50e",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstosamps~.maxref.xml",
+          "sha256": "e534e592d3ed8f80c334253d7286d22e3e14cc28a276fd1171b9bbefde4b2d45",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstosamps~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstosamps~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "tickstosamples~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "canonical_name": "tickstosamps~",
+      "declared_outputs": 1,
+      "exact_name": "tickstosamps~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "tickstosamps-signal",
+      "input_domain": [
+        -8.25,
+        8.25
+      ],
+      "maximum_absolute_error": 5e-05,
+      "model": 2635,
+      "observed_outlet": 0,
+      "patch": "tickstosamps-signal.rnbopat",
+      "patch_sha256": "746fbc754cadd2f0e1b6497938fe7c02c6b51f1708a4197451e3532ac8a1d6cc",
+      "reference_policy": "rational-unit-conversion-fixed-transport",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_tickstosamps~.maxref.xml",
+          "sha256": "e534e592d3ed8f80c334253d7286d22e3e14cc28a276fd1171b9bbefde4b2d45",
+          "url": "https://rnbo.cycling74.com/objects/ref/tickstosamps~?v=1.4.4"
+        }
+      ],
+      "registry_lookup": "tickstosamps~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact spelling; default fixed transport;21 ordered boundary actions; signal forms also vary within blocks. Zero reciprocal inputs and changed transport excluded.",
+      "signal_input": "binary32(current drive + varying left input)",
+      "source_form": "tickstosamps~",
+      "surface": "patcher",
+      "syntax": "signal-unit-object",
+      "transport_contract": {
+        "running": false,
+        "tempo_bpm": 120,
+        "ticks_per_quarter": 480,
+        "time_signature": [
+          4,
+          4
+        ]
+      }
+    }
+  ],
+  "family": "rnbo-unit-conversions",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 18,
+    "index": 2,
+    "parent_catalog_sha256": "03a0c07ebaf76237d92cac555c8746976daef242288e668daf1a5483052981f1",
+    "total": 2
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "21event and15signal unit spellings; rational references at44100Hz/120BPM/480PPQ, raw independent right capture.",
+  "timed_blocks": 16
+}

@@ -13,6 +13,19 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Unit conversions: one queued signal context
+
+The 36 event/signal spellings all execute; 35 pass their output screens and
+`beatstosamps~` retains a separate rounding finding. `mstobeats~` is the only new
+callback flag: **1,111.5µs median, 1,129µs peak (19.15% of the block period)**.
+The queue reaches **157 contexts**. Its cause is uninvestigated; inspect generated
+precision and transport/conversion calls when optimisation resumes. These are
+whole FX callbacks, including signal addition and the raw right pilot, not
+isolated opcode costs or performance gains. Event setter/routing timing is
+separate; `mstobeats` totals 250µs across 21 actions, peak 54µs. The
+[source-bound report](rnbo-unit-conversions.md) preserves the numerical findings,
+initial harness stop, unchanged limits and restored player.
+
 ## Visual Gen maths: five queued contexts
 
 The 101 single-operation visual spellings all execute; 99 pass the mathematical

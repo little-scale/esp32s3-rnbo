@@ -229,7 +229,7 @@ def reference_path(catalog):
     family=catalog.get('family')
     if family==CHARACTER_FAMILY:return ROOT/'tests/fixtures/smoke/rnbo-character-constants/reference.py'
     if family=='dbtoa-f32-comparison':return ROOT/'tests/fixtures/smoke/dbtoa-f32-comparison/reference.py'
-    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
+    if family not in ('gen-numeric','gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         raise ExportError('Unsupported smoke reference family')
     return ROOT/'tests/fixtures/smoke'/family/'reference.py'
 
@@ -313,6 +313,21 @@ def event_math_catalog(catalog):
             index not in EVENT_MATH_PARTITIONS or hashlib.sha256(canonical(catalog)).hexdigest()!=EVENT_MATH_PARTITIONS[index] or
             sha(ROOT/'tests/fixtures/smoke/rnbo-events-math/catalog.json')!=EVENT_MATH_CATALOG_SHA):
         raise ExportError('Event maths requires an exact22-source partition of the44-source catalog')
+    return partition
+
+
+UNIT_CONVERSION_FAMILY='rnbo-unit-conversions'
+UNIT_CONVERSION_CATALOG_SHA='03a0c07ebaf76237d92cac555c8746976daef242288e668daf1a5483052981f1'
+UNIT_CONVERSION_REFERENCE_SHA='5d751660f838a14ea06dc86093c26763ae62c2d06ea78c205aee276363c48877'
+UNIT_CONVERSION_PARTITIONS={1:'6680b62751fedbd81413ff15818f8581de16585d286d714d42f5a1bef63029e6',2:'941f99452abb4c143bc6496410612f6c29533ec92ef04079317831cff2a8a644'}
+
+
+def unit_conversion_catalog(catalog):
+    partition=catalog.get('partition',{});index=partition.get('index')
+    if (catalog.get('family')!=UNIT_CONVERSION_FAMILY or type(index)is not int or
+            index not in UNIT_CONVERSION_PARTITIONS or hashlib.sha256(canonical(catalog)).hexdigest()!=UNIT_CONVERSION_PARTITIONS[index] or
+            sha(ROOT/'tests/fixtures/smoke/rnbo-unit-conversions/catalog.json')!=UNIT_CONVERSION_CATALOG_SHA):
+        raise ExportError('Unit conversions require an exact18-source partition of the36-source catalog')
     return partition
 
 
@@ -536,6 +551,9 @@ def prepare_plan(catalog_path,modules_path):
     if catalog.get('family')==VISUAL_GEN_FAMILY:
         visual_gen_catalog(catalog)
         if sha(reference_source)!=VISUAL_GEN_REFERENCE_SHA:raise ExportError('Visual Gen independent reference changed')
+    if catalog.get('family')==UNIT_CONVERSION_FAMILY:
+        unit_conversion_catalog(catalog)
+        if sha(reference_source)!=UNIT_CONVERSION_REFERENCE_SHA:raise ExportError('Unit conversion independent reference changed')
     if catalog.get('family')==EVENT_MATH_FAMILY:
         event_math_catalog(catalog)
         if sha(reference_source)!=EVENT_MATH_REFERENCE_SHA:raise ExportError('Event-maths independent reference changed')
@@ -653,7 +671,7 @@ def prepare_plan(catalog_path,modules_path):
             failures.append({'id':identity,'status':module['status'],'source_sha256':source_hash,
                 **expression_info,'compile_log_sha256':module.get('compile_log_sha256'),
                 'detail':'See module compiler log; not executed'})
-            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
+            if catalog['family'] in ('gen-math','gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','gen-range','gen-constants','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
                 failures[-1].update({k:row[k]for k in ('exact_name','syntax','registry_lookup')})
             continue
         artifact=Path(module['artifact']['path']);data=read_regular(artifact,524288)
@@ -682,7 +700,7 @@ def prepare_plan(catalog_path,modules_path):
         if arena!=4096:case['arena_bytes']=arena
         if hasattr(reference,'case_input_words'):
             case.update(input_words=vector,input_words_sha256=hashlib.sha256(struct.pack('<512I',*vector)).hexdigest(),
-                absolute_tolerance=absolute_tolerance(reference,row['model'],ceiling=2e-3 if context_aliases else 1e-3))
+                absolute_tolerance=absolute_tolerance(reference,row['model'],ceiling=.008 if catalog['family']==UNIT_CONVERSION_FAMILY else 2e-3 if context_aliases else 1e-3))
         if character and (arena!=4096 or case.get('absolute_tolerance')!=0 or
                 type(getattr(reference,'STRICT_ZERO_SIGN_CHANNELS',None))is not int or
                 reference.STRICT_ZERO_SIGN_CHANNELS!=2 or row['strict_zero_sign_channels']!=2 or
@@ -704,14 +722,14 @@ def prepare_plan(catalog_path,modules_path):
                 GEN_DELAY_REFERENCE_PROOFS[identity].items())):
             raise ExportError('Gen Delay rerun arena or original twenty-block reference changed')
         if manifest['parameter_count']:
-            if catalog['family']not in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math') or not hasattr(reference,'parameter_events'):
+            if catalog['family']not in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions') or not hasattr(reference,'parameter_events'):
                 raise ExportError('Parameterized exports require the boundary-event reference route')
             case.update(parameter_case(prepared,manifest,reference,row['model']))
         cases.append(case)
         payloads.append(artifact)
-    boundary_events=catalog['family']in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math')
+    boundary_events=catalog['family']in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions')
     pooled=boundary_events or context_aliases or motion_members
-    if boundary_events and catalog['family']!=EVENT_MATH_FAMILY and any(c.get('absolute_tolerance',0)!=0 for c in cases):
+    if boundary_events and catalog['family']not in(EVENT_MATH_FAMILY,UNIT_CONVERSION_FAMILY) and any(c.get('absolute_tolerance',0)!=0 for c in cases):
         raise ExportError('Boundary-event references require zero absolute tolerance')
     if boundary_events and any('expected_blocks'not in c or not c.get('expected_parameter_count')for c in cases):
         raise ExportError('Boundary-event cases need parameters and twenty-block references')
@@ -741,7 +759,7 @@ def prepare_plan(catalog_path,modules_path):
             plan['expected_stream_policy']='Fresh prepared codebox state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful codebox cases require twenty continuous reference blocks')
-    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math'):
+    elif catalog['family'] in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions'):
         plan.update(family=catalog['family'],surface='patcher')
         if catalog['family']==VISUAL_MATH_FAMILY:plan['partition']=catalog['partition']
         if catalog['family']in('gen-visual-core','gen-visual-math','rnbo-functions','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing'):plan['prepare_zero_warm_blocks']=0
@@ -749,8 +767,8 @@ def prepare_plan(catalog_path,modules_path):
             plan['expected_stream_policy']='Fresh prepared signal state; twenty continuous256-frame callbacks without resets'
             if any('expected_blocks'not in c for c in cases):
                 raise ExportError('Stateful signal cases require twenty continuous reference blocks')
-        elif catalog['family']in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math'):
-            if catalog['family']==EVENT_MATH_FAMILY:plan['partition']=catalog['partition']
+        elif catalog['family']in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions'):
+            if catalog['family']in(EVENT_MATH_FAMILY,UNIT_CONVERSION_FAMILY):plan['partition']=catalog['partition']
             pool,refs=block_pool(cases)
             plan.update(prepare_zero_warm_blocks=0,expected_block_storage='shared-512-word-pool',
                 expected_reference_unique_blocks=len(pool),expected_block_pool=pool,
@@ -805,6 +823,9 @@ def generate_header(plan,inputs):
         lines.append('#define SMOKE_PREPARE_WARM_BLOCKS %du'%plan['prepare_zero_warm_blocks'])
     if plan.get('family')==CONTEXT_ALIAS_FAMILY:
         lines.append('#define SMOKE_ABSOLUTE_TOLERANCE_CEILING 0x1.0624dep-9f')
+    if plan.get('family')==UNIT_CONVERSION_FAMILY:
+        # Unit-aware ceiling only: each frozen case retains its own smaller limit.
+        lines.append('#define SMOKE_ABSOLUTE_TOLERANCE_CEILING 0x1.0624dep-7f')
     pooled=plan.get('expected_block_storage')=='shared-512-word-pool'
     if pooled:
         pool=plan['expected_block_pool'];refs=[c['expected_block_indices']for c in plan['cases']]
