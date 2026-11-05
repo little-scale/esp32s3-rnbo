@@ -22,6 +22,57 @@ firmware was left installed at that checkpoint; subsequent Gen, list-function
 and codebox structure batches have since replaced it. Main package storage and Wi-Fi settings were
 not erased. Earlier run records retain their own restoration/installation state.
 
+## RNBO codebox phase, ramps, transitions and pitch members
+
+All 36 original sources compile and run in two fixed partitions: **28 pass and
+eight retain comparison mismatches**, across **368,640 output words**. The batch
+covers phasor/train, rampsmooth/bline, gate/onoff/threshold transitions,
+switch-and-ramp, pitch converters and linear ease/crossfade members. Five
+separate constructor sources qualify only their exact owner contexts. Repeated
+variants share exact member rows; 32 new rows bring the RNBO dashboard to **869
+scoped entries**. Gen and patcher surfaces inherit no outcomes.
+
+| Retained primary comparison | Outside-limit words | Maximum error |
+| --- | ---: | ---: |
+| Positive phasor next / constructor, each | 13 | 1 |
+| Phasor reset-input source | 10,112 | 0.969726563 |
+| Falling-edge gatetotrig numeric edge=1 | 1,119 | 1 |
+| Bline next / constructor, each | 10,238 | 0.534110978 |
+| Bline reset | 10,238 | 0.937491775 |
+| Bline set | 10,154 | 0.534110978 |
+
+A native sample witness records phasor=1 at frame 512 instead of the primary
+[0,1) model's zero. Its reset-input source continues phase where the declared
+policy expects a reset, while explicit .reset and negative-frequency cases pass.
+The falling-edge trigger occurs in the transition sample instead of the
+predeclared one-sample delay. Bline gradually approaches its target rather than
+following the finite 8/16-step linear model, and its reset source does not restart
+the assumed zero history. These scoped boundary/trajectory comparisons do not
+establish whole-object defects. All original references and limits are retained;
+secondary native witnesses are not substituted for device oracles.
+
+The streams have 52,125 outside-limit differences and no within-limit or
+signed-zero differences. Passing bounded checks are bit-exact. All20 blocks
+remain continuous, with zero automatic preparation warmup. Phase periods
+512/1024, ramp target periods1021/1031, hysteresis holds and independent reset
+schedules witness state across callback boundaries. The fixed module ABI is
+still 256 frames; one-frame calls and host event timing remain unqualified.
+
+Every image finalises, allocation/memory gates pass and free heaps are unchanged.
+Mtof observes 262,256-byte arena high-water; other cases observe zero. The strict
+Float32 modules preserve original storage/runtime and reserve a 2MiB ceiling.
+Six median-budget CPU flags bring the queue to **142**; none is a peak spike.
+Mtof reset is largest at 2,757µs median, 2,759µs peak (47.49% of the block period).
+No optimisation gain or isolated operation timing is claimed. The same normal
+player, saved Main and live controls are restored, with frame progress and zero
+runtime fault counters checked.
+
+See [part 1](../evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json),
+[part 2](../evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json),
+[native/sample witnesses](../evidence/rnbo-codebox-motion-members-native.json),
+[original programs and detailed contracts](../tests/fixtures/smoke/rnbo-codebox-motion-members/README.md)
+and [player restoration](../evidence/xiao-motion-members-player-restoration.json).
+
 ## RNBO codebox context, units and exact aliases
 
 51 exact sources run in two fixed partitions. **43 execute, 40 pass, three

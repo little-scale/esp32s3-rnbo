@@ -1,0 +1,6 @@
+@state left=new thresh(); @state right=new thresh();
+@state ordinal: Int=0;
+if(ordinal%257==37 || ordinal%257==38 || ordinal==255 || ordinal==256){left.reset();}
+if(ordinal%263==91 || ordinal%263==92 || ordinal==511 || ordinal==512){right.reset();}
+out1=left.next(in1,0,.5); out2=right.next(in2,.25,.75);
+ordinal+=1;

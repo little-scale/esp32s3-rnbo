@@ -1,0 +1,4 @@
+@state left=new phasor({phase:0}); @state right=new phasor({phase:0});
+@state ordinal: Int=0;
+out1=left.next(44100/512,(ordinal%257==37 || ordinal%257==38 || ordinal==255 || ordinal==256)?0:-1)+0*in1; out2=right.next(44100/1024,(ordinal%263==91 || ordinal%263==92 || ordinal==511 || ordinal==512)?0:-1)+0*in2;
+ordinal+=1;

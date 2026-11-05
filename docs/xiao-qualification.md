@@ -28,6 +28,18 @@ remain deferred; broader RNBO, Gen and structure coverage remains active work.
 
 ## Fast coverage runs
 
+The [phase/ramp/transition/pitch member batch](hardware-smoke.md#rnbo-codebox-phase-ramps-transitions-and-pitch-members)
+compiles and executes **all 36 sources: 28 pass and eight retain comparison
+mismatches**, across **368,640 output-word checks**. Positive phase wraps, the
+input-reset source, falling-edge latency and bline trajectories retain their
+original differences; secondary native sample witnesses explain observations
+without replacing references. Six complete callback CPU contexts bring the
+queue to **142**, led by mtof reset at 2.757 ms median (47.49% of the block
+period). The dashboard maps **869 exact RNBO entries with scoped outcomes**.
+All 36 images finalise and allocation/memory gates pass. The normal player,
+saved Main and live controls are restored; USB/audio progress and zero runtime
+faults are checked. The complete RNBO/Gen qualification goal remains active.
+
 The [context/unit/alias batch](hardware-smoke.md#rnbo-codebox-context-units-and-exact-aliases)
 records **51 sources: 43 execute, 40 pass, three retain clock comparison
 mismatches and eight remain frontend rejections**, across **440,320 output-word

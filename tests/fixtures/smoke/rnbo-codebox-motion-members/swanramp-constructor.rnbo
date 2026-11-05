@@ -1,0 +1,4 @@
+@state left=new swanramp({ramp:8}); @state right=new swanramp({ramp:16});
+@state ordinal: Int=0;
+out1=left.next(in1,ordinal%73==19); out2=right.next(in2,ordinal%91==31);
+ordinal+=1;

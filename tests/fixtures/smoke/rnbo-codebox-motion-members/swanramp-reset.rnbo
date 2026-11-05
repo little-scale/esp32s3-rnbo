@@ -1,0 +1,6 @@
+@state left=new swanramp({ramp:8}); @state right=new swanramp({ramp:16});
+@state ordinal: Int=0;
+if(ordinal%257==37 || ordinal%257==38 || ordinal==255 || ordinal==256){left.reset();}
+if(ordinal%263==91 || ordinal%263==92 || ordinal==511 || ordinal==512){right.reset();}
+out1=left.next(in1,ordinal%73==19); out2=right.next(in2,ordinal%91==31);
+ordinal+=1;

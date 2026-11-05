@@ -10,6 +10,32 @@ These are screening rules, not proof that an object needs changing. A flagged
 case should be repeated and investigated when optimisation work resumes.
 Functional coverage continues first.
 
+## Phase/ramp/transition/pitch members: six queued contexts
+
+Six complete authored callbacks exceed the median-budget threshold; none
+triggers the peak-spike rule. The queue grows from 136 to **142 contexts**.
+
+| Complete strict-profile callback | Median µs | Peak µs | Median / audio period |
+| --- | ---: | ---: | ---: |
+| `mtof-next` | 2661 | 2661 | 45.84% |
+| `mtof-reset` | 2757 | 2759 | 47.49% |
+| `ftom-next` | 1027 | 1028 | 17.69% |
+| `ftom-reset` | 1128 | 1133 | 19.43% |
+| `easexfade-next` | 627 | 628 | 10.80% |
+| `easexfade-reset` | 737 | 738 | 12.70% |
+
+All six pass their bounded references. Mtof observes 262,256 bytes arena
+high-water; ftom and linear easexfade observe zero. Review retained strict
+arithmetic, table/cache access and class/context overhead with matched outputs
+when optimisation resumes. Existing patcher Float32 gains do not transfer to
+these exact codebox APIs by inheritance. All measurements include the complete
+two-instance callback and source logic, not I²S/UI/network work or isolated
+instructions. No gain percentage is claimed.
+
+Sources: [part 1](../evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json),
+[part 2](../evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json) and
+[contracts](../tests/fixtures/smoke/rnbo-codebox-motion-members/README.md).
+
 ## Context and unit conversions: thirteen queued contexts
 
 Thirteen conversion callbacks exceed the median-budget threshold; none

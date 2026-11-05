@@ -8704,9 +8704,37 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "bline",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "bline-constructor",
+          "codebox_source_sha256": "6a0f72590019d8249a4aba228c3d7a890b9760811334189ebe0779157214671b",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "836567edc33c5cb74f181376a35cb2bea9d516ce14f3d00c985a73bcd702329b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.5341109782457352,
+          "mean_us": 166.9375,
+          "median_us": 169.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 10238,
+          "peak_us": 180,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:bline",
       "inventory_group": "codebox:bline",
       "is_alias": false,
@@ -8714,16 +8742,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/bline",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Primary model expects finite 8/16-step linear interpolation and zero-history reset. Sample witnesses show a different, gradually approaching trajectory and no observed zero reset in this source; only tuple output 0 is checked. No fitted replacement oracle is used. Short XIAO check (output_mismatch): one repeated stereo vector; mean 166.94µs, median 169.50µs, peak 180µs. Declared absolute tolerance 0; maximum finite error 0.534110978; within-tolerance differences 0; numeric mismatches 10238; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -8752,71 +8788,179 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "bline.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "bline-next",
+          "codebox_source_sha256": "6a0f72590019d8249a4aba228c3d7a890b9760811334189ebe0779157214671b",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "836567edc33c5cb74f181376a35cb2bea9d516ce14f3d00c985a73bcd702329b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.5341109782457352,
+          "mean_us": 166.9375,
+          "median_us": 169.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 10238,
+          "peak_us": 180,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:bline.next",
       "is_alias": false,
       "name": "bline.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/bline#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Primary model expects finite 8/16-step linear interpolation and zero-history reset. Sample witnesses show a different, gradually approaching trajectory and no observed zero reset in this source; only tuple output 0 is checked. No fitted replacement oracle is used. Short XIAO check (output_mismatch): one repeated stereo vector; mean 166.94µs, median 169.00µs, peak 180µs. Declared absolute tolerance 0; maximum finite error 0.534110978; within-tolerance differences 0; numeric mismatches 10238; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "bline.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "bline-reset",
+          "codebox_source_sha256": "2b9fa5fbc4668ac74900cff4ab2910eebf6374fcbea3e5975eb78c0971f6a057",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "48758af99d88fe661c3d2a6cbe9d4e6cfd7d36cd8fd025813a51b5ad9fd6d327",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.937491774559021,
+          "mean_us": 167.25,
+          "median_us": 169.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 10238,
+          "peak_us": 181,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:bline.reset",
       "is_alias": false,
       "name": "bline.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/bline#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Primary model expects finite 8/16-step linear interpolation and zero-history reset. Sample witnesses show a different, gradually approaching trajectory and no observed zero reset in this source; only tuple output 0 is checked. No fitted replacement oracle is used. Short XIAO check (output_mismatch): one repeated stereo vector; mean 167.25µs, median 169.50µs, peak 181µs. Declared absolute tolerance 0; maximum finite error 0.937491775; within-tolerance differences 0; numeric mismatches 10238; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "bline.set()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "bline-set",
+          "codebox_source_sha256": "5c6c8915ec98d1b2b0ec97774b471dc5ec16c5cc7c98276fdd05f43ac453e0b7",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "e3727a09d60cc65fc0c55ab67e8c183ec624f8d7612da3677c9f20c78df03c97",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.5341109782457352,
+          "mean_us": 262.375,
+          "median_us": 264.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 10154,
+          "peak_us": 275,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:bline.set",
       "is_alias": false,
       "name": "bline.set()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/bline#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Primary model expects finite 8/16-step linear interpolation and zero-history reset. Sample witnesses show a different, gradually approaching trajectory and no observed zero reset in this source; only tuple output 0 is checked. No fitted replacement oracle is used. Short XIAO check (output_mismatch): one repeated stereo vector; mean 262.38µs, median 264.50µs, peak 275µs. Declared absolute tolerance 0; maximum finite error 0.534110978; within-tolerance differences 0; numeric mismatches 10154; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -22616,48 +22760,120 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ease.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "ease-next",
+          "codebox_source_sha256": "f3b5a812c07de9c9e995664b7238a3849161c3e98a80ad1b9dd9841fe7d8fefe",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "fc611845670decffc425c7131528d4b30903cc060ce20c1a7aef3928cfd7e065",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "d6f1767192df80cc1034b2f1cbe9d735d59f1ba474f02f27378058f8866d3066",
+          "max_absolute_error": 0.0,
+          "mean_us": 308.9375,
+          "median_us": 308.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 312,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:ease.next",
       "is_alias": false,
       "name": "ease.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/ease#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Linear curve only with syncupdate zero; xfademul explicitly uses channel position/clip/linear numeric enum options. Other curves/options are unqualified. Short XIAO check (pass): one repeated stereo vector; mean 308.94µs, median 308.00µs, peak 312µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ease.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "ease-reset",
+          "codebox_source_sha256": "5c3871af392e6ccd0e6332ff00f37cc084077b743e6684d6dd81f52885bd4e77",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "fc611845670decffc425c7131528d4b30903cc060ce20c1a7aef3928cfd7e065",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "d6f1767192df80cc1034b2f1cbe9d735d59f1ba474f02f27378058f8866d3066",
+          "max_absolute_error": 0.0,
+          "mean_us": 437.0625,
+          "median_us": 438.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 439,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:ease.reset",
       "is_alias": false,
       "name": "ease.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/ease#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Linear curve only with syncupdate zero; xfademul explicitly uses channel position/clip/linear numeric enum options. Other curves/options are unqualified. Short XIAO check (pass): one repeated stereo vector; mean 437.06µs, median 438.50µs, peak 439µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -24551,48 +24767,124 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "easexfade.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "easexfade-next",
+          "codebox_source_sha256": "b0bc6333763957da0d345e764c4e1c0be4170506eddd35e8209025873c4d07fb",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "e1ab4086e7451ba61ac4a08c93b7540caa70ee986829e7a92d1a95ca07ea92f5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "d6f1767192df80cc1034b2f1cbe9d735d59f1ba474f02f27378058f8866d3066",
+          "max_absolute_error": 0.0,
+          "mean_us": 625.9375,
+          "median_us": 627.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 628,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:easexfade.next",
       "is_alias": false,
       "name": "easexfade.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/easexfade#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Linear curve only with syncupdate zero; xfademul explicitly uses channel position/clip/linear numeric enum options. Other curves/options are unqualified. Short XIAO check (pass): one repeated stereo vector; mean 625.94µs, median 627.00µs, peak 628µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "easexfade.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "easexfade-reset",
+          "codebox_source_sha256": "9b786288183629135794dd8425d4c55ac29c0772104e40f7a23214f2ebfdd696",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "e1ab4086e7451ba61ac4a08c93b7540caa70ee986829e7a92d1a95ca07ea92f5",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "d6f1767192df80cc1034b2f1cbe9d735d59f1ba474f02f27378058f8866d3066",
+          "max_absolute_error": 0.0,
+          "mean_us": 736.0,
+          "median_us": 737.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 738,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:easexfade.reset",
       "is_alias": false,
       "name": "easexfade.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/easexfade#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Linear curve only with syncupdate zero; xfademul explicitly uses channel position/clip/linear numeric enum options. Other curves/options are unqualified. Short XIAO check (pass): one repeated stereo vector; mean 736.00µs, median 737.00µs, peak 738µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -29534,48 +29826,124 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ftom.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999494757503e-05,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "ftom-next",
+          "codebox_source_sha256": "caee34a0b3ab74bfee58ea95b2bc02bf71653155175632877c642dac5746f8d6",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "39a23bffe811adebd0ae5033e86d3d755790d57ea894132b7637a3bf4b060df4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "8ed93e3306fbefb1bdbe416577da19a599c73e359caf9c6c6ca4ec442fff3edb",
+          "max_absolute_error": 0.0,
+          "mean_us": 1027.0625,
+          "median_us": 1027.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 1028,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:ftom.next",
       "is_alias": false,
       "name": "ftom.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/ftom#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Only octave notes/frequencies around 69 with 440/432 Hz tuning are tested. No fractional pitches, round option, zero/negative frequencies, tuning changes or Float32 optimisation gain is qualified. Short XIAO check (pass): one repeated stereo vector; mean 1027.06µs, median 1027.00µs, peak 1028µs. Declared absolute tolerance 1.99999995e-05; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "ftom.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999494757503e-05,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "ftom-reset",
+          "codebox_source_sha256": "3347bffa98e5a5c68e56e26738bfec0b9d2635b2a98fb5b3844f8618873ab5ee",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "39a23bffe811adebd0ae5033e86d3d755790d57ea894132b7637a3bf4b060df4",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "8ed93e3306fbefb1bdbe416577da19a599c73e359caf9c6c6ca4ec442fff3edb",
+          "max_absolute_error": 0.0,
+          "mean_us": 1128.4375,
+          "median_us": 1128.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 1133,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:ftom.reset",
       "is_alias": false,
       "name": "ftom.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/ftom#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Only octave notes/frequencies around 69 with 440/432 Hz tuning are tested. No fractional pitches, round option, zero/negative frequencies, tuning changes or Float32 optimisation gain is qualified. Short XIAO check (pass): one repeated stereo vector; mean 1128.44µs, median 1128.00µs, peak 1133µs. Declared absolute tolerance 1.99999995e-05; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -29898,48 +30266,150 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gatetotrig.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "gatetotrig-next",
+          "codebox_source_sha256": "6eea50c1a1777c0ca2737ced1b2866b5ba60e62cf95aa1cd04de59458fffa85b",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "1c64b2e08db5ea8be5d7a1bd86c9fc95dea6459cd653cb145fa6c8ab42461bd7",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "ac5d58e25e0468a039160897f1529e1765492fa407fbf30ec36d8f559ca75e6d",
+          "max_absolute_error": 0.0,
+          "mean_us": 67.8125,
+          "median_us": 68.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 72,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "gatetotrig-falling",
+          "codebox_source_sha256": "9d190f66fd81b6493c35deab6f9e55dc1a37d7accce69b808e9cffd5dc2a58c5",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "28a8c0154d7d20fced52debe12b01600008e50edcb76576555d3539b44516efc",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "ac5d58e25e0468a039160897f1529e1765492fa407fbf30ec36d8f559ca75e6d",
+          "max_absolute_error": 1.0,
+          "mean_us": 68.25,
+          "median_us": 68.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 1119,
+          "peak_us": 72,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:gatetotrig.next",
       "is_alias": false,
       "name": "gatetotrig.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/gatetotrig#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        },
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Binary gates only. The numeric edge=1 source reports falling transitions in the transition sample while the primary documented policy expects a one-sample delay; default rising edge passes. Short XIAO check (pass): one repeated stereo vector; mean 67.81µs, median 68.00µs, peak 72µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Short XIAO check (output_mismatch): one repeated stereo vector; mean 68.25µs, median 68.00µs, peak 72µs. Declared absolute tolerance 0; maximum finite error 1; within-tolerance differences 0; numeric mismatches 1119; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "gatetotrig.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "gatetotrig-reset",
+          "codebox_source_sha256": "27dcab9f3edbbdef40f47d43f24b1467cb4c834f81a39847b867b3ba9d438de4",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "58a8edccce5367ca7c4f554de1fe14f477af212f31988c1f0b3bafa992e218fc",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "ac5d58e25e0468a039160897f1529e1765492fa407fbf30ec36d8f559ca75e6d",
+          "max_absolute_error": 0.0,
+          "mean_us": 150.0625,
+          "median_us": 149.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 154,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:gatetotrig.reset",
       "is_alias": false,
       "name": "gatetotrig.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/gatetotrig#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Binary gates only. The numeric edge=1 source reports falling transitions in the transition sample while the primary documented policy expects a one-sample delay; default rising edge passes. Short XIAO check (pass): one repeated stereo vector; mean 150.06µs, median 149.00µs, peak 154µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -43607,48 +44077,124 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mtof.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 2097152,
+          "arena_high_water": 262256,
+          "case": "mtof-next",
+          "codebox_source_sha256": "a41607b8e284d0c36530aeb17963d9ca4a1a988520325aa998c1bcd8970167e9",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "3c1992eaeca727fb7515519ade8de4b934ad3bd7685a497a37b361454651d82a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "8e87011b402c38020e8e0063f7caacf2eb51a858fda303578449b649e711747d",
+          "max_absolute_error": 0.0,
+          "mean_us": 2659.25,
+          "median_us": 2661.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 2661,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:mtof.next",
       "is_alias": false,
       "name": "mtof.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/mtof#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Only octave notes/frequencies around 69 with 440/432 Hz tuning are tested. No fractional pitches, round option, zero/negative frequencies, tuning changes or Float32 optimisation gain is qualified. Short XIAO check (pass): one repeated stereo vector; mean 2659.25µs, median 2661.00µs, peak 2661µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 262,256 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "mtof.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0005000000237487257,
+          "arena_capacity": 2097152,
+          "arena_high_water": 262256,
+          "case": "mtof-reset",
+          "codebox_source_sha256": "9c6b592ea64a5b2d7013a272594cabc6c402fd0d1caff81ebb1e92c7042947cb",
+          "cpu_review_reasons": [
+            "median_budget"
+          ],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "3c1992eaeca727fb7515519ade8de4b934ad3bd7685a497a37b361454651d82a",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "8e87011b402c38020e8e0063f7caacf2eb51a858fda303578449b649e711747d",
+          "max_absolute_error": 0.0,
+          "mean_us": 2755.625,
+          "median_us": 2757.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 2759,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:mtof.reset",
       "is_alias": false,
       "name": "mtof.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/mtof#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Only octave notes/frequencies around 69 with 440/432 Hz tuning are tested. No fractional pitches, round option, zero/negative frequencies, tuning changes or Float32 optimisation gain is qualified. Short XIAO check (pass): one repeated stereo vector; mean 2755.62µs, median 2757.00µs, peak 2759µs. Declared absolute tolerance 0.000500000024; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 262,256 bytes. Callback timing flagged for later review.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -46264,9 +46810,37 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "onoff",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "onoff-constructor",
+          "codebox_source_sha256": "b2085ad16c2b2190ee34804e661ea40db20573ccaa4a3a9dc4ef9a6a64cab7d2",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "3d3ef7c53530dc1c01ee71b89c0b460ad94420c66f7d91c4f6334216fc5a25ba",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 58.5625,
+          "median_us": 58.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 63,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:onoff",
       "inventory_group": "codebox:onoff",
       "is_alias": false,
@@ -46274,16 +46848,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/onoff",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 58.56µs, median 58.00µs, peak 63µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -46312,48 +46894,120 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "onoff.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "onoff-next",
+          "codebox_source_sha256": "b2085ad16c2b2190ee34804e661ea40db20573ccaa4a3a9dc4ef9a6a64cab7d2",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "3d3ef7c53530dc1c01ee71b89c0b460ad94420c66f7d91c4f6334216fc5a25ba",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 58.625,
+          "median_us": 58.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 63,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:onoff.next",
       "is_alias": false,
       "name": "onoff.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/onoff#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 58.62µs, median 58.00µs, peak 63µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "onoff.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "onoff-reset",
+          "codebox_source_sha256": "4c37fcbf5f049db80d3b1caf248f72c5c36c71b929fbfa36ed931578f4b23cee",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "2887e662584dac58c49610ec8a74e56916cfe80ef886f8849440a90378a37503",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 143.0625,
+          "median_us": 143.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 148,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:onoff.reset",
       "is_alias": false,
       "name": "onoff.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/onoff#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 143.06µs, median 143.00µs, peak 148µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -47505,9 +48159,37 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "phasor",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "phasor-constructor",
+          "codebox_source_sha256": "eab3a1b7a39704b5fb1de43a59e98b6d5be3e830264caf313d166c2f68ecc09e",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "7b5e1b62b6d4747eecf8af2058da7cd97553aa2f03dc110e2149190ace2305a0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 1.0,
+          "mean_us": 89.375,
+          "median_us": 89.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 13,
+          "peak_us": 90,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:phasor",
       "inventory_group": "codebox:phasor",
       "is_alias": false,
@@ -47515,62 +48197,198 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/phasor",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Positive phase source reports 1 at exact wraps where the primary model expects 0. The input-reset source does not show the declared per-sample reset; explicit .reset and negative-frequency cases are separate outcomes. Short XIAO check (output_mismatch): one repeated stereo vector; mean 89.38µs, median 89.00µs, peak 90µs. Declared absolute tolerance 0; maximum finite error 1; within-tolerance differences 0; numeric mismatches 13; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "phasor.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "phasor-next",
+          "codebox_source_sha256": "eab3a1b7a39704b5fb1de43a59e98b6d5be3e830264caf313d166c2f68ecc09e",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "7b5e1b62b6d4747eecf8af2058da7cd97553aa2f03dc110e2149190ace2305a0",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 1.0,
+          "mean_us": 89.5,
+          "median_us": 89.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 13,
+          "peak_us": 90,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "phasor-negative",
+          "codebox_source_sha256": "2ba80046d18d968c6e97e1ecad1221530e2e3d899db5dd14dad930b3003586a8",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "14d822dd988b158af5a353515de6895a2b1eab9522006aeb0f853a8e3aca46c6",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 89.375,
+          "median_us": 89.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 90,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "phasor-input-reset",
+          "codebox_source_sha256": "8e3982d2f5c13143620a2e4ecec8e77a8606ecbf7d1cb2f13247e9d9421aeb02",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "e7fd1240c09a1b1ff0be9e79bdb5362ea0c3f2fbe38e12070f0bec70a6873a99",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.9697265625,
+          "mean_us": 93.1875,
+          "median_us": 93.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 10112,
+          "peak_us": 97,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "output_mismatch",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:phasor.next",
       "is_alias": false,
       "name": "phasor.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/phasor#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        },
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: at least one exact source retains its declared phase/edge/reset/trajectory comparison mismatch; other supplied modes may pass. See individual outcomes. This does not establish a whole-object defect. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Positive phase source reports 1 at exact wraps where the primary model expects 0. The input-reset source does not show the declared per-sample reset; explicit .reset and negative-frequency cases are separate outcomes. Short XIAO check (output_mismatch): one repeated stereo vector; mean 89.50µs, median 89.50µs, peak 90µs. Declared absolute tolerance 0; maximum finite error 1; within-tolerance differences 0; numeric mismatches 13; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Short XIAO check (pass): one repeated stereo vector; mean 89.38µs, median 89.00µs, peak 90µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Short XIAO check (output_mismatch): one repeated stereo vector; mean 93.19µs, median 93.00µs, peak 97µs. Declared absolute tolerance 0; maximum finite error 0.969726562; within-tolerance differences 0; numeric mismatches 10112; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short check / known gaps",
+        "short": "Short hardware mismatch",
+        "status": "partial",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "phasor.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "phasor-reset",
+          "codebox_source_sha256": "e52f11d8dd4080947d3e7913adea541efddd2a757b8ddd0c7696a319a970b276",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "e7fd1240c09a1b1ff0be9e79bdb5362ea0c3f2fbe38e12070f0bec70a6873a99",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 176.4375,
+          "median_us": 176.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 181,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:phasor.reset",
       "is_alias": false,
       "name": "phasor.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/phasor#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Positive phase source reports 1 at exact wraps where the primary model expects 0. The input-reset source does not show the declared per-sample reset; explicit .reset and negative-frequency cases are separate outcomes. Short XIAO check (pass): one repeated stereo vector; mean 176.44µs, median 176.00µs, peak 181µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -49962,48 +50780,120 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "rampsmooth.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "rampsmooth-next",
+          "codebox_source_sha256": "1881c06a2fa321944d3f9381cbfbc6c927e6b94421e057b82da910e7b0ad3dfd",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "836567edc33c5cb74f181376a35cb2bea9d516ce14f3d00c985a73bcd702329b",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 185.6875,
+          "median_us": 190.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 198,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:rampsmooth.next",
       "is_alias": false,
       "name": "rampsmooth.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/rampsmooth#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 185.69µs, median 190.50µs, peak 198µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "rampsmooth.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "rampsmooth-reset",
+          "codebox_source_sha256": "155690d3a1b40de07e4e6cc24f0c23aa741ea362114108aa8f8f44291e477148",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "48758af99d88fe661c3d2a6cbe9d4e6cfd7d36cd8fd025813a51b5ad9fd6d327",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 277.875,
+          "median_us": 282.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 290,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:rampsmooth.reset",
       "is_alias": false,
       "name": "rampsmooth.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/rampsmooth#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 277.88µs, median 282.50µs, peak 290µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -56713,9 +57603,37 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "swanramp",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "swanramp-constructor",
+          "codebox_source_sha256": "1a5801f29033ebc45324cdad5e4afe30e5f610c4f336aabc363fdd785e2b49df",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "260611c5732734c1a5b0b897bea2b722940afcf000e567a22ce16b404de951e8",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 129.1875,
+          "median_us": 129.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 134,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:swanramp",
       "inventory_group": "codebox:swanramp",
       "is_alias": false,
@@ -56723,62 +57641,142 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/swanramp",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 129.19µs, median 129.00µs, peak 134µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "swanramp.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "swanramp-next",
+          "codebox_source_sha256": "1a5801f29033ebc45324cdad5e4afe30e5f610c4f336aabc363fdd785e2b49df",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "260611c5732734c1a5b0b897bea2b722940afcf000e567a22ce16b404de951e8",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 129.3125,
+          "median_us": 129.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 134,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:swanramp.next",
       "is_alias": false,
       "name": "swanramp.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/swanramp#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 129.31µs, median 129.00µs, peak 134µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "swanramp.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "swanramp-reset",
+          "codebox_source_sha256": "5feae09458e940cce29cd86fa3532f340331f9fe7d3260c0ca865828c1624094",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "4494e0ae637d0110fe3fb949d58ad00d1780386cada181748f0fbd466bdbf117",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 222.375,
+          "median_us": 222.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 227,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:swanramp.reset",
       "is_alias": false,
       "name": "swanramp.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/swanramp#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 222.38µs, median 222.00µs, peak 227µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -57901,48 +58899,150 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "thresh.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "thresh-next",
+          "codebox_source_sha256": "c9359c78ee11b9f596d06698b140312b83e3e6cb84e63e3c20f7013e42c71cfa",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "b9775820c8ea6dce434124805124624ee8088cf087a1c9fa3d19ca6ba10123d3",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 68.25,
+          "median_us": 68.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 72,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        },
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "thresh-equal",
+          "codebox_source_sha256": "8ba91cb6fad3b25b52433ea95e64db6012992c276197616ebb9644e003ebeabb",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "dff9b10a71f24e25107a6250b2024b93a080c656e538150e8c0f29a89874addd",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 68.8125,
+          "median_us": 68.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 74,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:thresh.next",
       "is_alias": false,
       "name": "thresh.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/thresh#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        },
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 68.25µs, median 68.00µs, peak 72µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes. Short XIAO check (pass): one repeated stereo vector; mean 68.81µs, median 68.50µs, peak 74µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "thresh.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "thresh-reset",
+          "codebox_source_sha256": "ce1cd9953e98958d2f923f64b7fdcbc379cfc9d5ae3586b4d520ce49010b3225",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "7b58cc4699353b24950ae0342833eb2f44b64b41547aa5a8fab6b20777dca88c",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 165.25,
+          "median_us": 164.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 169,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:thresh.reset",
       "is_alias": false,
       "name": "thresh.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/thresh#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 165.25µs, median 164.00µs, peak 169µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -58982,9 +60082,37 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "train",
       "category": null,
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "train-constructor",
+          "codebox_source_sha256": "644f28af07bc2df1f7fac93d6bab649e2d17c02eda25a421690984fddec8bf27",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "ce4bf3143a6efb441015a121654e0889d9c1982bbaf16f7a2f0be52e3cffd70e",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 96.6875,
+          "median_us": 96.5,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 102,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox:train",
       "inventory_group": "codebox:train",
       "is_alias": false,
@@ -58992,16 +60120,24 @@
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/train",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 96.69µs, median 96.50µs, peak 102µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -59030,48 +60166,120 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "train.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "train-next",
+          "codebox_source_sha256": "644f28af07bc2df1f7fac93d6bab649e2d17c02eda25a421690984fddec8bf27",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "ce4bf3143a6efb441015a121654e0889d9c1982bbaf16f7a2f0be52e3cffd70e",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 96.5625,
+          "median_us": 97.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 99,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:train.next",
       "is_alias": false,
       "name": "train.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/train#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 96.56µs, median 97.00µs, peak 99µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "train.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 0.0,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "train-reset",
+          "codebox_source_sha256": "1a0f311038ff4660b7213f0b4b593d18314ce454f84a19d2de066bdbee1949ca",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "fdfe72304a76374235c46a27231038230b5520c95277e79d0620bfb5a674b4f9",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "e9dec04c01cfa004c221de34546ee04127807a4a8124772d79b7452389ba02ad",
+          "max_absolute_error": 0.0,
+          "mean_us": 189.25,
+          "median_us": 188.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 193,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:train.reset",
       "is_alias": false,
       "name": "train.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/train#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part1 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part1.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Short XIAO check (pass): one repeated stereo vector; mean 189.25µs, median 188.00µs, peak 193µs. Declared absolute tolerance 0; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -61437,48 +62645,120 @@
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "xfademul.next()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "xfademul-next",
+          "codebox_source_sha256": "d6401e4250130309474101881640bf758e2bbcdd5712702bd0cff8b7169827e6",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "d25c2109ce91ca02391dd30c964d1d41f245788b59949a702849411b3307a95f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "d6f1767192df80cc1034b2f1cbe9d735d59f1ba474f02f27378058f8866d3066",
+          "max_absolute_error": 0.0,
+          "mean_us": 111.375,
+          "median_us": 111.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 115,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:xfademul.next",
       "is_alias": false,
       "name": "xfademul.next()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/xfademul#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Linear curve only with syncupdate zero; xfademul explicitly uses channel position/clip/linear numeric enum options. Other curves/options are unqualified. Short XIAO check (pass): one repeated stereo vector; mean 111.38µs, median 111.00µs, peak 115µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
       "aliases": [],
-      "board_evidence": false,
+      "board_evidence": true,
       "canonical_name": "xfademul.reset()",
       "category": "Stateful member",
+      "hardware_smoke": [
+        {
+          "absolute_tolerance": 1.9999999949504854e-06,
+          "arena_capacity": 2097152,
+          "arena_high_water": 0,
+          "case": "xfademul-reset",
+          "codebox_source_sha256": "7df61938a68693ae70112ac7ab429e3e337db3735f9e173329850747b59c7279",
+          "cpu_review_reasons": [],
+          "cpu_time_saved_percent": null,
+          "evidence_url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json",
+          "expected_block_count": 20,
+          "expected_stream_policy": "Fresh prepared motion member state; twenty continuous256-frame callbacks with only authored reset/set/input-reset actions",
+          "expected_stream_sha256": "d25c2109ce91ca02391dd30c964d1d41f245788b59949a702849411b3307a95f",
+          "full_qualification_claimed": false,
+          "input_words_sha256": "d6f1767192df80cc1034b2f1cbe9d735d59f1ba474f02f27378058f8866d3066",
+          "max_absolute_error": 0.0,
+          "mean_us": 110.875,
+          "median_us": 111.0,
+          "nonfinite_outputs": 0,
+          "numeric_mismatches": 0,
+          "peak_us": 115,
+          "reference_policy": "independent-motion-trajectory-transition-or-octave-contract",
+          "samples_checked": 10240,
+          "status": "pass",
+          "test_level": "short-functional-hardware-check",
+          "within_tolerance_differences": 0
+        }
+      ],
       "id": "codebox-member:xfademul.reset",
       "is_alias": false,
       "name": "xfademul.reset()",
       "optimisation": {
         "detail": "",
         "label": "Not assessed",
+        "short": "",
         "status": "unassessed"
       },
       "performance": null,
       "reference_url": "https://rnbo.cycling74.com/codebox/ref/xfademul#methods",
-      "sources": [],
+      "sources": [
+        {
+          "label": "xiao smoke rnbo codebox motion members part2 — evidence",
+          "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-codebox-motion-members-part2.json"
+        }
+      ],
       "surface": "codebox",
       "working": {
-        "detail": "No qualifying result is recorded for this exact spelling and surface. Alias metadata does not transfer verification.",
-        "label": "Not yet verified",
-        "status": "unverified"
+        "detail": "XIAO: passes the supplied bounded two-instance constructor/member source(s) over twenty continuous 256-frame callbacks. Other APIs, modes and domains remain unqualified. Exact two-instance constructor/member/options source only;20 continuous256-frame callbacks with predeclared per-channel reset/set schedules. Current/pre-increment dyadic phase, post-increment8/16-step ramp, zero reset state, last-input difference switch-ramp and documented threshold/edge contracts. Octave-only440/432Hz tuning; bline observes only first tuple output. Constructor scenarios explicitly bind owners; member cases do not imply aliases/other APIs. No Gen/patcher/one-frame-call/event/nonfinite/arbitrary-option qualification. Strict Float32 module with original storage/runtime, 2MiB arena ceiling; all20 blocks checked, no automatic warmup, four manual warmups plus16 timed callbacks. Per-case independent reference and numerical limit remain unchanged. Remaining scope: Exact authored constructor/member/options only; no alias, other method, Gen or patcher status is inherited. All numerical references and limits were fixed before output. Reset/phase/trajectory ordering policies are explicit where documentation is terse; mismatches remain visible. Fixed 256-frame module ABI only; sample state inside callbacks does not qualify one-frame host calls, sample-offset host events or arbitrary controls. Linear curve only with syncupdate zero; xfademul explicitly uses channel position/clip/linear numeric enum options. Other curves/options are unqualified. Short XIAO check (pass): one repeated stereo vector; mean 110.88µs, median 111.00µs, peak 115µs. Declared absolute tolerance 1.99999999e-06; maximum finite error 0; within-tolerance differences 0; numeric mismatches 0; nonfinite outputs 0. Arena reserved 2,097,152 bytes; observed high-water 0 bytes.",
+        "label": "Short hardware check",
+        "short": "One short hardware scenario",
+        "status": "board",
+        "test_level": "short-functional-hardware-check"
       }
     },
     {
@@ -62367,10 +63647,10 @@
     }
   ],
   "provenance": {
-    "coverage_canonical_sha256": "ca841d8bc51945f8c381e253dcd347750da75fc7eb8506ebb479d55c5e4e0430",
-    "coverage_source_sha256": "98a9c41df5323fc01bae276e52e7ea25605d4f9bf8cd87e8982d8cdebbe1dc58",
-    "exact_coverage_entries": 837,
-    "generator_sha256": "07d6258b6ee84a47186b4cb5cae0308373c8ab0d7e6ed7260893e56687b5fa43",
+    "coverage_canonical_sha256": "9156ff8790504db0f95af744de3a6b85edb5a0e5f737f8f9293e3fce112ee8d3",
+    "coverage_source_sha256": "207c673042552a3e2c853bd8cf371c1c2fa05fcf33a55261df9c6ed0f0544948",
+    "exact_coverage_entries": 869,
+    "generator_sha256": "9a4c3616e7bc175660d1768c3ecb664688d899902e1c31cb6b681fe45f89015a",
     "initial_coverage_public_revision": "579fa3f94f22ca86a6d69003a7063113f17ab538",
     "inventory_canonical_sha256": "8ca7ac01ee9e3f46f964c0b83ee40350b005eb7342b2c389499a29f677d94f16",
     "inventory_source_sha256": "0bbbc3f79d6ad6c9aaf175b34dae111b615f409a684be0efd56193d8881908ba",
