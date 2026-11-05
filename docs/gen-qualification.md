@@ -1,5 +1,22 @@
 # Gen and single-sample qualification
 
+The [visual Gen range/state batch](gen-visual-flow.md) covers **42 scenarios
+across 33 exact visual spellings**. **39 hardware checks pass**, fractional
+`ftom` retains **640 outside-screen words** (maximum 0.25 notes), and `mod`/`%`
+retain native/target C++ undefined-helper failures. **40 completed XIAO runs
+check 409,600 output words**, including per-sample state across 20 continuous
+blocks and separately selected counter/coordinate outlets. There are 16,907
+within-limit differences, 1,300 observational left zero-sign differences, exact
+raw right captures and no nonfinite output. All completed images finalise and
+memory/allocation gates pass. `mtof` uses 262,208 bytes in an explicit 1 MiB arena;
+its native 4 KiB abort remains separate. **Two callbacks** join CPU review, now
+**164**: dbtoa at 7,359µs median (**126.77%**, above the block budget), and t60
+at 2,812µs (**48.44%**). All 122 earlier visual lowerings stay unchanged and retain
+their own immutable snapshots. The normal player and saved controls are restored.
+This adds no RNBO inventory rows: coverage stays **1056/1455 scoped outcomes**.
+Other Gen/RNBO forms, coupled outlets, resources, resets and complete
+qualification remain active work; no optimisation gain is claimed.
+
 The [visual Gen maths/constant batch](gen-visual-math.md) runs **101 exact
 spellings**: **99 pass and two intentional approximations retain outside-screen
 numerical differences**, across **1,034,240 output-word checks**. Every raw

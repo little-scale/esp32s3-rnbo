@@ -82,3 +82,9 @@ spellings. Core receipts now resolve the immutable
 snapshot, rather than requiring the production compiler to remain unchanged.
 The new producer emits byte-identical lowerings for these 21 core fixtures;
 their historical target results and numerical limits are preserved.
+
+The [range/state and multiple-output batch](gen-visual-flow.md) adds separately
+source-bound visual evidence. The producer now handles fully wired range and
+implicit stateful calls and selected outlets of counter/cartopol/poltocar. All
+21 core and 101 maths graph lowerings remain unchanged. New compiler, numerical
+and memory gaps stay visible; no full Gen qualification is inferred.

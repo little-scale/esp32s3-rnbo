@@ -292,7 +292,7 @@ def checked_short_smoke(record,item,data):
     codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')
     surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','gen-visual-flow','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
@@ -348,6 +348,34 @@ def checked_short_smoke(record,item,data):
                 proof['adapter_sha256']==hashlib.sha256(resolve_lowerer(proof).read_bytes()).hexdigest(),
                 'Visual Gen requires its source-bound lowering proof')
         stream_fields=dict(expected_block_count=20,expected_stream_sha256=case['expected_stream_sha256'],genpatcher_sha256=case['genpatcher_sha256'],gen_visual_lowering=proof)
+    if data.get('family')=='gen-visual-flow':
+        index=data.get('partition',{}).get('index');require(type(index)is int and index in(1,2,3),'Invalid visual flow partition')
+        catalog=json.loads((ROOT/'tests/fixtures/smoke/gen-visual-flow'/('part'+str(index)+'.json')).read_bytes());source=next((c for c in catalog['cases']if c['id']==case['id']),None)
+        require(data['partition']==catalog['partition']and data.get('prepare_zero_warm_blocks')==0 and
+                case.get('syntax')=='embedded-visual-gen-flow'and case.get('expected_block_count')==20 and source is not None and
+                all(case.get(k)==source[k]for k in('visual_operator','visual_kind','canonical_operation','source_form','input_domains','variant','observed_outlet','operator_outputs','input_bindings','genpatcher_sha256'))and
+                case.get('source_sha256')==source['patch_sha256']and
+                case.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0],
+                'Visual flow exact source/domain/limits differ')
+        spec=importlib.util.spec_from_file_location('published_visual_flow_reference',ROOT/'tests/fixtures/smoke/gen-visual-flow/reference.py')
+        ref=importlib.util.module_from_spec(spec);spec.loader.exec_module(ref)
+        from build_hardware_smoke import visual_flow_catalog,VISUAL_FLOW_REFERENCE_SHA
+        visual_flow_catalog(catalog)
+        require(data.get('prepare_zero_warm_blocks')==0 and data.get('reference_source_sha256')==VISUAL_FLOW_REFERENCE_SHA and
+                hashlib.sha256((ROOT/'tests/fixtures/smoke/gen-visual-flow/reference.py').read_bytes()).hexdigest()==VISUAL_FLOW_REFERENCE_SHA,'Visual flow reference/fresh-state epoch differs')
+        inputs=ref.case_input_words(source['model']);blocks=ref.reference_blocks(source['model'],inputs)
+        expected=hashlib.sha256(b''.join(struct.pack('<512I',*b)for b in blocks)).hexdigest()
+        pilot=hashlib.sha256(b''.join(struct.pack('<256I',*b[1::2])for b in blocks)).hexdigest()
+        require(case.get('expected_stream_sha256')==expected and case.get('input_words_sha256')==hashlib.sha256(struct.pack('<512I',*inputs)).hexdigest()and
+                case.get('right_output_sha256')==case.get('expected_right_output_sha256')==pilot,'Visual flow continuous stream/input/pilot differs')
+        stream_fields=dict(expected_block_count=20,expected_stream_sha256=expected)
+        require(case.get('arena_capacity',4096)==(1048576 if source['visual_operator']=='mtof'else 4096),'Visual flow published arena tier differs')
+        proof=case.get('gen_visual_lowering',{});digest=case.get('right_output_sha256')
+        require(proof.get('policy')=='embedded-visual-gen-flow-v1'and proof.get('box_id')=='gen'and
+                resolve_lowerer(proof)==ROOT/'tests/fixtures/smoke/gen-visual-flow/qualified_lowerer.mjs'and proof.get('adapter_sha256')==hashlib.sha256(resolve_lowerer(proof).read_bytes()).hexdigest()and
+                case.get('right_pilot_bit_exact')is True and type(digest)is str and re.fullmatch('[0-9a-f]{64}',digest)and
+                digest==case.get('expected_right_output_sha256'),'Visual flow bridge/right observer differs')
+        code_fields={k:case[k]for k in('gen_visual_lowering','genpatcher_sha256','visual_operator','visual_kind','canonical_operation','source_form','input_domains','variant','observed_outlet','operator_outputs','input_bindings','right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')}
     if data.get('family')=='gen-visual-math':
         index=data.get('partition',{}).get('index');require(type(index)is int and index in(1,2,3,4),'Invalid visual maths partition')
         catalog=json.loads((ROOT/'tests/fixtures/smoke/gen-visual-math'/('part'+str(index)+'.json')).read_bytes());source=next((c for c in catalog['cases']if c['id']==case['id']),None)
@@ -531,7 +559,7 @@ def checked_short_smoke(record,item,data):
                 all(e['before_call']==a['before_call']and e['id']==a['id']and e['value_word']==reference.word(a['value'])for e,a in zip(case['parameter_events'],authored)),
                 'Event-routing published actions differ')
         event_fields.update({k:case[k]for k in('right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')})
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','gen-visual-flow','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -541,7 +569,7 @@ def checked_short_smoke(record,item,data):
         tolerance=number(case['absolute_tolerance']);maximum=number(case['max_absolute_error'])
         # Float32(1e-3) is slightly greater than decimal1e-3. Only this
         # new unit-aware/approximation family may use that larger ceiling.
-        maximum_tolerance=struct.unpack('<f',struct.pack('<f',.008))[0]if data['family']=='rnbo-unit-conversions'else 0.0020000000949949026 if data['family']=='rnbo-codebox-context-aliases'else 0.0010000000474974513 if data['family']in('rnbo-functions','rnbo-signal-range','rnbo-codebox-range','rnbo-codebox-shaping','rnbo-codebox-misc','rnbo-codebox-motion-members','rnbo-events-math','gen-visual-math','rnbo-mixing-shaping')else 2e-6
+        maximum_tolerance=struct.unpack('<f',struct.pack('<f',.008))[0]if data['family']=='rnbo-unit-conversions'else 0.0020000000949949026 if data['family']=='rnbo-codebox-context-aliases'else 0.0010000000474974513 if data['family']in('rnbo-functions','rnbo-signal-range','rnbo-codebox-range','rnbo-codebox-shaping','rnbo-codebox-misc','rnbo-codebox-motion-members','rnbo-events-math','gen-visual-math','gen-visual-flow','rnbo-mixing-shaping')else 2e-6
         require(0<=tolerance<=maximum_tolerance and maximum>=0 and(not within or tolerance>0),
                 'Short numeric smoke tolerance/error is invalid')
         require((mismatches==0 and maximum<=tolerance)or
@@ -678,6 +706,25 @@ def checked_list_target_fault(record,item,data):
         require(type(data.get(key))is str and re.fullmatch('[0-9a-f]{64}',data[key]),'Growth fault provenance is missing')
 
 
+def checked_visual_flow_rejection(record,item,data):
+    from build_hardware_smoke import visual_flow_catalog
+    require(data.get('format')=='rnbo-hardware-smoke-results-v1'and data.get('family')=='gen-visual-flow'and data.get('surface')=='patcher','Visual flow rejection requires its own source ledger')
+    index=data.get('partition',{}).get('index');require(type(index)is int and index in(1,2,3),'Invalid visual flow rejection partition')
+    catalog=json.loads((ROOT/f'tests/fixtures/smoke/gen-visual-flow/part{index}.json').read_bytes());visual_flow_catalog(catalog)
+    require(data['partition']==catalog['partition'],'Visual flow rejected partition differs')
+    selector=item.get('selector','');parts=selector.split('/')if type(selector)is str else[]
+    require(len(parts)==3 and parts[:2]==['','compile_failures']and parts[2].isdigit(),'Visual flow rejection must name a target C++ failure')
+    failure=pointer(data,selector);source=next((r for r in catalog['cases']if r['id']==failure.get('id')),None)
+    require(source is not None and source['visual_operator']in('mod','%')and failure.get('status')=='compile_failed'and
+            failure.get('source_sha256')==source['patch_sha256']and all(failure.get(k)==source[k]for k in('exact_name','syntax','registry_lookup'))and
+            record.get('surface')=='patcher'and record.get('id')=='patcher:gen~'and record.get('spelling')=='gen~','Visual flow rejected source/spelling differs')
+    proof=failure.get('gen_visual_lowering',{})
+    require(proof.get('policy')=='embedded-visual-gen-flow-v1'and resolve_lowerer(proof)==ROOT/'tests/fixtures/smoke/gen-visual-flow/qualified_lowerer.mjs'and proof.get('adapter_sha256')==hashlib.sha256(resolve_lowerer(proof).read_bytes()).hexdigest()and
+            type(failure.get('compile_log_sha256'))is str and re.fullmatch('[0-9a-f]{64}',failure['compile_log_sha256'])and
+            not any(k in failure for k in('samples_checked','median_us','numeric_mismatches','finalized')),'Visual flow compile failure must not become a target output pass')
+    require(record.get('working_state')=='partial'and record.get('board_evidence')is True,'Rejected visual forms do not qualify the complete gen~ family')
+
+
 def public_sources(record,coverage,root,evidence_cache=None):
     if evidence_cache is None:evidence_cache={}
     result={}
@@ -689,6 +736,9 @@ def public_sources(record,coverage,root,evidence_cache=None):
                     path.is_file() and not (root/source).is_symlink(),'Qualification evidence must be a public regular file')
             entry=coverage['sources'].get(source)
             require(entry is not None and digest(path)==entry['sha256'],'Qualification evidence changed: '+source)
+            if item.get('evidence_kind')=='rnbo-visual-flow-rejection':
+                if source not in evidence_cache:evidence_cache[source]=load(path)
+                checked_visual_flow_rejection(record,item,evidence_cache[source])
             if item.get('evidence_kind')=='rnbo-codebox-build-failure':
                 if source not in evidence_cache:evidence_cache[source]=load(path)
                 checked_codebox_build_failure(record,item,evidence_cache[source])
@@ -793,7 +843,7 @@ def make_status(inventory,coverage,root=ROOT):
                 if observation['cpu_review_reasons']:row['working']['detail']+=' Callback timing flagged for later review.'
         if record.get('working_test_level')=='short-functional-hardware-check':
             require(smoke and working in ('board','partial'),'Short smoke label requires a bound hardware scenario')
-            execution_gap=any(q.get('evidence_kind')in('rnbo-routing-rejection','xiao-routing-event-fault','xiao-list-growth-fault')for q in record.get('qualification',[]))
+            execution_gap=any(q.get('evidence_kind')in('rnbo-routing-rejection','xiao-routing-event-fault','xiao-list-growth-fault','rnbo-visual-flow-rejection')for q in record.get('qualification',[]))
             require((working=='board' and all(item['status']=='pass'for item in smoke)and not execution_gap)or
                     (working=='partial' and(any(item['status']=='output_mismatch'for item in smoke)or execution_gap)),
                     'Short smoke working label differs from observed output status')

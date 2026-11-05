@@ -1157,6 +1157,43 @@ def visual_gen_plan(plan):
         require(row.get('gen_visual_lowering')==expected,'Visual Gen bridge/lowerer identity differs')
 
 
+def visual_flow_plan(plan):
+    from build_hardware_smoke import VISUAL_FLOW_CATALOG_SHA,VISUAL_FLOW_REFERENCE_SHA,VISUAL_FLOW_PARTITIONS,visual_flow_catalog
+    import subprocess
+    directory=ROOT/'tests/fixtures/smoke/gen-visual-flow';index=plan.get('partition',{}).get('index')
+    require(type(index)is int and index in(1,2,3),'Invalid visual flow partition')
+    catalog=json.loads((directory/('part'+str(index)+'.json')).read_bytes());visual_flow_catalog(catalog)
+    require(plan['partition']==catalog['partition'],'Visual flow partition differs')
+    require(plan.get('catalog_sha256')==VISUAL_FLOW_PARTITIONS[index] and plan.get('reference_source_sha256')==VISUAL_FLOW_REFERENCE_SHA and
+            sha(directory/'reference.py')==VISUAL_FLOW_REFERENCE_SHA and plan.get('surface')=='patcher' and
+            type(plan.get('prepare_zero_warm_blocks'))is int and plan['prepare_zero_warm_blocks']==0 and
+            plan.get('warmup_blocks')==4 and plan.get('timed_blocks')==16,'Visual Gen source/fresh-state policy differs')
+    originals={r['id']:r for r in catalog['cases']};observed=plan['cases']+plan.get('compile_failures',[])+plan.get('admission_failures',[])
+    require(len(observed)==len(originals)and {r['id']for r in observed}==set(originals),'Visual Gen source ledger differs')
+    spec=importlib.util.spec_from_file_location('visual_gen_independent',directory/'reference.py');ref=importlib.util.module_from_spec(spec);spec.loader.exec_module(ref)
+    for row in observed:
+        source=originals[row['id']]
+        require(row.get('source_sha256')==source['patch_sha256']and all(row.get(k)==source[k]for k in('exact_name','syntax','registry_lookup')),'Visual Gen exact source differs')
+    for row in plan['cases']:
+        source=originals[row['id']];model=source['model'];inputs=ref.case_input_words(model)
+        require(all(row.get(k)==v for k,v in source.items())and row.get('input_words')==list(inputs) and
+                row.get('absolute_tolerance')==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0] and
+                not any(k in row for k in('genexpr','codebox','parameters','parameter_events','expected_block_indices')),'Visual Gen graph/domain/tolerance differs')
+        require(row.get('arena_bytes',4096)==(1048576 if source['visual_operator']=='mtof'else 4096),'Visual flow explicit arena tier differs')
+        blocks,_=expected_stream(row,True)
+        require(tuple(tuple(b)for b in blocks)==ref.reference_blocks(model,inputs),'Visual flow reference stream differs')
+        raw=(directory/source['patch']).read_bytes();patch=json.loads(raw)['patcher'];gen=next(b['box']for b in patch['boxes']if b['box'].get('text')=='gen~')
+        require(hashlib.sha256(raw).hexdigest()==source['patch_sha256']and 'expr'not in gen['rnbo_extra_attributes']and
+                hashlib.sha256(canonical(gen['genpatcher'])).hexdigest()==source['genpatcher_sha256'],'Original visual source/graph differs')
+        adapter=resolve_lowerer(row.get('gen_visual_lowering',{}),allow_current=True)
+        script="import fs from 'node:fs';import {lowerVisualGen} from "+json.dumps(adapter.as_uri())+";process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
+        lowered=json.loads(subprocess.run(['node','--input-type=module','-e',script],input=json.dumps(gen['genpatcher']),text=True,capture_output=True,cwd=ROOT,check=True,timeout=10).stdout)
+        expected=dict(box_id=gen['id'],policy=lowered['policy'],nodes=lowered['nodes'],edges=lowered['edges'],histories=lowered['history_count'],operators=lowered['operators'],
+            source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
+            lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(adapter))
+        require(row.get('gen_visual_lowering')==expected,'Visual Gen bridge/lowerer identity differs')
+
+
 def visual_math_plan(plan):
     from build_hardware_smoke import VISUAL_MATH_CATALOG_SHA,VISUAL_MATH_REFERENCE_SHA,VISUAL_MATH_PARTITIONS,visual_math_catalog
     import subprocess
@@ -1200,6 +1237,7 @@ def collect(build_dir,run_dir):
         run['result']=='completed' and run['left_installed'] is True,'Smoke batch did not complete')
     plan=build['plan'];require(hashlib.sha256(canonical(plan)).hexdigest()==build['plan_sha256'],'Smoke plan changed')
     if plan.get('family')=='gen-visual-math':visual_math_plan(plan)
+    if plan.get('family')=='gen-visual-flow':visual_flow_plan(plan)
     if plan.get('family')=='gen-visual-core':visual_gen_plan(plan)
     if plan.get('family')=='rnbo-events-math':event_math_plan(plan)
     if plan.get('family')=='rnbo-unit-conversions':unit_conversion_plan(plan)
@@ -1245,9 +1283,9 @@ def collect(build_dir,run_dir):
                 plan.get('surface')==('genexpr'if plan['family']in('gen-range','gen-constants')else'codebox'),
                 'New numeric domains require zero automatic preparation blocks')
     event_family=plan.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping')
-    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core')or event_family
+    stateful=plan.get('family')in('gen-stateful','gen-state-boundaries','gen-data-indexed','gen-control-structures','gen-execution-forms','gen-routing-causality','gen-data-extended','rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core','gen-visual-flow')or event_family
     if stateful:
-        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
+        require(plan.get('surface')==('patcher'if event_family or plan['family']in('rnbo-signal-stateful','rnbo-signal-state-followup','gen-visual-core','gen-visual-flow')else('codebox'if plan['family']in('rnbo-codebox-stateful','rnbo-codebox-filters','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases')else'genexpr'))and type(plan.get('prepare_zero_warm_blocks'))is int and
                 plan['prepare_zero_warm_blocks']==0 and 'expected_stream_policy'in plan,
                 'Stateful reference requires fresh zero-preparation constructor epoch and stream policy')
     pool=None
@@ -1315,10 +1353,13 @@ def collect(build_dir,run_dir):
             code_sha=expected.get('codebox_source_sha256')
             require(type(code_sha)is str and re.fullmatch('[0-9a-f]{64}',code_sha),'Codebox source identity is missing')
             record['codebox_source_sha256']=code_sha
-        if plan.get('family')in('gen-visual-core','gen-visual-math'):record.update({k:expected[k]for k in('gen_visual_lowering','genpatcher_sha256')})
+        if plan.get('family')in('gen-visual-core','gen-visual-math','gen-visual-flow'):record.update({k:expected[k]for k in('gen_visual_lowering','genpatcher_sha256')})
         if plan.get('family')=='gen-visual-math':
             record.update({k:expected[k]for k in('visual_operator','visual_kind','canonical_operation','source_form','input_domains')})
             record.update(right_pilot_observation(data,[expected['expected']]*20))
+        if plan.get('family')=='gen-visual-flow':
+            record.update({k:expected[k]for k in('visual_operator','visual_kind','canonical_operation','source_form','input_domains','variant','observed_outlet','operator_outputs','input_bindings')})
+            record.update(right_pilot_observation(data,blocks))
         record.update(**output,
             mean_us=mean,median_us=med,peak_us=peak,times_us=times,cpu_review_reasons=reasons,
             context_bytes=int(data['context_bytes']),arena_high_water=int(data['arena_high_water']),
@@ -1360,9 +1401,11 @@ def collect(build_dir,run_dir):
     elif plan.get('family')in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping'):
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'])
         if plan['family']=='rnbo-event-routing':result['collector_dependencies_sha256']={'tools/event_routing_provenance.py':sha(ROOT/'tools/event_routing_provenance.py')}
+    elif plan.get('family')=='gen-visual-flow':
+        result.update(family=plan['family'],surface='patcher',partition=plan['partition'],collector_dependencies_sha256={'tools/visual_gen_provenance.py':sha(ROOT/'tools/visual_gen_provenance.py')})
     elif plan.get('family')=='gen-visual-math':
         result.update(family=plan['family'],surface='patcher',partition=plan['partition'],collector_dependencies_sha256={'tools/visual_gen_provenance.py':sha(ROOT/'tools/visual_gen_provenance.py')})
-    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping') and plan.get('surface')=='patcher':
+    elif plan.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','gen-visual-flow','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-event-routing','rnbo-list-extended','rnbo-mixing-shaping') and plan.get('surface')=='patcher':
         result.update(family=plan['family'],surface='patcher')
     elif plan.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
         require(plan.get('surface')=='codebox','Codebox family requires its own surface')

@@ -13,6 +13,25 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Visual Gen range/state: two new callback contexts
+
+The [visual-flow report](gen-visual-flow.md) brings the queue from 162 to **164**.
+Both flagged contexts pass their fixed numerical screens:
+
+| Context | Median / peak µs | Callback CPU |
+| --- | ---: | ---: |
+| visual dbtoa | 7359 / 7363 | 126.77% |
+| visual t60 | 2812 / 2812 | 48.44% |
+
+The dbtoa context exceeds the 256-frame period in the measured form. These are
+complete offline callbacks, including the raw pilot, without I²S/UI/Wi-Fi work;
+no isolated opcode cost or optimisation gain is claimed. Precision/library call
+choices are follow-up investigations. Mtof also uses 262,208 arena bytes because
+its generated initialization allocates a 65,536-sample table, although the selected
+processing path computes the exponential directly. Its explicit 1 MiB target run
+passes; the earlier native 4 KiB abort remains separate. Removing unused storage
+is a memory-optimisation candidate, not an established saving.
+
 ## Maths/interpolation/mixing: five new callback contexts
 
 The [maths/mixing report](rnbo-mixing-shaping.md) retains five threshold-crossing

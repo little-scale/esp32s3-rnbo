@@ -8,6 +8,7 @@ from pathlib import Path
 import hashlib
 ROOT=Path(__file__).resolve().parents[1]
 QUALIFIED_LOWERERS={
+    'tests/fixtures/smoke/gen-visual-flow/qualified_lowerer.mjs':'d1a72d560a0f4a74df1b73753c7f7b3ffc6a5e8bdc92deca87f42194ca65ba7c',
     'tests/fixtures/smoke/gen-visual-math/qualified_lowerer.mjs':'fc40fc0223b68234e513fdb0392dcd08f20eb7dc52f314e8e8a3e48c20c3abdf',
     'tests/fixtures/smoke/gen-visual-core/qualified_lowerer.mjs':'e97b4f34550992030f58dc2ca32913a2749eadbf50ce786a58572492414f53ec',
 }
