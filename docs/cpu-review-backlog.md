@@ -13,6 +13,18 @@ Functional coverage continues first.
 Direct variable-frame probes use their separately stated aggregate-render cycle
 screen below; those observations include short-call dispatch overhead.
 
+## Ordered event state: no new callback flags
+
+All 36 armed scenarios across 15 exact spellings pass. Held-output callbacks
+measure **75–77µs median (1.29–1.33%)**, peak 81µs, so no new flag triggers and
+**157 contexts** remain queued. Stateful work runs in event setters/routing,
+which is measured separately across one arm plus 21 drive actions. Largest
+observed totals: slide up2/down4 at 188µs (37µs peak), rampsmooth up2/down4 at
+181µs (39µs peak), and slide up4/down8 at 181µs (36µs peak). These include wrapper,
+routing and arming overhead; they are not isolated opcode costs or optimisation
+savings. The [state report](rnbo-event-state.md) keeps the native-only startup
+fixture correction, unchanged references and numerical differences separate.
+
 ## Unit conversions: one queued signal context
 
 The 36 event/signal spellings all execute; 35 pass their output screens and

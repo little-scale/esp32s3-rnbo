@@ -179,8 +179,9 @@ def checked_boundary_events(case,data):
                 'Boundary parameter contract must be binary32')
         require(minimum<maximum and minimum<=initial<=maximum and exponent==1 and type(parameter['steps'])is int and parameter['steps']==0,
                 'Boundary parameter must be linear and unstepped')
-    require(type(events)is list and len(events)==21 and type(case.get('parameter_events_applied'))is int and case['parameter_events_applied']==21,
-            'Boundary smoke requires twenty-one observed actions')
+    action_count=22 if data.get('family')=='rnbo-event-state'else 21
+    require(type(events)is list and len(events)==action_count and type(case.get('parameter_events_applied'))is int and case['parameter_events_applied']==action_count,
+            'Boundary smoke observed action count differs')
     resolved={};indices={};last_call=0;total=0;peak=0
     event_keys={'ordinal','before_call','id','parameter_slot','resolved_index','value_word','actual_word','normalized_word',
                 'expected_normalized_word','event_us','actual_zero_sign_difference','normalized_zero_sign_difference'}
@@ -291,7 +292,7 @@ def checked_short_smoke(record,item,data):
     codebox=data.get('family')in('rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')
     surface='codebox'if codebox else'patcher'
     require(data.get('format')=='rnbo-hardware-smoke-results-v1' and data.get('board')=='xiao' and
-            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
+            data.get('family') in ('rnbo-stateless','rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants') and data.get('surface')==surface and
             data.get('test_level')=='short-functional-hardware-check' and data.get('full_qualification_claimed') is False,
             'Short smoke board/surface/test scope differs')
     if data.get('family')in('rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants'):
@@ -365,7 +366,7 @@ def checked_short_smoke(record,item,data):
     numeric_keys={'numeric_mismatches','within_tolerance_differences','nonfinite_outputs',
                   'max_absolute_error','absolute_tolerance','input_words_sha256'}
     present=numeric_keys.intersection(case);numeric={}
-    boundary=data.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions');event_fields={};strict=0
+    boundary=data.get('family')in('rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state');event_fields={};strict=0
     character=data.get('family')=='rnbo-character-constants'
     if character:
         partition=data.get('partition',{});index=partition.get('index')
@@ -426,7 +427,33 @@ def checked_short_smoke(record,item,data):
                 require(len(case['parameter_events'])==len(authored)==21 and
                         all(e['before_call']==a['before_call']and e['id']==a['id']and e['value_word']==reference.word(a['value'])
                             for e,a in zip(case['parameter_events'],authored)), 'Unit conversion published actions differ')
-    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
+    if data.get('family')=='rnbo-event-state':
+        from build_hardware_smoke import event_state_catalog,EVENT_STATE_REFERENCE_SHA
+        directory=ROOT/'tests/fixtures/smoke/rnbo-event-state';index=data.get('partition',{}).get('index')
+        require(type(index)is int and index in(1,2),'Invalid event-state partition')
+        catalog=json.loads((directory/f'part{index}.json').read_bytes());event_state_catalog(catalog)
+        require(data['partition']==catalog['partition']and data.get('reference_source_sha256')==EVENT_STATE_REFERENCE_SHA and
+                hashlib.sha256((directory/'reference.py').read_bytes()).hexdigest()==EVENT_STATE_REFERENCE_SHA,'Event-state reference identity differs')
+        source=next((r for r in catalog['cases']if r['id']==case['id']),None)
+        require(source is not None and case['source_sha256']==source['patch_sha256']and
+                all(case.get(k)==source[k]for k in('model','scope','source_form','operation','variant','observed_outlet','input_domain','exact_name','syntax','registry_lookup'))and
+                case['absolute_tolerance']==struct.unpack('<f',struct.pack('<f',source['maximum_absolute_error']))[0], 'Event-state exact scenario/limit differs')
+        spec=importlib.util.spec_from_file_location('published_event_state_reference',directory/'reference.py')
+        reference=importlib.util.module_from_spec(spec);spec.loader.exec_module(reference)
+        blocks=reference.reference_blocks(source['model'],reference.input_words())
+        expected=hashlib.sha256(b''.join(struct.pack('<512I',*b)for b in blocks)).hexdigest()
+        pilot=hashlib.sha256(b''.join(struct.pack('<256I',*b[1::2])for b in blocks)).hexdigest()
+        input_digest=hashlib.sha256(struct.pack('<512I',*reference.input_words())).hexdigest()
+        require(case.get('expected_stream_sha256')==expected and case.get('right_pilot_bit_exact')is True and
+                case.get('right_output_sha256')==case.get('expected_right_output_sha256')==pilot and case.get('input_words_sha256')==input_digest,
+                'Event-state rational stream/input/raw pilot differs')
+        authored=reference.parameter_events(source['model'])
+        require(len(case['parameter_events'])==len(authored)==22 and case['parameter_count']==2 and
+                {p['id']:p for p in case['parameters']}=={p['id']:p for p in reference.parameters()} and
+                all(e['before_call']==a['before_call']and e['id']==a['id']and e['value_word']==reference.word(a['value'])for e,a in zip(case['parameter_events'],authored)),
+                'Event-state published actions differ')
+        event_fields.update({k:case[k]for k in('right_pilot_bit_exact','right_output_sha256','expected_right_output_sha256')})
+    require((not present or present==numeric_keys)and(data.get('family')not in('rnbo-numeric','rnbo-functions','rnbo-constants','rnbo-signal-range','rnbo-signal-stateful','rnbo-signal-state-followup','rnbo-signal-routing','gen-visual-core','gen-visual-math','rnbo-events','rnbo-events-extra','rnbo-events-ranges','rnbo-events-math','rnbo-unit-conversions','rnbo-event-state','rnbo-codebox','rnbo-codebox-constants','rnbo-codebox-numeric','rnbo-codebox-range','rnbo-codebox-stateful','rnbo-codebox-shaping','rnbo-codebox-filters','rnbo-codebox-misc','rnbo-codebox-containers','rnbo-codebox-structures','rnbo-codebox-members','rnbo-codebox-delay-members','rnbo-codebox-analysis-members','rnbo-codebox-motion-members','rnbo-codebox-context-aliases','rnbo-codebox-list-functions','rnbo-character-constants')or present==numeric_keys),
             'Short numeric smoke fields must be complete')
     if present:
         mismatches,within,nonfinite=(case[key]for key in ('numeric_mismatches','within_tolerance_differences','nonfinite_outputs'))
@@ -446,7 +473,7 @@ def checked_short_smoke(record,item,data):
         require(type(input_sha)is str and len(input_sha)==64 and all(c in '0123456789abcdef'for c in input_sha),
                 'Short numeric smoke input identity is invalid')
         numeric={key:case[key]for key in numeric_keys}
-        if (boundary and data['family']not in('rnbo-events-math','rnbo-unit-conversions'))or character:require(tolerance==0,'Boundary/character smoke requires zero absolute tolerance')
+        if (boundary and data['family']not in('rnbo-events-math','rnbo-unit-conversions','rnbo-event-state'))or character:require(tolerance==0,'Boundary/character smoke requires zero absolute tolerance')
     else:mismatches=bits-zeros
     require((case['status']=='pass')==(mismatches==0),'Short smoke output status/counters differ')
     times=case.get('times_us')

@@ -53120,6 +53120,789 @@
       "working_note": "XIAO: passed its authored fixed-transport rational output screen, ordered parameter readbacks and independent raw right capture.",
       "working_state": "board",
       "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:*=",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "*="
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/multiply-assign-prefix.rnbopat"
+        },
+        {
+          "forms": [
+            "*="
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/multiply-assign-neutral-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario multiply-assign-prefix; form *=; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario multiply-assign-neutral-reset; form *=; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "*=",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:+=",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "+="
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/plus-assign-prefix.rnbopat"
+        },
+        {
+          "forms": [
+            "+="
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/plus-assign-neutral-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario plus-assign-prefix; form +=; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario plus-assign-neutral-reset; form +=; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "+=",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:accum",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "accum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/accum-prefix.rnbopat"
+        },
+        {
+          "forms": [
+            "accum"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/accum-neutral-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario accum-prefix; form accum; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario accum-neutral-reset; form accum; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "accum",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:change",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "change"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/change-changed-value-sum.rnbopat"
+        },
+        {
+          "forms": [
+            "change"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/change-rise-count.rnbopat"
+        },
+        {
+          "forms": [
+            "change"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/change-fall-count.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario change-changed-value-sum; form change; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario change-rise-count; form change; observed outlet 1; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario change-fall-count; form change; observed outlet 2; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "change",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:counter",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "counter 0 0 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/counter-up.rnbopat"
+        },
+        {
+          "forms": [
+            "counter 1 0 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/counter-down.rnbopat"
+        },
+        {
+          "forms": [
+            "counter 2 0 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/counter-bounce.rnbopat"
+        },
+        {
+          "forms": [
+            "counter 0 -2 2"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/counter-negative-up.rnbopat"
+        },
+        {
+          "forms": [
+            "counter 0 0 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/counter-reset-next.rnbopat"
+        },
+        {
+          "forms": [
+            "counter 0 0 3"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/counter-reset-now.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario counter-up; form counter 0 0 3; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario counter-down; form counter 1 0 3; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario counter-bounce; form counter 2 0 3; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/0",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario counter-negative-up; form counter 0 -2 2; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/1",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario counter-reset-next; form counter 0 0 3; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario counter-reset-now; form counter 0 0 3; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "counter",
+      "surface": "patcher",
+      "working_note": "XIAO: all 6 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:latch",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "latch 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/latch-closed.rnbopat"
+        },
+        {
+          "forms": [
+            "latch 1"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/latch-open.rnbopat"
+        },
+        {
+          "forms": [
+            "latch"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/latch-positive-control.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario latch-closed; form latch 0; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario latch-open; form latch 1; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario latch-positive-control; form latch; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "latch",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:mulequals",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "mulequals"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/mulequals-prefix.rnbopat"
+        },
+        {
+          "forms": [
+            "mulequals"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/mulequals-neutral-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario mulequals-prefix; form mulequals; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario mulequals-neutral-reset; form mulequals; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "mulequals",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:peak",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "peak"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/peak-value.rnbopat"
+        },
+        {
+          "forms": [
+            "peak"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/peak-new-flag.rnbopat"
+        },
+        {
+          "forms": [
+            "peak"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/peak-not-new-flag.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario peak-value; form peak; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/4",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario peak-new-flag; form peak; observed outlet 1; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/5",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario peak-not-new-flag; form peak; observed outlet 2; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/6",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "peak",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:plusequals",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "plusequals"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/plusequals-prefix.rnbopat"
+        },
+        {
+          "forms": [
+            "plusequals"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/plusequals-neutral-reset.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario plusequals-prefix; form plusequals; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/2",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario plusequals-neutral-reset; form plusequals; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/3",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part1.json"
+        }
+      ],
+      "spelling": "plusequals",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:rampsmooth",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "rampsmooth 2 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/rampsmooth-up2-down4.rnbopat"
+        },
+        {
+          "forms": [
+            "rampsmooth 4 8"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/rampsmooth-up4-down8.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario rampsmooth-up2-down4; form rampsmooth 2 4; observed outlet 0; absolute limit 2e-06. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/12",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario rampsmooth-up4-down8; form rampsmooth 4 8; observed outlet 0; absolute limit 2e-06. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/13",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "rampsmooth",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:sah",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "sah 0 0"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/sah-threshold-zero.rnbopat"
+        },
+        {
+          "forms": [
+            "sah 0 0.5"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/sah-threshold-half.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario sah-threshold-zero; form sah 0 0; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/14",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario sah-threshold-half; form sah 0 0.5; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/15",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "sah",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:slide",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "slide 2 4"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/slide-up2-down4.rnbopat"
+        },
+        {
+          "forms": [
+            "slide 4 8"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/slide-up4-down8.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario slide-up2-down4; form slide 2 4; observed outlet 0; absolute limit 2e-06. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/10",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario slide-up4-down8; form slide 4 8; observed outlet 0; absolute limit 2e-06. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/11",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "slide",
+      "surface": "patcher",
+      "working_note": "XIAO: all 2 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:t",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "t f f"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/t-right-before-left.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario t-right-before-left; form t f f; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/16",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "t",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:trigger",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "trigger f f"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/trigger-right-before-left.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario trigger-right-before-left; form trigger f f; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/17",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "trigger",
+      "surface": "patcher",
+      "working_note": "XIAO: all 1 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
+    },
+    {
+      "aliases_inherit_status": false,
+      "board_evidence": true,
+      "cpu_measurement_ids": [],
+      "id": "patcher:trough",
+      "known_gaps": [
+        "Only authored armed numeric-event scenarios are checked. Other reset/constructor modes, counter carry outlets, lists/types and within-block host offsets remain unqualified.",
+        "Signal, codebox and Gen counterparts and auxiliary objects inherit no qualification; no complete-object or optimisation saving claim."
+      ],
+      "observed_in": [
+        {
+          "forms": [
+            "trough"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/trough-value.rnbopat"
+        },
+        {
+          "forms": [
+            "trough"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/trough-new-flag.rnbopat"
+        },
+        {
+          "forms": [
+            "trough"
+          ],
+          "graph_source": "tests/fixtures/smoke/rnbo-event-state/trough-not-new-flag.rnbopat"
+        }
+      ],
+      "optimisation_state": "unassessed",
+      "optimisations": [],
+      "qualification": [
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario trough-value; form trough; observed outlet 0; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/7",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario trough-new-flag; form trough; observed outlet 1; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/8",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        },
+        {
+          "conditions": "Explicit arm blocks startup defaults and synchronously seeds cold state before21 drive actions.22 actual-value actions with per-ID actual/normalised readbacks, four manual warm and sixteen timed full256-frame callbacks. Independent prefix/state/rational reference and separately hashed5120-word right capture. Exact scenario trough-not-new-flag; form trough; observed outlet 2; absolute limit 0. State work is in setters; process and setter/routing timing are separate, with no isolated opcode cost or optimisation gain. Original startup-exposed native fixtures remain archived; expected output streams/limits are unchanged.",
+          "evidence_kind": "xiao-rnbo-short-smoke",
+          "level": "S3-XIAO-short-functional-hardware-check",
+          "selector": "/cases/9",
+          "source": "evidence/xiao-smoke-rnbo-event-state-part2.json"
+        }
+      ],
+      "spelling": "trough",
+      "surface": "patcher",
+      "working_note": "XIAO: all 3 authored event-state scenarios pass fixed output screens, ordered arm/drive readbacks and an independently hashed raw right pilot. Startup defaults are blocked until explicitly armed; original native-only fixture findings remain separate.",
+      "working_state": "board",
+      "working_test_level": "short-functional-hardware-check"
     }
   ],
   "original_mapping_sha256": "9431e06ac13f618e298857c6e7abee3aa42f75b95065ad5b48cf3b586314e333",
@@ -53127,17 +53910,17 @@
   "snapshot_date": "2026-11-06",
   "sources": {
     ".github/workflows/host.yml": {
-      "bytes": 1856,
+      "bytes": 1915,
       "path": ".github/workflows/host.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "f8ebb436153df17b68acd5800e39210c82fae7f157e6db5254a48a81ea7a5f69",
+      "sha256": "2aefb32413c9d7f0b0136527ae393ab057cdd1a1ba6c21c6c5b3c6644e4ddf51",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/host.yml"
     },
     ".github/workflows/pages.yml": {
-      "bytes": 1126,
+      "bytes": 1185,
       "path": ".github/workflows/pages.yml",
       "publication": "content-hash-bound-with-this-publication",
-      "sha256": "8056d1942fea7bb3ee33882c693ac7c435be89d878388702e5683232962f8e93",
+      "sha256": "4d0d8806231e88be10ce6b6797021f6693ae35a2c5f85c0c616c275ae5bba21a",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/.github/workflows/pages.yml"
     },
     "build/audit/rnbo-object-inventory-v1/inventory.json": {
@@ -54148,6 +54931,13 @@
       "sha256": "75f7a1898adf3a1558a3cac05b86557ed04075d97784e28c02aa894e8ab7f2db",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-event-math.md"
     },
+    "docs/rnbo-event-state.md": {
+      "bytes": 9580,
+      "path": "docs/rnbo-event-state.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f1594bddd5d4476a8cdb2d7b3c68540666bd62d14f956af9b780a67bae4fcef7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/docs/rnbo-event-state.md"
+    },
     "docs/rnbo-unit-conversions.md": {
       "bytes": 9056,
       "path": "docs/rnbo-unit-conversions.md",
@@ -54540,6 +55330,34 @@
       "sha256": "b0c1c5bfad8399ee386acc07884ea31e0b939b87696442338a82591ff54c9033",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-codebox-structures-native.json"
     },
+    "evidence/rnbo-event-state-builds.json": {
+      "bytes": 10508,
+      "path": "evidence/rnbo-event-state-builds.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "42320bc0a68bd66c15b0284f904b5a70cb2586365e7b46327dad3fc27b7e8d9d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-state-builds.json"
+    },
+    "evidence/rnbo-event-state-native.json": {
+      "bytes": 49147,
+      "path": "evidence/rnbo-event-state-native.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e64d575cae46452868b9637af22f6d42b56e0287c89a42d374a13eae37109fc7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-state-native.json"
+    },
+    "evidence/rnbo-event-state-startup-attempt.json": {
+      "bytes": 43405,
+      "path": "evidence/rnbo-event-state-startup-attempt.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "383b2a67d5ffa9a27a4a9f4cd64e4efcd7fb8b0894853974a52ccdab3033202b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-state-startup-attempt.json"
+    },
+    "evidence/rnbo-event-state-status.json": {
+      "bytes": 40845,
+      "path": "evidence/rnbo-event-state-status.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "825850d3cf98a53b5d3c8b26caed255f4fd12800e5269f7d639e429d5c8d5032",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/rnbo-event-state-status.json"
+    },
     "evidence/rnbo-events-math-attempts.json": {
       "bytes": 11091,
       "path": "evidence/rnbo-events-math-attempts.json",
@@ -54931,6 +55749,27 @@
       "publication": "public-evidence",
       "sha256": "b8a7b8c9faff2410a471fad86b35f27da75ec946503a8f71ffd2d550e6b2b50b",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-constants.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-state-part1.json": {
+      "bytes": 233568,
+      "path": "evidence/xiao-smoke-rnbo-event-state-part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "88e0167ee74723ef813f5ad887028f721f3325c4a3cbf3d120ce15b9f0731486",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-state-part1.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-state-part2.json": {
+      "bytes": 233632,
+      "path": "evidence/xiao-smoke-rnbo-event-state-part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "32c8d9f3f9d0d39d255cba6ab74a92e054f33316e19ded6d8dc24cb8df9c4a76",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-state-part2.json"
+    },
+    "evidence/xiao-smoke-rnbo-event-state-player-restoration.json": {
+      "bytes": 1226,
+      "path": "evidence/xiao-smoke-rnbo-event-state-player-restoration.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c551ab953250320060a8e77c5a4f76f302abf1e6009bb8f743b9c76a097b020d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/evidence/xiao-smoke-rnbo-event-state-player-restoration.json"
     },
     "evidence/xiao-smoke-rnbo-events-extra.json": {
       "bytes": 464085,
@@ -60777,6 +61616,594 @@
       "sha256": "f3ca798a4400d99fa397beb05f02bc11419ec5034b662e1fa5c67c323a06020d",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-codebox-structures/while-bounded.rnbopat"
     },
+    "tests/fixtures/smoke/rnbo-event-state/README.md": {
+      "bytes": 2556,
+      "path": "tests/fixtures/smoke/rnbo-event-state/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8f583ba4fb5d6289112a209a74fa67ebf7453eeb9ba5722411163892ff28b485",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/accum-neutral-reset.rnbopat": {
+      "bytes": 5539,
+      "path": "tests/fixtures/smoke/rnbo-event-state/accum-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "707fac4e4550e0dcde5fec77d489ff378572b86884a072cb4cf65efc1b8b443a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/accum-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/accum-prefix.rnbopat": {
+      "bytes": 4397,
+      "path": "tests/fixtures/smoke/rnbo-event-state/accum-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1c873603bb05b44836ef7e23ec557685b757d8e9bf778543c1fd24be81595e71",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/accum-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/catalog.json": {
+      "bytes": 54088,
+      "path": "tests/fixtures/smoke/rnbo-event-state/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d45391cf4d2e07538d39ada211f3c9a91ba01f3abc43aa9fa51f899ba91fbd16",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/change-changed-value-sum.rnbopat": {
+      "bytes": 4897,
+      "path": "tests/fixtures/smoke/rnbo-event-state/change-changed-value-sum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f1e3734d320f271906a59c9738f59706f5992e09a4ee5444861a618d48b2d1e6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/change-changed-value-sum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/change-fall-count.rnbopat": {
+      "bytes": 4897,
+      "path": "tests/fixtures/smoke/rnbo-event-state/change-fall-count.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3c50cf02af2133e0b714cf28dd2fa861d9280a1301cbc68bfddd574dcc094ea6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/change-fall-count.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/change-rise-count.rnbopat": {
+      "bytes": 4897,
+      "path": "tests/fixtures/smoke/rnbo-event-state/change-rise-count.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "13b64a575cff9726d15016244859dcfa3c90ea20cbd3ff05eb2ca9b9c19130fe",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/change-rise-count.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/counter-bounce.rnbopat": {
+      "bytes": 5062,
+      "path": "tests/fixtures/smoke/rnbo-event-state/counter-bounce.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c206d34cf1007f15d1ae2b8bf1a644be768f74e1cba41bc7153243c50db95b68",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/counter-bounce.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/counter-down.rnbopat": {
+      "bytes": 5062,
+      "path": "tests/fixtures/smoke/rnbo-event-state/counter-down.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "120f1316b6fdf009eaf19312ae602714a44612ef90475a4a366f71b50247423a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/counter-down.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/counter-negative-up.rnbopat": {
+      "bytes": 5064,
+      "path": "tests/fixtures/smoke/rnbo-event-state/counter-negative-up.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a4fe5cdcd7b3b89bf81decb78ed8d218a0505f6e54c704cb0c1299ac7e19862b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/counter-negative-up.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/counter-reset-next.rnbopat": {
+      "bytes": 5065,
+      "path": "tests/fixtures/smoke/rnbo-event-state/counter-reset-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7228af8b0b3126a24c8d5cb6e31380ce142a9541e0aafff60b8e499d1fc91d30",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/counter-reset-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/counter-reset-now.rnbopat": {
+      "bytes": 4405,
+      "path": "tests/fixtures/smoke/rnbo-event-state/counter-reset-now.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a64da04310fede3a444c5681e30c906ec3ecec72fecd81c65d30a06196d54ea3",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/counter-reset-now.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/counter-up.rnbopat": {
+      "bytes": 5062,
+      "path": "tests/fixtures/smoke/rnbo-event-state/counter-up.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "60b3361f4b098ec9f95ed912f8c3b49382765f05e20e870775d8d6bb76316c31",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/counter-up.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/generate.py": {
+      "bytes": 6923,
+      "path": "tests/fixtures/smoke/rnbo-event-state/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3c305bab649b3976b0bcfa94e61aae9dedf51ac9bbf28250a56b63e543747a3b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/latch-closed.rnbopat": {
+      "bytes": 4399,
+      "path": "tests/fixtures/smoke/rnbo-event-state/latch-closed.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f797da1fb9776f1bdcf819d27a4140e8cac6a60cc43743cddcd17059c661530b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/latch-closed.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/latch-open.rnbopat": {
+      "bytes": 4399,
+      "path": "tests/fixtures/smoke/rnbo-event-state/latch-open.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "653eb6e6db60c45dff49071ea2165b2569de3b7328a14159b987189d9deb0289",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/latch-open.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/latch-positive-control.rnbopat": {
+      "bytes": 5546,
+      "path": "tests/fixtures/smoke/rnbo-event-state/latch-positive-control.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a7d501694c3b5e75b6c4dbe16ee8cddea1e317dc197996a80ab10d7857bbe8f0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/latch-positive-control.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/mulequals-neutral-reset.rnbopat": {
+      "bytes": 5543,
+      "path": "tests/fixtures/smoke/rnbo-event-state/mulequals-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "5321a804844d5e71bf5d81e6ea5e771880a284e1f9a8ccc9521b90e42b74abc2",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/mulequals-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/mulequals-prefix.rnbopat": {
+      "bytes": 4401,
+      "path": "tests/fixtures/smoke/rnbo-event-state/mulequals-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c9ed7ada8c4e1379fa78d9ba1132ce36b2b9588bab6c48cae2ee2d59e3727696",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/mulequals-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/multiply-assign-neutral-reset.rnbopat": {
+      "bytes": 5536,
+      "path": "tests/fixtures/smoke/rnbo-event-state/multiply-assign-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ec86b3b2d0e7b9ce0ea11efc40e25a701095434aff78491491c21b7733042ad7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/multiply-assign-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/multiply-assign-prefix.rnbopat": {
+      "bytes": 4394,
+      "path": "tests/fixtures/smoke/rnbo-event-state/multiply-assign-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d809d94cf6d1dc3b535936bcdbec66ef4bafe6907e4438ced853d13af2b4d68c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/multiply-assign-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/part1.json": {
+      "bytes": 27420,
+      "path": "tests/fixtures/smoke/rnbo-event-state/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7509580811432f2b5d7f8176a0fef5d44c796d99bbeac3987889315f41f0042c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/part2.json": {
+      "bytes": 27472,
+      "path": "tests/fixtures/smoke/rnbo-event-state/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a74c3f771d68c7c9a00929fd9e7b0f6480cb45308179ea9b9fdb08235a9d2788",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/peak-new-flag.rnbopat": {
+      "bytes": 5053,
+      "path": "tests/fixtures/smoke/rnbo-event-state/peak-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "563d0e534a02fbc3e57edb838bc322dc257ac22376bdf01d1de72bf6f213055a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/peak-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/peak-not-new-flag.rnbopat": {
+      "bytes": 5053,
+      "path": "tests/fixtures/smoke/rnbo-event-state/peak-not-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "719e2050228385702c4d1ff0aa1a848782497e85584fcc4544b96544d48b86db",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/peak-not-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/peak-value.rnbopat": {
+      "bytes": 5053,
+      "path": "tests/fixtures/smoke/rnbo-event-state/peak-value.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "fe1da435081e28527a7ba49c16b9f7bf7f6079a6092cd6cc98a1e39f4b840ba1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/peak-value.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/plus-assign-neutral-reset.rnbopat": {
+      "bytes": 5536,
+      "path": "tests/fixtures/smoke/rnbo-event-state/plus-assign-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "93949e47fd349db2bed7d76ac3bcf2fc5741f6953ce854ce4e8f90097f6c1b4a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/plus-assign-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/plus-assign-prefix.rnbopat": {
+      "bytes": 4394,
+      "path": "tests/fixtures/smoke/rnbo-event-state/plus-assign-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ab69dbd803c22abbdea5cdd557cd6f6191d91c548e7ddec7ae471cffab3842b1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/plus-assign-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/plusequals-neutral-reset.rnbopat": {
+      "bytes": 5544,
+      "path": "tests/fixtures/smoke/rnbo-event-state/plusequals-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8a16600bb4823df0bb00fdc69a9d6233c2e790f44e70c98983e805810e1aa5a0",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/plusequals-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/plusequals-prefix.rnbopat": {
+      "bytes": 4402,
+      "path": "tests/fixtures/smoke/rnbo-event-state/plusequals-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "df7f0ab422c8a9902be07eeb6323625b8134b8af16792088593fd5b8d20c6b20",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/plusequals-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/rampsmooth-up2-down4.rnbopat": {
+      "bytes": 4406,
+      "path": "tests/fixtures/smoke/rnbo-event-state/rampsmooth-up2-down4.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "116dd01f0f029aee4f84cf88fb0106749ad51952d6cdbafede77ded37e41a76d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/rampsmooth-up2-down4.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/rampsmooth-up4-down8.rnbopat": {
+      "bytes": 4406,
+      "path": "tests/fixtures/smoke/rnbo-event-state/rampsmooth-up4-down8.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8bb6c177301d22a2c0bccafb34da450e52ae6c9e9dcbe03851947980702d0dc8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/rampsmooth-up4-down8.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/reference.py": {
+      "bytes": 7653,
+      "path": "tests/fixtures/smoke/rnbo-event-state/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "685c108f2ae6eb43f97d0dc88a63d877bfec328183343d757a8c96c2d59bdc2f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/sah-threshold-half.rnbopat": {
+      "bytes": 5061,
+      "path": "tests/fixtures/smoke/rnbo-event-state/sah-threshold-half.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d9acb8bb2bde186d8166146e6a4ad7f58d4dad82228a452a1aa4d5bff4977775",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/sah-threshold-half.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/sah-threshold-zero.rnbopat": {
+      "bytes": 5059,
+      "path": "tests/fixtures/smoke/rnbo-event-state/sah-threshold-zero.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "1c6cbcea99372ec599a930189bd215253b8d5b95f30bd193ce82a6e609fdfc93",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/sah-threshold-zero.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/slide-up2-down4.rnbopat": {
+      "bytes": 4401,
+      "path": "tests/fixtures/smoke/rnbo-event-state/slide-up2-down4.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "beafec64564a8b3774114f4712d5049d5935c2700c441a93098da60f8622238e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/slide-up2-down4.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/slide-up4-down8.rnbopat": {
+      "bytes": 4401,
+      "path": "tests/fixtures/smoke/rnbo-event-state/slide-up4-down8.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "befa95897f2d7953625fa46c417b5e369449d87b3787317ae54b028adbd1ab26",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/slide-up4-down8.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/README.md": {
+      "bytes": 1037,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/README.md",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4eb5f8122df2251bed29db510c7684f3991e55a4f089844b9465157ee329915f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/README.md"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/accum-neutral-reset.rnbopat": {
+      "bytes": 4066,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/accum-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "60d6bc3e9a1f259159ec93478a192e137a981469b4619deba2c15bc3fc5e3ebb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/accum-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/accum-prefix.rnbopat": {
+      "bytes": 2924,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/accum-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "48ee8f9f198e3920838dbcc65124e39e4884f6801b2cee90f4c04a90b4636c5d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/accum-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/catalog.json": {
+      "bytes": 53845,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/catalog.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "91a245a723f2d030729dc0064724c43750804a899418c003d4d1e471e085ec44",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/catalog.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-changed-value-sum.rnbopat": {
+      "bytes": 3424,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-changed-value-sum.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0287b75139808581076a606a8b23220b412c16334df90d65b4a00a61f6286405",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-changed-value-sum.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-fall-count.rnbopat": {
+      "bytes": 3424,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-fall-count.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "a2c3054524d09c217f62b0364de381532130a735ac2450644f2927ef3f5e04bf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-fall-count.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-rise-count.rnbopat": {
+      "bytes": 3424,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-rise-count.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e811ef53af3ef048bc9bf6df40cab31fc258f71df0c373f1c8fbc3242430158f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/change-rise-count.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-bounce.rnbopat": {
+      "bytes": 3857,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-bounce.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f364bfae59783ff294643adf205a8f70160e371cd7bb781849157c61eeae46e7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-bounce.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-down.rnbopat": {
+      "bytes": 3857,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-down.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ac913c714c4e0635a7c85d9276a6100823c2d5c04ef35a8ebfad47cf20cc09f6",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-down.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-negative-up.rnbopat": {
+      "bytes": 3859,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-negative-up.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "26df222fd18b9f91dc4a1519c976588d52a5abc57076a81f87ece512b27d3a01",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-negative-up.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-reset-next.rnbopat": {
+      "bytes": 3592,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-reset-next.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "09377a0084e1ef8f2e97aa2eafa73399e45626d23829bb9b38e632fed787927d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-reset-next.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-reset-now.rnbopat": {
+      "bytes": 2932,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-reset-now.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "59fa672d8faa905960aa0d7ddfe2d459b34626178476e9b8f6de34475d7edecf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-reset-now.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-up.rnbopat": {
+      "bytes": 3857,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-up.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "df02d26adce43fe6139c92314730b23e8653c9e2bfde8b4a921198a79eb326de",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/counter-up.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/generate.py": {
+      "bytes": 6360,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/generate.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c4fd32d78f77836dab44345be45b78316b889b68a48de99defa58b7fc4cc0f61",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/generate.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-closed.rnbopat": {
+      "bytes": 2926,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-closed.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f2c740c481619ab0a1bc5754185144f60c1cb3a251f30db1a3025312b9ab3688",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-closed.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-open.rnbopat": {
+      "bytes": 2926,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-open.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "371962c61da024117e06f3bd53eb678cda75f00bde254caf3e15b0746b6cb052",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-open.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-positive-control.rnbopat": {
+      "bytes": 4073,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-positive-control.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b3415c4151aa2167c8ba9ee1d55f6c4bf8bec42c55381c0e6d56b084369599a1",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/latch-positive-control.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/mulequals-neutral-reset.rnbopat": {
+      "bytes": 4070,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/mulequals-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "db059558b78f8814b60155af789bbc6d281098aaefb1d25cf471bc757278047a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/mulequals-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/mulequals-prefix.rnbopat": {
+      "bytes": 2928,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/mulequals-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7065c1fb67f3a6acc716072b78bdfb2cc33c2259ed7ee4f9eb1b30f51277a175",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/mulequals-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/multiply-assign-neutral-reset.rnbopat": {
+      "bytes": 4063,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/multiply-assign-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "106e88b487e45b01c1093a1a5066a69cbc314b38c1cae0478006319019b7018a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/multiply-assign-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/multiply-assign-prefix.rnbopat": {
+      "bytes": 2921,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/multiply-assign-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "7189d251a078d7ea40216eea5b7420feeb1ad63f4a21e3fee608fe42a180d71e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/multiply-assign-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/part1.json": {
+      "bytes": 27285,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/part1.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0a9795a43e4a403e2f8987fa668a74f6520700cb3642d2223ca653d28fd04e22",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/part1.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/part2.json": {
+      "bytes": 27337,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/part2.json",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "8ce5c0741b6d611f6165960829df0e6afc74f44a39320e87e6a676f45a30109c",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/part2.json"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-new-flag.rnbopat": {
+      "bytes": 3848,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dcbaa8565f8c3cc4282c2987abd35993f9350507ad13b3b51c5e4aefb2a31cdf",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-not-new-flag.rnbopat": {
+      "bytes": 3848,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-not-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e94cd8f2b575d598d26c6a8d8982e96b46cfdb42b33564c8ca7f3a7f2702d456",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-not-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-value.rnbopat": {
+      "bytes": 3848,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-value.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b1825a52f1f8d324875b028fd6b085e96afb6c598080f519523647c58e4cc910",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/peak-value.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plus-assign-neutral-reset.rnbopat": {
+      "bytes": 4063,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plus-assign-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "50e21be62852018814aad4c70f7a7234332346e507b5a43ac805a51c96ce0753",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plus-assign-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plus-assign-prefix.rnbopat": {
+      "bytes": 2921,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plus-assign-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dd96935e7013586809b6515f8161c22356580fda1f6da5781c10ef107c143076",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plus-assign-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plusequals-neutral-reset.rnbopat": {
+      "bytes": 4071,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plusequals-neutral-reset.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "e9aa8811350ecdf08395abdaf07bacf25ced744abf137419f7f7281cf06648d7",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plusequals-neutral-reset.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plusequals-prefix.rnbopat": {
+      "bytes": 2929,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plusequals-prefix.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "519dfb6c3f550a4a6e565f80591ff9221aa24bf282b858926ac593a93c1c12ca",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/plusequals-prefix.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/rampsmooth-up2-down4.rnbopat": {
+      "bytes": 2933,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/rampsmooth-up2-down4.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "c3cfaee10a74118e4b6493cad647ed2d813fca10c9431e7be0459dcf882241db",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/rampsmooth-up2-down4.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/rampsmooth-up4-down8.rnbopat": {
+      "bytes": 2933,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/rampsmooth-up4-down8.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f1819ebb7814f996330ef53e463afbb6d6d792f8a6173fbdf84ceb1288a8e81b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/rampsmooth-up4-down8.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/reference.py": {
+      "bytes": 7208,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/reference.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "29824031114f938da955f21681f073d7d17aba53af837b7fc71df030371bd27a",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/reference.py"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/sah-threshold-half.rnbopat": {
+      "bytes": 3588,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/sah-threshold-half.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "de69b4b3722f1f8a9a4e76ba347d9df990cd24e111cd55950ba3f79505c4f555",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/sah-threshold-half.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/sah-threshold-zero.rnbopat": {
+      "bytes": 3586,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/sah-threshold-zero.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "3841ba56c7f28fabf535b26c9c6f1b189abc1e70475b25a133ba27509273ead9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/sah-threshold-zero.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/slide-up2-down4.rnbopat": {
+      "bytes": 2928,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/slide-up2-down4.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "f8bca35babcfabe19c11daee1b439ccb13920b97dc010176aea9e0b4ef38025b",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/slide-up2-down4.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/slide-up4-down8.rnbopat": {
+      "bytes": 2928,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/slide-up4-down8.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "14ffdda06ec0702cca13f8b8f7807c9b4812400105a4923210eaf2713485e4fe",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/slide-up4-down8.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/t-right-before-left.rnbopat": {
+      "bytes": 4081,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/t-right-before-left.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4461a13a1f938baecb5837ac1d1d1c411936a23d44762b8f6eade7829c0d4283",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/t-right-before-left.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trigger-right-before-left.rnbopat": {
+      "bytes": 4087,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trigger-right-before-left.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "6cf8694dd8a2157d69950f8e8a360c57e0f528b12e32c44b9ae376b214d69722",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trigger-right-before-left.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-new-flag.rnbopat": {
+      "bytes": 3850,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "dba21ba96fb91caa99a3415856968c7c8d57b76e61e338058196dcd0735c76d4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-not-new-flag.rnbopat": {
+      "bytes": 3850,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-not-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "0a4c2d71a901c70be14ab5a1bff5b3bd5664724fa42e99042de6407aee04f97d",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-not-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-value.rnbopat": {
+      "bytes": 3850,
+      "path": "tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-value.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "b61c2f8f41ef346e5f6f2b8d4eadc3210aa20f75fca035faa543fc38d9b9dbe9",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/startup-exposed-v1/trough-value.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/t-right-before-left.rnbopat": {
+      "bytes": 5554,
+      "path": "tests/fixtures/smoke/rnbo-event-state/t-right-before-left.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "73c3c99ab821a0ee7b34d4e5405aa4f1da705022b702961b0aed9260952778fb",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/t-right-before-left.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/trigger-right-before-left.rnbopat": {
+      "bytes": 5560,
+      "path": "tests/fixtures/smoke/rnbo-event-state/trigger-right-before-left.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "d2f66d73dff3930b2daaa4e3a2bf2804d16c95edc40b9e51d50fb5ecb2853ed4",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/trigger-right-before-left.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/trough-new-flag.rnbopat": {
+      "bytes": 5055,
+      "path": "tests/fixtures/smoke/rnbo-event-state/trough-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "edd5f14b32249f1bfa52f1091633b36ff75e7b7fdb891f5c766cd8a22f3dfd1f",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/trough-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/trough-not-new-flag.rnbopat": {
+      "bytes": 5055,
+      "path": "tests/fixtures/smoke/rnbo-event-state/trough-not-new-flag.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "ddd1721f9dcdcca620a6e15cc00fe46cc745333ebee9d818d9710551762d09f8",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/trough-not-new-flag.rnbopat"
+    },
+    "tests/fixtures/smoke/rnbo-event-state/trough-value.rnbopat": {
+      "bytes": 5055,
+      "path": "tests/fixtures/smoke/rnbo-event-state/trough-value.rnbopat",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "213fbfe7c329d52ae24f7f1e0098bf46782b6def467256b692db4cc97f6fd53e",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/fixtures/smoke/rnbo-event-state/trough-value.rnbopat"
+    },
     "tests/fixtures/smoke/rnbo-events-math/README.md": {
       "bytes": 3856,
       "path": "tests/fixtures/smoke/rnbo-events-math/README.md",
@@ -61610,6 +63037,13 @@
       "sha256": "c1f469a8240ba30ea73b2a79d70c4f1138f3f500802f628acde132cf51872f90",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_math_test.cpp"
     },
+    "tests/native/smoke_event_state_test.cpp": {
+      "bytes": 5474,
+      "path": "tests/native/smoke_event_state_test.cpp",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "cb53ce0a5d0d1b058f38d496083a68dc3ef120de5aa2273c47b5677c2e2ab290",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_state_test.cpp"
+    },
     "tests/native/smoke_event_stream_test.cpp": {
       "bytes": 4713,
       "path": "tests/native/smoke_event_stream_test.cpp",
@@ -61623,6 +63057,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "fac2e90ca5f6288ca3995a3fec422f77edb889b18d97ac5befdae582521fa234",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tests/native/smoke_event_units_test.cpp"
+    },
+    "tools/build_event_state_report.py": {
+      "bytes": 11231,
+      "path": "tools/build_event_state_report.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "4af4f80e89630bf5d2a3102e5e75615f3bcc485364323bd8d229d06fafa423fd",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/build_event_state_report.py"
     },
     "tools/build_gen_partition_probe.py": {
       "bytes": 10983,
@@ -61700,6 +63141,13 @@
       "publication": "content-hash-bound-with-this-publication",
       "sha256": "e77a40ceb7f80d5eb6037ae2850990df27b2772cc707d8668bdf142454ee6c4c",
       "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_context_aliases_reference.py"
+    },
+    "tools/test_smoke_event_state.py": {
+      "bytes": 11816,
+      "path": "tools/test_smoke_event_state.py",
+      "publication": "content-hash-bound-with-this-publication",
+      "sha256": "020f00451f7f3b01efaf60d5b1750f5fe380998fcb8e13e0081d04fc1c8ef031",
+      "url": "https://github.com/little-scale/esp32s3-rnbo/blob/main/tools/test_smoke_event_state.py"
     },
     "tools/test_smoke_gen_execution_reference.py": {
       "bytes": 7435,

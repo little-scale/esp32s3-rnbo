@@ -1,5 +1,21 @@
 # XIAO object qualification
 
+The [ordered event-state batch](rnbo-event-state.md) passes **36 hardware
+scenarios across 15 exact spellings**, checking **368,640 output words and 792
+control actions**. Prefix sums/products, neutral resets, latches, changed-event
+observers, bounded counters/reset inputs, peak/trough outlets, event smoothing,
+sample-and-hold edges and trigger ordering pass their fixed references. There
+are 3,584 within-limit differences and 768 observational left zero-sign
+differences; no outside-limit, nonfinite or raw-right errors occur. An explicit
+arm isolates startup parameter notifications; the original native-only fixture
+attempt is archived and all expected streams/limits stay unchanged. Held-output
+callbacks measure 75–77µs median (1.29–1.33%), peak 81µs. Setter work is recorded
+separately; no new CPU flag triggers and the queue stays **157**. All images
+finalise and allocation/memory gates pass; normal player and controls are
+restored. RNBO coverage reaches **987/1455 scoped outcomes**. Other modes,
+resources, RNBO/Gen objects and single-sample qualification keep the full goal
+active; no optimisation gain is claimed.
+
 The [event/signal unit-conversion batch](rnbo-unit-conversions.md) executes
 **36 exact spellings: 35 pass** their rational output screens and `beatstosamps~`
 retains **128 rounding differences**, maximum **0.015625 samples**, against its

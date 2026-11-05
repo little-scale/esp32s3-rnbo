@@ -610,7 +610,11 @@ class ObjectStatusTests(unittest.TestCase):
             row=rows['patcher:'+name]
             for evidence in('wave3-stateful.json','xiao-smoke-rnbo-signal-stateful.json'):
                 self.assertTrue(any(q['url'].endswith('/evidence/'+evidence)for q in row['sources']))
-        self.assertEqual(rows['patcher:sah']['working']['status'],'unverified')
+        # The numeric event form now has its own armed hardware scenarios.
+        # It still inherits nothing from the signal/native observations above.
+        self.assertEqual(rows['patcher:sah']['working']['status'],'board')
+        self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-event-state-part2.json')for s in rows['patcher:sah']['sources']))
+        self.assertFalse(any(s['url'].endswith('/evidence/'+old)for s in rows['patcher:sah']['sources']for old in('wave3-stateful.json','xiao-smoke-rnbo-signal-stateful.json')))
         self.assertEqual(rows['patcher:downsamp~']['hardware_smoke'][0]['numeric_mismatches'],7290)
         self.assertIn('phase-policy',rows['patcher:downsamp~']['working']['detail'])
 
@@ -775,7 +779,9 @@ class ObjectStatusTests(unittest.TestCase):
         self.assertIn('five exceed',rows['patcher:onepole~']['working']['detail'])
         self.assertIn('one long signed-rate',rows['patcher:slide~']['working']['detail'])
         self.assertTrue(rows['patcher:sah~']['is_alias'])
-        self.assertEqual(rows['patcher:sah']['working']['status'],'unverified')
+        self.assertEqual(rows['patcher:sah']['working']['status'],'board')
+        self.assertTrue(any(s['url'].endswith('/evidence/xiao-smoke-rnbo-event-state-part2.json')for s in rows['patcher:sah']['sources']))
+        self.assertFalse(any(s['url'].endswith('/evidence/wave3-stateful.json')for s in rows['patcher:sah']['sources']))
         self.assertIsNone(rows['patcher:sah']['performance'])
         # The later codebox instance scenario is independently executed;
         # its status is not inherited from the sah~ native evidence.

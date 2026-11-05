@@ -21,6 +21,7 @@ jobs:
           python tools/build_object_status.py --check
           python tools/build_gen_visual_math_report.py --check
           python tools/build_unit_conversion_report.py --check
+          python tools/build_event_state_report.py --check
           python -m unittest discover -s tools -p 'test_build_object_status.py' -v
           node --check site/app.js
       - uses: actions/configure-pages@v5
