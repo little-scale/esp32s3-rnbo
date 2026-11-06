@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from datetime import datetime, timezone
 import io
 import json
 from pathlib import Path
@@ -18,6 +19,9 @@ MAX_ZIP = 4 * 1048576
 LIMITS = {'firmware.json': 16384, 'application.bin': APP_CAPACITY, 'partition-table.bin': 4096, 'bootloader.bin': 0x8000}
 REQUIRED = {'firmware.json', 'application.bin', 'partition-table.bin'}
 HASH = re.compile(r'[0-9a-f]{64}')
+ROOT = Path(__file__).resolve().parents[2]
+CURRENT_BUILDS = {board: ROOT / 'build' / ('firmware-' + board + '-player-player-v1') for board in FLASH_BYTES}
+BOARD_NAMES = {'xiao': 'XIAO ESP32-S3', 'amoled': 'Waveshare AMOLED 1.8 V2'}
 
 
 def digest(raw):
@@ -191,6 +195,33 @@ def create(build, board):
             entry.compress_type = zipfile.ZIP_DEFLATED
             archive.writestr(entry, data)
     return output.getvalue()
+
+
+def current_bundle(board):
+    if type(board) is not str or board not in CURRENT_BUILDS:
+        raise ValueError('Choose a current XIAO or AMOLED player')
+    directory = CURRENT_BUILDS[board]
+    raw = create(directory, board)
+    _, value = unpack(raw)
+    if value['usb_midi_host']:
+        raise ValueError('Rebuild the normal USB player; experimental USB-host firmware is not a current default')
+    built = datetime.fromtimestamp((directory / 'build-report.json').stat().st_mtime, timezone.utc).isoformat()
+    row = dict(id=board, board=board, name=BOARD_NAMES[board], available=True,
+               sha256=digest(raw), firmware_elf_sha256=value['firmware_elf_sha256'],
+               built_at=built, features=['USB', 'Wi-Fi'], zip_bytes=len(raw))
+    return raw, row
+
+
+def current_options():
+    rows = []
+    for board in CURRENT_BUILDS:
+        try:
+            _, row = current_bundle(board)
+        except (ValueError, OSError, RuntimeError, KeyError) as error:
+            reason = str(error) if isinstance(error, (ValueError, RuntimeError)) else 'Build the current player on this computer first'
+            row = dict(id=board, board=board, name=BOARD_NAMES[board], available=False, reason=reason[:400])
+        rows.append(row)
+    return rows
 
 
 def stage(raw, directory):

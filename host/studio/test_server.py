@@ -250,6 +250,19 @@ class HTTPTests(unittest.TestCase):
             flash.assert_called_once()
             studio.firmwares.pop(item['id']);studio.jobs.pop(job['id'])
 
+    def test_current_firmware_list_is_read_only_and_selection_requires_token(self):
+        rows=[{'id':'xiao','board':'xiao','available':True,'sha256':'a'*64}]
+        with patch.object(s.firmware,'current_options',return_value=rows):
+            code,raw,_=self.request('/api/firmware/options')
+            self.assertEqual(code,200);self.assertEqual(json.loads(raw)['firmwares'],rows)
+        with patch.object(self.server.studio,'select_current_firmware',return_value={'id':'b'*32}) as select:
+            data={'id':'xiao','sha256':'a'*64}
+            code,_,_=self.request('/api/firmware/select',data,headers={'Content-Type':'application/json'})
+            self.assertEqual(code,400);select.assert_not_called()
+            code,raw,_=self.request('/api/firmware/select',data,headers={'Content-Type':'application/json','X-Studio-Token':self.server.studio.token})
+            self.assertEqual(code,200);self.assertEqual(json.loads(raw)['firmware']['id'],'b'*32)
+            select.assert_called_once_with(data)
+
     @unittest.skipUnless(shutil.which('node'), 'Node is needed for the Max client integration check')
     def test_max_upload_client_uses_real_http_handler_and_usb_wifi_package_paths(self):
         studio=self.server.studio

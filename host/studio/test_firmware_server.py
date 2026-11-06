@@ -24,6 +24,30 @@ class FirmwareServerTests(unittest.TestCase):
         self.bridge.flash_bundle = lambda *args, **kwargs: self.calls.append((args, kwargs))
         self.studio = s.Studio(bridge=self.bridge)
 
+    def test_current_selection_stages_pinned_bytes_without_compiling_or_touching_board(self):
+        raw=zipped(files(full=True));row={'sha256':f.digest(raw)}
+        with patch.object(f,'current_bundle',return_value=(raw,row)), patch.object(self.studio,'execute',side_effect=AssertionError('No compiler')):
+            item=self.studio.select_current_firmware({'id':'xiao','sha256':row['sha256']})
+        self.assertEqual(item['board'],'xiao');self.assertTrue(item['first_install_available'])
+        self.assertEqual(self.calls,[]);self.assertEqual(self.studio.jobs,{})
+        self.assertEqual(f.verify_staged(self.studio.firmwares[item['id']]['directory'])['app'].read_bytes(),files()['application.bin'])
+
+    def test_changed_current_build_busy_and_invalid_ids_never_stage_firmware(self):
+        raw=zipped(files(full=True));row={'sha256':f.digest(raw)}
+        with patch.object(f,'current_bundle',return_value=(raw,row)) as current:
+            for data in ({'id':'../xiao','sha256':row['sha256']},{'id':[], 'sha256':row['sha256']},{'id':'xiao','sha256':'bad'},{'id':'xiao','sha256':row['sha256'],'port':'test'}):
+                with self.assertRaises(ValueError):self.studio.select_current_firmware(data)
+            current.assert_not_called()
+            with self.assertRaisesRegex(ValueError,'changed'):
+                self.studio.select_current_firmware({'id':'xiao','sha256':'0'*64})
+            self.studio.worker.acquire()
+            with self.assertRaisesRegex(ValueError,'already running'):
+                self.studio.select_current_firmware({'id':'xiao','sha256':row['sha256']})
+            self.studio.worker.release();self.studio.stopping.set()
+            with self.assertRaisesRegex(ValueError,'shutting down'):
+                self.studio.select_current_firmware({'id':'xiao','sha256':row['sha256']})
+        self.assertEqual(self.studio.firmwares,{});self.assertEqual(self.calls,[])
+
     def test_open_is_read_only_and_upload_uses_the_pinned_bundle_without_building(self):
         item = self.studio.import_firmware(payload())
         self.assertEqual(item['board'], 'xiao')

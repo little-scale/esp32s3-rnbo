@@ -583,6 +583,21 @@ class Studio:
             finally:
                 self.worker.release()
 
+    def select_current_firmware(self, data):
+        if (set(data) != {'id', 'sha256'} or type(data.get('id')) is not str
+                or data['id'] not in firmware.CURRENT_BUILDS or type(data.get('sha256')) is not str
+                or not firmware.HASH.fullmatch(data['sha256'])):
+            raise ValueError('Choose one current player firmware from the list')
+        with self.lock:
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if self.worker.locked():
+                raise ValueError('A build or upload is already running')
+        raw, row = firmware.current_bundle(data['id'])
+        if row['sha256'] != data['sha256']:
+            raise ValueError('Current firmware changed; refresh the firmware list and select it again')
+        return self.import_firmware(dict(name=data['id'] + '-current-player.zip', firmware_base64=base64.b64encode(raw).decode()))
+
     def start_firmware_upload(self, data):
         identity, port = data.get('id'), data.get('port')
         first_install = first_install_requested(data)
@@ -762,6 +777,7 @@ class Handler(BaseHTTPRequestHandler):
             elif url.path == '/api/devices': self.send(200, {'devices':studio.bridge.scan()})
             elif url.path == '/api/device': self.send(200, studio.device_snapshot())
             elif url.path == '/api/wifi': self.send(200, studio.wifi_status())
+            elif url.path == '/api/firmware/options': self.send(200, {'firmwares':firmware.current_options()})
             elif url.path == '/api/job': self.send(200, {'job':studio.job(query.get('id', [''])[0])})
             elif url.path == '/api/trial-report': self.send(200, studio.trial_report(query.get('id', [''])[0]))
             elif url.path == '/api/example': self.send(200, {'guidance':native_export.GUIDANCE})
@@ -792,6 +808,7 @@ class Handler(BaseHTTPRequestHandler):
             elif self.path == '/api/import-package': self.send(200, {'job':studio.import_package(data)})
             elif self.path == '/api/install-player': self.send(202, {'job':studio.start_install(data)})
             elif self.path == '/api/firmware/import': self.send(200, {'firmware':studio.import_firmware(data)})
+            elif self.path == '/api/firmware/select': self.send(200, {'firmware':studio.select_current_firmware(data)})
             elif self.path == '/api/firmware/upload': self.send(202, {'job':studio.start_firmware_upload(data)})
             elif self.path == '/api/upload': self.send(202, {'job':studio.start_upload(data)})
             elif self.path == '/api/connect': self.send(200, studio.connect_usb(data.get('port')))

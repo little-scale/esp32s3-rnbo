@@ -95,7 +95,8 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
   let timerId = 0;
   const backend = {
     device: null, parameters, uploadError: null, importError: null, importVisual: null, controlHandler: null,
-    firmwareError:null, firmwareUploadError:null, firmwareFull:true,
+    firmwareError:null, firmwareUploadError:null, firmwareFull:true, firmwareSelectError:null,
+    firmwareOptions:['xiao','amoled'].map((board,i)=>({id:board,board,available:true,sha256:(i?'b':'a').repeat(64),firmware_elf_sha256:(i?'d':'c').repeat(64),built_at:'2026-11-07T00:00:00Z'})),
     wifi:{supported:false,configured:false,connected:false,paired:false,device_id:'001122334455'},
     paired, wifiSetupHandler:null, wifiConnectError:null, networks:[], wifiScanHandler:null,
     devices: [{port: 'test-port', label: 'Mock USB', serial_number: 'mock-board-01'}],
@@ -137,6 +138,10 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
     else if (path === '/api/install-player') data = {job: {id:'install1',state:'done',stage:'Installed',result:{kind:'player',board:'xiao'}}};
     else if (path === '/api/firmware/import') data = backend.firmwareError ? {error:backend.firmwareError}
       : {firmware:{id:'f'.repeat(32),name:body.name,board:'xiao',application_bytes:123456,firmware_elf_sha256:'a'.repeat(64),usb_midi_host:false,first_install_available:backend.firmwareFull}};
+    else if (path === '/api/firmware/options') data={firmwares:backend.firmwareOptions};
+    else if (path === '/api/firmware/select') data=backend.firmwareSelectError ? {error:backend.firmwareSelectError}
+      : {firmware:{id:'e'.repeat(32),name:body.id+'-current-player.zip',board:body.id,application_bytes:123456,
+          firmware_elf_sha256:backend.firmwareOptions.find(row=>row.id===body.id)?.firmware_elf_sha256,usb_midi_host:false,first_install_available:true}};
     else if (path === '/api/firmware/upload') data = {job:{id:'firmware1',state:backend.firmwareUploadError?'failed':'done',
       stage:'Firmware verified',error:backend.firmwareUploadError,result:{kind:'player',board:'xiao'}}};
     else if (path === '/api/upload') data = {job: {
@@ -728,4 +733,49 @@ test('source first install also needs acknowledgement; update-only ZIP cannot in
   assert.deepEqual(app.calls.find(c=>c.path==='/api/install-player').body,
     {board:'xiao',port:'test-port',mode:'first-install',erase_confirmed:true});
   assert.equal(app.get('firmware-erase').checked,false);
+});
+
+test('current firmware dropdown stages the exact selected board without building, connecting or flashing',async()=>{
+  const app=await openStudio({environment:{idf:false,firmware_tools:true}});
+  assert.equal(app.get('firmware-choice').children.length,3);
+  assert.equal(app.get('firmware-choice').value,'');
+  assert.equal(app.calls.some(c=>c.path==='/api/firmware/select'),false);
+  app.get('firmware-choice').value='amoled';await app.get('firmware-choice').fire('change');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/select').body,{id:'amoled',sha256:'b'.repeat(64)});
+  assert.match(app.get('firmware-status').textContent,/Waveshare.*USB \+ Wi-Fi/s);
+  assert.match(app.get('flash-firmware').textContent,/AMOLED/);
+  assert.equal(app.get('flash-firmware').disabled,false);
+  assert.equal(app.calls.some(c=>['/api/install-player','/api/build','/api/firmware/upload','/api/connect'].includes(c.path)),false);
+  await app.get('flash-firmware').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/upload').body,{id:'e'.repeat(32),port:'test-port'});
+});
+
+test('refreshing a changed current build clears the old selection and erase consent',async()=>{
+  const app=await openStudio();await app.readyArtifact();
+  app.get('firmware-choice').value='xiao';await app.get('firmware-choice').fire('change');
+  app.get('firmware-mode').value='first-install';await app.get('firmware-mode').fire('change');
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
+  app.backend.firmwareOptions[0].sha256='9'.repeat(64);
+  await app.get('refresh-firmware').fire('click');
+  assert.equal(app.get('firmware-choice').value,'');assert.equal(app.get('flash-firmware').disabled,true);
+  assert.equal(app.get('firmware-erase').checked,false);
+  assert.match(app.get('firmware-status').textContent,/changed/);
+  assert.equal(app.get('upload').disabled,false,'the patch package is preserved');
+  app.get('firmware-choice').value='xiao';app.backend.firmwareSelectError='Current firmware changed; refresh the firmware list';
+  await app.get('firmware-choice').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,true);
+  assert.equal(app.calls.some(c=>c.path==='/api/firmware/upload'),false);
+});
+
+test('unavailable current builds cannot be selected and custom ZIPs remain supported',async()=>{
+  const app=await openStudio();
+  app.backend.firmwareOptions=app.backend.firmwareOptions.map(row=>({...row,available:false,reason:'Rebuild current sources'}));
+  await app.get('refresh-firmware').fire('click');
+  assert.equal(app.get('firmware-choice').children[1].disabled,true);
+  assert.match(app.get('firmware-catalogue-status').textContent,/No current player/);
+  app.get('firmware-choice').value='xiao';await app.get('firmware-choice').fire('change');
+  assert.equal(app.calls.some(c=>c.path==='/api/firmware/select'),false);
+  app.get('firmware-file').files=[{name:'player.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
+  await app.get('firmware-file').fire('change');
+  assert.equal(app.get('firmware-choice').value,'');assert.equal(app.get('flash-firmware').disabled,false);
 });

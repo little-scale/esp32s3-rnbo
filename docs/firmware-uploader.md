@@ -4,13 +4,33 @@ Open [RNBO ESP32 Studio](http://127.0.0.1:8788/) and use **Player firmware** in
 the instrument panel. Firmware flashing uses USB and the ESP32-S3 ROM bootloader.
 It does not require the unit's previous firmware to answer RNBO commands.
 
+## Choose the current player
+
+Use **Current player firmware** to choose the XIAO ESP32-S3 or Waveshare AMOLED
+1.8 V2 player directly. Both normal options include USB and Wi-Fi. Selection
+prepares a checked bundle and displays its build date and firmware identity;
+press the separate **Update…** or **Erase & install…** button to flash it.
+
+“Current” means the normal `player-v1` build matching the sources in this local
+checkout, rather than a downloaded GitHub release. **Refresh** rechecks the
+fixed two board builds. Missing, changed or stale builds appear as **build
+required**, with a reason; build locally below and refresh the list. Experimental
+USB-host firmware is not a default option. **Open another firmware ZIP** remains
+available for supplied files.
+
+Listing and selection do not compile, connect to or flash a board. Selection
+checks the displayed bundle's hash again and asks you to refresh if it changed.
+Refreshing to a different build clears any earlier current selection and erase
+acknowledgement. The existing USB identity, backup and readback checks still
+apply when you explicitly start installation.
+
 ## First install or a unit running another project
 
 1. Connect the XIAO ESP32-S3 or Waveshare AMOLED 1.8 V2 by USB.
 2. Select its USB device. You do **not** need to press **Connect USB** first.
 3. Choose **First install / replace other firmware**.
-4. For a prebuilt bundle, choose **Open firmware ZIP**, then select the full
-   RNBO player ZIP for that board. Alternatively expand **Build player firmware
+4. Choose your board under **Current player firmware**, or use **Open another
+   firmware ZIP** to select a supplied full RNBO player ZIP. Alternatively expand **Build player firmware
    on this computer**, select the board and use the local build tools.
 5. Check the acknowledgement that the selected unit's firmware and data will
    be erased. Press **Erase & install…**, or **Build, erase & install player**.

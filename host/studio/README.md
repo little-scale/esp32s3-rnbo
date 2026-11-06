@@ -6,8 +6,11 @@ Python environment when available. Install ESP-IDF 5.5, CMake, a C++17 compiler
 and the pinned Xtensa module dependencies. Serial uploads also need pyserial.
 Max/RNBO and Node are not needed on the receiving computer when the export is complete.
 
-The **Player firmware** section supports prebuilt firmware ZIPs and local source
-builds. Select **First install / replace other firmware** for a blank unit or one
+The **Player firmware** section lists current local XIAO and AMOLED USB/Wi-Fi
+builds in a dropdown, and also supports supplied ZIPs and local source builds.
+Selection prepares the checked firmware; the separate Update/Install button
+flashes it. Refresh rechecks source freshness and marks stale builds unavailable.
+Select **First install / replace other firmware** for a blank unit or one
 running another project, then explicitly acknowledge the erase. A ROM-level
 full-flash backup precedes the erase; no RNBO connection is needed. **Update RNBO
 player** keeps the existing RNBO layout, saved packages and Wi-Fi settings.

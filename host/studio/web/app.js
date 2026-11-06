@@ -5,7 +5,8 @@
   const state = {
     csrf: '', environment: {}, serverBusy: false, reachable: false,
     exportPayload: null, patch: null, name: 'RNBO Export', revision: 0, valid: false,
-    artifact: null, firmware: null, job: null, jobRevision: -1, operation: null, linkedJob: null,
+    artifact: null, firmware: null, firmwareOptions: [], currentFirmware: null, catalogueLoading: false,
+    job: null, jobRevision: -1, operation: null, linkedJob: null,
     loadFailure: null, loadingTransport: 'usb',
     connecting: false, connectedPort: '', connectedTransport: 'usb', connectedDeviceId: '',
     device: null, deviceError: '', parameters: [], parameterKey: '',
@@ -114,6 +115,8 @@
     $('firmware-erase').disabled = working || !firstInstall();
     $('open-firmware').disabled = !state.reachable || !state.csrf || working;
     $('firmware-file').disabled = working;
+    $('firmware-choice').disabled = !state.reachable || !state.csrf || working || state.catalogueLoading;
+    $('refresh-firmware').disabled = !state.reachable || !state.csrf || working || state.catalogueLoading;
     $('flash-firmware').disabled = !usb || !state.reachable || !state.csrf || !state.firmware || !$('port').value
       || working || !eraseAllowed || firstInstall() && !state.firmware?.first_install_available
       || serialMissing || availability(state.environment.firmware_tools) === false;
@@ -399,9 +402,70 @@
     finally { state.operation = null; $('package-file').value = ''; updateButtons(); }
   }
 
+  function showFirmware(item, details = '') {
+    if (!item || !/^[0-9a-f]{32}$/.test(item.id) || !Object.hasOwn(boards,item.board)
+        || !/^[0-9a-f]{64}$/.test(item.firmware_elf_sha256)) throw new Error('The firmware file was not accepted.');
+    state.firmware = item;
+    $('firmware-status').textContent = `${item.name} · ${boards[item.board]} · ${bytes(item.application_bytes)}${item.usb_midi_host ? ' · experimental USB MIDI host' : ''}\n${details}${item.first_install_available ? 'Supports update and first install.' : 'Update only; no bootloader in this ZIP.'} Selection does not change the board.`;
+  }
+
+  async function refreshFirmwareOptions() {
+    if (busy() || state.catalogueLoading) return;
+    state.catalogueLoading = true; updateButtons();
+    try {
+      const response = await api('/api/firmware/options');
+      const rows = response.firmwares;
+      if (!Array.isArray(rows) || rows.length > 2 || new Set(rows.map(row=>row.id)).size !== rows.length
+          || rows.some(row=>!Object.hasOwn(boards,row.id) || row.board!==row.id || typeof row.available!=='boolean'
+            || row.available && (!/^[0-9a-f]{64}$/.test(row.sha256) || !/^[0-9a-f]{64}$/.test(row.firmware_elf_sha256))))
+        throw new Error('The current firmware list was not accepted.');
+      state.firmwareOptions = rows;
+      if (state.currentFirmware && !rows.some(row=>row.available && row.id===state.currentFirmware.id && row.sha256===state.currentFirmware.sha256)) {
+        state.firmware = null; state.currentFirmware = null; $('firmware-erase').checked = false;
+        $('firmware-status').textContent = 'Current firmware changed or needs rebuilding. Choose it again from the refreshed list.';
+      }
+      const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Choose current firmware…';
+      $('firmware-choice').replaceChildren(placeholder, ...rows.map(row=>{
+        const option = document.createElement('option'); option.value = row.id; option.disabled = !row.available;
+        option.textContent = `${boards[row.board]} · ${row.available ? 'USB + Wi-Fi · current' : 'build required'}`;
+        return option;
+      }));
+      $('firmware-choice').value = state.currentFirmware?.id || '';
+      $('firmware-catalogue-status').textContent = [
+        rows.some(row=>row.available) ? 'Current builds on this computer. Choose one to prepare it; install with the button below.' : 'No current player build is ready. Build locally below, or open a firmware ZIP.',
+        ...rows.filter(row=>!row.available).map(row=>`${boards[row.board]}: ${String(row.reason || 'Build required').slice(0,400)}`)
+      ].join('\n');
+    } catch (error) {
+      state.firmwareOptions = [];
+      $('firmware-choice').replaceChildren();
+      $('firmware-catalogue-status').textContent = `Could not refresh current firmware: ${error.message}`;
+    } finally { state.catalogueLoading = false; updateButtons(); }
+  }
+
+  async function chooseCurrentFirmware() {
+    if (busy() || state.catalogueLoading) return;
+    const row = state.firmwareOptions.find(item=>item.id===$('firmware-choice').value && item.available);
+    state.firmware = null; state.currentFirmware = null; $('firmware-erase').checked = false;
+    if (!row) { $('firmware-status').textContent = 'Choose a current player firmware or open a firmware ZIP.'; updateButtons(); return; }
+    try {
+      state.operation = 'firmware-open'; updateButtons(); message();
+      $('firmware-status').textContent = 'Preparing the selected current firmware…';
+      const response = await api('/api/firmware/select', {id:row.id,sha256:row.sha256});
+      if (response.firmware?.board!==row.board || response.firmware?.firmware_elf_sha256!==row.firmware_elf_sha256)
+        throw new Error('Selected firmware identity changed. Refresh the firmware list and choose it again.');
+      const built = new Date(row.built_at);
+      showFirmware(response.firmware, `USB + Wi-Fi · build ${row.firmware_elf_sha256.slice(0,12)}${Number.isFinite(built.getTime()) ? ' · '+built.toLocaleString() : ''}\n`);
+      state.currentFirmware = {id:row.id,sha256:row.sha256};
+    } catch (error) {
+      state.firmware = null; $('firmware-choice').value = '';
+      $('firmware-status').textContent = error.message; message(error.message);
+    } finally { state.operation = null; updateButtons(); }
+  }
+
   async function openFirmware(file) {
     if (!file || busy()) return;
     state.firmware = null;
+    state.currentFirmware = null; $('firmware-choice').value = '';
     $('firmware-erase').checked = false;
     try {
       if (!file.name.toLowerCase().endsWith('.zip') || file.size <= 0 || file.size > 4 * 1048576)
@@ -411,11 +475,7 @@
       const raw = new Uint8Array(await file.arrayBuffer());
       if (!raw.length || raw.length > 4 * 1048576) throw new Error('Firmware ZIP exceeds its size limit.');
       const response = await api('/api/firmware/import', {name:file.name, firmware_base64:toBase64(raw)});
-      const item = response.firmware;
-      if (!item || !/^[0-9a-f]{32}$/.test(item.id) || !Object.hasOwn(boards,item.board)
-          || !/^[0-9a-f]{64}$/.test(item.firmware_elf_sha256)) throw new Error('The firmware file was not accepted.');
-      state.firmware = item;
-      $('firmware-status').textContent = `${item.name} · ${boards[item.board]} · ${bytes(item.application_bytes)}${item.usb_midi_host ? ' · experimental USB MIDI host' : ''}\n${item.first_install_available ? 'Supports update and first install.' : 'Update only; no bootloader in this ZIP.'} Opening a file does not change the board.`;
+      showFirmware(response.firmware);
     } catch (error) { $('firmware-status').textContent = error.message; message(error.message); }
     finally { state.operation = null; $('firmware-file').value = ''; updateButtons(); }
   }
@@ -869,7 +929,8 @@
       if (state.csrf && response.csrf && state.csrf !== response.csrf) {
         clearTimeout(state.jobTimer); state.job = null; state.operation = null;
         invalidate();
-        state.firmware = null; $('firmware-status').textContent = 'Studio restarted. Open the firmware ZIP again.';
+        state.firmware = null; state.currentFirmware = null; $('firmware-choice').value = '';
+        $('firmware-status').textContent = 'Studio restarted. Select current firmware or open its ZIP again.';
         $('firmware-erase').checked = false;
         message('The local server restarted. Compile the patch again before uploading.');
       }
@@ -901,6 +962,8 @@
   $('open-firmware').addEventListener('click', () => $('firmware-file').click());
   $('firmware-file').addEventListener('change', () => openFirmware($('firmware-file').files[0]));
   $('flash-firmware').addEventListener('click', flashFirmware);
+  $('firmware-choice').addEventListener('change', chooseCurrentFirmware);
+  $('refresh-firmware').addEventListener('click', refreshFirmwareOptions);
   $('open-folder').addEventListener('click', () => $('folder').click());
   $('folder').addEventListener('change', () => openFolder($('folder').files));
   $('open-layout').addEventListener('click', () => $('layout-file').click());
@@ -1003,6 +1066,7 @@
 
   (async () => {
     await refreshStatus();
+    await refreshFirmwareOptions();
     await Promise.all([refreshDevices(), refreshDevice()]);
     await openLinkedJob();
     setInterval(() => { if (!state.operation && !state.connecting) refreshDevice(); }, 1800);

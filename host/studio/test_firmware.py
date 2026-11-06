@@ -60,6 +60,16 @@ def payload():
 
 
 class FirmwareTests(unittest.TestCase):
+    def test_current_options_hide_stale_builds_and_never_use_arbitrary_paths(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp); (root/'build-report.json').write_text('{}')
+            with mock.patch.object(f,'CURRENT_BUILDS',{'xiao':root,'amoled':root}), mock.patch.object(f,'create',side_effect=lambda _,board: zipped(files(board,full=True)) if board=='xiao' else (_ for _ in ()).throw(ValueError('Player build is older; rebuild'))):
+                rows=f.current_options()
+                self.assertTrue(rows[0]['available']);self.assertEqual(rows[0]['features'],['USB','Wi-Fi'])
+                self.assertFalse(rows[1]['available']);self.assertIn('rebuild',rows[1]['reason'])
+                self.assertNotIn('directory',rows[0]);self.assertEqual(rows[0]['sha256'],f.digest(f.current_bundle('xiao')[0]))
+                with self.assertRaisesRegex(ValueError,'Choose'):f.current_bundle('../xiao')
+
     def test_bundle_creation_requires_current_sources_and_network_component(self):
         inventory={'firmware/main/player_main.c':'a'*64}
         report=dict(player=True, player_api_version=1, components=['player_network'], integration_files_sha256=inventory)

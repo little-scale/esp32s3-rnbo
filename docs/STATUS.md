@@ -1,5 +1,14 @@
 # Implementation status — native export migration
 
+**7 November 2026 — current firmware selector:** Studio's **Player firmware**
+section now lists current local XIAO and AMOLED USB/Wi-Fi builds. The list checks
+source freshness and image integrity; choosing an option stages the exact checked
+bundle without building or flashing. Missing/stale builds are marked unavailable,
+and the file picker remains available. A real browser selection prepared the
+current AMOLED image successfully; no new board write was performed. Server
+checks (127) and browser checks (34) pass. See the
+[firmware guide](firmware-uploader.md#choose-the-current-player).
+
 **7 November 2026 — firmware ZIP correction:** The initially supplied AMOLED ZIP
 was a valid older player build without Wi-Fi. It has been replaced locally with
 a current-source build including `player_network` and `esp_wifi`; the XIAO ZIP
