@@ -29,6 +29,11 @@ class PackageTests(unittest.TestCase):
                 info = json.loads(archive.read(prefix + 'package-info.json'))
                 self.assertIn(prefix + 'patchers/' + info['homepatcher'], archive.namelist())
                 self.assertNotIn('filelist', info)
+                self.assertEqual(archive.read(prefix+'patchers/rnbo.instrument.maxpat'),
+                                 archive.read(prefix+'patchers/rnbo.studio.maxpat'))
+                alias=json.loads(archive.read(prefix+'help/rnbo.instrument.maxhelp'))
+                self.assertEqual(next(b['box']['name'] for b in alias['patcher']['boxes'] if b['box']['id']=='builder'),
+                                 'rnbo.instrument.maxpat')
                 help_patch = json.loads(archive.read(prefix + 'help/rnbo.studio.maxhelp'))
                 source = json.loads(archive.read(prefix + 'patchers/embedded-sine.maxpat'))
                 graph = lambda doc: next(b['box']['patcher'] for b in doc['patcher']['boxes'] if b['box']['id'] == 'rnbo')

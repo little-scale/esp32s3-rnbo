@@ -1,10 +1,18 @@
-# RNBO Studio
+# RNBO ESP32 Studio
 
 Start `./host/studio.sh` from the repository and open
 [localhost:8788](http://127.0.0.1:8788). The launcher uses the installed ESP-IDF
 Python environment when available. Install ESP-IDF 5.5, CMake, a C++17 compiler
 and the pinned Xtensa module dependencies. Serial uploads also need pyserial.
 Max/RNBO and Node are not needed on the receiving computer when the export is complete.
+
+The **Player firmware** section supports prebuilt firmware ZIPs and local source
+builds. Select **First install / replace other firmware** for a blank unit or one
+running another project, then explicitly acknowledge the erase. A ROM-level
+full-flash backup precedes the erase; no RNBO connection is needed. **Update RNBO
+player** keeps the existing RNBO layout, saved packages and Wi-Fi settings.
+See the [firmware guide](../../docs/firmware-uploader.md) for boot mode, full ZIPs,
+backup locations and the first-install steps.
 
 1. Export in Max using [these settings](../../docs/native-export.md).
 2. Choose **Open export folder** or **Open export ZIP**. Optionally add the

@@ -6,6 +6,18 @@ and compiles C++, runs a native startup screen and creates `.rnbopkg` for the
 existing player. `.rnbopat` is optional drawing data only. See
 [export instructions](native-export.md) and the [wrapper review](native-wrapper.md).
 
+The page is now **RNBO ESP32 Studio**. Its visible **Player firmware** section
+accepts checked prebuilt player ZIPs without compilation, alongside local builds.
+**Update** preserves the existing RNBO layout and saved data; **First install /
+replace other firmware** requires an explicit erase acknowledgement, backs up
+the complete flash, then installs bootloader/table/player and verifies readback
+and startup. It uses the ROM bootloader without requiring old RNBO firmware.
+Both paths have simulated-device coverage. A user-initiated physical AMOLED first
+install passed full backup, all image readbacks and player startup checks; physical
+XIAO first install and listening remain pending. See the
+[receipt](../evidence/studio-firmware-uploader.json) and
+[firmware guide](firmware-uploader.md).
+
 Retained: the shared module ABI, player, saved Main, package loader, audio drivers,
 USB/Wi-Fi, live parameters, physical-input metadata, MIDI infrastructure and
 AMOLED drawing/multisliders/meter. The wrapper itself is unchanged. The old

@@ -28,6 +28,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from host.compiler import package as player_package
 from host import native_export
+from host.studio import firmware
 from host.visual.layout import compile_layout
 from host.studio.trial import BLOCKS as TRIAL_BLOCKS, compare_audio as compare_trial_audio, device_check as trial_device_check
 WEB = Path(__file__).parent / 'web'
@@ -120,6 +121,17 @@ def build_settings(data):
                 board=board, role=role, initial_volume=volume, arena_bytes=arena)
 
 
+def first_install_requested(data):
+    mode = data.get('mode', 'update')
+    if mode not in ('update', 'first-install'):
+        raise ValueError('Choose update or first install')
+    if mode == 'first-install' and data.get('erase_confirmed') is not True:
+        raise ValueError('Confirm that first install erases the selected board’s firmware and data')
+    if 'erase_confirmed' in data and type(data['erase_confirmed']) is not bool:
+        raise ValueError('Invalid first-install confirmation')
+    return mode == 'first-install'
+
+
 
 class Studio:
     def __init__(self, components=None, bridge=None):
@@ -134,6 +146,7 @@ class Studio:
         self.last_wifi = {'supported': False, 'configured': False, 'connected': False, 'paired': False, 'ip': '', 'device_id': ''}
         self.components = Path(components).expanduser().resolve() if components else None
         self.jobs = {}
+        self.firmwares = {}
         self.lock = threading.RLock()
         self.worker = threading.Lock()
         self.job_thread = None
@@ -257,9 +270,15 @@ class Studio:
         finally: self.worker.release()
 
     def environment(self):
+        from host.studio.device import idf_python
+        try:
+            idf_python()
+            firmware_tools = True
+        except RuntimeError:
+            firmware_tools = False
         return dict(source='cycling74-minimal-export',
                     idf=(Path(os.environ.get('IDF_PATH', str(Path.home() / 'esp/esp-idf'))) / 'tools/idf.py').is_file(),
-                    python_serial=importlib.util.find_spec('serial') is not None,
+                    python_serial=importlib.util.find_spec('serial') is not None, firmware_tools=firmware_tools,
                     amoled_components=bool(self.components and self.components.is_dir()) or (ROOT / 'build/vendor-amoled').is_dir())
 
     def status(self):
@@ -534,7 +553,90 @@ class Studio:
             # package as an upload failure. Keep the observation in the job.
             self.log(identity, 'Runtime observation is in this job; trial report could not be updated: ' + str(error) + '\n')
 
+    def import_firmware(self, data):
+        name, text = data.get('name'), data.get('firmware_base64')
+        if (set(data) != {'name', 'firmware_base64'} or not isinstance(name, str)
+                or not name.lower().endswith('.zip') or len(name) > 160 or not isinstance(text, str)
+                or not 0 < len(text) <= 4 * ((firmware.MAX_ZIP + 2) // 3)):
+            raise ValueError('Choose an RNBO player firmware ZIP up to 4 MiB')
+        try:
+            raw = base64.b64decode(text, validate=True)
+        except (ValueError, binascii.Error) as error:
+            raise ValueError('Invalid firmware encoding') from error
+        with self.lock:
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if not self.worker.acquire(blocking=False):
+                raise ValueError('A build or upload is already running')
+            try:
+                identity = uuid.uuid4().hex
+                directory = PRIVATE / 'firmware' / identity
+                checked = firmware.stage(raw, directory)
+                value = checked['report']
+                public = dict(id=identity, name=Path(name.replace('\\', '/')).name, board=value['board'],
+                    application_bytes=value['files']['application.bin']['bytes'],
+                    firmware_elf_sha256=value['firmware_elf_sha256'], usb_midi_host=value['usb_midi_host'],
+                    first_install_available=checked['bootloader'] is not None)
+                self.firmwares[identity] = dict(public=public, directory=directory,
+                    manifest_sha256=checked['report_sha256'])
+                return public
+            finally:
+                self.worker.release()
+
+    def start_firmware_upload(self, data):
+        identity, port = data.get('id'), data.get('port')
+        first_install = first_install_requested(data)
+        if (not {'id','port'} <= set(data) <= {'id','port','mode','erase_confirmed'} or not isinstance(identity, str)
+                or not re.fullmatch(r'[0-9a-f]{32}', identity) or not isinstance(port, str)
+                or not 0 < len(port) <= 256 or any(ord(c) < 32 for c in port)):
+            raise ValueError('Choose a firmware ZIP and one USB device')
+        with self.lock:
+            if self.stopping.is_set():
+                raise ValueError('Studio is shutting down')
+            if identity not in self.firmwares:
+                raise ValueError('Open the firmware ZIP again; it is not in this Studio session')
+            item = self.firmwares[identity]
+            checked = firmware.verify_staged(item['directory'], item['public']['board'])
+            if first_install and checked['bootloader'] is None:
+                raise ValueError('Choose a full firmware ZIP including its bootloader for first install')
+            if checked['report_sha256'] != item['manifest_sha256']:
+                raise ValueError('Firmware changed after opening; open the original ZIP again')
+            if not self.worker.acquire(blocking=False):
+                raise ValueError('A build or upload is already running')
+            job_id = uuid.uuid4().hex
+            board = item['public']['board']
+            self.jobs[job_id] = dict(id=job_id, state='uploading', stage='Checking USB board', log='', error=None,
+                result=dict(kind='player', origin='firmware-file', board=board, first_install=first_install),
+                _build=None, _settings={'board': board})
+            self.job_thread = threading.Thread(target=self.upload_firmware,
+                args=(job_id, item['directory'], board, port, item['manifest_sha256'], first_install), daemon=True)
+            self.job_thread.start()
+        return self.job(job_id)
+
+    def upload_firmware(self, identity, directory, board, port, manifest_sha256, first_install=False):
+        try:
+            if self.network_bridge:
+                self.network_bridge.disconnect()
+            self.active_bridge = self.bridge
+            def progress(value):
+                self.log(identity, str(value) + '\n')
+                self.update(identity, stage=str(value))
+            self.bridge.flash_bundle(directory, board, port, progress, expected_manifest_sha256=manifest_sha256,
+                first_install=first_install)
+            self.update(identity, state='done', stage='Player firmware verified and running')
+        except Exception as error:
+            self.log(identity, str(error) + '\n')
+            self.update(identity, state='failed', stage='Firmware upload failed', error=str(error))
+        finally:
+            self.worker.release()
+
     def start_install(self, data):
+        first_install = first_install_requested(data)
+        if set(data) - {'board','port','mode','erase_confirmed'}:
+            raise ValueError('Unexpected player installation settings')
+        if first_install and (not isinstance(data.get('port'),str) or not 0 < len(data['port']) <= 256
+                or any(ord(c)<32 for c in data['port'])):
+            raise ValueError('Choose one USB device before first install')
         board = data.get('board')
         if board not in ('xiao', 'amoled'):
             raise ValueError('Choose a board for player installation')
@@ -548,11 +650,11 @@ class Studio:
             identity = uuid.uuid4().hex
             self.jobs[identity] = dict(id=identity, state='building', stage='Building stable player', log='', error=None,
                 result=None, _settings={'board': board}, _build=None)
-            self.job_thread = threading.Thread(target=self.install, args=(identity, board, data.get('port')), daemon=True)
+            self.job_thread = threading.Thread(target=self.install, args=(identity, board, data.get('port'), first_install), daemon=True)
             self.job_thread.start()
         return self.job(identity)
 
-    def install(self, identity, board, port):
+    def install(self, identity, board, port, first_install=False):
         try:
             # The fixed build tool verifies pinned sources and incrementally
             # rebuilds if they changed. Never trust a cached report alone.
@@ -565,11 +667,17 @@ class Studio:
             checked = artifacts(build, board)
             if checked['report'].get('player') is not True:
                 raise ValueError('The build is not a stable player')
-            self.update(identity, _build=build, result=dict(kind='player', board=board), state='uploading',
+            self.update(identity, _build=build, result=dict(kind='player', board=board, first_install=first_install), state='uploading',
                         stage='Installing stable player')
             if self.network_bridge: self.network_bridge.disconnect()
             self.active_bridge = self.bridge
-            self.bridge.flash(build, board, port, lambda text: self.log(identity, str(text) + '\n'), expected_kind='player')
+            if first_install:
+                directory = PRIVATE / 'firmware' / uuid.uuid4().hex
+                staged = firmware.stage(firmware.create(build, board), directory)
+                self.bridge.flash_bundle(directory, board, port, lambda text: self.log(identity, str(text) + '\n'),
+                    expected_manifest_sha256=staged['report_sha256'], first_install=True)
+            else:
+                self.bridge.flash(build, board, port, lambda text: self.log(identity, str(text) + '\n'), expected_kind='player')
             self.update(identity, state='done', stage='Stable player installed')
         except Exception as error:
             self.log(identity, '\n' + str(error) + '\n')
@@ -683,6 +791,8 @@ class Handler(BaseHTTPRequestHandler):
             if self.path == '/api/build': self.send(202, {'job':studio.start_build(data)})
             elif self.path == '/api/import-package': self.send(200, {'job':studio.import_package(data)})
             elif self.path == '/api/install-player': self.send(202, {'job':studio.start_install(data)})
+            elif self.path == '/api/firmware/import': self.send(200, {'firmware':studio.import_firmware(data)})
+            elif self.path == '/api/firmware/upload': self.send(202, {'job':studio.start_firmware_upload(data)})
             elif self.path == '/api/upload': self.send(202, {'job':studio.start_upload(data)})
             elif self.path == '/api/connect': self.send(200, studio.connect_usb(data.get('port')))
             elif self.path == '/api/wifi/scan': self.send(200, studio.scan_wifi())
@@ -721,7 +831,7 @@ def main():
         raise KeyboardInterrupt
     for exit_signal in exit_signals:
         signal.signal(exit_signal, request_exit)
-    print(f'RNBO Studio: http://127.0.0.1:{server.server_port}', flush=True)
+    print(f'RNBO ESP32 Studio: http://127.0.0.1:{server.server_port}', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

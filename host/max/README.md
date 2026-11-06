@@ -24,6 +24,11 @@ The result is `build/dist/esp32s3-rnbo-max.zip`; its manifest records each bundl
 file's hash. The bundle contains only the listed helper/example/license files.
 You can instead use the manual file-copy setup below.
 
+`rnbo.instrument` is an equivalent alias for `rnbo.studio`; both have matching
+help patches. The package builder derives them from the same implementation.
+For a manual Library installation, keep both abstractions, both scripts and
+their help files together in a subfolder of `~/Documents/Max 9/Library`.
+
 ## Add it to an existing Max patch
 
 Copy these three files beside your `.maxpat` (or put this folder on Max's search path):

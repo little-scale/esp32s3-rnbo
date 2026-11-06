@@ -1,0 +1,111 @@
+{
+  "format": "rnbo-studio-firmware-uploader-evidence-v1",
+  "scope": "User-initiated AMOLED full first install via Studio firmware ZIP; no physical XIAO first-install or DAC/listening claim.",
+  "board": "amoled",
+  "mode": "first-install",
+  "started_at_utc": "2026-11-06T08:41:04.257989+00:00",
+  "completed_at_utc": "2026-11-06T08:45:31.023136+00:00",
+  "expected_firmware_elf_sha256": "1260c5fb3efdfad32f78d1d41e701975379ea5d22dbedee7f6d357f893dc361b",
+  "application_sha256": "cd0c22d0d57fb9ce4fb68b9fa4731874cbda049528c3f9b1422ac16dc2447cc1",
+  "partition_sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f",
+  "write_attempted": true,
+  "erase_attempted": true,
+  "readback_verified": true,
+  "bootloader_readback_sha256": "b02383857e4fd83f53c0feebdc42261b6c7daad28f2043cbfb1650aee665efdd",
+  "partition_readback_sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f",
+  "readback_sha256": "cd0c22d0d57fb9ce4fb68b9fa4731874cbda049528c3f9b1422ac16dc2447cc1",
+  "connected_identity_verified": true,
+  "audio_progress_verified": true,
+  "result": "completed",
+  "backup": {
+    "bytes": 16777216,
+    "retained_privately": true
+  },
+  "commands": [
+    {
+      "operation": "flash_id",
+      "returncode": 0
+    },
+    {
+      "operation": "read_flash",
+      "returncode": 0
+    },
+    {
+      "operation": "flash_id",
+      "returncode": 0
+    },
+    {
+      "operation": "erase_flash",
+      "returncode": 0
+    },
+    {
+      "operation": "write_flash",
+      "returncode": 0
+    },
+    {
+      "operation": "read_flash",
+      "returncode": 0
+    },
+    {
+      "operation": "read_flash",
+      "returncode": 0
+    },
+    {
+      "operation": "read_flash",
+      "returncode": 0
+    }
+  ],
+  "device_status": {
+    "runtime": "rnbo-esp32s3-player",
+    "api_version": 1,
+    "board": "amoled",
+    "firmware_elf_sha256": "1260c5fb3efdfad32f78d1d41e701975379ea5d22dbedee7f6d357f893dc361b",
+    "rate": 44100,
+    "block_frames": 256,
+    "channels": 1,
+    "generation": 1,
+    "paused": true,
+    "panic": true,
+    "maintenance": false,
+    "volume": 50,
+    "boot_verified": true,
+    "storage_ready": true,
+    "frames": 512,
+    "blocks": 2,
+    "render_us": 116,
+    "peak_us": 208,
+    "output_peak_q15": 0,
+    "output_meter_scope": "final PCM after volume and saturation",
+    "telemetry_generation": 1,
+    "render_busy_total_us": 324,
+    "render_deadline_overruns": 0,
+    "nonfinite": 0,
+    "clipped": 0,
+    "write_errors": 0,
+    "dma_errors": 0,
+    "queue_errors": 0,
+    "module_errors": 0,
+    "audio_heap_allocations": 0,
+    "audio_heap_frees": 0,
+    "late_platform_allocations": 0,
+    "allocation_fault": false,
+    "reconstruction_failed": false,
+    "lifetime": {
+      "render_deadline_overruns": 0,
+      "nonfinite": 0,
+      "clipped": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "module_errors": 0,
+      "queue_errors": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0
+    },
+    "internal_free_bytes": 136219,
+    "psram_free_bytes": 8384432,
+    "uptime_us": 11280235,
+    "main": null,
+    "board_model": "Waveshare AMOLED 1.8 V2",
+    "transport": "usb"
+  }
+}

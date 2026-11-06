@@ -95,6 +95,7 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
   let timerId = 0;
   const backend = {
     device: null, parameters, uploadError: null, importError: null, importVisual: null, controlHandler: null,
+    firmwareError:null, firmwareUploadError:null, firmwareFull:true,
     wifi:{supported:false,configured:false,connected:false,paired:false,device_id:'001122334455'},
     paired, wifiSetupHandler:null, wifiConnectError:null, networks:[], wifiScanHandler:null,
     devices: [{port: 'test-port', label: 'Mock USB', serial_number: 'mock-board-01'}],
@@ -134,6 +135,10 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
     else if (path === '/api/build') data = {job: {id: 'build1', state: 'building', stage: 'Compiling', log: 'working'}};
     else if (path.startsWith('/api/job?')) data = {job: {id: linkedJob || 'build1', state: 'ready', stage: 'Ready', log: 'done', result: backend.result}};
     else if (path === '/api/install-player') data = {job: {id:'install1',state:'done',stage:'Installed',result:{kind:'player',board:'xiao'}}};
+    else if (path === '/api/firmware/import') data = backend.firmwareError ? {error:backend.firmwareError}
+      : {firmware:{id:'f'.repeat(32),name:body.name,board:'xiao',application_bytes:123456,firmware_elf_sha256:'a'.repeat(64),usb_midi_host:false,first_install_available:backend.firmwareFull}};
+    else if (path === '/api/firmware/upload') data = {job:{id:'firmware1',state:backend.firmwareUploadError?'failed':'done',
+      stage:'Firmware verified',error:backend.firmwareUploadError,result:{kind:'player',board:'xiao'}}};
     else if (path === '/api/upload') data = {job: {
       id: 'build1', state: backend.uploadError ? 'ready' : 'done', stage: 'Upload finished', error: backend.uploadError,
     }};
@@ -644,4 +649,83 @@ test('a malformed linked build identity is rejected before making a job request'
   const app=await openStudio({linkedJob:'../../secret'});
   assert.equal(app.calls.filter(c=>c.path.startsWith('/api/job')).length,0);
   assert.match(app.get('message').textContent,/Invalid Studio build link/);
+});
+
+test('firmware ZIP opens independently of patch compilation and flashes only on explicit USB action', async () => {
+  const app=await openStudio({environment:{idf:false,python_serial:true,firmware_tools:true}});
+  assert.match(html,/<title>RNBO ESP32 Studio<\/title>/);
+  assert.equal(app.get('install-player').disabled,true);
+  assert.equal(app.get('flash-firmware').disabled,true);
+  app.get('firmware-file').files=[{name:'player.zip',size:4,arrayBuffer:async()=>new Uint8Array([1,2,3,4]).buffer}];
+  await app.get('firmware-file').fire('change');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/import').body,{name:'player.zip',firmware_base64:'AQIDBA=='});
+  assert.match(app.get('firmware-status').textContent,/XIAO/);
+  assert.equal(app.calls.filter(c=>c.path==='/api/firmware/upload').length,0);
+  assert.equal(app.get('flash-firmware').disabled,false);
+  app.get('transport').value='wifi';await app.get('transport').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,true);
+  app.get('transport').value='usb';await app.get('transport').fire('change');
+  await app.get('flash-firmware').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/upload').body,{id:'f'.repeat(32),port:'test-port'});
+  assert.match(app.get('firmware-status').textContent,/verified and running/);
+  assert.equal(app.calls.some(c=>c.path==='/api/build'||c.path==='/api/install-player'||c.path==='/api/upload'),false);
+});
+
+test('bad firmware selections invalidate older firmware while preserving an open patch package', async () => {
+  const app=await openStudio();await app.readyArtifact();
+  const file={name:'player.zip',size:4,arrayBuffer:async()=>new Uint8Array([1,2,3,4]).buffer};
+  app.get('firmware-file').files=[file];await app.get('firmware-file').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,false);
+  app.backend.firmwareError='Image hash differs';
+  app.get('firmware-file').files=[file];await app.get('firmware-file').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,true);
+  assert.equal(app.get('upload').disabled,false);
+  app.get('firmware-file').files=[{...file,name:'wrong.bin'}];await app.get('firmware-file').fire('change');
+  assert.match(app.get('firmware-status').textContent,/firmware ZIP/);
+  app.backend.firmwareError=null;app.get('firmware-file').files=[file];await app.get('firmware-file').fire('change');
+  app.backend.firmwareUploadError='Existing partition layout differs';await app.get('flash-firmware').fire('click');
+  assert.match(app.get('firmware-status').textContent,/failed.*partition layout/);
+  assert.equal(app.get('upload').disabled,false);
+});
+
+test('missing firmware USB tools prevent flashing without preventing file inspection', async () => {
+  const app=await openStudio({environment:{firmware_tools:false}});
+  app.get('firmware-file').files=[{name:'player.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
+  await app.get('firmware-file').fire('change');assert.equal(app.get('flash-firmware').disabled,true);
+  assert.equal(app.get('open-firmware').disabled,false);
+});
+
+test('first install works without RNBO connection and requires a fresh erase acknowledgement', async () => {
+  const app=await openStudio();
+  app.get('firmware-mode').value='first-install';await app.get('firmware-mode').fire('change');
+  assert.equal(app.get('firmware-erase-label').hidden,false);
+  assert.equal(app.get('install-player').disabled,true);
+  app.get('firmware-file').files=[{name:'full.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
+  await app.get('firmware-file').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,true);
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,false);
+  assert.equal(app.backend.device,null,'no RNBO handshake is needed before flashing');
+  await app.get('flash-firmware').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/upload').body,
+    {id:'f'.repeat(32),port:'test-port',mode:'first-install',erase_confirmed:true});
+  assert.equal(app.get('firmware-erase').checked,false);
+  assert.equal(app.get('flash-firmware').disabled,true);
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
+  await app.get('port').fire('change');assert.equal(app.get('firmware-erase').checked,false);
+});
+
+test('source first install also needs acknowledgement; update-only ZIP cannot initialize a board', async () => {
+  const app=await openStudio();app.backend.firmwareFull=false;
+  app.get('firmware-file').files=[{name:'update.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
+  await app.get('firmware-file').fire('change');
+  app.get('firmware-mode').value='first-install';await app.get('firmware-mode').fire('change');
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,true);
+  assert.match(app.get('firmware-status').textContent,/Update only/);
+  assert.equal(app.get('install-player').disabled,false);
+  await app.get('install-player').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/install-player').body,
+    {board:'xiao',port:'test-port',mode:'first-install',erase_confirmed:true});
+  assert.equal(app.get('firmware-erase').checked,false);
 });

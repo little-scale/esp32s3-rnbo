@@ -230,6 +230,26 @@ class HTTPTests(unittest.TestCase):
         code,_,_=self.request('/api/execute',{'cmd':'bad'},{'Content-Type':'application/json','X-Studio-Token':self.server.studio.token})
         self.assertEqual(code,404)
 
+    def test_firmware_http_open_is_read_only_and_flashing_requires_session_token(self):
+        from test_firmware import payload
+        studio=self.server.studio
+        token={'Content-Type':'application/json','X-Studio-Token':studio.token}
+        for path in ('/api/firmware/import','/api/firmware/upload'):
+            code,_,_=self.request(path,{},headers={'Content-Type':'application/json'})
+            self.assertEqual(code,400)
+        with tempfile.TemporaryDirectory() as temp, patch.object(s,'PRIVATE',Path(temp)), \
+             patch.object(self.bridge,'flash_bundle',create=True) as flash:
+            code,raw,_=self.request('/api/firmware/import',payload(),headers=token)
+            self.assertEqual(code,200);item=json.loads(raw)['firmware']
+            self.assertEqual(item['board'],'xiao');self.assertNotIn('directory',item)
+            flash.assert_not_called()
+            code,raw,_=self.request('/api/firmware/upload',{'id':item['id'],'port':'test-port'},headers=token)
+            self.assertEqual(code,202);job=json.loads(raw)['job']
+            studio.job_thread.join(2)
+            self.assertEqual(studio.job(job['id'])['state'],'done')
+            flash.assert_called_once()
+            studio.firmwares.pop(item['id']);studio.jobs.pop(job['id'])
+
     @unittest.skipUnless(shutil.which('node'), 'Node is needed for the Max client integration check')
     def test_max_upload_client_uses_real_http_handler_and_usb_wifi_package_paths(self):
         studio=self.server.studio

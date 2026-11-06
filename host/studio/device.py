@@ -1,15 +1,16 @@
 # SPDX-License-Identifier: MIT
-"""Exclusive, bounded RNBO serial controls and application-only uploads.
+"""Exclusive RNBO controls, application updates and explicit first installs.
 
 Importing this module never enumerates or opens a USB device. Serial support is
-loaded only for an explicit device operation. Flashing is restricted to a pinned
-ESP32-S3 identity and the existing matching factory partition layout.
+loaded only for an explicit device operation. Updates preserve the matching
+factory layout. First install backs up and replaces the selected unit's flash.
 """
 from __future__ import annotations
 
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -115,6 +116,8 @@ def idf_python():
         (Path.home() / '.espressif/python_env').glob('idf5.5_py*_env/bin/python'))
     candidates = [p for p in candidates if p.is_file()]
     if not candidates:
+        if importlib.util.find_spec('esptool') is not None:
+            return Path(sys.executable)
         raise DeviceError('Set IDF_PYTHON_ENV_PATH to an ESP-IDF 5.5 environment with esptool installed')
     return candidates[-1]
 
@@ -707,13 +710,24 @@ class DeviceBridge:
                 self._flashing.clear()
 
     def flash(self, build_dir, board, port, log, *, expected_kind='legacy'):
-        """Upload only a matching factory application; never erase/layout/bootloader.
+        return self._flash(build_dir, board, port, log, expected_kind=expected_kind, verifier=self._verifier)
 
-        A private 3 MiB application backup, partition snapshots, bounded tool logs
-        and a receipt are retained for every attempted upload. A failed write is
-        not automatically replayed or called successful. Root can inspect/recover
-        from the pinned backup. The first version requires an existing identical
-        partition table; it does not install a new board layout.
+    def flash_bundle(self, directory, board, port, log, *, expected_manifest_sha256, first_install=False):
+        from host.studio.firmware import verify_staged
+        def verify(path, profile):
+            checked = verify_staged(path, profile)
+            if checked['report_sha256'] != expected_manifest_sha256:
+                raise DeviceError('Firmware changed after selection; open the original ZIP again')
+            return checked
+        return self._flash(directory, board, port, log, expected_kind='player', verifier=verify, first_install=first_install)
+
+    def _flash(self, build_dir, board, port, log, *, expected_kind, verifier, first_install=False):
+        """Update an application, or explicitly initialize a board from a full bundle.
+
+        Update preserves the matching layout and data. First install keeps a
+        complete private flash backup, then erases and writes only reviewed
+        bootloader/table/application offsets. Neither mode automatically retries
+        writes or requires the old application to speak the RNBO protocol.
         """
         if board not in FLASH_BYTES:
             raise ValueError('Select XIAO or AMOLED V2')
@@ -723,7 +737,7 @@ class DeviceBridge:
         if not directory.is_relative_to(ROOT / 'build') or not directory.is_dir():
             raise ValueError('Choose a compiled firmware build in this workspace')
         with self._exclusive():
-            checked = self._verifier(directory, board)
+            checked = verifier(directory, board)
             if expected_kind not in ('legacy', 'player'):
                 raise ValueError('Invalid firmware kind')
             is_player = expected_kind == 'player'
@@ -748,6 +762,11 @@ class DeviceBridge:
             table = checked['partition'].read_bytes()
             if not table or len(table) > PARTITION_BYTES:
                 raise DeviceError('The expected partition table has an invalid size')
+            boot = checked.get('bootloader')
+            if first_install and (not is_player or boot is None):
+                raise DeviceError('First install needs a full player firmware ZIP including its bootloader')
+            boot_bytes = boot.read_bytes() if first_install else None
+            boot_hash = hashlib.sha256(boot_bytes).hexdigest() if boot_bytes is not None else None
             interpreter = Path(self._python) if self._python is not None else idf_python()
             if not interpreter.is_file():
                 raise DeviceError('The ESP-IDF Python interpreter is unavailable')
@@ -760,6 +779,11 @@ class DeviceBridge:
             staged_app = output / 'application.bin'
             staged_app.write_bytes(initial_app)
             staged_app.chmod(0o400)
+            staged_table = output / 'partition-table.bin'
+            staged_boot = output / 'bootloader.bin'
+            if first_install:
+                staged_table.write_bytes(table); staged_table.chmod(0o400)
+                staged_boot.write_bytes(boot_bytes); staged_boot.chmod(0o400)
             (output / 'expected-partition.bin').write_bytes(table)
             receipt = dict(format='rnbo-studio-upload-v1', board=board, device_mac=key,
                            selected_port=identity['port'], started_at_utc=datetime.now(timezone.utc).isoformat(),
@@ -767,6 +791,7 @@ class DeviceBridge:
                            application_sha256=expected_app, partition_sha256=hashlib.sha256(table).hexdigest(),
                            application_write_offset=APP_OFFSET, application_partition_bytes=APP_CAPACITY,
                            commands=[], write_attempted=False, readback_verified=False,
+                           mode='first-install' if first_install else 'update', erase_attempted=False,
                            connected_identity_verified=False, result='in-progress')
 
             def save():
@@ -775,11 +800,14 @@ class DeviceBridge:
                 temporary.replace(output / 'receipt.json')
 
             def unchanged():
-                current = self._verifier(directory, board)
+                current = verifier(directory, board)
                 if (current['report_sha256'] != report_hash or current['elf_sha256'] != expected_elf
                         or current['partition'].read_bytes() != table
                         or sha(current['app']) != expected_app or sha(staged_app) != expected_app):
                     raise DeviceError('Firmware artifacts changed during upload; compile again')
+                if first_install and (not current.get('bootloader') or sha(current['bootloader']) != boot_hash
+                        or sha(staged_boot) != boot_hash or staged_table.read_bytes() != table):
+                    raise DeviceError('Bootloader or partition table changed during upload')
                 return current
 
             def parse_identity(text, *, flash_size=False):
@@ -795,13 +823,14 @@ class DeviceBridge:
                     if sizes != {FLASH_BYTES[board]}:
                         raise DeviceError('The flash capacity does not match the selected board profile')
 
-            def tool(operation, arguments=(), *, timeout=90, flash_size=False, writing=False):
+            def tool(operation, arguments=(), *, timeout=90, flash_size=False, writing=False, resume=False):
                 unchanged()  # This gate precedes every ROM read and write.
                 selected = self._resolve(identity, self._clock() + 15)
                 if mac(selected['serial_number']) != key:
                     raise DeviceError('USB identity changed before the operation')
                 command = [str(interpreter), '-m', 'esptool', '--chip', 'esp32s3',
-                           '--port', selected['port'], '--baud', '921600', '--after', 'watchdog_reset',
+                           '--port', selected['port'], '--baud', '921600', '--after',
+                           'no_reset' if first_install and not resume else 'watchdog_reset',
                            operation, *[str(a) for a in arguments]]
                 record = dict(operation=operation, arguments=[str(a) for a in arguments], port=selected['port'])
                 receipt['commands'].append(record)
@@ -831,11 +860,12 @@ class DeviceBridge:
                 # No command is sent in this settling interval; resolve again next.
                 self._sleep(2)
 
-            def read_file(name, address, count):
+            def read_file(name, address, count, *, resume=False, timeout=180):
                 destination = output / name
-                tool('read_flash', (hex(address), hex(count), destination), timeout=180)
+                tool('read_flash', (hex(address), hex(count), destination), timeout=timeout, resume=resume)
                 if destination.is_symlink() or not destination.is_file() or destination.stat().st_size != count:
                     raise DeviceError('The complete requested flash region was not read')
+                destination.chmod(0o600)
                 return destination
 
             def partition_matches(path):
@@ -848,21 +878,41 @@ class DeviceBridge:
             try:
                 save()
                 tool('flash_id', flash_size=True)
-                partition = read_file('partition-before.bin', PARTITION_OFFSET, PARTITION_BYTES)
-                partition_matches(partition)
-                receipt['partition_before_sha256'] = sha(partition)
-                backup = read_file('original-application-3MiB.bin', APP_OFFSET, APP_CAPACITY)
-                receipt['backup'] = dict(path=str(backup), bytes=APP_CAPACITY, sha256=sha(backup))
+                if first_install:
+                    log('Backing up the complete flash before first install; this can take several minutes')
+                    backup_bytes = FLASH_BYTES[board]
+                    backup = read_file('original-full-flash.bin', 0, backup_bytes, timeout=600)
+                else:
+                    partition = read_file('partition-before.bin', PARTITION_OFFSET, PARTITION_BYTES)
+                    partition_matches(partition)
+                    receipt['partition_before_sha256'] = sha(partition)
+                    backup_bytes = APP_CAPACITY
+                    backup = read_file('original-application-3MiB.bin', APP_OFFSET, backup_bytes)
+                receipt['backup'] = dict(path=str(backup), bytes=backup_bytes, sha256=sha(backup))
                 save()
                 # Re-probe identity/capacity and layout after the backup, then
                 # resolve the same USB MAC immediately before the only write.
                 tool('flash_id', flash_size=True)
-                final_partition = read_file('partition-prewrite.bin', PARTITION_OFFSET, PARTITION_BYTES)
-                partition_matches(final_partition)
+                if not first_install:
+                    final_partition = read_file('partition-prewrite.bin', PARTITION_OFFSET, PARTITION_BYTES)
+                    partition_matches(final_partition)
                 if sha(backup) != receipt['backup']['sha256']:
                     raise DeviceError('The recovery backup changed before writing')
-                tool('write_flash', (hex(APP_OFFSET), staged_app), timeout=180, writing=True)
-                readback = read_file('application-readback.bin', APP_OFFSET, len(initial_app))
+                if first_install:
+                    receipt['erase_attempted'] = True
+                    save()
+                    tool('erase_flash', timeout=180, writing=True)
+                    tool('write_flash', ('--flash_mode','keep','--flash_freq','keep','--flash_size','keep',
+                         '0x0',staged_boot,hex(PARTITION_OFFSET),staged_table,hex(APP_OFFSET),staged_app), timeout=180, writing=True)
+                    read_boot = read_file('bootloader-readback.bin', 0, len(boot_bytes))
+                    read_table = read_file('partition-readback.bin', PARTITION_OFFSET, len(table))
+                    if sha(read_boot) != boot_hash or read_table.read_bytes() != table:
+                        raise DeviceError('Bootloader or partition readback differs; the complete recovery backup is retained')
+                    receipt['bootloader_readback_sha256'] = sha(read_boot)
+                    receipt['partition_readback_sha256'] = sha(read_table)
+                else:
+                    tool('write_flash', (hex(APP_OFFSET), staged_app), timeout=180, writing=True)
+                readback = read_file('application-readback.bin', APP_OFFSET, len(initial_app), resume=first_install)
                 if sha(readback) != expected_app:
                     raise DeviceError('Uploaded application readback differs; the original backup is retained at ' + str(backup))
                 receipt['readback_verified'] = True
@@ -906,7 +956,8 @@ class DeviceBridge:
                 receipt['initial_volume_percent'] = initial_volume
                 receipt['device_status'] = device
                 receipt['result'] = 'completed'
-                log('Application readback and running firmware identity verified')
+                log('Bootloader, partition, application and running firmware verified' if first_install
+                    else 'Application readback and running firmware identity verified')
                 return result
             except Exception as error:
                 receipt['result'] = 'failed'

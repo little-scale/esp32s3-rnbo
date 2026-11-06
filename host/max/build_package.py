@@ -28,7 +28,7 @@ server and its compiler dependencies. Tested with Max 9.1.4 / RNBO 1.4.4 on macO
 Start Studio from the project checkout with ./host/studio.sh before building.
 
 Name your rnbo~ object instrument in its Inspector and enable @dumpoutlet 1.
-Place rnbo.studio instrument in its surrounding Max patch. Send build to export
+Place rnbo.studio instrument (or rnbo.instrument instrument) in its surrounding Max patch. Send build to export
 the live embedded patch and compile it. Unsaved edits can be included.
 
 upload usb / upload wifi loads this helper's last successful build.
@@ -68,6 +68,14 @@ def collect(root=ROOT):
         if row['box']['id'] == 'title':
             row['box']['text'] = 'rnbo.studio — embedded build and upload'
     files['help/rnbo.studio.maxhelp'] = encoded(help_patch)
+    files['patchers/rnbo.instrument.maxpat'] = files['patchers/rnbo.studio.maxpat']
+    alias_help = json.loads(files['help/rnbo.studio.maxhelp'])
+    for row in alias_help['patcher']['boxes']:
+        if row['box']['id'] == 'title':
+            row['box']['text'] = 'rnbo.instrument — embedded build and upload'
+        if row['box']['id'] == 'builder':
+            row['box']['name'] = 'rnbo.instrument.maxpat'
+    files['help/rnbo.instrument.maxhelp'] = encoded(alias_help)
     files['readme.md'] = README.encode()
     files['package-info.json'] = encoded(dict(name=NAME, displayname='RNBO ESP32 Studio',
         version=VERSION, author='little-scale',

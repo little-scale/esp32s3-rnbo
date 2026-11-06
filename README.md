@@ -22,6 +22,11 @@ or `build_upload usb` / `build_upload wifi` to compile and load in one action.
 An installable [Max helper ZIP](https://little-scale.github.io/esp32s3-rnbo/downloads/esp32s3-rnbo-max.zip)
 includes the abstraction, scripts, example and help patch. See the [export guide](docs/native-export.md).
 
+Studio's [player firmware uploader](docs/firmware-uploader.md) supports prebuilt
+firmware ZIPs, ordinary updates, and an explicit first-install mode for units
+running other firmware. First install makes a full backup and erases the unit;
+normal patch-package uploads remain separate.
+
 Both boards share the same module ABI and player code: **Seeed XIAO ESP32-S3**
 with stereo I²S, and **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** with its display,
 touch controls and ES8311 mono output. Install the player once; replacing a
