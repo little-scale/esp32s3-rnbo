@@ -8,10 +8,57 @@
     "this_patcher_available": false,
     "error": "JS peer class of jspatcher not found"
   },
-  "restart_recovery_verified": false,
+  "restart_recovery_verified": true,
   "change": "Guard missing native patcher access before export; drive panel text through an independent fourth V8 outlet and prepend set.",
   "tests": {
     "max_message_and_client_tests": 15,
     "package_tests": 2
+  },
+  "recovery": {
+    "scope": "After full Max restart, current helper exports the embedded sine, captures its drawing, submits a Studio build and receives a checked package. Compile only; no hardware upload.",
+    "job_id": "269c63b97a4c407c94d16e799d92e4ce",
+    "package_bytes": 48855,
+    "package_sha256": "4760edfb8e7854db16431d848862e888ca1aea34f4a8f48dee87dc1df7dd6e35",
+    "export_complete": true,
+    "studio_state": "ready",
+    "visual_nodes": 6,
+    "visual_cords": 5,
+    "events": [
+      [
+        "available",
+        "Max \u2192 native export \u2192 Studio"
+      ],
+      [
+        "preparing",
+        "EmbeddedSine"
+      ],
+      [
+        "exporting"
+      ],
+      [
+        "building"
+      ],
+      [
+        "progress",
+        "Queued"
+      ],
+      [
+        "progress",
+        "Checking default patch on this computer"
+      ],
+      [
+        "progress",
+        "Compiling board-independent audio module"
+      ],
+      [
+        "progress",
+        "Package ready to load"
+      ]
+    ],
+    "helper_sources_sha256": {
+      "host/max/rnbo-studio.js": "1f1b036ba61fc0a2406a959ecc5e879a6c254ae4acf5e15be1650ffb2ee83e7b",
+      "host/max/rnbo.studio.maxpat": "4198defdcea7aaec23ee080b2042b896fc121063d1bc096afe54b849d3fc65ef",
+      "host/max/rnbo-studio-client.js": "d66bfbdf95457ee12a173c4ba4fc8f895c98f9ae5a439c255c9475ca82c886be"
+    }
   }
 }

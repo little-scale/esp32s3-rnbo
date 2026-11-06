@@ -144,10 +144,13 @@ build; it is not a patch compilation error.
 
 Save your unsaved Max work, quit Max completely and reopen the example. Check
 that the helper says **Ready to build the live RNBO patch** before trying Build.
-If the error persists, keep the Max version and console messages for diagnosis;
-the restart recovery is not yet verified. The helper now reports this condition
-in its panel without depending on the failing patcher API, and submits no build
-or upload while that API is unavailable.
+If the error persists, keep the Max version and console messages for diagnosis.
+
+A full restart restored the API and a fresh export/build completed in the
+[recorded session](../../evidence/max-patcher-startup.json). This establishes
+recovery of that session; the underlying Max defect remains undiagnosed. The
+helper reports this condition in its panel without depending on the failing
+patcher API, and submits no build or upload while that API is unavailable.
 
 The [integration receipt](../../evidence/max-embedded-build.json) records a real
 Max build with a gain object added only in memory, the resulting drawing and

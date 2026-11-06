@@ -4,8 +4,10 @@
 V8, including in an independent minimal probe (`JS peer class of jspatcher not
 found`). The Max helper now stops with an actionable message before export and
 drives its panel status without that API. Its 15 helper tests and two package
-tests pass. Restart recovery is awaiting the user's saved/restarted Max session;
-this is not yet a verified repair of Max's native bridge. See
+tests pass. A full Max restart restored the API, and a fresh embedded-sine export
+and Studio build completed with its six-node drawing and a verified 48,855-byte
+package. No board was touched. This records recovery of that session, not a fix
+inside Max. See the [receipt](../evidence/max-patcher-startup.json) and
 [troubleshooting](../host/max/README.md#max-patcher-scripting-unavailable).
 
 **6 November 2026:** Cycling ’74’s C++ Minimal Export from Max is now the only
