@@ -208,7 +208,7 @@ def current_bundle(board):
     built = datetime.fromtimestamp((directory / 'build-report.json').stat().st_mtime, timezone.utc).isoformat()
     row = dict(id=board, board=board, name=BOARD_NAMES[board], available=True,
                sha256=digest(raw), firmware_elf_sha256=value['firmware_elf_sha256'],
-               built_at=built, features=['USB', 'Wi-Fi'], zip_bytes=len(raw))
+               built_at=built, features=['USB', 'Wi-Fi'] + (['Patch-area touch'] if board == 'amoled' else []), zip_bytes=len(raw))
     return raw, row
 
 

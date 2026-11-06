@@ -454,7 +454,7 @@
       if (response.firmware?.board!==row.board || response.firmware?.firmware_elf_sha256!==row.firmware_elf_sha256)
         throw new Error('Selected firmware identity changed. Refresh the firmware list and choose it again.');
       const built = new Date(row.built_at);
-      showFirmware(response.firmware, `USB + Wi-Fi · build ${row.firmware_elf_sha256.slice(0,12)}${Number.isFinite(built.getTime()) ? ' · '+built.toLocaleString() : ''}\n`);
+      showFirmware(response.firmware, `${Array.isArray(row.features) ? row.features.join(' + ') : 'USB + Wi-Fi'} · build ${row.firmware_elf_sha256.slice(0,12)}${Number.isFinite(built.getTime()) ? ' · '+built.toLocaleString() : ''}\n`);
       state.currentFirmware = {id:row.id,sha256:row.sha256};
     } catch (error) {
       state.firmware = null; $('firmware-choice').value = '';

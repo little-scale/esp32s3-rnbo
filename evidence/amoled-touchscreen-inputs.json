@@ -1,0 +1,92 @@
+{
+  "format": "rnbo-amoled-touchscreen-inputs-v1",
+  "date": "2026-11-07",
+  "scope": "Implemented patch-area-only metadata/gesture processing. Real Max native export and Studio package build; firmware builds and host tests. No board write, finger or listening test in this change.",
+  "patch_area": {
+    "x": 16,
+    "y": 64,
+    "width": 336,
+    "height": 232
+  },
+  "native_max": {
+    "version": "9.1.4",
+    "example": "host/max/amoled-touchscreen.maxpat",
+    "job_id": "5441cfbede9740c4b5057ac06381aed8",
+    "package_bytes": 50965,
+    "package_sha256": "029378035b9bf57bd0dbcf5ae4c3c3edb42afc6dd7d1badb43033c39656757a7",
+    "envelope": 3,
+    "bindings": {
+      "area": "patch",
+      "bindings": [
+        {
+          "axis": "x",
+          "deadband": 0.002,
+          "invert": false,
+          "parameter_id": "frequency"
+        },
+        {
+          "axis": "y",
+          "deadband": 0.002,
+          "invert": true,
+          "parameter_id": "level"
+        },
+        {
+          "axis": "pressed",
+          "deadband": 0.002,
+          "invert": false,
+          "parameter_id": "gate"
+        }
+      ],
+      "board": "amoled",
+      "version": 1
+    }
+  },
+  "firmware_options": [
+    {
+      "id": "xiao",
+      "board": "xiao",
+      "name": "XIAO ESP32-S3",
+      "available": true,
+      "sha256": "346d517c705acbe204f581d383eac6718bfd15e6723b75d86fea2fc524980f10",
+      "firmware_elf_sha256": "ccce62f16a7c0a989076797cf20084af64140a2ebd5bdb070beb8e0057d104c1",
+      "built_at": "2026-11-06T22:24:11.200187+00:00",
+      "features": [
+        "USB",
+        "Wi-Fi"
+      ],
+      "zip_bytes": 627303,
+      "touchscreen_capability_string_in_image": false
+    },
+    {
+      "id": "amoled",
+      "board": "amoled",
+      "name": "Waveshare AMOLED 1.8 V2",
+      "available": true,
+      "sha256": "ce5a3250ae3aac47087878699134ecb030e3223aaa4594b42497e6e7281191ce",
+      "firmware_elf_sha256": "0364409b70affbd954ba53b4092d8a9b780ad20e8b1c7a539274490786350e7b",
+      "built_at": "2026-11-06T22:24:02.691867+00:00",
+      "features": [
+        "USB",
+        "Wi-Fi",
+        "Patch-area touch"
+      ],
+      "zip_bytes": 852460,
+      "touchscreen_capability_string_in_image": true
+    }
+  ],
+  "tests": {
+    "studio_python": 128,
+    "browser_and_helper_node": 49,
+    "native_prepare_python": 17,
+    "touchscreen_metadata_python": 3,
+    "package_python": 8,
+    "physical_metadata_python": 4,
+    "touchscreen_c_ubsan": 1,
+    "player_control_c_ubsan": 1,
+    "store_envelope_c": 7,
+    "max_package_python": 2,
+    "player_tools_python": 19,
+    "compiler_full_python": 530
+  },
+  "hardware_touch_verified": false
+}

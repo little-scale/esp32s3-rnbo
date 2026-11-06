@@ -135,7 +135,7 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
     if (!bytes || length < PLAYER_PACKAGE_HEADER_BYTES || length > PLAYER_PACKAGE_MAX_BYTES)
         return fail(error, error_capacity, "Package size is outside its bounds");
     if (memcmp(bytes, "RNBOS3P1", 8) != 0 || read_u32(bytes + 8) != 128 ||
-        (read_u32(bytes + 12) != 1 && read_u32(bytes + 12) != 2) || read_u32(bytes + 16) != 1)
+        (read_u32(bytes + 12) != 1 && read_u32(bytes + 12) != 2 && read_u32(bytes + 12) != 3) || read_u32(bytes + 16) != 1)
         return fail(error, error_capacity, "Unsupported package header or ABI");
     uint32_t role = read_u32(bytes + 20), rate = read_u32(bytes + 24);
     uint32_t block = read_u32(bytes + 28), arena = read_u32(bytes + 32);
@@ -186,12 +186,15 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
         }
     }
     if (ambiguous_visual) visual = NULL;
-    unsigned inputs_count = 0;
+    unsigned inputs_count = 0, screen_count = 0;
     for (const cJSON *item = json->child; item; item = item->next)
         if (strcmp(item->string, "physical_inputs") == 0) ++inputs_count;
-    if ((read_u32(bytes + 12) == 2 ? inputs_count != 1 : inputs_count != 0)) {
+        else if (strcmp(item->string, "touchscreen_inputs") == 0) ++screen_count;
+    unsigned envelope = read_u32(bytes + 12);
+    if ((envelope == 2 ? inputs_count != 1 : inputs_count != 0) ||
+        (envelope == 3 ? screen_count != 1 : screen_count != 0)) {
         cJSON_Delete(json);
-        return fail(error, error_capacity, "Physical inputs require envelope v2; ordinary packages require v1");
+        return fail(error, error_capacity, "Touchscreen inputs require envelope v3; pin inputs v2; ordinary packages v1");
     }
     size_t name_length = cJSON_IsString(name) ? strlen(name->valuestring) : 0;
     if (duplicate || name_length < 1 || name_length > 63 ||

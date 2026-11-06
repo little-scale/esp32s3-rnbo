@@ -43,6 +43,7 @@ typedef struct {
     player_package package;
     rnbo_s3_parameter_info parameters[PLAYER_MAX_PARAMETERS];
     player_input_plan inputs;
+    player_screen_plan screen;
 } player_slot;
 typedef struct {
     unsigned kind,index,generation;
@@ -78,6 +79,7 @@ static char blocked_package[65],boot_error[192];
 static const char *TAG="rnbo_player";
 #ifndef CONFIG_RNBO_S3_HEADLESS
 static atomic_bool display_enabled=false;
+static atomic_uint display_input_epoch;
 #endif
 static struct {uint8_t *bytes;size_t total,used;char hash[65];int64_t touched;uint32_t owner;} incoming;
 static uint32_t command_source; /* Zero is the physical USB console. */
@@ -155,7 +157,13 @@ static bool read_parameter(unsigned i,float *a,float *n)
 }
 static bool post_volume(unsigned value)
 {if(value>100)return false;atomic_store(&volume,value);return true;}
-static void request_pause(void){atomic_store(&paused,true);player_midi_set_playing(false);}
+static void invalidate_display_inputs(void)
+{
+#ifndef CONFIG_RNBO_S3_HEADLESS
+    atomic_fetch_add(&display_input_epoch,1);
+#endif
+}
+static void request_pause(void){atomic_store(&paused,true);invalidate_display_inputs();player_midi_set_playing(false);}
 static bool can_resume(void)
 {
     if(!atomic_load(&active)||atomic_load(&park_failed)||atomic_load(&maintenance))return false;
@@ -177,6 +185,7 @@ static void physical_publish(unsigned index,float normalized)
     atomic_store_explicit(&physical_pending[index],bits,memory_order_release);
 }
 #ifndef CONFIG_RNBO_S3_HEADLESS
+static uint32_t read_display_input_epoch(void){return atomic_load(&display_input_epoch);}
 static bool post_parameter(unsigned i,float n)
 {
     if(!atomic_load(&display_enabled)||i>=atomic_load(&parameter_count)||!isfinite(n)||n<0||n>1)return false;
@@ -192,7 +201,7 @@ static void display_slot(player_slot *s)
     patch_parameter *labels=heap_caps_calloc(count?count:1,sizeof *labels,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
     if(!labels)return;
     for(unsigned i=0;i<count;++i){snprintf(labels[i].name,sizeof labels[i].name,"%s",s->parameters[i].name);snprintf(labels[i].unit,sizeof labels[i].unit,"%s",s->parameters[i].unit);}
-    if(board_display_player_layout(s?s->package.name:"RNBO Player",s?s->package.source_sha256:"none",s?s->package.visual:NULL,labels,count)==ESP_OK)
+    if(board_display_player_layout(s?s->package.name:"RNBO Player",s?s->package.source_sha256:"none",s?s->package.visual:NULL,labels,count,s?&s->screen:NULL)==ESP_OK)
         atomic_store(&display_enabled,true);
     heap_caps_free(labels);
 }
@@ -315,6 +324,7 @@ static bool begin_maintenance(char *error,size_t size)
 {
     if(!atomic_load(&audio_ready)||atomic_load(&park_failed)){snprintf(error,size,"Audio owner is not available for maintenance");return false;}
     atomic_store_explicit(&maintenance,true,memory_order_release);
+    invalidate_display_inputs();
     player_midi_set_playing(false);
     unsigned request=atomic_fetch_add_explicit(&maintenance_epoch,1,memory_order_acq_rel)+1;
     int64_t deadline=esp_timer_get_time()+3000000;
@@ -374,6 +384,11 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
 #else
     if(!player_inputs_plan_parse(s->package.metadata_json,false,-1,-1,-1,
                                 s->image.parameter_count,input_parameter_id,s,&s->inputs,error,size))goto fail;
+#endif
+#ifdef CONFIG_RNBO_S3_HEADLESS
+    if(!player_screen_plan_parse(s->package.metadata_json,false,s->image.parameter_count,input_parameter_id,s,&s->screen,error,size))goto fail;
+#else
+    if(!player_screen_plan_parse(s->package.metadata_json,true,s->image.parameter_count,input_parameter_id,s,&s->screen,error,size))goto fail;
 #endif
     for(unsigned i=0;i<s->inputs.count;++i)if(player_midi_uart_enabled()&&s->inputs.bindings[i].gpio==44) {
         snprintf(error,size,"D7/GPIO44 is reserved by enabled UART MIDI");goto fail;
@@ -452,6 +467,9 @@ static void player_info(void)
     cJSON *o=cJSON_CreateObject();if(!o){error_reply("Cannot allocate player status",true);return;}
     cJSON_AddStringToObject(o,"runtime","rnbo-esp32s3-player");add_number(o,"api_version",1);cJSON_AddStringToObject(o,"board",BOARD_MODEL);
     add_number(o,"physical_inputs_version",1);
+#ifndef CONFIG_RNBO_S3_HEADLESS
+    add_number(o,"touchscreen_inputs_version",1);
+#endif
     add_number(o,"midi_input_version",1);player_midi_add_status(o);
     cJSON_AddStringToObject(o,"firmware_elf_sha256",firmware);add_number(o,"rate",44100);add_number(o,"block_frames",256);add_number(o,"channels",BOARD_AUDIO_CHANNELS);
     add_number(o,"generation",atomic_load(&generation));cJSON_AddBoolToObject(o,"paused",atomic_load(&paused));cJSON_AddBoolToObject(o,"panic",atomic_load(&paused)||!s);
@@ -702,7 +720,7 @@ void app_main(void)
     if(!events||!telemetry||!audio_stack||!control_stack){ESP_LOGE(TAG,"Player task allocation failed");return;}
     ESP_ERROR_CHECK(board_audio_init(44100));
 #ifndef CONFIG_RNBO_S3_HEADLESS
-    board_display_actions actions={.panic=request_pause,.resume=request_resume,.volume=post_volume,.parameter=post_parameter,.parameter_value=read_display_parameter,.initial_volume=50,.source_label="RNBO Player"};
+    board_display_actions actions={.panic=request_pause,.resume=request_resume,.volume=post_volume,.parameter=post_parameter,.parameter_value=read_display_parameter,.input_epoch=read_display_input_epoch,.initial_volume=50,.source_label="RNBO Player"};
     ESP_ERROR_CHECK(board_display_start(&actions));
 #endif
     if(store_ready)restore_boot();

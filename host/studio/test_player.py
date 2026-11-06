@@ -13,19 +13,21 @@ d = legacy.d
 class Player:
     def __init__(self):
         self.frames=1024;self.uptime=100000;self.firmware='a'*64;self.generation=0
+        self.board='XIAO ESP32-S3';self.touchscreen_version=None
         self.paused=True;self.volume=50;self.main=None;self.commands=[];self.data=bytearray()
         self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False;self.physical_version=None;self.midi_version=None
     def response(self, command):
         self.commands.append(command)
         if command=='player-info':
             self.frames+=256;self.uptime+=5805
-            reply=dict(runtime='rnbo-esp32s3-player',api_version=1,board='XIAO ESP32-S3',firmware_elf_sha256=self.firmware,
+            reply=dict(runtime='rnbo-esp32s3-player',api_version=1,board=self.board,firmware_elf_sha256=self.firmware,
                 rate=44100,block_frames=256,generation=self.generation,paused=self.paused,panic=self.paused or self.main is None,
                 maintenance=False,volume=self.volume,main=self.main,frames=self.frames,uptime_us=self.uptime,
                 allocation_fault=False,reconstruction_failed=False,**{key:0 for key in d.FAULT_COUNTERS})
             if self.runtime_fault:reply['module_errors']=1
             if self.physical_version is not None:reply['physical_inputs_version']=self.physical_version
             if self.midi_version is not None:reply['midi_input_version']=self.midi_version
+            if self.touchscreen_version is not None:reply['touchscreen_inputs_version']=self.touchscreen_version
         elif command.startswith('player-midi-config '):reply={'midi_configured':True}
         elif command.startswith(('player-midi-stream ','player-midi-loopback ')):reply={'midi_stream_accepted':True}
         elif command.startswith('player-begin '):
@@ -96,6 +98,15 @@ class PlayerTests(unittest.TestCase):
         with self.assertRaisesRegex(d.DeviceError,'updated player'):self.upload()
         self.assertFalse(any(command.startswith('player-begin') for command in self.player.commands))
         self.player.physical_version=1
+        self.assertEqual(self.upload()['device']['generation'],1)
+    def test_touchscreen_package_requires_updated_amoled_before_transfer(self):
+        self.package['metadata']['touchscreen_inputs']={'version':1,'board':'amoled','area':'patch','bindings':[{'parameter_id':'p'}]}
+        with self.assertRaisesRegex(d.DeviceError,'updated AMOLED player'):self.upload()
+        self.assertFalse(any(c.startswith('player-begin') for c in self.player.commands))
+        self.bridge.disconnect();self.player.board=d.BOARDS['amoled'][0]
+        with self.assertRaisesRegex(d.DeviceError,'updated AMOLED player'):self.upload()
+        self.assertFalse(any(c.startswith('player-begin') for c in self.player.commands))
+        self.player.touchscreen_version=1
         self.assertEqual(self.upload()['device']['generation'],1)
     def test_midi_package_and_config_require_new_player_and_diagnostics_use_current_generation(self):
         self.package['metadata']['midi_input_ports']=1

@@ -82,6 +82,8 @@ rejects packages containing these **XIAO-specific** bindings. The AMOLED's
 display, audio, SD and touch wiring consumes different GPIOs; a separate,
 verified external-input pin profile is needed before enabling inputs there.
 The AMOLED touchscreen is not the capacitive GPIO `touch` mode described here.
+Use the separate [patch-area touchscreen bindings](touchscreen-inputs.md) for
+AMOLED X/Y and pressed-state parameters.
 
 ## Analog: raw ADC → normalized value → parameter range
 

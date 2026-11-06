@@ -1,5 +1,19 @@
 # Implementation status — native export migration
 
+**7 November 2026 — AMOLED patch-area parameters:** Inline
+`@meta "{'esp32':{'type':'touchscreen','axis':'x'}}"` (also `y` and `pressed`)
+now binds parameters to the patch drawing rectangle only. Buttons, output volume
+and the Params multisliders retain their own controls. Leaving the rectangle,
+changing pages, pause and maintenance cancel held gestures; coordinates hold on
+release. Packages require envelope v3 and updated AMOLED capability admission.
+Both firmware profiles compile; real Max export/build preserved all three
+example bindings. Native gesture/parser, package, upload and regression checks
+pass. Physical finger interaction and listening remain pending; no board was
+flashed for this change. The example is installed in the Max Library helper
+folder and the current firmware ZIPs have been rebuilt. See the
+[touchscreen guide](touchscreen-inputs.md) and
+[receipt](../evidence/amoled-touchscreen-inputs.json).
+
 **7 November 2026 — current firmware selector:** Studio's **Player firmware**
 section now lists current local XIAO and AMOLED USB/Wi-Fi builds. The list checks
 source freshness and image integrity; choosing an option stages the exact checked

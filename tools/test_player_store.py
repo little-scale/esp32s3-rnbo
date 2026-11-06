@@ -187,6 +187,17 @@ class PlayerStoreTests(unittest.TestCase):
         duplicate=json.dumps(metadata).replace('"physical_inputs":', '"physical_inputs":{},"physical_inputs":').encode()
         self.run_native('parse',self.fixture(package(metadata_bytes=duplicate,version=2)),'no')
 
+    def test_touchscreen_envelope_cannot_be_downgraded_or_mixed(self):
+        base={'name':'Touch','source_sha256':'a'*64,'initial_volume':50}
+        meta=dict(base,touchscreen_inputs={'version':1,'board':'amoled','area':'patch','bindings':[]})
+        raw=package(meta,version=3)
+        self.assertEqual(self.run_native('parse',self.fixture(raw),'yes'),hashlib.sha256(raw).hexdigest())
+        for version in (1,2):self.run_native('parse',self.fixture(package(meta,version=version)),'no')
+        self.run_native('parse',self.fixture(package(base,version=3)),'no')
+        self.run_native('parse',self.fixture(package(dict(meta,physical_inputs={}),version=3)),'no')
+        duplicate=json.dumps(meta).replace('"touchscreen_inputs":','"touchscreen_inputs":{},"touchscreen_inputs":').encode()
+        self.run_native('parse',self.fixture(package(metadata_bytes=duplicate,version=3)),'no')
+
     def test_reject_corruption_reserved_trailing_json_and_length_overflows(self):
         raw = package()
         for offset in (0, 8, 12, 16, 24, 28, 44, 76, 108, 127, 128, len(raw) - 1):

@@ -4,7 +4,7 @@ Run patches exported by **Cycling ’74 RNBO in Max** on a stable ESP32-S3 playe
 The supported route is **C++ Minimal Export → native Xtensa module → `.rnbopkg` → player**.
 Our former `.rnbopat` importer and visual Gen translator are retired.
 
-Use [RNBO Studio](http://127.0.0.1:8788) for compilation, USB/Wi-Fi package uploads,
+Use [RNBO ESP32 Studio](http://127.0.0.1:8788) for compilation, USB/Wi-Fi package uploads,
 live parameters, volume, pause and device measurements:
 
 ```sh
@@ -32,6 +32,9 @@ with stereo I²S, and **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** with its displa
 touch controls and ES8311 mono output. Install the player once; replacing a
 package saves the new Main patch for reboot without reflashing the application.
 All effects belong inside Main.
+
+AMOLED instruments can bind patch-area X/Y and pressed state directly to RNBO
+parameters using inline `@meta`. See the [touchscreen guide](docs/touchscreen-inputs.md).
 
 We retain the package loader, bounded allocation arena, USB and Wi-Fi transports,
 parameter metadata and controls, AMOLED patch drawing/multislider/meter,

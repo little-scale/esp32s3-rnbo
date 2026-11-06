@@ -10,6 +10,10 @@ view that build in Studio and inspect its drawing. Send `upload usb` or
 `upload wifi` to load the completed package directly from Max. Plain `build`
 compiles only; the helper never installs player firmware.
 
+For AMOLED touch instruments, open [amoled-touchscreen.maxpat](amoled-touchscreen.maxpat).
+Its inline `@meta` binds patch-area X/Y and pressed state to parameters; see the
+[touchscreen guide](../../docs/touchscreen-inputs.md). It requires the updated AMOLED player.
+
 ## Install as a Max package
 
 [Download the Max helper ZIP](https://little-scale.github.io/esp32s3-rnbo/downloads/esp32s3-rnbo-max.zip).

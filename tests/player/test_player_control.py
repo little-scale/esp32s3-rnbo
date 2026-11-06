@@ -94,6 +94,7 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
                         str(HERE/'control_stubs/control_host.c'),str(out/'store.o'),
                         str(ROOT/'firmware/components/pcm_output/pcm_output.c'),
                         str(ROOT/'firmware/components/player_inputs/player_inputs_core.c'),
+                        str(ROOT/'firmware/components/player_inputs/player_touchscreen.c'),
                         str(ROOT/'firmware/components/player_midi/midi_core.c'),str(cjson/'cJSON.c'),'-o',str(out/'control'),'-lm']]
             if sys.platform != 'darwin': commands[-1].append('-lcrypto')
             for command in commands:

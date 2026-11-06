@@ -4,6 +4,10 @@
 #include "patch_view.h"
 #include "patch_layout.h"
 #include <stdio.h>
+#ifdef RNBO_S3_PLAYER
+#include "player_inputs.h"
+static void (*touch_handler)(unsigned,int,int);
+#endif
 
 static lv_obj_t *view;
 static void (*select_parameter)(unsigned);
@@ -63,6 +67,9 @@ static void draw(lv_event_t *event)
 static void clicked(lv_event_t *event)
 {
     (void)event;
+#ifdef RNBO_S3_PLAYER
+    if(touch_handler)return;
+#endif
     lv_indev_t *input=lv_indev_get_act();if (!input) return;
     lv_point_t point;lv_indev_get_point(input,&point);
     lv_area_t area;lv_obj_get_coords(view,&area);point.x-=area.x1;point.y-=area.y1;
@@ -87,6 +94,24 @@ static void clicked(lv_event_t *event)
         }
     }
 }
+#ifdef RNBO_S3_PLAYER
+static void touch_event(lv_event_t *event)
+{
+    if(!touch_handler)return;
+    lv_event_code_t code=lv_event_get_code(event);
+    unsigned phase=code==LV_EVENT_PRESSED?PLAYER_SCREEN_BEGIN:code==LV_EVENT_PRESSING?PLAYER_SCREEN_MOVE:PLAYER_SCREEN_END;
+    lv_indev_t *input=lv_indev_get_act();
+    if(!input){if(phase==PLAYER_SCREEN_END)touch_handler(phase,0,0);return;}
+    lv_point_t point;lv_indev_get_point(input,&point);lv_area_t area;lv_obj_get_coords(view,&area);
+    touch_handler(phase,point.x-area.x1,point.y-area.y1);
+}
+void patch_view_cancel_touch(void){if(touch_handler)touch_handler(PLAYER_SCREEN_END,0,0);}
+void patch_view_set_touch_handler(void (*handler)(unsigned,int,int))
+{
+    touch_handler=handler;
+    if(view && handler)lv_obj_add_flag(view,LV_OBJ_FLAG_PRESS_LOCK);
+}
+#endif
 lv_obj_t *patch_view_create(lv_obj_t *parent,void (*select)(unsigned index))
 {
     select_parameter=select;
@@ -95,6 +120,13 @@ lv_obj_t *patch_view_create(lv_obj_t *parent,void (*select)(unsigned index))
     lv_obj_clear_flag(view,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_flag(view,LV_OBJ_FLAG_CLICKABLE);
     lv_obj_add_event_cb(view,draw,LV_EVENT_DRAW_MAIN,NULL);
     lv_obj_add_event_cb(view,clicked,LV_EVENT_CLICKED,NULL);
+#ifdef RNBO_S3_PLAYER
+    lv_obj_add_event_cb(view,touch_event,LV_EVENT_PRESSED,NULL);
+    lv_obj_add_event_cb(view,touch_event,LV_EVENT_PRESSING,NULL);
+    lv_obj_add_event_cb(view,touch_event,LV_EVENT_RELEASED,NULL);
+    lv_obj_add_event_cb(view,touch_event,LV_EVENT_PRESS_LOST,NULL);
+    patch_view_set_touch_handler(touch_handler);
+#endif
     return view;
 }
 void patch_view_select(unsigned index)

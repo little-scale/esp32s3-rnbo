@@ -18,6 +18,14 @@ from prepare import ExportError, prepare
 
 
 class AdmissionTests(unittest.TestCase):
+    def test_touchscreen_metadata_survives_native_preparation(self):
+        self.change_description(lambda d:d['parameters'][0].update(meta={'esp32':{'type':'touchscreen','axis':'x'}}))
+        self.admit()
+        manifest=json.loads((self.output/'manifest.json').read_text())
+        self.assertEqual(manifest['touchscreen_inputs']['board'],'amoled')
+        self.assertEqual(manifest['touchscreen_inputs']['area'],'patch')
+        self.assertNotIn('physical_inputs',manifest)
+
     @classmethod
     def setUpClass(cls):
         root = Path(__file__).resolve().parents[2]

@@ -23,6 +23,29 @@ static float meter_db=-60,hold_db=-60;
 static uint32_t meter_tick,hold_tick,battery_tick,cpu_tick;
 #ifdef RNBO_S3_PLAYER
 static void *owned_player_layout;
+static player_screen_plan screen_plan;
+static player_screen_state screen_state;
+static uint32_t screen_epoch;
+static void screen_sync_epoch(void)
+{
+    if(!screen_plan.count||!actions.input_epoch)return;
+    uint32_t epoch=actions.input_epoch();
+    if(epoch!=screen_epoch){screen_epoch=epoch;player_screen_cancel(&screen_state);player_screen_reset_gates(&screen_plan,&screen_state);}
+}
+static void screen_publish(void)
+{
+    screen_sync_epoch();
+    if(!player_screen_publish(&screen_plan,&screen_state,actions.parameter)){
+        player_screen_cancel(&screen_state);player_screen_reset_gates(&screen_plan,&screen_state);
+    }
+}
+static void screen_touch(unsigned phase,int x,int y)
+{
+    screen_sync_epoch();
+    if(transport_paused||params_visible||!ready)player_screen_cancel(&screen_state);
+    else player_screen_contact(&screen_state,phase,x,y,PATCH_WIDTH,PATCH_HEIGHT);
+    screen_publish();
+}
 #endif
 
 static void set_text(lv_obj_t *object,const char *text)
@@ -61,6 +84,9 @@ static void show_page(bool parameters)
 {
     params_visible=parameters;
     if (parameters) {
+#ifdef RNBO_S3_PLAYER
+        patch_view_cancel_touch();
+#endif
         lv_obj_add_flag(patch_panel,LV_OBJ_FLAG_HIDDEN);lv_obj_clear_flag(params_panel,LV_OBJ_FLAG_HIDDEN);
         set_text(params_caption,"Patch");set_text(page_label,"RNBO / PARAMS");refresh_parameters();
     } else {
@@ -216,6 +242,9 @@ esp_err_t board_display_start(const board_display_actions *callbacks)
     if (!bsp_display_lock(2000)) return ESP_ERR_TIMEOUT;
     lv_obj_t *screen=lv_scr_act();
     lv_obj_set_style_bg_color(screen,lv_color_black(),0);lv_obj_clear_flag(screen,LV_OBJ_FLAG_SCROLLABLE);
+#ifdef RNBO_S3_PLAYER
+    if(screen_plan.count)lv_obj_add_flag(screen,LV_OBJ_FLAG_PRESS_LOCK);
+#endif
     title_label=label(screen,rnbo_patch_layout.title,16,12,250,&rnbo_barlow_22);
     battery_label=label(screen,"USB",286,18,66,&rnbo_barlow_14);
     status_label=label(screen,"Starting",16,40,180,&rnbo_barlow_14);
@@ -251,7 +280,7 @@ esp_err_t board_display_start(const board_display_actions *callbacks)
 }
 #ifdef RNBO_S3_PLAYER
 esp_err_t board_display_player_layout(const char *title,const char *source_sha256,
-                                     const cJSON *visual,const patch_parameter *labels,unsigned count)
+                                     const cJSON *visual,const patch_parameter *labels,unsigned count,const player_screen_plan *touchscreen)
 {
     patch_layout next;void *allocation=NULL;
     esp_err_t result=patch_layout_build_player(title,source_sha256,visual,labels,count,&next,&allocation);
@@ -261,6 +290,11 @@ esp_err_t board_display_player_layout(const char *title,const char *source_sha25
     if(ready && !bsp_display_lock(2000)){
         patch_layout_free_player(allocation);return ESP_ERR_TIMEOUT;
     }
+    patch_view_cancel_touch();
+    screen_plan=touchscreen?*touchscreen:(player_screen_plan){0};
+    memset(&screen_state,0,sizeof screen_state);
+    screen_epoch=actions.input_epoch?actions.input_epoch():0;
+    patch_view_set_touch_handler(screen_plan.count?screen_touch:NULL);
     void *previous=owned_player_layout;
     rnbo_patch_layout=next;owned_player_layout=allocation;
     selected=PATCH_NO_PARAMETER;parameter_bank=0;parameter_editing=false;last_column=-1;
@@ -268,6 +302,10 @@ esp_err_t board_display_player_layout(const char *title,const char *source_sha25
     memset(parameter_normalized,0,sizeof(parameter_normalized));
     memset(parameter_available,0,sizeof(parameter_available));
     if(ready){
+        /* LVGL can retarget an unlocked root during a held press. Keep outside
+         * gestures on their original control/background until physical release. */
+        if(screen_plan.count)lv_obj_add_flag(lv_scr_act(),LV_OBJ_FLAG_PRESS_LOCK);
+        else lv_obj_clear_flag(lv_scr_act(),LV_OBJ_FLAG_PRESS_LOCK);
         set_text(title_label,rnbo_patch_layout.title);
         patch_view_select(PATCH_NO_PARAMETER);show_page(false);
         lv_obj_add_state(params_panel,LV_STATE_DISABLED);
@@ -288,6 +326,10 @@ void board_display_update(bool muted,bool fault,unsigned volume,uint32_t render_
     if (refresh_battery) {battery_result=touch_display_battery(&battery);battery_tick=lv_tick_get();}
     if (!bsp_display_lock(20)) return;
     transport_paused=muted || fault;
+#ifdef RNBO_S3_PLAYER
+    if(transport_paused){player_screen_cancel(&screen_state);player_screen_reset_gates(&screen_plan,&screen_state);}
+    screen_publish();
+#endif
     set_text(transport_caption,transport_paused?"Resume":"Pause");
     set_text(status_label,fault?"Audio fault / paused":muted?"Paused":"Playing");
     lv_obj_set_style_text_color(status_label,lv_color_hex(fault?0xff6060:0xffffff),0);

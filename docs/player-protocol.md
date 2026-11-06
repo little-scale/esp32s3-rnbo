@@ -42,6 +42,15 @@ mismatch rejects. Studio checks `physical_inputs_version:1` before transfer.
 The player separately checks binding schema, GPIO reservations and module IDs
 before activation. See [pin mappings and options](physical-inputs.md).
 
+### Touchscreen-bound packages (v3)
+
+AMOLED patch-area bindings use envelope v3 with `touchscreen_inputs` schema v1,
+`board:"amoled"` and `area:"patch"`. Ordinary v1 and XIAO pin-input v2 packages
+retain their existing framing. A v3 package requires exactly one touchscreen
+plan and no `physical_inputs`; downgrade, duplicate plans and wrong boards reject.
+Studio requires `touchscreen_inputs_version:1` before transferring it over USB
+or Wi-Fi. See [metadata syntax and gesture semantics](touchscreen-inputs.md).
+
 ## USB v1
 
 UTF-8/ASCII commands terminated by newline; exactly one JSON response per command.

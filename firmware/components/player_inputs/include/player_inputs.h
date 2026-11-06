@@ -40,3 +40,22 @@ bool player_input_sample(const player_input_binding *binding, player_input_state
 bool player_inputs_open(const player_input_plan *plan, char *error, size_t capacity);
 void player_inputs_poll(int64_t now_us, void (*publish)(unsigned index, float normalized));
 void player_inputs_add_status(cJSON *parent);
+
+/* AMOLED patch-area controls are separate from XIAO GPIO inputs. */
+typedef enum { PLAYER_SCREEN_X, PLAYER_SCREEN_Y, PLAYER_SCREEN_PRESSED } player_screen_axis;
+typedef struct { unsigned parameter_index; player_screen_axis axis; bool invert; float deadband; } player_screen_binding;
+typedef struct { unsigned count; player_screen_binding bindings[PLAYER_INPUT_MAX]; } player_screen_plan;
+typedef struct {
+    bool captured,down,sent[PLAYER_INPUT_MAX];
+    float x,y,last[PLAYER_INPUT_MAX];
+} player_screen_state;
+enum { PLAYER_SCREEN_BEGIN, PLAYER_SCREEN_MOVE, PLAYER_SCREEN_END };
+bool player_screen_plan_parse(const cJSON *metadata,bool amoled,unsigned parameter_count,
+                              const char *(*id_at)(void *,unsigned),void *context,
+                              player_screen_plan *plan,char *error,size_t capacity);
+void player_screen_contact(player_screen_state *state,unsigned phase,int x,int y,unsigned width,unsigned height);
+void player_screen_cancel(player_screen_state *state);
+void player_screen_reset_gates(const player_screen_plan *plan,player_screen_state *state);
+/* Only accepted publications advance the sent state; retry a gated/failed send. */
+bool player_screen_publish(const player_screen_plan *plan,player_screen_state *state,
+                           bool (*publish)(unsigned,float));

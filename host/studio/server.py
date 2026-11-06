@@ -432,6 +432,7 @@ class Studio:
             result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=44100,
                           block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
                           physical_inputs=result.get('metadata', {}).get('physical_inputs'),
+                          touchscreen_inputs=result.get('metadata', {}).get('touchscreen_inputs'),
                           float32_trial=trial, trial_comparison=comparison, trial_report_available=bool(trial),
                           preflight_scope='native default startup screen; not target allocation proof',
                           visual=package_preview(visual))
@@ -470,6 +471,7 @@ class Studio:
                     role='main', sample_rate=44100, block_frames=256, arena_bytes=package['arena_bytes'],
                     package_bytes=len(raw), package_sha256=package['package_sha256'], elf_sha256=package['elf_sha256'],
                     physical_inputs=package['metadata'].get('physical_inputs'),
+                    touchscreen_inputs=package['metadata'].get('touchscreen_inputs'),
                     float32_trial=package['metadata'].get('float32_trial'), trial_report_available=False,
                     preflight_scope='Saved package validated; native startup screen not rerun',
                     visual=package_preview(package['metadata'].get('visual')))

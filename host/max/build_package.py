@@ -15,7 +15,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[2]
 NAME = 'esp32s3-rnbo'
 VERSION = '0.1.0'
-SOURCES = ('rnbo.studio.maxpat', 'rnbo-studio.js', 'rnbo-studio-client.js', 'embedded-sine.maxpat')
+SOURCES = ('rnbo.studio.maxpat', 'rnbo-studio.js', 'rnbo-studio-client.js', 'embedded-sine.maxpat', 'amoled-touchscreen.maxpat')
 
 README = """# RNBO ESP32 Studio for Max
 
@@ -26,6 +26,9 @@ Launch the package's embedded-sine.maxpat, or Alt/Option-click rnbo.studio for h
 Requires Max with RNBO and Node for Max, plus the separate local RNBO Studio
 server and its compiler dependencies. Tested with Max 9.1.4 / RNBO 1.4.4 on macOS.
 Start Studio from the project checkout with ./host/studio.sh before building.
+
+amoled-touchscreen.maxpat demonstrates patch-area X/Y/pressed parameter metadata.
+It requires the updated AMOLED touchscreen player.
 
 Name your rnbo~ object instrument in its Inspector and enable @dumpoutlet 1.
 Place rnbo.studio instrument (or rnbo.instrument instrument) in its surrounding Max patch. Send build to export

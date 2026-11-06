@@ -4,12 +4,16 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "patch_layout.h"
+#ifdef RNBO_S3_PLAYER
+#include "player_inputs.h"
+#endif
 typedef struct {
     void (*panic)(void);
     void (*resume)(void);
     bool (*volume)(unsigned percent);
     bool (*parameter)(unsigned index,float normalized);
     bool (*parameter_value)(unsigned index,float *actual,float *normalized);
+    uint32_t (*input_epoch)(void); /* Invalidates held gestures after pause/maintenance. */
     unsigned initial_volume;
     const char *source_label;
 } board_display_actions;
@@ -24,5 +28,5 @@ void board_display_update(bool muted, bool fault, unsigned volume_percent,
  * Callbacks continue to use root-owned generation-safe atomics, not an image. */
 esp_err_t board_display_player_layout(const char *title,const char *source_sha256,
                                      const cJSON *visual,const patch_parameter *labels,
-                                     unsigned count);
+                                     unsigned count,const player_screen_plan *touchscreen);
 #endif

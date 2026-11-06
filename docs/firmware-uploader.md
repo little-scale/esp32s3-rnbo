@@ -7,7 +7,8 @@ It does not require the unit's previous firmware to answer RNBO commands.
 ## Choose the current player
 
 Use **Current player firmware** to choose the XIAO ESP32-S3 or Waveshare AMOLED
-1.8 V2 player directly. Both normal options include USB and Wi-Fi. Selection
+1.8 V2 player directly. Both normal options include USB and Wi-Fi; the current
+AMOLED player also includes patch-area touchscreen parameter bindings. Selection
 prepares a checked bundle and displays its build date and firmware identity;
 press the separate **Update…** or **Erase & install…** button to flash it.
 

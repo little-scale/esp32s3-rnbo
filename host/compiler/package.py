@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: MIT
 """Create/read checked player packages. Never opens a device.
 
-Envelope v2 uses the same layout, but requires physical_inputs v1 support. Old
+Envelope v2 requires physical_inputs v1; v3 requires AMOLED touchscreen_inputs
+v1. Both retain the same layout and module ABI. Old
 players reject it instead of silently running an input-bound patch unbound.
 Ordinary packages retain the original v1 envelope byte for byte.
 """
@@ -19,9 +20,11 @@ import sys
 try:
     from .inspect_module import inspect_module
     from .physical_inputs import checked_plan
+    from .touchscreen_inputs import checked_plan as checked_touchscreen_plan
 except ImportError:
     from inspect_module import inspect_module
     from physical_inputs import checked_plan
+    from touchscreen_inputs import checked_plan as checked_touchscreen_plan
 
 MAGIC = b'RNBOS3P1'
 HEADER = struct.Struct('<8s9I32s32s20s')
@@ -55,6 +58,10 @@ def metadata_checked(value):
         raise ValueError('Invalid package name, source identity or initial volume')
     if 'physical_inputs' in value:
         checked_plan(value['physical_inputs'])
+    if 'touchscreen_inputs' in value:
+        checked_touchscreen_plan(value['touchscreen_inputs'])
+        if 'physical_inputs' in value:
+            raise ValueError('XIAO physical inputs and AMOLED touchscreen inputs cannot share a package')
     if 'float32_trial' in value:
         trial_checked(value['float32_trial'])
     if 'midi_input_ports' in value and (type(value['midi_input_ports']) is not int or value['midi_input_ports']!=1):
@@ -91,7 +98,7 @@ def create(elf, metadata, role, arena_bytes):
     raw = json.dumps(metadata, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(raw) > MAX_METADATA or len(elf) > MAX_ELF:
         raise ValueError('Package payload exceeds the v1 limits')
-    version = 2 if 'physical_inputs' in metadata else 1
+    version = 3 if 'touchscreen_inputs' in metadata else 2 if 'physical_inputs' in metadata else 1
     return HEADER.pack(MAGIC, 128, version, 1, ROLES[role], 44100, 256, arena_bytes,
                        len(raw), len(elf), hashlib.sha256(elf).digest(), hashlib.sha256(raw).digest(), bytes(20)) + raw + elf
 
@@ -100,7 +107,7 @@ def parse(raw):
     if not isinstance(raw, bytes) or len(raw) < 128:
         raise ValueError('Truncated package')
     magic, header, version, abi, role, rate, frames, arena, meta_len, elf_len, elf_hash, meta_hash, padding = HEADER.unpack_from(raw)
-    if (magic != MAGIC or (header, abi, rate, frames) != (128, 1, 44100, 256) or version not in (1, 2)
+    if (magic != MAGIC or (header, abi, rate, frames) != (128, 1, 44100, 256) or version not in (1, 2, 3)
             or role not in ROLES.values() or not 4096 <= arena <= 4194304 or padding != bytes(20)
             or not 0 < meta_len <= MAX_METADATA or not 0 < elf_len <= MAX_ELF
             or len(raw) != 128 + meta_len + elf_len):
@@ -109,8 +116,8 @@ def parse(raw):
     if hashlib.sha256(meta_raw).digest() != meta_hash or hashlib.sha256(elf).digest() != elf_hash:
         raise ValueError('Package checksum mismatch')
     metadata = metadata_checked(strict_json(meta_raw))
-    if (version == 2) != ('physical_inputs' in metadata):
-        raise ValueError('Physical-input packages require envelope v2; ordinary packages require v1')
+    if version != (3 if 'touchscreen_inputs' in metadata else 2 if 'physical_inputs' in metadata else 1):
+        raise ValueError('Touchscreen packages require envelope v3; pin inputs v2; ordinary packages v1')
     inspection = inspect_module(elf, allowed_imports=set())
     if inspection['imports']:
         raise ValueError('Player modules must have zero imports')
@@ -146,6 +153,8 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
         metadata['midi_input_ports']=1
     if 'physical_inputs' in manifest:
         metadata['physical_inputs'] = checked_plan(manifest['physical_inputs'])
+    if 'touchscreen_inputs' in manifest:
+        metadata['touchscreen_inputs'] = checked_touchscreen_plan(manifest['touchscreen_inputs'])
     if manifest.get('numerical_profile') == 'float32-trial-v1':
         metadata['float32_trial'] = trial_checked(manifest.get('float32_trial'))
         suffix = ' [Float32 trial]'
@@ -158,7 +167,7 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
     raw = create(elf, metadata, role, arena)
     output = Path(output)
     output.write_bytes(raw)
-    return dict(format='rnbo-player-package-v2' if 'physical_inputs' in metadata else 'rnbo-player-package-v1', path=str(output.resolve()), bytes=len(raw),
+    return dict(format='rnbo-player-package-v3' if 'touchscreen_inputs' in metadata else 'rnbo-player-package-v2' if 'physical_inputs' in metadata else 'rnbo-player-package-v1', path=str(output.resolve()), bytes=len(raw),
                 sha256=digest(raw), elf_sha256=digest(elf), role=role, arena_bytes=arena,
                 metadata=metadata, module_report_sha256=digest((directory / 'build-report.json').read_bytes()))
 

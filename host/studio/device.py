@@ -651,6 +651,9 @@ class DeviceBridge:
             before = self._player_status()
             if package['metadata'].get('midi_input_ports') and before.get('midi_input_version') != 1:
                 raise DeviceError('This MIDI-input package needs the updated MIDI player. Install it over USB first.')
+            if package['metadata'].get('touchscreen_inputs'):
+                if self._board != 'amoled' or before.get('touchscreen_inputs_version') != 1:
+                    raise DeviceError('This patch uses the AMOLED patch-area touchscreen. Install the updated AMOLED player over USB first.')
             if package['metadata'].get('physical_inputs'):
                 if before.get('physical_inputs_version') != 1:
                     raise DeviceError('This package uses physical inputs. Install the updated player over USB first.')

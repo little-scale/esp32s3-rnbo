@@ -564,8 +564,12 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     description = read_json(files["description.json"], "description.json")
     params = validate_description(description, role, midi_output_policy)
     from physical_inputs import extract as extract_physical_inputs
+    from touchscreen_inputs import extract as extract_touchscreen_inputs
     try:
         physical_inputs = extract_physical_inputs(params)
+        touchscreen_inputs = extract_touchscreen_inputs(params)
+        if physical_inputs and touchscreen_inputs:
+            raise ValueError("XIAO pin bindings and AMOLED touchscreen bindings cannot share a package")
     except ValueError as exc:
         raise ExportError(str(exc)) from exc
     raw_hashes = {name: digest(data) for name, data in sorted(files.items())}
@@ -709,6 +713,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["midi_input_ports"] = description["numMidiInputPorts"]
     if physical_inputs is not None:
         manifest["physical_inputs"] = physical_inputs
+    if touchscreen_inputs is not None:
+        manifest["touchscreen_inputs"] = touchscreen_inputs
     if numerical_profile == "float32-trial-v1":
         manifest["float32_trial"] = dict(version=1,profile=numerical_profile,qualification="unverified",
             audit_sha256=digest(files["float32-trial-audit.json"]),trial_method_count=trial_change["trial_method_count"],
@@ -958,7 +964,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("physical_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("physical_inputs.py", "touchscreen_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": export_helpers,
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
