@@ -1,5 +1,7 @@
 # Onepole Float32 comparisons and numerical study
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The later [stable onepole profile](stable-onepole.md) implements a guarded
 descendant of the numerical study below. It adds finite recovery and is now an
 experimental option for three exact FX graphs. The unguarded prototype and its

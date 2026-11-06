@@ -80,8 +80,7 @@ function mockDocument() {
     const value = match[0].match(/\bvalue="([^"]*)"/);
     if (value) element.value = value[1];
   }
-  ids.get('board').value = 'xiao'; ids.get('voices').value = '1'; ids.get('arena').value = '1';
-  ids.get('numerical-profile').value = 'float32-auto-v1';
+  ids.get('board').value = 'xiao'; ids.get('arena').value = '1';
   const document = {
     getElementById: id => ids.get(id),
     createElement: tag => new Element(tag),
@@ -127,7 +126,7 @@ async function openStudio({parameters = [], environment = {}, paired = []} = {})
       if (backend.wifiConnectError) data={error:backend.wifiConnectError};
       else { backend.device={runtime:'rnbo-esp32s3-player',board:'xiao',transport:'wifi',device_id:body.id,generation:1,panic:false,volume:50,rate:44100,block_frames:256,render_us:1000,peak_us:6000};data=snapshot(); }
     }
-    else if (path === '/api/example') data = example;
+    else if (path === '/api/example') data = {guidance:'Export C++ from Max using Minimal Export.'};
     else if (path === '/api/import-package') {
       const result = {...backend.result, origin:'imported', visual:backend.importVisual}; delete result.parameters;
       data = backend.importError ? {error:backend.importError} : {job:{id:'import1',state:'ready',result,log:'Package validated; no rebuild'}};
@@ -171,7 +170,8 @@ async function openStudio({parameters = [], environment = {}, paired = []} = {})
       await intervals.get(delay)(); await settle();
     },
     async readyArtifact() {
-      await dom.get('example').fire('click');
+      dom.get('folder').files=[{name:'rnbo_source.h',webkitRelativePath:'Export/rnbo_source.h',size:4,arrayBuffer:async()=>new Uint8Array([1,2,3,4]).buffer}];
+      await dom.get('folder').fire('change');
       await dom.get('compile').fire('click');
       await runTimer(850);
       assert.equal(dom.get('upload').disabled, false);
@@ -196,52 +196,30 @@ test('MIDI settings require a capable connected player and retain edits across p
   assert.match(app.get('midi-status').textContent,/D7.*GPIO44/);
 });
 
-test('example, SVG and build workflow use the local session token and typed settings', async () => {
-  const app = await openStudio();
-  assert.equal(app.get('compile').disabled, true);
+test('native export builds with bytes and no importer settings; drawing is optional', async () => {
+  const app=await openStudio({environment:{node:false,rnbo:false}});
   await app.get('example').fire('click');
-  assert.equal(app.get('compile').disabled, false);
-  assert.equal(app.get('patch-svg').hidden, false);
-  assert.match(app.get('patch-facts').textContent, /2 boxes/);
-  assert.match(app.get('patch-facts').textContent, /1 connection/);
-  await app.get('compile').fire('click');
-  const request = app.calls.find(call => call.path === '/api/build');
-  assert.equal(request.options.headers['X-Studio-Token'], 'test-token');
-  assert.deepEqual(request.body, {
-    name: 'test.rnbopat', patch: example.patch, role: 'main', initial_volume: 50,
-    voices: 1, arena_bytes: 1048576, filter_delay_max_ms: null, float32_delays: false,
-    numerical_profile: 'float32-auto-v1',
-  });
-  assert.equal(app.get('upload').disabled, true);
-  await app.runTimer(850);
-  assert.equal(app.get('build-result').hidden, false);
-  assert.equal(app.get('download').disabled, false);
-  assert.equal(app.get('upload').disabled, false);
-  app.get('numerical-profile').value = 'float32-audio-v1';
-  await app.get('numerical-profile').fire('change');
-  assert.equal(app.get('upload').disabled, true);
-  assert.equal(app.get('build-result').hidden, true);
-  await app.get('compile').fire('click');
-  assert.equal(app.calls.filter(call => call.path === '/api/build').at(-1).body.numerical_profile, 'float32-audio-v1');
-  await app.runTimer(850);
+  assert.equal(app.get('compile').disabled,true);
+  assert.match(app.get('message').textContent,/Max.*Minimal Export/);
+  await app.readyArtifact();
+  const request=app.calls.find(c=>c.path==='/api/build');
+  assert.deepEqual(request.body,{export_files:[{path:'Export/rnbo_source.h',data_base64:'AQIDBA=='}],
+    name:'Export',visual_patch:null,role:'main',initial_volume:50,arena_bytes:1048576});
+  app.get('layout-file').files=[{name:'test.rnbopat',size:100,text:async()=>JSON.stringify(example.patch)}];
+  await app.get('layout-file').fire('change');
+  assert.equal(app.get('upload').disabled,true);
+  assert.equal(app.get('patch-svg').hidden,false);
+  assert.match(app.get('source-state').textContent,/Drawing attached only/);
+  await app.get('compile').fire('click');await app.runTimer(850);
+  assert.deepEqual(app.calls.filter(c=>c.path==='/api/build').at(-1).body.visual_patch,example.patch);
 });
 
-test('an edit during compilation prevents the old ready job from becoming uploadable', async () => {
-  const app = await openStudio();
-  await app.get('example').fire('click');
-  await app.get('compile').fire('click');
-  app.get('source').value = '{';
-  await app.get('source').fire('input');
-  await app.runTimer(850);
-  assert.equal(app.get('build-result').hidden, true);
-  assert.equal(app.get('upload').disabled, true);
-  assert.equal(app.get('download').disabled, true);
-  await app.runTimer(300);
-  assert.equal(app.get('compile').disabled, true);
-  assert.match(app.get('source-state').textContent, /Check the patch JSON/);
-  await app.get('example').fire('click');
-  assert.equal(app.get('compile').disabled, false);
-  assert.equal(app.get('upload').disabled, true);
+test('changed settings during compilation invalidate the ready artifact', async () => {
+  const app=await openStudio();
+  app.get('folder').files=[{name:'x.h',webkitRelativePath:'Export/x.h',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
+  await app.get('folder').fire('change');await app.get('compile').fire('click');
+  app.get('arena').value='2';await app.get('arena').fire('change');await app.runTimer(850);
+  assert.equal(app.get('upload').disabled,true);assert.equal(app.get('download').disabled,true);
 });
 
 test('ready plus upload error preserves the artifact for retry rather than claiming success', async () => {
@@ -349,20 +327,6 @@ test('physical inputs show package mappings and live raw/readiness diagnostics',
   assert.match(app.get('physical-input-status').children[0].textContent,/A0 \/ GPIO1 → Note · 50% · raw 2048/);
 });
 
-test('Float32 trial is explicit and its successful package remains visibly unverified', async () => {
-  const app = await openStudio();
-  app.get('numerical-profile').value='float32-trial-v1';await app.get('numerical-profile').fire('change');
-  app.backend.result.float32_trial={version:1,profile:'float32-trial-v1',qualification:'unverified',trial_method_count:2,skipped_method_count:4};
-  app.backend.result.trial_report_available=true;
-  app.backend.result.trial_comparison={max_absolute_error:.0001,max_pcm_difference_lsb:2};
-  await app.readyArtifact();
-  assert.equal(app.calls.find(c=>c.path==='/api/build').body.numerical_profile,'float32-trial-v1');
-  assert.equal(app.get('trial-status').hidden,false);
-  assert.match(app.get('trial-status').textContent,/Experimental.*unverified.*2 additional.*2 LSB/);
-  assert.equal(app.get('download-trial').hidden,false);
-  assert.equal(app.get('numerical-profile').value,'float32-trial-v1');
-});
-
 test('nonlinear parameter controls show actual readback and explicitly normalized drag values', async () => {
   const app = await openStudio({parameters: [{index: 0, name: 'Frequency', min: 100, max: 10000, initial: 440, actual: 2500, normalized: .7}]});
   await app.get('connect').fire('click');
@@ -451,7 +415,7 @@ test('saved package renders bounded compiled layout and highlights parameter box
   app.get('package-file').files=[{name:'saved.rnbopkg',size:128,arrayBuffer:async()=>new Uint8Array(128).buffer}];
   await app.get('package-file').fire('change');
   assert.equal(app.get('source-title').textContent,'Saved compiled package');
-  assert.equal(app.get('source').value,'');assert.equal(app.get('compile').disabled,true);
+  assert.equal(app.get('compile').disabled,true);
   assert.equal(app.get('patch-svg').hidden,false);assert.equal(app.get('empty-preview').hidden,true);
   assert.equal(app.get('patch-svg').getAttribute('viewBox'),'-8 -8 352 248');
   const groups=app.get('patch-svg').querySelectorAll('g');
@@ -469,12 +433,13 @@ test('missing or invalid package visual gets compiled-package placeholder and so
     app.get('package-file').files=[{name:'saved.rnbopkg',size:128,arrayBuffer:async()=>new Uint8Array(128).buffer}];
     await app.get('package-file').fire('change');
     assert.equal(app.get('empty-title').textContent,'Saved compiled package');
-    assert.equal(app.get('patch-svg').hidden,true);assert.equal(app.get('source').value,'');
+    assert.equal(app.get('patch-svg').hidden,true);
   }
-  await app.get('example').fire('click');
-  assert.equal(app.get('source-title').textContent,'Your RNBO patch');
-  assert.equal(app.get('empty-title').textContent,'Open an RNBO patch');
-  assert.equal(app.get('patch-svg').hidden,false);
+  app.get('folder').files=[{name:'rnbo_source.h',webkitRelativePath:'Export/rnbo_source.h',size:4,arrayBuffer:async()=>new Uint8Array([1,2,3,4]).buffer}];
+  await app.get('folder').fire('change');
+  assert.equal(app.get('source-title').textContent,'Max C++ export');
+  assert.equal(app.get('empty-title').textContent,'Max C++ export selected');
+  assert.equal(app.get('patch-svg').hidden,true);
 });
 
 
@@ -610,9 +575,7 @@ test('CPU admission rejection explains completed transfer and keeps active Main 
   const app=await openStudio();await app.get('connect').fire('click');
   Object.assign(app.backend.device,{main:{name:'DDD'},rate:44100,block_frames:256});
   await app.runInterval(1800);
-  app.get('numerical-profile').value='float32-strict';await app.get('numerical-profile').fire('change');
   await app.readyArtifact();
-  assert.equal(app.calls.find(c=>c.path==='/api/build').body.numerical_profile,'float32-strict');
   app.backend.uploadError="Device rejected capture command: 'Candidate uses 10047us per callback; player screen reserves time for the audio sink'";
   await app.get('upload').fire('click');
   assert.equal(app.get('load-failure').hidden,false);
@@ -622,22 +585,12 @@ test('CPU admission rejection explains completed transfer and keeps active Main 
   assert.equal(app.get('load-failure-raw').textContent,app.backend.uploadError);
   assert.equal(app.get('running-main').textContent,'DDD');
   assert.equal(app.get('package-to-load').textContent,'Test patch');
-  assert.equal(app.get('optimise-recompile').hidden,false);
+  assert.equal(app.get('optimise-recompile'),undefined);
+  assert.match(app.get('optimise-hint').textContent,/export again/);
   const before=app.get('load-failure-summary').textContent;
   await app.runInterval(1800);await app.runInterval(6000);
   assert.equal(app.get('load-failure-summary').textContent,before);
-  assert.equal(app.get('load-failure').hidden,false);
-  const loads=app.calls.filter(c=>c.path==='/api/upload').length;
-  app.get('float32-delays').checked=false;
-  await app.get('optimise-recompile').fire('click');
-  const request=app.calls.filter(c=>c.path==='/api/build').at(-1);
-  assert.equal(request.body.numerical_profile,'float32-auto-v1');
-  assert.equal(request.body.float32_delays,false);
-  assert.equal(app.get('upload').disabled,true);
-  await app.runTimer(850);
-  assert.equal(app.calls.filter(c=>c.path==='/api/upload').length,loads);
   assert.equal(app.get('running-main').textContent,'DDD');
-  assert.equal(app.get('upload').disabled,false);
 });
 
 test('ordinary load errors stay verbatim and saved packages cannot offer source recompilation', async () => {
@@ -647,28 +600,27 @@ test('ordinary load errors stay verbatim and saved packages cannot offer source 
   app.backend.uploadError='Application state could not be read';
   await app.get('upload').fire('click');
   assert.equal(app.get('load-failure-summary').textContent,app.backend.uploadError);
-  assert.equal(app.get('optimise-recompile').hidden,true);
+  assert.equal(app.get('optimise-recompile'),undefined);
   await app.runInterval(1800);assert.equal(app.get('load-failure-summary').textContent,app.backend.uploadError);
   app.backend.uploadError="Device rejected capture command: 'Candidate uses 9965 us per callback'";
   await app.get('upload').fire('click');
   assert.match(app.get('load-failure-summary').textContent,/9\.96 ms.*5\.80 ms/);
-  assert.equal(app.get('optimise-recompile').hidden,true);
+  assert.equal(app.get('optimise-recompile'),undefined);
   app.backend.uploadError=null;await app.get('upload').fire('click');
   assert.equal(app.get('load-failure').hidden,true);
 });
 
 
-test('Auto CPU failure offers no identical recompile or automatic activation', async () => {
+test('native export CPU failure offers no importer rewrite or automatic activation', async () => {
   const app=await openStudio();await app.readyArtifact();
-  assert.equal(app.get('numerical-profile').value,'float32-auto-v1');
   app.backend.uploadError="Device rejected capture command: 'Candidate uses 10047us per callback'";
   await app.get('upload').fire('click');
-  assert.equal(app.get('optimise-recompile').hidden,true);
+  assert.equal(app.get('optimise-recompile'),undefined);
   assert.equal(app.get('optimise-hint').hidden,false);
-  assert.equal(app.get('optimise-hint').textContent,'Automatic optimisation is already selected; this patch still needs further optimisation.');
+  assert.match(app.get('optimise-hint').textContent,/profiles are retired/);
   const builds=app.calls.filter(c=>c.path==='/api/build').length;
   const loads=app.calls.filter(c=>c.path==='/api/upload').length;
-  await app.get('optimise-recompile').fire('click');await app.runInterval(1800);await app.runInterval(6000);
+  await app.runInterval(1800);await app.runInterval(6000);
   assert.equal(app.calls.filter(c=>c.path==='/api/build').length,builds);
   assert.equal(app.calls.filter(c=>c.path==='/api/upload').length,loads);
   assert.equal(app.get('load-failure').hidden,false);

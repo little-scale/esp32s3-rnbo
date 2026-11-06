@@ -20,8 +20,8 @@ spec = importlib.util.spec_from_file_location('control_storage_fixtures', ROOT /
 storage = importlib.util.module_from_spec(spec); spec.loader.exec_module(storage)
 
 STUBS = {
-    'sdkconfig.h': '#pragma once\n#define CONFIG_RNBO_S3_HEADLESS 1\n',
-    'esp_log.h': '#pragma once\n#define ESP_LOGI(...) ((void)0)\n#define ESP_LOGE(...) ((void)0)\n',
+    'sdkconfig.h': '#pragma once\n#define CONFIG_RNBO_S3_HEADLESS 1\n#define CONFIG_RNBO_S3_I2S_BCLK 5\n#define CONFIG_RNBO_S3_I2S_WS 6\n#define CONFIG_RNBO_S3_I2S_DOUT 7\n',
+    'esp_log.h': '#pragma once\n#define ESP_LOGI(...) ((void)0)\n#define ESP_LOGE(...) ((void)0)\n#define ESP_LOGW(...) ((void)0)\n',
     'esp_timer.h': '#pragma once\n#include <stdint.h>\nint64_t esp_timer_get_time(void);\n',
     'esp_app_desc.h': '#pragma once\n#include <stdint.h>\ntypedef struct {uint8_t app_elf_sha256[32];} esp_app_desc_t;\nconst esp_app_desc_t *esp_app_get_description(void);\n',
     'freertos/FreeRTOS.h': '''#pragma once
@@ -81,6 +81,8 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
                    '-I',str(ROOT/'firmware/components/player_loader/include'),
                    '-I',str(ROOT/'firmware/components/player_store/include'),
                    '-I',str(ROOT/'firmware/components/player_network/include'),
+                   '-I',str(ROOT/'firmware/components/player_inputs/include'),
+                   '-I',str(ROOT/'firmware/components/player_midi/include'),
                    '-I',str(ROOT/'firmware/components/board_audio/include'),
                    '-I',str(ROOT/'firmware/components/pcm_output/include')]
             # Keep the actual parser/clear implementation, replacing only storage
@@ -90,7 +92,9 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
             commands=[flags+renamed+['-c',str(ROOT/'firmware/components/player_store/player_store.c'),'-o',str(out/'store.o')],
                       flags+[f'-DPLAYER_MAIN_SOURCE="{ROOT / "firmware/main/player_main.c"}"',
                         str(HERE/'control_stubs/control_host.c'),str(out/'store.o'),
-                        str(ROOT/'firmware/components/pcm_output/pcm_output.c'),str(cjson/'cJSON.c'),'-o',str(out/'control'),'-lm']]
+                        str(ROOT/'firmware/components/pcm_output/pcm_output.c'),
+                        str(ROOT/'firmware/components/player_inputs/player_inputs_core.c'),
+                        str(ROOT/'firmware/components/player_midi/midi_core.c'),str(cjson/'cJSON.c'),'-o',str(out/'control'),'-lm']]
             if sys.platform != 'darwin': commands[-1].append('-lcrypto')
             for command in commands:
                 compiled=subprocess.run(command,capture_output=True,text=True,timeout=30)

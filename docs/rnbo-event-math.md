@@ -1,5 +1,7 @@
 # RNBO event-rate maths on XIAO
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The 44 exact source forms all compile and run. **41 pass their declared
 finite-domain mathematical screen; three retain approximation differences.**
 There are **450,560 output-word checks**, **924 actual-value parameter actions**,

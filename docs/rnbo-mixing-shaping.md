@@ -1,5 +1,7 @@
 # RNBO maths, interpolation and mixing checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The batch covers **63 scenarios across 22 exact spellings**. **61 pass** their fixed output screens and **2 retain outside-screen results**, across **645,120 output words and 1,386 control actions**. All raw right captures match and no nonfinite output occurs. There are 54,800 within-limit differences and 0 observational left zero-sign differences. **5 new callback contexts** enter review, bringing the queue to **162**.
 
 One arm action precedes 21 ordered unit-phase drives, with repeats, same-callback updates and quiet holds. Each source runs four manual warm and sixteen timed full 256-frame callbacks at 44,100 Hz, with zero automatic warm callbacks. Signal forms use `clip(binary32(drive + varying left input),0,1)`, so their inputs vary inside blocks. The independent raw right pilot includes signed zero, subnormals and finite extrema. Actual and normalised parameter values are read back by resolved parameter ID.

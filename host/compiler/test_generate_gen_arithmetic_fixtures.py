@@ -112,7 +112,7 @@ class LicensedExportTests(unittest.TestCase):
         cls.base=Path(cls.temp.name);cls.prepared=cls.base/'prepared'
         def export(identity):
             raw=cls.base/'raw'/identity
-            result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(PUBLIC/(identity+'.rnbopat')),
+            result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(PUBLIC/(identity+'.rnbopat')),
                 '--out',str(raw)],cwd=ROOT,capture_output=True,text=True)
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:
                 raise unittest.SkipTest('Licensed RNBO1.4.4 frontend unavailable')

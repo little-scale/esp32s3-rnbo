@@ -153,7 +153,7 @@ class PipelineTests(unittest.TestCase):
             root=Path(name)
             for form in ('onepole-fixed-stereo','onepole-scalar-stereo','onepole-signal-cutoff'):
                 raw=root/(form+'-raw')
-                try:ran=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/objects/wave3'/(form+'.rnbopat')),'--out',str(raw)],capture_output=True,text=True)
+                try:ran=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(ROOT/'tests/fixtures/objects/wave3'/(form+'.rnbopat')),'--out',str(raw)],capture_output=True,text=True)
                 except FileNotFoundError:self.skipTest('Node and authorised RNBO1.4.4 required')
                 if ran.returncode and 'Set --rnbo-dir or RNBO_DIR' in ran.stderr:self.skipTest('Authorised RNBO1.4.4 not installed')
                 self.assertEqual(ran.returncode,0,ran.stderr)

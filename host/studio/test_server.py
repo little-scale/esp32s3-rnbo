@@ -23,24 +23,24 @@ class FakeBridge:
     def disconnect(self): pass
     def control(self, data): self.calls.append(data); return self.snapshot()
 
+from test_native_export import payload
+
 class SettingsTests(unittest.TestCase):
     def valid(self):
-        return {'name':'example.rnbopat','patch':{'patcher':{'boxes':[],'lines':[]}},'board':'xiao'}
+        return payload()
     def test_defaults_are_explicit_and_preserve_storage(self):
         value = s.build_settings(self.valid())
         self.assertEqual(value['initial_volume'],50)
-        self.assertEqual(value['voices'],1)
-        self.assertEqual(value['numerical_profile'],'float32-auto-v1')
-        self.assertFalse(value['float32_delays'])
-        self.assertIsNone(value['filter_delay_max_ms'])
+        self.assertEqual(value['class_name'],'rnbomatic')
+        self.assertNotIn('numerical_profile',value)
         self.assertEqual(value['title'],'example')
     def test_invalid_inputs_cannot_become_tool_arguments(self):
-        for key,values in {'patch':[[],{'patcher':None}], 'board':['; echo bad',None], 'voices':[True,3], 'initial_volume':[True,-1,101], 'arena_bytes':[True,4096], 'filter_delay_max_ms':[True,float('nan'),-1,0,1001], 'float32_delays':['yes',1], 'role':['fx',True], 'numerical_profile':['unknown',True], 'name':['a.cpp',None]}.items():
+        for key,values in {'patch':[[],{'patcher':None}], 'board':['; echo bad',None], 'voices':[True,3], 'initial_volume':[True,-1,101], 'arena_bytes':[True,4096], 'filter_delay_max_ms':[True,float('nan'),-1,0,1001], 'float32_delays':['yes',1], 'role':['fx',True], 'numerical_profile':['unknown',True], 'name':['',None]}.items():
             for value in values:
                 with self.subTest(key=key,value=value), self.assertRaises(ValueError):
                     s.build_settings(dict(self.valid(),**{key:value}))
     def test_oversized_source_is_rejected_before_creating_job(self):
-        value=self.valid();value['patch']['patcher']['padding']='x'*s.MAX_PATCH
+        value=self.valid();value['visual_patch']={'patcher':{'padding':'x'*s.MAX_PATCH}}
         with self.assertRaises(ValueError):s.build_settings(value)
     def test_private_job_fields_are_not_exposed(self):
         studio=s.Studio(bridge=FakeBridge());identity='a'*32
@@ -102,7 +102,8 @@ class SettingsTests(unittest.TestCase):
         self.assertEqual(result['state'],'ready');self.assertEqual(result['result']['kind'],'package')
         self.assertEqual(result['result']['package_bytes'],1234)
         self.assertTrue(any('build_module.py' in ' '.join(c) and '--max-arena-bytes' in c for c in commands))
-        self.assertFalse(any('build_firmware.py' in ' '.join(c) for c in commands))
+        self.assertFalse(any('build_firmware.py' in ' '.join(c) or c[0]=='node' for c in commands))
+        self.assertEqual(commands[0][commands[0].index('--numerical-profile')+1],'float32-strict')
         self.assertFalse(studio.worker.locked())
 
     def test_player_install_is_explicit_separate_firmware_action(self):
@@ -210,7 +211,7 @@ class HTTPTests(unittest.TestCase):
         self.assertEqual(json.loads(raw)['csrf'],self.server.studio.token)
         self.assertIn("frame-ancestors 'none'",headers['Content-Security-Policy'])
         code,raw,_=self.request('/api/example');self.assertEqual(code,200)
-        self.assertIn('patcher',json.loads(raw)['patch'])
+        self.assertIn('Minimal Export',json.loads(raw)['guidance'])
     def test_cross_site_and_dns_rebinding_hosts_are_rejected(self):
         for headers in ({'Host':'attacker.example'},{'Origin':'https://attacker.example'}):
             code,_,_=self.request('/api/status',headers=headers);self.assertEqual(code,400)

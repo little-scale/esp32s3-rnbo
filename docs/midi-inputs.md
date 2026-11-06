@@ -1,5 +1,7 @@
 # MIDI input on the XIAO player
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 ## Return-to-test checklist
 
 **Deferred at the user's request, 5 November 2026.** Return when an external

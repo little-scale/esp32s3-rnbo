@@ -8,7 +8,7 @@ import os from 'node:os';
 import crypto from 'node:crypto';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
-import {describeFlatPatcher} from '../host/export/patcher.mjs';
+import {describeFlatPatcher} from '../archive/importer/patcher.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const require=createRequire(import.meta.url);
@@ -42,7 +42,7 @@ for(const entry of catalog.programs){
  fs.writeFileSync(path.join(directory,'source.rnbopat'),raw);
  fs.cpSync(path.join(pkg,'source/rnbo/common'),path.join(directory,'common'),{recursive:true,filter:p=>fs.statSync(p).isDirectory()||/\.(h|hpp)$/.test(p)});
  fs.copyFileSync(path.join(pkg,'source/rnbo/LICENSE'),path.join(directory,'RNBO-runtime-LICENSE'));
- const meta={format:'rnbo-gen-direct-partition-export-v1',execution_route:'direct-variable-producer',module_abi:false,rnbo_version:'1.4.4',class_name:entry.class_name,block_frames:0,sample_rate:44100,source_sha256:hash(raw),generated_sha256:hash(Buffer.from(result.code)),catalog_sha256:hash(fs.readFileSync(catalogPath)),adapter_sha256:hash(fs.readFileSync(fileURLToPath(import.meta.url))),patcher_adapter_sha256:hash(fs.readFileSync(path.join(root,'host/export/patcher.mjs'))),gen_visual_adapter_sha256:hash(fs.readFileSync(path.join(root,'host/export/gen_visual.mjs')))};
+ const meta={format:'rnbo-gen-direct-partition-export-v1',execution_route:'direct-variable-producer',module_abi:false,rnbo_version:'1.4.4',class_name:entry.class_name,block_frames:0,sample_rate:44100,source_sha256:hash(raw),generated_sha256:hash(Buffer.from(result.code)),catalog_sha256:hash(fs.readFileSync(catalogPath)),adapter_sha256:hash(fs.readFileSync(fileURLToPath(import.meta.url))),patcher_adapter_sha256:hash(fs.readFileSync(path.join(root,'archive/importer/patcher.mjs'))),gen_visual_adapter_sha256:hash(fs.readFileSync(path.join(root,'archive/importer/gen_visual.mjs')))};
  fs.writeFileSync(path.join(directory,'generator.json'),JSON.stringify(meta,null,2)+'\n');
  process.stdout.write(entry.id+' exported direct variable-frame producer\n');
 }

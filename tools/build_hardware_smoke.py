@@ -470,12 +470,12 @@ def visual_gen_bridge(prepared,source,row):
         raise ExportError('Visual Gen requires original source, never a cached/authored expr')
     if hashlib.sha256(canonical(gen['genpatcher'])).hexdigest()!=row['genpatcher_sha256']:
         raise ExportError('Embedded visual graph differs')
-    script="import fs from 'node:fs';import {lowerVisualGen} from './host/export/gen_visual.mjs';process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
+    script="import fs from 'node:fs';import {lowerVisualGen} from './archive/importer/gen_visual.mjs';process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
     result=subprocess.run(['node','--input-type=module','-e',script],input=json.dumps(gen['genpatcher']),text=True,capture_output=True,cwd=ROOT,check=True,timeout=10)
     lowered=json.loads(result.stdout);meta=read_json(read_regular(prepared/'generator.json',65536),'visual generator');proof=meta.get('visual_gen',[])
     expected=dict(box_id=gen['id'],policy=lowered['policy'],nodes=lowered['nodes'],edges=lowered['edges'],histories=lowered['history_count'],operators=lowered['operators'],
         source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
-        lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(ROOT/'host/export/gen_visual.mjs'))
+        lowered_genexpr_sha256=hashlib.sha256(lowered['expression'].encode()).hexdigest(),adapter_sha256=sha(ROOT/'archive/importer/gen_visual.mjs'))
     if proof!=[expected] or meta.get('gen_visual_adapter_sha256')!=expected['adapter_sha256']:
         raise ExportError('Visual Gen generated bridge differs from independent source reconstruction')
     return dict(gen_visual_lowering=expected,genpatcher_sha256=row['genpatcher_sha256'])

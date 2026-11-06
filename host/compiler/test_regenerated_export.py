@@ -52,7 +52,7 @@ class PipelineTests(unittest.TestCase):
         cls.patch.write_text(json.dumps(source))
         cls.raw = cls.root / 'raw'
         try:
-            result = subprocess.run(['node', str(ROOT / 'host/export/export.mjs'), str(cls.patch),
+            result = subprocess.run(['node', str(ROOT / 'archive/importer/integer-ui/export.mjs'), str(cls.patch),
                                      '--out', str(cls.raw)], capture_output=True, text=True, timeout=120)
         except FileNotFoundError:
             raise unittest.SkipTest('Node and authorised RNBO 1.4.4 required')
@@ -103,7 +103,7 @@ class PipelineTests(unittest.TestCase):
         patch = self.root / 'ui-edit.rnbopat'
         patch.write_text(json.dumps(source))
         raw = self.root / 'ui-edit-raw'
-        result = subprocess.run(['node', str(ROOT / 'host/export/export.mjs'), str(patch),
+        result = subprocess.run(['node', str(ROOT / 'archive/importer/integer-ui/export.mjs'), str(patch),
                                  '--out', str(raw)], capture_output=True, text=True, timeout=120)
         self.assertEqual(result.returncode, 0, result.stderr)
         candidate = self.root / 'ui-edit-candidate'

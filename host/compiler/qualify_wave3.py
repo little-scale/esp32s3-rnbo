@@ -126,7 +126,7 @@ def audit_case_protocol(record,plan,out):
 
 def export_fixture(fixture,out,node,rnbo_dir,*,stable_onepole=False):
     id=fixture['id'];raw=out/'raw'/id;prepared=out/'prepared'/id;log=out/'logs'/(id+'-export.log')
-    command=[node,str(ROOT/'host/export/export.mjs'),str(FIXTURES/fixture['patch']),'--out',str(raw)]
+    command=[node,str(ROOT/'archive/importer/export.mjs'),str(FIXTURES/fixture['patch']),'--out',str(raw)]
     if rnbo_dir is not None:command+=['--rnbo-dir',str(rnbo_dir)]
     run_logged(command,log)
     apply_stable=stable_onepole and fixture['object_spelling']=='onepole~'
@@ -232,7 +232,7 @@ def qualify(output,rnbo_dir=None,*,stable_onepole=False,onepole_only=False):
         'native_support_policy':'Actual production dynamic wrapper and arena, host libc/libm; support.cpp/lifecycle.cpp NOT linked; constructor/finalizer counters are explicit native stubs, not ELF lifecycle proof'}
     try:
         for name in('logs','inputs','plans'):(out/name).mkdir()
-        paths=[Path(__file__),CATALOG,NATIVE/'probe.cpp',NATIVE/'inputs.py',ROOT/'host/export/export.mjs',ROOT/'host/export/patcher.mjs']+[FIXTURES/f['patch']for f in catalog['fixtures']]+[ROOT/n for n in SDK_SOURCES]
+        paths=[Path(__file__),CATALOG,NATIVE/'probe.cpp',NATIVE/'inputs.py',ROOT/'archive/importer/export.mjs',ROOT/'archive/importer/patcher.mjs']+[FIXTURES/f['patch']for f in catalog['fixtures']]+[ROOT/n for n in SDK_SOURCES]
         paths+=sorted(p for p in (ROOT/'host/compiler').iterdir()if p.suffix in('.py','.h')and not p.name.startswith('test_'))
         paths=sorted(set(paths));before={str(p.relative_to(ROOT)):sha(p)for p in paths};report['source_files_sha256']=before
         for name in before:

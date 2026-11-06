@@ -209,7 +209,7 @@ class LicensedExportTests(unittest.TestCase):
             for name in sorted(files):
                 if not name.endswith('.rnbopat'): continue
                 id = Path(name).stem; raw = root / (id + "-raw")
-                result = subprocess.run(["node", str(ROOT / "host/export/export.mjs"), str(root / "authored" / name), "--out", str(raw)], capture_output=True, text=True)
+                result = subprocess.run(["node", str(ROOT / "archive/importer/integer-ui/export.mjs"), str(root / "authored" / name), "--out", str(raw)], capture_output=True, text=True)
                 if result.returncode and "Set --rnbo-dir or RNBO_DIR" in result.stderr:
                     self.skipTest("Authorised local RNBO1.4.4 installation unavailable")
                 self.assertEqual(result.returncode, 0, id + ': ' + result.stderr)

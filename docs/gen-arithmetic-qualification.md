@@ -1,5 +1,7 @@
 # Gen arithmetic qualification on XIAO
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Fifteen exact GenExpr spellings now pass native execution and XIAO execution.
 Each is an original program inside an RNBO `gen~` box, with two signal inputs,
 two outputs and no parameters or external resources. The second output applies

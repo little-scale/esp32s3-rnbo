@@ -27,6 +27,7 @@ jobs:
           python tools/build_list_extended_report.py --check
           python tools/build_mixing_shaping_report.py --check
           python tools/build_analysis_timing_report.py --check
+          python tools/build_envelopes_clocks_report.py --check
           python -m unittest discover -s tools -p 'test_build_object_status.py' -v
           node --check site/app.js
       - uses: actions/configure-pages@v5

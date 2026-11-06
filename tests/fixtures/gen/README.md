@@ -1,5 +1,7 @@
 # Authored GenExpr history fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These original programs use RNBO 1.4.4's `gen~` GenExpr frontend. They are
 separate from RNBO `codebox~` and from visual `.gendsp` import.
 

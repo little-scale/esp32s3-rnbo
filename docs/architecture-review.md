@@ -1,5 +1,7 @@
 # Initial RNBO runtime review
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 Reviewed against the installed RNBO 1.4.4 Minimal runtime and the generated
 oscillator export. This records source and host checks; it does not qualify
 hardware, dynamic loading or arbitrary patches.

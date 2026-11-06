@@ -1,5 +1,7 @@
 # Optimisation completion and next pass
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The optimisation goal remains active. The implementation compiles RNBO-generated
 C++ to native Xtensa code, consistent with the handover's proposed execution
 model. The reviewed optimisations establish useful results for particular

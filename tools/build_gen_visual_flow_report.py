@@ -58,6 +58,9 @@ def products():
 def main():
  p=argparse.ArgumentParser();p.add_argument('--check',action='store_true');a=p.parse_args()
  for path,raw in products().items():
+  if path.startswith('docs/') and path.endswith('.md'):
+      title, rest = raw.decode().split('\n', 1)
+      raw = (title + '\n\n> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.\n\n' + rest.lstrip('\n')).encode()
   out=ROOT/path
   if a.check:
    if not out.is_file()or out.read_bytes()!=raw:raise SystemExit('Stale visual-flow report: '+path)

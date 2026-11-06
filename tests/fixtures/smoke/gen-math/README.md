@@ -1,5 +1,7 @@
 # Original GenExpr mathematical smoke fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 This batch contains 34 MIT-authored GenExpr programs and self-contained RNBO wrapper patches. Each patch is fixed at 44.1 kHz/256 frames, FX with two inputs and outputs, and has no parameters or events. Unary functions process the two planes independently. Binary functions and operators use reversed operands on the right output.
 
 | Models | Authored forms |

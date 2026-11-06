@@ -50,7 +50,7 @@ class VisualMathTests(unittest.TestCase):
  def test_historical_core_resolves_immutable_source_without_production_read(self):
   old=json.loads((builder.ROOT/'evidence/xiao-smoke-gen-visual-core.json').read_bytes());proof=old['cases'][0]['gen_visual_lowering'];real=provenance.sha
   def checked(path):
-   if path==builder.ROOT/'host/export/gen_visual.mjs':raise AssertionError('Historical proof must not depend on current producer')
+   if path==builder.ROOT/'archive/importer/gen_visual.mjs':raise AssertionError('Historical proof must not depend on current producer')
    return real(path)
   with patch.object(provenance,'sha',side_effect=checked):self.assertEqual(provenance.resolve_lowerer(proof).name,'qualified_lowerer.mjs')
   with self.assertRaises(ValueError):provenance.resolve_lowerer(dict(adapter_sha256='0'*64))
@@ -60,11 +60,11 @@ class VisualMathTests(unittest.TestCase):
   catalog=json.loads((HERE/'catalog.json').read_bytes());graphs=[]
   for row in catalog['cases']:
    p=json.loads((HERE/row['patch']).read_bytes())['patcher'];graphs.append(next(b['box']['genpatcher']for b in p['boxes']if b['box'].get('text')=='gen~'))
-  script="import fs from 'node:fs';import {lowerVisualGen} from './host/export/gen_visual.mjs';process.stdout.write(JSON.stringify(JSON.parse(fs.readFileSync(0,'utf8')).map(lowerVisualGen)));"
+  script="import fs from 'node:fs';import {lowerVisualGen} from './archive/importer/gen_visual.mjs';process.stdout.write(JSON.stringify(JSON.parse(fs.readFileSync(0,'utf8')).map(lowerVisualGen)));"
   lowered=json.loads(subprocess.run(['node','--input-type=module','-e',script],input=json.dumps(graphs),text=True,capture_output=True,cwd=builder.ROOT,check=True).stdout)
   byid={}
   for source,g,v in zip(catalog['cases'],graphs,lowered):
-   m=source['model'];inputs=r.case_input_words(m);proof=dict(box_id='gen',policy=v['policy'],nodes=v['nodes'],edges=v['edges'],histories=v['history_count'],operators=v['operators'],source_graph_sha256=hashlib.sha256(json.dumps(g,separators=(',',':')).encode()).hexdigest(),lowered_genexpr_sha256=hashlib.sha256(v['expression'].encode()).hexdigest(),adapter_sha256=builder.sha(builder.ROOT/'host/export/gen_visual.mjs'))
+   m=source['model'];inputs=r.case_input_words(m);proof=dict(box_id='gen',policy=v['policy'],nodes=v['nodes'],edges=v['edges'],histories=v['history_count'],operators=v['operators'],source_graph_sha256=hashlib.sha256(json.dumps(g,separators=(',',':')).encode()).hexdigest(),lowered_genexpr_sha256=hashlib.sha256(v['expression'].encode()).hexdigest(),adapter_sha256=builder.sha(builder.ROOT/'archive/importer/gen_visual.mjs'))
    byid[source['id']]=dict(**source,source_sha256=source['patch_sha256'],input_words=list(inputs),expected=list(r.reference_words(m,inputs)),absolute_tolerance=builder.float32(source['maximum_absolute_error']),gen_visual_lowering=proof)
   for part in range(1,5):
    cat=json.loads((HERE/f'part{part}.json').read_bytes());plan=dict(catalog_sha256=builder.VISUAL_MATH_PARTITIONS[part],reference_source_sha256=builder.VISUAL_MATH_REFERENCE_SHA,partition=cat['partition'],surface='patcher',prepare_zero_warm_blocks=0,warmup_blocks=4,timed_blocks=16,cases=[byid[s['id']]for s in cat['cases']])

@@ -1,5 +1,7 @@
 # Float32 corner-domain observations on ESP32-S3
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Two standalone board diagnostics compared Float32 add/subtract/multiply/divide
 with separate Double-intermediate paths rounded back to Float32. Each used the
 same 3,036 explicit, exponent-stratified and fixed-seed finite operand pairs,

@@ -1,5 +1,7 @@
 # Optional Float32 scalar powers
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--numerical-profile float32-scalar-powers-v1` now admits the exact reviewed
 RNBO 1.4.4 `nonlinear-domains` FX graph. Strict preparation remains the default.
 The profile selects multiplication for scalar exponents 2 and 4, and nested

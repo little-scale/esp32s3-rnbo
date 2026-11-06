@@ -1,5 +1,7 @@
 # `wrap~`: bounded coverage and private finite-input repair
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 **Status: Partial.** The original bounded nonlinear graph passed on the S3.
 A separate correction for large finite Float32 inputs has exhaustive native
 proof and static Xtensa instruction checks. That correction remains private;

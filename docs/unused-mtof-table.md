@@ -1,5 +1,7 @@
 # Optional unread mtof lookup payload omission
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--omit-unused-mtof-table` is an explicit, default-off preparation option for
 reviewed RNBO1.4.4 direct-exponential `mtof~` forms. It requires the current
 module C ABI, which exposes no DataRef resource API. It does **not** preserve

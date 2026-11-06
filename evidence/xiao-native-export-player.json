@@ -1,0 +1,76 @@
+{
+  "block_frames": 256,
+  "board": "xiao",
+  "build_evidence": "evidence/native-export-intake.json",
+  "build_evidence_sha256": "4a1d34943192e5068e99403fc678389c0bb3c42773b183e61d12db994bd0ee38",
+  "fault_counters": {
+    "allocation_fault": false,
+    "audio_heap_allocations": 0,
+    "audio_heap_frees": 0,
+    "clipped": 0,
+    "dma_errors": 0,
+    "late_platform_allocations": 0,
+    "module_errors": 0,
+    "nonfinite": 0,
+    "queue_errors": 0,
+    "reconstruction_failed": false,
+    "render_deadline_overruns": 0,
+    "write_errors": 0
+  },
+  "format": "rnbo-native-export-player-check-v1",
+  "frames_advanced": 1385472,
+  "listening_checked": false,
+  "observation_seconds": 31.413913,
+  "output_samples_compared": false,
+  "package_sha256": "686e524d760655d1c4b38626f1f153706e5ce10fc69e98d44baf07611d21e3b0",
+  "parameter_checks": [
+    {
+      "actual": 220,
+      "normalized": 0.020040079951286316,
+      "parameter": "frequency",
+      "requested": 220
+    },
+    {
+      "actual": 440,
+      "normalized": 0.04208416864275932,
+      "parameter": "frequency",
+      "requested": 440
+    },
+    {
+      "actual": 880,
+      "normalized": 0.08617234230041504,
+      "parameter": "frequency",
+      "requested": 880
+    },
+    {
+      "actual": 440,
+      "normalized": 0.04208416864275932,
+      "parameter": "frequency",
+      "requested": 440
+    },
+    {
+      "actual": 0.10000000149011612,
+      "parameter": "level",
+      "requested": 0.1
+    }
+  ],
+  "pause_stops_module_sample_position": true,
+  "player_reported_peak_us": 1138,
+  "polled_audio_cpu_percent": 12.70458984375,
+  "polled_render_median_us": 737.5,
+  "polled_samples": 32,
+  "restoration": {
+    "faults_zero": true,
+    "firmware_elf_sha256": "251f7dde82530e2d85e13d9b253d73b01baf7af8db4e22413051a16d5f0f88b6",
+    "frames_advance": true,
+    "package_sha256": "fd89dfdfcd4f19963f7f7194a7fa2b123367d55b495f679378eac3ed4ef2c4ab",
+    "paused": false,
+    "same_controls": true,
+    "same_package": true,
+    "volume": 100
+  },
+  "resume_advances_module_sample_position": true,
+  "sample_rate": 44100,
+  "scope": "Actual native Max Main export loaded over USB into the unchanged player; polled live telemetry, normalized parameter controls and Pause/Resume. No captured-output or listening proof.",
+  "timing_scope": "Polled player callback telemetry includes PCM conversion, excludes I2S wait; not a distribution of every callback or isolated DSP cost."
+}

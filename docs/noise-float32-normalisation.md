@@ -1,5 +1,7 @@
 # Pink-noise output precision experiment
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The reviewed private RNBO 1.4.4 noise fixture keeps pink's final output scaling
 in Float32. Its division already returns Float32; changing the following `2.`
 and `1.` literals to `2.f` and `1.f` removes four software Float64 helper calls

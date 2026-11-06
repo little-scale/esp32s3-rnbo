@@ -83,7 +83,7 @@ class PipelineTests(unittest.TestCase):
         else:
             cls.export=cls.directory/'fresh-export'
             try:
-                result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/objects/filters-scalar.rnbopat'),'--out',str(cls.export)],capture_output=True,text=True)
+                result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(ROOT/'tests/fixtures/objects/filters-scalar.rnbopat'),'--out',str(cls.export)],capture_output=True,text=True)
             except FileNotFoundError:raise unittest.SkipTest('Node and authorized RNBO1.4.4 are needed for licensed export tests')
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:raise unittest.SkipTest('Authorized RNBO1.4.4 is not installed')
             if result.returncode:raise AssertionError(result.stderr)

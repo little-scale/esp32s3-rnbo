@@ -969,6 +969,9 @@ def main():
     parser.add_argument('--out',type=Path,default=ROOT/'site/data/status.json')
     args=parser.parse_args()
     data=make_status(load(ROOT/'site/data/inventory.json'),load(ROOT/'site/data/coverage.json'))
+    data['compilation_route'] = 'historical-importer'
+    data['native_export_qualification_inherited'] = False
+    data['current_workflow'] = PUBLIC_BASE + 'docs/native-export.md'
     data['provenance']['inventory_source_sha256']=digest(ROOT/'site/data/inventory.json')
     data['provenance']['coverage_source_sha256']=digest(ROOT/'site/data/coverage.json')
     data['provenance']['generator_sha256']=digest(Path(__file__))

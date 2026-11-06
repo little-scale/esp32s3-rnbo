@@ -1,5 +1,7 @@
 # Real RNBO ELF loader qualification
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Real RNBO native modules passed the isolated hardware qualification on the
 Waveshare ESP32-S3 Touch AMOLED 1.8 V2 on 2 November 2026. The run loaded and
 unloaded 132 images, completed 32 repeated lifecycle rounds after an initial

@@ -1,5 +1,7 @@
 # Exact fixed-rate audio delay conversion experiment
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 A private comb/allpass prototype converts already-materialized Float32 audio
 durations into sample counts using 32-bit integer arithmetic. At 44,100Hz and
 0..40ms it reproduces the original Double calculation's Float32 return, including

@@ -1,5 +1,7 @@
 # RNBO envelopes, logical edges and event clocks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The batch retains **31 scenarios across 9 exact spellings**. **21 pass**, **8 retain timing-screen differences**, and **2 fault on target**. The **29 completed runs check 296,960 output words and 638 control actions**. Raw right captures match throughout completed runs, with no nonfinite outputs. There are 24,546 within-limit differences and 5,268 observational left zero-sign differences. No new CPU flag triggers; the review queue stays **164**.
 
 Every source uses one arm and 21 ordered signed drive events, including repeats, same-callback updates and quiet holds. There are four manual warm plus sixteen timed 256-frame callbacks at 44,100 Hz, and zero automatic warm callbacks. The signal stimulus varies every sixteen samples and includes zero, positive and negative levels. The independent raw right pilot includes signed zero, subnormals and finite extrema.

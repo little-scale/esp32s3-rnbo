@@ -1,5 +1,7 @@
 # EEE: fixed-resonance `lores~` Float32 review
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The supplied `eee.rnbopat` now runs on the connected XIAO using the existing
 player. The previous Auto package was rejected by the detached startup screen
 at **5,993 µs**. The candidate passed admission and its live render observations

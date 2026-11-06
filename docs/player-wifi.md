@@ -1,5 +1,7 @@
 # Player Wi-Fi
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 RNBO Studio can provision a stable player over USB, then use an authenticated
 connection on the local network for package loads and live controls. Player
 installation and updates still require USB. There is one self-contained Main

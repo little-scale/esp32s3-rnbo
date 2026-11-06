@@ -1,5 +1,7 @@
 # Float32 dbtoa experiment
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `float32-dbtoa-v1` is an explicit, changed-rounding experiment for the exact
 original stereo [`dbtoa~` signal fixture](../tests/fixtures/smoke/dbtoa-f32-comparison/dbtoa-signal.rnbopat).
 It changes the local power base from integer `10` to `10.0f` and the exponent

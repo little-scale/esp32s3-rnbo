@@ -1,5 +1,7 @@
 # Float32 Trial: try first, retain evidence, review later
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Select **Advanced build settings → Arithmetic profile → Float32 trial —
 unverified kernels** in RNBO Studio. Compile normally. Trial starts with the same
 reviewed conversions as Auto, then attempts additional generated DSP methods

@@ -1,5 +1,7 @@
 # Original RNBO function and conversion smoke fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These 35 MIT-authored patches provide direct XIAO-oriented checks of exact RNBO 1.4.4 spellings. Each declares two inputs and two outputs, with no parameters or events. Unary functions process each input plane independently; `atan2~` and `hypot~` reverse operands on the right output.
 
 | Models | Authored spellings |

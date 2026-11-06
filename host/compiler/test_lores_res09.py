@@ -19,7 +19,7 @@ class LoresResonance09Tests(unittest.TestCase):
         if not shutil.which('node'):raise unittest.SkipTest('Licensed RNBO frontend required')
         cls.temp=tempfile.TemporaryDirectory();cls.addClassCleanup(cls.temp.cleanup)
         directory=Path(cls.temp.name)
-        result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/objects/lores-res09.rnbopat'),
+        result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(ROOT/'tests/fixtures/objects/lores-res09.rnbopat'),
                                '--out',str(directory/'raw')],capture_output=True,text=True)
         if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:raise unittest.SkipTest('Licensed RNBO frontend required')
         if result.returncode:raise AssertionError(result.stdout+result.stderr)

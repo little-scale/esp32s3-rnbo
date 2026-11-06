@@ -1,5 +1,7 @@
 # Visual Gen operator checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 This batch executes **101 exact visual spellings**: **99 pass** the declared mathematical screen and **2 retain outside-screen differences**. It checks **1,034,240 output words**; every raw right-lane capture matches. 5 complete callback contexts join the CPU queue, now 156. These are scoped functionality checks, not complete operator/mode qualification.
 
 Each source is an original embedded `dsp.gen` graph. Aliases have separate sources and executions. The original source, lowering snapshot, finite input domains and mathematical limits are fixed before measurement. No optional DSP optimisation is applied. The production module interface stays at 256 frames / 44.1kHz.

@@ -85,8 +85,8 @@ def regenerate(files, role, class_name='rnbos3patch'):
     if generator.get('source_sha256') != _hash(files['source.rnbopat']):
         raise ValueError('editable graph does not match generator metadata')
     tools = [Path(__file__), ROOT / 'host/compiler/prepare.py',
-             ROOT / 'host/export/export.mjs', ROOT / 'host/export/patcher.mjs',
-             ROOT / 'host/export/inspect_onepole_graph.mjs']
+             ROOT / 'archive/importer/integer-ui/export.mjs', ROOT / 'archive/importer/integer-ui/patcher.mjs',
+             ROOT / 'archive/importer/integer-ui/inspect_onepole_graph.mjs']
     before = {str(path.relative_to(ROOT)): _hash(path.read_bytes()) for path in tools}
     commands = []
 
@@ -131,7 +131,7 @@ def regenerate(files, role, class_name='rnbos3patch'):
         env = dict(os.environ, RNBO_DIR=inspection['package_directory'], BABEL_DISABLE_CACHE='1')
         node_version = run(['node', '--version'], env=env).decode().strip()
         raw = work / 'raw'
-        run(['node', str(ROOT / 'host/export/export.mjs'), str(patch), '--out', str(raw), '--voices', '1'], env=env)
+        run(['node', str(ROOT / 'archive/importer/integer-ui/export.mjs'), str(patch), '--out', str(raw), '--voices', '1'], env=env)
         normal = work / 'normal'
         manifest = prepare(raw, normal, class_name, role)
         description = json.loads((normal / 'description.json').read_bytes())

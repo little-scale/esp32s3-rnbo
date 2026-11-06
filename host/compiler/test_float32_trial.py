@@ -102,7 +102,7 @@ class TrialLicensedTests(unittest.TestCase):
             source={'patcher':{'classnamespace':'rnbo','boxes':[{'box':b} for b in boxes],
                 'lines':[{'patchline':{'source':[a,0],'destination':[b,0]}} for a,b in [('constant','op'),('op','left'),('op','right')]]}}
             path=cls.root/(label+'.rnbopat');path.write_text(json.dumps(source))
-            result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(path),'--out',str(cls.root/(label+'-raw'))],capture_output=True,text=True)
+            result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(path),'--out',str(cls.root/(label+'-raw'))],capture_output=True,text=True)
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:raise unittest.SkipTest('Licensed RNBO frontend required')
             if result.returncode:raise AssertionError(result.stdout+result.stderr)
 

@@ -1,5 +1,7 @@
 # XIAO object qualification
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The [signal-analysis and sample-clock batch](rnbo-analysis-timing.md) adds
 **23 completed XIAO scenarios across 16 exact spellings**: **19 pass** and four
 retain report/clock timing-policy differences, also present in native preflight.

@@ -1,5 +1,7 @@
 # Visual Gen range, state and multiple-output checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The batch covers **42 scenarios across 33 exact visual spellings**. **39 pass**, **1 retains an outside-screen result**, and **2 fail target C++ compilation**. The **40 completed XIAO runs check 409,600 output words**, with exact independently hashed right captures and no nonfinite outputs. There are 16,907 within-limit differences and 1,300 observational left zero-sign differences. **2 callbacks** join CPU review, now **164**.
 
 The production importer now lowers fully connected range/conversion and implicit stateful calls, and routes multiple outputs from a single call. Counter has three outputs; cartopol/poltocar have two. A selected output may feed a history. Missing/extra/stale ports, unknown options, disconnected operands and algebraic cycles still fail closed. Historical core/maths snapshots retain their identities: all 122 earlier graph lowerings are unchanged. The new flow snapshot is separately immutable.

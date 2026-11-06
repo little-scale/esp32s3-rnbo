@@ -48,9 +48,9 @@ class GenVisualTests(unittest.TestCase):
   import subprocess
   for row in cat['cases']:
    source=json.loads((HERE/row['patch']).read_bytes())['patcher'];gen=next(b['box']for b in source['boxes']if b['box'].get('text')=='gen~')
-   code="import fs from 'node:fs';import {lowerVisualGen} from './host/export/gen_visual.mjs';process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
+   code="import fs from 'node:fs';import {lowerVisualGen} from './archive/importer/gen_visual.mjs';process.stdout.write(JSON.stringify(lowerVisualGen(JSON.parse(fs.readFileSync(0,'utf8')))));"
    v=json.loads(subprocess.run(['node','--input-type=module','-e',code],input=json.dumps(gen['genpatcher']),text=True,capture_output=True,cwd=builder.ROOT,check=True).stdout)
-   proof=dict(box_id='gen',policy=v['policy'],nodes=v['nodes'],edges=v['edges'],histories=v['history_count'],operators=v['operators'],source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':')).encode()).hexdigest(),lowered_genexpr_sha256=hashlib.sha256(v['expression'].encode()).hexdigest(),adapter_sha256=builder.sha(builder.ROOT/'host/export/gen_visual.mjs'))
+   proof=dict(box_id='gen',policy=v['policy'],nodes=v['nodes'],edges=v['edges'],histories=v['history_count'],operators=v['operators'],source_graph_sha256=hashlib.sha256(json.dumps(gen['genpatcher'],separators=(',',':')).encode()).hexdigest(),lowered_genexpr_sha256=hashlib.sha256(v['expression'].encode()).hexdigest(),adapter_sha256=builder.sha(builder.ROOT/'archive/importer/gen_visual.mjs'))
    with tempfile.TemporaryDirectory()as d:
     p=Path(d);raw=(HERE/row['patch']).read_bytes();(p/'source.rnbopat').write_bytes(raw);(p/'generator.json').write_text(json.dumps(dict(visual_gen=[proof],gen_visual_adapter_sha256=proof['adapter_sha256'])))
     self.assertEqual(builder.visual_gen_bridge(p,raw,row),dict(gen_visual_lowering=proof,genpatcher_sha256=row['genpatcher_sha256']))

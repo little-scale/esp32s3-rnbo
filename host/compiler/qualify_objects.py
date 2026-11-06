@@ -267,7 +267,7 @@ def qualify(out, names, profiles, blocks_override=None, catalog_path=None):
         name = fixture["id"]; raw = out/"exports"/name; log = out/(name+"-build.log")
         record = {"fixture":fixture,"variants":[],"raw_export":str(raw)}; report["fixtures"].append(record)
         with log.open("w") as stream:
-            subprocess.run(["node",str(ROOT/"host/export/export.mjs"),str(catalog_path.parent/fixture["patch"]),"--out",str(raw)],check=True,stdout=stream,stderr=subprocess.STDOUT)
+            subprocess.run(["node",str(ROOT/"archive/importer/export.mjs"),str(catalog_path.parent/fixture["patch"]),"--out",str(raw)],check=True,stdout=stream,stderr=subprocess.STDOUT)
         variants = [("strict","float32-strict",False)] + [(p,p,False) for p in profiles]
         if fixture["float32_delay_storage"]: variants += [("float32-delays","float32-strict",True),("float32-audio-and-delays","float32-audio-v1",True)]
         if fixture["float32_delay_storage"] and "float32-audio-v2" in profiles:

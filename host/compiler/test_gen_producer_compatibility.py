@@ -120,7 +120,7 @@ class FreshProducerTests(unittest.TestCase):
                                    ('abs-call', 'tests/fixtures/gen/arithmetic/abs-call.rnbopat'),
                                    ('absolute-signal-stereo', 'tests/fixtures/objects/wave4/absolute-signal-stereo.rnbopat')):
             raw = cls.root / (identity + '-raw')
-            result = subprocess.run(['node', str(ROOT / 'host/export/export.mjs'), str(ROOT / relative),
+            result = subprocess.run(['node', str(ROOT / 'archive/importer/integer-ui/export.mjs'), str(ROOT / relative),
                                      '--out', str(raw)], capture_output=True, text=True)
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:
                 raise unittest.SkipTest('Licensed RNBO frontend unavailable')

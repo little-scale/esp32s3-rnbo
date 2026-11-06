@@ -26,7 +26,7 @@ test('inline physical input metadata survives the real RNBO export with display 
     const source = path.join(root, 'examples/physical-inputs.rnbopat');
     const original = fs.readFileSync(source);
     const output = path.join(temporary, 'export');
-    const result = spawnSync(process.execPath, ['host/export/export.mjs', source, '--out', output],
+    const result = spawnSync(process.execPath, ['archive/importer/export.mjs', source, '--out', output],
       {cwd: root, encoding: 'utf8', timeout: 90000, env: process.env});
     assert.equal(result.status, 0, result.stderr + result.stdout);
     const parameters = JSON.parse(fs.readFileSync(path.join(output, 'description.json'), 'utf8')).parameters;
@@ -121,7 +121,7 @@ test('integer number default truncates while explicit float format retains fract
     const exported = path.join(temporary, 'export'), prepared = path.join(temporary, 'prepared'), build = path.join(temporary, 'build');
     fs.writeFileSync(input, JSON.stringify({patcher: source}));
     const saved = fs.readFileSync(input);
-    command(process.execPath, ['host/export/export.mjs', input, '--out', exported, '--voices', '1']);
+    command(process.execPath, ['archive/importer/export.mjs', input, '--out', exported, '--voices', '1']);
     command('python3', ['host/compiler/prepare.py', '--export', exported, '--out', prepared, '--class-name', 'rnbos3patch', '--role', 'main']);
     command('python3', ['host/compiler/build.py', '--export', prepared, '--build-dir', build]);
     const floats = path.join(temporary, 'render.f32');
@@ -158,7 +158,7 @@ test('export, prepare and native render retain loadbang message and fractional n
     const build = path.join(temporary, 'build');
     fs.writeFileSync(input, JSON.stringify({patcher: source}));
     const saved = fs.readFileSync(input);
-    command(process.execPath, ['host/export/export.mjs', input, '--out', exported, '--voices', '1']);
+    command(process.execPath, ['archive/importer/export.mjs', input, '--out', exported, '--voices', '1']);
     command('python3', ['host/compiler/prepare.py', '--export', exported, '--out', prepared, '--class-name', 'rnbos3patch', '--role', 'main']);
     command('python3', ['host/compiler/build.py', '--export', prepared, '--build-dir', build]);
     const floats = path.join(temporary, 'render.f32');

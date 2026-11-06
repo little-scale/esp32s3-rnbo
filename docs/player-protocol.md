@@ -1,6 +1,8 @@
 # Stable RNBO player integration contract
 
-A board-specific player application stays installed. Studio exports RNBO C++,
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
+A board-specific player application stays installed. Max exports RNBO C++; Studio
 compiles a self-contained Xtensa ELF, and wraps it in a `.rnbopkg` package. Patch
 loads do not write the application/bootloader/partition regions. Native patches
 remain trusted code; checksums and descriptor checks are admission checks, not

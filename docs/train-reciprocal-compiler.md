@@ -1,5 +1,7 @@
 # Train reciprocal hoisting
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--hoist-train-reciprocal` is an optional compiler transformation for the
 reviewed RNBO 1.4.4 `phase-pulse` Main graph at 44,100 Hz/256 frames. It keeps
 `float32-strict` and requires normal runtime fixes. Other profiles and optional

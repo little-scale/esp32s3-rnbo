@@ -1,5 +1,7 @@
 # Explicit comb/allpass delay cap
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `prepare.py --filter-delay-max-ms 40` is an optional, separately recorded
 adaptation for the reviewed RNBO 1.4.4 comb~/allpass~ kernels. The default
 preparation preserves the generated DSP source. The cap applies to every

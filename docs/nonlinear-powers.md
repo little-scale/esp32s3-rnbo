@@ -1,5 +1,7 @@
 # Private scalar-power optimisation
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The reviewed `pow~` prototype uses Float32 multiplication for scalar exponents
 2 and 4, and two Float32 square roots for exponent 0.25. It selects the loop
 once per vector and retains the original `powf` fallback for other exponents.

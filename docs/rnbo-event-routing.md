@@ -1,5 +1,7 @@
 # RNBO numeric and list routing checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The full source ledger contains **62 scenarios across 30 exact spellings**. **58 complete their XIAO output checks**, **one original positive-rotation case faults in a target event**, and **three literal-message forms fail target C++ compilation**. The completed cases check **593,920 output words** and **1,276 control actions**. Every completed right-channel capture matches; no nonfinite output or outside-limit word occurs. The CPU review queue reaches **157**, with 0 new callback flags.
 
 This is functionality coverage with explicit gaps, not 62 hardware passes or full mode qualification. Each alias has its own source. `pak` is checked through a non-left inlet as well as all inputs; `routepass` retains the selector while `route` removes it. The sources cover all gate outlets, switch inputs/closed state, split/select routes, swap outlet order, packing/unpacking, list rotations/slices/extraction/replacement/sorting/intersection and message-box controls.

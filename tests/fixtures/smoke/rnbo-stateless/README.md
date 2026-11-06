@@ -1,5 +1,7 @@
 # Original RNBO signal smoke fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These 36 MIT-authored flat patches exercise exact RNBO 1.4.4 signal-object spellings. Each is an FX with two inputs, two outputs and no parameters. Unary operations process each plane independently; binary operations use `(left, right)` for the left output and reversed operands for the right output.
 
 | Model | Operation | Authored spellings |

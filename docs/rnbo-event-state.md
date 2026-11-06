@@ -1,5 +1,7 @@
 # RNBO ordered event-state checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The XIAO executes **36 scenarios across 15 exact spellings**: **36 pass** their fixed output screens; **0 retain outside-screen differences**. The batch checks **368,640 output words**, **756 drive events** and **36 arm actions**. Every raw right-channel capture matches and no nonfinite output occurs. The CPU review queue remains at 157 before this batch and reaches **157** afterwards.
 
 The sources cover additive/multiplicative prefixes and neutral resets, closed/open/switched latches, changed-value sums and zero/nonzero transition counts, four bounded counter directions/ranges and immediate/next resets, all peak/trough numeric outlets, asymmetric slide/rampsmooth state, sample-and-hold threshold edges, and right-before-left trigger ordering. Each alias has its own authored graphs and executions. Only these forms and domains are qualified.

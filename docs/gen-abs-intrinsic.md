@@ -1,5 +1,7 @@
 # Gen abs intrinsic
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The optional `--gen-abs-intrinsic` preparation flag replaces two Float32
 absolute-value calls with explicit Float32 compiler builtins in the exact
 original [abs GenExpr program](../tests/fixtures/gen/arithmetic/abs-call.genexpr).

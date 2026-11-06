@@ -69,7 +69,7 @@ test('autonomous GenExpr accepts zero or omitted signal inputs and publicly expo
       graph.lines.push({patchline: {source: ['g', 0], destination: ['left', 0]}}, {patchline: {source: ['g', 1], destination: ['right', 0]}});
       const input = path.join(temporary, `${index}.rnbopat`), exported = path.join(temporary, `${index}-export`), prepared = path.join(temporary, `${index}-prepared`);
       fs.writeFileSync(input, JSON.stringify({patcher: graph}));
-      for (const [exe, args] of [[process.execPath, ['host/export/export.mjs', input, '--out', exported]], ['python3', ['host/compiler/prepare.py', '--export', exported, '--out', prepared, '--class-name', 'rnbos3patch', '--role', 'main']]]) {
+      for (const [exe, args] of [[process.execPath, ['archive/importer/export.mjs', input, '--out', exported]], ['python3', ['host/compiler/prepare.py', '--export', exported, '--out', prepared, '--class-name', 'rnbos3patch', '--role', 'main']]]) {
         const result = spawnSync(exe, args, {cwd: root, env: process.env, encoding: 'utf8', timeout: 15000});
         assert.equal(result.status, 0, result.stderr + result.stdout);
       }
@@ -86,7 +86,7 @@ test('public exporter rejects native Gen parse failure instead of exporting an e
     const input = path.join(temporary, 'invalid.rnbopat');
     const out = path.join(temporary, 'export');
     fs.writeFileSync(input, JSON.stringify({patcher: source('gen~', {expr: '???'})}));
-    const result = spawnSync(process.execPath, ['host/export/export.mjs', input, '--out', out], {cwd: root, env: process.env, encoding: 'utf8', timeout: 20000});
+    const result = spawnSync(process.execPath, ['archive/importer/export.mjs', input, '--out', out], {cwd: root, env: process.env, encoding: 'utf8', timeout: 20000});
     assert.equal(result.status, 1);
     assert.match(result.stderr, /GenExpr did not produce a valid signal object/);
     assert.equal(fs.existsSync(out), false);
@@ -104,7 +104,7 @@ test('original history fixtures export through the public fixed-256 route and pr
       const input = path.join(root, 'tests/fixtures/gen', `${name}.rnbopat`);
       const exported = path.join(temporary, name, 'export');
       const prepared = path.join(temporary, name, 'prepared');
-      command(process.execPath, ['host/export/export.mjs', input, '--out', exported]);
+      command(process.execPath, ['archive/importer/export.mjs', input, '--out', exported]);
       command('python3', ['host/compiler/prepare.py', '--export', exported, '--out', prepared, '--class-name', 'rnbos3patch', '--role', 'fx']);
       assert.deepEqual(fs.readFileSync(path.join(exported, 'source.rnbopat')), fs.readFileSync(input));
       const description = JSON.parse(fs.readFileSync(path.join(exported, 'description.json')));
@@ -124,7 +124,7 @@ test('Gen buffer declarations stay visible and unsupported external resources fa
     const original = JSON.parse(fs.readFileSync(path.join(root, 'tests/fixtures/gen/history-feedback.rnbopat')));
     original.patcher.boxes.find(({box}) => box.id === 'gen').box.rnbo_extra_attributes.expr = 'Buffer external("external"); out1=peek(external,0); out2=in2;';
     fs.writeFileSync(input, JSON.stringify(original));
-    const result = spawnSync(process.execPath, ['host/export/export.mjs', input, '--out', exported], {cwd: root, env: process.env, encoding: 'utf8', timeout: 15000});
+    const result = spawnSync(process.execPath, ['archive/importer/export.mjs', input, '--out', exported], {cwd: root, env: process.env, encoding: 'utf8', timeout: 15000});
     assert.equal(result.status, 0, result.stderr + result.stdout);
     const description = JSON.parse(fs.readFileSync(path.join(exported, 'description.json')));
     assert.deepEqual(description.externalDataRefs, [{id: 'external', type: 'Float32Buffer', tag: 'buffer~'}]);
@@ -151,14 +151,14 @@ test('producer variable-block history kernels preserve per-sample state across p
     return result.stdout;
   }
   try {
-    const original = fs.readFileSync(path.join(root, 'host/export/export.mjs'), 'utf8');
+    const original = fs.readFileSync(path.join(root, 'archive/importer/export.mjs'), 'utf8');
     assert.equal(original.split('fixedblocksize: 256').length, 2);
     const variable = original.replace('fixedblocksize: 256', 'fixedblocksize: 0')
       .replace('block_frames: 256', 'block_frames: 0')
       .replace("'rnbo-s3-flat-rnbopat-v2'", "'private-genexpr-variable-block-test-v1'");
     const script = path.join(temporary, 'export-variable.mjs');
     fs.writeFileSync(script, variable);
-    for (const file of ['patcher.mjs','gen_visual.mjs']) fs.copyFileSync(path.join(root, 'host/export', file), path.join(temporary, file));
+    for (const file of ['patcher.mjs','gen_visual.mjs']) fs.copyFileSync(path.join(root, 'archive/importer', file), path.join(temporary, file));
     for (const [index, name] of ['history-feedback', 'two-history-swap'].entries()) {
       const exported = path.join(temporary, name, 'export');
       command(process.execPath, [script, path.join(root, 'tests/fixtures/gen', `${name}.rnbopat`), '--out', exported], `${name}-export`);

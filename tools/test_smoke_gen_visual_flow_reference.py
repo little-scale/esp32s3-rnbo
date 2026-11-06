@@ -83,7 +83,7 @@ class VisualFlowTests(unittest.TestCase):
  def test_historical_snapshots_do_not_resolve_current_producer(self):
   old=json.loads((builder.ROOT/'evidence/xiao-smoke-gen-visual-math-part1.json').read_bytes());proof=old['cases'][0]['gen_visual_lowering'];real=provenance.sha
   def checked(path):
-   if path==builder.ROOT/'host/export/gen_visual.mjs':raise AssertionError('Historical proof must resolve its frozen source')
+   if path==builder.ROOT/'archive/importer/gen_visual.mjs':raise AssertionError('Historical proof must resolve its frozen source')
    return real(path)
   with patch.object(provenance,'sha',side_effect=checked):self.assertNotEqual(provenance.resolve_lowerer(proof),HERE/'qualified_lowerer.mjs')
  def test_published_full_streams_and_rejections_bind_to_exact_sources(self):

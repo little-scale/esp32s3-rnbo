@@ -1,5 +1,7 @@
 # Qualification scope
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 The active hardware goal covers RNBO objects, operations and structures on the
 XIAO ESP32-S3, with recorded compatibility, numerical results, resource use and
 performance. The user's explicit addition on 4 November 2026 also requires

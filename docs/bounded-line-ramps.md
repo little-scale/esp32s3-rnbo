@@ -1,5 +1,7 @@
 # Experimental bounded line ramps
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--bounded-line-ramps` is a default-off correctness option for the exact reviewed
 RNBO 1.4.4 `line-timing` Main graph at 44,100 Hz/256 frames. It replaces the
 Float32 absolute ramp timestamps and growing cancellation list with one bounded

@@ -944,12 +944,22 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             "baseline_bit_identity_claimed": False, "target_cpu_gain_claimed": False,
             "floating_environment_equivalence_claimed": False, "nan_payload_equivalence_claimed": False}
     prepared_hashes = {name: digest(data) for name, data in sorted(files.items())}
+    export_helpers = {}
+    if "generator.json" in files:
+        # Historical reproduction records the actual archived producer, never
+        # an unrelated current helper. Native Max exports have no such dependency.
+        archived = Path(__file__).resolve().parents[2] / "archive/importer"
+        helper_dir = next((directory for directory in (archived, archived / "integer-ui")
+                           if (directory / "export.mjs").is_file()
+                           and digest((directory / "export.mjs").read_bytes()) == generated.get("adapter_sha256")), None)
+        if helper_dir is not None:
+            export_helpers = {name: digest((helper_dir / name).read_bytes())
+                              for name in ("export.mjs", "patcher.mjs", "inspect_onepole_graph.mjs")}
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
                                               for name in ("physical_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
-                  "export_helpers_sha256": {name: digest((Path(__file__).parent.parent / "export" / name).read_bytes())
-                                             for name in ("export.mjs", "patcher.mjs", "inspect_onepole_graph.mjs")},
+                  "export_helpers_sha256": export_helpers,
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
                   "claims": {"host_prepared": True, "xtensa_compiled": False,
@@ -978,7 +988,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__, epilog="Supported workflow: native Max Minimal Export with float32-strict. Other numerical/graph transforms below are historical research options; they do not establish native-export qualification.")
     parser.add_argument("--export", required=True, type=Path, dest="export_dir")
     parser.add_argument("--out", required=True, type=Path, dest="output_dir")
     parser.add_argument("--class-name", required=True)

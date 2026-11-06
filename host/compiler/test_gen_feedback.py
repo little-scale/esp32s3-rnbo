@@ -68,7 +68,7 @@ class GenFeedbackPipelineTests(unittest.TestCase):
         cls.temp = tempfile.TemporaryDirectory(); cls.addClassCleanup(cls.temp.cleanup)
         cls.directory = Path(cls.temp.name); cls.raw = cls.directory/'raw'
         try:
-            result = subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/gen/history-feedback.rnbopat'),
+            result = subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(ROOT/'tests/fixtures/gen/history-feedback.rnbopat'),
                                      '--out',str(cls.raw)],capture_output=True,text=True)
         except FileNotFoundError: raise unittest.SkipTest('Node and licensed RNBO frontend required')
         if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:

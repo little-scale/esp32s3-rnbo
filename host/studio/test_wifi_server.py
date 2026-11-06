@@ -109,10 +109,11 @@ class WifiServerTests(unittest.TestCase):
         self.assertEqual(self.studio.device_snapshot()['device']['transport'],'usb')
         self.assertIn('private IPv4',self.studio.wifi_status()['wifi']['error'])
         self.assertEqual(self.studio.pairings.public_list()[0]['ip'],'')
-    def test_new_explicit_audio_profile_is_accepted_without_changing_default(self):
-        patch=dict(patcher=dict(classnamespace='rnbo',boxes=[],lines=[]))
-        self.assertEqual(s.build_settings(dict(patch=patch))['numerical_profile'],'float32-auto-v1')
-        self.assertEqual(s.build_settings(dict(patch=patch,numerical_profile='float32-audio-v3'))['numerical_profile'],'float32-audio-v3')
+    def test_importer_profiles_are_retired(self):
+        from test_native_export import payload
+        with self.assertRaisesRegex(ValueError,'retired'):
+            s.build_settings(dict(payload(),numerical_profile='float32-audio-v3'))
+
     def test_unpaired_board_status_is_visible_without_creating_pairing(self):
         self.assertTrue(self.studio.device_snapshot()['device']['wifi']['supported'])
         self.assertEqual(self.studio.wifi_status()['paired'],[])

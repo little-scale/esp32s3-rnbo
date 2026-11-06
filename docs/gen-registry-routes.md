@@ -1,5 +1,7 @@
 # Gen registry source-route ledger — 6 November 2026
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 All **212 RNBO 1.4.4 GenExpr registry entries** now have at least one authored
 source scenario. **This is not 212 hardware passes or complete Gen qualification.**
 Some registered entries are graph-oriented forms that reject the exploratory

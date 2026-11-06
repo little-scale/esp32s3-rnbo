@@ -1,5 +1,7 @@
 # Stateful-object qualification: wave 3
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Ten original graphs extend the native corpus to the exact spellings
 `onepole~`, `slide~`, `delta~` and `sah~`. Fixed, scalar and signal-controlled
 forms are separate records. All 45 programs run without ABI faults, invalid

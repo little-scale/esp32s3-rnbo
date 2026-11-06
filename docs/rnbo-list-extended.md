@@ -1,5 +1,7 @@
 # RNBO extended list and storage checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The batch covers **32 scenarios across 17 exact spellings**. **27 complete output checks pass**, **1 retains a union-policy difference**, and **4 growing FIFO/LIFO scenarios fault in target events**. The completed checks cover **286,720 output words** and **616 control actions**. All completed raw right captures match; no nonfinite output occurs. The CPU queue reaches **157**, with 0 new callback flags.
 
 One arm action opens a startup gate, then 21 ordered drives encode an integer tag and fractional digit. Repeated identical lists exercise suppression/comparison; three drives share callback 10 and two share callback 16. Four manual warm and sixteen timed full 256-frame callbacks are checked at 44,100 Hz, with zero automatic warm callbacks. Parameters are resolved by ID with actual and normalised readbacks. All numerical limits are zero.

@@ -243,7 +243,7 @@ def qualify(out,names,profiles,blocks):
     report={"format":"rnbo-second-wave-host-qualification-v1","identity_sha256":identity,"hardware_executed":False,"target_performance_qualified":False,"completed":False,"passed":True,"fixtures":[]}
     for fixture in fixtures:
         name=fixture["id"];raw=out/"exports"/name;log=out/(name+"-build.log");record={"fixture":fixture,"variants":[]};report["fixtures"].append(record)
-        with log.open("w") as stream:subprocess.run(["node",str(ROOT/"host/export/export.mjs"),str(FIXTURES/fixture["patch"]),"--out",str(raw)],check=True,stdout=stream,stderr=subprocess.STDOUT)
+        with log.open("w") as stream:subprocess.run(["node",str(ROOT/"archive/importer/export.mjs"),str(FIXTURES/fixture["patch"]),"--out",str(raw)],check=True,stdout=stream,stderr=subprocess.STDOUT)
         record["source_audit"]=source_audit(raw,fixture)
         references={};reference_build=None
         for profile in ["float32-strict",*profiles]:

@@ -1,5 +1,7 @@
 # Exact audio-delay conversion option
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--exact-audio-delay44100` enables the reviewed integer duration conversion in
 one exact RNBO 1.4.4 `filters-signal` Main graph. It is off by default, keeps
 `float32-strict`, and requires normal runtime fixes plus the explicit 40 ms cap.

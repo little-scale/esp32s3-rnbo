@@ -1,5 +1,7 @@
 # Signal-driven cycle fixture
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 `cycle-signal.rnbopat` is an original MIT-licensed qualification patch. It sends
 ordinary frequency/phase parameters through `sig~` objects into both `cycle~`
 signal inlets, then sends the sine output to both output channels. Parameter

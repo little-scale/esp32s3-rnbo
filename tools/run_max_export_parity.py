@@ -33,7 +33,7 @@ def work(base,row,route):
         with p.open('wb')as f:r=subprocess.run(cmd,cwd=ROOT,stdout=f,stderr=subprocess.STDOUT)
         return r.returncode,p
     if route=='importer':
-        rc,log=command('export',['node',str(ROOT/'host/export/export.mjs'),str(source),'--out',str(raw)])
+        rc,log=command('export',['node',str(ROOT/'archive/importer/export.mjs'),str(source),'--out',str(raw)])
         if rc:return dict(id=row['id'],route=route,status='export_failed',returncode=rc,log=record(log))
     else:
         assert (raw/'rnbo_source.h').is_file()and (raw/'description.json').is_file()and (raw/'common/RNBO_Version.h').is_file()

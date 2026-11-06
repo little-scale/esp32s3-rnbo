@@ -1,5 +1,7 @@
 # Patch view
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 The AMOLED interface follows the FM1 RNBO player: black background, bright blue
 RNBO object outlines (`#40a0ff`), white patch cords and status text, square boxes,
 small inlet/outlet notches and Barlow Semi Condensed lettering. Gen containers
@@ -7,8 +9,9 @@ use white. The original FM1 layout/rendering concepts are MIT; the bundled
 Barlow fonts are SIL OFL 1.1. Content hashes and changes are in
 [`host/visual/UPSTREAM.json`](../host/visual/UPSTREAM.json).
 
-The host compiles the actual editable `.rnbopat` plus the matching RNBO
-description into immutable metadata. The graph uses a 336 × 232 pixel region
+The host uses an optional matching `.rnbopat` drawing plus Max’s exported RNBO
+description to create immutable visual metadata. DSP compilation uses only the
+Minimal C++ export. Drawings are never graph-to-code input. The graph uses a 336 × 232 pixel region
 on the 368 × 448 display. It preserves object anchors and explicit cord
 midpoints, fits compact labels and resolves collisions deterministically.
 The report retains source coordinates and the exact source/description hashes.

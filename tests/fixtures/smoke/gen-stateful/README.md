@@ -1,5 +1,7 @@
 # Original GenExpr sample-state smoke fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These 12 MIT-authored programs cover nine exact GenExpr spellings: `delta`, `change`, `latch`, `dcblock`, `sah`, `slide`, `accum`, `plusequals` and `counter`. Each self-contained RNBO patch has two signal inputs and outputs, no parameters or events, and uses the normal strict 44.1 kHz/256-frame module profile. History was tested earlier and is not counted as a new object here.
 
 | Model | Program scope |

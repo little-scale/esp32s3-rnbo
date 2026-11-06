@@ -25,3 +25,12 @@ The source baseline's [licensing inventory](https://github.com/little-scale/fm1-
 and [Cycling '74 export terms](https://support.cycling74.com/hc/en-us/articles/10730637742483-RNBO-Export-Licensing-FAQ)
 describe the distinct generated-code and runtime terms. Local build artifacts
 are development evidence, not a prepared binary distribution.
+
+## Native Max export intake
+
+The supported frontend is Cycling ’74 C++ Minimal Export. Generated source retains
+its original licence notice. `LICENSES/RNBO-runtime-LICENSE` is the unmodified MIT
+notice from installed RNBO 1.4.4 `source/rnbo/LICENSE`, used when a complete Max
+export omits a separate runtime notice. Runtime headers remain supplied by the
+user’s export. Retired importer/FM1-derived work remains under `archive/importer`
+and in the historical visual implementation; existing notices still apply.

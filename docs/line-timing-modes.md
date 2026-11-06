@@ -1,5 +1,7 @@
 # Line timing, cancellation and precision observations
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Computer-side checks expose three limitations in the current strict RNBO 1.4.4
 `line-timing` Main graph: absolute Float32 ramp timestamps change output as the
 sample counter grows, repeated commands can allocate during event delivery,

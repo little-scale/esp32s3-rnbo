@@ -110,7 +110,7 @@ class PipelineTests(unittest.TestCase):
         cls.temp=tempfile.TemporaryDirectory();cls.addClassCleanup(cls.temp.cleanup);cls.root=Path(cls.temp.name);cls.exports={};cls.references={};cls.maps={}
         for context in CONTEXTS:
             raw=cls.root/(context+'-raw')
-            try:result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/objects/wave3'/(context+'.rnbopat')),'--out',str(raw)],capture_output=True,text=True)
+            try:result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(ROOT/'tests/fixtures/objects/wave3'/(context+'.rnbopat')),'--out',str(raw)],capture_output=True,text=True)
             except FileNotFoundError:raise unittest.SkipTest('Node and authorised RNBO1.4.4 required')
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR' in result.stderr:raise unittest.SkipTest('Authorised RNBO1.4.4 not installed')
             if result.returncode:raise AssertionError(result.stderr)

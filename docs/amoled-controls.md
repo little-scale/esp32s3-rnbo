@@ -1,5 +1,7 @@
 # AMOLED controls
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 The 368×448 AMOLED interface keeps the FM1-style patch drawing and adds a
 dedicated parameter page. The bottom row has one wide playback button and
 **Params**. The playback button shows **Pause** while playing and **Resume**

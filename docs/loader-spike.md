@@ -1,5 +1,7 @@
 # Native loader qualification fixture
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The standalone `loader-spike/` project builds a small Xtensa C++ module and a
 separate ESP32-S3 test firmware. It does not replace the RNBO audio firmware,
 initialize a display/network, write module storage or produce audio. The

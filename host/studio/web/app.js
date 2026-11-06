@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
   const state = {
     csrf: '', environment: {}, serverBusy: false, reachable: false,
-    patch: null, name: 'patch.rnbopat', revision: 0, valid: false,
+    exportPayload: null, patch: null, name: 'RNBO Export', revision: 0, valid: false,
     artifact: null, job: null, jobRevision: -1, operation: null,
     loadFailure: null, loadingTransport: 'usb',
     connecting: false, connectedPort: '', connectedTransport: 'usb', connectedDeviceId: '',
@@ -74,7 +74,7 @@
   }
 
   function missingTools(forUpload = false) {
-    const keys = forUpload ? ['python_serial'] : ['node', 'rnbo', 'idf'];
+    const keys = forUpload ? ['python_serial'] : ['idf'];
 
     return keys.filter(key => availability(state.environment[key]) === false);
   }
@@ -127,7 +127,7 @@
       else if (missingTools().length) $('compile-status').textContent = 'A required local tool is unavailable. See Local tools.';
       else if (state.serverBusy) $('compile-status').textContent = 'Local tools are busy…';
       else if (availableArtifact) $('compile-status').textContent = 'Package ready to download or load';
-      else $('compile-status').textContent = state.valid ? 'Ready to compile' : 'Open a valid RNBO patch to compile';
+      else $('compile-status').textContent = state.valid ? 'Ready to compile' : 'Open a Max Minimal Export to compile';
       if (!availableArtifact) $('upload-status').textContent = 'Compile the current patch and settings before uploading.';
       else if (!hasTarget) $('upload-status').textContent = usb ? 'Choose a USB device for the compiled package.' : 'Choose a saved Wi-Fi player for the compiled package.';
       else if (!$('upload-status').dataset.completed) $('upload-status').textContent = isPlayer ? 'Ready to load the package into the connected player.' : 'Connect a stable player, or install it below first.';
@@ -154,15 +154,8 @@
   function renderLoadFailure() {
     const failure = state.loadFailure;
     $('load-failure').hidden = !failure;
-    const editableCpuFailure = Boolean(failure && failure.cpuUs !== null && state.valid && state.patch);
-    const alreadyAuto = $('numerical-profile').value === 'float32-auto-v1';
-    const canRecompile = editableCpuFailure && !alreadyAuto;
-    $('optimise-recompile').hidden = !canRecompile; $('optimise-hint').hidden = !editableCpuFailure;
-    $('optimise-hint').textContent = alreadyAuto
-      ? failure?.retryStarted ? 'Automatic optimisation selected. Load the newly compiled package when it is ready; compilation does not activate it.'
-        : 'Automatic optimisation is already selected; this patch still needs further optimisation.'
-      : 'This compiles a new package with automatic Float32 audio. It does not load it or change delay storage.';
-    $('optimise-recompile').disabled = $('compile').disabled;
+    $('optimise-hint').hidden = !failure || failure.cpuUs === null;
+    $('optimise-hint').textContent = 'Simplify the patch in Max and export again. Native exports use the baseline Float32 wrapper; previous importer optimisation profiles are retired.';
     if (!failure) return;
     $('load-failure-title').textContent = `${failure.cpuUs !== null ? 'Last load rejected' : 'Last load error'}: ${failure.title}`;
     const retained = failure.priorMain ? failure.priorPaused ? 'The previous patch stays loaded and paused.' : 'The previous patch remains running.'
@@ -300,47 +293,62 @@
     $('patch-facts').textContent = `Compiled layout · ${visual.nodes.length} objects · ${visual.segments.length} wire segments · ${parameters.length} parameters`;
   }
 
-  function parseSource() {
-    $('source-title').textContent = 'Your RNBO patch';
-    $('empty-title').textContent = 'Open an RNBO patch';
-    $('empty-description').textContent = 'Drop a .rnbopat here, open a file, or load the example.';
-    $('patch-svg').setAttribute('aria-label', 'RNBO patch connections');
-    try {
-      const patch = JSON.parse($('source').value);
-      patchGraph(patch);
-      state.patch = patch;
-      state.valid = true;
-      drawPatch(patch);
-      $('source-state').textContent = 'Patch loaded. Compile a Main package locally.';
-      $('source-state').classList.remove('source-error');
-    } catch (error) {
-      state.patch = null;
-      state.valid = false;
-      $('source-state').textContent = `Check the patch JSON: ${error.message}`;
-      $('source-state').classList.add('source-error');
-      $('patch-svg').setAttribute('hidden', '');
-      $('empty-preview').hidden = false;
-      $('patch-facts').textContent = 'Waiting for valid patch JSON';
-    }
-    updateButtons();
-  }
-
-  function setPatch(patch, name) {
-    patchGraph(patch);
-    clearTimeout(state.parsingTimer);
-    state.name = String(name || 'patch.rnbopat');
-    $('file-name').textContent = state.name;
-    $('source').value = JSON.stringify(patch, null, 2);
-    invalidate();
-    parseSource();
-    message();
-  }
-
   async function openFile(file) {
-    if (!file) return;
-    try { setPatch(JSON.parse(await file.text()), file.name); }
-    catch (error) { message(`Could not open ${file.name}: ${error.message}`); }
+    if (!file || busy()) return;
+    try {
+      if (!file.name.toLowerCase().endsWith('.zip') || file.size > 32 * 1048576) throw new Error('Choose a Minimal Export ZIP up to 32 MiB.');
+      const data = new Uint8Array(await file.arrayBuffer());
+      state.exportPayload = {zip_base64: toBase64(data)};
+      acceptExport(file.name);
+    } catch (error) { message(`Could not open ${file.name}: ${error.message}`); }
     $('file').value = '';
+  }
+
+  function toBase64(data) {
+    let binary = '';
+    for (let offset = 0; offset < data.length; offset += 8192)
+      binary += String.fromCharCode(...data.subarray(offset, offset + 8192));
+    return btoa(binary);
+  }
+
+  function acceptExport(name) {
+    $('source-title').textContent = 'Max C++ export';
+    state.name = name; state.patch = null; state.valid = true;
+    invalidate();
+    $('file-name').textContent = name;
+    $('patch-svg').setAttribute('hidden', ''); $('empty-preview').hidden = false;
+    $('empty-title').textContent = 'Max C++ export selected';
+    $('empty-description').textContent = 'Add the original .rnbopat for a drawing, or compile the exported code directly.';
+    $('patch-facts').textContent = 'Minimal C++ · source checked during build';
+    $('source-state').textContent = 'Export selected. Compilation uses C++ only; optional patch drawings do not change DSP.';
+    $('source-state').classList.remove('source-error'); message(); updateButtons();
+  }
+
+  async function openFolder(files) {
+    if (!files?.length || busy()) return;
+    try {
+      if (files.length > 1024 || [...files].reduce((sum, file) => sum + file.size, 0) > 32 * 1048576)
+        throw new Error('Export exceeds the 1024-file / 32 MiB limit.');
+      const rows = [];
+      for (const file of files) rows.push({path:file.webkitRelativePath || file.name,
+        data_base64:toBase64(new Uint8Array(await file.arrayBuffer()))});
+      state.exportPayload = {export_files:rows};
+      acceptExport((files[0].webkitRelativePath || 'RNBO Export').split('/')[0]);
+    } catch (error) { message(error.message); }
+    $('folder').value = '';
+  }
+
+  async function openLayout(file) {
+    if (!file || busy()) return;
+    try {
+      if (!state.exportPayload) throw new Error('Open the matching C++ export first.');
+      if (!file.name.toLowerCase().endsWith('.rnbopat') || file.size > 1048576) throw new Error('Choose a .rnbopat drawing up to 1 MiB.');
+      const patch = JSON.parse(await file.text()); patchGraph(patch);
+      state.patch = patch; invalidate(); drawPatch(patch);
+      $('source-state').textContent = 'Drawing attached only. Re-export in Max whenever you change the audio patch.';
+      message();
+    } catch (error) { message(error.message); }
+    $('layout-file').value = '';
   }
 
   async function openPackage(file) {
@@ -364,8 +372,8 @@
       invalidate();
       state.job = response.job;
       state.artifact = {id: response.job.id, revision: state.revision, result: response.job.result};
-      state.patch = null; state.valid = false; state.name = file.name;
-      $('source').value = ''; $('file-name').textContent = file.name;
+      state.exportPayload = null; state.patch = null; state.valid = false; state.name = file.name;
+      $('file-name').textContent = file.name;
       drawPackagePreview(response.job.result.visual);
       $('source-state').textContent = 'Saved package validated. Ready to load without recompiling.';
       $('source-state').classList.remove('source-error');
@@ -376,16 +384,8 @@
   }
 
   function buildOptions() {
-    const delay = $('comb-max').value.trim();
-    const cap = delay === '' ? null : Number(delay);
-    if (cap !== null && (!Number.isFinite(cap) || cap <= 0 || cap > 1000)) throw new Error('Enter a positive comb delay cap up to 1000 ms, or leave it blank for the default.');
-    return {
-      name: state.name, patch: state.patch, role: 'main',
-      initial_volume: Number($('initial-volume').value), voices: Number($('voices').value),
-      arena_bytes: Number($('arena').value) * 1048576,
-      numerical_profile: $('numerical-profile').value,
-      filter_delay_max_ms: cap, float32_delays: $('float32-delays').checked,
-    };
+    return {...state.exportPayload, name:state.name, visual_patch:state.patch, role:'main',
+      initial_volume:Number($('initial-volume').value), arena_bytes:Number($('arena').value) * 1048576};
   }
 
   function showResult(result) {
@@ -490,7 +490,6 @@
   async function compile() {
     if ($('compile').disabled) return;
     try {
-      clearTimeout(state.parsingTimer); parseSource();
       if (!state.valid) return;
       const options = buildOptions();
       message();
@@ -811,7 +810,7 @@
       }
       state.csrf = response.csrf || ''; state.environment = response.environment || {};
       state.serverBusy = Boolean(response.busy); state.reachable = true;
-      const names = {node: 'Node', rnbo: 'RNBO', idf: 'ESP32 tools', python_serial: 'USB tools', amoled_components: 'AMOLED components'};
+      const names = {idf: 'ESP32 tools', python_serial: 'USB tools', amoled_components: 'AMOLED components'};
       $('environment').replaceChildren(...Object.entries(names).map(([key, label]) => {
         const span = document.createElement('span'), available = availability(state.environment[key]);
         span.textContent = `${label} ${available === true ? '✓' : available === false ? 'unavailable' : '—'}`;
@@ -834,13 +833,13 @@
   $('file').addEventListener('change', () => openFile($('file').files[0]));
   $('open-package').addEventListener('click', () => $('package-file').click());
   $('package-file').addEventListener('change', () => openPackage($('package-file').files[0]));
+  $('open-folder').addEventListener('click', () => $('folder').click());
+  $('folder').addEventListener('change', () => openFolder($('folder').files));
+  $('open-layout').addEventListener('click', () => $('layout-file').click());
+  $('layout-file').addEventListener('change', () => openLayout($('layout-file').files[0]));
   $('example').addEventListener('click', async () => {
-    try { const example = await api('/api/example'); setPatch(example.patch, example.name); }
+    try { const response = await api('/api/example'); message(response.guidance); }
     catch (error) { message(error.message); }
-  });
-  $('source').addEventListener('input', () => {
-    state.valid = false; invalidate();
-    clearTimeout(state.parsingTimer); state.parsingTimer = setTimeout(parseSource, 300);
   });
   const drop = $('drop-zone');
   drop.addEventListener('keydown', event => { if ((event.key === 'Enter' || event.key === ' ') && event.target === drop) { event.preventDefault(); $('file').click(); } });
@@ -849,19 +848,12 @@
   drop.addEventListener('drop', event => openFile(event.dataTransfer.files[0]));
   document.addEventListener('dragover', event => event.preventDefault());
   document.addEventListener('drop', event => event.preventDefault());
-  for (const id of ['voices', 'arena', 'numerical-profile', 'comb-max', 'float32-delays', 'initial-volume']) {
+  for (const id of ['arena', 'initial-volume']) {
     $(id).addEventListener(id === 'comb-max' || id === 'initial-volume' ? 'input' : 'change', () => {
       $('initial-volume-value').textContent = `${$('initial-volume').value}%`; invalidate();
     });
   }
   $('compile').addEventListener('click', compile);
-  $('optimise-recompile').addEventListener('click', async () => {
-    if ($('optimise-recompile').disabled || $('optimise-recompile').hidden) return;
-    state.loadFailure.retryStarted = true;
-    $('numerical-profile').value = 'float32-auto-v1';
-    invalidate();
-    await compile();
-  });
   $('upload').addEventListener('click', upload);
   $('install-player').addEventListener('click', async () => {
     if ($('install-player').disabled) return;

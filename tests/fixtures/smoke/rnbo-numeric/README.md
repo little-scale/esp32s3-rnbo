@@ -1,5 +1,7 @@
 # Original RNBO numeric signal smoke fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These 33 MIT-authored flat RNBO 1.4.4 patches provide short XIAO-oriented functional checks. Each is an FX with two signal inputs, two outputs and no parameters or events. Unary operators process each plane independently. Binary operators receive `(left, right)` and reversed operands in separate instances.
 
 | Models | Authored spellings |

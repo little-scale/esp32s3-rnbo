@@ -1,5 +1,7 @@
 # Reviewed float32 audio profile v2
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--numerical-profile float32-audio-v2` is an explicit optional profile for
 reviewed RNBO1.4.4 generated methods. Strict remains the default. V2 adds nine
 whole-method fingerprints to v1's catalogue: scalar-frequency `cycle~` with an

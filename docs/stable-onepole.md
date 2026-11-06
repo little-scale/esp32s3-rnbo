@@ -1,5 +1,7 @@
 # Experimental stable Float32 onepole
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `--stable-onepole` replaces the coefficient and recurrence in eligible
 RNBO 1.4.4 graphs. The original three-form native implementation fixes all five
 previously failing onepole accuracy programs, uses Float32 signal math and

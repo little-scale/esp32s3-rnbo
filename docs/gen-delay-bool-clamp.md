@@ -1,5 +1,7 @@
 # Gen Delay compilation and per-sample checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Normal preparation now makes an existing boolean-to-integer conversion explicit
 in two recognised RNBO 1.4.4 Gen delay reader forms. This resolves GCC's
 `-Werror=bool-compare` build failure for the tested integer taps 1/3. No compiler

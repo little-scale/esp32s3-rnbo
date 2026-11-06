@@ -73,7 +73,7 @@ class DbtoaPipelineTests(unittest.TestCase):
         cls.temp = tempfile.TemporaryDirectory(); cls.addClassCleanup(cls.temp.cleanup)
         cls.directory = Path(cls.temp.name); cls.raw = cls.directory/'raw'
         try:
-            process = subprocess.run(['node', str(ROOT/'host/export/export.mjs'),
+            process = subprocess.run(['node', str(ROOT/'archive/importer/integer-ui/export.mjs'),
                 str(ROOT/'tests/fixtures/smoke/rnbo-functions/dbtoa-signal.rnbopat'), '--out', str(cls.raw)],
                 capture_output=True, text=True, timeout=60)
         except FileNotFoundError:

@@ -1,5 +1,7 @@
 # Preserve authored parameter-event order
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The benchmark compiler now groups events by block while preserving their
 authored order within each block. The recorded policy is
 `stable-block-source-order-v1`. Initial parameter-map entries retain their

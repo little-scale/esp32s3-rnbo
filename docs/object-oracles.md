@@ -1,5 +1,7 @@
 # Target checks against independent object models
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The original biquad and nonlinear FX fixtures passed on the AMOLED V2 at
 44,100 Hz with 256-frame vectors. Each run compared two copies of the **same
 strict module artifact**. These are controls for the inputs, mathematical

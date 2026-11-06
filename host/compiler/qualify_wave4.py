@@ -63,7 +63,7 @@ class Oracle:
 
 def export_fixture(fixture, out, node, rnbo_dir):
     id = fixture["id"]
-    command = [node, str(ROOT / "host/export/export.mjs"), str(FIXTURES / fixture["patch"]), "--out", str(out / "raw" / id)]
+    command = [node, str(ROOT / "archive/importer/export.mjs"), str(FIXTURES / fixture["patch"]), "--out", str(out / "raw" / id)]
     if rnbo_dir is not None: command += ["--rnbo-dir", str(rnbo_dir)]
     native.run_logged(command, out / "logs" / (id + "-export.log"))
     prepare(out / "raw" / id, out / "prepared" / id, "rnbos3patch", "fx")
@@ -132,7 +132,7 @@ def qualify(output, rnbo_dir=None, *, jobs=2):
     require(sha(native.NATIVE / "probe.cpp") == native.ORIGINAL_PROBE_SHA256, "Reviewed native observer changed")
     node, cc, cxx = (shutil.which(name) for name in ("node", "cc", "c++"))
     require(node and cc and cxx, "Node and a C/C++ toolchain are required")
-    paths = [Path(__file__), DEFAULT_RECIPES, CATALOG, FIXTURES / "models.py", FIXTURES / "inputs.py", native.NATIVE / "probe.cpp", ROOT / "host/export/export.mjs", ROOT / "host/export/patcher.mjs"]
+    paths = [Path(__file__), DEFAULT_RECIPES, CATALOG, FIXTURES / "models.py", FIXTURES / "inputs.py", native.NATIVE / "probe.cpp", ROOT / "archive/importer/export.mjs", ROOT / "archive/importer/patcher.mjs"]
     paths += [FIXTURES / f["patch"] for f in catalog["fixtures"]] + [ROOT / n for n in native.SDK_SOURCES]
     paths += sorted(p for p in (ROOT / "host/compiler").iterdir() if p.suffix in (".py", ".h") and not p.name.startswith("test_"))
     paths = sorted(set(paths)); before = {str(p.relative_to(ROOT)): sha(p) for p in paths}

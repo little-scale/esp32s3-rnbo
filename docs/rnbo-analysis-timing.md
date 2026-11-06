@@ -1,5 +1,7 @@
 # RNBO signal-analysis and sample-clock checks
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The batch covers **23 scenarios across 16 exact spellings**. **19 pass**, and **4 retain report/clock timing differences** against the original screen. Checks cover **235,520 output words and 506 control actions**. All raw right captures match, and no nonfinite or zero-sign differences occur. There are 5 within-limit differences. No new callback CPU flag triggers; **164 contexts** remain queued.
 
 One arm precedes 21 ordered signed drive events, including repeated values, three updates before one callback, and quiet holds. Every source runs four manual warm and sixteen timed full 256-frame callbacks at 44,100 Hz, with zero automatic warm callbacks. Signal inputs vary every sample within blocks. The right pilot independently checks signed zero, subnormals and finite extrema. Parameter IDs, actual values and normalised readbacks are checked.

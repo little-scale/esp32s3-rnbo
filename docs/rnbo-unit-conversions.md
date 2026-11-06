@@ -1,5 +1,7 @@
 # RNBO event and signal unit conversions
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The XIAO executes **36 exact spellings**: **35 pass** their predeclared rational output screen and **1 retains a numerical difference**. The batch checks **368,640 output words** and **756 ordered parameter actions**. Every raw right-channel capture matches; no nonfinite output occurs. The CPU review queue reaches **157**, with 1 added by this batch.
 
 The 21 numeric-event forms use `param → conversion → sig~`. The 15 signal forms use `in~ 1 +~ sig~(param) → conversion~`, with 16 distinct left-input levels inside each block. Four manual warm callbacks and sixteen timed callbacks are all checked; there are no automatic warm callbacks. Repeats, held values and three ordered actions before one callback are included. Actual and normalised readbacks are checked. No source spelling inherits another spelling’s result.

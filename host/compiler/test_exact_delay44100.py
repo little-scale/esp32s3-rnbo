@@ -32,7 +32,7 @@ class CandidateTests(unittest.TestCase):
         if override:
             if not (cls.export/'rnbo_source.h').is_file():raise unittest.SkipTest('Authorized filters-signal export unavailable')
         else:
-            try:result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(ROOT/'tests/fixtures/objects/filters-signal.rnbopat'),'--out',str(cls.export)],capture_output=True,text=True)
+            try:result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(ROOT/'tests/fixtures/objects/filters-signal.rnbopat'),'--out',str(cls.export)],capture_output=True,text=True)
             except FileNotFoundError:raise unittest.SkipTest('Node and authorized RNBO1.4.4 required')
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR'in result.stderr:raise unittest.SkipTest('Authorized RNBO1.4.4 unavailable')
             if result.returncode:raise AssertionError(result.stderr)

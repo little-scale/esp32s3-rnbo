@@ -40,7 +40,7 @@ def main():
     renderers={}
     for name,role in (("sine","main"),("fx-pass-through","fx")):
         raw=out/"exports"/name
-        run(["node",str(ROOT/"host/export/export.mjs"),str(ROOT/"examples"/name/f"{name}.rnbopat"),"--out",str(raw)],logs,f"export-{name}",environment)
+        run(["node",str(ROOT/"archive/importer/export.mjs"),str(ROOT/"examples"/name/f"{name}.rnbopat"),"--out",str(raw)],logs,f"export-{name}",environment)
         for reference in ((False,True) if name=="sine" else (False,)):
             label=name+("-reference" if reference else "")
             prepared=out/"prepared"/label
@@ -59,7 +59,7 @@ def main():
         raw=out/"exports"/label
         prepared=out/"prepared"/label
         build=out/"host"/label
-        run(["node",str(ROOT/"host/export/export.mjs"),str(ROOT/"examples/midi-envelope/midi-envelope.rnbopat"),
+        run(["node",str(ROOT/"archive/importer/export.mjs"),str(ROOT/"examples/midi-envelope/midi-envelope.rnbopat"),
              "--voices",str(voices),"--out",str(raw)],logs,f"export-{label}",environment)
         prepare=[sys.executable,str(ROOT/"host/compiler/prepare.py"),"--export",str(raw),"--out",str(prepared),
                  "--class-name","rnbos3patch","--role","main"]

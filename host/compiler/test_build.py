@@ -17,7 +17,7 @@ class BuildIntegrityTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[2]
         cls.fixture = Path(os.environ.get("RNBO_S3_TEST_EXPORT", root / "build/exports/sine"))
         if not (cls.fixture / "rnbo_source.h").is_file():
-            raise unittest.SkipTest("Generate examples/sine with host/export/export.mjs first")
+            raise unittest.SkipTest("Generate examples/sine with archive/importer/integer-ui/export.mjs first")
 
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()

@@ -1,5 +1,7 @@
 # Physical inputs → RNBO parameters
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 **UART MIDI reservation:** optional [UART MIDI input](midi-inputs.md) uses
 **D7 = GPIO44**. D7 digital bindings are available while UART MIDI is off.
 The player rejects enabling UART with a loaded GPIO44 binding, and rejects
@@ -29,7 +31,8 @@ param accent 0.25 @min 0.25 @max 1 @displayname Accent @meta "{'esp32':{'type':'
 
 The outer double quotes and inner single quotes are intentional. This JSON5
 form is accepted by the pinned RNBO 1.4.4 generator and keeps the mapping visible
-inside the object. The importer preserves the editable patch file. An inspector
+inside the object. Max exports it into parameter metadata in `description.json`;
+the preparer reads that metadata. An optional drawing file cannot assign pins. An inspector
 metadata object works too, but is not required. `displayname` remains the label
 shown to the user; it does not assign a pin.
 

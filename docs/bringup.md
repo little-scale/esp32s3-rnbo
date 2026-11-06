@@ -1,5 +1,7 @@
 # AMOLED V2 hardware bring-up
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 Primary board: Waveshare ESP32-S3 Touch AMOLED 1.8 V2, 16 MiB flash and 8 MiB
 octal PSRAM. The checked firmware builds do not establish physical results.
 Recorded physical results are now available in

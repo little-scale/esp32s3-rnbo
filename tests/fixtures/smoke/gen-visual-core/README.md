@@ -1,5 +1,7 @@
 # Embedded visual Gen core fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These 21 original `.rnbopat` files contain actual `genpatcher.patcher` graphs,
 using the installed help patch's `dsp.gen` serialization shape. They contain no
 saved/authored `expr`. `generate.py --check` reproduces every graph and catalog.

@@ -1,5 +1,7 @@
 # 3sawsDrone3 hardware qualification
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The authored `3sawsDrone3` patch runs as a static RNBO instrument on the Waveshare
 ESP32-S3 Touch AMOLED 1.8 V2. The final build completed a continuous silent DSP
 observation: **300 playing status samples over 303.020 seconds of

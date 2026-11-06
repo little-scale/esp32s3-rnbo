@@ -21,6 +21,6 @@ def resolve_lowerer(proof,*,allow_current=False):
         if digest==expected:
             if sha(path)!=expected:raise ValueError('Qualified visual lowerer snapshot changed')
             return path
-    current=ROOT/'host/export/gen_visual.mjs'
+    current=ROOT/'archive/importer/gen_visual.mjs'
     if allow_current and digest==sha(current):return current
     raise ValueError('Visual Gen receipt has no matching qualified lowerer source')

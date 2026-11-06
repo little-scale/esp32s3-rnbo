@@ -1,5 +1,7 @@
 # Original RNBO numeric event smoke fixtures
 
+> **Recorded development material.** The supported intake is now [Max Minimal C++ Export](../../../../docs/native-export.md). Any importer commands or qualification results below are historical, not native-export qualification.
+
 These 35 MIT-authored patches test exact non-tilde RNBO spellings at numeric event rate. They are separate from signal-rate, GenExpr and earlier board results.
 
 Every patch has one numeric parameter, `drive`, default 0, range −8 to 8, exponent 1 and steps 0. It feeds the operator's hot inlet 0. Operator outlet 0 feeds `sig~` and audio output 1. Binary operators have a fixed cold operand of 2, except `or 0`, which allows the hot input to exercise both boolean results. `round 2` tests rounding to a multiple of 2.

@@ -83,7 +83,7 @@ class FreshGraphTests(unittest.TestCase):
         for name,(role,source) in fixtures().items():
             patch=cls.root/(name+'.rnbopat');patch.write_text(json.dumps(source))
             raw=cls.root/(name+'-raw')
-            try:result=subprocess.run(['node',str(ROOT/'host/export/export.mjs'),str(patch),'--out',str(raw)],capture_output=True,text=True)
+            try:result=subprocess.run(['node',str(ROOT/'archive/importer/integer-ui/export.mjs'),str(patch),'--out',str(raw)],capture_output=True,text=True)
             except FileNotFoundError:raise unittest.SkipTest('Node and authorised RNBO1.4.4 required')
             if result.returncode and 'Set --rnbo-dir or RNBO_DIR'in result.stderr:raise unittest.SkipTest('Authorised RNBO1.4.4 unavailable')
             if result.returncode:raise AssertionError(result.stderr)

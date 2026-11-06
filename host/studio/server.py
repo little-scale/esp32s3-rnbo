@@ -27,12 +27,13 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from host.compiler import package as player_package
+from host import native_export
 from host.visual.layout import compile_layout
 from host.studio.trial import BLOCKS as TRIAL_BLOCKS, compare_audio as compare_trial_audio, device_check as trial_device_check
 WEB = Path(__file__).parent / 'web'
 PRIVATE = ROOT / 'build/private/studio'
 MAX_PATCH = 1024 * 1024
-MAX_BODY = 2 * MAX_PATCH
+MAX_BODY = 48 * 1024 * 1024
 MAX_PACKAGE = 128 + player_package.MAX_METADATA + player_package.MAX_ELF
 
 def encoded(value):
@@ -87,44 +88,37 @@ def kill_build_group(process):
 def build_settings(data):
     if not isinstance(data, dict):
         raise ValueError('Expected a patch and board settings')
-    patch = data.get('patch')
-    if not isinstance(patch, dict) or not isinstance(patch.get('patcher'), dict):
-        raise ValueError('Open a valid .rnbopat file with a patcher object')
-    raw = encoded(patch)
-    if len(raw) > MAX_PATCH:
-        raise ValueError('The patch exceeds the 1 MiB exporter limit')
-    name = data.get('name', 'Patch.rnbopat')
-    if not isinstance(name, str) or not name.lower().endswith('.rnbopat') or len(name) > 160:
-        raise ValueError('Choose a .rnbopat file')
+    if 'patch' in data:
+        raise ValueError(native_export.GUIDANCE)
+    files, class_name = native_export.normalise(native_export.unpack(data))
+    patch = data.get('visual_patch')
+    if patch is None and 'source.rnbopat' in files:
+        patch = json.loads(files['source.rnbopat'])
+    if patch is not None and (not isinstance(patch, dict) or not isinstance(patch.get('patcher'), dict)
+                              or len(encoded(patch)) > MAX_PATCH):
+        raise ValueError('Optional patch drawing must be a .rnbopat object up to 1 MiB')
+    name = data.get('name', 'RNBO Export')
+    if not isinstance(name, str) or not name.strip() or len(name) > 160:
+        raise ValueError('Choose a short export name')
     name = name.replace('\\', '/').rsplit('/', 1)[-1]
-    title = name[:-8].strip()[:64] or 'RNBO Patch'
+    title = re.sub(r'\.zip$', '', name, flags=re.I).strip()[:64] or 'RNBO Patch'
     board = data.get('board', 'xiao')
     role = data.get('role', 'main')
-    voices = data.get('voices', 1)
     volume = data.get('initial_volume', 50)
     arena = data.get('arena_bytes', 1048576)
-    delay = data.get('filter_delay_max_ms')
-    storage = data.get('float32_delays', False)
-    profile = data.get('numerical_profile', 'float32-auto-v1')
+    if any(key in data for key in ('voices', 'filter_delay_max_ms', 'float32_delays', 'numerical_profile')):
+        raise ValueError('Set voices and delay sizes in Max. Native exports use the baseline Float32 wrapper; importer optimisation profiles are retired.')
     if role != 'main':
         raise ValueError('The player accepts one Main patch with its effects included')
     if board not in ('xiao', 'amoled'):
         raise ValueError('Select XIAO or AMOLED V2')
-    if type(voices) is not int or voices not in (1, 2, 4):
-        raise ValueError('Voice count must be 1, 2 or 4')
     if type(volume) is not int or not 0 <= volume <= 100:
         raise ValueError('Startup volume must be 0–100%')
     if type(arena) is not int or arena not in (1048576, 2097152, 4194304):
         raise ValueError('Arena must be 1, 2 or 4 MiB')
-    if delay is not None and (not finite(delay) or not 0 < delay <= 1000):
-        raise ValueError('Maximum filter delay must be greater than zero, up to 1000 ms, or left empty')
-    if type(storage) is not bool:
-        raise ValueError('Float32 delay storage must be a checkbox value')
-    if profile not in ('float32-auto-v1', 'float32-trial-v1', 'float32-strict', 'float32-audio-v1', 'float32-audio-v3'):
-        raise ValueError('Choose a listed arithmetic profile: standard, reviewed Float32 or experimental Trial')
-    return dict(name=name, title=title, patch=patch, board=board, role=role, voices=voices,
-                initial_volume=volume, arena_bytes=arena,
-                filter_delay_max_ms=delay, float32_delays=storage, numerical_profile=profile)
+    return dict(name=name, title=title, visual_patch=patch, export_files=files, class_name=class_name,
+                board=board, role=role, initial_volume=volume, arena_bytes=arena)
+
 
 
 class Studio:
@@ -263,18 +257,7 @@ class Studio:
         finally: self.worker.release()
 
     def environment(self):
-        candidates = [Path(os.environ['RNBO_DIR']).expanduser()] if os.environ.get('RNBO_DIR') else [
-            Path.home() / 'Documents/Max 9/Packages/RNBO',
-            Path('/Applications/Max.app/Contents/Resources/C74/packages/RNBO')]
-        rnbo = False
-        for path in candidates:
-            try:
-                rnbo = json.loads((path / 'package-info.json').read_text()).get('version') == '1.4.4'
-                if rnbo:
-                    break
-            except (OSError, ValueError):
-                pass
-        return dict(node=bool(shutil.which('node')), rnbo=rnbo,
+        return dict(source='cycling74-minimal-export',
                     idf=(Path(os.environ.get('IDF_PATH', str(Path.home() / 'esp/esp-idf'))) / 'tools/idf.py').is_file(),
                     python_serial=importlib.util.find_spec('serial') is not None,
                     amoled_components=bool(self.components and self.components.is_dir()) or (ROOT / 'build/vendor-amoled').is_dir())
@@ -371,8 +354,8 @@ class Studio:
             raise ValueError('Studio is shutting down')
         settings = build_settings(data)
         environment = self.environment()
-        if not all(environment[k] for k in ('node', 'rnbo', 'idf')):
-            raise ValueError('Install Node, the authorised RNBO 1.4.4 package and ESP-IDF 5.5 before compiling')
+        if not environment['idf']:
+            raise ValueError('Install ESP-IDF 5.5 before compiling the exported C++')
         with self.lock:
             if self.stopping.is_set():
                 raise ValueError('Studio is shutting down')
@@ -389,21 +372,15 @@ class Studio:
         directory = PRIVATE / identity
         try:
             directory.mkdir(parents=True, exist_ok=False)
-            (directory / 'patch.rnbopat').write_bytes(encoded(settings['patch']))
-            (directory / 'settings.json').write_bytes(encoded({k:v for k,v in settings.items() if k != 'patch'}))
-            self.update(identity, state='building', stage='Exporting RNBO patch')
-            self.execute(identity, ['node', ROOT / 'host/export/export.mjs', directory / 'patch.rnbopat', '--out', directory / 'export', '--voices', str(settings['voices'])])
-            self.update(identity, stage='Preparing native audio code')
-            command = [sys.executable, ROOT / 'host/compiler/prepare.py', '--export', directory / 'export', '--out', directory / 'prepared', '--class-name', 'rnbos3patch', '--role', settings['role'], '--numerical-profile', settings['numerical_profile']]
-            if settings['filter_delay_max_ms'] is not None:
-                command += ['--filter-delay-max-ms', str(settings['filter_delay_max_ms'])]
-            if settings['float32_delays']:
-                command += ['--float32-delays']
+            native_export.write(settings['export_files'], directory / 'export')
+            (directory / 'settings.json').write_bytes(encoded({k:v for k,v in settings.items() if k not in ('export_files', 'visual_patch')}))
+            self.update(identity, state='building', stage='Preparing Max Minimal Export')
+            command = [sys.executable, ROOT / 'host/compiler/prepare.py', '--export', directory / 'export',
+                       '--out', directory / 'prepared', '--class-name', settings['class_name'], '--role', settings['role'],
+                       '--numerical-profile', 'float32-strict']
             self.execute(identity, command)
             manifest = json.loads((directory / 'prepared/manifest.json').read_text())
             trial = manifest.get('float32_trial')
-            if settings['numerical_profile'] == 'float32-trial-v1' and not trial:
-                raise ValueError('Trial compilation did not produce its experimental audit')
             parameter_count = manifest.get('parameter_count')
             if type(parameter_count) is not int or not 0 <= parameter_count <= 32:
                 raise ValueError('The player supports at most 32 input parameters')
@@ -422,40 +399,11 @@ class Studio:
             (directory / 'preflight.json').write_bytes(encoded(preflight))
             self.log(identity, 'Native startup screen passed; this does not prove dynamic target allocation safety.\n')
             comparison = None
-            if trial:
-                self.update(identity, stage='Comparing experimental Float32 output with Auto')
-                reference = directory / 'reviewed-reference'
-                reference_command = list(command)
-                reference_command[reference_command.index('--out')+1] = reference
-                reference_command[reference_command.index('--numerical-profile')+1] = 'float32-auto-v1'
-                self.execute(identity, reference_command)
-                self.execute(identity, [sys.executable, ROOT / 'host/compiler/build.py', '--export', reference,
-                                       '--build-dir', directory / 'reference-native'])
-                output = self.execute(identity, [directory / 'reference-native/rnbo_render', '--output', directory / 'reference.wav',
-                                      '--float-output', directory / 'reference.f32', '--blocks', str(TRIAL_BLOCKS),
-                                      '--warmup', '4', '--seed', '305419896', '--arena-bytes', str(settings['arena_bytes'])], timeout=60)
-                reference_stats = json.loads(output.strip().splitlines()[-1])
-                if any(reference_stats.get(k) != 0 for k in ('errors','invalid_samples','late_platform_allocations')):
-                    raise ValueError('Reviewed Auto reference failed its native comparison screen')
-                comparison = compare_trial_audio(directory / 'reference', directory / 'preflight')
-                audit_bytes = (directory / 'prepared/float32-trial-audit.json').read_bytes()
-                if hashlib.sha256(audit_bytes).hexdigest() != trial['audit_sha256']:
-                    raise ValueError('Trial audit changed after preparation')
-                review = dict(format='rnbo-float32-trial-review', version=1, qualification='unverified',
-                              transform_audit_sha256=trial['audit_sha256'], transform=json.loads(audit_bytes),
-                              context={k:manifest.get(k) for k in ('rnbo_version','class_name','role','sample_rate','block_frames','voices','source_tree_sha256','editable_source_sha256','parameter_schema_sha256')},
-                              native_comparison=comparison, candidate_native=preflight, reference_native=reference_stats,
-                              hardware_check=None, promotes_reviewed_catalog=False)
-                (directory / 'trial-review.json').write_bytes(encoded(review))
-                self.log(identity, f"Float32 trial: {trial['trial_method_count']} unreviewed methods changed, {trial['skipped_method_count']} skipped. "
-                         f"Native maximum difference {comparison['max_absolute_error']:.9g}; PCM {comparison['max_pcm_difference_lsb']} LSB. "
-                         f"Sample diagnostic pass={comparison['diagnostic_sample_limit_pass']}; PCM diagnostic pass={comparison['diagnostic_pcm_limit_pass']}. "
-                         'Package remains experimental; no catalog promotion.\n')
             self.update(identity, stage='Compiling board-independent audio module')
             self.execute(identity, [sys.executable, ROOT / 'host/compiler/build_module.py', '--export', directory / 'prepared',
                                    '--build-dir', directory / 'module', '--max-arena-bytes', str(settings['arena_bytes'])])
             description = json.loads((directory / 'prepared/description.json').read_text())
-            visual = compile_layout(settings['patch'], description, settings['title'])
+            visual = compile_layout(settings['visual_patch'], description, settings['title'])
             if len(encoded(visual)) > 60000:
                 visual = compile_layout(None, description, settings['title'])
             result = player_package.build(directory / 'module', directory / 'patch.rnbopkg',
@@ -707,7 +655,7 @@ class Handler(BaseHTTPRequestHandler):
             elif url.path == '/api/wifi': self.send(200, studio.wifi_status())
             elif url.path == '/api/job': self.send(200, {'job':studio.job(query.get('id', [''])[0])})
             elif url.path == '/api/trial-report': self.send(200, studio.trial_report(query.get('id', [''])[0]))
-            elif url.path == '/api/example': self.send(200, {'name':'sine.rnbopat', 'patch':json.loads((ROOT / 'examples/sine/sine.rnbopat').read_text())})
+            elif url.path == '/api/example': self.send(200, {'guidance':native_export.GUIDANCE})
             elif url.path == '/api/artifact':
                 path = studio.artifact(query.get('id', [''])[0])
                 self.send(200, path.read_bytes(), 'application/octet-stream')

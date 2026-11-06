@@ -365,3 +365,27 @@ int main(int argc,char **argv) {
     test_usb_line_defers_network_and_timeout_unblocks();cJSON_InitHooks(NULL);free(bytes);
     puts("player control: ownership, transactions, candidate guard, lifetime counters PASS");return 0;
 }
+
+/* Physical and MIDI drivers are absent in this host control-flow harness.
+ * Admission/conditioning and MIDI state helpers above are the real pure cores. */
+bool player_inputs_open(const player_input_plan *plan,char *error,size_t capacity){(void)error;(void)capacity;return plan->count==0;}
+void player_inputs_poll(int64_t us,void (*publish)(unsigned,float)){(void)us;(void)publish;}
+void player_inputs_add_status(cJSON *parent){(void)parent;}
+bool player_midi_init(bool xiao,char *error,size_t capacity){(void)xiao;(void)error;(void)capacity;return true;}
+bool player_midi_configure_uart(bool enabled,char *error,size_t capacity){(void)enabled;(void)error;(void)capacity;return false;}
+bool player_midi_uart_enabled(void){return false;}
+void player_midi_poll(int64_t us){(void)us;}
+void player_midi_add_status(cJSON *parent){(void)parent;}
+void player_midi_stream_test(const uint8_t *bytes,size_t n){(void)bytes;(void)n;}
+bool player_midi_uart_loopback(const uint8_t *bytes,size_t n,char *error,size_t capacity){(void)bytes;(void)n;(void)error;(void)capacity;return false;}
+bool player_midi_submit(unsigned source,const uint8_t *bytes,unsigned n){(void)source;(void)bytes;(void)n;return false;}
+void player_midi_set_route(unsigned generation,bool input){(void)generation;(void)input;}
+void player_midi_set_playing(bool playing){(void)playing;}
+bool player_midi_has_input(void){return false;}
+bool player_midi_receive(player_midi_message *message){(void)message;return false;}
+unsigned player_midi_recovery_epoch(void){return 0;}
+void player_midi_recovery_done(unsigned epoch){(void)epoch;}
+void player_midi_flush_queue(void){}
+void player_midi_request_recovery(void){}
+void player_midi_delivered(void){}
+bool player_usb_midi_start(char *error,size_t capacity){(void)error;(void)capacity;return true;}

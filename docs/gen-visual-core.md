@@ -1,5 +1,7 @@
 # Embedded visual Gen core on XIAO
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Studio's `.rnbopat` importer now reads embedded `genpatcher.patcher` graphs in
 the `dsp.gen` namespace. This is a new, explicitly limited frontend route, not
 inherited qualification from earlier authored GenExpr programs. Cycling '74's

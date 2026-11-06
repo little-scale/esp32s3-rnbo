@@ -1,5 +1,7 @@
 # RNBO object optimisation matrix
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The [experimental stable onepole profile](stable-onepole.md) now passes the
 five formerly failing onepole programs and expanded native accuracy tests.
 It uses Float32 coefficient/signal/recovery math, reuses the existing feedback

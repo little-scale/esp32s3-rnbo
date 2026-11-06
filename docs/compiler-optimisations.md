@@ -1,5 +1,7 @@
 # Compiler correctness fixes and optional optimisations
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Preparation still defaults to `float32-strict`. The normal correctness-fix
 profile now also defines the reviewed 32-bit integer wrap operations. Cycle
 conversion hoisting and compact average history are separate, default-off

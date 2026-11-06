@@ -1,5 +1,7 @@
 # Gen and single-sample qualification
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The [visual Gen range/state batch](gen-visual-flow.md) covers **42 scenarios
 across 33 exact visual spellings**. **39 hardware checks pass**, fractional
 `ftom` retains **640 outside-screen words** (maximum 0.25 notes), and `mod`/`%`

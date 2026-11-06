@@ -1,5 +1,7 @@
 # RNBO ESP32 S3 technical handover
 
+> **Historical handover.** The implementation has moved to [Max C++ Minimal Export only](docs/native-export.md). This document records the original design, not the current importer or qualification scope. See [current status](docs/STATUS.md).
+
 Prepared 2 November 2026 for a new project implementing an RNBO instrument on two targets:
 
 1. Waveshare ESP32 S3 Touch AMOLED 1.8 V2, with display, touch, battery status and onboard speaker output.

@@ -1,5 +1,7 @@
 # Direct Gen one-sample and partition checks on XIAO
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 **All 78 hardware renders pass** for three exact original GenExpr programs:
 zero-initialised feedback, two histories initially 1/2 that swap using explicit
 old-state temporaries, and three histories initially 1/2/3 that rotate. Both a

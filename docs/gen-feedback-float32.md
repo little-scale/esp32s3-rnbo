@@ -1,5 +1,7 @@
 # Gen feedback Float32 profile
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 `float32-gen-feedback-v1` is an optional, changed-rounding profile for the exact
 original [history-feedback GenExpr program](../tests/fixtures/gen/history-feedback.genexpr).
 It changes one literal from `0.5` to `0.5f`. The generated program otherwise

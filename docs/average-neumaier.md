@@ -1,5 +1,7 @@
 # Private Float32 compensated average
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 The tested Neumaier accumulator meets the unchanged mathematical error limit,
 with about **28.85% more callback CPU time** than the already compacted strict
 accumulator. It remains a **PRIVATE, unadmitted numerical experiment**. Strict

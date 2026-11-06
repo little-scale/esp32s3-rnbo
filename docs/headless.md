@@ -1,5 +1,7 @@
 # XIAO ESP32-S3 headless RNBO
 
+> **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
+
 The XIAO runs the same RNBO wrapper, audio owner, parameter handling, volume
 ramp, Pause/Resume lifecycle and USB capture tools as the AMOLED build. Its
 board profile supplies stereo I²S and excludes the display, touch and codec

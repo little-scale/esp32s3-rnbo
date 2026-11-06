@@ -1,5 +1,7 @@
 # Gen comparison and logic qualification on XIAO
 
+> **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
+
 Twenty additional exact GenExpr forms pass native and XIAO numerical tests.
 One additional form, `step`, runs but disagrees with the documented argument
 order. Its failure is retained separately. Each program is an original RNBO
