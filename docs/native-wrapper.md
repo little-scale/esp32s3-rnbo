@@ -13,8 +13,8 @@ alone does not require replacing the player or its package format.
 | I²S, PCM conversion, finite checks, headroom and volume ramp | Retained | Continue separate end-to-end audio checks |
 | AMOLED drawing, multisliders, meter and Pause/Resume | Retained | Optional matching drawing attachment; DSP comes from C++ |
 | USB, Wi-Fi pairing/uploads and live controls | Retained | Existing identity and admission checks still apply |
-| Parameter IDs/ranges/metadata and physical inputs | Retained | Physical-wiring gates remain explicit |
-| UART MIDI / experimental USB host | Retained | External MIDI/controller tests still pending as documented |
+| Parameter IDs/ranges/metadata and physical inputs | Native Max inline `@meta` → package checked | Physical wiring and scan behaviour remain pending |
+| UART MIDI / experimental USB host | Native Max monitor passes software/UART internal loopback | External MIDI/controller and USB-host tests remain pending |
 | Native/XIAO harnesses and independent oracles | Retained | Add native-export provenance; do not inherit importer coverage |
 | Importer-era numerical optimisation profiles | Research-only | Requalify against Max exports before making supported profiles |
 
@@ -43,14 +43,19 @@ No new numerical rewrite or scheduler change is made in this migration.
 
 ## Next wrapper qualification priorities
 
-1. **Lists and allocation.** Reproduce the compound `curve~` event-13 late
-   allocation on native export. Review fixed-list capacity, clock queue growth
-   and per-patch reservation. Establish the actual source of growth before
-   selecting a capacity or permitting real-time allocation.
-2. **Clock and ramp semantics.** Native export reproduces the `line~` callback-13
-   platform error and existing `edge~`/report timing differences. Preserve those
-   exact programs and inspect scheduler errors, time origin and callback
-   boundaries. Do not change the reference to fit observed output.
+1. **Lists and allocation.** The compound `curve~` event-13 fault is a 32-byte
+   overflow-list allocation from its active-ramp list after exceeding the wrapper's
+   16 inline elements. A private 32-element experiment completes this exact test
+   within its original tolerance, at increased context size. Establish bounds
+   for bursts and longer lists before selecting production reservation policy.
+2. **Clock and ramp semantics.** The callback-13 fault belongs to event-rate
+   `line`, not signal-rate `line~`. Float32 rounding of its next clock time can
+   place an endpoint before its exact end; it then repeatedly schedules that same
+   instant until the queue overflows. A private binary64 clock-local experiment
+   completes the run, while the independent timeline reference still disagrees.
+   Preserve and qualify those timing differences before adopting a fix. Existing
+   `edge~`/report timing differences also remain. See the
+   [ramp diagnosis](native-ramp-diagnosis.md).
 3. **Native end-to-end baselines.** Qualify representative Main instruments,
    MIDI, parameter ranges, long-running ramps, delay/resource use and actual
    sample-by-sample Gen feedback at the fixed audio profile.

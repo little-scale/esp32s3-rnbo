@@ -37,13 +37,36 @@ The helper also accepts explicit `upload usb` / `upload wifi` messages and
 `build_upload usb` / `build_upload wifi` for compile-then-load. Optional USB ports
 or paired Wi-Fi IDs select the target; ambiguous boards reject. The extension
 uses the existing package upload paths, preserves plain build-only behaviour and
-cannot install firmware. Lifecycle/failure tests and real Studio HTTP checks with
-simulated USB/Wi-Fi transports pass; physical uploads from Max remain unqualified.
+cannot install firmware. An actual Max-triggered USB upload now passes on XIAO,
+including parameter readback, Pause/Resume and saved-package persistence across
+an actual reboot. A 12.32-second, 24-poll observation records zero faults at zero
+output volume; the polled render median is 647.5 µs (11.15%). This is a separate
+workflow check, with no listening or captured-output claim. The previous package,
+firmware and controls are restored. Wi-Fi upload from Max remains pending because
+the saved network is unavailable. See the
+[USB receipt](../evidence/max-usb-upload-player.json).
+
+The helper also has a reproducible [Max package ZIP](https://little-scale.github.io/esp32s3-rnbo/downloads/esp32s3-rnbo-max.zip)
+with the abstraction, scripts, example and help patch; Studio remains separate.
+
+Actual Max exports also preserve all three inline physical-input bindings in
+the example through native package preparation. The native silent MIDI monitor
+passes software delivery and UART1 internal loopback on XIAO: 206 delivered
+messages, zero drops/overflows/errors, running status, 96 software plus 96 UART
+clocks, system messages and note recovery. The original Main, volume, parameters
+and UART setting are restored. External MIDI, USB-host and physical input-response
+checks remain pending. See the [retained-feature receipt](../evidence/native-retained-features.json).
 
 Remaining wrapper work includes dynamic list allocation and scheduler/ramp
 semantics. Native export reproduces the compound curve late allocation and line
 ramp platform error; it does not resolve those faults by itself. Runtime version
 qualification is still pinned to RNBO 1.4.4.
+
+The [ramp diagnosis](native-ramp-diagnosis.md) now identifies the event-rate `line`
+fault as a Float32 clock-endpoint loop exhausting the queue, and compound `curve~`
+as active-ramp list growth beyond 16 inline elements. Private candidates complete
+both runs; timeline disagreement and reservation bounds remain separate work.
+Neither production wrapper nor Studio's arithmetic baseline is changed.
 
 The previous 1,072/1,455 scoped inventory outcomes and optimisation gains remain
 historical importer-route evidence. The [public dashboard](https://little-scale.github.io/esp32s3-rnbo/)

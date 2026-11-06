@@ -31,6 +31,8 @@ jobs:
           python -m unittest discover -s tools -p 'test_build_object_status.py' -v
           node --check site/app.js
       - uses: actions/configure-pages@v5
+      - name: Bundle the Max helper
+        run: python host/max/build_package.py --out site/downloads/esp32s3-rnbo-max.zip
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site

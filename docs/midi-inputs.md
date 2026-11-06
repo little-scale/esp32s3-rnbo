@@ -2,6 +2,16 @@
 
 > **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
 
+**6 November native-export check:** the silent monitor was exported by Max,
+built through Studio and tested on XIAO with the unchanged player. Software input
+and UART1 internal loopback delivered **206 messages** without queue drops,
+overflows, UART errors or recorded audio/runtime faults. `notein`/`midiin`,
+running status, 96 software plus 96 UART MIDI clocks, transport/system-common
+bytes, held-note release and Active Sensing recovery passed. The previous Main,
+parameters, volume and UART setting were restored. The
+[native-route receipt](../evidence/native-retained-features.json) keeps this
+separate from external MIDI wiring and USB-host validation, which remain pending.
+
 ## Return-to-test checklist
 
 **Deferred at the user's request, 5 November 2026.** Return when an external

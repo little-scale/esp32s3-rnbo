@@ -208,6 +208,14 @@ not implement this input frontend.
 
 ## Verification and the later hardware session
 
+**6 November native-export check:** the example was staged as a live embedded
+RNBO patch and exported by Max itself. Studio's native preparation/package path
+preserves stable parameter IDs and the analog `note` → A0, digital `gate` → D6,
+and touch `accent` → D3 bindings from inline `@meta`. Its host startup screen and
+zero-import Xtensa module/package build pass. The package was not installed for
+input scanning, and no electrical input response is claimed. See the
+[native-route receipt](../evidence/native-retained-features.json).
+
 Computer checks cover the real RNBO inline metadata export, host binding/package
 admission, stable-ID lookup, alias conflicts, runtime pin reservations, analog
 endpoints/inversion/smoothing/deadband, button bounce and held-touch state.

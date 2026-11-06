@@ -16,6 +16,7 @@ jobs:
         run: |
           python -m unittest discover -s host/clients -v
           python -m unittest discover -s host/studio -p 'test_*.py' -v
+          python -m unittest discover -s host/max -p 'test_*.py' -v
           python -m unittest discover -s tests/visual -v
           python -m unittest discover -s tests/dynamic -v
           python -m unittest discover -s tests/player -p 'test_*.py' -v

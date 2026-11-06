@@ -10,6 +10,20 @@ view that build in Studio and inspect its drawing. Send `upload usb` or
 `upload wifi` to load the completed package directly from Max. Plain `build`
 compiles only; the helper never installs player firmware.
 
+## Install as a Max package
+
+[Download the Max helper ZIP](https://little-scale.github.io/esp32s3-rnbo/downloads/esp32s3-rnbo-max.zip).
+Unzip it and put its `esp32s3-rnbo` folder in `~/Documents/Max 9/Packages` on macOS,
+then restart Max. The package includes the abstraction, scripts, an embedded
+sine example and an Alt/Option-click help patch. Studio and its compiler
+dependencies remain a separate installation; start `./host/studio.sh` as usual.
+This follows the [Max package layout](https://docs.cycling74.com/userguide/packages/).
+
+To build the ZIP from this checkout, run `python3 host/max/build_package.py`.
+The result is `build/dist/esp32s3-rnbo-max.zip`; its manifest records each bundled
+file's hash. The bundle contains only the listed helper/example/license files.
+You can instead use the manual file-copy setup below.
+
 ## Add it to an existing Max patch
 
 Copy these three files beside your `.maxpat` (or put this folder on Max's search path):
@@ -120,7 +134,11 @@ Max build with a gain object added only in memory, the resulting drawing and
 native-output comparison. This is a host integration check, not a new hardware
 or listening qualification.
 
-The subsequent upload extension is covered by Max-message lifecycle tests,
-USB/Wi-Fi target and failure tests, and the actual Studio HTTP handler with
-simulated device transports. These checks do not claim a new physical USB/Wi-Fi
-upload or listening qualification from Max.
+The upload extension is covered by Max-message lifecycle tests, USB/Wi-Fi target
+and failure tests, and the actual Studio HTTP handler with simulated transports.
+An actual `build_upload usb` from Max also loaded the native example on XIAO:
+parameter readback, Pause/Resume, runtime counters and reboot persistence passed.
+The prior package and controls were restored. A corrupt package rejected before
+transfer. See the [USB check receipt](../../evidence/max-usb-upload-player.json).
+The check ran at zero output volume without DAC capture/listening. Wireless
+uploads from Max remain pending because the saved network was unavailable.

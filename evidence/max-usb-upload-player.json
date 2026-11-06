@@ -1,0 +1,84 @@
+{
+  "block_frames": 256,
+  "format": "rnbo-max-usb-upload-check-v1",
+  "helper_sources_sha256": {
+    "host/max/rnbo-studio-client.js": "d66bfbdf95457ee12a173c4ba4fc8f895c98f9ae5a439c255c9475ca82c886be",
+    "host/max/rnbo-studio.js": "a8ea25bd8afeaec0a2214fb641275bc869fb6fb56c588cacd29b6a3b2f1a91c0",
+    "host/max/rnbo.studio.maxpat": "a9a2bdc0b60dc93c882937df9e883e8561661ef364f346646ff0143f5a51d727"
+  },
+  "listening_checked": false,
+  "max_message": "build_upload usb <explicit USB port>",
+  "max_version": "9.1.4",
+  "output_samples_compared": false,
+  "output_volume_percent": 0,
+  "reboot": {
+    "corrupt_package_rejected_before_upload": true,
+    "firmware_unchanged": true,
+    "reboot_advances_module_frames": true,
+    "reboot_retains_package": true,
+    "reboot_starts_unpaused_at_package_volume": true
+  },
+  "reboot_method": "Espressif USB-JTAG/Serial ROM handshake, read-only MAC query and application reset; no flash write.",
+  "restoration": {
+    "fault_counters_zero": true,
+    "frames_advance": true,
+    "package_sha256": "fd89dfdfcd4f19963f7f7194a7fa2b123367d55b495f679378eac3ed4ef2c4ab",
+    "paused": false,
+    "same_controls": true,
+    "same_firmware": true,
+    "same_package": true,
+    "volume": 100
+  },
+  "rnbo_version": "1.4.4",
+  "runtime": {
+    "fault_counters": {
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0,
+      "clipped": 0,
+      "dma_errors": 0,
+      "late_platform_allocations": 0,
+      "module_errors": 0,
+      "nonfinite": 0,
+      "queue_errors": 0,
+      "render_deadline_overruns": 0,
+      "write_errors": 0
+    },
+    "firmware_elf_sha256": "251f7dde82530e2d85e13d9b253d73b01baf7af8db4e22413051a16d5f0f88b6",
+    "frames_advanced": 520704,
+    "listening_checked": false,
+    "output_samples_compared": false,
+    "package_sha256": "7995dfa7c57602b935b47558d80666abf50564f5064f16358227c50ba0f11bb4",
+    "parameter_checks": [
+      {
+        "actual_hz": 220,
+        "requested_hz": 220.0
+      },
+      {
+        "actual_hz": 440,
+        "requested_hz": 440.0
+      },
+      {
+        "actual_hz": 880,
+        "requested_hz": 880.0
+      },
+      {
+        "actual_hz": 440,
+        "requested_hz": 440.0
+      }
+    ],
+    "pause_stops_module_position": true,
+    "polled_cpu_percent": 11.154199218750001,
+    "polled_peak_us": 746,
+    "polled_render_median_us": 647.5,
+    "resume_advances_module_position": true,
+    "sample_position_advanced": 520704,
+    "seconds": 12.322920665959828,
+    "volume": 0
+  },
+  "sample_rate": 44100,
+  "scope": "Actual Max build_upload usb message exports the live embedded Main, compiles it through Studio and loads it into the connected XIAO. Automated readback/counter checks only.",
+  "timing_scope": "24 polled render observations over the stated interval, including PCM conversion and excluding I2S wait. Not a distribution of every callback, an object cost, or a DAC-output check.",
+  "usb_hardware_tested": true,
+  "wifi_hardware_tested": false,
+  "wifi_pending_reason": "Saved network unavailable; no Wi-Fi settings were changed."
+}

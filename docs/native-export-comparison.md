@@ -20,7 +20,10 @@ Compound curve faults at event 13 before callback 10 on both routes, recording a
 late allocation. Line ramp records a platform error at callback 13 on both.
 Their prior captures match exactly; neither is a complete successful run.
 Including those partial prefixes, **62,976 paired words** match bit-for-bit.
-The exact cause of the line platform error is not established.
+The subsequent [diagnosis](native-ramp-diagnosis.md) identifies an event-rate
+`line` clock rounding loop that exhausts the queue, and overflow-list storage
+for compound `curve~`. Private candidates complete both tests; the original
+comparison receipts and production wrapper remain unchanged.
 
 Native visual Gen modulo **compiles and executes** where the custom visual
 lowerer produces an undefined `safemod` helper. Against the original zero-limit

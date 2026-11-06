@@ -19,7 +19,8 @@ it is never translated into audio code. The [Max build helper](host/max/README.m
 can export a live embedded `rnbo~` and attach its drawing automatically, including
 unsaved edits. Send it `upload usb` / `upload wifi` to load its completed package,
 or `build_upload usb` / `build_upload wifi` to compile and load in one action.
-See the [export guide](docs/native-export.md).
+An installable [Max helper ZIP](https://little-scale.github.io/esp32s3-rnbo/downloads/esp32s3-rnbo-max.zip)
+includes the abstraction, scripts, example and help patch. See the [export guide](docs/native-export.md).
 
 Both boards share the same module ABI and player code: **Seeed XIAO ESP32-S3**
 with stereo I²S, and **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** with its display,
