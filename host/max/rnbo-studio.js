@@ -4,10 +4,17 @@
  */
 autowatch = 0;
 inlets = 2;
-outlets = 3;
+outlets = 4;
 var nodeReady = false, current = null, configDict = null, timeoutTask = null, exportPoll = null;
 var lastStudioURL = '', initialVolume = 50, arenaBytes = 1048576, lastBuildReady = false;
 var wanted = typeof jsarguments !== 'undefined' && jsarguments[1] && String(jsarguments[1]) !== '#1' ? String(jsarguments[1]) : '';
+
+function helperPatcher() {
+    var p;
+    try { p=this.patcher; } catch(_) {}
+    if(!p)throw Error('Max’s patcher scripting API is unavailable. Save your work, restart Max, then reopen this patch.');
+    return p;
+}
 
 function locateTarget(parent, name) {
     for (var p = parent; p; p = p.parentpatcher) {
@@ -57,7 +64,8 @@ function status() {
     else if(label==='job')label='Build submitted. Open Studio for progress.';
     else if(label==='available')label='Ready to build the live RNBO patch.';
     else label=args.join(' ').slice(0,180);
-    try {this.patcher.getnamed('status_label').message('set',label);} catch(_) {}
+    // Keep the panel readable even when Max cannot wrap its native patcher.
+    outlet(3,label);
     outlet.apply(null,[1].concat(args));
 }
 function stopTimer() { if(timeoutTask){timeoutTask.cancel();timeoutTask=null;} if(exportPoll){exportPoll.cancel();exportPoll=null;} }
@@ -71,7 +79,8 @@ function startBuild(selection) {
     if(!nodeReady){status('error','Node for Max is starting; try Build again shortly');return;}
     lastBuildReady=false;
     try {
-        var target=locateTarget(this.patcher.parentpatcher || this.patcher,wanted);
+        var p=helperPatcher.call(this);
+        var target=locateTarget(p.parentpatcher || p,wanted);
         if(Number(target.getattr('dumpoutlet'))!==1) throw Error('Enable @dumpoutlet 1 on the rnbo~ object');
         if(String(target.getattr('exportstatus'))==='active')throw Error('An RNBO export is already active');
         var drawing=null;
@@ -109,7 +118,11 @@ function upload() {
         outlet(0,'upload',id,selection.transport,selection.target);
     }catch(error){status('error',String(error.message||error));}
 }
-function node_ready() { nodeReady=true;status('available','Max → native export → Studio'); }
+function node_ready() {
+    nodeReady=true;
+    try {helperPatcher.call(this);status('available','Max → native export → Studio');}
+    catch(error){status('error',String(error.message||error));}
+}
 function prepared(id,json) {
     if(!current||current.id!==id||current.phase!=='preparing')return;
     try {

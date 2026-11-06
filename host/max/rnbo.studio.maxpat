@@ -272,6 +272,19 @@
             25
           ]
         }
+      },
+      {
+        "box": {
+          "id": "status-set",
+          "maxclass": "newobj",
+          "text": "prepend set",
+          "patching_rect": [
+            520,
+            320,
+            140,
+            24
+          ]
+        }
       }
     ],
     "lines": [
@@ -391,6 +404,30 @@
           ],
           "destination": [
             "v8",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "v8",
+            3
+          ],
+          "destination": [
+            "status-set",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "status-set",
+            0
+          ],
+          "destination": [
+            "status-label",
             0
           ]
         }

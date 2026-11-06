@@ -46,6 +46,28 @@ test('target selection requires an explicit name when a parent has multiple RNBO
   assert.throws(()=>context.locateTarget(parent,'absent'),/No rnbo/);
 });
 
+test('missing native patcher bridge reports recovery in the panel and cannot submit or upload',()=>{
+  for(const throws of [false,true]) {
+    const {context:c,sent}=runtime();
+    Object.defineProperty(c,'patcher',{get(){if(throws)throw Error('native wrapper failed');return undefined;}});
+    c.node_ready();c.build_upload('usb');c.upload('usb');
+    assert.ok(sent.some(x=>x[0]===3&&/patcher scripting API.*restart Max/.test(x[1])));
+    assert.ok(sent.some(x=>x[0]===1&&x[1]==='error'&&/restart Max/.test(x[2])));
+    assert.equal(sent.filter(x=>x[0]===0&&['prepare','upload'].includes(x[1])).length,0);
+    assert.equal(c.current,null);
+  }
+});
+
+test('panel text uses patch cords without relying on patcher scripting access',async()=>{
+  const {context:c,sent}=runtime();
+  Object.defineProperty(c,'patcher',{get(){throw Error('status must not read the patcher');}});
+  c.status('uploaded','job','usb','device');
+  assert.deepEqual(sent[0],[3,'Package loaded and saved on the player.']);
+  const panel=JSON.parse(await fs.readFile(new URL('./rnbo.studio.maxpat',import.meta.url),'utf8')).patcher;
+  assert.ok(panel.lines.some(x=>JSON.stringify(x.patchline)===JSON.stringify({source:['v8',3],destination:['status-set',0]})));
+  assert.ok(panel.lines.some(x=>JSON.stringify(x.patchline)===JSON.stringify({source:['status-set',0],destination:['status-label',0]})));
+});
+
 test('only an armed active then successful export can submit; errors and changed drawings stop it',()=>{
   const {context:c,sent,g}=runtime();c.node_ready();c.bang();
   const command=sent.find(x=>x[1]==='prepare');const request=JSON.parse(command[2]);

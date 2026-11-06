@@ -134,6 +134,21 @@ upload. Temporary export/package files may be removed by the OS;
 use Studio's download button to keep a package permanently. Build links refer to
 jobs in the running Studio session and expire when that server restarts.
 
+## Max patcher scripting unavailable
+
+If Max prints `JS peer class of jspatcher not found` or
+`v8_wrapobject: couldn't wrap instance of class jspatcher`, its V8 engine could
+not provide the native patcher object. An independent minimal V8 script also
+reproduced this state on Max 9.1.4. This happens before RNBO export or a Studio
+build; it is not a patch compilation error.
+
+Save your unsaved Max work, quit Max completely and reopen the example. Check
+that the helper says **Ready to build the live RNBO patch** before trying Build.
+If the error persists, keep the Max version and console messages for diagnosis;
+the restart recovery is not yet verified. The helper now reports this condition
+in its panel without depending on the failing patcher API, and submits no build
+or upload while that API is unavailable.
+
 The [integration receipt](../../evidence/max-embedded-build.json) records a real
 Max build with a gain object added only in memory, the resulting drawing and
 native-output comparison. This is a host integration check, not a new hardware

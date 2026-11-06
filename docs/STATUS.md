@@ -1,5 +1,13 @@
 # Implementation status — native export migration
 
+**7 November 2026:** A Max 9.1.4 session returned no native patcher object to
+V8, including in an independent minimal probe (`JS peer class of jspatcher not
+found`). The Max helper now stops with an actionable message before export and
+drives its panel status without that API. Its 15 helper tests and two package
+tests pass. Restart recovery is awaiting the user's saved/restarted Max session;
+this is not yet a verified repair of Max's native bridge. See
+[troubleshooting](../host/max/README.md#max-patcher-scripting-unavailable).
+
 **6 November 2026:** Cycling ’74’s C++ Minimal Export from Max is now the only
 supported patch frontend. Studio accepts complete export folders/ZIPs, validates
 and compiles C++, runs a native startup screen and creates `.rnbopkg` for the

@@ -1,0 +1,17 @@
+{
+  "format": "rnbo-max-patcher-startup-v1",
+  "max_version": "9.1.4",
+  "hardware_touched": false,
+  "native_probe": {
+    "scope": "Independent v8 script in a normal Max patch, separate from RNBO helper",
+    "Patcher_constructor_available": true,
+    "this_patcher_available": false,
+    "error": "JS peer class of jspatcher not found"
+  },
+  "restart_recovery_verified": false,
+  "change": "Guard missing native patcher access before export; drive panel text through an independent fourth V8 outlet and prepend set.",
+  "tests": {
+    "max_message_and_client_tests": 15,
+    "package_tests": 2
+  }
+}
