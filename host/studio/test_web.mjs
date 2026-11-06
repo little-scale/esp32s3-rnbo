@@ -502,6 +502,7 @@ test('saved Wi-Fi player connects and loads package with no USB device or serial
 
 test('paired status polling is modest and never substitutes another saved identity', async () => {
   const app=await openStudio({paired:[{id:'001122334455',label:'A',ip:'192.168.1.20'}]});
+  assert.match(app.get('wifi-device').children[1].textContent,/001122334455/,'paired ID is visible for Max upload messages');
   app.get('transport').value='wifi';await app.get('transport').fire('change');await app.get('connect').fire('click');
   const count=()=>app.calls.filter(c=>c.path==='/api/wifi').length;
   const before=count();await app.runInterval(1800);assert.equal(count(),before);

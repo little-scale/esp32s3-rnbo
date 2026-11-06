@@ -6,7 +6,7 @@
       100,
       80,
       850,
-      520
+      560
     ],
     "boxes": [
       {
@@ -1510,7 +1510,7 @@
             30,
             200,
             370,
-            165
+            205
           ],
           "numinlets": 1,
           "numoutlets": 1,
@@ -1526,7 +1526,7 @@
           "text": "print RNBO_BUILD",
           "patching_rect": [
             30,
-            400,
+            445,
             220,
             24
           ]
@@ -1536,12 +1536,64 @@
         "box": {
           "id": "scope",
           "maxclass": "comment",
-          "text": "Build creates a package. Open Studio to inspect and upload it. No firmware or saved board patch is changed automatically.",
+          "text": "build compiles only. The messages below explicitly upload the package by USB or paired Wi-Fi. Studio must be running. No player firmware is flashed.",
           "patching_rect": [
             430,
             205,
             350,
             85
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "upload-example-0",
+          "maxclass": "message",
+          "text": "upload usb",
+          "patching_rect": [
+            430,
+            305,
+            205,
+            24
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "upload-example-1",
+          "maxclass": "message",
+          "text": "upload wifi",
+          "patching_rect": [
+            430,
+            343,
+            205,
+            24
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "upload-example-2",
+          "maxclass": "message",
+          "text": "build_upload usb",
+          "patching_rect": [
+            430,
+            381,
+            205,
+            24
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "upload-example-3",
+          "maxclass": "message",
+          "text": "build_upload wifi",
+          "patching_rect": [
+            430,
+            419,
+            205,
+            24
           ]
         }
       }
@@ -1567,6 +1619,54 @@
           ],
           "destination": [
             "print",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "upload-example-0",
+            0
+          ],
+          "destination": [
+            "builder",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "upload-example-1",
+            0
+          ],
+          "destination": [
+            "builder",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "upload-example-2",
+            0
+          ],
+          "destination": [
+            "builder",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "upload-example-3",
+            0
+          ],
+          "destination": [
+            "builder",
             0
           ]
         }

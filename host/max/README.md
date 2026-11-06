@@ -6,8 +6,9 @@ saved. The RNBO patch stays embedded in its parent `.maxpat`. A separate
 
 Open [embedded-sine.maxpat](embedded-sine.maxpat) for a working example. Start
 `./host/studio.sh`, then click **build** in the helper panel. Click **open** to
-view that build in Studio, inspect its drawing and load the completed package.
-No package upload or firmware installation is automatic.
+view that build in Studio and inspect its drawing. Send `upload usb` or
+`upload wifi` to load the completed package directly from Max. Plain `build`
+compiles only; the helper never installs player firmware.
 
 ## Add it to an existing Max patch
 
@@ -28,6 +29,44 @@ RNBO's dump outlet to the helper inlet for export-status messages. The helper
 additionally queries RNBO's read-only export status while waiting. With no
 argument, it uses the single `rnbo~` in a containing Max patch; multiple RNBO
 objects require an explicit scripting name so the intended instrument is selected.
+
+## Build and upload messages
+
+Send these messages to the helper's inlet:
+
+| Message | Action |
+| --- | --- |
+| `build` or `bang` | Export and compile the live patch; leave the board alone. |
+| `upload usb` | Load the last successful build through the single listed USB board. |
+| `upload usb /dev/cu.usbmodem101` | Load through that specific USB port (use your current port). |
+| `upload wifi` | Load through the single board already paired with Studio. |
+| `upload wifi 001122aabbcc` | Load through that specific paired board ID. |
+| `build_upload usb` | Export and compile, then load by USB if the build succeeds. |
+| `build_upload wifi` | Export and compile, then load by paired Wi-Fi if the build succeeds. |
+
+`build_upload` also accepts the same optional port/device-ID argument. The
+example includes clickable message boxes, and the helper panel has USB/Wi-Fi
+upload buttons. The messages belong in the surrounding Max patch.
+
+With multiple USB boards or saved Wi-Fi pairings, supply the explicit target;
+the helper will not guess. Find USB ports and paired Wi-Fi IDs in Studio's
+connection selectors. Quote a numeric-only Wi-Fi ID in a Max message to preserve
+any leading zeros. Wi-Fi setup/pairing is done in Studio first; passwords and
+pairing keys never pass through the Max patch. There is no USB fallback after
+a Wi-Fi failure.
+
+Upload means loading/saving the **Main package** into an already installed RNBO
+player. It briefly pauses audio and replaces the saved patch. It does not flash
+the player firmware. A completion message is emitted only after Studio reports
+the package active; CPU/admission failures report `upload_failed` instead.
+The status outlet emits `upload_target`, `uploading`, then `uploaded` or
+`upload_failed`. A missing board or failed transfer is not automatically retried.
+
+Only this helper's last successfully compiled and hash-checked package is eligible.
+Starting a new build invalidates the previous one for Max uploads, so a failed
+new build cannot silently upload an older patch. Editing after a completed build
+does not update that package: use `build_upload` to include the current edits.
+After a Studio/helper restart or a Studio port change, build again first.
 
 The helper belongs in the surrounding **Max patch**, alongside `rnbo~`.
 `v8` and `node.script` are Max objects and do not belong inside the RNBO DSP graph.
@@ -71,8 +110,8 @@ and `studio_port 8788` for another localhost port. The default startup volume is
 50%; these settings affect the new package, not the currently running board.
 
 Studio remains a separate local process. If it is unavailable or busy, the helper
-reports the error; it does not reuse an older export or automatically upload a
-previous package. Temporary export/package files may be removed by the OS;
+reports the error; it does not reuse an older export or automatically retry an
+upload. Temporary export/package files may be removed by the OS;
 use Studio's download button to keep a package permanently. Build links refer to
 jobs in the running Studio session and expire when that server restarts.
 
@@ -80,3 +119,8 @@ The [integration receipt](../../evidence/max-embedded-build.json) records a real
 Max build with a gain object added only in memory, the resulting drawing and
 native-output comparison. This is a host integration check, not a new hardware
 or listening qualification.
+
+The subsequent upload extension is covered by Max-message lifecycle tests,
+USB/Wi-Fi target and failure tests, and the actual Studio HTTP handler with
+simulated device transports. These checks do not claim a new physical USB/Wi-Fi
+upload or listening qualification from Max.

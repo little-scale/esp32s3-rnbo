@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * Node for Max: completed native exports -> existing localhost Studio API.
- * No RNBO compiler/importer APIs, shell commands, firmware or device mutation.
+ * Explicit package uploads use Studio's existing USB/paired Wi-Fi transport.
+ * No RNBO compiler/importer APIs, shell commands or firmware installation.
  */
 'use strict';
 const fs = require('node:fs/promises');
@@ -101,16 +102,65 @@ async function submit(context,port=8788,call=request) {
   return {job,url:`http://127.0.0.1:${port}/?job=${job.id}`};
 }
 
-function attach(max) {
-  let context=null,port=8788,building=false;
+function uploadSettings(transport, target='') {
+  if(!['usb','wifi'].includes(transport))throw Error('Use upload usb or upload wifi (optionally followed by a port or paired device ID)');
+  if(typeof target!=='string'||target.length>256||/[\x00-\x1f\x7f]/.test(target))throw Error('Invalid upload target');
+  if(transport==='wifi'&&target&&!/^[0-9a-f]{12}$/.test(target))throw Error('Wi-Fi target must be a paired 12-character device ID');
+  return {transport,target};
+}
+
+async function uploadPackage(artifact,selection,port=8788,call=request,progress=()=>{},pause=ms=>new Promise(r=>setTimeout(r,ms))) {
+  const {transport,target}=uploadSettings(selection.transport,selection.target);
+  if(!artifact||artifact.port!==port)throw Error('Build a package with this helper and Studio port before uploading');
+  const checkedJob=response=>{
+    const job=response?.job;
+    if(!job||job.id!==artifact.id||job.result?.kind!=='package'||job.result.package_sha256!==artifact.sha256)
+      throw Error('The completed build is no longer available or its package identity changed. Build again.');
+    return job;
+  };
+  const before=checkedJob(await call(port,'/api/job?id='+artifact.id));
+  if(!['ready','done'].includes(before.state))throw Error('Wait for the completed package before uploading');
+  let chosen=target;
+  if(transport==='usb') {
+    const rows=(await call(port,'/api/devices')).devices;
+    if(!Array.isArray(rows))throw Error('Studio did not return USB devices');
+    if(!chosen&&rows.length===1)chosen=rows[0].port;
+    if(!chosen||rows.filter(row=>row.port===chosen).length!==1)throw Error('Choose one USB port: upload usb <port>');
+  } else {
+    const rows=(await call(port,'/api/wifi')).paired;
+    if(!Array.isArray(rows))throw Error('Studio did not return paired Wi-Fi players');
+    if(!chosen&&rows.length===1)chosen=rows[0].id;
+    if(!chosen||rows.filter(row=>row.id===chosen).length!==1)throw Error('Pair a board in Studio, then use upload wifi <device_id> when several are saved');
+  }
+  progress('target',transport,chosen);
+  const status=await call(port,'/api/status');
+  if(typeof status.csrf!=='string'||!status.csrf)throw Error('Studio did not provide a session token');
+  const body={id:artifact.id,transport,...(transport==='usb'?{port:chosen}:{device_id:chosen})};
+  // One explicit request, never automatically retried after a timeout or lost reply.
+  let job=checkedJob(await call(port,'/api/upload',body,status.csrf));
+  const end=Date.now()+5*60*1000;let previous='';
+  while(true) {
+    if(job.stage!==previous){progress('progress',String(job.stage||job.state));previous=job.stage;}
+    if(job.error||job.state==='failed')throw Error(job.error||'Package upload failed');
+    if(job.state==='done')return {job,transport,target:chosen};
+    if(job.state!=='uploading')throw Error('Upload did not finish; inspect the job in Studio before retrying');
+    if(Date.now()>end)throw Error('Upload is still running; inspect Studio before retrying');
+    await pause(500);
+    job=checkedJob(await call(port,'/api/job?id='+artifact.id));
+  }
+}
+
+function attach(max, dependencies={}) {
+  const call=dependencies.request||request;
+  let context=null,port=8788,building=false,uploading=false,lastBuild=null;
   const send=(...args)=>max.outlet(...args);
   const fail=(id,error)=>send('build_error',id||'',String(error.message||error));
-  max.addHandler('studio_port', value=>{if(context||building) return fail('',Error('Wait for the current export/build'));if(!Number.isInteger(value)||value<1024||value>65535)return fail('',Error('Invalid Studio port'));port=value;});
+  max.addHandler('studio_port', value=>{if(context||building||uploading) return fail('',Error('Wait for the current export/build/upload'));if(!Number.isInteger(value)||value<1024||value>65535)return fail('',Error('Invalid Studio port'));if(port!==value)lastBuild=null;port=value;});
   max.addHandler('prepare',async text=>{
     let value;
     try {value=JSON.parse(text);}catch(error){fail('',error);return;}
-    if(context||building){fail(value?.requestId,Error('An export/build is already in progress'));return;}
-    building=true;
+    if(context||building||uploading){fail(value?.requestId,Error('An export/build/upload is already in progress'));return;}
+    building=true;lastBuild=null;
     try {
       context=await prepare(value);
       send('prepared',context.requestId,JSON.stringify(context.config));
@@ -121,7 +171,7 @@ function attach(max) {
     if(!context||context.requestId!==id)return;
     const current=context;context=null;
     try {
-      const started=await submit(current,port);
+      const started=await submit(current,port,call);
       send('submitted',id,started.job.id,started.url);
       let job=started.job,previous='';
       const end=Date.now()+25*60*1000;
@@ -131,17 +181,28 @@ function attach(max) {
         if(job.state==='failed'||job.error)throw Error(job.error||'Studio compilation failed');
         if(Date.now()>end)throw Error('Build is still running. Continue in Studio: '+started.url);
         await new Promise(resolve=>setTimeout(resolve,1000));
-        job=(await request(port,'/api/job?id='+job.id)).job;
+        job=(await call(port,'/api/job?id='+job.id)).job;
         if(!job||job.id!==started.job.id)throw Error('Studio build identity changed');
       }
-      const raw=await request(port,'/api/artifact?id='+job.id,undefined,undefined,true);
+      const raw=await call(port,'/api/artifact?id='+job.id,undefined,undefined,true);
       if(crypto.createHash('sha256').update(raw).digest('hex')!==job.result.package_sha256)throw Error('Package identity differs from the completed build');
       const file=path.join(current.directory,'patch.rnbopkg');await fs.writeFile(file,raw,{mode:0o600});
-      send('build_ready',id,job.id,started.url,file);
+      lastBuild={id:job.id,sha256:job.result.package_sha256,port};
+      building=false;send('build_ready',id,job.id,started.url,file);
     }catch(error){fail(id,error);}
     finally{building=false;}
   });
+  max.addHandler('upload',async(id,transport,target='')=>{
+    if(context||building||uploading){send('upload_error',id,'Wait for the current export/build/upload');return;}
+    uploading=true;
+    try {
+      const result=await uploadPackage(lastBuild,uploadSettings(transport,target),port,call,
+        (kind,...args)=>send(kind==='target'?'upload_target':'upload_progress',id,...args),dependencies.pause);
+      send('upload_done',id,result.job.id,result.transport,result.target);
+    }catch(error){send('upload_error',id,String(error.message||error));}
+    finally{uploading=false;}
+  });
   send('node_ready');
 }
-module.exports={settings,exportConfig,prepare,readExport,request,submit,attach};
+module.exports={settings,exportConfig,prepare,readExport,request,submit,uploadSettings,uploadPackage,attach};
 try {attach(require('max-api'));} catch(error) {if(error.code!=='MODULE_NOT_FOUND')throw error;}

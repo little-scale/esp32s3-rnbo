@@ -33,6 +33,13 @@ words match the original native sine scaled by exact 0.5. This is host integrati
 evidence; no new hardware upload or listening claim is made. See the
 [integration receipt](../evidence/max-embedded-build.json).
 
+The helper also accepts explicit `upload usb` / `upload wifi` messages and
+`build_upload usb` / `build_upload wifi` for compile-then-load. Optional USB ports
+or paired Wi-Fi IDs select the target; ambiguous boards reject. The extension
+uses the existing package upload paths, preserves plain build-only behaviour and
+cannot install firmware. Lifecycle/failure tests and real Studio HTTP checks with
+simulated USB/Wi-Fi transports pass; physical uploads from Max remain unqualified.
+
 Remaining wrapper work includes dynamic list allocation and scheduler/ramp
 semantics. Native export reproduces the compound curve late allocation and line
 ramp platform error; it does not resolve those faults by itself. Runtime version

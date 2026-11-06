@@ -545,7 +545,7 @@
     prompt.textContent = state.paired.length ? 'Choose a paired player…' : 'No paired players saved';
     $('wifi-device').replaceChildren(prompt, ...state.paired.map(p => {
       const option = document.createElement('option'); option.value = p.id;
-      option.textContent = `${String(p.label || 'Player').slice(0, 160)}${p.ip ? ` · ${String(p.ip).slice(0, 64)}` : ''}`;
+      option.textContent = `${String(p.label || 'Player').slice(0, 160)} · ${p.id}${p.ip ? ` · ${String(p.ip).slice(0, 64)}` : ''}`;
       return option;
     }));
     $('wifi-device').value = selected; state.pairedInitialized = true;

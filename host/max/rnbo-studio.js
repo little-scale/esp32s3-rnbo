@@ -6,7 +6,7 @@ autowatch = 0;
 inlets = 2;
 outlets = 3;
 var nodeReady = false, current = null, configDict = null, timeoutTask = null, exportPoll = null;
-var lastStudioURL = '', initialVolume = 50, arenaBytes = 1048576;
+var lastStudioURL = '', initialVolume = 50, arenaBytes = 1048576, lastBuildReady = false;
 var wanted = typeof jsarguments !== 'undefined' && jsarguments[1] && String(jsarguments[1]) !== '#1' ? String(jsarguments[1]) : '';
 
 function locateTarget(parent, name) {
@@ -52,7 +52,8 @@ function captureDrawing(p) {
 
 function status() {
     var args=Array.prototype.slice.call(arguments),label=String(args[0]||'');
-    if(label==='ready')label='Package ready. Open Studio to load it.';
+    if(label==='ready')label='Package ready. Send upload usb or upload wifi to load it.';
+    else if(label==='uploaded')label='Package loaded and saved on the player.';
     else if(label==='job')label='Build submitted. Open Studio for progress.';
     else if(label==='available')label='Ready to build the live RNBO patch.';
     else label=args.join(' ').slice(0,180);
@@ -65,9 +66,10 @@ function fail(message) {
     if(current)outlet(0,'abort',current.id);
     current=null;configDict=null;status('error',String(message));
 }
-function bang() {
-    if(current){status('error','A build is already in progress');return;}
+function startBuild(selection) {
+    if(current){status('error','A build or upload is already in progress');return;}
     if(!nodeReady){status('error','Node for Max is starting; try Build again shortly');return;}
+    lastBuildReady=false;
     try {
         var target=locateTarget(this.patcher.parentpatcher || this.patcher,wanted);
         if(Number(target.getattr('dumpoutlet'))!==1) throw Error('Enable @dumpoutlet 1 on the rnbo~ object');
@@ -77,14 +79,36 @@ function bang() {
         catch(error){status('drawing_unavailable',String(error.message||error));}
         var id='build_'+Date.now()+'_'+Math.floor(Math.random()*1000000000);
         var title=String(target.getattr('title')||target.varname||'RNBO Patch').slice(0,64);
-        current={id:id,target:target,phase:'preparing',drawing:JSON.stringify(drawing),sawActive:false};
+        current={id:id,target:target,phase:'preparing',drawing:JSON.stringify(drawing),sawActive:false,upload:selection};
         timeoutTask=new Task(function(){fail('Export timed out. Check the dump-outlet connection and Max Console.');},this);
         timeoutTask.schedule(120000);
         outlet(0,'prepare',JSON.stringify({requestId:id,name:title,visual_patch:drawing,initial_volume:initialVolume,arena_bytes:arenaBytes,exposevoiceparams:!!Number(target.getattr('exposevoiceparams'))}));
         status('preparing',title);
     }catch(error){fail(error.message||error);}
 }
+function bang() {startBuild.call(this,null);}
 function build() {bang.call(this);}
+function connection(args) {
+    if(args.length<1||args.length>2||['usb','wifi'].indexOf(args[0])<0)throw Error('Use usb or wifi, optionally followed by a USB port or paired Wi-Fi device ID');
+    var target=args.length===2?String(args[1]):'';
+    if(target.length>256||/[\x00-\x1f\x7f]/.test(target)||args[0]==='wifi'&&target&&!/^[0-9a-f]{12}$/.test(target))throw Error('Invalid connection target');
+    return {transport:args[0],target:target};
+}
+function build_upload() {
+    try {startBuild.call(this,connection(Array.prototype.slice.call(arguments)));}
+    catch(error){status('error',String(error.message||error));}
+}
+function upload() {
+    try {
+        var selection=connection(Array.prototype.slice.call(arguments));
+        if(current)throw Error('Wait for the current build or upload');
+        if(!nodeReady||!lastBuildReady)throw Error('Build a package successfully with this helper before uploading');
+        var id='upload_'+Date.now()+'_'+Math.floor(Math.random()*1000000000);
+        current={id:id,phase:'uploading'};
+        status('uploading',selection.transport);
+        outlet(0,'upload',id,selection.transport,selection.target);
+    }catch(error){status('error',String(error.message||error));}
+}
 function node_ready() { nodeReady=true;status('available','Max → native export → Studio'); }
 function prepared(id,json) {
     if(!current||current.id!==id||current.phase!=='preparing')return;
@@ -127,8 +151,21 @@ function submitted(id,job,url) {
 function build_progress(id,message) { if(current&&current.id===id)status('progress',String(message)); }
 function build_ready(id,job,url,file) {
     if(!current||current.id!==id)return;
+    var selection=current.upload;
     lastStudioURL=String(url);stopTimer();current=null;configDict=null;
+    lastBuildReady=true;
     status('ready',String(job),lastStudioURL,String(file));
+    if(selection)upload.call(this,selection.transport,selection.target);
+}
+function upload_target(id,transport,target) {if(current&&current.id===id&&current.phase==='uploading')status('upload_target',String(transport),String(target));}
+function upload_progress(id,message) {if(current&&current.id===id&&current.phase==='uploading')status('uploading',String(message));}
+function upload_done(id,job,transport,target) {
+    if(!current||current.id!==id||current.phase!=='uploading')return;
+    current=null;status('uploaded',String(job),String(transport),String(target));
+}
+function upload_error(id,message) {
+    if(!current||current.id!==id||current.phase!=='uploading')return;
+    current=null;status('upload_failed',String(message));
 }
 function build_error(id,message) { if(current&&current.id===id)fail(message);else status('error',String(message)); }
 function open() { if(lastStudioURL)outlet(2,lastStudioURL);else status('error','Click Build first; the Studio link appears after submission'); }
@@ -142,5 +179,9 @@ function arena(value) {
     if([1,2,4].indexOf(value)<0)return status('error','Arena must be 1, 2 or 4 MiB');
     arenaBytes=value*1048576;
 }
-function studio_port(value) { if(current)return status('error','Wait for the current build');outlet(0,'studio_port',value); }
+function studio_port(value) {
+    if(current)return status('error','Wait for the current build or upload');
+    if(!Number.isInteger(value)||value<1024||value>65535)return status('error','Invalid Studio port');
+    lastBuildReady=false;outlet(0,'studio_port',value);
+}
 function notifydeleted() {stopTimer();if(current)outlet(0,'abort',current.id);}

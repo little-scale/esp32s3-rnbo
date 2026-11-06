@@ -17,7 +17,9 @@ package. Currently the adapter qualifies **RNBO 1.4.4**. Open the complete expor
 folder or ZIP in Studio. An optional matching `.rnbopat` supplies the drawing;
 it is never translated into audio code. The [Max build helper](host/max/README.md)
 can export a live embedded `rnbo~` and attach its drawing automatically, including
-unsaved edits. See the [export guide](docs/native-export.md).
+unsaved edits. Send it `upload usb` / `upload wifi` to load its completed package,
+or `build_upload usb` / `build_upload wifi` to compile and load in one action.
+See the [export guide](docs/native-export.md).
 
 Both boards share the same module ABI and player code: **Seeed XIAO ESP32-S3**
 with stereo I²S, and **Waveshare ESP32-S3 Touch AMOLED 1.8 V2** with its display,

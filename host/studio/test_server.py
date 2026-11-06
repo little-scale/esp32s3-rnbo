@@ -5,6 +5,8 @@ import struct
 import json
 from pathlib import Path
 import tempfile
+import shutil
+import subprocess
 import threading
 import unittest
 import urllib.error
@@ -227,5 +229,41 @@ class HTTPTests(unittest.TestCase):
         code,_,_=self.request('/../server.py');self.assertEqual(code,404)
         code,_,_=self.request('/api/execute',{'cmd':'bad'},{'Content-Type':'application/json','X-Studio-Token':self.server.studio.token})
         self.assertEqual(code,404)
+
+    @unittest.skipUnless(shutil.which('node'), 'Node is needed for the Max client integration check')
+    def test_max_upload_client_uses_real_http_handler_and_usb_wifi_package_paths(self):
+        studio=self.server.studio
+        identity='7'*32;digest='8'*64;calls=[]
+        def record(*args,**kwargs):calls.append((args,kwargs))
+        network=FakeBridge();network.upload_package=record
+        def connect_wifi(data,**kwargs):
+            self.assertEqual(data,{'id':'001122aabbcc','ip':None})
+            self.assertTrue(kwargs['during_upload'])
+            studio.active_bridge=network
+        client=s.ROOT/'host/max/rnbo-studio-client.js'
+        with patch.object(self.bridge,'upload_package',side_effect=record,create=True), \
+             patch.object(studio.pairings,'public_list',return_value=[{'id':'001122aabbcc','label':'Fixture','ip':'192.168.1.2'}]), \
+             patch.object(studio,'connect_wifi',side_effect=connect_wifi):
+            try:
+                for transport in ('usb','wifi'):
+                    studio.jobs[identity]=dict(id=identity,state='ready',stage='Ready',error=None,log='',
+                        result={'kind':'package','package_sha256':digest},_build=Path('/fixture/patch.rnbopkg'),_settings={'board':'xiao'})
+                    script="""const client=require(process.argv[1]);
+                        const artifact=JSON.parse(process.argv[2]), selection=JSON.parse(process.argv[3]);
+                        client.uploadPackage(artifact,selection,artifact.port)
+                          .then(r=>console.log(r.job.state))
+                          .catch(e=>{console.error(e.message);process.exitCode=1;});"""
+                    result=subprocess.run(['node','-e',script,str(client),
+                        json.dumps(dict(id=identity,sha256=digest,port=self.server.server_port)),
+                        json.dumps(dict(transport=transport))],capture_output=True,text=True,timeout=15)
+                    self.assertEqual(result.returncode,0,result.stderr)
+                    self.assertEqual(result.stdout.strip(),'done')
+                    studio.job_thread.join(2)
+                    self.assertEqual(calls[-1][0][:2],(Path('/fixture/patch.rnbopkg'),'test-port' if transport=='usb' else None))
+                    self.assertEqual(calls[-1][1],{'expected_sha256':digest})
+                self.assertEqual(len(calls),2)
+            finally:
+                if studio.job_thread:studio.job_thread.join(2)
+                studio.jobs.pop(identity,None);studio.active_bridge=self.bridge
 
 if __name__=='__main__':unittest.main()

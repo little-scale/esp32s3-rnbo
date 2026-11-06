@@ -202,7 +202,7 @@
         "box": {
           "id": "note",
           "maxclass": "comment",
-          "text": "No upload is automatic. Use Studio to load the completed package.",
+          "text": "build compiles only. upload usb/wifi loads the last successful package. build_upload usb/wifi does both.",
           "patching_rect": [
             20,
             370,
@@ -227,9 +227,49 @@
           "presentation": 1,
           "presentation_rect": [
             15,
-            95,
+            135,
             335,
             55
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "upload-0",
+          "maxclass": "message",
+          "text": "upload usb",
+          "patching_rect": [
+            520,
+            240,
+            140,
+            24
+          ],
+          "presentation": 1,
+          "presentation_rect": [
+            15,
+            95,
+            105,
+            25
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "upload-1",
+          "maxclass": "message",
+          "text": "upload wifi",
+          "patching_rect": [
+            680,
+            240,
+            140,
+            24
+          ],
+          "presentation": 1,
+          "presentation_rect": [
+            130,
+            95,
+            105,
+            25
           ]
         }
       }
@@ -327,6 +367,30 @@
           ],
           "destination": [
             "browser",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "upload-0",
+            0
+          ],
+          "destination": [
+            "v8",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "upload-1",
+            0
+          ],
+          "destination": [
+            "v8",
             0
           ]
         }

@@ -17,6 +17,10 @@ Max/RNBO and Node are not needed on the receiving computer when the export is co
 You can also [build directly from an embedded RNBO patch in Max](../max/README.md).
 The helper submits its live drawing and native C++ export together, then supplies
 a Studio link for that exact job. Opening the link does not rebuild or upload.
+Send `upload usb` or `upload wifi` to the Max helper to load its completed package,
+or `build_upload usb` / `build_upload wifi` to build and then load on success.
+Both accept an optional USB port or paired Wi-Fi board ID. Studio must remain
+running; Wi-Fi setup/pairing and player installation stay in Studio.
 
 Existing `.rnbopkg` files can still be opened, downloaded and loaded without a
 compiler. USB/Wi-Fi pairing, network scanning, parameters, Pause/Resume, output
