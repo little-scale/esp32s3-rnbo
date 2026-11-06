@@ -8,6 +8,7 @@ import stat
 import struct
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 
 from host.studio import firmware as f
@@ -59,6 +60,30 @@ def payload():
 
 
 class FirmwareTests(unittest.TestCase):
+    def test_bundle_creation_requires_current_sources_and_network_component(self):
+        inventory={'firmware/main/player_main.c':'a'*64}
+        report=dict(player=True, player_api_version=1, components=['player_network'], integration_files_sha256=inventory)
+        for change in ({'integration_files_sha256':{}}, {'integration_files_sha256':{'firmware/main/player_main.c':'b'*64}}, {'components':[]}):
+            with self.subTest(change=change), mock.patch('tools.run_hardware_test.artifacts', return_value={'report':{**report,**change}}), mock.patch('tools.build_firmware.source_inventory', return_value=inventory):
+                with self.assertRaisesRegex(ValueError, 'rebuild|Rebuild'):
+                    f.create(Path('/unused-build'),'amoled')
+
+    def test_current_build_packages_all_images_and_is_reproducible(self):
+        inventory={'firmware/main/player_main.c':'a'*64}
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp).resolve(); value=files('amoled',full=True)
+            (root/'bootloader').mkdir(); (root/'partition_table').mkdir()
+            app=root/'rnbo_s3_amoled.bin'; app.write_bytes(value['application.bin'])
+            partition=root/'partition_table/partition-table.bin'; partition.write_bytes(value['partition-table.bin'])
+            (root/'bootloader/bootloader.bin').write_bytes(value['bootloader.bin'])
+            (root/'flasher_args.json').write_text(json.dumps({'flash_files':{'0x0':'bootloader/bootloader.bin','0x8000':'partition_table/partition-table.bin','0x10000':'rnbo_s3_amoled.bin'}}))
+            checked=dict(report=dict(player=True,player_api_version=1,components=['player_network'],integration_files_sha256=inventory),app=app,partition=partition,elf_sha256='a'*64)
+            with mock.patch('tools.run_hardware_test.artifacts',return_value=checked), mock.patch('tools.build_firmware.source_inventory',return_value=inventory):
+                raw=f.create(root,'amoled'); self.assertEqual(raw,f.create(root,'amoled'))
+            decoded,meta=f.unpack(raw)
+            self.assertEqual(meta['board'],'amoled')
+            self.assertEqual(set(decoded),{'application.bin','partition-table.bin','bootloader.bin','firmware.json'})
+
     def test_full_bundle_includes_a_checked_bootloader_for_first_install(self):
         raw=zipped(files(full=True));decoded,meta=f.unpack(raw)
         self.assertIn('bootloader.bin',meta['files'])

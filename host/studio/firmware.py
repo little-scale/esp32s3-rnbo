@@ -160,10 +160,15 @@ def unpack(raw):
 
 def create(build, board):
     from tools.run_hardware_test import artifacts
+    from tools.build_firmware import source_inventory
     checked = artifacts(Path(build).resolve(), board)
     report = checked['report']
     if report.get('player') is not True or report.get('player_api_version') != 1:
         raise ValueError('Build a supported RNBO player before bundling firmware')
+    if report.get('integration_files_sha256') != source_inventory():
+        raise ValueError('Player build is older than the current sources; rebuild the player before making its firmware ZIP')
+    if 'player_network' not in report.get('components', []):
+        raise ValueError('Rebuild the current player with its Wi-Fi component before making a firmware ZIP')
     files = {'application.bin': checked['app'].read_bytes(), 'partition-table.bin': checked['partition'].read_bytes()}
     settings = json.loads((Path(build) / 'flasher_args.json').read_bytes())
     if settings.get('flash_files') != {'0x0':'bootloader/bootloader.bin', '0x10000':str(checked['app'].relative_to(Path(build).resolve())), '0x8000':'partition_table/partition-table.bin'}:

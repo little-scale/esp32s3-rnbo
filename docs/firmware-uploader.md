@@ -61,6 +61,11 @@ Max and RNBO are not required for a supplied ZIP. Studio's launcher uses the
 installed ESP-IDF Python environment when available. Building firmware locally
 still needs the existing ESP-IDF/compiler dependencies and AMOLED components.
 
+The ZIP builder rejects builds whose source inventory differs from the current
+checkout, and requires the player's Wi-Fi component. Rebuild before packaging
+an older cached build. Importing a previously supplied ZIP remains independent
+of the recipient's source checkout.
+
 A full ZIP contains `firmware.json`, `bootloader.bin`, `partition-table.bin` and
 `application.bin`. The builder verifies the existing build report and ELF hash,
 then records portable file sizes/hashes and the embedded application identity.

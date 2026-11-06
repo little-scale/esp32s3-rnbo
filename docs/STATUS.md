@@ -1,5 +1,14 @@
 # Implementation status — native export migration
 
+**7 November 2026 — firmware ZIP correction:** The initially supplied AMOLED ZIP
+was a valid older player build without Wi-Fi. It has been replaced locally with
+a current-source build including `player_network` and `esp_wifi`; the XIAO ZIP
+already matched current sources. The ZIP builder now refuses stale builds and
+requires the network component. Both current bundles pass image validation;
+the replacement AMOLED image has not been flashed or functionally checked on
+hardware in this correction. See the
+[build receipt](../evidence/current-player-firmware-bundles.json).
+
 **7 November 2026:** A Max 9.1.4 session returned no native patcher object to
 V8, including in an independent minimal probe (`JS peer class of jspatcher not
 found`). The Max helper now stops with an actionable message before export and
