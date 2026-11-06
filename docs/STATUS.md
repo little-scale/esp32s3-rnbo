@@ -25,6 +25,14 @@ or deadline faults, 737.5 µs polled median player render (12.70%). Listening
 confirmation remains pending; the previous package and controls are restored.
 See the [player receipt](../evidence/xiao-native-export-player.json).
 
+The [Max build helper](../host/max/README.md) now exports live embedded RNBO
+patches, captures their drawing and submits a Studio build without a separate
+`.rnbopat`. An actual unsaved `*~ 0.5` edit produced a checked package and seven-node
+drawing while the saved source retained six nodes. All 8,192 captured Float32
+words match the original native sine scaled by exact 0.5. This is host integration
+evidence; no new hardware upload or listening claim is made. See the
+[integration receipt](../evidence/max-embedded-build.json).
+
 Remaining wrapper work includes dynamic list allocation and scheduler/ramp
 semantics. Native export reproduces the compound curve late allocation and line
 ramp platform error; it does not resolve those faults by itself. Runtime version

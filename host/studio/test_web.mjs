@@ -90,7 +90,7 @@ function mockDocument() {
   return {document, get: id => ids.get(id)};
 }
 
-async function openStudio({parameters = [], environment = {}, paired = []} = {}) {
+async function openStudio({parameters = [], environment = {}, paired = [], linkedJob = ''} = {}) {
   const dom = mockDocument(), calls = [], timers = new Map(), intervals = new Map();
   let timerId = 0;
   const backend = {
@@ -132,7 +132,7 @@ async function openStudio({parameters = [], environment = {}, paired = []} = {})
       data = backend.importError ? {error:backend.importError} : {job:{id:'import1',state:'ready',result,log:'Package validated; no rebuild'}};
     }
     else if (path === '/api/build') data = {job: {id: 'build1', state: 'building', stage: 'Compiling', log: 'working'}};
-    else if (path.startsWith('/api/job?')) data = {job: {id: 'build1', state: 'ready', stage: 'Ready', log: 'done', result: backend.result}};
+    else if (path.startsWith('/api/job?')) data = {job: {id: linkedJob || 'build1', state: 'ready', stage: 'Ready', log: 'done', result: backend.result}};
     else if (path === '/api/install-player') data = {job: {id:'install1',state:'done',stage:'Installed',result:{kind:'player',board:'xiao'}}};
     else if (path === '/api/upload') data = {job: {
       id: 'build1', state: backend.uploadError ? 'ready' : 'done', stage: 'Upload finished', error: backend.uploadError,
@@ -153,7 +153,7 @@ async function openStudio({parameters = [], environment = {}, paired = []} = {})
     return {ok: true, status: 200, text: async () => JSON.stringify(data)};
   };
   vm.runInNewContext(source, {
-    document: dom.document, fetch, console, Intl, btoa: value => Buffer.from(value,'binary').toString('base64'),
+    document: dom.document, fetch, console, Intl, URLSearchParams, location:{search:linkedJob?'?job='+linkedJob:''}, btoa: value => Buffer.from(value,'binary').toString('base64'),
     setTimeout(callback, delay) { const id = ++timerId; timers.set(id, {callback, delay}); return id; },
     clearTimeout: id => timers.delete(id), setInterval(callback, delay) { intervals.set(delay, callback); },
   }, {filename: 'host/studio/web/app.js'});
@@ -626,4 +626,21 @@ test('native export CPU failure offers no importer rewrite or automatic activati
   assert.equal(app.get('load-failure').hidden,false);
   assert.match(app.get('load-failure-summary').textContent,/USB transfer completed/);
   assert.equal(app.get('load-failure-raw').textContent,app.backend.uploadError);
+});
+
+
+test('a Max build link opens a ready package without resubmitting or requiring source', async () => {
+  const identity='a'.repeat(32),app=await openStudio({linkedJob:identity});
+  assert.ok(app.calls.some(c=>c.path==='/api/job?id='+identity));
+  assert.equal(app.calls.filter(c=>c.path==='/api/build'||c.path==='/api/upload').length,0);
+  assert.equal(app.get('download').disabled,false);assert.equal(app.get('upload').disabled,false);
+  assert.equal(app.get('compile').disabled,true);
+  assert.equal(app.get('source-title').textContent,'Build from Max');
+  assert.equal(app.get('build-output').open,false);
+});
+
+test('a malformed linked build identity is rejected before making a job request',async()=>{
+  const app=await openStudio({linkedJob:'../../secret'});
+  assert.equal(app.calls.filter(c=>c.path.startsWith('/api/job')).length,0);
+  assert.match(app.get('message').textContent,/Invalid Studio build link/);
 });

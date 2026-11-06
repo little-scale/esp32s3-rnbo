@@ -101,6 +101,7 @@ class SettingsTests(unittest.TestCase):
         result=studio.job(identity)
         self.assertEqual(result['state'],'ready');self.assertEqual(result['result']['kind'],'package')
         self.assertEqual(result['result']['package_bytes'],1234)
+        self.assertEqual(result['result']['visual'],{'available':False})
         self.assertTrue(any('build_module.py' in ' '.join(c) and '--max-arena-bytes' in c for c in commands))
         self.assertFalse(any('build_firmware.py' in ' '.join(c) or c[0]=='node' for c in commands))
         self.assertEqual(commands[0][commands[0].index('--numerical-profile')+1],'float32-strict')

@@ -5,7 +5,7 @@
   const state = {
     csrf: '', environment: {}, serverBusy: false, reachable: false,
     exportPayload: null, patch: null, name: 'RNBO Export', revision: 0, valid: false,
-    artifact: null, job: null, jobRevision: -1, operation: null,
+    artifact: null, job: null, jobRevision: -1, operation: null, linkedJob: null,
     loadFailure: null, loadingTransport: 'usb',
     connecting: false, connectedPort: '', connectedTransport: 'usb', connectedDeviceId: '',
     device: null, deviceError: '', parameters: [], parameterKey: '',
@@ -313,7 +313,7 @@
 
   function acceptExport(name) {
     $('source-title').textContent = 'Max C++ export';
-    state.name = name; state.patch = null; state.valid = true;
+    state.linkedJob = null; state.name = name; state.patch = null; state.valid = true;
     invalidate();
     $('file-name').textContent = name;
     $('patch-svg').setAttribute('hidden', ''); $('empty-preview').hidden = false;
@@ -372,7 +372,7 @@
       invalidate();
       state.job = response.job;
       state.artifact = {id: response.job.id, revision: state.revision, result: response.job.result};
-      state.exportPayload = null; state.patch = null; state.valid = false; state.name = file.name;
+      state.linkedJob = null; state.exportPayload = null; state.patch = null; state.valid = false; state.name = file.name;
       $('file-name').textContent = file.name;
       drawPackagePreview(response.job.result.visual);
       $('source-state').textContent = 'Saved package validated. Ready to load without recompiling.';
@@ -448,6 +448,13 @@
           const result = job.result || {};
           state.artifact = {id: job.id, revision: state.revision, result};
           showResult(result);
+          if (!state.exportPayload) {
+            drawPackagePreview(result.visual);
+            if (state.linkedJob === job.id) {
+              $('source-title').textContent = 'Build from Max';
+              $('file-name').textContent = result.title || 'Live Max export';
+            }
+          }
         } else $('source-state').textContent = 'The patch or settings changed during compilation. Compile again to use the current version.';
       } else if (operation === 'upload' || operation === 'install') {
         if (operation === 'upload') state.loadFailure = null;
@@ -911,9 +918,25 @@
     if ((event.metaKey || event.ctrlKey) && event.key === 'Enter' && !$('compile').disabled) { event.preventDefault(); compile(); }
   });
 
+  async function openLinkedJob() {
+    const identity = new URLSearchParams(location.search).get('job');
+    if (!identity) return;
+    if (!/^[0-9a-f]{32}$/.test(identity)) { message('Invalid Studio build link.'); return; }
+    try {
+      state.linkedJob = identity; state.operation = 'build'; state.jobRevision = state.revision;
+      $('source-state').textContent = 'Build submitted from Max. The live drawing and C++ export were supplied together.';
+      $('build-output').open = true;
+      const job = (await api(`/api/job?id=${identity}`)).job;
+      if (job?.id !== identity) throw new Error('The linked build identity does not match Studio’s reply.');
+      $('build-output').open = activeStates.has(job.state) || job.state === 'failed';
+      await handleJob(job);
+    } catch (error) { state.operation = null; message(error.message); updateButtons(); }
+  }
+
   (async () => {
     await refreshStatus();
     await Promise.all([refreshDevices(), refreshDevice()]);
+    await openLinkedJob();
     setInterval(() => { if (!state.operation && !state.connecting) refreshDevice(); }, 1800);
     setInterval(refreshStatus, 6000);
   })();

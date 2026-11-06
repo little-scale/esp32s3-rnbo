@@ -414,7 +414,8 @@ class Studio:
                           block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
                           physical_inputs=result.get('metadata', {}).get('physical_inputs'),
                           float32_trial=trial, trial_comparison=comparison, trial_report_available=bool(trial),
-                          preflight_scope='native default startup screen; not target allocation proof')
+                          preflight_scope='native default startup screen; not target allocation proof',
+                          visual=package_preview(visual))
             self.update(identity, state='ready', stage='Package ready to load', result=result, _build=directory / 'patch.rnbopkg')
         except Exception as error:
             self.log(identity, '\n' + str(error) + '\n')

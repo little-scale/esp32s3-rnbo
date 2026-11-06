@@ -14,6 +14,10 @@ Max/RNBO and Node are not needed on the receiving computer when the export is co
 4. Connect the board and load the package. Install the stable player separately
    if needed; ordinary package loads do not replace firmware.
 
+You can also [build directly from an embedded RNBO patch in Max](../max/README.md).
+The helper submits its live drawing and native C++ export together, then supplies
+a Studio link for that exact job. Opening the link does not rebuild or upload.
+
 Existing `.rnbopkg` files can still be opened, downloaded and loaded without a
 compiler. USB/Wi-Fi pairing, network scanning, parameters, Pause/Resume, output
 volume and render-time/CPU readings remain available. See [Wi-Fi](../../docs/player-wifi.md),

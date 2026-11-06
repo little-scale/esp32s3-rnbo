@@ -72,23 +72,27 @@ Primary references: Cycling ’74’s [Minimal Export guide](https://rnbo.cyclin
 and [C++ target overview](https://rnbo.cycling74.com/learn/the-cpp-source-code-target-overview).
 The complete command-line sequence is in [host tools](../host/README.md).
 
-## Triggering a build from a Max patch
+## Build the live patch from Max
 
-A surrounding Max patch can trigger RNBO's documented `export cpp-export
-cpp-code-export <dictionary-name>` message, monitor export status with
-`@dumpoutlet 1`, then use `node.script` to read the completed export and call
-Studio. The local API is already available: get `/api/status` for the current
-session token; post the export to `/api/build` with `X-Studio-Token`; poll
-`/api/job?id=...` until `ready` or `failed`. Folder payloads contain `export_files`
-entries with `path` and `data_base64`, plus an export `name`. See
-`host/native_export.py` and Studio's browser code for the bounded payload contract.
-Never submit a folder while Max is still writing it, and never reuse an old
-successful export after a failed export attempt.
+Use the [Max build helper](../host/max/README.md), or open
+[embedded-sine.maxpat](../host/max/embedded-sine.maxpat) as an example.
+It exports the live `rnbo~` directly, captures its drawing from memory and submits
+both to Studio. The RNBO patch stays embedded; no standalone `.rnbopat` is needed,
+and unsaved edits can be included. Build and upload remain separate actions.
 
-A dedicated Max build-button helper is not implemented yet. Build and upload
-should initially remain separate. Keeping the button in the parent Max patch
-avoids exporting a build-only `outport`, which the current player does not
-support. RNBO running on the board cannot run the host compiler by itself.
+The helper is placed in the surrounding Max patch, alongside `rnbo~`. It uses
+Cycling ’74’s documented export message and export-status reporting, plus Max
+scripting for drawing capture. Its Node for Max client submits to the existing
+local Studio API and returns a link to that exact job. It does not interpret
+RNBO/Gen objects for DSP. See the helper guide for installation, controls,
+drawing limitations and the real in-memory-edit integration check.
 
-Cycling ’74 documents [RNBO export messages](https://docs.cycling74.com/legacy/max8/refpages/rnbo~)
-and [Node for Max file/network access](https://docs.cycling74.com/reference/node.script).
+The local API remains available to other clients: get `/api/status` for the
+current session token; post exported files to `/api/build` with `X-Studio-Token`;
+poll `/api/job?id=...` until ready/failed. Folder payloads contain `export_files`
+entries with `path` and `data_base64`, plus a `name` and optional `visual_patch`.
+`/?job=<id>` opens an existing job in Studio without recompiling or uploading it.
+
+Primary references: [RNBO export messages](https://docs.cycling74.com/legacy/max8/refpages/rnbo~),
+[Max object/subpatcher scripting](https://docs.cycling74.com/apiref/js/maxobj/),
+and [Node for Max](https://docs.cycling74.com/reference/node.script).
