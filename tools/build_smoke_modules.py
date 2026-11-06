@@ -108,7 +108,7 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def validate_manifest(manifest: dict, *, numerical_profile: str = "float32-strict") -> None:
+def validate_manifest(manifest: dict, *, numerical_profile: str = "float32-strict", manual_max_comparison: bool = False) -> None:
     """Initial smoke subset; optional adapters/profiles need separate review."""
     if numerical_profile not in ("float32-strict", DBTOA_PROFILE):
         raise ExportError("Unsupported explicit smoke numerical profile")
@@ -120,7 +120,7 @@ def validate_manifest(manifest: dict, *, numerical_profile: str = "float32-stric
         "format": "rnbo-esp32s3-prepared-export", "format_version": 1,
         "rnbo_version": "1.4.4", "class_name": "rnbos3patch", "role": "fx",
         "sample_rate": 44100, "block_frames": 256, "audio_inputs": 2, "audio_outputs": 2,
-        "voices": 1, "voice_topology": "single-export",
+        "voices": None if manual_max_comparison else 1, "voice_topology": "manual-export-unspecified" if manual_max_comparison else "single-export",
         "numerical_profile": numerical_profile, "scheduler_time": "float64",
         "defined_int32_wrap": True, "required_host_services": [], "midi_output_ports": 0,
         "midi_output_policy": "reject", "adaptations": ADAPTATIONS + (["rnbo-1.4.4-" + DBTOA_PROFILE] if candidate else []), "execution": "static-development",
@@ -164,6 +164,11 @@ def validate_dbtoa_prepared(provenance: dict, manifest: dict, snapshot: dict) ->
 def validate_smoke_prepared(provenance: dict, manifest: dict, snapshot: dict, *,
                             numerical_profile: str = 'float32-strict') -> dict | None:
     """Keep the normal manifest closed; admit only two exact repaired Delay maps."""
+    if manifest.get('voices') is None:
+        from export_parity_contract import validate_manual_prepared
+        validate_manual_prepared(provenance,manifest,snapshot)
+        validate_manifest(manifest,numerical_profile=numerical_profile,manual_max_comparison=True)
+        return None
     records = [r for r in provenance.get('adaptations', [])
                if r.get('name') == GEN_DELAY_ADAPTATION]
     if GEN_DELAY_ADAPTATION not in manifest.get('adaptations', []) and not records:

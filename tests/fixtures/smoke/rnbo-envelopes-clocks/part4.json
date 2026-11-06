@@ -1,0 +1,62 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "curve~",
+      "curvature": 0.25,
+      "duration_ms": 4.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-compound",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3422,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-compound.rnbopat",
+      "patch_sha256": "c1b40ecfad9b15b707647e08539df570eccac51b4289bc8153a468624a305135",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "compound"
+    }
+  ],
+  "family": "rnbo-envelopes-clocks",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 1,
+    "index": 4,
+    "parent_catalog_sha256": "fe6707eb6a8a1aaab3bf4aa617d85f0abe62b07d1e0384994b5835ff071ef30f",
+    "total": 5
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "31 envelope and event-clock scenarios. All original sources, fixed mathematical streams, limits and timing-policy gaps are retained; 1MiB module ceiling, actual high-water recorded.",
+  "timed_blocks": 16
+}

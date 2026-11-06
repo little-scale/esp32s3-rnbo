@@ -1,0 +1,1316 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "onoff",
+      "exact_name": "onoff",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "onoff-events",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3400,
+      "observed_outlet": 0,
+      "operation": "onoff",
+      "patch": "onoff-events.rnbopat",
+      "patch_sha256": "0d2f605a1ff47ff767ecbdfb16088be89520f038e42a3047f769847c94bc56be",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onoff.maxref.xml",
+          "sha256": "1c57c74814bd97fa2dbf53ca317ae90d5a7590ed7af8517b053c9e538a9048a7",
+          "url": "https://rnbo.cycling74.com/objects/ref/onoff?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/onoff.js",
+          "sha256": "754428464f458a240bf612691ab18bf700989b3ab23e4dfc423d92332058cd18",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onoff",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onoff",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "gatetotrig",
+      "exact_name": "gatetotrig",
+      "fixed_arguments": "@edge pos",
+      "hot_inlet": 0,
+      "id": "gatetotrig-pos",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3401,
+      "observed_outlet": 0,
+      "operation": "gatetotrig",
+      "patch": "gatetotrig-pos.rnbopat",
+      "patch_sha256": "267da9ca003958d31742a8a64db263fe355110a27957dad7b5ab9980cb0187a2",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gatetotrig.maxref.xml",
+          "sha256": "cb756480ab9e46e83ca43aecdf27bca2a0852b3af0dc84ad8825bbda2b44fd0b",
+          "url": "https://rnbo.cycling74.com/objects/ref/gatetotrig?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/gatetotrig.js",
+          "sha256": "dffbb876e60cc9665fa57c2bdb4987e62e57c38772dbdf9e33b5b2670259ddf2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "gatetotrig",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "gatetotrig @edge pos",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "pos"
+    },
+    {
+      "canonical_name": "gatetotrig",
+      "exact_name": "gatetotrig",
+      "fixed_arguments": "@edge neg",
+      "hot_inlet": 0,
+      "id": "gatetotrig-neg",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3402,
+      "observed_outlet": 0,
+      "operation": "gatetotrig",
+      "patch": "gatetotrig-neg.rnbopat",
+      "patch_sha256": "0a022537fdabb6b8d13fa7cd508cb930140c9c2ae48aa31ed7dbbcb358551595",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_gatetotrig.maxref.xml",
+          "sha256": "cb756480ab9e46e83ca43aecdf27bca2a0852b3af0dc84ad8825bbda2b44fd0b",
+          "url": "https://rnbo.cycling74.com/objects/ref/gatetotrig?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/gatetotrig.js",
+          "sha256": "dffbb876e60cc9665fa57c2bdb4987e62e57c38772dbdf9e33b5b2670259ddf2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "gatetotrig",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "gatetotrig @edge neg",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "neg"
+    },
+    {
+      "canonical_name": "onebang",
+      "exact_name": "onebang",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "onebang-init0-out0",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3403,
+      "observed_outlet": 0,
+      "operation": "onebang",
+      "patch": "onebang-init0-out0.rnbopat",
+      "patch_sha256": "44fe97ba0a34ef493db613bde79ea6e8b393511c253b6a82f08e3e19986803a5",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onebang.maxref.xml",
+          "sha256": "daa6bc604ced1bddddb231797ce5ef90285ab3756755bb7f61ea57704f5f75dc",
+          "url": "https://rnbo.cycling74.com/objects/ref/onebang?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/onebang.js",
+          "sha256": "ebeeeb6ce30bd4035f61d0b87c2cc8132d899486b5f9acefa5ce00f2b42537f8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onebang",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onebang 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "initial-0"
+    },
+    {
+      "canonical_name": "onebang",
+      "exact_name": "onebang",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "onebang-init0-out1",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3404,
+      "observed_outlet": 1,
+      "operation": "onebang",
+      "patch": "onebang-init0-out1.rnbopat",
+      "patch_sha256": "1ee35e5b05bf6ec5efb3d72e88df61ae5c264e5ed67d9e6bc050e0eb660d23fa",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onebang.maxref.xml",
+          "sha256": "daa6bc604ced1bddddb231797ce5ef90285ab3756755bb7f61ea57704f5f75dc",
+          "url": "https://rnbo.cycling74.com/objects/ref/onebang?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/onebang.js",
+          "sha256": "ebeeeb6ce30bd4035f61d0b87c2cc8132d899486b5f9acefa5ce00f2b42537f8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onebang",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onebang 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "initial-0"
+    },
+    {
+      "canonical_name": "onebang",
+      "exact_name": "onebang",
+      "fixed_arguments": "1",
+      "hot_inlet": 0,
+      "id": "onebang-init1-out0",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3405,
+      "observed_outlet": 0,
+      "operation": "onebang",
+      "patch": "onebang-init1-out0.rnbopat",
+      "patch_sha256": "8f6f60837fa10c026bb37ce1f66e863ff8f2789bf557f030f9598ce4ac2a4e67",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onebang.maxref.xml",
+          "sha256": "daa6bc604ced1bddddb231797ce5ef90285ab3756755bb7f61ea57704f5f75dc",
+          "url": "https://rnbo.cycling74.com/objects/ref/onebang?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/onebang.js",
+          "sha256": "ebeeeb6ce30bd4035f61d0b87c2cc8132d899486b5f9acefa5ce00f2b42537f8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onebang",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onebang 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "initial-1"
+    },
+    {
+      "canonical_name": "onebang",
+      "exact_name": "onebang",
+      "fixed_arguments": "1",
+      "hot_inlet": 0,
+      "id": "onebang-init1-out1",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3406,
+      "observed_outlet": 1,
+      "operation": "onebang",
+      "patch": "onebang-init1-out1.rnbopat",
+      "patch_sha256": "7349ca074008dc3158d81653823ae5128ce4ece14cf13ef48d5407c6324959af",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onebang.maxref.xml",
+          "sha256": "daa6bc604ced1bddddb231797ce5ef90285ab3756755bb7f61ea57704f5f75dc",
+          "url": "https://rnbo.cycling74.com/objects/ref/onebang?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/onebang.js",
+          "sha256": "ebeeeb6ce30bd4035f61d0b87c2cc8132d899486b5f9acefa5ce00f2b42537f8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onebang",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onebang 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "initial-1"
+    },
+    {
+      "canonical_name": "onebang",
+      "exact_name": "onebang",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "onebang-rearm-out0",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3407,
+      "observed_outlet": 0,
+      "operation": "onebang",
+      "patch": "onebang-rearm-out0.rnbopat",
+      "patch_sha256": "a6a99682980f17eaa6abb72e6ed1a9bbc3e8f696418a88ec0d4000366ee00585",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onebang.maxref.xml",
+          "sha256": "daa6bc604ced1bddddb231797ce5ef90285ab3756755bb7f61ea57704f5f75dc",
+          "url": "https://rnbo.cycling74.com/objects/ref/onebang?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/onebang.js",
+          "sha256": "ebeeeb6ce30bd4035f61d0b87c2cc8132d899486b5f9acefa5ce00f2b42537f8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onebang",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onebang 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "positive-rearm"
+    },
+    {
+      "canonical_name": "onebang",
+      "exact_name": "onebang",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "onebang-rearm-out1",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3408,
+      "observed_outlet": 1,
+      "operation": "onebang",
+      "patch": "onebang-rearm-out1.rnbopat",
+      "patch_sha256": "fb7e75201a72b12e9e95271fbfd00a0c8b8e2135a50205c865a4b3021e27a905",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_onebang.maxref.xml",
+          "sha256": "daa6bc604ced1bddddb231797ce5ef90285ab3756755bb7f61ea57704f5f75dc",
+          "url": "https://rnbo.cycling74.com/objects/ref/onebang?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/onebang.js",
+          "sha256": "ebeeeb6ce30bd4035f61d0b87c2cc8132d899486b5f9acefa5ce00f2b42537f8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "onebang",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "onebang 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "positive-rearm"
+    },
+    {
+      "canonical_name": "edge~",
+      "exact_name": "edge~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "edge-out0",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3409,
+      "observed_outlet": 0,
+      "operation": "edge",
+      "patch": "edge-out0.rnbopat",
+      "patch_sha256": "3bcbb52e68730951dbd8ef6701f063dc63c18f678875f22ea161a4141b307e27",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_edge~.maxref.xml",
+          "sha256": "4e781780b362abef2f664f8f1581c5c69266c95e331bd3db91d650f537a5c195",
+          "url": "https://rnbo.cycling74.com/objects/ref/edge~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/edge.js",
+          "sha256": "27750250208c5df331829f335d752d535ef2dd86fe8c6def8df7a6920ffc1d9b",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "edge~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "edge~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "rising"
+    },
+    {
+      "canonical_name": "edge~",
+      "exact_name": "edge~",
+      "fixed_arguments": "",
+      "hot_inlet": 0,
+      "id": "edge-out1",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3410,
+      "observed_outlet": 1,
+      "operation": "edge",
+      "patch": "edge-out1.rnbopat",
+      "patch_sha256": "d027ec83c12368d484eb9f6b36f065b6d8d725e7eb6b0448e17a581c0327be27",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_edge~.maxref.xml",
+          "sha256": "4e781780b362abef2f664f8f1581c5c69266c95e331bd3db91d650f537a5c195",
+          "url": "https://rnbo.cycling74.com/objects/ref/edge~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/edge.js",
+          "sha256": "27750250208c5df331829f335d752d535ef2dd86fe8c6def8df7a6920ffc1d9b",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "edge~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "edge~",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "falling"
+    },
+    {
+      "attack_ms": 0.0,
+      "canonical_name": "env2~",
+      "exact_name": "env2~",
+      "fixed_arguments": "@attack 0.0 @release 0.0 @hold 0",
+      "hold": 0,
+      "hot_inlet": 0,
+      "id": "env2-minimum",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3411,
+      "observed_outlet": 0,
+      "operation": "envelope",
+      "patch": "env2-minimum.rnbopat",
+      "patch_sha256": "7a37adb7feb99dee3e91fbfe06f08a3f418763f1d4d75d47986c7ad7e2a105c8",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_env2~.maxref.xml",
+          "sha256": "da2da21578ba898ed4f13fbb50d3ad6bd814609094ba04deb8bb19f82c3edbea",
+          "url": "https://rnbo.cycling74.com/objects/ref/env2~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/env2.js",
+          "sha256": "efd866b84b7996f09218c2cfd32b6f265893aca2d900b9f368749bf9c9a9cbc8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "env2~",
+      "release_ms": 0.0,
+      "reset_each_drive": false,
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "env2~ @attack 0.0 @release 0.0 @hold 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "minimum"
+    },
+    {
+      "attack_ms": 0.1,
+      "canonical_name": "env2~",
+      "exact_name": "env2~",
+      "fixed_arguments": "@attack 0.1 @release 0.2 @hold 0",
+      "hold": 0,
+      "hot_inlet": 0,
+      "id": "env2-short-free",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3412,
+      "observed_outlet": 0,
+      "operation": "envelope",
+      "patch": "env2-short-free.rnbopat",
+      "patch_sha256": "f2c795d556b444be98ea133587544223f6463224f1ea3f2aca19a1528b60a24b",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_env2~.maxref.xml",
+          "sha256": "da2da21578ba898ed4f13fbb50d3ad6bd814609094ba04deb8bb19f82c3edbea",
+          "url": "https://rnbo.cycling74.com/objects/ref/env2~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/env2.js",
+          "sha256": "efd866b84b7996f09218c2cfd32b6f265893aca2d900b9f368749bf9c9a9cbc8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "env2~",
+      "release_ms": 0.2,
+      "reset_each_drive": false,
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "env2~ @attack 0.1 @release 0.2 @hold 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "short-free"
+    },
+    {
+      "attack_ms": 1.0,
+      "canonical_name": "env2~",
+      "exact_name": "env2~",
+      "fixed_arguments": "@attack 1.0 @release 2.0 @hold 0",
+      "hold": 0,
+      "hot_inlet": 0,
+      "id": "env2-long-free",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3413,
+      "observed_outlet": 0,
+      "operation": "envelope",
+      "patch": "env2-long-free.rnbopat",
+      "patch_sha256": "f9172a39547e8e5785ed3560396f552bf17793a542d0a77ae470e097395d26f1",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_env2~.maxref.xml",
+          "sha256": "da2da21578ba898ed4f13fbb50d3ad6bd814609094ba04deb8bb19f82c3edbea",
+          "url": "https://rnbo.cycling74.com/objects/ref/env2~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/env2.js",
+          "sha256": "efd866b84b7996f09218c2cfd32b6f265893aca2d900b9f368749bf9c9a9cbc8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "env2~",
+      "release_ms": 2.0,
+      "reset_each_drive": false,
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "env2~ @attack 1.0 @release 2.0 @hold 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "long-free"
+    },
+    {
+      "attack_ms": 0.1,
+      "canonical_name": "env2~",
+      "exact_name": "env2~",
+      "fixed_arguments": "@attack 0.1 @release 0.2 @hold 1",
+      "hold": 1,
+      "hot_inlet": 0,
+      "id": "env2-short-held",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3414,
+      "observed_outlet": 0,
+      "operation": "envelope",
+      "patch": "env2-short-held.rnbopat",
+      "patch_sha256": "2c97d80239db9a6384c0c03f0d63f69da47860dcd2e63da24649007862ffc51f",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_env2~.maxref.xml",
+          "sha256": "da2da21578ba898ed4f13fbb50d3ad6bd814609094ba04deb8bb19f82c3edbea",
+          "url": "https://rnbo.cycling74.com/objects/ref/env2~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/env2.js",
+          "sha256": "efd866b84b7996f09218c2cfd32b6f265893aca2d900b9f368749bf9c9a9cbc8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "env2~",
+      "release_ms": 0.2,
+      "reset_each_drive": false,
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "env2~ @attack 0.1 @release 0.2 @hold 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "short-held"
+    },
+    {
+      "attack_ms": 1.0,
+      "canonical_name": "env2~",
+      "exact_name": "env2~",
+      "fixed_arguments": "@attack 1.0 @release 2.0 @hold 1",
+      "hold": 1,
+      "hot_inlet": 0,
+      "id": "env2-long-held",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3415,
+      "observed_outlet": 0,
+      "operation": "envelope",
+      "patch": "env2-long-held.rnbopat",
+      "patch_sha256": "df0ceba4051b4ca9ab24665cc45c269e434eb56d48b221cd1739e881195fc83f",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_env2~.maxref.xml",
+          "sha256": "da2da21578ba898ed4f13fbb50d3ad6bd814609094ba04deb8bb19f82c3edbea",
+          "url": "https://rnbo.cycling74.com/objects/ref/env2~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/env2.js",
+          "sha256": "efd866b84b7996f09218c2cfd32b6f265893aca2d900b9f368749bf9c9a9cbc8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "env2~",
+      "release_ms": 2.0,
+      "reset_each_drive": false,
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "env2~ @attack 1.0 @release 2.0 @hold 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "long-held"
+    },
+    {
+      "attack_ms": 0.1,
+      "canonical_name": "env2~",
+      "exact_name": "env2~",
+      "fixed_arguments": "@attack 0.1 @release 0.2 @hold 1",
+      "hold": 1,
+      "hot_inlet": 0,
+      "id": "env2-held-reset",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3416,
+      "observed_outlet": 0,
+      "operation": "envelope",
+      "patch": "env2-held-reset.rnbopat",
+      "patch_sha256": "631baba098972f053e3b835dcdbc130699d8a9faa77c6ac0bffeff6eb82a74bd",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_env2~.maxref.xml",
+          "sha256": "da2da21578ba898ed4f13fbb50d3ad6bd814609094ba04deb8bb19f82c3edbea",
+          "url": "https://rnbo.cycling74.com/objects/ref/env2~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/env2.js",
+          "sha256": "efd866b84b7996f09218c2cfd32b6f265893aca2d900b9f368749bf9c9a9cbc8",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "env2~",
+      "release_ms": 0.2,
+      "reset_each_drive": true,
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "binary32(drive * varying left input)",
+      "source_form": "env2~ @attack 0.1 @release 0.2 @hold 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "held-reset"
+    },
+    {
+      "canonical_name": "curve~",
+      "curvature": 0.0,
+      "duration_ms": 0.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-immediate",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3417,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-immediate.rnbopat",
+      "patch_sha256": "80400c3196ee6c192c3b873714375c6677af5544f50d382b79bc42d0c5a9be83",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "immediate"
+    },
+    {
+      "canonical_name": "curve~",
+      "curvature": 0.0,
+      "duration_ms": 8.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-gentle",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3418,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-gentle.rnbopat",
+      "patch_sha256": "1a7b263cfdd557be1062c6473a7081157330c4f9f12fbb4681bd9976b197bca3",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "gentle"
+    },
+    {
+      "canonical_name": "curve~",
+      "curvature": 0.5,
+      "duration_ms": 8.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-rising",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3419,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-rising.rnbopat",
+      "patch_sha256": "db2727fca335649cb3dc49b95f9c919101cc84053b8f82f996f5449b0741e1cd",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "rising"
+    },
+    {
+      "canonical_name": "curve~",
+      "curvature": -0.5,
+      "duration_ms": 8.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-falling",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3420,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-falling.rnbopat",
+      "patch_sha256": "4de2e3b69e76672baef7af56b13062e396c1bd790a5a55a3d1bbda8daeaff53c",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "falling"
+    },
+    {
+      "canonical_name": "curve~",
+      "curvature": 0.9,
+      "duration_ms": 8.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-steep",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3421,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-steep.rnbopat",
+      "patch_sha256": "186c322c89cd13e602cd4cee8872b08a21bdd54dca6f01e0cdb15771731c81fb",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "steep"
+    },
+    {
+      "canonical_name": "curve~",
+      "curvature": 0.25,
+      "duration_ms": 4.0,
+      "exact_name": "curve~",
+      "fixed_arguments": "0",
+      "hot_inlet": 0,
+      "id": "curve-compound",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 3e-05,
+      "maximum_absolute_error": 3e-05,
+      "model": 3422,
+      "observed_outlet": 0,
+      "operation": "curve",
+      "patch": "curve-compound.rnbopat",
+      "patch_sha256": "c1b40ecfad9b15b707647e08539df570eccac51b4289bc8153a468624a305135",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_curve~.maxref.xml",
+          "sha256": "c66f0f8e0360011f9a7d0998e9be153daaf495590e9f12a6989a909e5fc1c3d2",
+          "url": "https://rnbo.cycling74.com/objects/ref/curve~?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/curve.js",
+          "sha256": "d93ca18dae49f98289b6d24607bb0591b8aaae1dd1d14fc276b27b36b01fa9e2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "curve~",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "curve~ 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "compound"
+    },
+    {
+      "canonical_name": "delay",
+      "delay_ms": 2,
+      "exact_name": "delay",
+      "fixed_arguments": "2 @delayall 0",
+      "hot_inlet": 0,
+      "id": "delay-2-all0",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3423,
+      "observed_outlet": 0,
+      "operation": "delay",
+      "patch": "delay-2-all0.rnbopat",
+      "patch_sha256": "d7840360f9fa6d419f58bafa1af7620b72103c7d98366d1d4e13efa8ceae2d2f",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_delay.maxref.xml",
+          "sha256": "1f173be25bfc4be4410f803d76efe79c4ee2a74c8050287b16978d4dccb08c88",
+          "url": "https://rnbo.cycling74.com/objects/ref/delay?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/delay.js",
+          "sha256": "b723cc11a403a8c0bd3a5398f2cfae9a0d511dc3d35c3d9660de3ca5faa6627e",
+          "source_kind": "installed-primary-source"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/delay.js",
+          "sha256": "5687f72625eb3eb80d01ae0883e53d641c1bafca9e6f4d85c6921aaf80fc4967",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "delay",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "delay 2 @delayall 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "replace"
+    },
+    {
+      "canonical_name": "delay",
+      "delay_ms": 2,
+      "exact_name": "delay",
+      "fixed_arguments": "2 @delayall 1",
+      "hot_inlet": 0,
+      "id": "delay-2-all1",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3424,
+      "observed_outlet": 0,
+      "operation": "delay",
+      "patch": "delay-2-all1.rnbopat",
+      "patch_sha256": "feb161fe640b281cbd2a3b9df75b9b0472f0b035339d063af052c39feea01ae8",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_delay.maxref.xml",
+          "sha256": "1f173be25bfc4be4410f803d76efe79c4ee2a74c8050287b16978d4dccb08c88",
+          "url": "https://rnbo.cycling74.com/objects/ref/delay?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/delay.js",
+          "sha256": "b723cc11a403a8c0bd3a5398f2cfae9a0d511dc3d35c3d9660de3ca5faa6627e",
+          "source_kind": "installed-primary-source"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/delay.js",
+          "sha256": "5687f72625eb3eb80d01ae0883e53d641c1bafca9e6f4d85c6921aaf80fc4967",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "delay",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "delay 2 @delayall 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "all"
+    },
+    {
+      "canonical_name": "delay",
+      "delay_ms": 10,
+      "exact_name": "delay",
+      "fixed_arguments": "10 @delayall 0",
+      "hot_inlet": 0,
+      "id": "delay-10-all0",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3425,
+      "observed_outlet": 0,
+      "operation": "delay",
+      "patch": "delay-10-all0.rnbopat",
+      "patch_sha256": "9eaae3e739de3742b64e5c3de4cfe1eafd27bf5bc0fa420af740e94ec857a7b9",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_delay.maxref.xml",
+          "sha256": "1f173be25bfc4be4410f803d76efe79c4ee2a74c8050287b16978d4dccb08c88",
+          "url": "https://rnbo.cycling74.com/objects/ref/delay?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/delay.js",
+          "sha256": "b723cc11a403a8c0bd3a5398f2cfae9a0d511dc3d35c3d9660de3ca5faa6627e",
+          "source_kind": "installed-primary-source"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/delay.js",
+          "sha256": "5687f72625eb3eb80d01ae0883e53d641c1bafca9e6f4d85c6921aaf80fc4967",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "delay",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "delay 10 @delayall 0",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "replace"
+    },
+    {
+      "canonical_name": "delay",
+      "delay_ms": 10,
+      "exact_name": "delay",
+      "fixed_arguments": "10 @delayall 1",
+      "hot_inlet": 0,
+      "id": "delay-10-all1",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3426,
+      "observed_outlet": 0,
+      "operation": "delay",
+      "patch": "delay-10-all1.rnbopat",
+      "patch_sha256": "ff6303b5f35b6d6126c070502b1be65406af08125f8f1cafea53675e6b49ad0b",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_delay.maxref.xml",
+          "sha256": "1f173be25bfc4be4410f803d76efe79c4ee2a74c8050287b16978d4dccb08c88",
+          "url": "https://rnbo.cycling74.com/objects/ref/delay?v=1.4.4"
+        },
+        {
+          "local_package_path": "source/operators/delay.js",
+          "sha256": "b723cc11a403a8c0bd3a5398f2cfae9a0d511dc3d35c3d9660de3ca5faa6627e",
+          "source_kind": "installed-primary-source"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/delay.js",
+          "sha256": "5687f72625eb3eb80d01ae0883e53d641c1bafca9e6f4d85c6921aaf80fc4967",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "delay",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "delay 10 @delayall 1",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "all"
+    },
+    {
+      "canonical_name": "pipe",
+      "delay_ms": 2,
+      "exact_name": "pipe",
+      "fixed_arguments": "2",
+      "hot_inlet": 0,
+      "id": "pipe-2",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3427,
+      "observed_outlet": 0,
+      "operation": "pipe",
+      "patch": "pipe-2.rnbopat",
+      "patch_sha256": "b8543c61e19c22f27e3c564be4bd097df8100a47c229facb2e2816f5459de5bb",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pipe.maxref.xml",
+          "sha256": "8c48427edd7986970281061eecbdede6509fdf70440d0d0c8393cb16c48a1771",
+          "url": "https://rnbo.cycling74.com/objects/ref/pipe?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/pipe.js",
+          "sha256": "e27ad7a18dce7cfc250d9a866dd8585443dd2af3cecf8f763320f7d3b19eca56",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "pipe",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "pipe 2",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "pipe",
+      "delay_ms": 10,
+      "exact_name": "pipe",
+      "fixed_arguments": "10",
+      "hot_inlet": 0,
+      "id": "pipe-10",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 0,
+      "maximum_absolute_error": 0,
+      "model": 3428,
+      "observed_outlet": 0,
+      "operation": "pipe",
+      "patch": "pipe-10.rnbopat",
+      "patch_sha256": "0189341bd6dbfceeca45105efcac0091621dca24785188ac2aaea135330dd46a",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_pipe.maxref.xml",
+          "sha256": "8c48427edd7986970281061eecbdede6509fdf70440d0d0c8393cb16c48a1771",
+          "url": "https://rnbo.cycling74.com/objects/ref/pipe?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/pipe.js",
+          "sha256": "e27ad7a18dce7cfc250d9a866dd8585443dd2af3cecf8f763320f7d3b19eca56",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "pipe",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "pipe 10",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "default"
+    },
+    {
+      "canonical_name": "line",
+      "exact_name": "line",
+      "fixed_arguments": "0 2",
+      "hot_inlet": 0,
+      "id": "line-immediate",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3429,
+      "observed_outlet": 0,
+      "operation": "line",
+      "patch": "line-immediate.rnbopat",
+      "patch_sha256": "21d97787e866a77213280d6d1d507e1a6ec71f2aa4da6b8facc8965f56d9ee91",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_line.maxref.xml",
+          "sha256": "0fe8dc20240cb86316185af431a4ed531d2d0a64f389f6169f6215fdaf22d0e3",
+          "url": "https://rnbo.cycling74.com/objects/ref/line?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/line.js",
+          "sha256": "727f746033b889a66e4eebb1d5664157a814cd10f621f91db289794a0e031dd2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "line",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "line 0 2",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "immediate"
+    },
+    {
+      "canonical_name": "line",
+      "exact_name": "line",
+      "fixed_arguments": "0 2",
+      "hot_inlet": 0,
+      "id": "line-ramp",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3430,
+      "observed_outlet": 0,
+      "operation": "line",
+      "patch": "line-ramp.rnbopat",
+      "patch_sha256": "16fb1a3200ebf405e0f37348405ddd12d9389af54cf3509f0064397aab1ca82e",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_line.maxref.xml",
+          "sha256": "0fe8dc20240cb86316185af431a4ed531d2d0a64f389f6169f6215fdaf22d0e3",
+          "url": "https://rnbo.cycling74.com/objects/ref/line?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/line.js",
+          "sha256": "727f746033b889a66e4eebb1d5664157a814cd10f621f91db289794a0e031dd2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "line",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "line 0 2",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "ramp"
+    }
+  ],
+  "family": "rnbo-envelopes-clocks",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "31 envelope and event-clock scenarios. All original sources, fixed mathematical streams, limits and timing-policy gaps are retained; 1MiB module ceiling, actual high-water recorded.",
+  "timed_blocks": 16
+}

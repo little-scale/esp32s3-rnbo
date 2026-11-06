@@ -1,0 +1,60 @@
+{
+  "automatic_warmup_blocks": 0,
+  "block_frames": 256,
+  "cases": [
+    {
+      "canonical_name": "line",
+      "exact_name": "line",
+      "fixed_arguments": "0 2",
+      "hot_inlet": 0,
+      "id": "line-ramp",
+      "input_domain": [
+        -9.0,
+        9.0
+      ],
+      "limit": 2e-05,
+      "maximum_absolute_error": 2e-05,
+      "model": 3430,
+      "observed_outlet": 0,
+      "operation": "line",
+      "patch": "line-ramp.rnbopat",
+      "patch_sha256": "16fb1a3200ebf405e0f37348405ddd12d9389af54cf3509f0064397aab1ca82e",
+      "reference_policy": "independent-envelope-age-and-boundary-clock-screen-v1",
+      "reference_sources": [
+        {
+          "local_package_path": "docs/refpages/rnbo/rnbo_line.maxref.xml",
+          "sha256": "0fe8dc20240cb86316185af431a4ed531d2d0a64f389f6169f6215fdaf22d0e3",
+          "url": "https://rnbo.cycling74.com/objects/ref/line?v=1.4.4"
+        },
+        {
+          "local_package_path": "server/node_modules/@rnbo/xam/objects/line.js",
+          "sha256": "727f746033b889a66e4eebb1d5664157a814cd10f621f91db289794a0e031dd2",
+          "source_kind": "installed-primary-source"
+        }
+      ],
+      "registry_lookup": "line",
+      "right_pilot_bit_exact": true,
+      "role": "fx",
+      "scope": "Exact envelope, logical edge, bang gate or event-clock form. One arm and21 drives,20 continuous256-frame callbacks; no automatic warmup. Segment-age envelope/curve references, boundary-origin nearest-sample event-clock screen and one-block-latency edge observer. Other modes/outlets, host-time policy and within-block input events remain separate work.",
+      "signal_input": "ordered signed drive events at intended callback boundary",
+      "source_form": "line 0 2",
+      "surface": "patcher",
+      "syntax": "analysis-timing-object",
+      "variant": "ramp"
+    }
+  ],
+  "family": "rnbo-envelopes-clocks",
+  "format": "rnbo-hardware-smoke-catalog-v1",
+  "license": "MIT",
+  "manual_warmup_blocks": 4,
+  "partition": {
+    "case_count": 1,
+    "index": 5,
+    "parent_catalog_sha256": "fe6707eb6a8a1aaab3bf4aa617d85f0abe62b07d1e0384994b5835ff071ef30f",
+    "total": 5
+  },
+  "right_observer_bit_exact": true,
+  "sample_rate": 44100,
+  "scope": "31 envelope and event-clock scenarios. All original sources, fixed mathematical streams, limits and timing-policy gaps are retained; 1MiB module ceiling, actual high-water recorded.",
+  "timed_blocks": 16
+}

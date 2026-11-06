@@ -205,6 +205,15 @@ static uint64_t process_once(object_image *image,const smoke_case *test,output_c
     allocation_probe_begin();int64_t start=esp_timer_get_time();
     int result=image->module.process(image->context,inputs,outputs,RNBO_S3_BLOCK_FRAMES,image->position);
     int64_t elapsed=esp_timer_get_time()-start;allocation_probe_end();
+    if(result!=RNBO_S3_OK || elapsed<0){
+        /* Fault receipt only: outside the callback timer and allocation probe. */
+        rnbo_s3_stats fault={.struct_bytes=sizeof fault};
+        int statistics=image->module.statistics(image->context,&fault);
+        printf("RNBO_SMOKE PROCESS_RESULT case_id=%s before_call=%" PRIu32 " status=%d elapsed_us=%" PRIi64
+               " statistics_status=%d platform_errors=%" PRIu64 " late_platform_allocations=%" PRIu64 " invalid_samples=%" PRIu64 "\n",
+               test->id,call,result,elapsed,statistics,(uint64_t)fault.errors,
+               (uint64_t)fault.late_platform_allocations,(uint64_t)fault.invalid_samples);
+    }
     CHECK(result==RNBO_S3_OK && elapsed>=0);image->position+=RNBO_S3_BLOCK_FRAMES;
     CHECK(!allocation_probe_allocations()&&!allocation_probe_frees());
     compare_output(test,checks); /* Every expected-word check is outside timing. */
