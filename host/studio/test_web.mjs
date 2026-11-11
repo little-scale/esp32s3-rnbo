@@ -80,7 +80,7 @@ function mockDocument() {
     const value = match[0].match(/\bvalue="([^"]*)"/);
     if (value) element.value = value[1];
   }
-  ids.get('board').value = 'xiao'; ids.get('arena').value = '1';
+  ids.get('arena').value = '1';
   const document = {
     getElementById: id => ids.get(id),
     createElement: tag => new Element(tag),
@@ -90,7 +90,8 @@ function mockDocument() {
   return {document, get: id => ids.get(id)};
 }
 
-async function openStudio({parameters = [], environment = {}, paired = [], linkedJob = ''} = {}) {
+async function openStudio({parameters = [], environment = {}, paired = [], linkedJob = '',
+    devices = [{port:'test-port',label:'Mock USB',serial_number:'mock-board-01'}]} = {}) {
   const dom = mockDocument(), calls = [], timers = new Map(), intervals = new Map();
   let timerId = 0;
   const backend = {
@@ -99,7 +100,7 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
     firmwareOptions:['xiao','amoled'].map((board,i)=>({id:board,board,available:true,sha256:(i?'b':'a').repeat(64),firmware_elf_sha256:(i?'d':'c').repeat(64),built_at:'2026-11-07T00:00:00Z'})),
     wifi:{supported:false,configured:false,connected:false,paired:false,device_id:'001122334455'},
     paired, wifiSetupHandler:null, wifiConnectError:null, networks:[], wifiScanHandler:null,
-    devices: [{port: 'test-port', label: 'Mock USB', serial_number: 'mock-board-01'}],
+    devices,
     result: {kind: 'package', title: 'Test patch', package_bytes: 12345, parameters: [], sample_rate: 44100, block_frames: 256},
   };
   const snapshot = () => ({device: backend.device, parameters: backend.parameters});
@@ -146,10 +147,14 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
       stage:'Firmware verified',error:backend.firmwareUploadError,result:{kind:'player',board:'xiao'}}};
     else if (path === '/api/upload') data = {job: {
       id: 'build1', state: backend.uploadError ? 'ready' : 'done', stage: 'Upload finished', error: backend.uploadError,
+      upload_warning: backend.uploadWarning,
     }};
     else if (path === '/api/connect') {
-      backend.device = {runtime:'rnbo-esp32s3-player',board: 'xiao', transport:'usb', device_id:'001122334455', generation:1, panic: false, volume: 50, render_us: 12, peak_us: 16};
-      data = snapshot();
+      if (backend.connectError) data = {error:backend.connectError};
+      else {
+        backend.device = {runtime:'rnbo-esp32s3-player',board: 'xiao', transport:'usb', device_id:'001122334455', generation:1, panic: false, volume: 50, render_us: 12, peak_us: 16};
+        data = snapshot();
+      }
     } else if (path === '/api/midi/configure') {
       backend.device.midi.uart_enabled=body.mode==='uart';data=snapshot();
     } else if (path === '/api/control') {
@@ -243,8 +248,10 @@ test('ready plus upload error preserves the artifact for retry rather than claim
   assert.equal(app.get('download').disabled, false);
   assert.notEqual(app.get('upload-status').dataset.completed, 'true');
   app.backend.uploadError = null;
+  app.backend.uploadWarning = 'Audio render deadline misses observed after load: 2.';
   await app.get('upload').fire('click');
   assert.equal(app.get('upload-status').dataset.completed, 'true');
+  assert.match(app.get('upload-status').textContent, /Package loaded and saved.*deadline misses.*2/);
   const uploads = app.calls.filter(call => call.path === '/api/upload');
   assert.equal(uploads.length, 2);
   for (const request of uploads) {
@@ -362,11 +369,13 @@ test('nonlinear parameter controls show actual readback and explicitly normalize
 
 
 test('board selection only affects explicit player installation, not a compiled package', async () => {
-  const app = await openStudio(); await app.readyArtifact();
+  const app = await openStudio({environment:{amoled_components:true}}); await app.readyArtifact();
+  await app.get('task-update').fire('click');
   app.get('board').value = 'amoled'; await app.get('board').fire('change');
-  assert.equal(app.get('upload').disabled, false);
+  assert.equal(app.get('upload').disabled, true);
   await app.get('install-player').fire('click');
   assert.deepEqual(app.calls.find(c => c.path === '/api/install-player').body, {board:'amoled',port:'test-port'});
+  await app.get('task-play').fire('click');
   assert.equal(app.get('upload').disabled, false);
 });
 
@@ -659,6 +668,7 @@ test('a malformed linked build identity is rejected before making a job request'
 test('firmware ZIP opens independently of patch compilation and flashes only on explicit USB action', async () => {
   const app=await openStudio({environment:{idf:false,python_serial:true,firmware_tools:true}});
   assert.match(html,/<title>RNBO ESP32 Studio<\/title>/);
+  await app.get('task-update').fire('click');
   assert.equal(app.get('install-player').disabled,true);
   assert.equal(app.get('flash-firmware').disabled,true);
   app.get('firmware-file').files=[{name:'player.zip',size:4,arrayBuffer:async()=>new Uint8Array([1,2,3,4]).buffer}];
@@ -667,9 +677,12 @@ test('firmware ZIP opens independently of patch compilation and flashes only on 
   assert.match(app.get('firmware-status').textContent,/XIAO/);
   assert.equal(app.calls.filter(c=>c.path==='/api/firmware/upload').length,0);
   assert.equal(app.get('flash-firmware').disabled,false);
+  await app.get('task-play').fire('click');
   app.get('transport').value='wifi';await app.get('transport').fire('change');
   assert.equal(app.get('flash-firmware').disabled,true);
-  app.get('transport').value='usb';await app.get('transport').fire('change');
+  await app.get('task-update').fire('click');
+  assert.equal(app.get('transport-choice').hidden,true);
+  assert.equal(app.get('usb-connection').hidden,false);
   await app.get('flash-firmware').fire('click');
   assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/upload').body,{id:'f'.repeat(32),port:'test-port'});
   assert.match(app.get('firmware-status').textContent,/verified and running/);
@@ -678,23 +691,26 @@ test('firmware ZIP opens independently of patch compilation and flashes only on 
 
 test('bad firmware selections invalidate older firmware while preserving an open patch package', async () => {
   const app=await openStudio();await app.readyArtifact();
+  await app.get('task-update').fire('click');
   const file={name:'player.zip',size:4,arrayBuffer:async()=>new Uint8Array([1,2,3,4]).buffer};
   app.get('firmware-file').files=[file];await app.get('firmware-file').fire('change');
   assert.equal(app.get('flash-firmware').disabled,false);
   app.backend.firmwareError='Image hash differs';
   app.get('firmware-file').files=[file];await app.get('firmware-file').fire('change');
   assert.equal(app.get('flash-firmware').disabled,true);
-  assert.equal(app.get('upload').disabled,false);
+  assert.equal(app.get('download').disabled,false);
   app.get('firmware-file').files=[{...file,name:'wrong.bin'}];await app.get('firmware-file').fire('change');
   assert.match(app.get('firmware-status').textContent,/firmware ZIP/);
   app.backend.firmwareError=null;app.get('firmware-file').files=[file];await app.get('firmware-file').fire('change');
   app.backend.firmwareUploadError='Existing partition layout differs';await app.get('flash-firmware').fire('click');
-  assert.match(app.get('firmware-status').textContent,/failed.*partition layout/);
+  assert.match(app.get('firmware-status').textContent,/failed.*partition layout.*First install/);
+  await app.get('task-play').fire('click');
   assert.equal(app.get('upload').disabled,false);
 });
 
 test('missing firmware USB tools prevent flashing without preventing file inspection', async () => {
   const app=await openStudio({environment:{firmware_tools:false}});
+  await app.get('task-update').fire('click');
   app.get('firmware-file').files=[{name:'player.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
   await app.get('firmware-file').fire('change');assert.equal(app.get('flash-firmware').disabled,true);
   assert.equal(app.get('open-firmware').disabled,false);
@@ -702,7 +718,7 @@ test('missing firmware USB tools prevent flashing without preventing file inspec
 
 test('first install works without RNBO connection and requires a fresh erase acknowledgement', async () => {
   const app=await openStudio();
-  app.get('firmware-mode').value='first-install';await app.get('firmware-mode').fire('change');
+  await app.get('task-first-install').fire('click');
   assert.equal(app.get('firmware-erase-label').hidden,false);
   assert.equal(app.get('install-player').disabled,true);
   app.get('firmware-file').files=[{name:'full.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
@@ -720,14 +736,61 @@ test('first install works without RNBO connection and requires a fresh erase ack
   await app.get('port').fire('change');assert.equal(app.get('firmware-erase').checked,false);
 });
 
+test('failed USB handshake leads to first install with current AMOLED firmware',async()=>{
+  const app=await openStudio();
+  assert.equal(app.get('firmware-panel').hidden,true);
+  app.backend.connectError='Timed out waiting for an RNBO USB reply';
+  await app.get('connect').fire('click');
+  assert.equal(app.get('connect-recovery').hidden,false);
+  assert.match(app.get('connect-recovery').textContent || html,/First install/);
+  await app.get('task-first-install').fire('click');
+  assert.equal(app.get('player-connect').hidden,true);
+  assert.equal(app.get('patch-load-panel').hidden,true);
+  assert.equal(app.get('firmware-panel').hidden,false);
+  assert.equal(app.get('usb-connection').hidden,false);
+  app.get('firmware-choice').value='amoled';await app.get('firmware-choice').fire('change');
+  assert.equal(app.get('flash-firmware').disabled,true);
+  assert.match(app.get('firmware-next').textContent,/Confirm the erase/);
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
+  assert.match(app.get('firmware-next').textContent,/AMOLED.*test-port/);
+  await app.get('flash-firmware').fire('click');
+  assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/upload').body,
+    {id:'e'.repeat(32),port:'test-port',mode:'first-install',erase_confirmed:true});
+  assert.equal(app.calls.filter(c=>c.path==='/api/connect').length,1);
+  assert.match(app.get('firmware-status').textContent,/Choose Load & play/);
+});
+
+test('first install prompts for a USB target and refresh never chooses among multiple devices',async()=>{
+  const devices=[{port:'one',serial_number:'serial-1'},{port:'two',serial_number:'serial-2'}];
+  const app=await openStudio({devices});
+  await app.get('task-first-install').fire('click');
+  assert.equal(app.get('port').value,'');
+  assert.equal(app.get('firmware-erase').disabled,true);
+  assert.match(app.get('firmware-next').textContent,/select the USB device/);
+  app.get('port').value='two';await app.get('port').fire('change');
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
+  await app.get('refresh-ports').fire('click');
+  assert.equal(app.get('port').value,'two');
+  assert.equal(app.get('firmware-erase').checked,false);
+  app.backend.devices=[];
+  await app.get('refresh-ports').fire('click');
+  assert.equal(app.get('port').value,'');
+  assert.equal(app.get('boot-help').open,true);
+  assert.equal(app.get('flash-firmware').disabled,true);
+});
+
 test('source first install also needs acknowledgement; update-only ZIP cannot initialize a board', async () => {
   const app=await openStudio();app.backend.firmwareFull=false;
+  await app.get('task-update').fire('click');
   app.get('firmware-file').files=[{name:'update.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
   await app.get('firmware-file').fire('change');
-  app.get('firmware-mode').value='first-install';await app.get('firmware-mode').fire('change');
+  await app.get('task-first-install').fire('click');
   app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
   assert.equal(app.get('flash-firmware').disabled,true);
   assert.match(app.get('firmware-status').textContent,/Update only/);
+  assert.match(app.get('firmware-next').textContent,/full firmware ZIP/);
+  app.get('board').value='xiao';await app.get('board').fire('change');
+  app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
   assert.equal(app.get('install-player').disabled,false);
   await app.get('install-player').fire('click');
   assert.deepEqual(app.calls.find(c=>c.path==='/api/install-player').body,
@@ -737,13 +800,14 @@ test('source first install also needs acknowledgement; update-only ZIP cannot in
 
 test('current firmware dropdown stages the exact selected board without building, connecting or flashing',async()=>{
   const app=await openStudio({environment:{idf:false,firmware_tools:true}});
+  await app.get('task-update').fire('click');
   assert.equal(app.get('firmware-choice').children.length,3);
   assert.equal(app.get('firmware-choice').value,'');
   assert.equal(app.calls.some(c=>c.path==='/api/firmware/select'),false);
   app.get('firmware-choice').value='amoled';await app.get('firmware-choice').fire('change');
   assert.deepEqual(app.calls.find(c=>c.path==='/api/firmware/select').body,{id:'amoled',sha256:'b'.repeat(64)});
   assert.match(app.get('firmware-status').textContent,/Waveshare.*USB \+ Wi-Fi/s);
-  assert.match(app.get('flash-firmware').textContent,/AMOLED/);
+  assert.match(app.get('firmware-next').textContent,/AMOLED/);
   assert.equal(app.get('flash-firmware').disabled,false);
   assert.equal(app.calls.some(c=>['/api/install-player','/api/build','/api/firmware/upload','/api/connect'].includes(c.path)),false);
   await app.get('flash-firmware').fire('click');
@@ -752,15 +816,16 @@ test('current firmware dropdown stages the exact selected board without building
 
 test('refreshing a changed current build clears the old selection and erase consent',async()=>{
   const app=await openStudio();await app.readyArtifact();
+  await app.get('task-update').fire('click');
   app.get('firmware-choice').value='xiao';await app.get('firmware-choice').fire('change');
-  app.get('firmware-mode').value='first-install';await app.get('firmware-mode').fire('change');
+  await app.get('task-first-install').fire('click');
   app.get('firmware-erase').checked=true;await app.get('firmware-erase').fire('change');
   app.backend.firmwareOptions[0].sha256='9'.repeat(64);
   await app.get('refresh-firmware').fire('click');
   assert.equal(app.get('firmware-choice').value,'');assert.equal(app.get('flash-firmware').disabled,true);
   assert.equal(app.get('firmware-erase').checked,false);
   assert.match(app.get('firmware-status').textContent,/changed/);
-  assert.equal(app.get('upload').disabled,false,'the patch package is preserved');
+  assert.equal(app.get('download').disabled,false,'the patch package is preserved');
   app.get('firmware-choice').value='xiao';app.backend.firmwareSelectError='Current firmware changed; refresh the firmware list';
   await app.get('firmware-choice').fire('change');
   assert.equal(app.get('flash-firmware').disabled,true);
@@ -769,6 +834,7 @@ test('refreshing a changed current build clears the old selection and erase cons
 
 test('unavailable current builds cannot be selected and custom ZIPs remain supported',async()=>{
   const app=await openStudio();
+  await app.get('task-update').fire('click');
   app.backend.firmwareOptions=app.backend.firmwareOptions.map(row=>({...row,available:false,reason:'Rebuild current sources'}));
   await app.get('refresh-firmware').fire('click');
   assert.equal(app.get('firmware-choice').children[1].disabled,true);

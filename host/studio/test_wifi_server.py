@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import threading
 import unittest
 from unittest.mock import patch
 
@@ -16,6 +17,7 @@ class USB:
         self.calls=[];self.device=dict(device_id=IDENTITY,transport='usb',board='xiao',board_model='XIAO',
             wifi=dict(supported=True,configured=False,connected=False,ip='',device_id=IDENTITY))
     def snapshot(self):return dict(device=copy.deepcopy(self.device),parameters=[])
+    def scan(self):return [dict(port='test-port',label='Fixture',serial_number=IDENTITY)]
     def scan_wifi(self):self.calls.append(('scan',));return dict(networks=[dict(ssid='Test network',rssi=-40,channel=1,secure=True)])
     def configure_wifi(self,ssid,password,key):
         self.calls.append(('setup',ssid,password,key));self.device['wifi']['configured']=True;return self.snapshot()
@@ -103,6 +105,36 @@ class WifiServerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'Wait'):self.studio.control_device(payload)
         finally:self.studio.worker.release()
         self.assertEqual(len(self.usb.calls),count)
+
+    def test_upload_keeps_connected_wifi_pairing_but_replaces_rotated_key(self):
+        import host.studio.network as n
+        record=dict(id=IDENTITY,label='Fixture',ip='192.168.1.3',keyhex='a'*64)
+        self.studio.pairings.put(record)
+        instances=[]
+        class Network:
+            def __init__(inner,value):
+                inner.record=value;inner.closed=False;instances.append(inner)
+            def connect_network(inner,address):
+                return dict(device=dict(transport='wifi',device_id=inner.record['id']),parameters=[])
+            def matches_pairing(inner,value,address):
+                return (value['id']==inner.record['id'] and value['keyhex']==inner.record['keyhex']
+                        and address==inner.record['ip'])
+            def disconnect(inner):inner.closed=True
+        with patch.object(n,'NetworkBridge',Network):
+            self.studio.connect_wifi(dict(id=IDENTITY))
+            connection=self.studio.network_bridge
+            usb_calls=len(self.usb.calls)
+            self.studio.worker.acquire()
+            try:
+                self.studio.connect_wifi(dict(id=IDENTITY),during_upload=True)
+                self.assertIs(self.studio.network_bridge,connection)
+                self.assertFalse(connection.closed)
+                self.assertEqual(len(self.usb.calls),usb_calls)
+                self.studio.pairings.put(dict(record,keyhex='b'*64))
+                self.studio.connect_wifi(dict(id=IDENTITY),during_upload=True)
+                self.assertTrue(connection.closed)
+                self.assertEqual(len(instances),2)
+            finally:self.studio.worker.release()
     def test_unsupported_network_address_does_not_hide_healthy_usb_device(self):
         self.studio.setup_wifi(dict(ssid='x',password='12345678'))
         self.usb.device['wifi'].update(connected=True,ip='8.8.8.8')
@@ -117,4 +149,80 @@ class WifiServerTests(unittest.TestCase):
     def test_unpaired_board_status_is_visible_without_creating_pairing(self):
         self.assertTrue(self.studio.device_snapshot()['device']['wifi']['supported'])
         self.assertEqual(self.studio.wifi_status()['paired'],[])
+
+    def test_upload_suppresses_background_device_reads_and_usb_scan(self):
+        ports=self.studio.scan_devices()
+        self.studio.worker.acquire()
+        try:
+            with patch.object(self.usb,'snapshot',side_effect=AssertionError('upload owns the device')), \
+                 patch.object(self.usb,'scan',side_effect=AssertionError('upload owns the device')):
+                self.assertEqual(self.studio.device_snapshot(),dict(device=None,parameters=[],busy=True))
+                self.assertEqual(self.studio.scan_devices(),ports)
+                self.studio.wifi_status()
+        finally:self.studio.worker.release()
+        self.assertEqual(self.studio.device_snapshot()['device']['device_id'],IDENTITY)
+
+    def test_wifi_upload_waits_for_inflight_usb_scan_and_never_uploads_over_usb(self):
+        import host.studio.network as n
+        identity='a'*32
+        self.studio.pairings.put(dict(id=IDENTITY,label='Fixture',ip='192.168.1.3',keyhex='a'*64))
+        self.studio.jobs[identity]=dict(id=identity,state='ready',stage='Ready',log='',error=None,
+            result=dict(kind='package',package_sha256='b'*64),_build=Path('/fixture/patch.rnbopkg'),_settings=dict(board='xiao'))
+        entered=threading.Event();release=threading.Event();starting=threading.Event()
+        scans=[];requests=[];failures=[]
+        studio=self.studio
+        def scan():
+            entered.set()
+            if not release.wait(5):raise AssertionError('scan was not released')
+            scans.append('done')
+            return [dict(port='test-port')]
+        def start():
+            starting.set()
+            try:studio.start_upload(dict(id=identity,transport='wifi',device_id=IDENTITY))
+            except Exception as error:failures.append(error)
+        class Network:
+            def __init__(inner,record):pass
+            def connect_network(inner,address):
+                self.assertEqual(scans,['done'])
+                self.assertEqual(studio.job(identity)['stage'],'Connecting to Wi-Fi player')
+                return dict(device=dict(transport='wifi',device_id=IDENTITY),parameters=[])
+            def upload_package(inner,path,port,log,**kwargs):
+                requests.append((path,port))
+                self.assertTrue(studio.device_snapshot()['busy'])
+                self.assertEqual(studio.scan_devices(),[dict(port='test-port')])
+                return {}
+        with patch.object(self.usb,'scan',side_effect=scan),patch.object(n,'NetworkBridge',Network):
+            scanner=threading.Thread(target=studio.scan_devices)
+            uploader=threading.Thread(target=start)
+            scanner.start()
+            try:
+                self.assertTrue(entered.wait(2))
+                uploader.start()
+                self.assertTrue(starting.wait(2))
+            finally:
+                release.set()
+                scanner.join(5)
+                if uploader.ident is not None:uploader.join(5)
+                if studio.job_thread:studio.job_thread.join(5)
+        self.assertFalse(failures)
+        self.assertEqual(studio.job(identity)['state'],'done')
+        self.assertEqual(requests,[(Path('/fixture/patch.rnbopkg'),None)])
+        self.assertFalse(studio.worker.locked())
+
+    def test_unreachable_wifi_keeps_package_ready_and_never_falls_back_to_usb(self):
+        import host.studio.network as n
+        identity='c'*32
+        self.studio.pairings.put(dict(id=IDENTITY,label='Fixture',ip='192.168.1.3',keyhex='a'*64))
+        self.studio.jobs[identity]=dict(id=identity,state='ready',stage='Ready',log='',error=None,
+            result=dict(kind='package',package_sha256='b'*64),_build=Path('/fixture/patch.rnbopkg'),_settings=dict(board='xiao'))
+        class Network:
+            def __init__(inner,record):pass
+            def connect_network(inner,address):raise n.ProtocolTimeout('Wi-Fi request timed out')
+        with patch.object(n,'NetworkBridge',Network), \
+             patch.object(self.usb,'upload_package',create=True,side_effect=AssertionError('Unexpected USB upload')):
+            self.studio.start_upload(dict(id=identity,transport='wifi',device_id=IDENTITY))
+            self.studio.job_thread.join(5)
+        self.assertEqual(self.studio.job(identity)['state'],'ready')
+        self.assertEqual(self.studio.job(identity)['error'],'Wi-Fi request timed out')
+        self.assertFalse(self.studio.worker.locked())
 if __name__=='__main__':unittest.main()

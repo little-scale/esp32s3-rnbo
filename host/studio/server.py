@@ -143,6 +143,7 @@ class Studio:
         self.pairings = PairingStore(PRIVATE / 'pairings.json')
         self.active_bridge = bridge
         self.network_bridge = None
+        self.last_ports = []
         self.last_wifi = {'supported': False, 'configured': False, 'connected': False, 'paired': False, 'ip': '', 'device_id': ''}
         self.components = Path(components).expanduser().resolve() if components else None
         self.jobs = {}
@@ -168,7 +169,15 @@ class Studio:
 
     def device_snapshot(self):
         with self.lock:
+            if self.worker.locked():
+                return dict(device=None, parameters=[], busy=True)
             return self._remember_wifi(self.active_bridge.snapshot())
+
+    def scan_devices(self):
+        with self.lock:
+            if not self.worker.locked():
+                self.last_ports = self.bridge.scan()
+            return [dict(port) for port in self.last_ports]
 
     def control_device(self, data):
         target = data.get('target')
@@ -220,6 +229,9 @@ class Studio:
                 raise ValueError('Wait for the current build or upload')
             record = self.pairings.get(data.get('id'))
             address = validate_ip(data.get('ip') or record.get('ip'))
+            if (during_upload and self.network_bridge is not None and self.active_bridge is self.network_bridge
+                    and self.network_bridge.matches_pairing(record, address)):
+                return self._remember_wifi(self.network_bridge.connect_network(address))
             self.bridge.disconnect()
             if self.network_bridge: self.network_bridge.disconnect()
             self.network_bridge = NetworkBridge(record)
@@ -227,16 +239,18 @@ class Studio:
             return self._remember_wifi(self.network_bridge.connect_network(address))
 
     def scan_wifi(self):
-        if self.active_bridge is not self.bridge:
-            raise ValueError('Connect over USB before scanning nearby networks')
-        if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
+        with self.lock:
+            if self.active_bridge is not self.bridge:
+                raise ValueError('Connect over USB before scanning nearby networks')
+            if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
         try: return self.bridge.scan_wifi()
         finally: self.worker.release()
 
     def setup_wifi(self, data):
-        if self.active_bridge is not self.bridge:
-            raise ValueError('Connect over USB before changing Wi-Fi settings')
-        if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
+        with self.lock:
+            if self.active_bridge is not self.bridge:
+                raise ValueError('Connect over USB before changing Wi-Fi settings')
+            if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
         try:
             before = self.bridge.snapshot().get('device') or {}
             identity = before.get('device_id')
@@ -258,9 +272,10 @@ class Studio:
         finally: self.worker.release()
 
     def forget_wifi(self):
-        if self.active_bridge is not self.bridge:
-            raise ValueError('Connect over USB before forgetting Wi-Fi')
-        if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
+        with self.lock:
+            if self.active_bridge is not self.bridge:
+                raise ValueError('Connect over USB before forgetting Wi-Fi')
+            if not self.worker.acquire(blocking=False): raise ValueError('Wait for the current build or upload')
         try:
             before = self.bridge.snapshot().get('device') or {}
             snapshot = self.bridge.forget_wifi()
@@ -455,6 +470,14 @@ class Studio:
         if not 128 <= len(raw) <= MAX_PACKAGE:
             raise ValueError('The package exceeds the v1 size limit or is truncated')
         package = player_package.parse(raw)
+        if 'initial_volume' in data:
+            volume = data['initial_volume']
+            if type(volume) is not int or not 0 <= volume <= 100:
+                raise ValueError('Startup volume must be a whole percentage from 0 to 100')
+            if volume != package['metadata']['initial_volume']:
+                package['metadata']['initial_volume'] = volume
+                raw = player_package.create(package['elf'], package['metadata'], package['role'], package['arena_bytes'])
+                package['package_sha256'] = player_package.digest(raw)
         with self.lock:
             if self.stopping.is_set():
                 raise ValueError('Studio is shutting down')
@@ -469,6 +492,7 @@ class Studio:
                 path.chmod(0o400)
                 result = dict(kind='package', origin='imported', title=package['metadata']['name'],
                     role='main', sample_rate=44100, block_frames=256, arena_bytes=package['arena_bytes'],
+                    initial_volume=package['metadata']['initial_volume'],
                     package_bytes=len(raw), package_sha256=package['package_sha256'], elf_sha256=package['elf_sha256'],
                     physical_inputs=package['metadata'].get('physical_inputs'),
                     touchscreen_inputs=package['metadata'].get('touchscreen_inputs'),
@@ -500,34 +524,44 @@ class Studio:
                 raise ValueError('Studio is shutting down')
             if not self.worker.acquire(blocking=False):
                 raise ValueError('A build or upload is already running')
-            self.update(identity, state='uploading', stage='Checking USB board', error=None)
+            stage = 'Connecting to Wi-Fi player' if data.get('transport') == 'wifi' else 'Checking USB board'
+            self.update(identity, state='uploading', stage=stage, error=None, upload_warning=None)
             self.job_thread = threading.Thread(target=self.upload, args=(identity, build, board, data.get('port'), data if data.get('transport') == 'wifi' else None), daemon=True)
             self.job_thread.start()
         return self.job(identity)
 
     def upload(self, identity, build, board, port, network=None):
         try:
+            package_job = self.jobs[identity].get('result', {}).get('kind') == 'package'
+            def progress(message):
+                self.log(identity, str(message) + '\n')
+                if package_job or str(message).startswith('USB: '):
+                    self.update(identity, stage=str(message))
             transport = self.bridge
             if network:
+                progress('Connecting to Wi-Fi player')
                 self.connect_wifi({'id':network.get('device_id'),'ip':network.get('ip')},during_upload=True)
                 transport = self.active_bridge
             else:
                 if self.network_bridge: self.network_bridge.disconnect()
                 self.active_bridge = self.bridge
-            def progress(message):
-                self.log(identity, str(message) + '\n')
-                if str(message).startswith('USB: '):
-                    self.update(identity, stage=str(message))
+            warning = None
             if self.jobs[identity].get('result', {}).get('kind') == 'player':
                 self.bridge.flash(build, board, port, progress, expected_kind='player')
+                stage = 'Player installed'
             else:
                 observed = transport.upload_package(build, port, progress, expected_sha256=self.jobs[identity]['result']['package_sha256'])
+                warning = (observed or {}).get('upload_warning')
+                stage = 'Package active'
+                if warning:
+                    stage += ' · ' + warning
+                    progress('Warning: ' + warning)
                 result = self.job(identity).get('result', {})
                 if result.get('float32_trial'):
                     check = trial_device_check(observed)
                     self.record_trial_device(identity, build, check)
                     self.log(identity, 'Trial runtime smoke recorded; outputs remain unverified.\n')
-            self.update(identity, state='done', stage='Player installed' if self.jobs[identity].get('result', {}).get('kind') == 'player' else 'Package active')
+            self.update(identity, state='done', stage=stage, upload_warning=warning)
         except Exception as error:
             self.log(identity, '\n' + str(error) + '\n')
             if self.job(identity).get('result', {}).get('float32_trial'):
@@ -776,7 +810,7 @@ class Handler(BaseHTTPRequestHandler):
             query = parse_qs(url.query)
             studio = self.server.studio
             if url.path == '/api/status': self.send(200, studio.status())
-            elif url.path == '/api/devices': self.send(200, {'devices':studio.bridge.scan()})
+            elif url.path == '/api/devices': self.send(200, {'devices':studio.scan_devices()})
             elif url.path == '/api/device': self.send(200, studio.device_snapshot())
             elif url.path == '/api/wifi': self.send(200, studio.wifi_status())
             elif url.path == '/api/firmware/options': self.send(200, {'firmwares':firmware.current_options()})

@@ -16,7 +16,7 @@
   <main>
     <section class="composer panel" aria-labelledby="source-title">
       <div class="panel-heading">
-        <div><span class="step">01 / SOURCE</span><h2 id="source-title">Max C++ export</h2></div>
+        <div><span class="step">PATCH / SOURCE</span><h2 id="source-title">Max C++ export</h2></div>
         <div class="file-actions"><button id="example" class="quiet" type="button">Export instructions</button><button id="open-folder" class="quiet" type="button">Open export folder</button><input id="folder" type="file" webkitdirectory multiple tabindex="-1"><button id="open-file" class="quiet" type="button">Open export ZIP</button><input id="file" type="file" accept=".zip,application/zip" tabindex="-1"><button id="open-layout" class="quiet" type="button">Add patch drawing</button><input id="layout-file" type="file" accept=".rnbopat,application/json" tabindex="-1"><button id="open-package" class="quiet" type="button" disabled>Open .rnbopkg</button><input id="package-file" type="file" accept=".rnbopkg,application/octet-stream" tabindex="-1"></div>
       </div>
       <div id="drop-zone" class="patch-preview" tabindex="0" aria-label="Patch preview. Drop an export ZIP here or press Enter to open one.">
@@ -44,15 +44,67 @@
       <details id="build-output" class="build-output"><summary>Build progress and output</summary><pre id="build-log" tabindex="0">No build yet.</pre></details>
     </section>
     <aside class="device panel" aria-labelledby="device-title">
-      <div class="panel-heading"><div><span class="step">02 / INSTRUMENT</span><h2 id="device-title">Upload &amp; play</h2></div><span id="connection" class="connection">OFFLINE</span></div>
-      <label for="transport">Connection</label><select id="transport"><option value="usb">USB</option><option value="wifi">Wi-Fi</option></select>
-      <div id="usb-connection"><label for="port">USB device</label><div class="connect-row"><select id="port"><option value="">Looking for devices…</option></select><button id="refresh-ports" class="quiet" type="button" aria-label="Refresh USB devices">Refresh</button></div></div>
-      <div id="wifi-connection" hidden><label for="wifi-device">Saved Wi-Fi player</label><select id="wifi-device"><option value="">No paired players saved</option></select><label for="wifi-ip">IP address override · optional</label><input id="wifi-ip" type="text" maxlength="64" autocomplete="off" spellcheck="false" placeholder="Use saved address"><p class="hint">Pair over USB first. Once connected over Wi-Fi, USB can be unplugged if the board stays powered by a battery or another power source.</p></div>
-      <button id="connect" class="secondary wide" type="button" disabled>Connect</button>
-      <p id="device-status" class="hint" role="status">Choose a USB device to connect.</p>
-      <details class="advanced wifi-setup"><summary>Wi-Fi setup · via USB</summary><p id="wifi-status" class="hint" role="status">Connect by USB to set up Wi-Fi.</p><button id="wifi-scan" class="quiet" type="button" disabled>Scan nearby networks</button><p class="hint">Audio pauses briefly while the board scans. Scanning does not save or change Wi-Fi settings.</p><p id="wifi-scan-status" class="hint" role="status"></p><div id="wifi-scan-results" hidden><label for="wifi-networks">Nearby networks</label><select id="wifi-networks" disabled><option value="">Choose a network…</option></select></div><label for="wifi-ssid">Network name (SSID) · manual entry for hidden networks</label><input id="wifi-ssid" type="text" maxlength="32" autocomplete="off" spellcheck="false" disabled><label for="wifi-password">Wi-Fi password</label><input id="wifi-password" type="password" maxlength="64" autocomplete="off" disabled><p class="hint">Settings are sent over USB. The password is cleared from this page when sent.</p><div class="wifi-actions"><button id="wifi-setup" class="quiet" type="button" disabled>Save Wi-Fi &amp; pair</button><button id="wifi-forget" class="quiet" type="button" disabled>Forget Wi-Fi</button></div><p id="wifi-feedback" class="hint" role="status"></p></details>
-      <div class="upload-section"><div class="package-identities"><div><span>Currently running</span><strong id="running-main">Not connected</strong></div><div><span>Package to load</span><strong id="package-to-load">None compiled or opened</strong></div></div><button id="upload" class="primary wide" type="button" disabled>Load compiled package</button><p id="upload-status" class="hint" role="status">Compile a patch, connect its player, then load the package.</p><section id="load-failure" class="load-failure" role="alert" hidden><strong id="load-failure-title">Package was not activated</strong><p id="load-failure-summary"></p><details id="load-failure-details"><summary>Original error</summary><pre id="load-failure-raw"></pre></details><p id="optimise-hint" class="hint" hidden>This compiles a new package with automatic Float32 audio. It does not load it or change delay storage.</p></section><p class="hint saved-note">Loading changes the patch, not the player firmware. The selected package is saved and loaded again at power-on. Audio pauses briefly while changing patches.</p></div>
-      <section class="firmware-uploader" aria-labelledby="firmware-title"><h3 id="firmware-title">Player firmware</h3><p class="hint">Install or update the RNBO player over USB. Patch packages are loaded separately above.</p><label for="firmware-mode">Installation mode</label><select id="firmware-mode"><option value="update">Update RNBO player · keep saved data</option><option value="first-install">First install / replace other firmware</option></select><label id="firmware-erase-label" class="firmware-consent" hidden><input id="firmware-erase" type="checkbox"><span>I understand this erases all existing firmware, patches and Wi-Fi settings on the selected unit.</span></label><p class="hint">Flashing uses the USB bootloader, so Connect USB is not required. If the device is missing, hold BOOT, tap RESET, release BOOT, then refresh the USB list.</p><label for="firmware-choice">Current player firmware</label><div class="firmware-choices"><select id="firmware-choice" disabled><option value="">Choose current firmware…</option></select><button id="refresh-firmware" class="quiet" type="button" disabled aria-label="Refresh current firmware list">Refresh</button></div><p id="firmware-catalogue-status" class="hint" role="status">Checking current builds on this computer…</p><button id="open-firmware" class="quiet" type="button" disabled>Open another firmware ZIP</button><input id="firmware-file" type="file" accept=".zip,application/zip" tabindex="-1"><p id="firmware-status" class="hint" role="status">Choose a prebuilt RNBO player firmware ZIP. No compilation is needed.</p><button id="flash-firmware" class="secondary wide" type="button" disabled>Flash selected firmware</button><p id="firmware-note" class="hint">Update checks the existing RNBO layout, backs up the application and keeps saved data. First install backs up the complete flash, erases the unit and installs the bootloader, partition table and player.</p><details class="advanced"><summary>Build player firmware on this computer</summary><label>Player board<select id="board"><option value="xiao">XIAO ESP32-S3 · 8 MB</option><option value="amoled">Waveshare AMOLED 1.8 V2 · 16 MB</option></select></label><button id="install-player" class="secondary wide" type="button" disabled>Build &amp; flash player</button><p class="hint">Requires the ESP32 build tools. This uses the same USB backup and verification path.</p></details></section>
+      <div class="panel-heading">
+        <div><span class="step">BOARD / PLAYER</span><h2 id="device-title">Instrument</h2></div>
+        <span id="connection" class="connection">OFFLINE</span>
+      </div>
+      <div class="instrument-tasks" role="group" aria-label="Instrument task">
+        <button id="task-play" type="button" aria-pressed="true">Load &amp; play</button>
+        <button id="task-first-install" type="button" aria-pressed="false">First install</button>
+        <button id="task-update" type="button" aria-pressed="false">Update player</button>
+      </div>
+      <p id="task-description" class="hint">Use a board that already runs the RNBO player. Choose First install for a new board or one running other firmware.</p>
+      <div id="transport-choice">
+        <label for="transport">Connection</label>
+        <select id="transport"><option value="usb">USB</option><option value="wifi">Wi-Fi</option></select>
+      </div>
+      <div id="usb-connection">
+        <label id="usb-target-label" for="port">USB device</label>
+        <div class="connect-row"><select id="port"><option value="">Looking for devices…</option></select><button id="refresh-ports" class="quiet" type="button" aria-label="Refresh USB devices">Refresh</button></div>
+        <p id="usb-list-error" class="hint source-error" role="status" hidden></p>
+        <details id="boot-help" class="boot-help" hidden>
+          <summary>USB device missing? Enter bootloader mode</summary>
+          <p class="hint">Use a data-capable USB cable. Hold <strong>BOOT</strong>, tap <strong>RESET</strong>, release <strong>BOOT</strong>, then click <strong>Refresh</strong> and select the device.</p>
+        </details>
+      </div>
+      <div id="wifi-connection" hidden>
+        <label for="wifi-device">Saved Wi-Fi player</label><select id="wifi-device"><option value="">No paired players saved</option></select>
+        <label for="wifi-board-id">Board ID for Max</label>
+        <div class="board-id-row"><input id="wifi-board-id" type="text" readonly spellcheck="false" placeholder="Select a saved player" aria-describedby="wifi-id-help"><button id="copy-board-id" class="quiet" type="button" disabled>Copy ID</button></div>
+        <p id="wifi-id-help" class="hint">Use this ID after <code>upload wifi</code> or <code>build_upload wifi</code> in Max.</p>
+        <p id="copy-id-status" class="hint" role="status"></p>
+        <p class="hint">To pair a new player, connect it over USB and open Wi-Fi setup.</p>
+        <details class="boot-help"><summary>Use a different IP address</summary><label for="wifi-ip">IP address override</label><input id="wifi-ip" type="text" maxlength="64" autocomplete="off" spellcheck="false" placeholder="Use saved address"></details>
+      </div>
+      <div id="player-connect">
+        <button id="connect" class="secondary wide" type="button" disabled>Connect USB</button>
+        <p id="device-status" class="hint" role="status">Choose a USB device to connect.</p>
+        <p id="connect-recovery" class="hint" hidden>Connect USB looks for a running RNBO player. For a new board or one running other firmware, choose <strong>First install</strong> above.</p>
+      </div>
+      <section id="firmware-panel" class="firmware-uploader" aria-labelledby="firmware-title" hidden>
+        <h3 id="firmware-title">2. Choose player firmware</h3>
+        <label class="sr-only" for="firmware-choice">Current player firmware</label>
+        <div class="connect-row"><select id="firmware-choice" disabled><option value="">Choose board model…</option></select><button id="refresh-firmware" class="quiet" type="button" disabled aria-label="Refresh current firmware list">Refresh</button></div>
+        <p id="firmware-catalogue-status" class="hint" role="status">Checking firmware builds on this computer…</p>
+        <button id="open-firmware" class="quiet" type="button" disabled>Open firmware ZIP</button>
+        <input id="firmware-file" type="file" accept=".zip,application/zip" tabindex="-1">
+        <p id="firmware-status" class="hint firmware-status" role="status"></p>
+        <div class="firmware-action">
+          <h3 id="firmware-action-title">3. Review and flash</h3>
+          <p id="firmware-note" class="hint"></p>
+          <label id="firmware-erase-label" class="firmware-consent" hidden><input id="firmware-erase" type="checkbox"><span>I understand this erases the selected USB device, including its firmware, saved patches and Wi-Fi settings.</span></label>
+          <button id="flash-firmware" class="primary wide" type="button" aria-describedby="firmware-next" disabled>Flash player</button>
+          <p id="firmware-next" class="hint" role="status"></p>
+        </div>
+        <details id="build-player-options" class="advanced">
+          <summary>Build player from source</summary>
+          <p class="hint">Use this if the current build is unavailable and you don’t have a firmware ZIP. This requires local ESP32 tools and, for AMOLED, its display components.</p>
+          <label for="board">Board to build</label><select id="board"><option value="">Choose board model…</option><option value="xiao">XIAO ESP32-S3 · 8 MB</option><option value="amoled">Waveshare AMOLED 1.8 V2 · 16 MB</option></select>
+          <button id="install-player" class="secondary wide" type="button" aria-describedby="build-player-next" disabled>Build &amp; flash player</button>
+          <p id="build-player-next" class="hint" role="status"></p>
+        </details>
+      </section>
+      <div id="patch-load-panel" class="upload-section"><h3>Load a patch package</h3><div class="package-identities"><div><span>Currently running</span><strong id="running-main">Not connected</strong></div><div><span>Package to load</span><strong id="package-to-load">None compiled or opened</strong></div></div><button id="upload" class="primary wide" type="button" disabled>Load patch package</button><p id="upload-status" class="hint" role="status">Open or compile a package to load.</p><section id="load-failure" class="load-failure" role="alert" hidden><strong id="load-failure-title">Package was not activated</strong><p id="load-failure-summary"></p><details id="load-failure-details"><summary>Original error</summary><pre id="load-failure-raw"></pre></details><p id="optimise-hint" class="hint" hidden>This compiles a new package with automatic Float32 audio. It does not load it or change delay storage.</p></section><p class="hint saved-note">The package is saved on the player and opens again at power-on. Audio pauses briefly during the change.</p></div>
       <section id="runtime-controls" class="runtime-controls" aria-labelledby="controls-title" hidden>
         <div class="subheading"><h3 id="controls-title">Live controls</h3><span id="runtime-name" class="small-label"></span></div>
         <div class="volume-heading"><label for="volume">Output volume</label><output id="volume-value" for="volume">50%</output></div>
@@ -65,6 +117,7 @@
       <section id="resources" class="resources" aria-labelledby="resources-title" hidden>
         <h3 id="resources-title">On the board</h3><dl class="resource-grid"><div><dt>Audio render</dt><dd class="audio-reading"><span id="render-time">—</span><span id="audio-cpu" class="resource-percent">—</span></dd></div><div><dt>Audio peak</dt><dd class="audio-reading"><span id="peak-time">—</span><span id="peak-audio-cpu" class="resource-percent">—</span></dd></div><div><dt>Internal RAM free</dt><dd id="internal-free">—</dd></div><div><dt>PSRAM free</dt><dd id="psram-free">—</dd></div></dl><p id="runtime-facts" class="hint"></p><p class="hint">Audio CPU is callback time divided by the audio block's time budget. Render and peak include PCM conversion and exclude the I2S wait; this is not total dual-core CPU usage.</p>
       </section>
+      <details id="wifi-setup-panel" class="advanced wifi-setup" hidden><summary>Wi-Fi setup · via USB</summary><p id="wifi-status" class="hint" role="status">Connect by USB to set up Wi-Fi.</p><button id="wifi-scan" class="quiet" type="button" disabled>Scan nearby networks</button><p class="hint">Audio pauses briefly while the board scans. Scanning does not save or change Wi-Fi settings.</p><p id="wifi-scan-status" class="hint" role="status"></p><div id="wifi-scan-results" hidden><label for="wifi-networks">Nearby networks</label><select id="wifi-networks" disabled><option value="">Choose a network…</option></select></div><label for="wifi-ssid">Network name (SSID) · manual entry for hidden networks</label><input id="wifi-ssid" type="text" maxlength="32" autocomplete="off" spellcheck="false" disabled><label for="wifi-password">Wi-Fi password</label><input id="wifi-password" type="password" maxlength="64" autocomplete="off" disabled><p class="hint">Settings are sent over USB. The password is cleared from this page when sent.</p><div class="wifi-actions"><button id="wifi-setup" class="quiet" type="button" disabled>Save Wi-Fi &amp; pair</button><button id="wifi-forget" class="quiet" type="button" disabled>Forget Wi-Fi</button></div><p id="wifi-feedback" class="hint" role="status"></p></details>
       <details class="local-tools"><summary>Local tools</summary><div id="environment" class="environment"><span>Checking dependencies…</span></div><p class="hint">Compilation uses the complete exported C++ and the ESP32 tools installed on this computer. Max/RNBO is needed only to create the export. Board selection applies only to player installation.</p></details>
     </aside>
     <div id="message" class="message" role="alert" hidden></div>

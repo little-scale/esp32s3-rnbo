@@ -13,6 +13,8 @@ static lv_obj_t *view;
 static void (*select_parameter)(unsigned);
 static unsigned selection=PATCH_NO_PARAMETER,page;
 static const uint32_t RNBO_BLUE=0x40a0ff;
+static const uint32_t PATCH_BACKGROUND=0x3c3c3c;
+static const uint32_t PATCH_LABEL=0xebb554;
 
 static void text(lv_draw_ctx_t *ctx,int x,int y,int width,const char *value,
                  uint32_t color,const lv_font_t *font)
@@ -51,15 +53,14 @@ static void draw(lv_event_t *event)
     for (unsigned i=0;i<p->node_count;++i) {
         const patch_node *n=&p->nodes[i];
         bool active=n->parameter!=PATCH_NO_PARAMETER && n->parameter==selection;
-        uint32_t color=(n->flags&PATCH_NODE_GEN)?0xffffff:RNBO_BLUE;
         lv_draw_rect_dsc_t d;lv_draw_rect_dsc_init(&d);
-        d.radius=0;d.bg_color=lv_color_hex(active?color:0);d.bg_opa=LV_OPA_COVER;
-        d.border_color=lv_color_hex(color);d.border_width=1;
+        d.radius=0;d.bg_color=lv_color_hex(PATCH_BACKGROUND);d.bg_opa=LV_OPA_COVER;
+        d.border_color=lv_color_white();d.border_width=active?2:1;
         lv_area_t box={area.x1+n->x,area.y1+n->y,area.x1+n->x+n->width-1,area.y1+n->y+n->height-1};
         lv_draw_rect(ctx,&d,&box);
-        text(ctx,box.x1+3,box.y1+1,n->width-6,n->label,active?0:color,&rnbo_barlow_12);
-        /* FM1's small black inlet/outlet notches. */
-        d.border_width=0;d.bg_color=lv_color_black();
+        text(ctx,box.x1+3,box.y1+1,n->width-6,n->label,PATCH_LABEL,&rnbo_barlow_12);
+        /* Cut small inlet/outlet notches into the outline. */
+        d.border_width=0;
         if (n->inlets) {lv_area_t port={box.x1+3,box.y1,box.x1+4,box.y1};lv_draw_rect(ctx,&d,&port);}
         if (n->outlets) {lv_area_t port={box.x1+3,box.y2,box.x1+4,box.y2};lv_draw_rect(ctx,&d,&port);}
     }
@@ -117,6 +118,8 @@ lv_obj_t *patch_view_create(lv_obj_t *parent,void (*select)(unsigned index))
     select_parameter=select;
     view=lv_obj_create(parent);lv_obj_remove_style_all(view);
     lv_obj_set_pos(view,16,64);lv_obj_set_size(view,PATCH_WIDTH,PATCH_HEIGHT);
+    lv_obj_set_style_bg_color(view,lv_color_hex(PATCH_BACKGROUND),0);
+    lv_obj_set_style_bg_opa(view,LV_OPA_COVER,0);
     lv_obj_clear_flag(view,LV_OBJ_FLAG_SCROLLABLE);lv_obj_add_flag(view,LV_OBJ_FLAG_CLICKABLE);
     lv_obj_add_event_cb(view,draw,LV_EVENT_DRAW_MAIN,NULL);
     lv_obj_add_event_cb(view,clicked,LV_EVENT_CLICKED,NULL);

@@ -33,6 +33,10 @@ or `build_upload usb` / `build_upload wifi` to build and then load on success.
 Both accept an optional USB port or paired Wi-Fi board ID. Studio must remain
 running; Wi-Fi setup/pairing and player installation stay in Studio.
 
+If the player commits the package and audio advances, render deadline misses
+observed after loading are reported as a warning in Studio and Max. Player-side
+admission and checks for other runtime faults still apply.
+
 Existing `.rnbopkg` files can still be opened, downloaded and loaded without a
 compiler. USB/Wi-Fi pairing, network scanning, parameters, Pause/Resume, output
 volume and render-time/CPU readings remain available. See [Wi-Fi](../../docs/player-wifi.md),

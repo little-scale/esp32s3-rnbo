@@ -167,6 +167,25 @@ test('combined build/upload runs only after successful export and forwards the e
   assert.equal(sent.filter(x=>x[1]==='upload').length,1);
 });
 
+test('startup volume is an optional trailing percentage and a one-build override',()=>{
+  const {context:c,sent}=runtime();c.node_ready();c.startup_volume(40);
+  c.build_upload('wifi','001122aabbcc',0);
+  const req=JSON.parse(sent.find(x=>x[1]==='prepare')[2]);
+  assert.equal(req.initial_volume,0);
+  c.build_ready(req.requestId,'a'.repeat(32),'http://127.0.0.1:8788/','/tmp/pkg');
+  const command=sent.find(x=>x[1]==='upload');
+  assert.deepEqual(command.slice(3),['wifi','001122aabbcc']);
+  c.upload_done(command[2],'a'.repeat(32),'wifi','001122aabbcc');
+  c.upload('usb',25);
+  const retry=sent.filter(x=>x[1]==='upload').at(-1);
+  assert.deepEqual(retry.slice(3),['usb','',25]);
+  c.upload_done(retry[2],'a'.repeat(32),'usb','port');
+  for(const volume of [-1,101,12.5,'25'])assert.throws(()=>c.connection(['usb','port',volume]),/Startup volume/);
+  assert.equal(c.connection(['wifi',123456789012]).target,'123456789012');
+  c.build();
+  assert.equal(JSON.parse(sent.filter(x=>x[1]==='prepare').at(-1)[2]).initial_volume,40);
+});
+
 const artifact={id:'a'.repeat(32),sha256:'b'.repeat(64),port:8788};
 const job=(state='ready',extra={})=>({id:artifact.id,state,stage:state,result:{kind:'package',package_sha256:artifact.sha256},...extra});
 function uploadApi({usb=[{port:'/dev/cu.test'}],wifi=[{id:'001122aabbcc'}],initial=job(),finish=job('done'),postError=null}={}) {
@@ -192,6 +211,32 @@ test('USB and Wi-Fi uploads use the exact ready package, selected transport and 
     assert.deepEqual(posts[0].body,{id:artifact.id,transport,...(transport==='usb'?{port:'/dev/cu.test'}:{device_id:'001122aabbcc'})});
     assert.equal(result.job.state,'done');assert.equal(events[0][0],'target');
     assert.ok(calls.every(x=>!x.url.includes('install')&&!x.url.includes('setup')));
+  }
+});
+
+test('upload with a volume sends the derived package and refuses an unconfirmed override',async()=>{
+  const raw=Buffer.from('checked package'),elf='f'.repeat(64);
+  const original={...artifact,sha256:crypto.createHash('sha256').update(raw).digest('hex')};
+  const ready=job('ready',{result:{kind:'package',package_sha256:original.sha256,elf_sha256:elf}});
+  const copy={...ready,id:'c'.repeat(32),result:{...ready.result,initial_volume:0,package_sha256:'d'.repeat(64)}};
+  for(const supported of [true,false]) {
+    const posts=[];
+    const call=async(port,url,body,token)=>{
+      if(body){assert.equal(token,'token');posts.push([url,body]);}
+      if(url.startsWith('/api/job?'))return {job:ready};
+      if(url.startsWith('/api/artifact?'))return raw;
+      if(url==='/api/wifi')return {paired:[{id:'001122aabbcc'}]};
+      if(url==='/api/status')return {csrf:'token'};
+      if(url==='/api/import-package')return {job:supported?copy:ready};
+      if(url==='/api/upload')return {job:{...copy,state:'done'}};
+      throw Error(url);
+    };
+    const result=client.uploadPackage(original,{transport:'wifi',volume:0},8788,call);
+    if(supported)assert.equal((await result).job.id,copy.id);
+    else await assert.rejects(result,/did not confirm/);
+    assert.deepEqual(posts[0],['/api/import-package',{name:'patch.rnbopkg',
+      package_base64:raw.toString('base64'),initial_volume:0}]);
+    assert.deepEqual(posts.slice(1),supported?[['/api/upload',{id:copy.id,transport:'wifi',device_id:'001122aabbcc'}]]:[]);
   }
 });
 

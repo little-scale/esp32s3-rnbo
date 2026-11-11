@@ -101,6 +101,20 @@ class TransportTests(unittest.TestCase):
         with self.assertRaisesRegex(n.DeviceError, 'paired RNBO'): self.stream(peer)
         self.assertEqual(peer.sent, []); self.assertTrue(peer.closed)
 
+    def test_connection_timeouts_identify_handshake_phase_without_exposing_keys(self):
+        def unreachable(*args,**kwargs):raise socket.timeout(RECORD['keyhex'])
+        with self.assertRaisesRegex(n.ProtocolTimeout,'opening the connection to 192.168.1.8:8789') as caught:
+            n.AuthenticatedSocketStream(RECORD,socket_factory=unreachable)
+        self.assertNotIn(RECORD['keyhex'],str(caught.exception))
+        peer=Peer();peer.pending.clear()
+        with self.assertRaisesRegex(n.ProtocolTimeout,'RNBO greeting'):
+            self.stream(peer)
+        self.assertTrue(peer.closed)
+        peer=Peer()
+        with patch.object(peer,'sendall',return_value=None),self.assertRaisesRegex(n.ProtocolTimeout,'confirm authentication'):
+            self.stream(peer)
+        self.assertTrue(peer.closed)
+
     def test_wrong_key_and_nonboolean_auth_ack_rejected(self):
         for peer, record in ((Peer(), dict(RECORD, keyhex='cd' * 32)), (Peer(auth_ack=1), RECORD)):
             with self.subTest(record=record['id']), self.assertRaises(n.DeviceError): self.stream(peer, record)
@@ -135,7 +149,7 @@ class TransportTests(unittest.TestCase):
 
     def test_time_limit_is_total_even_when_peer_trickles(self):
         peer = Peer(); stream = self.stream(peer); peer.fragment = 1; peer.delay = .5
-        with self.assertRaises(n.ProtocolTimeout): stream.write(b'player-info\n')
+        with self.assertRaisesRegex(n.ProtocolTimeout,'waiting for player-info'): stream.write(b'player-info\n')
         self.assertTrue(peer.closed)
         self.assertEqual(sum(frame.get('command') == 'player-info' for frame in peer.sent), 1)
 
@@ -270,6 +284,33 @@ class BridgeTests(unittest.TestCase):
                 self.player.bad_commit = True
                 with self.assertRaisesRegex(n.DeviceError, 'complete package commit'):
                     self.bridge.upload_package(path, None, lambda _: None)
+
+    def test_upload_reuses_authenticated_connection_and_preserves_sequence(self):
+        self.bridge.connect_network()
+        peer=self.peers[0]
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'patch.rnbopkg';path.write_bytes(bytes(range(256))*9)
+            package=dict(role='main',arena_bytes=4096,package_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                metadata=dict(source_sha256='b'*64,initial_volume=25))
+            with patch.dict(n.DeviceBridge.upload_package.__globals__,parse_package=lambda _:package), \
+                 patch.object(self.bridge,'_socket_factory',side_effect=AssertionError('Upload must keep the authenticated connection')):
+                result=self.bridge.upload_package(path,None,lambda _:None,expected_sha256=package['package_sha256'])
+                peer.timeout_command='player-data 0 '+path.read_bytes()[:1024].hex()
+                messages=[]
+                with self.assertRaisesRegex(n.ProtocolTimeout,'player-data at byte offset 0') as caught:
+                    self.bridge.upload_package(path,None,messages.append,expected_sha256=package['package_sha256'])
+                self.assertNotIn(path.read_bytes()[:1024].hex(),str(caught.exception))
+                self.assertIn('Transferring package · 0 / 2304 bytes acknowledged',messages)
+        self.assertEqual(result['device']['generation'],1)
+        self.assertTrue(peer.closed)
+        self.assertEqual(len(self.peers),1)
+        sequences=[frame['seq'] for frame in peer.sent if 'seq' in frame]
+        self.assertEqual(sequences,list(range(1,len(sequences)+1)))
+        self.assertEqual(sum(frame.get('command')=='player-commit' for frame in peer.sent),1)
+        self.assertEqual(sum(frame.get('command')==peer.timeout_command for frame in peer.sent),2)
+        self.assertTrue(self.bridge.matches_pairing(RECORD,RECORD['ip']))
+        self.assertFalse(self.bridge.matches_pairing(dict(RECORD,keyhex='cd'*32),RECORD['ip']))
+        self.assertFalse(self.bridge.matches_pairing(RECORD,'192.168.1.9'))
 
     def test_false_offset_and_stale_generation_remain_rejections(self):
         self.player.main = dict(name='Test', package_sha256='a' * 64, source_sha256='b' * 64,

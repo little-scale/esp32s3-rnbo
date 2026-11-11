@@ -2,11 +2,12 @@
 
 > **Current intake:** create C++ with Max’s [Minimal Export](native-export.md), then compile/package it in Studio. `.rnbopat` is drawing data only. Hardware interfaces below are retained; earlier patch/compiler measurements apply only to their recorded builds.
 
-The AMOLED interface follows the FM1 RNBO player: black background, bright blue
-RNBO object outlines (`#40a0ff`), white patch cords and status text, square boxes,
-small inlet/outlet notches and Barlow Semi Condensed lettering. Gen containers
-use white. The original FM1 layout/rendering concepts are MIT; the bundled
-Barlow fonts are SIL OFL 1.1. Content hashes and changes are in
+The AMOLED patch area has a grey background (`#3C3C3C`), gold object labels
+(`#EBB554`), and white object outlines and patch cords. A thicker outline marks
+the selected object. Square boxes, small inlet/outlet notches and Barlow Semi
+Condensed lettering follow the FM1 RNBO player. The original FM1 layout and
+rendering concepts are MIT. The bundled Barlow fonts are SIL OFL 1.1.
+Content hashes and changes are in
 [`host/visual/UPSTREAM.json`](../host/visual/UPSTREAM.json).
 
 The host uses an optional matching `.rnbopat` drawing plus Max’s exported RNBO

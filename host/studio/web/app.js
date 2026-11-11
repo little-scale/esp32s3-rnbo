@@ -8,6 +8,7 @@
     artifact: null, firmware: null, firmwareOptions: [], currentFirmware: null, catalogueLoading: false,
     job: null, jobRevision: -1, operation: null, linkedJob: null,
     loadFailure: null, loadingTransport: 'usb',
+    instrumentTask: 'play',
     connecting: false, connectedPort: '', connectedTransport: 'usb', connectedDeviceId: '',
     device: null, deviceError: '', parameters: [], parameterKey: '',
     portSerials: new Map(), portsInitialized: false,
@@ -22,8 +23,9 @@
   const number = value => finite(value) ? new Intl.NumberFormat(undefined, {maximumFractionDigits: 3}).format(value) : '—';
   const bytes = value => finite(value) ? (value >= 1048576 ? `${number(value / 1048576)} MiB` : `${number(value / 1024)} KiB`) : '—';
   const busy = () => Boolean(state.operation || state.connecting || state.refreshing || state.serverBusy);
-  const transport = () => $('transport').value === 'wifi' ? 'wifi' : 'usb';
-  const firstInstall = () => $('firmware-mode').value === 'first-install';
+  const playing = () => state.instrumentTask === 'play';
+  const transport = () => playing() && $('transport').value === 'wifi' ? 'wifi' : 'usb';
+  const firstInstall = () => state.instrumentTask === 'first-install';
   const installOptions = () => firstInstall() ? {mode:'first-install',erase_confirmed:$('firmware-erase').checked} : {};
   const selectedConnection = () => Boolean(state.device) && transport() === state.connectedTransport
     && (transport() === 'wifi' ? Boolean(state.connectedDeviceId && state.connectedDeviceId === $('wifi-device').value)
@@ -82,15 +84,68 @@
     return keys.filter(key => availability(state.environment[key]) === false);
   }
 
+  function updateFirmwareControls(working) {
+    const first = firstInstall();
+    const board = $('board').value;
+    const item = state.firmware;
+    const unavailable = !state.reachable || !state.csrf ? 'Start the local Studio service.'
+      : working ? 'Wait for the current operation to finish.'
+      : availability(state.environment.python_serial) === false || availability(state.environment.firmware_tools) === false
+        ? 'USB flashing tools are unavailable. See Local tools below.'
+      : !$('port').value ? 'Connect and select the USB device above.' : '';
+    const consent = first && !$('firmware-erase').checked ? 'Confirm the erase above to continue.' : '';
+    const flashBlock = unavailable || (!item ? 'Choose your board’s current firmware or open a firmware ZIP.'
+      : first && !item.first_install_available ? 'This ZIP supports updates only. Choose a full firmware ZIP with a bootloader.' : consent);
+    const buildBlock = unavailable || (availability(state.environment.idf) === false ? 'Install the local ESP32 build tools first.'
+      : !board ? 'Choose the board to build.'
+      : board === 'amoled' && availability(state.environment.amoled_components) === false ? 'The local AMOLED display components are unavailable.' : consent);
+    $('firmware-erase-label').hidden = !first;
+    $('firmware-erase').disabled = working || !first || !$('port').value;
+    $('open-firmware').disabled = playing() || !state.reachable || !state.csrf || working;
+    $('firmware-file').disabled = playing() || working;
+    $('firmware-choice').disabled = playing() || !state.reachable || !state.csrf || working || state.catalogueLoading;
+    $('refresh-firmware').disabled = $('firmware-choice').disabled;
+    $('flash-firmware').disabled = playing() || Boolean(flashBlock);
+    $('install-player').disabled = playing() || Boolean(buildBlock);
+    $('flash-firmware').textContent = first ? 'Erase & install player' : 'Update player firmware';
+    $('install-player').textContent = first ? 'Build, erase & install player' : 'Build & update player';
+    $('firmware-note').textContent = first
+      ? 'Studio backs up the entire device before erasing it and installing the RNBO player. Keep USB attached through verification.'
+      : 'For a board with the RNBO player layout. Studio backs up and replaces the application, keeping saved patches and Wi-Fi settings.';
+    $('firmware-next').textContent = flashBlock || `Ready to ${first ? 'erase and install' : 'update'} the ${boards[item.board]} player on ${$('port').value}.`;
+    $('build-player-next').textContent = buildBlock || `Ready to build for ${boards[board]} and flash ${$('port').value}.`;
+  }
+
   function updateButtons() {
     const working = busy();
+    const play = playing();
     const usb = transport() === 'usb';
     const serialMissing = usb && missingTools(true).length > 0;
     const availableArtifact = state.artifact && state.artifact.revision === state.revision;
     const selectedConnected = selectedConnection();
     const hasTarget = usb ? Boolean($('port').value) : Boolean($('wifi-device').value);
     const isPlayer = state.device && state.device.runtime === 'rnbo-esp32s3-player';
-    const eraseAllowed = !firstInstall() || $('firmware-erase').checked;
+    for (const task of ['play', 'first-install', 'update']) {
+      const button = $('task-' + task);
+      button.setAttribute('aria-pressed', String(state.instrumentTask === task));
+      button.disabled = working;
+    }
+    $('task-description').textContent = play
+      ? 'Use a board that already runs the RNBO player. Choose First install for a new board or one running other firmware.'
+      : firstInstall()
+        ? 'Set up a new board or replace other firmware. Select the USB device to flash. No player connection is needed.'
+        : 'Replace the firmware on an existing RNBO player. Select the USB device to flash. No player connection is needed.';
+    $('transport-choice').hidden = !play;
+    $('player-connect').hidden = !play;
+    $('patch-load-panel').hidden = !play;
+    $('firmware-panel').hidden = play;
+    $('connection').hidden = !play;
+    $('boot-help').hidden = play;
+    $('usb-target-label').textContent = play ? 'USB device' : '1. Choose the USB device';
+    $('connect-recovery').hidden = !play || !usb || !hasTarget || !state.deviceError;
+    $('runtime-controls').hidden = !play || !selectedConnected;
+    $('resources').hidden = !play || !selectedConnected;
+    $('wifi-setup-panel').hidden = !play || !usb || !selectedConnected || !isPlayer;
     $('running-main').textContent = selectedConnected
       ? state.device.main?.name ? `${state.device.main.name}${state.device.paused ? ' · paused' : ''}` : 'No Main patch loaded'
       : 'Not connected to the selected player';
@@ -100,7 +155,13 @@
     $('transport').disabled = working;
     $('port').disabled = working; $('board').disabled = working;
     $('wifi-device').disabled = working; $('wifi-ip').disabled = working;
-    const setup = usb && selectedConnected && isPlayer && state.wifi.supported === true && !working && !serialMissing;
+    const boardId = state.paired.find(player => player.id === $('wifi-device').value)?.id || '';
+    if ($('wifi-board-id').value !== boardId) {
+      $('wifi-board-id').value = boardId;
+      $('copy-id-status').textContent = '';
+    }
+    $('copy-board-id').disabled = !boardId;
+    const setup = play && usb && selectedConnected && isPlayer && state.wifi.supported === true && !working && !serialMissing;
     $('wifi-ssid').disabled = !setup; $('wifi-password').disabled = !setup;
     $('wifi-setup').disabled = !setup;
     $('wifi-scan').disabled = !setup;
@@ -108,31 +169,17 @@
     $('wifi-scan').textContent = state.operation === 'wifi-scan' ? 'Scanning…' : 'Scan nearby networks';
     $('wifi-scan').setAttribute('aria-busy', String(state.operation === 'wifi-scan'));
     $('wifi-forget').disabled = !setup || !state.wifi.configured;
-    $('install-player').disabled = !usb || !state.csrf || !$('port').value || working || !eraseAllowed || serialMissing || availability(state.environment.idf) === false;
-    $('install-player').textContent = firstInstall() ? 'Build, erase & install player' : 'Build & update player';
-    $('firmware-mode').disabled = working;
-    $('firmware-erase-label').hidden = !firstInstall();
-    $('firmware-erase').disabled = working || !firstInstall();
-    $('open-firmware').disabled = !state.reachable || !state.csrf || working;
-    $('firmware-file').disabled = working;
-    $('firmware-choice').disabled = !state.reachable || !state.csrf || working || state.catalogueLoading;
-    $('refresh-firmware').disabled = !state.reachable || !state.csrf || working || state.catalogueLoading;
-    $('flash-firmware').disabled = !usb || !state.reachable || !state.csrf || !state.firmware || !$('port').value
-      || working || !eraseAllowed || firstInstall() && !state.firmware?.first_install_available
-      || serialMissing || availability(state.environment.firmware_tools) === false;
-    $('flash-firmware').textContent = state.firmware
-      ? firstInstall() ? `Erase & install ${boards[state.firmware.board]} player` : `Update ${boards[state.firmware.board]} player`
-      : firstInstall() ? 'Erase & install player' : 'Flash selected firmware';
+    updateFirmwareControls(working);
     $('compile').disabled = !state.reachable || !state.csrf || !state.valid || working || missingTools().length > 0;
     $('open-package').disabled = !state.reachable || !state.csrf || working;
-    $('connect').disabled = !state.csrf || !hasTarget || working || serialMissing;
+    $('connect').disabled = !play || !state.csrf || !hasTarget || working || serialMissing;
     $('connect').textContent = usb ? 'Connect USB' : 'Connect Wi-Fi';
-    $('upload').disabled = !state.csrf || !availableArtifact || !hasTarget || working || serialMissing;
+    $('upload').disabled = !play || !state.csrf || !availableArtifact || !hasTarget || working || serialMissing;
     $('download').disabled = !availableArtifact || state.operation === 'upload';
     $('download-trial').disabled = !availableArtifact || state.operation === 'upload';
     $('example').disabled = state.operation === 'upload';
-    $('refresh-ports').disabled = state.refreshing || state.operation === 'upload';
-    const live = Boolean(state.device) && typeof state.device.device_id === 'string'
+    $('refresh-ports').disabled = working;
+    const live = play && Boolean(state.device) && typeof state.device.device_id === 'string'
       && selectedConnected && !working && !serialMissing && !state.device.maintenance;
     $('volume').disabled = !live;
     $('pause').disabled = !live;
@@ -149,7 +196,8 @@
       else $('compile-status').textContent = state.valid ? 'Ready to compile' : 'Open a Max Minimal Export to compile';
       if (!availableArtifact) $('upload-status').textContent = 'Compile the current patch and settings before uploading.';
       else if (!hasTarget) $('upload-status').textContent = usb ? 'Choose a USB device for the compiled package.' : 'Choose a saved Wi-Fi player for the compiled package.';
-      else if (!$('upload-status').dataset.completed) $('upload-status').textContent = isPlayer ? 'Ready to load the package into the connected player.' : 'Connect a stable player, or install it below first.';
+      else if (!$('upload-status').dataset.completed) $('upload-status').textContent = selectedConnected && isPlayer
+        ? 'Ready to load the package into the connected player.' : 'Select a board that runs the RNBO player. For a new board, choose First install above.';
       if (state.loadFailure) $('upload-status').textContent = state.loadFailure.cpuUs !== null
         ? 'The package was rejected before activation. See the CPU admission result below.'
         : 'Load failed. The package is still available for retry or download.';
@@ -402,11 +450,15 @@
     finally { state.operation = null; $('package-file').value = ''; updateButtons(); }
   }
 
-  function showFirmware(item, details = '') {
+  function showFirmware(item, current = null) {
     if (!item || !/^[0-9a-f]{32}$/.test(item.id) || !Object.hasOwn(boards,item.board)
         || !/^[0-9a-f]{64}$/.test(item.firmware_elf_sha256)) throw new Error('The firmware file was not accepted.');
     state.firmware = item;
-    $('firmware-status').textContent = `${item.name} · ${boards[item.board]} · ${bytes(item.application_bytes)}${item.usb_midi_host ? ' · experimental USB MIDI host' : ''}\n${details}${item.first_install_available ? 'Supports update and first install.' : 'Update only; no bootloader in this ZIP.'} Selection does not change the board.`;
+    const details = current ? ` · build ${item.firmware_elf_sha256.slice(0,12)}` : ` · ${item.name}`;
+    const features = current && Array.isArray(current.features) ? current.features.join(' + ') : 'USB + Wi-Fi';
+    $('firmware-status').textContent = `${boards[item.board]}${details}\n${item.first_install_available ? 'Full installer' : 'Update only'}${current ? ' · '+features : ''}${item.usb_midi_host ? ' · experimental USB MIDI host' : ''}`;
+    const built = new Date(current?.built_at);
+    $('firmware-status').title = `${item.name} · ${bytes(item.application_bytes)}${Number.isFinite(built.getTime()) ? ' · built '+built.toLocaleString() : ''}`;
   }
 
   async function refreshFirmwareOptions() {
@@ -424,15 +476,16 @@
         state.firmware = null; state.currentFirmware = null; $('firmware-erase').checked = false;
         $('firmware-status').textContent = 'Current firmware changed or needs rebuilding. Choose it again from the refreshed list.';
       }
-      const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Choose current firmware…';
+      const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Choose board model…';
       $('firmware-choice').replaceChildren(placeholder, ...rows.map(row=>{
         const option = document.createElement('option'); option.value = row.id; option.disabled = !row.available;
-        option.textContent = `${boards[row.board]} · ${row.available ? 'USB + Wi-Fi · current' : 'build required'}`;
+        option.textContent = boards[row.board] + (row.available ? '' : ' · build required');
         return option;
       }));
       $('firmware-choice').value = state.currentFirmware?.id || '';
       $('firmware-catalogue-status').textContent = [
-        rows.some(row=>row.available) ? 'Current builds on this computer. Choose one to prepare it; install with the button below.' : 'No current player build is ready. Build locally below, or open a firmware ZIP.',
+        rows.some(row=>row.available) ? 'Choose the exact board model or open a firmware ZIP.'
+          : 'No current player build is ready. Open a firmware ZIP or use Build player from source.',
         ...rows.filter(row=>!row.available).map(row=>`${boards[row.board]}: ${String(row.reason || 'Build required').slice(0,400)}`)
       ].join('\n');
     } catch (error) {
@@ -443,7 +496,7 @@
   }
 
   async function chooseCurrentFirmware() {
-    if (busy() || state.catalogueLoading) return;
+    if (playing() || busy() || state.catalogueLoading) return;
     const row = state.firmwareOptions.find(item=>item.id===$('firmware-choice').value && item.available);
     state.firmware = null; state.currentFirmware = null; $('firmware-erase').checked = false;
     if (!row) { $('firmware-status').textContent = 'Choose a current player firmware or open a firmware ZIP.'; updateButtons(); return; }
@@ -453,8 +506,7 @@
       const response = await api('/api/firmware/select', {id:row.id,sha256:row.sha256});
       if (response.firmware?.board!==row.board || response.firmware?.firmware_elf_sha256!==row.firmware_elf_sha256)
         throw new Error('Selected firmware identity changed. Refresh the firmware list and choose it again.');
-      const built = new Date(row.built_at);
-      showFirmware(response.firmware, `${Array.isArray(row.features) ? row.features.join(' + ') : 'USB + Wi-Fi'} · build ${row.firmware_elf_sha256.slice(0,12)}${Number.isFinite(built.getTime()) ? ' · '+built.toLocaleString() : ''}\n`);
+      showFirmware(response.firmware, row);
       state.currentFirmware = {id:row.id,sha256:row.sha256};
     } catch (error) {
       state.firmware = null; $('firmware-choice').value = '';
@@ -463,7 +515,7 @@
   }
 
   async function openFirmware(file) {
-    if (!file || busy()) return;
+    if (!file || playing() || busy()) return;
     state.firmware = null;
     state.currentFirmware = null; $('firmware-choice').value = '';
     $('firmware-erase').checked = false;
@@ -554,7 +606,11 @@
       if (operation === 'upload') $('upload-status').textContent = 'Upload failed. Review the output before retrying.';
       if (operation === 'upload') state.deviceError = job.error || 'Upload failed. Review the build output before retrying.';
       if (operation === 'upload') recordLoadFailure(job.error || 'The package could not be loaded.');
-      if (operation === 'firmware' || operation === 'install') $('firmware-status').textContent = `Firmware installation failed: ${job.error || 'See output for details.'}`;
+      if (operation === 'firmware' || operation === 'install') {
+        const hint = !firstInstall() && /existing partition layout/i.test(job.error || '')
+          ? ' If this device is new or runs other firmware, select First install above.' : '';
+        $('firmware-status').textContent = `Firmware installation failed: ${job.error || 'See output for details.'}` + hint;
+      }
     } else if (job.state === 'ready' || job.state === 'done') {
       if (operation === 'build') {
         if (state.jobRevision === state.revision) {
@@ -574,9 +630,11 @@
         if (operation === 'upload' && state.artifact?.id === job.id && job.result) {
           state.artifact.result = job.result; showResult(job.result);
         }
-        if (operation === 'firmware' || operation === 'install') $('firmware-status').textContent = 'Player firmware verified and running.';
+        if (operation === 'firmware' || operation === 'install')
+          $('firmware-status').textContent = 'Player firmware verified and running. Choose Load & play to connect and load a patch.';
         if (operation !== 'firmware') {
-          $('upload-status').textContent = operation === 'install' ? 'Stable player installed. Compile and load a package.' : 'Package loaded and saved. Player firmware unchanged.';
+          $('upload-status').textContent = operation === 'install' ? 'Stable player installed. Compile and load a package.'
+            : job.upload_warning ? `Package loaded and saved. ${job.upload_warning}` : 'Package loaded and saved. Player firmware unchanged.';
           $('upload-status').dataset.completed = 'true';
         }
         state.deviceError = '';
@@ -733,7 +791,8 @@
 
   async function refreshDevices() {
     if (state.refreshing) return;
-    state.refreshing = true; updateButtons();
+    state.refreshing = true; $('firmware-erase').checked = false; updateButtons();
+    $('usb-list-error').hidden = true;
     try {
       const response = await api('/api/devices');
       const current = $('port').value;
@@ -744,20 +803,24 @@
         const matches = devices.filter(device => device.serial_number === previousSerial);
         if (matches.length === 1) selected = matches[0].port;
       } else if (current && devices.some(device => device.port === current)) selected = current;
-      else if (!state.portsInitialized && !current && devices.length) selected = devices[0].port;
+      else if (!state.portsInitialized && !current && devices.length === 1) selected = devices[0].port;
       const prompt = document.createElement('option'); prompt.value = '';
       prompt.textContent = devices.length ? 'Choose a USB device…' : 'No USB devices found';
       const options = devices.map(device => {
         const option = document.createElement('option'); option.value = device.port;
-        option.textContent = device.label ? `${device.label} · ${device.port}` : device.port;
+        option.textContent = device.label ? `${device.port} · ${device.label}` : device.port;
         return option;
       });
       $('port').replaceChildren(prompt, ...options);
       $('port').value = selected;
+      $('boot-help').open = devices.length === 0;
       state.portSerials = new Map(devices.filter(device => typeof device.serial_number === 'string' && device.serial_number.length)
         .map(device => [device.port, device.serial_number]));
       state.portsInitialized = true;
-    } catch (error) { $('device-status').textContent = error.message; }
+    } catch (error) {
+      $('usb-list-error').textContent = `Could not refresh USB devices. ${error.message}`;
+      $('usb-list-error').hidden = false;
+    }
     finally { state.refreshing = false; updateButtons(); }
   }
 
@@ -838,7 +901,6 @@
     }
     $('connection').textContent = device ? (device.paused ?? device.panic) === true ? 'PAUSED' : 'CONNECTED' : 'OFFLINE';
     $('connection').classList.toggle('online', Boolean(device));
-    $('runtime-controls').hidden = !device; $('resources').hidden = !device;
     if (!device) {
       $('device-status').textContent = state.deviceError || (transport() === 'wifi' ? 'Choose a saved Wi-Fi player to connect.' : 'Choose a USB device to connect.');
       state.parameterKey = ''; state.parameters = []; state.connectedPort = ''; state.connectedDeviceId = '';
@@ -997,7 +1059,9 @@
       const options = installOptions(); $('firmware-erase').checked = false;
       const response = await api('/api/install-player', {board: $('board').value, port: $('port').value,...options});
       await handleJob(response.job);
-    } catch (error) { state.operation = null; message(error.message); updateButtons(); }
+    } catch (error) {
+      state.operation = null; $('firmware-status').textContent = error.message; message(error.message); updateButtons();
+    }
   });
   $('download').addEventListener('click', () => {
     if (!state.artifact || state.artifact.revision !== state.revision) return;
@@ -1028,7 +1092,15 @@
     delete $('upload-status').dataset.completed;
     renderDevice({device: state.device, parameters: state.parameters});
   });
-  for (const id of ['firmware-mode','board']) $(id).addEventListener('change', () => {
+  for (const task of ['play', 'first-install', 'update']) $('task-' + task).addEventListener('click', () => {
+    if (busy() || state.instrumentTask === task) return;
+    state.instrumentTask = task;
+    $('firmware-erase').checked = false;
+    $('wifi-password').value = '';
+    cancelQueuedControls();
+    updateButtons();
+  });
+  $('board').addEventListener('change', () => {
     $('firmware-erase').checked = false; updateButtons();
   });
   $('firmware-erase').addEventListener('change', updateButtons);
@@ -1038,6 +1110,19 @@
   });
   $('wifi-setup').addEventListener('click', () => configureWifi(false));
   $('wifi-forget').addEventListener('click', () => configureWifi(true));
+  $('copy-board-id').addEventListener('click', async () => {
+    const id = $('wifi-board-id').value;
+    if (!id) return;
+    try {
+      await navigator.clipboard.writeText(id);
+      if ($('wifi-board-id').value === id) $('copy-id-status').textContent = 'Board ID copied.';
+    } catch (_) {
+      if ($('wifi-board-id').value !== id) return;
+      $('wifi-board-id').focus();
+      $('wifi-board-id').select();
+      $('copy-id-status').textContent = 'Press ⌘C on Mac or Ctrl+C to copy the selected ID.';
+    }
+  });
   $('connect').addEventListener('click', connect);
   $('volume').addEventListener('input', () => {
     $('volume-value').textContent = `${$('volume').value}%`;

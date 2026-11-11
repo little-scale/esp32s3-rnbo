@@ -7,4 +7,25 @@
 .firmware-uploader{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}.firmware-uploader h3{margin:0 0 8px}.firmware-uploader input[type=file]{display:none}.firmware-uploader #firmware-status{overflow-wrap:anywhere;white-space:pre-wrap}
 .firmware-consent{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.5;margin:12px 0;padding:10px;background:#fff2e8;border-radius:6px}.firmware-consent[hidden]{display:none}.firmware-consent input{width:18px;height:18px;flex:0 0 18px;margin:2px 0}
 
-.firmware-choices{display:flex;align-items:center;gap:8px}.firmware-choices select{flex:1;min-width:0}.firmware-choices button{flex:0 0 auto}.firmware-uploader #firmware-catalogue-status{white-space:pre-wrap;overflow-wrap:anywhere}
+.instrument-tasks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:4px;border-radius:9px;background:#edf1f6}
+.instrument-tasks button{min-height:40px;padding:7px 5px;border-color:transparent;background:transparent;font-size:12px}
+.instrument-tasks button[aria-pressed=true]{background:#fff;border-color:#bdcce1;color:#174da6;box-shadow:0 1px 2px #23375216}
+.device .panel-heading{margin-bottom:15px}
+.device #task-description{margin:9px 0 12px}
+.device .boot-help{margin:10px 0 14px;padding-top:0;border:0}
+.device .boot-help summary{color:#174da6}
+.board-id-row{display:flex;align-items:center;gap:8px;margin-top:7px}
+#wifi-connection .board-id-row input{margin:0;flex:1;font-family:Menlo,Monaco,Consolas,monospace;user-select:text}
+.board-id-row button{flex:0 0 auto}
+#copy-id-status:empty{display:none}
+.device #player-connect{margin-top:10px}
+.device #connect-recovery{padding:10px 12px;border-radius:7px;background:#edf3ff}
+.device .upload-section h3,.firmware-uploader h3{margin:0 0 12px;font-size:14px}
+.device .firmware-uploader{margin-top:14px;padding-top:14px}
+.firmware-uploader #firmware-catalogue-status{white-space:pre-wrap;overflow-wrap:anywhere}
+.firmware-status:empty{display:none}
+.firmware-status{padding:10px 12px;border-radius:7px;background:#f1f5fa;color:#30445c}
+.firmware-action{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.firmware-uploader #install-player{margin-top:10px}
+@media(min-width:1101px){main{grid-template-columns:minmax(0,1fr) minmax(370px,410px)}}
+@media(max-width:360px){.instrument-tasks button{font-size:11px}}

@@ -123,6 +123,8 @@ def idf_python():
 
 
 class DeviceBridge:
+    CONNECTION_LABEL = 'USB device'
+
     def __init__(self, *, ports=None, opener=None, runner=None, clock=None,
                  sleep=None, private_root=None, python=None, verifier=None):
         # Injectable boundaries let portable tests use no serial dependency or
@@ -150,7 +152,7 @@ class DeviceBridge:
     @contextmanager
     def _exclusive(self):
         if not self._lock.acquire(blocking=False):
-            raise DeviceError('The USB device is busy; wait for the current operation')
+            raise DeviceError(f'The {self.CONNECTION_LABEL} is busy; wait for the current operation')
         try:
             if self._flashing.is_set():
                 raise DeviceError('An upload is in progress')
@@ -645,9 +647,11 @@ class DeviceBridge:
         role = package['role']
         role_id = 1 if role == 'main' else 2
         with self._exclusive():
+            log('Checking player connection for package upload')
             self._connect(self._select(port))
             if not self._player:
                 raise DeviceError('Install the stable player before loading a package')
+            log('Checking player status before package staging')
             before = self._player_status()
             if package['metadata'].get('midi_input_ports') and before.get('midi_input_version') != 1:
                 raise DeviceError('This MIDI-input package needs the updated MIDI player. Install it over USB first.')
@@ -662,15 +666,20 @@ class DeviceBridge:
             self._flashing.set()
             begun = False
             try:
+                log(f'Requesting staging for {len(raw)} package bytes')
                 reply, _ = self._exchange((f"player-begin {role_id} {len(raw)} {package['package_sha256']}",), 'upload')
                 if reply.get('upload') != 'ready' or reply.get('offset') != 0 or reply.get('chunk_bytes') != 1024:
                     raise DeviceError('The player rejected package staging')
                 begun = True
+                log(f'Transferring package · 0 / {len(raw)} bytes acknowledged')
                 for offset in range(0, len(raw), 1024):
                     chunk = raw[offset:offset+1024]
                     reply, _ = self._exchange((f"player-data {offset} {chunk.hex()}",), 'upload')
                     if reply.get('upload') != 'chunk' or type(reply.get('offset')) is not int or reply['offset'] != offset + len(chunk):
                         raise DeviceError('The player acknowledged an incorrect package offset')
+                    sent = offset + len(chunk)
+                    if sent % 16384 == 0 or sent == len(raw):
+                        log(f'Transferring package · {sent} / {len(raw)} bytes acknowledged')
                 log('Committing ' + role.upper() + ' package; audio pauses briefly')
                 reply, _ = self._exchange(('player-commit',), 'upload', timeout=60)
                 if (reply.get('upload') != 'committed' or reply.get('role') != role_id
@@ -692,7 +701,9 @@ class DeviceBridge:
                     if status.get('allocation_fault') or status.get('reconstruction_failed'):
                         raise DeviceError('The committed package reported a runtime fault')
                     for field in FAULT_COUNTERS:
-                        if type(status.get(field)) is not int or status[field] != before.get(field):
+                        value = status.get(field)
+                        if (type(value) is not int or value < 0
+                                or (field != 'render_deadline_overruns' and value != before.get(field))):
                             raise DeviceError('A runtime counter changed after package loading: ' + field)
                     if status['paused'] or status['volume'] != package['metadata']['initial_volume']:
                         raise DeviceError('The Main package did not confirm its startup controls')
@@ -703,6 +714,11 @@ class DeviceBridge:
                     self._sleep(.03)
                     result = self._snapshot()
                 log('Package committed and active; player firmware unchanged')
+                # This count belongs to the committed generation, regardless of
+                # how many deadlines the previous patch missed.
+                overruns = status['render_deadline_overruns']
+                if overruns:
+                    result['upload_warning'] = f'Audio render deadline misses observed after load: {overruns}.'
                 return result
             except Exception:
                 if begun and self._stream is not None:

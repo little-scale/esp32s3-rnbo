@@ -161,6 +161,27 @@ class SavedPackageTests(unittest.TestCase):
         self.assertEqual(studio.jobs,{})
         self.assertEqual(studio.bridge.calls,[])
 
+    def test_import_with_startup_volume_preserves_original_package_and_module(self):
+        raw=self.package({'custom':'drawing'})
+        original=s.player_package.parse(raw)
+        data={'name':'saved.rnbopkg','package_base64':base64.b64encode(raw).decode()}
+        studio=s.Studio(bridge=FakeBridge())
+        with tempfile.TemporaryDirectory() as temp,patch.object(s,'PRIVATE',Path(temp)):
+            job=studio.import_package(data)
+            for volume in (0,25,100):
+                copy=studio.import_package(dict(data,initial_volume=volume))
+                changed=studio.artifact(copy['id']).read_bytes()
+                parsed=s.player_package.parse(changed)
+                self.assertEqual(copy['result']['initial_volume'],volume)
+                self.assertEqual(parsed,dict(original,metadata=dict(original['metadata'],initial_volume=volume),
+                                             package_sha256=s.player_package.digest(changed)))
+                self.assertEqual(changed==raw,volume==25)
+            for volume in (-1,101,False,25.5,'25',None):
+                with self.assertRaisesRegex(ValueError,'Startup volume'):
+                    studio.import_package(dict(data,initial_volume=volume))
+            self.assertEqual(studio.artifact(job['id']).read_bytes(),raw)
+            self.assertEqual(len(studio.jobs),4)
+
     def test_import_exposes_only_bounded_visual_subset_and_ignores_invalid_layout(self):
         visual=dict(format='rnbo-s3-visual-v1',available=True,width=336,height=232,
             parameters=[{'name':'Cutoff','id':'private-looking-source-id'}],
@@ -267,7 +288,10 @@ class HTTPTests(unittest.TestCase):
     def test_max_upload_client_uses_real_http_handler_and_usb_wifi_package_paths(self):
         studio=self.server.studio
         identity='7'*32;digest='8'*64;calls=[]
-        def record(*args,**kwargs):calls.append((args,kwargs))
+        warning='Audio render deadline misses observed after load: 2.'
+        def record(*args,**kwargs):
+            calls.append((args,kwargs))
+            return {'upload_warning':warning}
         network=FakeBridge();network.upload_package=record
         def connect_wifi(data,**kwargs):
             self.assertEqual(data,{'id':'001122aabbcc','ip':None})
@@ -283,14 +307,17 @@ class HTTPTests(unittest.TestCase):
                         result={'kind':'package','package_sha256':digest},_build=Path('/fixture/patch.rnbopkg'),_settings={'board':'xiao'})
                     script="""const client=require(process.argv[1]);
                         const artifact=JSON.parse(process.argv[2]), selection=JSON.parse(process.argv[3]);
-                        client.uploadPackage(artifact,selection,artifact.port)
-                          .then(r=>console.log(r.job.state))
+                        client.uploadPackage(artifact,selection,artifact.port,undefined,
+                          (kind, stage)=>{if(kind==='progress')console.log(stage);})
+                          .then(r=>console.log(r.job.state, r.job.upload_warning))
                           .catch(e=>{console.error(e.message);process.exitCode=1;});"""
                     result=subprocess.run(['node','-e',script,str(client),
                         json.dumps(dict(id=identity,sha256=digest,port=self.server.server_port)),
                         json.dumps(dict(transport=transport))],capture_output=True,text=True,timeout=15)
                     self.assertEqual(result.returncode,0,result.stderr)
-                    self.assertEqual(result.stdout.strip(),'done')
+                    self.assertIn('Package active · '+warning,result.stdout.splitlines())
+                    self.assertEqual(result.stdout.splitlines()[-1],'done '+warning)
+                    self.assertIn('Warning: '+warning,studio.job(identity)['log'])
                     studio.job_thread.join(2)
                     self.assertEqual(calls[-1][0][:2],(Path('/fixture/patch.rnbopkg'),'test-port' if transport=='usb' else None))
                     self.assertEqual(calls[-1][1],{'expected_sha256':digest})

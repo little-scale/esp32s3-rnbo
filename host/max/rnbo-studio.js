@@ -91,17 +91,21 @@ function startBuild(selection) {
         current={id:id,target:target,phase:'preparing',drawing:JSON.stringify(drawing),sawActive:false,upload:selection};
         timeoutTask=new Task(function(){fail('Export timed out. Check the dump-outlet connection and Max Console.');},this);
         timeoutTask.schedule(120000);
-        outlet(0,'prepare',JSON.stringify({requestId:id,name:title,visual_patch:drawing,initial_volume:initialVolume,arena_bytes:arenaBytes,exposevoiceparams:!!Number(target.getattr('exposevoiceparams'))}));
+        outlet(0,'prepare',JSON.stringify({requestId:id,name:title,visual_patch:drawing,initial_volume:selection?.volume??initialVolume,arena_bytes:arenaBytes,exposevoiceparams:!!Number(target.getattr('exposevoiceparams'))}));
         status('preparing',title);
     }catch(error){fail(error.message||error);}
 }
 function bang() {startBuild.call(this,null);}
 function build() {bang.call(this);}
 function connection(args) {
-    if(args.length<1||args.length>2||['usb','wifi'].indexOf(args[0])<0)throw Error('Use usb or wifi, optionally followed by a USB port or paired Wi-Fi device ID');
-    var target=args.length===2?String(args[1]):'';
+    if(args.length<1||args.length>3||['usb','wifi'].indexOf(args[0])<0)throw Error('Use usb or wifi, followed by an optional target and startup volume');
+    var volumeOnly=args.length===2&&typeof args[1]==='number'&&
+        !(args[0]==='wifi'&&/^[0-9]{12}$/.test(String(args[1])));
+    var target=args.length>1&&!volumeOnly?String(args[1]):'';
+    var volume=volumeOnly?args[1]:args[2];
+    if(volume!==undefined&&(!Number.isInteger(volume)||volume<0||volume>100))throw Error('Startup volume must be a whole percentage from 0 to 100');
     if(target.length>256||/[\x00-\x1f\x7f]/.test(target)||args[0]==='wifi'&&target&&!/^[0-9a-f]{12}$/.test(target))throw Error('Invalid connection target');
-    return {transport:args[0],target:target};
+    return {transport:args[0],target:target,volume:volume};
 }
 function build_upload() {
     try {startBuild.call(this,connection(Array.prototype.slice.call(arguments)));}
@@ -115,7 +119,9 @@ function upload() {
         var id='upload_'+Date.now()+'_'+Math.floor(Math.random()*1000000000);
         current={id:id,phase:'uploading'};
         status('uploading',selection.transport);
-        outlet(0,'upload',id,selection.transport,selection.target);
+        var command=[0,'upload',id,selection.transport,selection.target];
+        if(selection.volume!==undefined)command.push(selection.volume);
+        outlet.apply(null,command);
     }catch(error){status('error',String(error.message||error));}
 }
 function node_ready() {

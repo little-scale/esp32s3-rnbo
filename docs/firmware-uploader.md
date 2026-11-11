@@ -1,8 +1,9 @@
 # Player firmware in RNBO ESP32 Studio
 
-Open [RNBO ESP32 Studio](http://127.0.0.1:8788/) and use **Player firmware** in
-the instrument panel. Firmware flashing uses USB and the ESP32-S3 ROM bootloader.
-It does not require the unit's previous firmware to answer RNBO commands.
+Open [RNBO ESP32 Studio](http://127.0.0.1:8788/) and choose a task at the top of the
+**Instrument** panel. Use **First install** for a new board or to replace other
+firmware, **Update player** for an existing RNBO player, or **Load & play** to load
+a patch package. Both firmware paths use the ESP32-S3 ROM bootloader over USB.
 
 ## Choose the current player
 
@@ -10,13 +11,13 @@ Use **Current player firmware** to choose the XIAO ESP32-S3 or Waveshare AMOLED
 1.8 V2 player directly. Both normal options include USB and Wi-Fi; the current
 AMOLED player also includes patch-area touchscreen parameter bindings. Selection
 prepares a checked bundle and displays its build date and firmware identity;
-press the separate **Update…** or **Erase & install…** button to flash it.
+press the separate **Update player firmware** or **Erase & install player** button to flash it.
 
 “Current” means the normal `player-v1` build matching the sources in this local
 checkout, rather than a downloaded GitHub release. **Refresh** rechecks the
 fixed two board builds. Missing, changed or stale builds appear as **build
-required**, with a reason; build locally below and refresh the list. Experimental
-USB-host firmware is not a default option. **Open another firmware ZIP** remains
+required**, with a reason. You can use **Build player from source** to build and
+flash in one step. Experimental USB-host firmware is not a default option. **Open firmware ZIP** remains
 available for supplied files.
 
 Listing and selection do not compile, connect to or flash a board. Selection
@@ -28,16 +29,16 @@ apply when you explicitly start installation.
 ## First install or a unit running another project
 
 1. Connect the XIAO ESP32-S3 or Waveshare AMOLED 1.8 V2 by USB.
-2. Select its USB device. You do **not** need to press **Connect USB** first.
-3. Choose **First install / replace other firmware**.
-4. Choose your board under **Current player firmware**, or use **Open another
-   firmware ZIP** to select a supplied full RNBO player ZIP. Alternatively expand **Build player firmware
-   on this computer**, select the board and use the local build tools.
-5. Check the acknowledgement that the selected unit's firmware and data will
-   be erased. Press **Erase & install…**, or **Build, erase & install player**.
-6. Leave the unit connected through the full backup, erase, writing, readback
+2. Choose **First install**, then select the USB device in step 1. The firmware
+   path is ready once USB detects the board, even if its existing firmware is blank or unrelated.
+3. In step 2, choose your board under **Current player firmware** or use
+   **Open firmware ZIP** to select a supplied full RNBO player ZIP.
+4. In step 3, confirm that the selected device will be erased and click
+   **Erase & install player**. For a local build instead, select the board under
+   **Build player from source**, confirm the erase, and click **Build, erase & install player**.
+5. Leave the unit connected through the full backup, erase, writing, readback
    and startup checks. The complete backup can take several minutes.
-7. Once the player is verified and running, load your `.rnbopkg` Main patch.
+6. Once the player is verified and running, choose **Load & play** to connect and load your `.rnbopkg` Main patch.
    Set up and pair Wi-Fi again if you want wireless package uploads.
 
 **First install erases all existing firmware and stored data**, including
@@ -53,14 +54,13 @@ For the AMOLED board, also see [Waveshare's flashing guide](https://docs.wavesha
 
 ## Updating an existing RNBO player
 
-Keep **Update RNBO player · keep saved data** selected. Open a firmware ZIP and
-press **Update…**, or use **Build & update player**. This mode requires the
+Choose **Update player**, select your USB device and firmware, then click
+**Update player firmware** or use **Build & update player**. This mode requires the
 existing RNBO partition table to match. It backs up and writes only the factory
 application; bootloader, layout, saved Main and Wi-Fi storage stay in place.
 Use first install when switching from a different partition layout.
 
-Patch package loading above this section remains separate. Firmware installation
-does not compile or automatically load the export selected in the source panel.
+Use **Load & play** to load a patch package after firmware installation.
 
 ## Making a portable firmware ZIP
 

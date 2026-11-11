@@ -212,9 +212,11 @@ class AuthenticatedSocketStream:
         self._seq = 0
         self.closed = False
         self._socket = None
+        phase = f'opening the connection to {ip}:{PORT}'
         try:
             factory = socket_factory or socket.create_connection
             self._socket = factory((ip, PORT), timeout=3)
+            phase = f'waiting for the RNBO greeting from {ip}:{PORT}'
             hello = _json(self._line(self._clock() + 3))
             if (type(hello) is not dict or set(hello) != {'protocol', 'nonce', 'device_id'}
                     or hello['protocol'] != 'rnbo-wifi-v1'
@@ -226,6 +228,7 @@ class AuthenticatedSocketStream:
             if type(self._client_nonce) is not str or not HEX64.fullmatch(self._client_nonce):
                 raise DeviceError('Cannot create a fresh network challenge')
             self._context = self._nonce + ' ' + self._client_nonce
+            phase = 'waiting for the paired player to confirm authentication'
             self._send(dict(client_nonce=self._client_nonce, auth=self._mac('AUTH ' + self._context)), 3)
             acknowledgement = _json(self._line(self._clock() + 3))
             if (type(acknowledgement) is not dict or set(acknowledgement) != {'authenticated'}
@@ -233,14 +236,18 @@ class AuthenticatedSocketStream:
                 raise DeviceError('The network device did not accept authentication')
         except Exception as error:
             self.close()
-            self._raise(error)
+            self._raise(error, phase)
 
     def _mac(self, message):
         return hmac.new(self._key, ('RNBO-WIFI1 ' + message).encode('utf-8'), hashlib.sha256).hexdigest()
 
     @staticmethod
-    def _raise(error):
+    def _raise(error, phase=None, request=None):
         if isinstance(error, (socket.timeout, TimeoutError, ProtocolTimeout)):
+            if phase:
+                raise ProtocolTimeout(f'The Wi-Fi connection timed out while {phase}') from None
+            if request:
+                raise ProtocolTimeout(f'The Wi-Fi request timed out waiting for {request}; its command was not retried') from None
             raise ProtocolTimeout('The Wi-Fi request timed out; its command was not retried') from None
         if isinstance(error, DeviceError):
             raise error from None
@@ -273,6 +280,7 @@ class AuthenticatedSocketStream:
             separators=(',', ':')).encode('utf-8') + b'\n')
 
     def write(self, payload):
+        request = 'a player reply'
         try:
             if (self.closed or type(payload) is not bytes or len(payload) > MAX_WIRE
                     or not payload.endswith(b'\n')):
@@ -285,6 +293,14 @@ class AuthenticatedSocketStream:
                 if self._seq >= 0xffffffff:
                     raise DeviceError('Reconnect before the network sequence is exhausted')
                 command = raw.decode('ascii')
+                parts = command.split(' ', 2)
+                name = parts[0]
+                request = name if name in ('player-info','player-begin','player-data','player-commit',
+                    'player-abort','player-pause','player-resume','player-param','player-volume') else 'a player reply'
+                if name == 'player-data' and len(parts) > 1:
+                    offset = parts[1]
+                    if len(offset) <= 10 and offset.isdecimal():
+                        request += ' at byte offset ' + offset
                 sequence = self._seq + 1
                 timeout = 60 if command == 'player-commit' else 3
                 deadline = self._clock() + timeout
@@ -313,7 +329,7 @@ class AuthenticatedSocketStream:
             return len(payload)
         except Exception as error:
             self.close()
-            self._raise(error)
+            self._raise(error, request=request)
 
     @property
     def in_waiting(self):
@@ -337,6 +353,8 @@ class AuthenticatedSocketStream:
 
 
 class NetworkBridge(DeviceBridge):
+    CONNECTION_LABEL = 'Wi-Fi player'
+
     def __init__(self, paired_record, *, socket_factory=None, clock=None, sleep=None, nonce_factory=None):
         super().__init__(ports=lambda: [], clock=clock, sleep=sleep)
         self._record = _record(paired_record)
@@ -352,9 +370,12 @@ class NetworkBridge(DeviceBridge):
         return dict(port=validate_ip(self._ip), serial_number=self._record['id'])
 
     def _connect(self, identity, *, board=None, firmware=None, boot=None, events=None):
-        self._disconnect()
-        record = dict(self._record, ip=validate_ip(identity['port']))
         try:
+            if (self._stream is not None and not self._stream.closed and self._identity == identity
+                    and (board is None or board == self._board) and (firmware is None or firmware == self._firmware)):
+                return self._snapshot()
+            self._disconnect()
+            record = dict(self._record, ip=validate_ip(identity['port']))
             self._stream = AuthenticatedSocketStream(record, socket_factory=self._socket_factory,
                 clock=self._clock, nonce_factory=self._nonce_factory)
             self._identity = dict(port=record['ip'], serial_number=record['id'])
@@ -363,6 +384,11 @@ class NetworkBridge(DeviceBridge):
         except Exception:
             self._disconnect()
             raise
+
+    def matches_pairing(self, record, address):
+        checked = _record(record)
+        return (self._record['id'] == checked['id'] and self._ip == validate_ip(address)
+                and hmac.compare_digest(self._record['keyhex'], checked['keyhex']))
 
     def _exchange(self, *args, **kwargs):
         try:

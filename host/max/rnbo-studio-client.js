@@ -102,15 +102,16 @@ async function submit(context,port=8788,call=request) {
   return {job,url:`http://127.0.0.1:${port}/?job=${job.id}`};
 }
 
-function uploadSettings(transport, target='') {
+function uploadSettings(transport, target='', volume) {
   if(!['usb','wifi'].includes(transport))throw Error('Use upload usb or upload wifi (optionally followed by a port or paired device ID)');
   if(typeof target!=='string'||target.length>256||/[\x00-\x1f\x7f]/.test(target))throw Error('Invalid upload target');
   if(transport==='wifi'&&target&&!/^[0-9a-f]{12}$/.test(target))throw Error('Wi-Fi target must be a paired 12-character device ID');
-  return {transport,target};
+  if(volume!==undefined&&(!Number.isInteger(volume)||volume<0||volume>100))throw Error('Startup volume must be a whole percentage from 0 to 100');
+  return {transport,target,volume};
 }
 
 async function uploadPackage(artifact,selection,port=8788,call=request,progress=()=>{},pause=ms=>new Promise(r=>setTimeout(r,ms))) {
-  const {transport,target}=uploadSettings(selection.transport,selection.target);
+  const {transport,target,volume}=uploadSettings(selection.transport,selection.target,selection.volume);
   if(!artifact||artifact.port!==port)throw Error('Build a package with this helper and Studio port before uploading');
   const checkedJob=response=>{
     const job=response?.job;
@@ -135,6 +136,18 @@ async function uploadPackage(artifact,selection,port=8788,call=request,progress=
   progress('target',transport,chosen);
   const status=await call(port,'/api/status');
   if(typeof status.csrf!=='string'||!status.csrf)throw Error('Studio did not provide a session token');
+  if(volume!==undefined) {
+    const raw=await call(port,'/api/artifact?id='+artifact.id,undefined,undefined,true);
+    if(crypto.createHash('sha256').update(raw).digest('hex')!==artifact.sha256)
+      throw Error('Package identity differs from the completed build');
+    const {job:copy}=await call(port,'/api/import-package',{name:'patch.rnbopkg',
+      package_base64:raw.toString('base64'),initial_volume:volume},status.csrf);
+    if(!copy||!/^[0-9a-f]{32}$/.test(copy.id)||copy.state!=='ready'||copy.result?.kind!=='package'
+        ||copy.result.initial_volume!==volume||copy.result.elf_sha256!==before.result.elf_sha256
+        ||!/^[0-9a-f]{64}$/.test(copy.result.package_sha256))
+      throw Error('Studio did not confirm the requested startup volume. Start the updated Studio and build again.');
+    artifact={id:copy.id,sha256:copy.result.package_sha256,port};
+  }
   const body={id:artifact.id,transport,...(transport==='usb'?{port:chosen}:{device_id:chosen})};
   // One explicit request, never automatically retried after a timeout or lost reply.
   let job=checkedJob(await call(port,'/api/upload',body,status.csrf));
@@ -192,11 +205,11 @@ function attach(max, dependencies={}) {
     }catch(error){fail(id,error);}
     finally{building=false;}
   });
-  max.addHandler('upload',async(id,transport,target='')=>{
+  max.addHandler('upload',async(id,transport,target='',volume)=>{
     if(context||building||uploading){send('upload_error',id,'Wait for the current export/build/upload');return;}
     uploading=true;
     try {
-      const result=await uploadPackage(lastBuild,uploadSettings(transport,target),port,call,
+      const result=await uploadPackage(lastBuild,{transport,target,volume},port,call,
         (kind,...args)=>send(kind==='target'?'upload_target':'upload_progress',id,...args),dependencies.pause);
       send('upload_done',id,result.job.id,result.transport,result.target);
     }catch(error){send('upload_error',id,String(error.message||error));}

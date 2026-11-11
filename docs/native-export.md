@@ -81,7 +81,9 @@ both to Studio. The RNBO patch stays embedded; no standalone `.rnbopat` is neede
 and unsaved edits can be included. `build` compiles only; `upload usb` /
 `upload wifi` loads the completed package. `build_upload usb` / `build_upload wifi`
 exports, compiles and then loads on success. An optional port or paired device ID
-selects a specific board. Wi-Fi pairing is still set up in Studio first.
+selects a specific board. An optional trailing percentage sets the package's
+startup master volume, for example `build_upload usb 25` or
+`upload wifi 001122aabbcc 25`. Wi-Fi pairing is still set up in Studio first.
 
 The helper is placed in the surrounding Max patch, alongside `rnbo~`. It uses
 Cycling ’74’s documented export message and export-status reporting, plus Max

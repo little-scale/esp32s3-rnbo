@@ -66,8 +66,14 @@ Send these messages to the helper's inlet:
 | `upload wifi 001122aabbcc` | Load through that specific paired board ID. |
 | `build_upload usb` | Export and compile, then load by USB if the build succeeds. |
 | `build_upload wifi` | Export and compile, then load by paired Wi-Fi if the build succeeds. |
+| `build_upload usb 25` | Build and load with a 25% startup master volume. |
+| `upload wifi 001122aabbcc 25` | Load the last build on the selected board with a 25% startup master volume. |
 
-`build_upload` also accepts the same optional port/device-ID argument. The
+`upload` and `build_upload` accept an optional port or device ID followed by an
+optional whole-number volume from 0 to 100. With a single eligible board, the
+volume can follow the transport directly. The board uses the saved package's
+startup volume on load and reboot. `upload` with a volume saves a copy with the
+new level and leaves the original build available for later uploads. The
 example includes clickable message boxes, and the helper panel has USB/Wi-Fi
 upload buttons. The messages belong in the surrounding Max patch.
 

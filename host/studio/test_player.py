@@ -16,6 +16,7 @@ class Player:
         self.board='XIAO ESP32-S3';self.touchscreen_version=None
         self.paused=True;self.volume=50;self.main=None;self.commands=[];self.data=bytearray()
         self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False;self.physical_version=None;self.midi_version=None
+        self.previous_overruns=0;self.loaded_overruns=0
     def response(self, command):
         self.commands.append(command)
         if command=='player-info':
@@ -24,7 +25,8 @@ class Player:
                 rate=44100,block_frames=256,generation=self.generation,paused=self.paused,panic=self.paused or self.main is None,
                 maintenance=False,volume=self.volume,main=self.main,frames=self.frames,uptime_us=self.uptime,
                 allocation_fault=False,reconstruction_failed=False,**{key:0 for key in d.FAULT_COUNTERS})
-            if self.runtime_fault:reply['module_errors']=1
+            if self.runtime_fault and self.generation:reply['module_errors']=1
+            reply['render_deadline_overruns']=self.loaded_overruns if self.generation else self.previous_overruns
             if self.physical_version is not None:reply['physical_inputs_version']=self.physical_version
             if self.midi_version is not None:reply['midi_input_version']=self.midi_version
             if self.touchscreen_version is not None:reply['touchscreen_inputs_version']=self.touchscreen_version
@@ -128,6 +130,23 @@ class PlayerTests(unittest.TestCase):
         self.path.write_bytes(b'changed');before=len(self.player.commands)
         with self.assertRaisesRegex(d.DeviceError,'changed'):self.upload()
         self.assertEqual(len(self.player.commands),before)
+
+    def test_deadline_misses_warn_only_for_the_loaded_generation(self):
+        self.player.previous_overruns=2
+        self.player.loaded_overruns=2
+        result=self.upload()
+        self.assertEqual(result['device']['generation'],1)
+        self.assertIn('deadline misses observed after load: 2',result['upload_warning'])
+
+    def test_previous_deadline_misses_do_not_warn_for_healthy_new_package(self):
+        self.player.previous_overruns=2
+        self.assertNotIn('upload_warning',self.upload())
+
+    def test_deadline_warning_does_not_mask_other_runtime_faults(self):
+        self.player.loaded_overruns=2
+        self.player.runtime_fault=True
+        with self.assertRaisesRegex(d.DeviceError,'module_errors'):self.upload()
+
     def test_player_install_accepts_healthy_empty_player_with_silent_frame_progress(self):
         fixture=legacy.FlashTests();fixture.setUp()
         try:
