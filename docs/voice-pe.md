@@ -1,8 +1,11 @@
 # RNBO on Home Assistant Voice Preview Edition
 
-16 November 2026. **Implemented and checked on the computer; no RNBO Voice PE
-firmware has been flashed or heard yet.** The first hardware session remains a
-qualification session, not confirmation that this port already works electrically.
+16 November 2026. **Native 16 kHz has passed its first playback checks on a
+Voice PE.** The built-in speaker's 440 Hz sine was confirmed clean at 30% master
+volume. Native 48 kHz and the remaining hardware gates are still unqualified.
+See the [first-session record](../evidence/voice-pe-hardware-16000.json);
+the [software readiness receipt](../evidence/voice-pe-readiness.json) remains the
+historical computer-only checkpoint before that session.
 
 ## Profiles and what is ready
 
@@ -34,6 +37,10 @@ New Studio Voice PE builds default to **0% master volume**. Select Resume and a
 small master setting explicitly for commissioning. Volume is not independently
 persisted: the saved package's initial volume is restored at boot, then playback
 stays paused. The microphone switch is an input, not a speaker-mute command.
+The saved-Main startup guard requires live callbacks after deliberate Resume;
+Wi-Fi radio startup is deferred until that guard clears. A freshly restarted
+paused Voice PE therefore currently needs USB Resume before Wi-Fi can start.
+Wireless recovery/startup behaviour remains a follow-up qualification item.
 
 Replacement renders a 5 ms outgoing fade, sends zeros past the six 128-frame
 DMA buffers plus a FIFO margin, then parks the audio owner before destruction or
@@ -45,7 +52,7 @@ computer; audible replacement and physical DMA drain still need hardware checks.
 WS/BCLK, cached actual codec divider readbacks and startup stage, render/peak CPU percentage, conversion time, largest
 free internal/PSRAM blocks, stack high-water marks and physical-control state.
 The render figure excludes blocking I²S wait; wire-conversion time is reported
-separately. No new CPU saving has been measured on Voice PE hardware.
+separately. No comparative CPU saving has been measured on Voice PE hardware.
 
 ## Physical controls as parameters
 
@@ -202,5 +209,6 @@ Use the kits under `build/dist/voice-pe-*` and the
 
 Record device/firmware/module/package/export/XMOS identities, measured clocks,
 codec readbacks, observation duration and user listening result separately.
-The two-rate software build is ready for these checks; none of this checklist
-has been recorded as a Voice PE RNBO hardware pass yet.
+The two-rate software build is ready for these checks. The first-session record
+identifies the individual native-16 checks completed so far; it is not a blanket
+pass for this checklist or for native 48 kHz.

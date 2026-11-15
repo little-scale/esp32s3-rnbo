@@ -35,8 +35,9 @@ All effects belong inside Main.
 
 **Voice PE port:** explicit native 48 kHz / 256 and native 16 kHz / 256 profiles,
 XMOS-clocked codec/audio backend, semantic controls and a protected installer
-are now implemented for computer-side qualification. Hardware validation remains
-pending. Read the [Voice PE guide](docs/voice-pe.md) before installing; its layout
+are implemented. Initial native-16 speaker, controls, digital capture, idle CPU
+and saved-patch restore checks pass; native-48 and broader hardware qualification
+remain pending. Read the [Voice PE guide](docs/voice-pe.md) before installing; its layout
 and XMOS requirements differ from XIAO/AMOLED.
 
 AMOLED instruments can bind patch-area X/Y and pressed state directly to RNBO

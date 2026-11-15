@@ -1,5 +1,18 @@
 # Implementation status — native export migration
 
+**16 November 2026 — first Voice PE native-16 hardware session:** Protected
+application installation and backup/readback passed without changing XMOS,
+bootloader, partition table, storage or NVS. The built-in speaker's 440 Hz sine
+is user-confirmed clean at 30%; post-volume capture verifies silence at 0% and
+Pause, and approximately 440 Hz at 30%. Button/dial/ring and microphone-switch
+behaviour are user-confirmed. A 119.94-second idle controls/delay run with USB
+polling measured 5.99% mean / 8.26% peak render load, no reported fault counters
+and no observed heap loss. Host and device reject a 48 kHz package without
+replacing the active/saved native-16 patch. Normal reset restores that patch
+paused at 0%; deliberate Resume succeeds. This is initial native-16 evidence,
+not full qualification or a native-48 pass. See the
+[hardware receipt](../evidence/voice-pe-hardware-16000.json).
+
 **16 November 2026 — Voice PE hardware-test preparation:** Two explicit native
 profiles now propagate through Max export settings, host preparation/rendering,
 Xtensa modules, package headers, player admission and rate-correct telemetry.
