@@ -25,6 +25,10 @@ class VoicePortableTests(unittest.TestCase):
         self.assertIn('16000 Hz, 0 dB',result);self.assertIn('48000 Hz, 0 dB',result)
         self.assertIn('140 initialization I/O failure positions',result)
 
+    def test_led_message_protocol_preserves_other_leds_and_rejects_atomically(self):
+        result=self.compile_run([ROOT/'tests/voice_pe/led_protocol_test.c'],[ROOT/'module-sdk/include'],['-lm'])
+        self.assertIn('RGB3, indexed RGB4, full RGB36',result)
+
     def test_packing_ring_mapping_and_sample_wise_transition_endpoints(self):
         result=self.compile_run([ROOT/'tests/voice_pe/format_transition_test.c',PORT/'voice_pe_format.c',PORT/'voice_pe_controls.c'],
                                 [ROOT/'firmware/components/pcm_output/include'],['-lm'])
@@ -58,6 +62,14 @@ class VoicePortableTests(unittest.TestCase):
                       'voice_pe_inputs':{'version':1,'board':'voice-pe','bindings':[{'input':'dial','parameter_id':'freq'}]}}
                 instance.run_native('parse',instance.fixture(store.package(meta,rate=target,version=4)),'yes')
                 instance.run_native('parse',instance.fixture(store.package(meta,rate=target,version=1)),'no')
+                led={'version':1,'board':'voice-pe','port':'led_rgb'}
+                for with_inputs in (False,True):
+                    value=dict(meta,voice_pe_leds=led)
+                    if not with_inputs:value.pop('voice_pe_inputs')
+                    instance.run_native('parse',instance.fixture(store.package(value,rate=target,version=5)),'yes')
+                    instance.run_native('parse',instance.fixture(store.package(value,rate=target,version=4)),'no')
+                    value['voice_pe_leds']=dict(led,port='wrong')
+                    instance.run_native('parse',instance.fixture(store.package(value,rate=target,version=5)),'no')
                 meta['audio_profile']='voice-pe-48000-256-v1' if target==16000 else 'voice-pe-16000-256-v1'
                 instance.run_native('parse',instance.fixture(store.package(meta,rate=target,version=4)),'no')
             finally:kind.doClassCleanups()

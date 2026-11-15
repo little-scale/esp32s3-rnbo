@@ -49,7 +49,10 @@ builds remain loadable if their ABI and admission checks still pass.
 
 The adapter supports numeric parameters (Studio/player maximum 32), one MIDI
 input port and stereo Main output. External data/files, signal parameters,
-arbitrary message ports and MIDI transmission are not implemented. Exporting
+arbitrary message ports and MIDI transmission are not implemented.
+Voice PE has one explicit message-output extension: [outport led_rgb](voice-pe-leds.md)
+accepts RGB3, indexed RGB4 and full RGB36 lists through envelope v5. Other message
+ports remain unsupported. Exporting
 successfully in Max does not prove support for those services. Low-level FX
 modules remain useful for qualification but are not a separate player patch slot.
 MIDI output rejects by default; the low-level preparer has an explicit discard

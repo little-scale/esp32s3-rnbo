@@ -209,7 +209,6 @@ void board_audio_add_status(cJSON *parent)
     cJSON_AddNumberToObject(o,"expected_ws_hz",RNBO_S3_SAMPLE_RATE);
     cJSON_AddNumberToObject(o,"measured_ws_hz",startup_ws_hz);
     cJSON_AddNumberToObject(o,"measured_bclk_hz",startup_bclk_hz);
-    cJSON_AddNumberToObject(parent,"led_output_version",0);
 
     cJSON_AddNumberToObject(parent,"audio_conversion_us",processing_us);
     cJSON *c=cJSON_AddObjectToObject(parent,"codec_startup_readback");

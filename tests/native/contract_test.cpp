@@ -38,7 +38,7 @@ void operator delete[](void *p,std::size_t,std::align_val_t) noexcept {::operato
 
 int main() {
     const rnbo_s3_module *m=rnbo_s3_static_module();
-    assert(m->struct_bytes>=sizeof(*m) && m->abi_major==1 && m->block_frames==256);
+    assert(m->struct_bytes>=RNBO_S3_MODULE_BASE_BYTES && m->abi_major==1 && m->block_frames==256);
     assert(m->sample_rate==44100 && m->audio_outputs==2);
     assert(m->flags&RNBO_S3_SINGLE_INSTANCE);
     rnbo_s3_create_options options{sizeof(options),1024*1024,1,12345};

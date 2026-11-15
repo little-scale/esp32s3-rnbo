@@ -17,7 +17,8 @@ enum {GOOD, BAD_ELF, IMPORT, NO_SYMBOLS, RELOCATE_FAIL, BAD_ENTRY, BAD_PSRAM,
       BAD_BOUNDS, BAD_CONSTRUCTORS, DESCRIBE_FAIL, DESCRIBE_CHANGED, BIND_FAIL,
       STATE_OOM, CREATE_FAIL, CREATE_BAD_POINTER, PREPARE_FAIL, PARAM_LIMIT,
       PARAM_STRING, PARAM_DUPLICATE, PARAM_READBACK, STATS_FAIL, BAD_SAMPLES,
-      LATE_ALLOCATIONS, BAD_POSITION, BAD_ARENA, COPY_OOM};
+      LATE_ALLOCATIONS, BAD_POSITION, BAD_ARENA, COPY_OOM,
+      LEGACY_BASE, LED_GOOD, LED_BAD_CALLBACK, LED_SHORT, LED_MINOR_ZERO};
 static int mode, requests, creates, prepares, destroys, deinits, allocations, frees, active;
 static void *bound;
 static volatile uint32_t *observer;
@@ -73,6 +74,7 @@ static int process(void *p,const float *const *i,float *const *o,uint32_t n,uint
 {(void)p;(void)i;(void)o;(void)n;(void)t;return RNBO_S3_OK;}
 static int event(void *p,const rnbo_s3_event *e) {(void)p;(void)e;return RNBO_S3_OK;}
 static int panic_callback(void *p) {(void)p;return RNBO_S3_OK;}
+static int led_callback(void *p,rnbo_s3_led_frame *out){(void)p;(void)out;return RNBO_S3_OK;}
 static uint32_t parameter_count(void *p) {(void)p;return mode==PARAM_LIMIT?33:mode==PARAM_DUPLICATE?2:1;}
 static int parameter_info(void *p,uint32_t i,rnbo_s3_parameter_info *out)
 {
@@ -113,6 +115,13 @@ static int entry(int argc,char **argv)
         .parameter_count=parameter_count,.parameter_info=parameter_info,.parameter_value=parameter_value,
         .parameter_convert=parameter_convert,.statistics=statistics,.destroy=destroy};
     if(mode==BAD_CALLBACK)descriptor.process=(void *)1;
+    if(mode==LEGACY_BASE)descriptor.struct_bytes=RNBO_S3_MODULE_BASE_BYTES;
+    if(mode>=LED_GOOD){
+        descriptor.flags|=RNBO_S3_LED_OUTPUT;descriptor.abi_minor=1;descriptor.led_snapshot=led_callback;
+        if(mode==LED_BAD_CALLBACK)descriptor.led_snapshot=(void *)1;
+        if(mode==LED_SHORT)descriptor.struct_bytes=RNBO_S3_MODULE_BASE_BYTES;
+        if(mode==LED_MINOR_ZERO)descriptor.abi_minor=0;
+    }
     if(mode==BAD_DESCRIPTOR)descriptor.block_frames=64;
     if(mode==BAD_ROLE)descriptor.role=RNBO_S3_FX;
     if(mode==BAD_FLAGS)descriptor.flags|=0x100;
@@ -138,7 +147,7 @@ int esp_elf_relocate(esp_elf_t *e,const uint8_t *p,size_t bytes)
     uintptr_t functions[]={(uintptr_t)entry,(uintptr_t)create,(uintptr_t)prepare,(uintptr_t)process,
         (uintptr_t)event,(uintptr_t)panic_callback,(uintptr_t)parameter_count,(uintptr_t)parameter_info,
         (uintptr_t)parameter_value,(uintptr_t)parameter_convert,(uintptr_t)statistics,(uintptr_t)destroy,
-        (uintptr_t)dynamic_statistics,(uintptr_t)constructor,(uintptr_t)finalizer};
+        (uintptr_t)dynamic_statistics,(uintptr_t)constructor,(uintptr_t)finalizer,(uintptr_t)led_callback};
     for(unsigned i=0;i<sizeof functions/sizeof *functions;++i){if(functions[i]<low)low=functions[i];if(functions[i]>high)high=functions[i];}
     e->sec[ELF_SEC_TEXT]=(esp_elf_sec_t){low,(uint32_t)(high-low+128)};
     e->sec[ELF_SEC_DATA]=(esp_elf_sec_t){(uintptr_t)&descriptor,sizeof descriptor};
@@ -193,6 +202,12 @@ int main(void)
     assert(player_image_load(&a,NULL,0,RNBO_S3_MAIN,4096,NULL,0)==ESP_ERR_INVALID_ARG);
     assert(player_image_statistics(&a,error,sizeof error)==ESP_ERR_INVALID_STATE);
     player_image_unload(NULL);
+    for(int selected=LEGACY_BASE;selected<=LED_MINOR_ZERO;++selected){
+        reset(selected);a=(player_image){0};
+        esp_err_t result=player_image_load(&a,payload,sizeof payload,RNBO_S3_MAIN,4096,error,sizeof error);
+        assert((result==ESP_OK)==(selected==LEGACY_BASE||selected==LED_GOOD));
+        player_image_unload(&a);assert(allocations==frees&&!active);
+    }
     puts("player loader: success, partial failures, cleanup order and Main-only admission PASS");
     return 0;
 }

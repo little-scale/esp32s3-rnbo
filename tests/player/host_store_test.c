@@ -17,6 +17,11 @@ static unsigned mounts, formats, scan_bytes, fsyncs;
 static bool mount_failure;
 static size_t dirty_offset = (size_t)-1, read_failure_offset = (size_t)-1;
 static unsigned commit_failures, fsync_failures;
+static unsigned gc_failures,gc_calls;
+esp_err_t esp_spiffs_gc(const char *label,size_t requested){
+    assert(!strcmp(label,"storage")&&requested>8192);++gc_calls;
+    if(gc_failures){--gc_failures;return ESP_FAIL;}return ESP_OK;
+}
 static uint8_t committed[72], pending[72];
 static bool has_committed, has_pending, pending_erase;
 
@@ -138,6 +143,10 @@ int main(int argc, char **argv) {
         expect_read(false, a, na);
         assert(!player_store_read(1, true, &none, &no_length, error, sizeof(error)));
         if (strcmp(argv[1], "failures") == 0) {
+            unsigned before_gc=gc_calls;gc_failures=1;
+            assert(!player_store_stage(1,b,nb,&slot,error,sizeof error));
+            assert(gc_calls==before_gc+1&&strstr(error,"reserve"));
+            expect_read(false,a,na); // GC exhaustion cannot switch the active selector.
             fsync_failures = 1;
             assert(!player_store_stage(1, b, nb, &slot, error, sizeof(error)));
             expect_read(false, a, na);

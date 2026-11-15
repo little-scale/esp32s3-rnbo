@@ -19,8 +19,8 @@ static int64_t next_refresh,last_update;
 static bool powered,failed;
 static uint8_t previous[36];
 static rmt_symbol_word_t symbols[36*8+1];
-/* Single producer (audio), single consumer (controls). Atomic cells plus an
- * even sequence prevent torn frames without locks or waiting on the audio task. */
+/* The control owner publishes and refreshes hardware. Audio never calls RMT. */
+bool voice_pe_led_healthy(void){return channel&&!failed;}
 void voice_pe_led_frame(const float rgb[36])
 {
     unsigned seq=atomic_load_explicit(&sequence,memory_order_relaxed);

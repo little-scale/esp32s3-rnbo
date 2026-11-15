@@ -86,9 +86,9 @@ def inventory(directory: Path):
 
 
 def sources():
-    paths=[ROOT/"module-sdk/include/rnbo_s3_module.h",ROOT/"module-sdk/include/rnbo_s3_midi.h",ROOT/"module-sdk/include/rnbo_s3_dynamic.h",
+    paths=[ROOT/"module-sdk/include/rnbo_s3_module.h",ROOT/"module-sdk/include/rnbo_s3_midi.h",ROOT/"module-sdk/include/rnbo_s3_led.h",ROOT/"module-sdk/include/rnbo_s3_led_engine.hpp",ROOT/"module-sdk/include/rnbo_s3_dynamic.h",
            ROOT/"host/compiler/build_module.py",ROOT/"host/compiler/build.py",
-           ROOT/"host/compiler/prepare.py",ROOT/"host/profiles.py",ROOT/"host/compiler/voice_pe_inputs.py",ROOT/"host/compiler/inspect_module.py",ROOT/"host/compiler/physical_inputs.py", ROOT/"host/compiler/touchscreen_inputs.py",ROOT/"host/compiler/float32_trial.py",
+           ROOT/"host/compiler/prepare.py",ROOT/"host/profiles.py",ROOT/"host/compiler/voice_pe_inputs.py",ROOT/"host/compiler/voice_pe_leds.py",ROOT/"host/compiler/inspect_module.py",ROOT/"host/compiler/physical_inputs.py", ROOT/"host/compiler/touchscreen_inputs.py",ROOT/"host/compiler/float32_trial.py",
            ROOT/"loader-spike/dependencies.json"]
     for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h"):
         helper=ROOT/"host/compiler"/name
@@ -160,7 +160,7 @@ def build_module(export: Path,build_dir: Path,idf: Path,dependencies: Path,*,max
             "raw_artifact":{"path":str(raw_artifact),"bytes":len(raw_data),"sha256":hashlib.sha256(raw_data).hexdigest()},
             "elf_compatibility_normalization":normalization,
             "prepared_export":{"manifest":manifest,"provenance":provenance},"prepared_snapshot":prepared_snapshot,
-            "dynamic_abi":{"major":1,"minor":0,"entry":"app_main argc1 request pointer in argv[0]","explicit_result":True},
+            "dynamic_abi":{"major":1,"minor":1 if manifest.get("voice_pe_leds") else 0,"entry":"app_main argc1 request pointer in argv[0]","explicit_result":True},
             "sample_rate":manifest['sample_rate'],"block_frames":256,"role":manifest["role"],
             "state_policy":{"caller_owned":True,"alignment":16,"minimum_arena_bytes":4096,"maximum_arena_bytes":max_arena_bytes,
                             "context_bytes":"reported by allocation-free DESCRIBE","minimum_arena_is_structural_not_measured":True},

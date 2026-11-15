@@ -19,6 +19,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from host.profiles import for_audio, checked as checked_profile
 from host.compiler.voice_pe_inputs import checked_plan as checked_voice_pe_plan
+from host.compiler.voice_pe_leds import checked_plan as checked_led_plan
 
 try:
     from .inspect_module import inspect_module
@@ -71,6 +72,10 @@ def metadata_checked(value):
         checked_voice_pe_plan(value['voice_pe_inputs'])
         if 'physical_inputs' in value or 'touchscreen_inputs' in value:
             raise ValueError('Voice PE and legacy control plans cannot share a package')
+    if 'voice_pe_leds' in value:
+        checked_led_plan(value['voice_pe_leds'])
+        if 'physical_inputs' in value or 'touchscreen_inputs' in value:
+            raise ValueError('Voice PE LEDs cannot share legacy board controls')
     if 'midi_input_ports' in value and (type(value['midi_input_ports']) is not int or value['midi_input_ports']!=1):
         raise ValueError('MIDI input packages must declare exactly one port')
     return value
@@ -106,8 +111,8 @@ def create(elf, metadata, role, arena_bytes, *, sample_rate=44100, block_frames=
     raw = json.dumps(metadata, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
     if len(raw) > MAX_METADATA or len(elf) > MAX_ELF:
         raise ValueError('Package payload exceeds the v1 limits')
-    version = 4 if 'voice_pe_inputs' in metadata else 3 if 'touchscreen_inputs' in metadata else 2 if 'physical_inputs' in metadata else 1
-    if version==4 and sample_rate==44100:
+    version = 5 if 'voice_pe_leds' in metadata else 4 if 'voice_pe_inputs' in metadata else 3 if 'touchscreen_inputs' in metadata else 2 if 'physical_inputs' in metadata else 1
+    if version in (4,5) and sample_rate==44100:
         raise ValueError('Voice PE control packages require a native Voice PE profile')
     if metadata.get('audio_profile',profile['id']) != profile['id']:
         raise ValueError('Package metadata and audio profile disagree')
@@ -119,7 +124,7 @@ def parse(raw):
     if not isinstance(raw, bytes) or len(raw) < 128:
         raise ValueError('Truncated package')
     magic, header, version, abi, role, rate, frames, arena, meta_len, elf_len, elf_hash, meta_hash, padding = HEADER.unpack_from(raw)
-    if (magic != MAGIC or (header, abi) != (128, 1) or version not in (1, 2, 3, 4)
+    if (magic != MAGIC or (header, abi) != (128, 1) or version not in (1, 2, 3, 4, 5)
             or role not in ROLES.values() or not 4096 <= arena <= 4194304 or padding != bytes(20)
             or not 0 < meta_len <= MAX_METADATA or not 0 < elf_len <= MAX_ELF
             or len(raw) != 128 + meta_len + elf_len):
@@ -133,9 +138,9 @@ def parse(raw):
         raise ValueError('Package metadata and header audio profile disagree')
     if rate!=44100 and ('physical_inputs' in metadata or 'touchscreen_inputs' in metadata):
         raise ValueError('Legacy board controls cannot target Voice PE')
-    if version != (4 if 'voice_pe_inputs' in metadata else 3 if 'touchscreen_inputs' in metadata else 2 if 'physical_inputs' in metadata else 1):
+    if version != (5 if 'voice_pe_leds' in metadata else 4 if 'voice_pe_inputs' in metadata else 3 if 'touchscreen_inputs' in metadata else 2 if 'physical_inputs' in metadata else 1):
         raise ValueError('Touchscreen packages require envelope v3; pin inputs v2; ordinary packages v1')
-    if version==4 and rate==44100:
+    if version in (4,5) and rate==44100:
         raise ValueError('Voice PE controls require a native Voice PE profile')
     inspection = inspect_module(elf, allowed_imports=set())
     if inspection['imports']:
@@ -182,6 +187,8 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
         metadata['touchscreen_inputs'] = checked_touchscreen_plan(manifest['touchscreen_inputs'])
     if 'voice_pe_inputs' in manifest:
         metadata['voice_pe_inputs']=checked_voice_pe_plan(manifest['voice_pe_inputs'])
+    if 'voice_pe_leds' in manifest:
+        metadata['voice_pe_leds']=checked_led_plan(manifest['voice_pe_leds'])
     if manifest.get('numerical_profile') == 'float32-trial-v1':
         metadata['float32_trial'] = trial_checked(manifest.get('float32_trial'))
         suffix = ' [Float32 trial]'
@@ -194,7 +201,7 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
     raw = create(elf, metadata, role, arena,sample_rate=report['sample_rate'],block_frames=report['block_frames'])
     output = Path(output)
     output.write_bytes(raw)
-    return dict(format='rnbo-player-package-v4' if 'voice_pe_inputs' in metadata else 'rnbo-player-package-v3' if 'touchscreen_inputs' in metadata else 'rnbo-player-package-v2' if 'physical_inputs' in metadata else 'rnbo-player-package-v1', path=str(output.resolve()), bytes=len(raw),
+    return dict(format='rnbo-player-package-v5' if 'voice_pe_leds' in metadata else 'rnbo-player-package-v4' if 'voice_pe_inputs' in metadata else 'rnbo-player-package-v3' if 'touchscreen_inputs' in metadata else 'rnbo-player-package-v2' if 'physical_inputs' in metadata else 'rnbo-player-package-v1', path=str(output.resolve()), bytes=len(raw),
                 sha256=digest(raw), elf_sha256=digest(elf), role=role, arena_bytes=arena,
                 metadata=metadata, module_report_sha256=digest((directory / 'build-report.json').read_bytes()))
 

@@ -69,6 +69,8 @@ static atomic_bool paused=true,maintenance=false,parked=false,park_failed=false,
 static atomic_bool peak_reset_requested=false;
 #ifdef CONFIG_RNBO_S3_VOICE_PE
 static atomic_uint paused_boot_request=0,paused_boot_completed=0;
+typedef struct {uint32_t generation,updated_ms;rnbo_s3_led_frame frame;} player_ring_frame;
+static QueueHandle_t ring_mailbox;
 #endif
 static atomic_uint generation=1,volume=50,queue_errors=0,parameter_count=0;
 static atomic_uint maintenance_epoch=0,acknowledged_epoch=0;
@@ -235,6 +237,7 @@ static void audio_task(void *unused)
     pcm_transition transition;pcm_transition_begin(&transition,RNBO_S3_SAMPLE_RATE,1);
 #ifdef CONFIG_RNBO_S3_VOICE_PE
     player_boot_probe boot_probe={0};
+    uint32_t last_ring_ms=0;
 #endif
     if(board_audio_start_dma()!=ESP_OK){atomic_store(&park_failed,true);vTaskDelete(NULL);return;}
     allocation_watch_start(ALLOCATION_WATCH_AUDIO);
@@ -356,6 +359,17 @@ static void audio_task(void *unused)
             if(probe_request&&probe_request==now_generation)player_boot_probe_processed(&boot_probe);
 #endif
         } else {memset(left,0,sizeof left);memset(right,0,sizeof right);}
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+        uint32_t ring_ms=(uint32_t)(esp_timer_get_time()/1000);
+        if(play&&!stats.fault&&(s->image.module.flags&RNBO_S3_LED_OUTPUT)&&(uint32_t)(ring_ms-last_ring_ms)>=20){
+            player_ring_frame frame={.generation=now_generation,.updated_ms=ring_ms,.frame={.struct_bytes=sizeof(rnbo_s3_led_frame)}};
+            bool valid=s->image.module.led_snapshot(s->image.context,&frame.frame)==RNBO_S3_OK&&
+                frame.frame.struct_bytes==sizeof frame.frame&&frame.frame.version==RNBO_S3_LED_VERSION;
+            for(unsigned i=0;i<36&&valid;++i)valid=isfinite(frame.frame.rgb[i])&&frame.frame.rgb[i]>=0&&frame.frame.rgb[i]<=1;
+            if(valid){xQueueOverwrite(ring_mailbox,&frame);last_ring_ms=ring_ms;}
+            else {++stats.module_errors;stats.fault=true;}
+        }
+#endif
         if(!pcm_output_render(&sink,left,right,pcm,256,BOARD_AUDIO_CHANNELS,atomic_load(&volume),0.5f,!play||stats.fault))stats.fault=true;
 #ifdef CONFIG_RNBO_S3_VOICE_PE
         pcm_transition_apply(&transition,pcm,256,BOARD_AUDIO_CHANNELS);
@@ -447,6 +461,7 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
     if(s->package.role!=PLAYER_ROLE_MAIN){snprintf(error,size,"Only one Main patch is supported");goto fail;}
 #ifndef CONFIG_RNBO_S3_VOICE_PE
     if(cJSON_GetObjectItemCaseSensitive(s->package.metadata_json,"voice_pe_inputs")){snprintf(error,size,"Voice PE controls require a Voice PE player");goto fail;}
+    if(cJSON_GetObjectItemCaseSensitive(s->package.metadata_json,"voice_pe_leds")){snprintf(error,size,"LED output requires a Voice PE player");goto fail;}
 #endif
     if(blocked_package[0]&&!strcmp(blocked_package,s->package.package_sha256)){snprintf(error,size,"Package previously failed native startup; rebuild it before retrying");goto fail;}
     if(!guard_write(s->package.package_sha256)){snprintf(error,size,"Cannot save native startup recovery guard");goto fail;}
@@ -454,6 +469,15 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
     esp_err_t r=player_image_load(&s->image,s->package.elf,s->package.elf_bytes,RNBO_S3_MAIN,s->package.arena_bytes,error,size);
     allocation_watch_stop();
     if(r!=ESP_OK)goto fail;
+    if(((s->image.module.flags&RNBO_S3_LED_OUTPUT)!=0)!=
+       (cJSON_GetObjectItemCaseSensitive(s->package.metadata_json,"voice_pe_leds")!=NULL)){
+        snprintf(error,size,"LED capability differs between package and module");goto fail;
+    }
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    if((s->image.module.flags&RNBO_S3_LED_OUTPUT)&&!voice_pe_led_healthy()){
+        snprintf(error,size,"Voice PE LED backend is unavailable");goto fail;
+    }
+#endif
     for(unsigned i=0;i<s->image.parameter_count;++i) {
         s->parameters[i].struct_bytes=sizeof s->parameters[i];
         if(s->image.module.parameter_info(s->image.context,i,&s->parameters[i])!=RNBO_S3_OK){snprintf(error,size,"Cannot copy parameter schema");goto fail;}
@@ -519,6 +543,9 @@ static void activate(player_slot *s,bool autostart)
 #endif
     atomic_store(&parameter_count,0);
     for(unsigned i=0;i<PLAYER_MAX_PARAMETERS;++i)atomic_store(&physical_pending[i],UINT32_MAX);
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    if(ring_mailbox)xQueueReset(ring_mailbox);
+#endif
     player_input_plan empty={0};char input_error[128];
     if(!player_inputs_open(s?&s->inputs:&empty,input_error,sizeof input_error))ESP_LOGW(TAG,"%s",input_error);
     atomic_store_explicit(&active,s,memory_order_release);
@@ -780,7 +807,13 @@ static void control_task(void *unused)
         board_audio_maintenance();
         static unsigned voice_generation;
         unsigned observed=atomic_load(&generation);
-        voice_pe_runtime_poll(observed!=voice_generation,atomic_load(&paused),atomic_load(&park_failed),voice_publish);
+        player_slot *ring_slot=atomic_load(&active);player_ring_frame ring={0};
+        bool fresh=xQueuePeek(ring_mailbox,&ring,0)==pdTRUE&&ring.generation==observed&&
+            (uint32_t)((uint32_t)(esp_timer_get_time()/1000)-ring.updated_ms)<200;
+        voice_pe_runtime_ring(observed,ring_slot&&(ring_slot->image.module.flags&RNBO_S3_LED_OUTPUT),&ring.frame,fresh);
+        player_stats ring_health={0};xQueuePeek(telemetry,&ring_health,0);
+        bool ring_fault=atomic_load(&park_failed)||(ring_health.generation==observed&&ring_health.fault);
+        voice_pe_runtime_poll(observed!=voice_generation,atomic_load(&paused),ring_fault,voice_publish);
         voice_generation=observed;
         static bool codec_started;
         if(!codec_started && atomic_load(&audio_ready) && !atomic_load(&park_failed)){
@@ -878,6 +911,10 @@ void app_main(void)
 #endif
         error,sizeof error))ESP_LOGW(TAG,"MIDI: %s",error);
     events=xQueueCreate(EVENT_COUNT,sizeof(player_event));telemetry=xQueueCreate(1,sizeof(player_stats));
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    ring_mailbox=xQueueCreate(1,sizeof(player_ring_frame));
+    if(!ring_mailbox){ESP_LOGE(TAG,"Cannot allocate bounded LED mailbox");return;}
+#endif
     StackType_t *audio_stack=heap_caps_malloc(AUDIO_STACK,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT),*control_stack=heap_caps_malloc(CONTROL_STACK,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
     if(!events||!telemetry||!audio_stack||!control_stack){ESP_LOGE(TAG,"Player task allocation failed");return;}
     esp_err_t audio_error=board_audio_init(RNBO_S3_SAMPLE_RATE);

@@ -172,6 +172,10 @@ def main() -> int:
                                               '# CONFIG_ESP_PHY_CALIBRATION_AND_DATA_STORAGE is not set')
         cached_config = re.sub(r'^CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=\d+$',
                                'CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=8192', cached_config, flags=re.MULTILINE)
+        cached_config = re.sub(r'^CONFIG_SPIFFS_GC_MAX_RUNS=\d+$',
+                               'CONFIG_SPIFFS_GC_MAX_RUNS=256', cached_config, flags=re.MULTILINE)
+        if 'CONFIG_SPIFFS_GC_MAX_RUNS=' not in cached_config:
+            cached_config+='\nCONFIG_SPIFFS_GC_MAX_RUNS=256\n'
         (build/'sdkconfig').write_text(cached_config)
     prepared = None
     if args.export_dir:

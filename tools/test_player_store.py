@@ -37,6 +37,7 @@ void heap_caps_free(void *);
 #include "esp_err.h"
 typedef struct {const char *base_path; const char *partition_label; size_t max_files; bool format_if_mount_failed;} esp_vfs_spiffs_conf_t;
 esp_err_t esp_vfs_spiffs_register(const esp_vfs_spiffs_conf_t *);
+esp_err_t esp_spiffs_gc(const char *, size_t);
 ''',
     'esp_partition.h': '''#pragma once
 #include <stddef.h>

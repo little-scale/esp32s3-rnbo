@@ -21,7 +21,8 @@ int main(int argc,char **argv)
 {
     assert(argc==2);
     rnbo_test_allocation_mode=!std::strcmp(argv[1],"cpp")?1:!std::strcmp(argv[1],"platform")?2:0;
-    rnbo_s3_module module{};module.struct_bytes=sizeof module;
+    rnbo_s3_module module{};module.struct_bytes=RNBO_S3_MODULE_BASE_BYTES;
+    module.led_snapshot=reinterpret_cast<decltype(module.led_snapshot)>(uintptr_t(1));
     rnbo_s3_dynamic_info info{};info.struct_bytes=sizeof info;
     rnbo_s3_dynamic_request request{};request.struct_bytes=sizeof request;
     request.magic=RNBO_S3_DYNAMIC_MAGIC;request.abi_major=RNBO_S3_DYNAMIC_ABI_MAJOR;
@@ -33,6 +34,8 @@ int main(int argc,char **argv)
         assert(request.result==expected);
     };
     invoke(RNBO_S3_OK);
+    assert(module.struct_bytes==RNBO_S3_MODULE_BASE_BYTES && module.abi_minor==0);
+    assert(reinterpret_cast<uintptr_t>(module.led_snapshot)==1); // old-size caller tail untouched
     request.operation=RNBO_S3_DYNAMIC_BIND;
     request.state=storage;request.state_bytes=info.maximum_state_bytes+16;
     invoke(RNBO_S3_INVALID);

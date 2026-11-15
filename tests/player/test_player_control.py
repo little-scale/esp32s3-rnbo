@@ -37,6 +37,7 @@ typedef uint32_t StackType_t;
 #include "FreeRTOS.h"
 void vTaskDelay(unsigned);
 void vTaskDelete(void *);
+unsigned uxTaskGetStackHighWaterMark(TaskHandle_t);
 TaskHandle_t xTaskCreateStaticPinnedToCore(void (*)(void *),const char *,unsigned,void *,unsigned,StackType_t *,StaticTask_t *,unsigned);
 ''',
     'freertos/queue.h': '''#pragma once
@@ -66,8 +67,9 @@ class PlayerControlTests(unittest.TestCase):
 #define MALLOC_CAP_INTERNAL 4u
 void *heap_caps_calloc(size_t,size_t,unsigned);
 size_t heap_caps_get_free_size(unsigned);
+size_t heap_caps_get_largest_free_block(unsigned);
 '''
-            headers['esp_err.h'] += '\n#include <assert.h>\n#define ESP_ERROR_CHECK(x) assert((x)==ESP_OK)\n'
+            headers['esp_err.h'] += '\n#include <assert.h>\n#define ESP_ERROR_CHECK(x) assert((x)==ESP_OK)\nconst char *esp_err_to_name(esp_err_t);\n'
             headers['nvs.h'] += '''
 esp_err_t nvs_get_str(nvs_handle_t,const char *,char *,size_t *);
 esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
@@ -95,6 +97,7 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
                         str(ROOT/'firmware/components/pcm_output/pcm_output.c'),
                         str(ROOT/'firmware/components/player_inputs/player_inputs_core.c'),
                         str(ROOT/'firmware/components/player_inputs/player_touchscreen.c'),
+                        str(ROOT/'firmware/components/player_inputs/player_voice_pe.c'),
                         str(ROOT/'firmware/components/player_midi/midi_core.c'),str(cjson/'cJSON.c'),'-o',str(out/'control'),'-lm']]
             if sys.platform != 'darwin': commands[-1].append('-lcrypto')
             for command in commands:

@@ -136,7 +136,7 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
     if (!bytes || length < PLAYER_PACKAGE_HEADER_BYTES || length > PLAYER_PACKAGE_MAX_BYTES)
         return fail(error, error_capacity, "Package size is outside its bounds");
     if (memcmp(bytes, "RNBOS3P1", 8) != 0 || read_u32(bytes + 8) != 128 ||
-        (read_u32(bytes + 12) < 1 || read_u32(bytes + 12) > 4) || read_u32(bytes + 16) != 1)
+        (read_u32(bytes + 12) < 1 || read_u32(bytes + 12) > 5) || read_u32(bytes + 16) != 1)
         return fail(error, error_capacity, "Unsupported package header or ABI");
     uint32_t role = read_u32(bytes + 20), rate = read_u32(bytes + 24);
     uint32_t block = read_u32(bytes + 28), arena = read_u32(bytes + 32);
@@ -188,17 +188,28 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
         }
     }
     if (ambiguous_visual) visual = NULL;
-    unsigned inputs_count = 0, screen_count = 0, voice_count=0;
+    unsigned inputs_count = 0, screen_count = 0, voice_count=0,led_count=0;
     for (const cJSON *item = json->child; item; item = item->next)
         if (strcmp(item->string, "physical_inputs") == 0) ++inputs_count;
         else if (strcmp(item->string, "touchscreen_inputs") == 0) ++screen_count;
         else if (strcmp(item->string, "voice_pe_inputs") == 0) ++voice_count;
+        else if (strcmp(item->string, "voice_pe_leds") == 0) ++led_count;
     unsigned envelope = read_u32(bytes + 12);
     if ((envelope == 2 ? inputs_count != 1 : inputs_count != 0) ||
         (envelope == 3 ? screen_count != 1 : screen_count != 0) ||
-        (envelope == 4 ? voice_count != 1 : voice_count != 0) || (voice_count && rate==44100)) {
+        (envelope == 4 ? voice_count != 1 : envelope==5 ? voice_count>1 : voice_count != 0) ||
+        (envelope==5 ? led_count!=1 : led_count!=0) || ((voice_count||led_count) && rate==44100)) {
         cJSON_Delete(json);
         return fail(error, error_capacity, "Touchscreen inputs require envelope v3; pin inputs v2; ordinary packages v1");
+    }
+    if(led_count){
+        const cJSON *plan=cJSON_GetObjectItemCaseSensitive(json,"voice_pe_leds");
+        const cJSON *v=cJSON_GetObjectItemCaseSensitive(plan,"version"),*b=cJSON_GetObjectItemCaseSensitive(plan,"board"),
+            *p=cJSON_GetObjectItemCaseSensitive(plan,"port");
+        if(!cJSON_IsObject(plan)||cJSON_GetArraySize(plan)!=3||!cJSON_IsNumber(v)||v->valuedouble!=1||
+           !cJSON_IsString(b)||strcmp(b->valuestring,"voice-pe")||!cJSON_IsString(p)||strcmp(p->valuestring,"led_rgb")){
+            cJSON_Delete(json);return fail(error,error_capacity,"Invalid Voice PE LED output contract");
+        }
     }
     size_t name_length = cJSON_IsString(name) ? strlen(name->valuestring) : 0;
     if (duplicate || name_length < 1 || name_length > 63 ||
@@ -356,6 +367,15 @@ bool player_store_stage(uint32_t role, const uint8_t *bytes, size_t length,
     const char *path = slot_path(role, next);
     FILE *file = fopen(path, "wb");
     if (!file) return fail(error, error_capacity, "Could not open inactive package file");
+    /* The inactive slot is now truncated. Reclaim obsolete pages before one
+     * large write: IDF's default10 GC runs can free only40KiB, less than even
+     * a small native module. This never removes live files or formats storage.
+     * Reserve data-page/index overhead too; all work is done with DMA parked. */
+    size_t reserve=length+length/8+8192;
+    if(esp_spiffs_gc("storage",reserve)!=ESP_OK){
+        fclose(file);unlink(path);
+        return fail(error,error_capacity,"Cannot reserve inactive package storage; active patch retained and live foreign files preserved");
+    }
     bool ok = fwrite(bytes, 1, length, file) == length;
     if (ok && fflush(file) != 0) ok = false;
     if (ok && fsync(fileno(file)) != 0) ok = false;

@@ -64,3 +64,7 @@ links, duplicate names, external assets and multiple export roots reject.
 Only trusted local native code should be compiled. Studio binds localhost and
 retains session-token/origin checks. Saved pairing credentials remain private
 under ignored `build/private/studio`; do not share that directory.
+
+Voice PE `outport led_rgb` packages use envelope v5 and require
+`led_output_version:1`. Studio rejects an older player before staging them.
+The [LED example and guide](../../docs/voice-pe-leds.md) cover all three formats.

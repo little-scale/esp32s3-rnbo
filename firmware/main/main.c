@@ -581,7 +581,7 @@ void app_main(void)
 #ifdef RNBO_S3_STATIC_MODULE
     allocation_watch_start(ALLOCATION_WATCH_PREPARE);
     module=rnbo_s3_static_module();
-    if (!module || module->struct_bytes<sizeof *module || module->abi_major!=RNBO_S3_ABI_MAJOR ||
+    if (!module || module->struct_bytes<RNBO_S3_MODULE_BASE_BYTES || module->abi_major!=RNBO_S3_ABI_MAJOR ||
         module->pointer_bits!=32 || module->sample_rate!=RNBO_S3_SAMPLE_RATE ||
         module->block_frames!=RNBO_S3_BLOCK_FRAMES || module->role!=RNBO_S3_MAIN ||
         module->audio_inputs!=0 || module->audio_outputs!=2) {

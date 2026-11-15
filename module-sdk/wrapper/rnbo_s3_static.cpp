@@ -22,7 +22,14 @@
 #define RNBO_NOSTL
 #define RNBO_NOTHROW
 #define RNBO_NO_PATCHERFACTORY
+#ifndef RNBO_S3_PATCH_LED_OUTPUT_VERSION
+#define RNBO_S3_PATCH_LED_OUTPUT_VERSION 0
+#endif
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+#define RNBO_FIXEDLISTSIZE 36
+#else
 #define RNBO_FIXEDLISTSIZE 16
+#endif
 #define RNBO_USECUSTOMALLOCATOR
 #define RNBO_USECUSTOMPLATFORMPRINT
 #include "RNBO_Common.h"
@@ -87,12 +94,20 @@ static void printErrorMessage(const char *) { if (allocation) ++allocation->erro
 #ifndef RNBO_S3_PATCH_SOURCE
 #define RNBO_S3_PATCH_SOURCE "rnbo_source.h"
 #endif
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+#include "rnbo_s3_led_engine.hpp"
+#endif
 #include RNBO_S3_PATCH_SOURCE
 #undef trunc
 #undef autoref
 
 namespace {
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+using Patch = RNBO::RNBO_S3_PATCH_CLASS<RNBO_S3_LEDEngine>;
+#else
 using Patch = RNBO::RNBO_S3_PATCH_CLASS<>;
+#endif
+constexpr uint32_t module_bytes=RNBO_S3_PATCH_LED_OUTPUT_VERSION?sizeof(rnbo_s3_module):RNBO_S3_MODULE_BASE_BYTES;
 static_assert(sizeof(RNBO::SampleValue) == 4, "float32 audio required");
 static_assert(sizeof(RNBO::MillisecondTime) == 8, "double scheduler required");
 static_assert(RNBO_S3_PATCH_RATE == RNBO_S3_SAMPLE_RATE, "rate mismatch");
@@ -212,12 +227,18 @@ int prepare(void *p) {
         c->patch->getNumSignalInParameters() || c->patch->getNumSignalOutParameters() ||
         c->patch->getNumMidiInputPorts() > 1 ||
         c->patch->getNumMidiOutputPorts() > (RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT ? 1u : 0u) ||
-        c->patch->getNumMessages() || !interface->hasFixedVectorSize() ||
+        (c->patch->getNumMessages() != (RNBO_S3_PATCH_LED_OUTPUT_VERSION?1u:0u)) || !interface->hasFixedVectorSize() ||
         interface->getSampleRate() != RNBO_S3_SAMPLE_RATE ||
         interface->getMaxBlockSize() != RNBO_S3_BLOCK_FRAMES) {
         c->fault = true;
         return RNBO_S3_UNSUPPORTED;
     }
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+    const auto &message=c->patch->getMessageInfo(0);
+    if(message.type!=RNBO::MessagePortType::Outport || !message.tag || std::strcmp(message.tag,"led_rgb")){
+        c->fault=true;return RNBO_S3_UNSUPPORTED;
+    }
+#endif
     /* Admit the actual generated schema before any audio ownership transfer.
      * Never allow an otherwise playable patch whose IDs cannot be copied. */
     for (uint32_t i = 0; i < c->patch->getNumParameters(); ++i) {
@@ -237,6 +258,9 @@ int prepare(void *p) {
     float *out[] = {c->scratch[0], c->scratch[1]};
     for (uint32_t i = 0; i < c->warmup; ++i) {
         c->patch->process(expected_inputs ? in : nullptr, expected_inputs, out, 2, RNBO_S3_BLOCK_FRAMES);
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+        static_cast<RNBO_S3_LEDEngine*>(c->patch->getEngine())->leds.block_messages=0;
+#endif
         for (unsigned ch = 0; ch < 2; ++ch)
             for (float sample : c->scratch[ch]) if (!std::isfinite(sample)) ++c->bad_samples;
     }
@@ -263,6 +287,9 @@ int process(void *p, const float *const *in, float *const *out, uint32_t n, uint
     c->patch->process(in, inputs, out, 2, n);
     for (unsigned ch = 0; ch < 2; ++ch)
         for (unsigned i = 0; i < n; ++i) if (!std::isfinite(out[ch][i])) ++c->bad_samples;
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+    static_cast<RNBO_S3_LEDEngine*>(c->patch->getEngine())->leds.block_messages=0;
+#endif
     c->position += n;
     ++c->blocks;
     if (failed(c)) { silence(out, n); return RNBO_S3_FAULT; }
@@ -329,15 +356,28 @@ int statistics(void *p, rnbo_s3_stats *out) {
             c->position, c->warmup, static_cast<uint32_t>(failed(c))};
     return RNBO_S3_OK;
 }
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+int led_snapshot(void *p,rnbo_s3_led_frame *out){
+    if(!valid(p)||!out||out->struct_bytes<sizeof(*out))return RNBO_S3_INVALID;
+    *out=static_cast<RNBO_S3_LEDEngine*>(live->patch->getEngine())->leds.frame;
+    out->struct_bytes=sizeof(*out);out->version=RNBO_S3_LED_VERSION;return RNBO_S3_OK;
+}
+#endif
 const rnbo_s3_module module = {
-    sizeof(rnbo_s3_module), RNBO_S3_ABI_MAJOR, RNBO_S3_ABI_MINOR, sizeof(void *) * 8,
+    module_bytes, RNBO_S3_ABI_MAJOR, RNBO_S3_PATCH_LED_OUTPUT_VERSION?1u:0u, sizeof(void *) * 8,
     RNBO_S3_SAMPLE_RATE, RNBO_S3_BLOCK_FRAMES, RNBO_S3_PATCH_ROLE,
     RNBO_S3_PATCH_ROLE == RNBO_S3_FX ? 2u : 0u, 2,
     RNBO_S3_MAX_PARAMETERS, RNBO_S3_SINGLE_INSTANCE | RNBO_S3_BOUNDARY_EVENTS | RNBO_S3_PLATFORM_ALLOCATIONS_ONLY |
         (RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT ? RNBO_S3_DISCARDS_MIDI_OUTPUT : 0u) |
-        (RNBO_S3_PATCH_MIDI_INPUT_PORTS ? RNBO_S3_SHORT_MIDI_INPUT : 0u),
+        (RNBO_S3_PATCH_MIDI_INPUT_PORTS ? RNBO_S3_SHORT_MIDI_INPUT : 0u) |
+        (RNBO_S3_PATCH_LED_OUTPUT_VERSION ? RNBO_S3_LED_OUTPUT : 0u),
     create, prepare, process, event, panic, parameter_count, parameter_info, parameter_value,
-    parameter_convert, statistics, destroy
+    parameter_convert, statistics, destroy,
+#if RNBO_S3_PATCH_LED_OUTPUT_VERSION
+    led_snapshot
+#else
+    nullptr
+#endif
 };
 }
 extern "C" const rnbo_s3_module *rnbo_s3_static_module(void) { return &module; }

@@ -664,6 +664,8 @@ class DeviceBridge:
                 raise DeviceError('Package and player audio rates differ; export/build the matching profile')
             if package['metadata'].get('voice_pe_inputs') and (self._board!='voice-pe' or before.get('voice_pe_inputs_version')!=1):
                 raise DeviceError('Voice PE control package requires a ready Voice PE input backend')
+            if package['metadata'].get('voice_pe_leds') and (self._board!='voice-pe' or before.get('led_output_version')!=1):
+                raise DeviceError('Install the LED-output Voice PE player before loading this package')
             if self._board=='voice-pe' and not before.get('clock_check',{}).get('passed'):
                 raise DeviceError('Voice PE external clocks are not qualified for its profile')
             if package['metadata'].get('midi_input_ports') and before.get('midi_input_version') != 1:

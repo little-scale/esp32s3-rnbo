@@ -92,9 +92,11 @@ Voice PE bindings require package envelope **v4**, so old players reject them.
 Audio-only packages retain envelope v1, with rate checks. GPIO/touchscreen plans
 for other boards cannot be combined with Voice PE controls.
 
-The ring currently indicates board status and dial position. **Programmable
-RNBO-to-ring messages are not implemented**; `led_output_version` is deliberately
-0. Audio output 3 is not an LED channel. Grove sensors and microphone input are
+Ordinary patches retain the board status/dial ring. **`outport led_rgb` now
+supports patch-authored colours**: 3 values set the ring, 4 values select an
+index 0–11 plus RGB, and 36 values replace all twelve RGB triplets. This requires
+the LED-capable player and envelope v5. See the [LED guide](voice-pe-leds.md).
+Audio output 3 is not an LED channel. Grove sensors and microphone input are
 outside this implementation. No raw XIAO pin mapping is accepted on Voice PE.
 
 ## Build and export
@@ -211,8 +213,9 @@ Use the kits under `build/dist/voice-pe-*` and the
    volume and control-state recovery. Check foreign files and NVS remained intact.
 8. Qualify Wi-Fi pairing/uploads under DSP/control/ring load when a network is
    available. Then deliberately commission the other matched XMOS/player rate
-   and repeat. Jack channel separation, microphone capture and programmable
-   RNBO LED output require separate work; do not infer them from the speaker.
+   and repeat. Jack channel separation and microphone capture require separate
+   work; do not infer them from the speaker. For patch-authored lighting, follow
+   the separate [LED ring checks](voice-pe-leds.md).
 
 Record device/firmware/module/package/export/XMOS identities, measured clocks,
 codec readbacks, observation duration and user listening result separately.

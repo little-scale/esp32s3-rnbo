@@ -186,3 +186,10 @@ The prior package and controls were restored. A corrupt package rejected before
 transfer. See the [USB check receipt](../../evidence/max-usb-upload-player.json).
 The check ran at zero output volume without DAC capture/listening. Wireless
 uploads from Max remain pending because the saved network was unavailable.
+
+## Voice PE LED output
+
+Open [voice-pe-led.maxpat](voice-pe-led.maxpat) for the silent ring example.
+Inside RNBO, `outport led_rgb` accepts RGB3, indexed RGB4 and full RGB36 lists.
+Use the matching native Voice PE export profile and LED-capable player. See the
+[format, ownership and timing guide](../../docs/voice-pe-leds.md).

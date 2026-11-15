@@ -188,7 +188,13 @@ rate-correct render/peak CPU percentages. These fields are additive; old
 Voice PE semantic input packages require envelope v4; v1 remains audio-only,
 v2 XIAO pins and v3 AMOLED touch. A package rate/vector must match the generated
 export, descriptor and player. Parameter inputs still use normalized values and
-generation-checked block-boundary events. Programmable LED output version is 0.
+generation-checked block-boundary events. `led_output_version:1` adds the narrow
+`outport led_rgb` contract described in the [LED guide](voice-pe-leds.md).
+Envelope v5 requires `voice_pe_leds:{version:1,board:"voice-pe",port:"led_rgb"}`;
+it may also include the existing Voice PE input plan. Module LED capability and
+metadata must agree. The optional ABI 1.1 snapshot callback's address, complete
+sized tail and descriptor equality are checked before use. Ordinary modules keep
+ABI 1.0 and their original descriptor size, including when newly built.
 
 The new Voice PE digital capture commands are:
 

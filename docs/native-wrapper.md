@@ -73,3 +73,14 @@ are still pending. Scheduler precision is unchanged.
 The historical object inventory remains useful as a test plan and source of
 oracles. It is not a claim that every Max export or entire object family works.
 The wider testing goal remains paused while this migration is completed.
+
+## Voice PE LED messages
+
+`outport led_rgb` is the supported message-output extension for native Voice PE
+profiles. It uses a MinimalEngine subclass with fixed module-owned state and a
+sized optional ABI 1.1 snapshot callback. The mandatory ABI 1.0 prefix, ordinary
+module descriptor size and old-size dynamic callers remain supported. No audio
+callback calls RMT or uses JSON. The output adapter accepts 3/4/36 Float32
+values, applies at most 32 messages per block, and retains the last valid frame.
+The native numerical DSP algorithms and Float64 scheduler are unchanged. See
+[LED ownership, validation and timing](voice-pe-leds.md).

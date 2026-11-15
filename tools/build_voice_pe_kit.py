@@ -22,6 +22,9 @@ def build(rate,out_root):
                      ROOT/f'build/private/voice-pe-native/sine-{rate}.rnbopkg',
                      ROOT/f'build/private/voice-pe-composite/controls-{rate}.rnbopkg',
                      *[ROOT/'host/max'/name for name in ('voice-pe-controls.maxpat','rnbo.studio.maxpat','rnbo-studio.js','rnbo-studio-client.js')]]
+    led_package=ROOT/f'build/private/voice-pe-led/led-{rate}.rnbopkg'
+    identity_inputs += [ROOT/'docs/voice-pe-leds.md',ROOT/'host/max/voice-pe-led.maxpat']
+    if led_package.is_file():identity_inputs.append(led_package)
     identity=hashlib.sha256(''.join(digest(p) for p in identity_inputs).encode()).hexdigest()
     folder=out_root/f'voice-pe-{rate}-hardware-test-{plan["app_sha256"][:10]}-{identity[:6]}'
     if folder.exists():raise ValueError('Use a fresh output root or retain the existing checked kit')
@@ -34,10 +37,13 @@ def build(rate,out_root):
         'controls.rnbopkg':ROOT/f'build/private/voice-pe-composite/controls-{rate}.rnbopkg',
         'VOICE-PE.md':ROOT/'docs/voice-pe.md',
         'GPL-3.0.txt':ROOT/'LICENSES/Voice-PE-GPL-3.0.txt',
+        'LED-RING.md':ROOT/'docs/voice-pe-leds.md',
+        'max/voice-pe-led.maxpat':ROOT/'host/max/voice-pe-led.maxpat',
     }
+    if led_package.is_file():sources['led.rnbopkg']=led_package
     for name in ('voice-pe-controls.maxpat','rnbo.studio.maxpat','rnbo-studio.js','rnbo-studio-client.js'):
         sources['max/'+name]=ROOT/'host/max'/name
-    for name in ('sine.rnbopkg','controls.rnbopkg'):
+    for name in ('sine.rnbopkg','controls.rnbopkg',*(['led.rnbopkg'] if led_package.is_file() else [])):
         package=parse(sources[name].read_bytes())
         if package['profile']!=profile or package['metadata']['initial_volume']!=0:
             raise ValueError('Test packages must match the selected native profile and start at zero volume')
@@ -60,7 +66,9 @@ After installation, inspect player-info and clocks before testing sound.
 Open sine.rnbopkg or controls.rnbopkg in a freshly restarted Studio.
 Both start at 0% volume. If paused, Resume; start at 5% master for the listening check.
 For controls: hold the centre button to gate audio; dial changes frequency;
-microphone-mute is read separately. Ring is board-owned; no RNBO LED messages.
+microphone-mute is read separately. Ordinary patches keep the board-owned ring.
+The LED example uses outport led_rgb; see LED-RING.md. If included, led.rnbopkg
+is silent and its test parameter selects shared/indexed/full-frame updates.
 Saved packages restore paused. See VOICE-PE.md for the complete hardware checklist.
 '''
     (folder/'README.txt').write_text(readme)

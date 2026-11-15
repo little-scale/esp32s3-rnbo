@@ -63,6 +63,9 @@ void *heap_caps_malloc(size_t n,unsigned cap){(void)cap;return malloc(n);}
 void *heap_caps_calloc(size_t n,size_t bytes,unsigned cap){(void)cap;return calloc(n,bytes);}
 void heap_caps_free(void *p){free(p);}
 size_t heap_caps_get_free_size(unsigned caps){(void)caps;return 1000000;}
+size_t heap_caps_get_largest_free_block(unsigned caps){(void)caps;return 900000;}
+unsigned uxTaskGetStackHighWaterMark(TaskHandle_t task){(void)task;return 16000;}
+const char *esp_err_to_name(esp_err_t error){(void)error;return "test error";}
 void allocation_watch_start(unsigned phase){(void)phase;}
 void allocation_watch_stop(void){}
 allocation_watch_stats allocation_watch_snapshot(unsigned phase){(void)phase;return (allocation_watch_stats){0};}
@@ -125,6 +128,7 @@ esp_err_t nvs_flash_init(void){return ESP_OK;}
 #include "esp_spiffs.h"
 #include "esp_partition.h"
 esp_err_t esp_vfs_spiffs_register(const esp_vfs_spiffs_conf_t *c){(void)c;assert(!"unexpected real storage mount");return ESP_FAIL;}
+esp_err_t esp_spiffs_gc(const char *label,size_t size){(void)label;(void)size;assert(!"unexpected real GC");return ESP_FAIL;}
 const esp_partition_t *esp_partition_find_first(int t,int s,const char *n){(void)t;(void)s;(void)n;return NULL;}
 esp_err_t esp_partition_read(const esp_partition_t *p,size_t o,void *v,size_t n){(void)p;(void)o;(void)v;(void)n;return ESP_FAIL;}
 

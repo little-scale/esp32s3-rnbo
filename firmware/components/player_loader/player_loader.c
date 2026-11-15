@@ -105,20 +105,25 @@ static bool admit_table(player_image *a, uint32_t role)
         !data_span(&a->elf, d->descriptor_address, sizeof(uint32_t))) return false;
     uint32_t descriptor_bytes;
     memcpy(&descriptor_bytes, d->descriptor_address, sizeof descriptor_bytes);
-    if (descriptor_bytes < sizeof *m || !data_span(&a->elf, d->descriptor_address, descriptor_bytes) ||
-        memcmp(m, d->descriptor_address, sizeof *m) || m->struct_bytes < sizeof *m ||
-        m->abi_major != RNBO_S3_ABI_MAJOR || m->abi_minor > RNBO_S3_ABI_MINOR || m->pointer_bits != 32 ||
+    if (descriptor_bytes < RNBO_S3_MODULE_BASE_BYTES || !data_span(&a->elf, d->descriptor_address, descriptor_bytes) ||
+        memcmp(m, d->descriptor_address, RNBO_S3_MODULE_BASE_BYTES) || m->struct_bytes < RNBO_S3_MODULE_BASE_BYTES ||
+        m->abi_major != RNBO_S3_ABI_MAJOR || m->abi_minor > RNBO_S3_SUPPORTED_ABI_MINOR || m->pointer_bits != 32 ||
         m->sample_rate != RNBO_S3_SAMPLE_RATE || m->block_frames != RNBO_S3_BLOCK_FRAMES ||
         m->role != role || m->audio_outputs != 2 || m->audio_inputs != (role == RNBO_S3_FX ? 2u : 0u) ||
         m->max_parameters > RNBO_S3_MAX_PARAMETERS) return false;
     const uint32_t allowed_flags = RNBO_S3_SINGLE_INSTANCE | RNBO_S3_BOUNDARY_EVENTS |
-        RNBO_S3_PLATFORM_ALLOCATIONS_ONLY | RNBO_S3_DISCARDS_MIDI_OUTPUT | RNBO_S3_SHORT_MIDI_INPUT;
+        RNBO_S3_PLATFORM_ALLOCATIONS_ONLY | RNBO_S3_DISCARDS_MIDI_OUTPUT | RNBO_S3_SHORT_MIDI_INPUT | RNBO_S3_LED_OUTPUT;
     if ((m->flags & ~allowed_flags) || !(m->flags & RNBO_S3_SINGLE_INSTANCE) ||
         !(m->flags & RNBO_S3_BOUNDARY_EVENTS)) return false;
 #define CALLBACK(name) if (!executable(&a->elf, (uintptr_t)m->name)) return false
     CALLBACK(create); CALLBACK(prepare); CALLBACK(process); CALLBACK(event); CALLBACK(panic);
     CALLBACK(parameter_count); CALLBACK(parameter_info); CALLBACK(parameter_value);
     CALLBACK(parameter_convert); CALLBACK(statistics); CALLBACK(destroy);
+    if(m->flags&RNBO_S3_LED_OUTPUT){
+        if(m->abi_minor<1 || descriptor_bytes<sizeof *m || m->struct_bytes<sizeof *m ||
+           m->led_snapshot!=d->descriptor_address->led_snapshot)return false;
+        CALLBACK(led_snapshot);
+    }
 #undef CALLBACK
     return executable(&a->elf, (uintptr_t)d->statistics);
 }

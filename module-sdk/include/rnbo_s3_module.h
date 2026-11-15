@@ -2,6 +2,8 @@
 #ifndef RNBO_S3_MODULE_H
 #define RNBO_S3_MODULE_H
 #include <stdint.h>
+#include <stddef.h>
+#include "rnbo_s3_led.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -9,7 +11,9 @@ extern "C" {
 /* In-memory C ABI, never a wire/file layout. ABI major must match; callers
  * check struct_bytes before reading any fields added in a minor version. */
 #define RNBO_S3_ABI_MAJOR 1u
+/* Mandatory prefix remains1.0. LED packages opt into the sized1.1 tail. */
 #define RNBO_S3_ABI_MINOR 0u
+#define RNBO_S3_SUPPORTED_ABI_MINOR 1u
 #ifndef RNBO_S3_SAMPLE_RATE
 #define RNBO_S3_SAMPLE_RATE 44100u
 #endif
@@ -23,7 +27,7 @@ enum { RNBO_S3_OK = 0, RNBO_S3_INVALID = -1, RNBO_S3_BUSY = -2,
        RNBO_S3_NO_MEMORY = -3, RNBO_S3_FAULT = -4, RNBO_S3_UNSUPPORTED = -5 };
 enum { RNBO_S3_SINGLE_INSTANCE = 1u, RNBO_S3_BOUNDARY_EVENTS = 2u,
        RNBO_S3_PLATFORM_ALLOCATIONS_ONLY = 4u, RNBO_S3_DISCARDS_MIDI_OUTPUT = 8u,
-       RNBO_S3_SHORT_MIDI_INPUT = 16u }; /* port0 + channel/system short messages */
+       RNBO_S3_SHORT_MIDI_INPUT = 16u, RNBO_S3_LED_OUTPUT = 32u };
 enum { RNBO_S3_PARAMETER_ACTUAL = 1, RNBO_S3_PARAMETER_NORMALIZED = 2,
        RNBO_S3_MIDI = 3 };
 
@@ -80,7 +84,10 @@ typedef struct rnbo_s3_module {
     int (*parameter_convert)(void *, uint32_t, float value, uint32_t normalized_to_actual, float *result);
     int (*statistics)(void *, rnbo_s3_stats *);
     void (*destroy)(void *context);
+    /* Optional ABI minor1 tail. Audio owner only; absent in legacy descriptors. */
+    int (*led_snapshot)(void *context, rnbo_s3_led_frame *out);
 } rnbo_s3_module;
+#define RNBO_S3_MODULE_BASE_BYTES ((uint32_t)offsetof(rnbo_s3_module,led_snapshot))
 
 /* Static bring-up only: one generated image, one active context per program.
  * All callbacks require exclusive ownership. No callback is thread safe.

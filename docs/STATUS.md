@@ -1,5 +1,18 @@
 # Implementation status — native export migration
 
+**16 November 2026 — patch-authored Voice PE LEDs:** `outport led_rgb` now
+accepts shared RGB3, indexed RGB4 (0–11, others retained) and full RGB36 frames.
+LED packages require envelope v5 and an audited optional ABI 1.1 tail; ordinary
+modules retain their original ABI 1.0 prefix. Native Max exports at both rates
+compile with zero imports; 1,000 real output changes make no late allocations.
+Native-16 hardware readback checks cover formats, invalid-message preservation,
+Pause/Resume and ordinary-package replacement. See the [LED guide](voice-pe-leds.md)
+and [receipt](../evidence/voice-pe-led-output.json) for optical confirmation and
+binary identities. Replacement testing exposed SPIFFS collection limits; reserving
+inactive-file space and raising the collection budget resolved the reproduced
+failure. Seventeen consecutive loads pass without retries on the final native-16
+player, followed by all LED-format and Pause/Resume checks without retries.
+
 **16 November 2026 — Voice PE USB stress and Wi-Fi:** Twelve alternating
 replacements, 288 synthetic parameter updates and twelve Pause/Resume pairs
 pass without reported runtime faults. Saved paused startup now verifies two

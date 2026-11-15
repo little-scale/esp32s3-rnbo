@@ -78,7 +78,7 @@ def integer(description: dict, key: str, low: int, high: int) -> int:
     return value
 
 
-def validate_description(description: dict, role: str, midi_output_policy: str = "reject") -> list[dict]:
+def validate_description(description: dict, role: str, midi_output_policy: str = "reject", allow_led_output=False) -> list[dict]:
     inputs = integer(description, "numInputChannels", 0, 2)
     outputs = integer(description, "numOutputChannels", 0, 2)
     if (inputs, outputs) != ((0, 2) if role == "main" else (2, 2)):
@@ -91,6 +91,7 @@ def validate_description(description: dict, role: str, midi_output_policy: str =
     if midi_outputs and midi_output_policy != "discard":
         raise ExportError("MIDI output requires the explicit --midi-output discard policy; transmitting MIDI is not implemented")
     for key in ("externalDataRefs", "inports", "outports"):
+        if key=='outports' and allow_led_output:continue
         if description.get(key, []) != []:
             raise ExportError(f"The static adapter does not yet support {key}")
     count = integer(description, "numParameters", 0, MAX_PARAMETERS)
@@ -578,7 +579,12 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         if not re.search(pattern, cpp_code_mask(source)):
             raise ExportError(f"Export must declare the fixed {rate} Hz / 256-frame Minimal profile; re-export in Max, do not retag code")
     description = read_json(files["description.json"], "description.json")
-    params = validate_description(description, role, midi_output_policy)
+    from voice_pe_leds import extract as extract_voice_pe_leds
+    try: voice_pe_leds=extract_voice_pe_leds(description)
+    except ValueError as exc: raise ExportError(str(exc)) from exc
+    if voice_pe_leds and rate not in (16000,48000):
+        raise ExportError('Voice PE LED output requires a native Voice PE profile')
+    params = validate_description(description, role, midi_output_policy, bool(voice_pe_leds))
     from physical_inputs import extract as extract_physical_inputs
     from touchscreen_inputs import extract as extract_touchscreen_inputs
     from voice_pe_inputs import extract as extract_voice_pe_inputs
@@ -597,6 +603,12 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     raw_hashes = {name: digest(data) for name, data in sorted(files.items())}
     raw_files = dict(files)
     changes = runtime_fixes(files, apply_fixes=apply_fixes)
+    if voice_pe_leds:
+        from voice_pe_leds import fixed_constructor_bounds
+        if not apply_fixes:raise ExportError('LED output requires the reviewed RNBO list runtime fixes')
+        try:changes.append(fixed_constructor_bounds(files))
+        except (ValueError,KeyError) as exc:raise ExportError(str(exc)) from exc
+
     # This exact-context option reviews the corrected original runtime tree.
     # Apply it before the independent integer-wrap fix changes RNBO_Math.h.
     if compact_average_history:
@@ -756,6 +768,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["touchscreen_inputs"] = touchscreen_inputs
     if voice_pe_inputs is not None:
         manifest['voice_pe_inputs']=voice_pe_inputs
+    if voice_pe_leds is not None:
+        manifest['voice_pe_leds']=voice_pe_leds
     if numerical_profile == "float32-trial-v1":
         manifest["float32_trial"] = dict(version=1,profile=numerical_profile,qualification="unverified",
             audit_sha256=digest(files["float32-trial-audit.json"]),trial_method_count=trial_change["trial_method_count"],
@@ -820,6 +834,8 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               f"#define RNBO_S3_PATCH_RATE {rate}\n#define RNBO_S3_PATCH_BLOCK 256\n")
     if description["numMidiInputPorts"]:
         config += f"#define RNBO_S3_PATCH_MIDI_INPUT_PORTS {description['numMidiInputPorts']}\n"
+    if voice_pe_leds:
+        config += '#define RNBO_S3_PATCH_LED_OUTPUT_VERSION 1\n'
     if gen_abs_intrinsic:
         from gen_abs_intrinsic import CONTRACT_FILE
         config += '#define RNBO_S3_PATCH_SOURCE "' + CONTRACT_FILE + '"\n'
@@ -1009,7 +1025,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("physical_inputs.py", "touchscreen_inputs.py", "voice_pe_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("physical_inputs.py", "touchscreen_inputs.py", "voice_pe_inputs.py", "voice_pe_leds.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": export_helpers,
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),

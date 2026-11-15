@@ -8,12 +8,23 @@
 #include "cJSON.h"
 #include <stdint.h>
 #include <math.h>
+#include <string.h>
 static pcnt_unit_handle_t encoder;
 static int previous_count;
 static float values[3]={.5f,0,0},sent[3];
 static bool sent_once[3],ready;
 static unsigned candidate,stable;
 static int64_t next_poll;
+static uint32_t ring_generation;
+static bool patch_ring,ring_fresh,ring_paused;
+static rnbo_s3_led_frame patch_frame;
+static float display_rgb[36];
+void voice_pe_runtime_ring(uint32_t generation,bool owned,const rnbo_s3_led_frame *frame,bool fresh)
+{
+    if(generation!=ring_generation){memset(&patch_frame,0,sizeof patch_frame);ring_generation=generation;}
+    patch_ring=owned;ring_fresh=fresh;
+    if(owned&&frame&&fresh)patch_frame=*frame;
+}
 esp_err_t voice_pe_runtime_init(void)
 {
     pcnt_unit_config_t cfg={.low_limit=-30000,.high_limit=30000,.flags.accum_count=true};
@@ -55,9 +66,16 @@ void voice_pe_runtime_poll(bool reset,bool paused,bool fault,bool (*publish)(uns
     for(unsigned i=0;i<3;++i)if(!sent_once[i]||values[i]!=sent[i]){
         if(publish(i,values[i])){sent[i]=values[i];sent_once[i]=true;}
     }
-    float rgb[36]={0};unsigned lit=(unsigned)(values[0]*12+.5f);
-    for(unsigned i=0;i<12;++i){rgb[i*3]=fault?.7f:paused?.2f:0;rgb[i*3+1]=!fault&&i<lit?.25f:0;rgb[i*3+2]=!fault&&i<lit?.35f:0;}
-    voice_pe_led_frame(rgb);voice_pe_led_poll();
+    memset(display_rgb,0,sizeof display_rgb);ring_paused=paused;
+    if(patch_ring){
+        if(!paused&&!fault&&ring_fresh&&patch_frame.sequence)
+            memcpy(display_rgb,patch_frame.rgb,sizeof display_rgb);
+        if(fault)for(unsigned i=0;i<12;++i)display_rgb[i*3]=.7f;
+    }else{
+        unsigned lit=(unsigned)(values[0]*12+.5f);
+        for(unsigned i=0;i<12;++i){display_rgb[i*3]=fault?.7f:paused?.2f:0;display_rgb[i*3+1]=!fault&&i<lit?.25f:0;display_rgb[i*3+2]=!fault&&i<lit?.35f:0;}
+    }
+    voice_pe_led_frame(display_rgb);voice_pe_led_poll();
 }
 void voice_pe_runtime_status(cJSON *parent)
 {
@@ -66,5 +84,15 @@ void voice_pe_runtime_status(cJSON *parent)
     cJSON_AddBoolToObject(o,"ready",ready);cJSON_AddNumberToObject(o,"dial",values[0]);
     cJSON_AddNumberToObject(o,"button",values[1]);cJSON_AddNumberToObject(o,"microphone_mute",values[2]);
     cJSON_AddNumberToObject(o,"encoder_count",previous_count);
-    cJSON_AddStringToObject(o,"ring_owner","board status and dial; no RNBO LED messages");
+    cJSON_AddStringToObject(o,"ring_owner",patch_ring?"patch led_rgb":"board status and dial");
+    cJSON_AddNumberToObject(parent,"led_output_version",voice_pe_led_healthy()?1:0);
+    cJSON *led=cJSON_AddObjectToObject(parent,"led_output");
+    cJSON_AddBoolToObject(led,"driver_healthy",voice_pe_led_healthy());
+    cJSON_AddBoolToObject(led,"patch_owned",patch_ring);cJSON_AddBoolToObject(led,"paused",ring_paused);
+    cJSON_AddBoolToObject(led,"fresh",ring_fresh);cJSON_AddNumberToObject(led,"generation",ring_generation);
+    cJSON_AddNumberToObject(led,"sequence",patch_frame.sequence);
+    cJSON_AddNumberToObject(led,"accepted",patch_frame.accepted);cJSON_AddNumberToObject(led,"rejected",patch_frame.rejected);
+    cJSON_AddNumberToObject(led,"dropped",patch_frame.dropped);
+    cJSON *rgb=cJSON_AddArrayToObject(led,"rgb");
+    for(unsigned i=0;i<36;++i)cJSON_AddItemToArray(rgb,cJSON_CreateNumber(display_rgb[i]));
 }

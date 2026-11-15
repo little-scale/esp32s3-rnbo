@@ -41,6 +41,10 @@ uploads/controls pass at native 16 kHz; native-48 and broader hardware qualifica
 remain pending. Read the [Voice PE guide](docs/voice-pe.md) before installing; its layout
 and XMOS requirements differ from XIAO/AMOLED.
 
+Voice PE patches can drive the ring with **`outport led_rgb`**: shared RGB,
+`index r g b` (LED0–11), or all36 RGB values. See the
+[LED example and guide](docs/voice-pe-leds.md).
+
 AMOLED instruments can bind patch-area X/Y and pressed state directly to RNBO
 parameters using inline `@meta`. See the [touchscreen guide](docs/touchscreen-inputs.md).
 
