@@ -35,8 +35,9 @@ All effects belong inside Main.
 
 **Voice PE port:** explicit native 48 kHz / 256 and native 16 kHz / 256 profiles,
 XMOS-clocked codec/audio backend, semantic controls and a protected installer
-are implemented. Initial native-16 speaker, controls, digital capture, idle CPU
-and saved-patch restore checks pass; native-48 and broader hardware qualification
+are implemented. Initial native-16 speaker, controls, digital capture, idle CPU,
+saved-patch restore, repeated USB replacements and authenticated Wi-Fi
+uploads/controls pass at native 16 kHz; native-48 and broader hardware qualification
 remain pending. Read the [Voice PE guide](docs/voice-pe.md) before installing; its layout
 and XMOS requirements differ from XIAO/AMOLED.
 

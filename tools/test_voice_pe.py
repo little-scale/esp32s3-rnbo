@@ -10,11 +10,12 @@ ROOT=Path(__file__).resolve().parents[1]
 PORT=ROOT/'firmware/boards/voice-pe'
 
 class VoicePortableTests(unittest.TestCase):
-    def compile_run(self,sources,includes=(),libraries=()):
+    def compile_run(self,sources,includes=(),libraries=(),defines=()):
         with tempfile.TemporaryDirectory() as tmp:
             executable=Path(tmp)/'test'
             command=['cc','-std=c11','-O1','-Wall','-Wextra','-Werror',
                      '-fsanitize=undefined,bounds,float-cast-overflow','-fno-sanitize-recover=all',
+                     *['-D'+d for d in defines],
                      *['-I'+str(p) for p in (PORT,*includes)],*map(str,sources),*libraries,'-o',str(executable)]
             subprocess.run(command,check=True,capture_output=True)
             return subprocess.run([str(executable)],check=True,capture_output=True,text=True).stdout
@@ -28,6 +29,13 @@ class VoicePortableTests(unittest.TestCase):
         result=self.compile_run([ROOT/'tests/voice_pe/format_transition_test.c',PORT/'voice_pe_format.c',PORT/'voice_pe_controls.c'],
                                 [ROOT/'firmware/components/pcm_output/include'],['-lm'])
         self.assertIn('16/48k fade endpoints',result)
+
+    def test_paused_boot_checks_are_bounded_silent_and_generation_scoped(self):
+        for rate in (16000,48000):
+            result=self.compile_run([ROOT/'tests/voice_pe/boot_probe_test.c',ROOT/'firmware/components/pcm_output/pcm_output.c'],
+                [ROOT/'firmware/main',ROOT/'firmware/components/pcm_output/include',ROOT/'module-sdk/include'],
+                ['-lm'],[f'RNBO_S3_SAMPLE_RATE={rate}u'])
+            self.assertIn('bounded paused boot, stale generations, finite checks and forced-silent PCM',result)
 
     def test_semantic_input_plan_uses_real_c_parser(self):
         cjson=Path(os.environ.get('IDF_PATH',str(Path.home()/'esp/esp-idf')))/'components/json/cJSON'

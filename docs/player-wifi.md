@@ -85,6 +85,10 @@ writes the credential blob. Unconfigured boot loads no radio driver or TCP task.
 When boot is verifying a Main, saved Wi-Fi waits until that preparation guard
 clears through healthy audio blocks; an empty player has no Main verification to
 wait for. Radio startup is kept outside the unverified Main's guard window.
+Voice PE deliberately restores paused. Its audio owner verifies two callbacks
+with PCM forced silent, then freezes the patch again; a healthy check can clear
+the guard and permit saved Wi-Fi without an initial USB Resume. Input events
+remain disabled during that check. This does not resume audible playback.
 Reconnect attempts use a bounded backoff. Network work is on core 0; it does not
 establish real-time audio headroom or gapless replacement.
 

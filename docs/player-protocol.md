@@ -170,6 +170,14 @@ behavior at every instant, real FreeRTOS scheduling, or all possible RNBO patche
 
 ## Voice PE profile additions
 
+`paused_boot_check_version:1` reports the bounded silent check for a restored
+paused Main. `paused_boot_check_generation` identifies its requested generation;
+`paused_boot_check_complete` is true only for a healthy two-callback audio-owner
+check of the current generation. Inputs remain disabled and the normal paused
+PCM mute is retained. After those 512 frames the paused DSP freezes. A matching
+telemetry snapshot lets the control owner clear the persistent startup guard,
+then start saved Wi-Fi. `boot_verified` reports that guard's committed state.
+
 The Voice PE player uses the same `player-*` command framing and ABI major 1,
 with explicit `voice-pe-16000-256-v1` / `voice-pe-48000-256-v1` profiles.
 `player-info` retains the package rate/vector and reports native output rate,

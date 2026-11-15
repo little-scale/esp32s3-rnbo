@@ -1,0 +1,479 @@
+{
+  "computer_checks": {
+    "firmware_cross_builds": {
+      "count": 4,
+      "passed": true
+    },
+    "portable_voice_pe_tests": {
+      "log_sha256": "54d7487fabc2d5a9e82a034779f8701e113d79ceb4c746a3306316c1e76eb008",
+      "passed": true,
+      "tests": 5,
+      "ubsan": true
+    },
+    "studio_player_tests": {
+      "log_sha256": "f9d7a5a3e8b5848154987559ff2703a74bde4b7c6352b3636fa2501781e42901",
+      "passed": true,
+      "tests": 14
+    }
+  },
+  "date_local": "2026-11-16",
+  "earlier_session": "evidence/voice-pe-hardware-16000.json",
+  "firmware": {
+    "amoled": {
+      "artifacts": {
+        "build/firmware-amoled-player/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+        },
+        "build/firmware-amoled-player/rnbo_s3_amoled.bin": {
+          "bytes": 1268640,
+          "sha256": "e85ac98937ca6ab7f147e350351e6cb9c52b49992941e5ccc734f35f449e8ae2"
+        },
+        "build/firmware-amoled-player/rnbo_s3_amoled.elf": {
+          "bytes": 15464988,
+          "sha256": "a57aa9ef934825fdcc8be155a482737ecdcd23af9debebcac32d06a2f7d830be"
+        }
+      },
+      "profile": "esp32s3-44100-256-v1",
+      "report_sha256": "caa3036d868ad73e5307550d4fcf6d7fa82917119a14306ab78e83a9699d51e6",
+      "sample_rate": 44100
+    },
+    "voice-pe-16000": {
+      "artifacts": {
+        "build/firmware-voice-pe-player-16000/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "0d5d89ae855e72583296b72205054e80e81b694216c1e04b3a31cf6fdfdba782"
+        },
+        "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.bin": {
+          "bytes": 984816,
+          "sha256": "f15832a1882b1c8fd709e0327948cfa0fa8ffe156e065791645058d83077af91"
+        },
+        "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.elf": {
+          "bytes": 11719476,
+          "sha256": "ece2db8dfb2c6a2f44b53a89d354848c6ccbcf88cb30f5b7a7fee2288f6d60c0"
+        }
+      },
+      "profile": "voice-pe-16000-256-v1",
+      "report_sha256": "d042cc5452d5736dbff0a6bb85e2dfe9b7c34fcc3374ac6e903c4899b868d43f",
+      "sample_rate": 16000
+    },
+    "voice-pe-48000": {
+      "artifacts": {
+        "build/firmware-voice-pe-player-48000/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "0d5d89ae855e72583296b72205054e80e81b694216c1e04b3a31cf6fdfdba782"
+        },
+        "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.bin": {
+          "bytes": 984816,
+          "sha256": "931d76a7abf549a13dc93bf719f6d9e53db4a5d8798af85d8a60c81a14359cb8"
+        },
+        "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.elf": {
+          "bytes": 11719476,
+          "sha256": "9478203c7d139ecf2921c4d089a1123e69c3cd344f943a56e6ddd5487623c3da"
+        }
+      },
+      "profile": "voice-pe-48000-256-v1",
+      "report_sha256": "bb657b5666ca73e840677d3809ce21898a9c4e36ec8fe86497f759e12fc12bc4",
+      "sample_rate": 48000
+    },
+    "xiao": {
+      "artifacts": {
+        "build/firmware-xiao-player/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+        },
+        "build/firmware-xiao-player/rnbo_s3_xiao.bin": {
+          "bytes": 936656,
+          "sha256": "2e3bcae9675e036824a51472b8d83e88476e63c26255ee34af104d70d2ddcf1a"
+        },
+        "build/firmware-xiao-player/rnbo_s3_xiao.elf": {
+          "bytes": 11127692,
+          "sha256": "c585dbe7d82d192539c184ea64a5e45174e2dd749eda3a2d7c87b065e4ac4b94"
+        }
+      },
+      "profile": "esp32s3-44100-256-v1",
+      "report_sha256": "6a9117661553445a9dd51f1db37f70d2cc7ef19bec30d1a8e311f58fd108e02d",
+      "sample_rate": 44100
+    }
+  },
+  "format": "rnbo-voice-pe-wifi-stress-hardware-v1",
+  "full_hardware_qualification": false,
+  "limitations": [
+    "USB cable powered the unit; no physical power-cycle trial",
+    "Analog transition clicks and jack/capture/microphone/Grove paths unqualified",
+    "Synthetic parameter updates do not qualify PCNT overflow, contact bounce or rapid physical edges",
+    "USB stress internal RAM changed roughly 140 bytes; longer repeated-load soak needed to distinguish cache growth from a leak",
+    "Native-48 is built but not run on hardware",
+    "Programmable RNBO LED output and browser protected installer remain pending"
+  ],
+  "paused_boot_final_build": {
+    "final_controls_restore": true,
+    "final_volume": 30,
+    "firmware_elf_sha256": "ece2db8dfb2c6a2f44b53a89d354848c6ccbcf88cb30f5b7a7fee2288f6d60c0",
+    "normal_reset_not_power_cycle": true,
+    "passed": true,
+    "physical_usb_disconnected": false,
+    "trials": [
+      {
+        "authenticated_wifi_without_usb_handle": true,
+        "frozen_after_check": true,
+        "paused_capture_all_zero": true,
+        "paused_capture_frames": 3200,
+        "paused_restoration": {
+          "boot_verified": true,
+          "clock_check": {
+            "expected_ws_hz": 16000,
+            "measured_bclk_hz": 1023996.8125,
+            "measured_ws_hz": 16007.466796875,
+            "passed": true
+          },
+          "firmware_elf_sha256": "ece2db8dfb2c6a2f44b53a89d354848c6ccbcf88cb30f5b7a7fee2288f6d60c0",
+          "frames": 115968,
+          "generation": 2,
+          "main": {
+            "arena_bytes": 1048576,
+            "arena_used": 65600,
+            "context_bytes": 14880,
+            "name": "Voice PE sine 16k",
+            "package_sha256": "397aebd259f51eac97d7791ac51fe0fb1b2cea6b36ec34c6646b8732009ed951",
+            "parameter_count": 2,
+            "parameters": [
+              {
+                "actual": 440,
+                "index": 0,
+                "initial": 440,
+                "max": 10000,
+                "min": 20,
+                "name": "frequency",
+                "normalized": 0.04208416864275932,
+                "unit": ""
+              },
+              {
+                "actual": 0.20000000298023224,
+                "index": 1,
+                "initial": 0.20000000298023224,
+                "max": 1,
+                "min": 0,
+                "name": "level",
+                "normalized": 0.20000000298023224,
+                "unit": ""
+              }
+            ],
+            "physical_inputs": {
+              "bindings": [],
+              "peak_scan_us": 0,
+              "scan_interval_us": 4000,
+              "scan_us": 0,
+              "scans": 0,
+              "version": 1
+            },
+            "sample_position": 4608,
+            "source_sha256": "f116d983a1ff6ea6599db1bf01cfe16af97e9e8d12f6d8a7d2cc4fa0d35072fc"
+          },
+          "output_peak_q15": 0,
+          "paused": true,
+          "paused_boot_check_complete": true,
+          "paused_boot_check_generation": 2,
+          "peak_cpu_percent": 5.46875,
+          "profile": "voice-pe-16000-256-v1",
+          "render_cpu_percent": 1.3625,
+          "volume": 30
+        },
+        "pc_bytes_sha256": "59ec91dcb7dc65b5f928091cb0e25c26729a0a4453ebe7d8244fc1ceae7d9712",
+        "trial": 1,
+        "wifi_resume_pause": false
+      },
+      {
+        "authenticated_wifi_without_usb_handle": true,
+        "frozen_after_check": true,
+        "paused_capture_all_zero": true,
+        "paused_capture_frames": 3200,
+        "paused_restoration": {
+          "boot_verified": true,
+          "clock_check": {
+            "expected_ws_hz": 16000,
+            "measured_bclk_hz": 1023996.8125,
+            "measured_ws_hz": 15994.296875,
+            "passed": true
+          },
+          "firmware_elf_sha256": "ece2db8dfb2c6a2f44b53a89d354848c6ccbcf88cb30f5b7a7fee2288f6d60c0",
+          "frames": 113408,
+          "generation": 2,
+          "main": {
+            "arena_bytes": 1048576,
+            "arena_used": 65600,
+            "context_bytes": 14880,
+            "name": "Voice PE sine 16k",
+            "package_sha256": "397aebd259f51eac97d7791ac51fe0fb1b2cea6b36ec34c6646b8732009ed951",
+            "parameter_count": 2,
+            "parameters": [
+              {
+                "actual": 440,
+                "index": 0,
+                "initial": 440,
+                "max": 10000,
+                "min": 20,
+                "name": "frequency",
+                "normalized": 0.04208416864275932,
+                "unit": ""
+              },
+              {
+                "actual": 0.20000000298023224,
+                "index": 1,
+                "initial": 0.20000000298023224,
+                "max": 1,
+                "min": 0,
+                "name": "level",
+                "normalized": 0.20000000298023224,
+                "unit": ""
+              }
+            ],
+            "physical_inputs": {
+              "bindings": [],
+              "peak_scan_us": 0,
+              "scan_interval_us": 4000,
+              "scan_us": 0,
+              "scans": 0,
+              "version": 1
+            },
+            "sample_position": 4608,
+            "source_sha256": "f116d983a1ff6ea6599db1bf01cfe16af97e9e8d12f6d8a7d2cc4fa0d35072fc"
+          },
+          "output_peak_q15": 0,
+          "paused": true,
+          "paused_boot_check_complete": true,
+          "paused_boot_check_generation": 2,
+          "peak_cpu_percent": 5.46875,
+          "profile": "voice-pe-16000-256-v1",
+          "render_cpu_percent": 1.3375,
+          "volume": 30
+        },
+        "pc_bytes_sha256": "59ec91dcb7dc65b5f928091cb0e25c26729a0a4453ebe7d8244fc1ceae7d9712",
+        "trial": 2,
+        "wifi_resume_pause": true
+      }
+    ],
+    "two_consecutive_paused_restarts": true,
+    "usb_used_for_reset_only": true,
+    "xmos_written": false
+  },
+  "private_data_published": false,
+  "profile": "voice-pe-16000-256-v1",
+  "source_inventory_sha256": "9e82157e8293dfdb88537e506ecf0e7e51d0e18b0af317e0cf209333d670f2de",
+  "test_kits": [
+    {
+      "directory": "build/dist/voice-pe-16000-hardware-test-f15832a188-1237d7",
+      "profile": "voice-pe-16000-256-v1",
+      "zip": "build/dist/voice-pe-16000-hardware-test-f15832a188-1237d7.zip",
+      "zip_bytes": 751462,
+      "zip_sha256": "17cb8598093ace8650d0034d49ddd0d3c53224c5fc3c9cdd30d44d4ab9e9a6c1"
+    },
+    {
+      "directory": "build/dist/voice-pe-48000-hardware-test-931d76a7ab-068a7d",
+      "profile": "voice-pe-48000-256-v1",
+      "zip": "build/dist/voice-pe-48000-hardware-test-931d76a7ab-068a7d.zip",
+      "zip_bytes": 751448,
+      "zip_sha256": "e4c483706a16d44ecf0d9399148511b8be8a77730fa0dd059cc43ac602ff8e18"
+    }
+  ],
+  "transient_timeout": "User observed a TCP timeout during the ESP update; after restart the same saved pairing/address authenticated. No network settings or credentials were changed by the diagnostic.",
+  "usb_replacement_stress": {
+    "alternating_replacements": 12,
+    "analog_transition_clicks_tested": false,
+    "controls_maximum_peak_render_cpu_percent": 8.85625,
+    "controls_mean_render_cpu_percent": 6.544156384341932,
+    "controls_warmed_heap_change_bytes": {
+      "internal_free_bytes": -144,
+      "psram_free_bytes": 0
+    },
+    "elapsed_seconds": 130.41793595801573,
+    "fault_counters_zero": true,
+    "final_controls_restore": true,
+    "final_paused": false,
+    "final_volume": 30,
+    "firmware_elf_sha256": "823e0977ac46a30d1db4c6335162560778ea1c7676a57c701b2b7945d4d486e1",
+    "host_parameter_updates": 288,
+    "iterations": [
+      {
+        "generation": 3,
+        "internal_free_bytes": 159011,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 1,
+        "kind": "sine",
+        "mean_render_cpu_percent": 5.096802325581395,
+        "peak_cpu_percent": 6.36875,
+        "psram_free_bytes": 7071936,
+        "psram_largest_block_bytes": 5767168
+      },
+      {
+        "generation": 4,
+        "internal_free_bytes": 158119,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 2,
+        "kind": "controls",
+        "mean_render_cpu_percent": 6.49951171875,
+        "peak_cpu_percent": 8.45625,
+        "psram_free_bytes": 7062464,
+        "psram_largest_block_bytes": 4718592
+      },
+      {
+        "generation": 5,
+        "internal_free_bytes": 159011,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 3,
+        "kind": "sine",
+        "mean_render_cpu_percent": 5.0859756097560975,
+        "peak_cpu_percent": 6.76875,
+        "psram_free_bytes": 7071936,
+        "psram_largest_block_bytes": 6815744
+      },
+      {
+        "generation": 6,
+        "internal_free_bytes": 158123,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 4,
+        "kind": "controls",
+        "mean_render_cpu_percent": 6.570436507936508,
+        "peak_cpu_percent": 8.39375,
+        "psram_free_bytes": 7062464,
+        "psram_largest_block_bytes": 5767168
+      },
+      {
+        "generation": 7,
+        "internal_free_bytes": 159027,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 5,
+        "kind": "sine",
+        "mean_render_cpu_percent": 5.119400000000001,
+        "peak_cpu_percent": 6.89375,
+        "psram_free_bytes": 7071936,
+        "psram_largest_block_bytes": 4587520
+      },
+      {
+        "generation": 8,
+        "internal_free_bytes": 157991,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 6,
+        "kind": "controls",
+        "mean_render_cpu_percent": 6.564781746031746,
+        "peak_cpu_percent": 8.85625,
+        "psram_free_bytes": 7062464,
+        "psram_largest_block_bytes": 6815744
+      },
+      {
+        "generation": 9,
+        "internal_free_bytes": 158891,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 7,
+        "kind": "sine",
+        "mean_render_cpu_percent": 5.153224206349206,
+        "peak_cpu_percent": 7.1125,
+        "psram_free_bytes": 7071936,
+        "psram_largest_block_bytes": 5767168
+      },
+      {
+        "generation": 10,
+        "internal_free_bytes": 157999,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 8,
+        "kind": "controls",
+        "mean_render_cpu_percent": 6.540625,
+        "peak_cpu_percent": 8.03125,
+        "psram_free_bytes": 7062464,
+        "psram_largest_block_bytes": 4718592
+      },
+      {
+        "generation": 11,
+        "internal_free_bytes": 158875,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 9,
+        "kind": "sine",
+        "mean_render_cpu_percent": 5.09975,
+        "peak_cpu_percent": 6.825,
+        "psram_free_bytes": 7071936,
+        "psram_largest_block_bytes": 6815744
+      },
+      {
+        "generation": 12,
+        "internal_free_bytes": 157983,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 10,
+        "kind": "controls",
+        "mean_render_cpu_percent": 6.557390873015874,
+        "peak_cpu_percent": 8.26875,
+        "psram_free_bytes": 7062464,
+        "psram_largest_block_bytes": 5767168
+      },
+      {
+        "generation": 13,
+        "internal_free_bytes": 158875,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 11,
+        "kind": "sine",
+        "mean_render_cpu_percent": 5.062295081967213,
+        "peak_cpu_percent": 6.68125,
+        "psram_free_bytes": 7071936,
+        "psram_largest_block_bytes": 6815744
+      },
+      {
+        "generation": 14,
+        "internal_free_bytes": 157979,
+        "internal_largest_block_bytes": 77824,
+        "iteration": 12,
+        "kind": "controls",
+        "mean_render_cpu_percent": 6.532192460317461,
+        "peak_cpu_percent": 8.05625,
+        "psram_free_bytes": 7062464,
+        "psram_largest_block_bytes": 5767168
+      }
+    ],
+    "passed": true,
+    "pause_resume_pairs": 12,
+    "physical_edge_stress_tested": false,
+    "scope": "Muted USB replacements and synthetic host parameter events; not physical edge/watch-point stress or analog click qualification.",
+    "sine_maximum_peak_render_cpu_percent": 7.1125,
+    "sine_mean_render_cpu_percent": 5.102907870608986,
+    "sine_warmed_heap_change_bytes": {
+      "internal_free_bytes": -136,
+      "psram_free_bytes": 0
+    },
+    "xmos_written": false
+  },
+  "wifi_measurement_scope": "Wi-Fi upload/soak measurements used the first startup-correction binary, whose ELF is retained in that result. Final early-Resume correction was rechecked with two silent restarts and authenticated Wi-Fi control; timing results are not retagged as final-binary measurements.",
+  "wifi_upload_controls_and_soak": {
+    "additional_controls_restore_upload": true,
+    "elapsed_seconds": 68.93531654099934,
+    "fault_counters_zero": true,
+    "final_package_sha256": "27dbdd0fefa1aef74718850e6936dadc2a5979dfcceedd6893736b4c357b4e5c",
+    "final_paused": false,
+    "final_volume": 30,
+    "firmware_elf_sha256": "a13301a8f7c5ed988edea4432e33df803c76b198378586cc5bf360f581f26056",
+    "host_parameter_updates": 64,
+    "incorrect_pairing_key_rejected": true,
+    "internal_free_change_bytes": 28,
+    "passed": true,
+    "psram_free_change_bytes": 0,
+    "soak_mean_render_cpu_percent": 6.549085528657885,
+    "soak_peak_render_cpu_percent": 11.6875,
+    "soak_polls": 163,
+    "soak_seconds": 44.954979,
+    "uploads": [
+      {
+        "generation": 4,
+        "kind": "sine",
+        "package_sha256": "51ab6a47dadeba434ff259beafa478abbfe29a4512d51819432440f23fba1dd5",
+        "seconds": 3.2915090409806
+      },
+      {
+        "generation": 5,
+        "kind": "controls",
+        "package_sha256": "27dbdd0fefa1aef74718850e6936dadc2a5979dfcceedd6893736b4c357b4e5c",
+        "seconds": 4.367137750028633
+      }
+    ],
+    "usb_cable_supplied_power": true,
+    "usb_serial_handles_open": false,
+    "valid_session_after_bad_key": true
+  },
+  "xmos_written": false
+}

@@ -37,10 +37,17 @@ New Studio Voice PE builds default to **0% master volume**. Select Resume and a
 small master setting explicitly for commissioning. Volume is not independently
 persisted: the saved package's initial volume is restored at boot, then playback
 stays paused. The microphone switch is an input, not a speaker-mute command.
-The saved-Main startup guard requires live callbacks after deliberate Resume;
-Wi-Fi radio startup is deferred until that guard clears. A freshly restarted
-paused Voice PE therefore currently needs USB Resume before Wi-Fi can start.
-Wireless recovery/startup behaviour remains a follow-up qualification item.
+The saved-Main startup guard is checked with two callbacks on the real audio
+owner while PCM is forced silent. The patch remains paused and then freezes
+again; this adds 512 frames to the existing detached preparation advancement.
+Only a healthy, generation-matched check can release the guard for radio
+startup. This corrects the first build's need for USB Resume before Wi-Fi could
+start. Two consecutive native-16 restarts now pass silent PCM capture at a
+packaged 30% volume, paused-state freezing and authenticated Wi-Fi access without
+USB Resume. See the [follow-up receipt](../evidence/voice-pe-wifi-stress-16000.json).
+Power interruption and native-48 wireless startup remain unqualified.
+`player-info` exposes `paused_boot_check_version`, its generation and completion;
+`boot_verified` also requires the control owner to commit the cleared guard.
 
 Replacement renders a 5 ms outgoing fade, sends zeros past the six 128-frame
 DMA buffers plus a FIFO margin, then parks the audio owner before destruction or

@@ -10,6 +10,7 @@
 #include "player_midi.h"
 #ifdef CONFIG_RNBO_S3_VOICE_PE
 #include "voice_pe_runtime.h"
+#include "player_boot_probe.h"
 #endif
 #include "cJSON.h"
 #include "esp_app_desc.h"
@@ -66,6 +67,9 @@ typedef struct {
 static _Atomic(player_slot *) active;
 static atomic_bool paused=true,maintenance=false,parked=false,park_failed=false,audio_ready=false;
 static atomic_bool peak_reset_requested=false;
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+static atomic_uint paused_boot_request=0,paused_boot_completed=0;
+#endif
 static atomic_uint generation=1,volume=50,queue_errors=0,parameter_count=0;
 static atomic_uint maintenance_epoch=0,acknowledged_epoch=0;
 static atomic_uint actual_bits[PLAYER_MAX_PARAMETERS],normalized_bits[PLAYER_MAX_PARAMETERS];
@@ -229,6 +233,9 @@ static void audio_task(void *unused)
     int16_t pcm[256*BOARD_AUDIO_CHANNELS];pcm_output sink;pcm_output_init(&sink);
     player_stats stats={0},baseline={0};unsigned observed_generation=0;
     pcm_transition transition;pcm_transition_begin(&transition,RNBO_S3_SAMPLE_RATE,1);
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    player_boot_probe boot_probe={0};
+#endif
     if(board_audio_start_dma()!=ESP_OK){atomic_store(&park_failed,true);vTaskDelete(NULL);return;}
     allocation_watch_start(ALLOCATION_WATCH_AUDIO);
     atomic_store_explicit(&audio_ready,true,memory_order_release);
@@ -286,6 +293,12 @@ static void audio_task(void *unused)
         }
         player_slot *s=atomic_load_explicit(&active,memory_order_acquire);
         bool play=s&&!atomic_load(&paused)&&!stats.fault&&!atomic_load(&park_failed);
+        bool silent_boot_probe=false;
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+        unsigned probe_request=atomic_load_explicit(&paused_boot_request,memory_order_acquire);
+        silent_boot_probe=player_boot_probe_needed(&boot_probe,probe_request,now_generation,
+            atomic_load(&paused),s&&!stats.fault&&!atomic_load(&park_failed));
+#endif
         player_midi_set_playing(play);
         bool midi_changed=false;
         player_event e;
@@ -327,7 +340,7 @@ static void audio_task(void *unused)
             if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;break;}
             publish_parameter(s,index);
         }
-        if(play && !stats.fault) {
+        if((play||silent_boot_probe) && !stats.fault) {
             if(s->image.module.process(s->image.context,NULL,outputs,256,s->image.position)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;}
             else s->image.position+=256;
             char error[128];
@@ -336,6 +349,12 @@ static void audio_task(void *unused)
             stats.late_allocations=(uint32_t)s->image.dynamic_stats.total_late_allocations;
             stats.position=s->image.position;
             if(midi_changed)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+            /* An early explicit Resume may provide the same proof with live
+             * callbacks. Consume those too, so a later Pause never primes
+             * extra DSP blocks after startup has already been verified. */
+            if(probe_request&&probe_request==now_generation)player_boot_probe_processed(&boot_probe);
+#endif
         } else {memset(left,0,sizeof left);memset(right,0,sizeof right);}
         if(!pcm_output_render(&sink,left,right,pcm,256,BOARD_AUDIO_CHANNELS,atomic_load(&volume),0.5f,!play||stats.fault))stats.fault=true;
 #ifdef CONFIG_RNBO_S3_VOICE_PE
@@ -366,6 +385,12 @@ static void audio_task(void *unused)
         if(stats.since.heap.allocations||stats.since.heap.frees||stats.late_allocations)stats.fault=true;
         if(stats.fault)request_pause();
         xQueueOverwrite(telemetry,&stats);
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+        if(player_boot_probe_complete(&boot_probe,probe_request,now_generation,
+            !stats.fault&&!atomic_load(&park_failed)&&!stats.since.overruns&&
+            !stats.since.dma_errors&&!stats.since.write_errors&&!stats.since.queue_errors))
+            atomic_store_explicit(&paused_boot_completed,now_generation,memory_order_release);
+#endif
 #ifdef CONFIG_RNBO_S3_HEADLESS
         board_audio_activity(play&&!stats.fault);
 #endif
@@ -550,6 +575,10 @@ static void player_info(void)
 #ifdef CONFIG_RNBO_S3_VOICE_PE
     cJSON_AddStringToObject(o,"profile",RNBO_S3_SAMPLE_RATE==16000?"voice-pe-16000-256-v1":"voice-pe-48000-256-v1");
     add_number(o,"output_rate",RNBO_S3_SAMPLE_RATE);board_audio_add_status(o);
+    add_number(o,"paused_boot_check_version",1);
+    add_number(o,"paused_boot_check_generation",atomic_load(&paused_boot_request));
+    cJSON_AddBoolToObject(o,"paused_boot_check_complete",atomic_load(&paused_boot_request)!=0&&
+        atomic_load(&paused_boot_completed)==atomic_load(&generation));
     voice_pe_runtime_status(o);
 #else
     cJSON_AddStringToObject(o,"profile","esp32s3-44100-256-v1");
@@ -786,7 +815,11 @@ static void control_task(void *unused)
             if(incoming.bytes&&esp_timer_get_time()-incoming.touched>30000000)discard_incoming();
             if(boot_guard_pending) {
                 player_stats s={0};xQueuePeek(telemetry,&s,0);
-                if(s.generation==guard_generation && s.position>=guard_start_position+512 && !atomic_load(&paused) && !s.fault && !s.since.module_errors && !s.since.nonfinite && !s.since.overruns && !s.since.dma_errors && !s.since.write_errors && !s.since.queue_errors) {
+                bool live_verified=!atomic_load(&paused);
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+                live_verified|=atomic_load_explicit(&paused_boot_completed,memory_order_acquire)==guard_generation;
+#endif
+                if(s.generation==guard_generation && s.position>=guard_start_position+512 && live_verified && !s.fault && !s.since.module_errors && !s.since.nonfinite && !s.since.overruns && !s.since.dma_errors && !s.since.write_errors && !s.since.queue_errors) {
                     char error[128];if(begin_maintenance(error,sizeof error)){(void)guard_write("");end_maintenance();}
                 }
             }
@@ -864,6 +897,11 @@ void app_main(void)
 #ifdef CONFIG_RNBO_S3_VOICE_PE
     /* Commissioning boots always paused. A user must explicitly Resume. */
     request_pause();
+    /* Verify two real callbacks with PCM still forced silent by !play. This
+     * clears a healthy saved Main's guard before radio startup, without needing
+     * USB Resume or letting a network failure blame an unverified module. */
+    if(boot_guard_pending&&atomic_load(&active))
+        atomic_store_explicit(&paused_boot_request,guard_generation,memory_order_release);
 #endif
 #ifdef RNBO_S3_WIFI
     /* Startup may initialise radio/NVS before DMA exists. Later settings changes park DMA. */

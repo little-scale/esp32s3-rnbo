@@ -1,5 +1,19 @@
 # Implementation status — native export migration
 
+**16 November 2026 — Voice PE USB stress and Wi-Fi:** Twelve alternating
+replacements, 288 synthetic parameter updates and twelve Pause/Resume pairs
+pass without reported runtime faults. Saved paused startup now verifies two
+audio-owner callbacks with PCM forced silent, freezes again, then permits radio
+startup. This removes the first build's USB-Resume dependency. An early explicit
+Resume consumes the same bounded verification count. Native-16 restart checks,
+authenticated wireless uploads/controls and a 44.95-second wireless soak pass;
+the soak measured 6.55% mean / 11.69% peak render load. Invalid pairing keys
+reject. Binary identities and measurement scopes are kept separate in the
+[follow-up receipt](../evidence/voice-pe-wifi-stress-16000.json). No native-48,
+physical power-cycle, rapid physical-edge or analog click qualification is
+implied. Small internal-RAM variation during repeated loads remains flagged
+for a longer soak; PSRAM use stayed stable.
+
 **16 November 2026 — first Voice PE native-16 hardware session:** Protected
 application installation and backup/readback passed without changing XMOS,
 bootloader, partition table, storage or NVS. The built-in speaker's 440 Hz sine
