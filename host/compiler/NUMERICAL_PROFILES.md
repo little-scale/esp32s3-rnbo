@@ -1,5 +1,10 @@
 # Optional cycle coefficient profile
 
+Native Studio/CLI builds separately default to automatic Float32 storage for
+reviewed internal ordinary `delay~` rings. This does not enable these historical
+arithmetic profiles. See the [storage policy](../../docs/native-delay-storage.md);
+use `--delay-storage float64` for a native-storage reference comparison.
+
 `prepare.py` defaults to `--numerical-profile float32-strict`. The experimental
 `--numerical-profile float32-cycle-v1` adds an `f` suffix to exactly two constants
 inside each admitted RNBO 1.4.4 scalar-frequency, fixed-256 `cycle~` kernel:

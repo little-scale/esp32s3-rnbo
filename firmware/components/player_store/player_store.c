@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 #include "player_store.h"
+#include "rnbo_s3_module.h"
 
 #include "cJSON.h"
 #include "esp_err.h"
@@ -135,12 +136,12 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
     if (!bytes || length < PLAYER_PACKAGE_HEADER_BYTES || length > PLAYER_PACKAGE_MAX_BYTES)
         return fail(error, error_capacity, "Package size is outside its bounds");
     if (memcmp(bytes, "RNBOS3P1", 8) != 0 || read_u32(bytes + 8) != 128 ||
-        (read_u32(bytes + 12) != 1 && read_u32(bytes + 12) != 2 && read_u32(bytes + 12) != 3) || read_u32(bytes + 16) != 1)
+        (read_u32(bytes + 12) < 1 || read_u32(bytes + 12) > 4) || read_u32(bytes + 16) != 1)
         return fail(error, error_capacity, "Unsupported package header or ABI");
     uint32_t role = read_u32(bytes + 20), rate = read_u32(bytes + 24);
     uint32_t block = read_u32(bytes + 28), arena = read_u32(bytes + 32);
     uint32_t metadata_length = read_u32(bytes + 36), elf_length = read_u32(bytes + 40);
-    if (role != PLAYER_ROLE_MAIN || rate != 44100 || block != 256 ||
+    if (role != PLAYER_ROLE_MAIN || rate != RNBO_S3_SAMPLE_RATE || block != RNBO_S3_BLOCK_FRAMES ||
         arena < 4096 || arena > 4194304)
         return fail(error, error_capacity, "Invalid role, audio format or arena budget");
     for (unsigned i = 108; i < 128; ++i)
@@ -170,7 +171,7 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
         cJSON_Delete(json);
         return fail(error, error_capacity, "Metadata must be one JSON object");
     }
-    cJSON *name = NULL, *source = NULL, *volume = NULL, *visual = NULL;
+    cJSON *name = NULL, *source = NULL, *volume = NULL, *visual = NULL, *audio_profile = NULL;
     bool duplicate = false, ambiguous_visual = false;
     for (cJSON *item = json->child; item; item = item->next) {
         cJSON **field = NULL;
@@ -178,6 +179,7 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
         else if (strcmp(item->string, "source_sha256") == 0) field = &source;
         else if (strcmp(item->string, "initial_volume") == 0) field = &volume;
         else if (strcmp(item->string, "visual") == 0) field = &visual;
+        else if (strcmp(item->string, "audio_profile") == 0) field = &audio_profile;
         if (field) {
             if (*field) {
                 if (field == &visual) ambiguous_visual = true;
@@ -186,13 +188,15 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
         }
     }
     if (ambiguous_visual) visual = NULL;
-    unsigned inputs_count = 0, screen_count = 0;
+    unsigned inputs_count = 0, screen_count = 0, voice_count=0;
     for (const cJSON *item = json->child; item; item = item->next)
         if (strcmp(item->string, "physical_inputs") == 0) ++inputs_count;
         else if (strcmp(item->string, "touchscreen_inputs") == 0) ++screen_count;
+        else if (strcmp(item->string, "voice_pe_inputs") == 0) ++voice_count;
     unsigned envelope = read_u32(bytes + 12);
     if ((envelope == 2 ? inputs_count != 1 : inputs_count != 0) ||
-        (envelope == 3 ? screen_count != 1 : screen_count != 0)) {
+        (envelope == 3 ? screen_count != 1 : screen_count != 0) ||
+        (envelope == 4 ? voice_count != 1 : voice_count != 0) || (voice_count && rate==44100)) {
         cJSON_Delete(json);
         return fail(error, error_capacity, "Touchscreen inputs require envelope v3; pin inputs v2; ordinary packages v1");
     }
@@ -206,6 +210,12 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
         cJSON_Delete(json);
         return fail(error, error_capacity, "Invalid required metadata");
     }
+    if ((audio_profile && (!cJSON_IsString(audio_profile) || strcmp(audio_profile->valuestring,
+            rate==16000?"voice-pe-16000-256-v1":rate==48000?"voice-pe-48000-256-v1":"esp32s3-44100-256-v1"))) ||
+            (rate!=44100 && (inputs_count || screen_count))) {
+        cJSON_Delete(json);
+        return fail(error,error_capacity,"Package metadata/profile controls disagree with audio header");
+    }
     if (!hash_bytes(bytes, length, digest)) {
         cJSON_Delete(json);
         return fail(error, error_capacity, "Could not hash the complete package");
@@ -216,6 +226,7 @@ bool player_package_parse(const uint8_t *bytes, size_t length, player_package *p
     package->role = role; package->arena_bytes = arena;
     package->initial_volume = (uint32_t)volume->valuedouble;
     memcpy(package->name, name->valuestring, name_length + 1);
+    package->sample_rate=rate;package->block_frames=block;
     memcpy(package->source_sha256, source->valuestring, 65);
     hex_sha(digest, package->package_sha256);
     package->metadata_json = json; package->visual = visual;
@@ -227,7 +238,11 @@ static const char *role_key(uint32_t role) {
 }
 
 static const char *slot_path(uint32_t role, uint8_t slot) {
+    #ifdef CONFIG_RNBO_S3_VOICE_PE
+    static const char *paths[2] = {PLAYER_STORE_PATH "/rnbo-main0.pkg", PLAYER_STORE_PATH "/rnbo-main1.pkg"};
+#else
     static const char *paths[2] = {PLAYER_STORE_PATH "/main0.pkg", PLAYER_STORE_PATH "/main1.pkg"};
+#endif
     return role_key(role) && slot < 2 ? paths[slot] : NULL;
 }
 

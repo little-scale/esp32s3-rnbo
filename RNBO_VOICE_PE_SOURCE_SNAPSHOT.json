@@ -1,0 +1,627 @@
+{
+  "format_version": 1,
+  "prepared_date_local": "2026-11-15",
+  "purpose": "Source provenance for RNBO_VOICE_PE_TECHNICAL_HANDOVER.md; read-only source review, no firmware qualification performed by this document task.",
+  "required_profiles": [
+    {
+      "board": "voice-pe",
+      "sample_rate": 48000,
+      "output_rate": 48000,
+      "block_frames": 256
+    },
+    {
+      "board": "voice-pe",
+      "sample_rate": 16000,
+      "output_rate": 16000,
+      "block_frames": 256
+    }
+  ],
+  "notes": [
+    "Profile identifiers and new interfaces in the handover are proposals, not implemented commands.",
+    "The RNBO working tree has local modifications. File state and hashes distinguish those from committed sources.",
+    "No private flash backups, credentials, pairing keys or raw user source packages are included.",
+    "The SynthDef status also includes unrelated pre-existing untracked documentation/hardware. Those are not part of this handover."
+  ],
+  "repositories": {
+    "synthdef": {
+      "remote": "https://github.com/little-scale/esp32s3-synthdef.git",
+      "local_root_at_review": "/Users/a1106632/Documents/WaveShareAmoled18-synthdef",
+      "head": "510c14aabb48f8a7b2318ba6947a915b2c7e874c",
+      "branch": "main",
+      "status_porcelain_at_snapshot": "?? docs/RNBO_ESP32S3_TECHNICAL_HANDOVER.md\n?? docs/RNBO_VOICE_PE_TECHNICAL_HANDOVER.md\n?? hardware/",
+      "files": [
+        {
+          "path": "ports/voice_pe/README.md",
+          "bytes": 9600,
+          "sha256": "1e5acd6123488db33ad303dfcafd9536f651de226f64031aa8b1958567024343",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/PORTING.md",
+          "bytes": 11205,
+          "sha256": "dd5c221846cb47879174e162b5aeb0b09095c4adea9fed6dd054b095c63c0bbe",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/NATIVE_16K.md",
+          "bytes": 14127,
+          "sha256": "fc6c2c88ecbe0358fd4bc89eaf4b6f420edd35811136e0646b58afea326dfb04",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/CODEC.md",
+          "bytes": 7447,
+          "sha256": "2e23319f9cc680fec23f2422c466482bbcf8e1d68c09f607881e13df6f42399b",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/CONTROLS.md",
+          "bytes": 7053,
+          "sha256": "77a679dd6d19e230f31425116f74f4540ae116e7067d19ac69eacae480563f28",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/RECOVERY.md",
+          "bytes": 1532,
+          "sha256": "8e24b0b8c6f522cd61a6dd5b5bc3348d95df8457d3f04ef37f9411d872c231b2",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/SOURCES.md",
+          "bytes": 13394,
+          "sha256": "c27138f606c06425bfbe3b3865b8153729fd1acc5456879836c03d5c3b88d1fc",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_pins.h",
+          "bytes": 696,
+          "sha256": "a46d00176920c720b5e5abb85a2c7f2ffdcf7b1e575f788632c245922a9ae99b",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_board.c",
+          "bytes": 2450,
+          "sha256": "187b702d5542f1fcd39d531c98e01d315a086e01010dafcc4217e12d0b96bbb8",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_board.h",
+          "bytes": 614,
+          "sha256": "5b5320cc66ab4edcd23d0e9c7d44e945b5ffc9397aab5e889ddd8f18744cc8ed",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_codec.c",
+          "bytes": 2843,
+          "sha256": "ea371535c55ac7d9a3e0e7c6ef5cb3bf74cf070a4271f86a88347c7b2aba5fb6",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_codec.h",
+          "bytes": 675,
+          "sha256": "e30b800f947cce82baa59a418b680910ba70ebe49bbb5e9b0dc7581aadf6128f",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_codec_sequence.c",
+          "bytes": 5570,
+          "sha256": "1f61777ebe10797c7d6608879190f12966d6e879a35f43ddece79f2029ea625d",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_codec_sequence.h",
+          "bytes": 1363,
+          "sha256": "855449ccbafee1e921817746eb23448f7df156cb75e78d18c7757a7b4e76970b",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_format.c",
+          "bytes": 520,
+          "sha256": "1b414451b64d6b0133ae442eacd19c9321c392aa9a5638246f9e61cd98300b69",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_format.h",
+          "bytes": 357,
+          "sha256": "47a0760eb44930ecd09a2d49dc01e2cf2b0cb8c130a29bf3b297f9fe2e3c0e4c",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_survey.c",
+          "bytes": 3766,
+          "sha256": "a82863d54cd96439879ae2fb12806c7b32bb241966e96c1892c96328f955cd19",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_survey.h",
+          "bytes": 606,
+          "sha256": "b7076571dfcc76a887bf74ffe1b85a2fe3bfc56b955754e91e8d7de9c65b4507",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_controls.c",
+          "bytes": 1323,
+          "sha256": "24882cfdfc34dace7002b4b7b4027e4dc099d2af005966526274578ff5de3647",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/main/voice_pe_controls.h",
+          "bytes": 1081,
+          "sha256": "8dfc6e3d4c88a2e6dabc661b80db8940bdcd352af4e619bc5d0b05c85c0ee855",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/xmos/native16/application.patch",
+          "bytes": 1156,
+          "sha256": "af84fabe579c7fb978cb80adead930cbdfc3cff60dab652207c6f2ea1f15e28a",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/xmos/native16/rtos.patch",
+          "bytes": 624,
+          "sha256": "109fe5ecd70841edf653207f48f8ea7f9c8a6302c31e2c343d8d5452114ff340",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "ports/voice_pe/xmos/native16/microphone-array.patch",
+          "bytes": 448,
+          "sha256": "1ba0811c32ab2ddbc20dac1af931b241ce65513cb5f961b065e9a7c0660bad8f",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/board_audio/board_audio_voice_pe.c",
+          "bytes": 9784,
+          "sha256": "d1bec29264e8be878fa48125465f2267914e2a67f19a66ae27a2347a23422f18",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/headless_io/headless_io_voice_pe.c",
+          "bytes": 3892,
+          "sha256": "9ac2f91832d8b0983ce26956645495dc3d21284985f9aff0793cadf5923543d6",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/headless_io/voice_pe_leds.c",
+          "bytes": 3487,
+          "sha256": "975e40ef69ac337bae5e812080b1211b4f2ea7cd39e6422aa3a9622e9e839f5f",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/instrument/include/audio_transition.h",
+          "bytes": 1303,
+          "sha256": "b8457f5e640380de963b96559cdcea0630d7ce0d30b4a9b0b49f58b61ef4703e",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/main/main.c",
+          "bytes": 58248,
+          "sha256": "d8e71cd7d66530be6fe35cd586b33c447159fa131d40476561c1cf2babdd6a75",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/voice_pe_firmware.py",
+          "bytes": 12426,
+          "sha256": "652ca16c491ea1fee7b2a8f0f3bcfb6301809abaf022f49c07ad76eaec597ef8",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/voice_pe_xmos_dfu.py",
+          "bytes": 6509,
+          "sha256": "f2aed080dc9b59fbed74641ff9c39b4c610b806b278b8b5c24d743e7dbca4ba0",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/build_voice_pe_xmos.py",
+          "bytes": 5159,
+          "sha256": "3a4a990857686f9f780274094a81f972ad42f2afcdea2a65e6d4089cb5dbf262",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/voice_pe_native16.sh",
+          "bytes": 752,
+          "sha256": "73941587811e008ee09a3efb3196d1847b4dd4eff36f1a49e60e51fd4989d357",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/voice_pe_native16.defaults",
+          "bytes": 74,
+          "sha256": "cd2daa2b76173ec56cfb9019b3daf241070fd1d8640d2838c483b9eb368b60d2",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/voice_pe_app.sh",
+          "bytes": 793,
+          "sha256": "e4435d83cf5d9b6551d7e8b250eb151f9f4ed83a8821077398c0895f880aa437",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/voice_pe.defaults",
+          "bytes": 1327,
+          "sha256": "ac65f804fc7245ab95212f3aed3c6f7b0f526ffabb6dc065d283c78605019ff0",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/test_voice_pe_native16.py",
+          "bytes": 2975,
+          "sha256": "9298c6625a14de2966b7aebde2accadad2c7d5e28f5a8b6f75f02f1abb7801bd",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/test_voice_pe_rates.py",
+          "bytes": 2898,
+          "sha256": "c031ea1d539936aa21cefd4525990da6d064acfdadfcce620394281be06b422e",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/test_voice_pe_controls.py",
+          "bytes": 2041,
+          "sha256": "dedc3d414fb044dde06974ab0411e26e6382847c9de5886085946beb7304af43",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/test_voice_pe_codec.py",
+          "bytes": 1401,
+          "sha256": "4af0a4a5649257e08d4369df4ec3e51900a9ba3e4efcc786602e02d509d04a7e",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/test_voice_pe_firmware.py",
+          "bytes": 14156,
+          "sha256": "894c2f07c95cd3f23da19e7045763e3f03efaa477875572aff5d7995a6d508d3",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/test_voice_pe_xmos_dfu.py",
+          "bytes": 6757,
+          "sha256": "8b95640abc30cbaea917ecec30582dedb9828b7de0e272adfb2fd0334499ccf8",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "recovery/voice-pe/xmos/download.json",
+          "bytes": 335,
+          "sha256": "621e155cf9ce6d581823c300563ca86decd470a640163a016ecd5f4686b6a996",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/voice-pe-native16-xmos-hardware-20261115.json",
+          "bytes": 1245,
+          "sha256": "ec0146643835339af46f8998d4a64b3d1eaa523eada401c63eb2c772c611c039",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/voice-pe-native16-audio-hardware-20261115.json",
+          "bytes": 2294,
+          "sha256": "cea2d5f2ab4ef090ee78d9140e44b5db58ca4861d9648f94ec9c8c002a55bcd8",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/voice-pe-native16-sc-hardware-20261115.json",
+          "bytes": 554,
+          "sha256": "839f8b927458df325b6f4f0b7da1ec8b875a16e28a608222cb25c68fc9a5b160",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/voice-pe-native16-cold-start-20261115.json",
+          "bytes": 239,
+          "sha256": "898f980570fbb549796b7420b853ae80ec24ce1fa1b754c239fdb20ecfcb6e52",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/voice-pe-native16-final-20261115.json",
+          "bytes": 504,
+          "sha256": "61a8619d25775b05addf732991494137a459a6322907a8b8b7214b79da57db55",
+          "state_against_head": "matches_head"
+        }
+      ]
+    },
+    "rnbo": {
+      "remote": "https://github.com/little-scale/esp32s3-rnbo.git",
+      "local_root_at_review": "/Users/a1106632/Documents/esp32-rnbo",
+      "head": "c2ec97b9a6c9fa2c3b2319beb8b0e1d4ce9a7519",
+      "branch": "main",
+      "status_porcelain_at_snapshot": "M README.md\n M docs/STATUS.md\n M docs/float32-audio.md\n M docs/native-export.md\n M docs/native-wrapper.md\n M host/compiler/NUMERICAL_PROFILES.md\n M host/compiler/float32_delays.py\n M host/compiler/prepare.py\n M host/max/README.md\n M host/studio/README.md\n M host/studio/server.py\n M host/studio/test_server.py\n M host/studio/test_web.mjs\n M host/studio/web/app.js\n M host/studio/web/index.html\n?? docs/native-delay-storage.md\n?? evidence/native-delay-storage-default.json\n?? evidence/native-delay-storage.json\n?? host/compiler/test_automatic_delays.py\n?? tests/native/delay_storage_probe.cpp\n?? tools/investigate_native_delay_storage.py\n?? tools/test_investigate_native_delay_storage.py",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 4069,
+          "sha256": "87f40a49bfb522e4bdd2ad6969713d0d2f51b1166c975aceb45dcd6c62ed8a23",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "docs/STATUS.md",
+          "bytes": 9716,
+          "sha256": "d448da7868743091cd2745f9afc8cfa84ce1be35a173e0678a9477fa78ba87ae",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "docs/native-export.md",
+          "bytes": 6489,
+          "sha256": "b67d2737ad9a1ccfb7c39270f9227d8ce23519bdf9b8f718a9602deed03a21fe",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "docs/native-wrapper.md",
+          "bytes": 5348,
+          "sha256": "c337062d13eed7eb64373194e3c22e6e5e011bcda20f4e16cc44ac25736ad111",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "docs/native-export-comparison.md",
+          "bytes": 4849,
+          "sha256": "15c255a3c86bb1cfe3d4548cc461d103da63d12a0262ef16941ec4bcfbdee3d8",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "docs/native-ramp-diagnosis.md",
+          "bytes": 3980,
+          "sha256": "325ac5bf96a87fbc615e3236098c6ec18be90cf001838594072be68f052e9892",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "docs/native-delay-storage.md",
+          "bytes": 9330,
+          "sha256": "cff74643d6e4033fadf01cba4c13e919c044b2fbd3102351562e81f59cb46932",
+          "state_against_head": "untracked"
+        },
+        {
+          "path": "docs/player-protocol.md",
+          "bytes": 11196,
+          "sha256": "e9cb5e58361b8b8a4dbcde50cf329f38003b2fd41dc73c283e1c71173ab1020e",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "docs/player-wifi.md",
+          "bytes": 6840,
+          "sha256": "c878a3b17f1e9c668a55bd950114bd2e99e4efddccffbe2813d9d65ea71b670c",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "docs/firmware-uploader.md",
+          "bytes": 7357,
+          "sha256": "f6c3f2357ae0cb29a88f4ad7b4515e69783302de71d3cbd563aff572bff4bb4d",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "docs/physical-inputs.md",
+          "bytes": 13527,
+          "sha256": "e5f02db4ed4fd7bf2e279d65874471f7c11ce05e4ac14c676b88e175fcc22bd0",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "docs/touchscreen-inputs.md",
+          "bytes": 5254,
+          "sha256": "676dbcb73aeca64c2c0bed77ec4324da8464b54c194a7e1d39c44cdb571404b0",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/main/player_main.c",
+          "bytes": 45628,
+          "sha256": "968032ac5a4310c541f5bb45789bbf17ed70cf478a92d70e17a0279286f9c7f7",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/CMakeLists.txt",
+          "bytes": 2375,
+          "sha256": "f286e27bb239030fba682d9ea1be28dfc6526c34606f2d735d85dbf51b7bd884",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/main/CMakeLists.txt",
+          "bytes": 2106,
+          "sha256": "2927be1ce3407543b327ab05e737b5d03df68df51bc3c5cb08b147f62cf24df5",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/board_audio/board_audio.c",
+          "bytes": 5277,
+          "sha256": "ff86ff1da342bb7728da615f96a5129661fe3adbcd20c4b1a88a393828f3cef7",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/board_audio/board_audio_i2s.c",
+          "bytes": 5840,
+          "sha256": "ca5500c081dbf5547704ca1f7e150b4c783a9d918253e7c60993d339fd283341",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/board_audio/include/board_audio.h",
+          "bytes": 950,
+          "sha256": "c70908ad34d48f1cdbc75cf36f9ed5a12738ef5a85c05325d2b9eb7fcdb5628c",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/board_audio/CMakeLists.txt",
+          "bytes": 394,
+          "sha256": "f59876c495e731d5442b4c718ffa1c36c0fb9b6159d97349a9f01003514e60da",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/pcm_output/pcm_output.c",
+          "bytes": 2105,
+          "sha256": "e3660f3d2e44f4b00eafa2208de175bdec532ee8975b9210530181b53ff93afb",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/pcm_output/include/pcm_output.h",
+          "bytes": 1084,
+          "sha256": "eb668435cfcf00deb9d949bc0b56798d1baa91b306272bb5edfc917868cb522d",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/player_store/player_store.c",
+          "bytes": 21336,
+          "sha256": "41327d04f6bc3df8ac5e5c417138eea10d1379f1bc15cf06f05786db63d3092a",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/player_store/include/player_store.h",
+          "bytes": 2964,
+          "sha256": "1b9a6d36bc7ff9049d29b83278c3cafd67938d653f20bb7dd660acc5f0a6a666",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/player_loader/player_loader.c",
+          "bytes": 15675,
+          "sha256": "83b6c27305e5bc87fb19c6648a8f9af075c9aa283a5172f551006e77903dca6f",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "firmware/components/player_loader/include/player_loader.h",
+          "bytes": 2633,
+          "sha256": "86dabdfb900e786539609c22ca0c3b04332e5c4d1ec23fe4624fbcc647a499ba",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "module-sdk/include/rnbo_s3_module.h",
+          "bytes": 3854,
+          "sha256": "9f6d0eff656c9d0e75f9fc83592bf37fc6ac17671e95d1e3244c217e2b05c928",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "module-sdk/include/rnbo_s3_dynamic.h",
+          "bytes": 3552,
+          "sha256": "51d6b0316c6d5d90d446095272be89f9fa89c0c3a869d7642352e2491a306ad4",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "module-sdk/dynamic/rnbo_s3_dynamic.cpp",
+          "bytes": 17059,
+          "sha256": "120ddbb114cf94b0c3067d9a2eee45e1281cd9f53d1efc51cadeb485e67b46c9",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/native_export.py",
+          "bytes": 8083,
+          "sha256": "da06433e5cfc3a638520acc17d3d5c1d67eec76dc4f2c03291eac7c6366458a7",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/compiler/prepare.py",
+          "bytes": 71397,
+          "sha256": "cbfdc2697cd25b1371fbabf5b1c15d7379d12989ef520e23a228686766b8cf7d",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "host/compiler/package.py",
+          "bytes": 9796,
+          "sha256": "397ec44daf874d7cbacb70e6eb40a4110d9f3f789256cc8631070444b2879393",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/compiler/float32_delays.py",
+          "bytes": 6671,
+          "sha256": "54afda4d9ab931db3d2ba1a7361a22bfaa7c38671ac68607db4ac6c21761c2c1",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "host/compiler/build_module.py",
+          "bytes": 13352,
+          "sha256": "fb8f9e1987743e87b420ffc470f5e26c70a824eee99d7f68118ade44c89b38ac",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/compiler/inspect_module.py",
+          "bytes": 14553,
+          "sha256": "1eecc31d6b3ef0f0faee15317d3d9c3486582d8f45c25331fe7cbd1283b828a8",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "host/studio/server.py",
+          "bytes": 50819,
+          "sha256": "d741ef537ff0a43aad1d6611fbfa58dff28f8233f75c47c73dbfd084d388b9fa",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "host/studio/web/app.js",
+          "bytes": 71011,
+          "sha256": "9325c9693e46dd5e6905b54c6264965bfb5d489c36308f6dd5d93e3001bb1fdb",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "host/studio/web/index.html",
+          "bytes": 15117,
+          "sha256": "11e9202d391d38edc6308ffa4dde853945bef225682760dd518f3050e08bc450",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "host/max/README.md",
+          "bytes": 10621,
+          "sha256": "e17e5c745417f3288a1188fecbc5ce5c0e2db4c8e3a1301e2cd524638a636f33",
+          "state_against_head": "modified_from_head"
+        },
+        {
+          "path": "tools/build_firmware.py",
+          "bytes": 17958,
+          "sha256": "508f59d79cfbc34fd17c4515c2397397f0f033d2b20741b23f1b7ca2b6c83f0f",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "loader-spike/dependencies.json",
+          "bytes": 13632,
+          "sha256": "4ee1562c3172768a71eba14046398ec61c64e28d74289c91a2d8ea556ce9e98b",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/dynamic-loader.json",
+          "bytes": 10357,
+          "sha256": "84c9fd0b9d6f3c5e0affbe8460225fb40a8279861d1e5173037c27e9e3f187b3",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/native-export-intake.json",
+          "bytes": 15276,
+          "sha256": "4a1d34943192e5068e99403fc678389c0bb3c42773b183e61d12db994bd0ee38",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/xiao-native-export-player.json",
+          "bytes": 2440,
+          "sha256": "3c0949a68f964e1f213d3d12a62f22a72cdb880473f3c6fc42f5128e86ed6433",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/xiao-max-export-parity.json",
+          "bytes": 116603,
+          "sha256": "cad02da551a903978a9ce3799c6b9f51e30f2ef9a1646ad5a00d5c7ef348d0a0",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/max-usb-upload-player.json",
+          "bytes": 3061,
+          "sha256": "55f32fafe977640e04b7cb655597e78bcc387992dd8e9506f6fd0c96b3b97c54",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/player-wifi.json",
+          "bytes": 15087,
+          "sha256": "e8c22aab2d552c449a8cae5af4b685e7f147be311098574580c0a61c4b48d78e",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/studio-firmware-uploader.json",
+          "bytes": 3181,
+          "sha256": "c4ffa17d1be44574ef134ffd1dd1f94b6eb50f416824bdce990bf13772f88d99",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/native-retained-features.json",
+          "bytes": 6412,
+          "sha256": "51369478e5c75077abc737f20ac06496a2d0a71a5e38e2e3b0d29c8842a84f7e",
+          "state_against_head": "matches_head"
+        },
+        {
+          "path": "evidence/native-delay-storage.json",
+          "bytes": 29323,
+          "sha256": "cf3f6f67419589f99db54a27ec92b56f572fcdf457f1369aa9e9baf17659cebe",
+          "state_against_head": "untracked"
+        },
+        {
+          "path": "evidence/native-delay-storage-default.json",
+          "bytes": 7278,
+          "sha256": "6ea5a931b355cdeaaf284a0e511f049106ee33483159c2624391b150b7643d11",
+          "state_against_head": "untracked"
+        }
+      ]
+    }
+  }
+}

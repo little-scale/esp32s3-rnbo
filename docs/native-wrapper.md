@@ -39,7 +39,11 @@ a passing computer build is not an ESP32 deadline guarantee.
 The preparer retains existing narrowly recorded runtime compatibility fixes and
 integer-wrap handling. Raw/prepared hashes and adaptations identify changes;
 `float32-strict` does not mean byte-unmodified generated/runtime code.
-No new numerical rewrite or scheduler change is made in this migration.
+The later native delay-storage default converts reviewed internal ordinary
+`delay~` rings to Float32 storage, preserving their algorithms and capacity.
+Unrecognised forms and other buffers retain native storage. See the
+[storage policy](native-delay-storage.md); target numerical and timing checks
+are still pending. Scheduler precision is unchanged.
 
 ## Next wrapper qualification priorities
 
@@ -62,6 +66,9 @@ No new numerical rewrite or scheduler change is made in this migration.
 4. **Optimisation after parity.** Profile real target callbacks first. Keep
    numerical differences, correctness results and CPU savings separate. Native
    export alone showed no speed improvement in the three matched CPU contexts.
+   A separate [native delay storage trial](native-delay-storage.md) now records
+   host evidence for a guarded 128 KiB reduction in one ordinary delay ring;
+   hardware numerical and performance checks remain pending.
 
 The historical object inventory remains useful as a test plan and source of
 oracles. It is not a claim that every Max export or entire object family works.

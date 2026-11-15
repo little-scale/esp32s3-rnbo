@@ -219,7 +219,7 @@ test('native export builds with bytes and no importer settings; drawing is optio
   await app.readyArtifact();
   const request=app.calls.find(c=>c.path==='/api/build');
   assert.deepEqual(request.body,{export_files:[{path:'Export/rnbo_source.h',data_base64:'AQIDBA=='}],
-    name:'Export',visual_patch:null,role:'main',initial_volume:50,arena_bytes:1048576});
+    name:'Export',visual_patch:null,role:'main',profile:'esp32s3-44100-256-v1',initial_volume:50,arena_bytes:1048576});
   app.get('layout-file').files=[{name:'test.rnbopat',size:100,text:async()=>JSON.stringify(example.patch)}];
   await app.get('layout-file').fire('change');
   assert.equal(app.get('upload').disabled,true);
@@ -227,6 +227,25 @@ test('native export builds with bytes and no importer settings; drawing is optio
   assert.match(app.get('source-state').textContent,/Drawing attached only/);
   await app.get('compile').fire('click');await app.runTimer(850);
   assert.deepEqual(app.calls.filter(c=>c.path==='/api/build').at(-1).body.visual_patch,example.patch);
+});
+
+test('Voice PE profile selection invalidates the previous build and starts muted', async()=>{
+  const app=await openStudio();await app.readyArtifact();
+  app.get('audio-profile').value='voice-pe-16000-256-v1';await app.get('audio-profile').fire('change');
+  assert.equal(app.get('upload').disabled,true);assert.equal(app.get('initial-volume').value,'0');
+  await app.get('compile').fire('click');
+  const builds=app.calls.filter(c=>c.path==='/api/build');
+  assert.equal(builds.at(-1).body.profile,'voice-pe-16000-256-v1');
+  assert.equal(builds.at(-1).body.initial_volume,0);
+});
+
+test('Voice PE package results show semantic control bindings',async()=>{
+  const app=await openStudio();
+  app.backend.result.profile='voice-pe-16000-256-v1';
+  app.backend.result.voice_pe_inputs={bindings:[{input:'dial',parameter_id:'frequency'}]};
+  await app.readyArtifact();
+  assert.equal(app.get('input-bindings').hidden,false);
+  assert.equal(app.get('input-bindings').children[0].textContent,'Voice PE dial → frequency');
 });
 
 test('changed settings during compilation invalidate the ready artifact', async () => {
@@ -342,6 +361,17 @@ test('physical inputs show package mappings and live raw/readiness diagnostics',
   await app.runInterval(1800);
   assert.equal(app.get('physical-input-status').hidden,false);
   assert.match(app.get('physical-input-status').children[0].textContent,/A0 \/ GPIO1 → Note · 50% · raw 2048/);
+});
+
+test('build results show automatic delay memory savings and retained buffers', async () => {
+  const app=await openStudio();
+  app.backend.result.delay_storage={policy:'auto',converted:[{name:'delaytilde_01_del'}],
+    buffer_data_bytes_saved:131072,retained_float64:[{reference:'gen_delay_buffer'}]};
+  await app.readyArtifact();
+  const facts=app.get('result-facts').children.map(child=>child.textContent).join(' ');
+  assert.match(facts,/Float32 delay memory/);
+  assert.match(facts,/128.*saved/);
+  assert.match(facts,/1 buffer\(s\) kept at Float64/);
 });
 
 test('nonlinear parameter controls show actual readback and explicitly normalized drag values', async () => {

@@ -33,6 +33,12 @@ touch controls and ES8311 mono output. Install the player once; replacing a
 package saves the new Main patch for reboot without reflashing the application.
 All effects belong inside Main.
 
+**Voice PE port:** explicit native 48 kHz / 256 and native 16 kHz / 256 profiles,
+XMOS-clocked codec/audio backend, semantic controls and a protected installer
+are now implemented for computer-side qualification. Hardware validation remains
+pending. Read the [Voice PE guide](docs/voice-pe.md) before installing; its layout
+and XMOS requirements differ from XIAO/AMOLED.
+
 AMOLED instruments can bind patch-area X/Y and pressed state directly to RNBO
 parameters using inline `@meta`. See the [touchscreen guide](docs/touchscreen-inputs.md).
 
@@ -41,6 +47,10 @@ parameter metadata and controls, AMOLED patch drawing/multislider/meter,
 [physical-input `@meta` bindings](docs/physical-inputs.md), and
 [UART/experimental USB-host MIDI](docs/midi-inputs.md).
 Audio uses the **baseline Float32 wrapper**; scheduler time remains Float64.
+New native builds automatically use Float32 storage for reviewed internal
+ordinary `delay~` rings. Other buffer forms retain their exported storage;
+the build records conversions, fallbacks and bytes saved. See the
+[delay storage policy and pending hardware checks](docs/native-delay-storage.md).
 Importer-era source optimisation profiles are not offered in Studio.
 
 The [wrapper review](docs/native-wrapper.md) describes what stays and what still

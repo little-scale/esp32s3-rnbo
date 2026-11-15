@@ -14,6 +14,7 @@ class Player:
     def __init__(self):
         self.frames=1024;self.uptime=100000;self.firmware='a'*64;self.generation=0
         self.board='XIAO ESP32-S3';self.touchscreen_version=None
+        self.rate=44100;self.clock_passed=True
         self.paused=True;self.volume=50;self.main=None;self.commands=[];self.data=bytearray()
         self.bad_offset=False;self.bad_commit=False;self.runtime_fault=False;self.physical_version=None;self.midi_version=None
         self.previous_overruns=0;self.loaded_overruns=0
@@ -22,7 +23,7 @@ class Player:
         if command=='player-info':
             self.frames+=256;self.uptime+=5805
             reply=dict(runtime='rnbo-esp32s3-player',api_version=1,board=self.board,firmware_elf_sha256=self.firmware,
-                rate=44100,block_frames=256,generation=self.generation,paused=self.paused,panic=self.paused or self.main is None,
+                rate=self.rate,block_frames=256,generation=self.generation,paused=self.paused,panic=self.paused or self.main is None,
                 maintenance=False,volume=self.volume,main=self.main,frames=self.frames,uptime_us=self.uptime,
                 allocation_fault=False,reconstruction_failed=False,**{key:0 for key in d.FAULT_COUNTERS})
             if self.runtime_fault and self.generation:reply['module_errors']=1
@@ -30,6 +31,9 @@ class Player:
             if self.physical_version is not None:reply['physical_inputs_version']=self.physical_version
             if self.midi_version is not None:reply['midi_input_version']=self.midi_version
             if self.touchscreen_version is not None:reply['touchscreen_inputs_version']=self.touchscreen_version
+            if self.board=='Home Assistant Voice PE':
+                reply.update(profile=f'voice-pe-{self.rate}-256-v1',output_rate=self.rate,
+                             clock_check={'passed':self.clock_passed},voice_pe_inputs_version=1)
         elif command.startswith('player-midi-config '):reply={'midi_configured':True}
         elif command.startswith(('player-midi-stream ','player-midi-loopback ')):reply={'midi_stream_accepted':True}
         elif command.startswith('player-begin '):
@@ -65,11 +69,27 @@ class PlayerTests(unittest.TestCase):
             runner=lambda *a,**k:self.fail('Package upload must never run esptool'))
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.path=Path(self.temp.name)/'test.rnbopkg';self.path.write_bytes(bytes(range(256))*9)
-        self.package=dict(role='main',arena_bytes=4096,package_sha256=hashlib.sha256(self.path.read_bytes()).hexdigest(),
+        self.package=dict(role='main',sample_rate=44100,block_frames=256,arena_bytes=4096,package_sha256=hashlib.sha256(self.path.read_bytes()).hexdigest(),
                           metadata=dict(source_sha256='b'*64,initial_volume=25))
     def upload(self):
         with patch.object(d,'parse_package',return_value=self.package):
             return self.bridge.upload_package(self.path,'/dev/test-esp',lambda text:None,expected_sha256=self.package['package_sha256'])
+    def test_voice_pe_wrong_rate_and_unqualified_clocks_never_stage_package(self):
+        self.player.board='Home Assistant Voice PE';self.player.rate=16000
+        with self.assertRaisesRegex(d.DeviceError,'rates differ'):self.upload()
+        self.assertFalse(any(c.startswith('player-begin') for c in self.player.commands))
+        self.package['sample_rate']=16000;self.player.clock_passed=False
+        with self.assertRaisesRegex(d.DeviceError,'external clocks'):self.upload()
+        self.assertFalse(any(c.startswith('player-begin') for c in self.player.commands))
+
+    def test_voice_pe_generic_firmware_flash_is_rejected(self):
+        self.bridge.connect('/dev/test-esp');self.bridge._board='voice-pe'
+        with self.assertRaisesRegex(d.DeviceError,'protected'):
+            self.bridge.flash('/not-used','amoled','/dev/test-esp',lambda text:None)
+    def test_wifi_scan_status_is_independent_of_package_upload(self):
+        self.bridge.connect('/dev/test-esp')
+        with self.assertRaisesRegex(d.DeviceError,'Wi-Fi player update'):
+            self.bridge.scan_wifi()
     def test_empty_player_connect_then_contiguous_chunks_commit_and_generation_controls(self):
         self.assertEqual(self.bridge.connect('/dev/test-esp')['parameters'],[])
         result=self.upload();self.assertEqual(result['device']['generation'],1)

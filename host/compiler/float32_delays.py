@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: MIT
-"""Opt-in storage conversion for reviewed, internal RNBO1.4.4 delay rings."""
+"""Guarded storage conversion for internal RNBO1.4.4 delay rings.
+
+Automatic builds convert reviewed ordinary delay~ rings independently. Broader
+comb/allpass conversion remains an explicit historical research option.
+"""
 from __future__ import annotations
 import hashlib
 from pathlib import Path
@@ -18,9 +22,13 @@ _METHODS = {
 _RING = r"(?:(?:comb|allpass)_tilde_\d+_(?:feedForward|feedBack)|delaytilde_\d+_del)"
 
 
-def float32_delays(source: bytes, *, code_mask) -> tuple[bytes, dict]:
+def float32_delays(source: bytes, *, code_mask, ring_names=None) -> tuple[bytes, dict]:
     text = source.decode(); masked = code_mask(text)
     names = re.findall(r"\bFloat64BufferRef\s+(" + _RING + r")_buffer\s*;", masked)
+    if ring_names is not None:
+        if not ring_names or any(name not in names for name in ring_names):
+            raise ValueError("float32 delays: requested ring was not found")
+        names = [name for name in names if name in ring_names]
     if not names or len(names) != len(set(names)):
         raise ValueError("float32 delays: no unique supported Float64 internal rings found")
     replacements = []; rings = []
@@ -63,3 +71,37 @@ def float32_delays(source: bytes, *, code_mask) -> tuple[bytes, dict]:
                       "rings": rings, "constructor_reference_pairs": len(rings),
                       "buffer_data_bytes_saved": sum(r["before_data_bytes"] - r["after_data_bytes"] for r in rings),
                       "unchanged": "ring sizes, reader/writer algorithms, external/data buffers, clocks and scheduler time"}
+
+
+def automatic_float32_delays(source: bytes, *, code_mask) -> tuple[bytes, dict]:
+    """Convert matching ordinary delay rings; retain and explain every fallback.
+
+    No exception from an unrecognised form changes its source or stops unrelated
+    rings from being considered. This is not a generic Float64Buffer rewrite.
+    """
+    masked = code_mask(source.decode())
+    references = re.findall(r"\bFloat64BufferRef\s+(\w+)\s*;", masked)
+    prepared = source
+    converted = []; retained = []
+    for reference in dict.fromkeys(references):
+        match = re.fullmatch(r"(delaytilde_\d+_del)_buffer", reference)
+        if not match:
+            retained.append(dict(reference=reference, reason='outside reviewed ordinary delay~ scope'))
+            continue
+        name = match[1]
+        try:
+            candidate, report = float32_delays(prepared, code_mask=code_mask, ring_names=[name])
+        except ValueError as error:
+            retained.append(dict(reference=reference, reason=str(error)))
+            continue
+        prepared = candidate
+        converted.extend(report['rings'])
+    return prepared, dict(name='rnbo-1.4.4-auto-float32-ordinary-delays-v1',file='rnbo_source.h',
+                          policy='auto', scope='reviewed internal ordinary delay~ rings',
+                          input_sha256=hashlib.sha256(source).hexdigest(),
+                          prepared_sha256=hashlib.sha256(prepared).hexdigest(),
+                          transformer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                          converted=converted, retained_float64=retained,
+                          buffer_data_bytes_saved=sum(r['before_data_bytes']-r['after_data_bytes'] for r in converted),
+                          hardware_qualified=False, target_cpu_gain_measured=False,
+                          unchanged='ring capacity and algorithms, other buffers, clocks and scheduler time')

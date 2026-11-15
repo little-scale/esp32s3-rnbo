@@ -11,7 +11,7 @@ memory isolation or authentication.
 ## Package v1
 
 Little-endian 128-byte header: magic `RNBOS3P1` (8 bytes), then nine uint32 fields
-`header_bytes=128, version=1, abi_major=1, role, sample_rate=44100,
+`header_bytes=128, version=1, abi_major=1, role, sample_rate,
 block_frames=256, arena_bytes, metadata_bytes, elf_bytes`. These are followed by
 32-byte SHA256 of the ELF, 32-byte SHA256 of the metadata, and 20 zero bytes.
 Payload is UTF-8 JSON metadata followed by the ELF, with no trailing bytes.
@@ -21,7 +21,8 @@ Metadata requires `name` (1..63 UTF-8 bytes), `source_sha256` (64 lowercase hex)
 `initial_volume` (integer 0..100), and may contain `visual` from host/visual/layout.py.
 Unrecognized metadata fields can be ignored; invalid required fields reject.
 Package SHA256 identifies the entire exact header+payload. Modules have zero
-undefined imports, ABI1, fixed 44100/256 and the existing single-instance wrapper.
+undefined imports, ABI1, a fixed 256-frame vector and a matching explicit rate
+(44100 for XIAO/AMOLED, 16000 or 48000 for Voice PE), with the existing single-instance wrapper.
 Each active image has its own state, arena, context and sample position.
 
 MIDI-input packages add optional `midi_input_ports:1` metadata and module flag
@@ -166,3 +167,38 @@ zero output when paused or at zero volume; these checks do not capture the DAC's
 physical output. Fault-injection tests exercise the actual control, loader and
 storage C with simulated hardware boundaries. They do not prove power-loss
 behavior at every instant, real FreeRTOS scheduling, or all possible RNBO patches.
+
+## Voice PE profile additions
+
+The Voice PE player uses the same `player-*` command framing and ABI major 1,
+with explicit `voice-pe-16000-256-v1` / `voice-pe-48000-256-v1` profiles.
+`player-info` retains the package rate/vector and reports native output rate,
+startup clock survey, cached codec divider readbacks, semantic controls, and
+rate-correct render/peak CPU percentages. These fields are additive; old
+44.1 kHz players remain supported. See [Voice PE](voice-pe.md).
+
+Voice PE semantic input packages require envelope v4; v1 remains audio-only,
+v2 XIAO pins and v3 AMOLED touch. A package rate/vector must match the generated
+export, descriptor and player. Parameter inputs still use normalized values and
+generation-checked block-boundary events. Programmable LED output version is 0.
+
+The new Voice PE digital capture commands are:
+
+```text
+player-capture-begin <frames>
+player-capture-info
+player-capture-read <capture_id> <byte_offset> <byte_count>
+```
+
+Capacity is 48,000 stereo S16 frames (one second at 48 kHz, three at 16 kHz).
+Reads are limited to 1,024 bytes and require the completed recording's ID.
+Output is post-volume/transition PCM before exact S32 wire packing, not
+microphone or analog loopback. Record package/generation before and after a
+capture; capture IDs are not a module-generation lock, and a replacement can
+deliberately occur within a recording.
+
+`player-reset-peaks` requests an audio-owner peak reset without clearing faults
+or reloading the patch. Acknowledgement means requested, not an immediately
+zero telemetry sample. `average_render_us` / `average_cpu_percent` describe the
+whole observed session, including paused vectors; current/peak retain their
+existing meanings. The device advertises `peak_reset_version:1`.

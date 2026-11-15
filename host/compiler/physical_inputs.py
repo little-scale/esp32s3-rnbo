@@ -89,7 +89,7 @@ def extract(parameters):
             if isinstance(meta, str) and 'esp32' in meta:
                 raise ValueError('Cannot parse esp32 @meta; use @meta "{\'esp32\':{\'type\':\'analog\',\'pin\':\'A0\'}}"')
             continue
-        if isinstance(meta['esp32'], dict) and meta['esp32'].get('type') == 'touchscreen':
+        if isinstance(meta['esp32'], dict) and meta['esp32'].get('type') in ('touchscreen','voice_pe'):
             continue  # Validated independently by touchscreen_inputs.extract.
         try:
             binding = checked_binding(meta['esp32'])

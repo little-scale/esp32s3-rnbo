@@ -109,6 +109,12 @@ test('fresh export directories, strict generated settings, bounded files, and no
   }finally{await fs.rm(temp,{recursive:true,force:true});}
 });
 
+test('Voice PE helper asks Max for genuine fixed-rate exports',()=>{
+  assert.equal(client.exportConfig('/tmp/voice','voice-pe-16000-256-v1').fixedsamplerate,16000);
+  assert.equal(client.exportConfig('/tmp/voice','voice-pe-48000-256-v1').fixedsamplerate,48000);
+  assert.throws(()=>client.exportConfig('/tmp/voice','unknown'),/profile/);
+});
+
 test('Node does not release a pending export when a duplicate prepare arrives',async()=>{
   const handlers=new Map(),sent=[];client.attach({addHandler:(n,f)=>handlers.set(n,f),outlet:(...args)=>sent.push(args)});
   const value={requestId:'first',name:'Live',visual_patch:{patcher:{boxes:[],lines:[]}}};

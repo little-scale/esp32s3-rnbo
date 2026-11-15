@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 32 * 1024 * 1024
 MAX_FILE = 16 * 1024 * 1024
 MAX_FILES = 1024
-GUIDANCE = 'Export C++ from RNBO in Max with Minimal Export, Copy Library, fixed 44100 Hz and 256 frames. Open that folder or ZIP; .rnbopat is optional drawing data only.'
+GUIDANCE = 'Export C++ from RNBO in Max with Minimal Export, Copy Library and 256 frames: fixed 44100 Hz for XIAO/AMOLED, 48000 or 16000 for the explicit Voice PE profile. Open that folder or ZIP; .rnbopat is optional drawing data only.'
 
 
 def path_name(value):

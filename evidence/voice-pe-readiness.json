@@ -1,0 +1,742 @@
+{
+  "additional_checks": {
+    "archived_node_tests": {
+      "log_sha256": "d41caf354195d8a480cc6da5e685db4674aebec77f5296d591f11293f6257c70",
+      "passed": true,
+      "tests": 33
+    },
+    "historical_report_snapshots": {
+      "checks": 12,
+      "log_sha256": "3e4b6d630d423e69b7ccd52dfe941bb68d0f7d5d06c4f6c684315029ec94af15",
+      "passed": true
+    }
+  },
+  "checks": {
+    "clients": {
+      "log_sha256": "5fd25fdf2e245c124296b8cc7fad970e695ed2bcad3e4436b7a4a929c702749b",
+      "passed": true,
+      "tests": 36
+    },
+    "compiler": {
+      "log_sha256": "6db49ac9bb2eb1d1aabe94e2e667db8230cc6592b66f305ea3fba316dca01a73",
+      "passed": true,
+      "tests": 543
+    },
+    "dynamic": {
+      "log_sha256": "e03cacf3429b6af961169111000921f1ca36fc7e84f805bcbe3ff30c8b83c5df",
+      "passed": true,
+      "tests": 54
+    },
+    "max-package": {
+      "log_sha256": "6e234cff599c1e9271a83d812a17dd19d386e8f534d0178f5c2a7aa3819f6352",
+      "passed": true,
+      "tests": 2
+    },
+    "portable-runtime-ubsan": {
+      "address_sanitizer_executed": false,
+      "log_sha256": "388ddc470b0b6b18cae24a17023806c3b58753eda8d58ea7426c6f65df60a941",
+      "passed": true,
+      "tests": 4
+    },
+    "protected-installer": {
+      "log_sha256": "234a8cbf97314292bc1e99069834b158303b4644d7f10278b0640fa8aa93ea80",
+      "passed": true,
+      "tests": 16
+    },
+    "studio": {
+      "log_sha256": "4a09e60e3055d326c0d4d856ec152618679b2bf79d99e25dbf3cbb1411d68681",
+      "passed": true,
+      "tests": 142
+    },
+    "studio-web-and-max-helper": {
+      "log_sha256": "520010a1a85f094cee0a9d7c6c0d11fdf0a43f354f4d3750390058d8494a66df",
+      "passed": true,
+      "tests": 57
+    },
+    "tools": {
+      "log_sha256": "0e7e219a2a1a175d83ccb65a2a1873147e39d1fed32d75d4ffadae301bdf92ee",
+      "passed": true,
+      "tests": 682
+    },
+    "visual": {
+      "log_sha256": "4d7fbc697f7cc83b5bf362fcf1d6aace81ffc314e3d18b3150041b5d715f0018",
+      "passed": true,
+      "tests": 7
+    },
+    "xmos-backup": {
+      "log_sha256": "2f0962cd3ce564a98af35a90c0a05e082a9cb6e9d8c9dd671e2328c10a10ceac",
+      "passed": true,
+      "tests": 11
+    }
+  },
+  "compile_rate_propagation": {
+    "checked": true,
+    "units": [
+      "player_main.c",
+      "board_audio_voice_pe.c",
+      "player_store.c",
+      "player_loader.c",
+      "pcm_output.c"
+    ]
+  },
+  "date_local": "2026-11-16",
+  "declared_capabilities": {
+    "board_owned_status_ring": true,
+    "peak_reset_version": 1,
+    "programmable_led_output_version": 0,
+    "voice_pe_inputs_version": 1
+  },
+  "exports": {
+    "controls-delay-16000": {
+      "description_sha256": "ec169ff2ff43f41489610c933ea62e906753774da34a572ebce88a8758b3a008",
+      "generated_by": "Max C++ Minimal Export, RNBO 1.4.4",
+      "raw_header_sha256": "7e37f571fdf17182c0019a065914b120b9bb5de798201690813dd52ddbabc112"
+    },
+    "controls-delay-48000": {
+      "description_sha256": "a1c7eee35be40be59791454c2d139c8f6d64f12af34113d1a8a1114a73e41614",
+      "generated_by": "Max C++ Minimal Export, RNBO 1.4.4",
+      "raw_header_sha256": "d0a16f6df2e38f591dc2145dc18270c175adebed777ad87bcd8a6cb046414d15"
+    },
+    "sine-16000": {
+      "description_sha256": "57de3048f6271b88f366bcb43747d03537694ac94c6df029bbc4cbc86537129c",
+      "generated_by": "Max C++ Minimal Export, RNBO 1.4.4",
+      "raw_header_sha256": "83232c68ec1921dbd9fee74bd9ef52c8b030dc98411a853820bba4f62783128e"
+    },
+    "sine-48000": {
+      "description_sha256": "5766b0613d5321823bd0c26ca435e7195aa5dbef03eb14dcf7b8cd7b147ea83d",
+      "generated_by": "Max C++ Minimal Export, RNBO 1.4.4",
+      "raw_header_sha256": "51bf347679572efb4b38c24e059952976c54136bb5fbf9e5f58e98342a87cd60"
+    }
+  },
+  "files_sha256": {
+    "host/compiler/package.py": "e4d5f8e8f3dfcb575f08a03a7c6f403cd9dbbeaa96e8a47c9ef5dd37e2b2858c",
+    "host/compiler/prepare.py": "64f8f8a62e34ff17d26fd2a95125ceb5163a793ec612727f21941a15d44f1fee",
+    "host/compiler/voice_pe_inputs.py": "108e7c9760480c4b01f022f4b0238b4e2724461ec7c1e959295759425fe81922",
+    "host/profiles.py": "019c2501cef30eaea15cf1c6cc373926bff6358c92ff2f940fcd1a020faa44d7",
+    "host/studio/device.py": "4307b30f576e464a53ecb46ab68fe6b6bbb0c5e5881fbc2c5571e27c95eda601",
+    "host/studio/server.py": "c90160e9309b7825650bd81d27044819bcc88c8597d36c6f6733c9848dad67a0",
+    "host/voice_pe_firmware.py": "e7956f3be66c19f9a1a62c375869d9d1d2ca792c04afb3eed5664831e2c9b9d2",
+    "host/voice_pe_xmos_dfu.py": "470d06c16751ae87610deb7d32de144c584746b5b3808285bfe764ce2f0feb1e",
+    "tools/build_voice_pe_kit.py": "ee75d0e5478a9cba4727e19d02d87290623ff936dafcb5caeb7a72639716d125",
+    "tools/stage_voice_pe.mjs": "b87e20f9096913435db5c7a3cfc97643c1d66eb6c4e87f445f38839097297379"
+  },
+  "firmware": {
+    "amoled-44100": {
+      "artifacts": {
+        "build/firmware-amoled-player/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+        },
+        "build/firmware-amoled-player/rnbo_s3_amoled.bin": {
+          "bytes": 1268640,
+          "sha256": "a40d825456c0a6aa0bfc1b7994409155f16abdee76021e924d84c77b65a4a9cf"
+        },
+        "build/firmware-amoled-player/rnbo_s3_amoled.elf": {
+          "bytes": 15464828,
+          "sha256": "d6a175265d1e8289431fcc5de732e0aee1e4790013f2a3fcab359ba591dbb751"
+        }
+      },
+      "block_frames": 256,
+      "board": "amoled",
+      "build_report_sha256": "bb52df8a3d53d4d2c1a50dc2326637cd8539cefd5eb3380b80f2b2e8c419987b",
+      "hardware_qualified": false,
+      "profile": "esp32s3-44100-256-v1",
+      "sample_rate": 44100
+    },
+    "voice-pe-16000": {
+      "artifacts": {
+        "build/firmware-voice-pe-player-16000/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "0d5d89ae855e72583296b72205054e80e81b694216c1e04b3a31cf6fdfdba782"
+        },
+        "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.bin": {
+          "bytes": 984352,
+          "sha256": "2dde21e483433ee2e0a13afc5109903f59c3429801dd7c4e5bfb4f561405ff0d"
+        },
+        "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.elf": {
+          "bytes": 11714552,
+          "sha256": "823e0977ac46a30d1db4c6335162560778ea1c7676a57c701b2b7945d4d486e1"
+        }
+      },
+      "block_frames": 256,
+      "board": "voice-pe",
+      "build_report_sha256": "21c59aaa582c759d02265ddac3c51a4835eb8bb52d836d9d05d171b047994311",
+      "hardware_qualified": false,
+      "profile": "voice-pe-16000-256-v1",
+      "sample_rate": 16000
+    },
+    "voice-pe-48000": {
+      "artifacts": {
+        "build/firmware-voice-pe-player-48000/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "0d5d89ae855e72583296b72205054e80e81b694216c1e04b3a31cf6fdfdba782"
+        },
+        "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.bin": {
+          "bytes": 984352,
+          "sha256": "735811ddeef7a6ab883606315e859753953048ea239c9a535f23025edbd7eabc"
+        },
+        "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.elf": {
+          "bytes": 11714552,
+          "sha256": "dd40243bb0d85392bf3b845175fd651cbc5aa7acaecb07cf6871f050a8475427"
+        }
+      },
+      "block_frames": 256,
+      "board": "voice-pe",
+      "build_report_sha256": "5acc50cb550f3c8542e831670e13428a24ed7f01fe6902f9d02353f1a24dca86",
+      "hardware_qualified": false,
+      "profile": "voice-pe-48000-256-v1",
+      "sample_rate": 48000
+    },
+    "xiao-44100": {
+      "artifacts": {
+        "build/firmware-xiao-player/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+        },
+        "build/firmware-xiao-player/rnbo_s3_xiao.bin": {
+          "bytes": 936656,
+          "sha256": "56b03089853cf89d5d8d4697381d1d37bc4a065b89dcc096e861e0a8dc84a92a"
+        },
+        "build/firmware-xiao-player/rnbo_s3_xiao.elf": {
+          "bytes": 11127532,
+          "sha256": "fa6d64c50c62ad68ea5f849fb4507a7d95dcbfa31dc9762b8d3e080a107a20d4"
+        }
+      },
+      "block_frames": 256,
+      "board": "xiao",
+      "build_report_sha256": "5c235903a39c273929784e9d2610778f236c315d91fb60f7e6bbcf7aee4e8842",
+      "hardware_qualified": false,
+      "profile": "esp32s3-44100-256-v1",
+      "sample_rate": 44100
+    }
+  },
+  "firmware_flashed": false,
+  "format": "rnbo-voice-pe-software-readiness-v1",
+  "goal": "Software preparation for first hardware qualification, not hardware qualification itself",
+  "hardware_accessed": false,
+  "hardware_follow_up": "docs/voice-pe.md#first-hardware-session",
+  "host_delay_storage_comparison": {
+    "cases": [
+      {
+        "bit_identical": true,
+        "case": "normal",
+        "maximum_absolute_error": 0,
+        "output_sha256": "667b906e8027206f0f648a5092bed77509f875844b86bb6964c384ecadf9f615",
+        "parameters": {
+          "frequency": 550,
+          "gate": 0.05
+        },
+        "rms_error": 0,
+        "sample_rate": 16000,
+        "statistics": {
+          "candidate": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 81936,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 30.708,
+            "mean_process_us": 8.5758,
+            "peak": 0.0551588982,
+            "platform_allocations": 2,
+            "rms": 0.0371060168,
+            "sample_rate": 16000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          },
+          "reference": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 98320,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 29.708,
+            "mean_process_us": 10.6663,
+            "peak": 0.0551588982,
+            "platform_allocations": 2,
+            "rms": 0.0371060168,
+            "sample_rate": 16000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          }
+        },
+        "words": 1048576
+      },
+      {
+        "bit_identical": true,
+        "case": "upper",
+        "maximum_absolute_error": 0,
+        "output_sha256": "72fd7664dcfd1441ff997ee0a05113d3bf0f1bf2e6c42c612bd0510be49b9b14",
+        "parameters": {
+          "frequency": 1000,
+          "gate": 0.1
+        },
+        "rms_error": 0,
+        "sample_rate": 16000,
+        "statistics": {
+          "candidate": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 81936,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 11.625,
+            "mean_process_us": 8.4201,
+            "peak": 0.133333325,
+            "platform_allocations": 2,
+            "rms": 0.0941565243,
+            "sample_rate": 16000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          },
+          "reference": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 98320,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 17.0,
+            "mean_process_us": 8.5046,
+            "peak": 0.133333325,
+            "platform_allocations": 2,
+            "rms": 0.0941565243,
+            "sample_rate": 16000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          }
+        },
+        "words": 1048576
+      },
+      {
+        "bit_identical": true,
+        "case": "fractional",
+        "maximum_absolute_error": 0,
+        "output_sha256": "8ba501b4e25ffb5724e3cb99f9715f4b4b530861a226a1876526e046503a1f6b",
+        "parameters": {
+          "frequency": 437.125,
+          "gate": 0.025
+        },
+        "rms_error": 0,
+        "sample_rate": 16000,
+        "statistics": {
+          "candidate": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 81936,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 23.583,
+            "mean_process_us": 8.4685,
+            "peak": 0.0325236395,
+            "platform_allocations": 2,
+            "rms": 0.0229686531,
+            "sample_rate": 16000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          },
+          "reference": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 98320,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 21.0,
+            "mean_process_us": 8.5647,
+            "peak": 0.0325236395,
+            "platform_allocations": 2,
+            "rms": 0.0229686531,
+            "sample_rate": 16000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          }
+        },
+        "words": 1048576
+      },
+      {
+        "bit_identical": true,
+        "case": "normal",
+        "maximum_absolute_error": 0,
+        "output_sha256": "59b1ecd180aa748ce900f2ef4b6b64a980a2a70ded593b89e59d80a39c2efa86",
+        "parameters": {
+          "frequency": 550,
+          "gate": 0.05
+        },
+        "rms_error": 0,
+        "sample_rate": 48000,
+        "statistics": {
+          "candidate": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 81936,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 26.708,
+            "mean_process_us": 10.1824,
+            "peak": 0.0500000007,
+            "platform_allocations": 2,
+            "rms": 0.0292175364,
+            "sample_rate": 48000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          },
+          "reference": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 98320,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 63.041,
+            "mean_process_us": 10.3708,
+            "peak": 0.0500000007,
+            "platform_allocations": 2,
+            "rms": 0.0292175364,
+            "sample_rate": 48000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          }
+        },
+        "words": 1048576
+      },
+      {
+        "bit_identical": true,
+        "case": "upper",
+        "maximum_absolute_error": 0,
+        "output_sha256": "1a24801fe54f77771aa06009028441768ae7e2a939b2bca285b34e04d3ca2cde",
+        "parameters": {
+          "frequency": 1000,
+          "gate": 0.1
+        },
+        "rms_error": 0,
+        "sample_rate": 48000,
+        "statistics": {
+          "candidate": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 81936,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 17.333,
+            "mean_process_us": 8.3711,
+            "peak": 0.133333325,
+            "platform_allocations": 2,
+            "rms": 0.0941568894,
+            "sample_rate": 48000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          },
+          "reference": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 98320,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 39.167,
+            "mean_process_us": 8.8286,
+            "peak": 0.133333325,
+            "platform_allocations": 2,
+            "rms": 0.0941568894,
+            "sample_rate": 48000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          }
+        },
+        "words": 1048576
+      },
+      {
+        "bit_identical": true,
+        "case": "fractional",
+        "maximum_absolute_error": 0,
+        "output_sha256": "67de0bc73c54b3ca2e047cd7a155ac6d49b154cfcf815e6822eab4436379860b",
+        "parameters": {
+          "frequency": 437.125,
+          "gate": 0.025
+        },
+        "rms_error": 0,
+        "sample_rate": 48000,
+        "statistics": {
+          "candidate": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 81936,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 10.916,
+            "mean_process_us": 8.0491,
+            "peak": 0.0332390964,
+            "platform_allocations": 2,
+            "rms": 0.0234732461,
+            "sample_rate": 48000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          },
+          "reference": {
+            "allocation_coverage": "RNBO platform hooks only",
+            "arena_used": 98320,
+            "block_frames": 256,
+            "blocks": 2048,
+            "errors": 0,
+            "evidence_kind": "host_render",
+            "invalid_samples": 0,
+            "late_platform_allocations": 0,
+            "max_process_us": 14.083,
+            "mean_process_us": 8.454,
+            "peak": 0.0332390964,
+            "platform_allocations": 2,
+            "rms": 0.0234732461,
+            "sample_rate": 48000,
+            "seed": 12345,
+            "target_performance_qualified": false,
+            "warmup_blocks": 0
+          }
+        },
+        "words": 1048576
+      }
+    ],
+    "hardware_executed": false,
+    "target_cpu_gain_claimed": false
+  },
+  "host_sine_checks": {
+    "sine-16000": {
+      "expected_hz": 440,
+      "hardware_executed": false,
+      "measured_host_frequency_hz": 440.00244140625,
+      "statistics": {
+        "allocation_coverage": "RNBO platform hooks only",
+        "arena_used": 65544,
+        "block_frames": 256,
+        "blocks": 1024,
+        "errors": 0,
+        "evidence_kind": "host_render",
+        "invalid_samples": 0,
+        "late_platform_allocations": 0,
+        "max_process_us": 287.459,
+        "mean_process_us": 5.0898,
+        "peak": 0.200000003,
+        "platform_allocations": 1,
+        "rms": 0.141421005,
+        "sample_rate": 16000,
+        "seed": 12345,
+        "target_performance_qualified": false,
+        "warmup_blocks": 0
+      }
+    },
+    "sine-48000": {
+      "expected_hz": 440,
+      "hardware_executed": false,
+      "measured_host_frequency_hz": 440.00244140625,
+      "statistics": {
+        "allocation_coverage": "RNBO platform hooks only",
+        "arena_used": 65544,
+        "block_frames": 256,
+        "blocks": 1024,
+        "errors": 0,
+        "evidence_kind": "host_render",
+        "invalid_samples": 0,
+        "late_platform_allocations": 0,
+        "max_process_us": 89.75,
+        "mean_process_us": 4.0507,
+        "peak": 0.200000003,
+        "platform_allocations": 1,
+        "rms": 0.141420966,
+        "sample_rate": 48000,
+        "seed": 12345,
+        "target_performance_qualified": false,
+        "warmup_blocks": 0
+      }
+    }
+  },
+  "limitation": "AddressSanitizer is unavailable due the previously recorded macOS startup failure; completed portable checks use UBSan. No listening claim.",
+  "packages": {
+    "controls-delay-16000": {
+      "bytes": 55742,
+      "elf_sha256": "05e1b29785ac225054dfbe7b411d7c243599b3cd6e4993ef2e497ece255f5ee5",
+      "envelope": 4,
+      "hardware_loaded": false,
+      "initial_volume": 0,
+      "metadata": {
+        "audio_profile": "voice-pe-16000-256-v1",
+        "initial_volume": 0,
+        "name": "Voice PE controls delay 16k",
+        "source_sha256": "6fcd07ca0935e1ecd9cab96fc1bafa10ff4023df3504d0bc2897a40039f63fb5",
+        "voice_pe_inputs": {
+          "bindings": [
+            {
+              "input": "dial",
+              "parameter_id": "frequency"
+            },
+            {
+              "input": "button",
+              "parameter_id": "gate"
+            },
+            {
+              "input": "microphone_mute",
+              "parameter_id": "microphone_mute"
+            }
+          ],
+          "board": "voice-pe",
+          "version": 1
+        }
+      },
+      "path": "build/private/voice-pe-composite/controls-16000.rnbopkg",
+      "profile": "voice-pe-16000-256-v1",
+      "sha256": "27dbdd0fefa1aef74718850e6936dadc2a5979dfcceedd6893736b4c357b4e5c"
+    },
+    "controls-delay-48000": {
+      "bytes": 55742,
+      "elf_sha256": "9ffb34fe9c4348fcab4cf0f9eaa35457a6ae36e70d99f2934b16c61836a62052",
+      "envelope": 4,
+      "hardware_loaded": false,
+      "initial_volume": 0,
+      "metadata": {
+        "audio_profile": "voice-pe-48000-256-v1",
+        "initial_volume": 0,
+        "name": "Voice PE controls delay 48k",
+        "source_sha256": "97645df9925c2edd0e229232a76cac41ade2df26bcd9620681edf33372c0accc",
+        "voice_pe_inputs": {
+          "bindings": [
+            {
+              "input": "dial",
+              "parameter_id": "frequency"
+            },
+            {
+              "input": "button",
+              "parameter_id": "gate"
+            },
+            {
+              "input": "microphone_mute",
+              "parameter_id": "microphone_mute"
+            }
+          ],
+          "board": "voice-pe",
+          "version": 1
+        }
+      },
+      "path": "build/private/voice-pe-composite/controls-48000.rnbopkg",
+      "profile": "voice-pe-48000-256-v1",
+      "sha256": "f2117c703e64bd48e0d1cc6699f3e27ae320b899117bd378074162e64a15679b"
+    },
+    "sine-16000": {
+      "bytes": 47278,
+      "elf_sha256": "442517f8472150c5cc0be8cf69c7f7609e28aed383e4cd5ced59aba8ff6eea8f",
+      "envelope": 1,
+      "hardware_loaded": false,
+      "initial_volume": 0,
+      "metadata": {
+        "audio_profile": "voice-pe-16000-256-v1",
+        "initial_volume": 0,
+        "name": "Voice PE sine 16k",
+        "source_sha256": "f116d983a1ff6ea6599db1bf01cfe16af97e9e8d12f6d8a7d2cc4fa0d35072fc"
+      },
+      "path": "build/private/voice-pe-native/sine-16000.rnbopkg",
+      "profile": "voice-pe-16000-256-v1",
+      "sha256": "51ab6a47dadeba434ff259beafa478abbfe29a4512d51819432440f23fba1dd5"
+    },
+    "sine-48000": {
+      "bytes": 47278,
+      "elf_sha256": "7630e3ce659299ac2097fe7235e6688eb804c519543671052d7265ecab670bb8",
+      "envelope": 1,
+      "hardware_loaded": false,
+      "initial_volume": 0,
+      "metadata": {
+        "audio_profile": "voice-pe-48000-256-v1",
+        "initial_volume": 0,
+        "name": "Voice PE sine 48k",
+        "source_sha256": "aa22a19758e9ca12fad06df775b840d285499f27024d735572fb8affe0f945ca"
+      },
+      "path": "build/private/voice-pe-native/sine-48000.rnbopkg",
+      "profile": "voice-pe-48000-256-v1",
+      "sha256": "d13f5757091f1a0384d042e3999f728d2c8814f85ff0135c667899d3273b99f4"
+    }
+  },
+  "pending": [
+    "Physical clock/codec/DMA/audio verification at both rates",
+    "Control endpoint/watch-point/button tests and ring listening interference",
+    "Hot replacement fades, failure ownership, cold start and storage persistence",
+    "Loaded Wi-Fi and stack/heap/deadline observations",
+    "Programmable RNBO LED output extension; browser protected firmware picker",
+    "Independent jack/capture/microphone and Grove qualification"
+  ],
+  "reviewed_xmos_references": {
+    "flashed": false,
+    "hardware_accessed": false,
+    "images": [
+      {
+        "bytes": 278528,
+        "path": "build/dist/voice-pe-xmos-reference/xmos-native16-upgrade.bin",
+        "sha256": "5fde08cbb8fb1c051cc03b697b103e173831155ca9370f55c917f90ba8247927",
+        "source": "reviewed donor image; not newly built or flashed"
+      },
+      {
+        "bytes": 278528,
+        "path": "build/dist/voice-pe-xmos-reference/xmos-stock-v1.3.1-upgrade.bin",
+        "sha256": "11b563d6c51424f49f1e1d3585ba03a073e2802798e6aa067c6734d7ecb6935b",
+        "source": "reviewed donor image; not newly built or flashed"
+      }
+    ]
+  },
+  "source_inventory_sha256": "43f11ef1237214dccdd3f0a75e9403bb787c9b88015588b3cb129df89c80faf6",
+  "startup_policy": "Voice PE boots paused; test packages and profile selections start at zero master volume",
+  "target_cpu_gain_measured": false,
+  "test_kits": [
+    {
+      "directory": "build/dist/voice-pe-16000-hardware-test-2dde21e483-e79a08",
+      "profile": "voice-pe-16000-256-v1",
+      "zip": "build/dist/voice-pe-16000-hardware-test-2dde21e483-e79a08.zip",
+      "zip_bytes": 750588,
+      "zip_sha256": "dcb4f0620a170815be60189e689fe66f8b00aa2048d77e8babd0f87157e95d99"
+    },
+    {
+      "directory": "build/dist/voice-pe-48000-hardware-test-735811ddee-01a6fa",
+      "profile": "voice-pe-48000-256-v1",
+      "zip": "build/dist/voice-pe-48000-hardware-test-735811ddee-01a6fa.zip",
+      "zip_bytes": 750594,
+      "zip_sha256": "2aa740478a6591d65e449062385447f6ac5eb0a57c8e842ddb296fb4adbbb76b"
+    }
+  ],
+  "total_checks": 1554,
+  "xmos_written": false
+}

@@ -548,23 +548,28 @@
 
   function buildOptions() {
     return {...state.exportPayload, name:state.name, visual_patch:state.patch, role:'main',
+      profile:$('audio-profile').value || 'esp32s3-44100-256-v1',
       initial_volume:Number($('initial-volume').value), arena_bytes:Number($('arena').value) * 1048576};
   }
 
   function showResult(result) {
     $('result-title').textContent = result.title || 'Package ready';
     const bindings = result.physical_inputs?.bindings || [];
-    const facts = [bindings.length ? 'Main package · XIAO physical inputs' : 'Main package · both boards', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
+    const voiceBindings = result.voice_pe_inputs?.bindings || [];
+    const facts = [result.profile?.startsWith('voice-pe-') ? 'Main package · Voice PE' : bindings.length ? 'Main package · XIAO physical inputs' : 'Main package · XIAO / AMOLED', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
       finite(result.sample_rate) ? `${number(result.sample_rate)} Hz` : null,
       finite(result.block_frames) ? `${result.block_frames} frames` : null,
       Array.isArray(result.parameters) ? `${result.parameters.length} parameters` : null].filter(Boolean);
+    const delay = result.delay_storage;
+    if (delay?.converted?.length) facts.push(`Float32 delay memory · ${bytes(delay.buffer_data_bytes_saved)} saved`);
+    if (delay?.retained_float64?.length) facts.push(`${delay.retained_float64.length} buffer(s) kept at Float64`);
     $('result-facts').replaceChildren(...facts.map(text => {
       const span = document.createElement('span'); span.textContent = text; return span;
     }));
-    $('input-bindings').hidden = !bindings.length;
-    $('input-bindings').replaceChildren(...bindings.map(binding => {
+    $('input-bindings').hidden = !bindings.length && !voiceBindings.length;
+    $('input-bindings').replaceChildren(...[...bindings,...voiceBindings].map(binding => {
       const row = document.createElement('div');
-      row.textContent = `${binding.pin} · ${binding.type} → ${binding.parameter_id}`;
+      row.textContent = binding.input ? `Voice PE ${binding.input} → ${binding.parameter_id}` : `${binding.pin} · ${binding.type} → ${binding.parameter_id}`;
       return row;
     }));
     const trial = result.float32_trial;
@@ -1047,6 +1052,12 @@
     });
   }
   $('compile').addEventListener('click', compile);
+  $('audio-profile').addEventListener('change',()=>{
+    if($('audio-profile').value.startsWith('voice-pe-')){
+      $('initial-volume').value='0';$('initial-volume-value').textContent='0%';
+    }
+    invalidate();
+  });
   $('upload').addEventListener('click', upload);
   $('install-player').addEventListener('click', async () => {
     if ($('install-player').disabled) return;

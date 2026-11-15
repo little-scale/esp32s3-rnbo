@@ -1,0 +1,119 @@
+{
+  "donor_repository": "https://github.com/little-scale/esp32s3-synthdef",
+  "reviewed_handover_commit": "510c14aabb48f8a7b2318ba6947a915b2c7e874c",
+  "files": [
+    {
+      "source": "ports/voice_pe/main/voice_pe_pins.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_pins.h",
+      "sha256": "a46d00176920c720b5e5abb85a2c7f2ffdcf7b1e575f788632c245922a9ae99b",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_board.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_board.c",
+      "sha256": "187b702d5542f1fcd39d531c98e01d315a086e01010dafcc4217e12d0b96bbb8",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_board.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_board.h",
+      "sha256": "5b5320cc66ab4edcd23d0e9c7d44e945b5ffc9397aab5e889ddd8f18744cc8ed",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_codec.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_codec.c",
+      "sha256": "ea371535c55ac7d9a3e0e7c6ef5cb3bf74cf070a4271f86a88347c7b2aba5fb6",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_codec.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_codec.h",
+      "sha256": "e30b800f947cce82baa59a418b680910ba70ebe49bbb5e9b0dc7581aadf6128f",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_codec_sequence.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_codec_sequence.c",
+      "sha256": "1f61777ebe10797c7d6608879190f12966d6e879a35f43ddece79f2029ea625d",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_codec_sequence.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_codec_sequence.h",
+      "sha256": "855449ccbafee1e921817746eb23448f7df156cb75e78d18c7757a7b4e76970b",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_format.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_format.c",
+      "sha256": "1b414451b64d6b0133ae442eacd19c9321c392aa9a5638246f9e61cd98300b69",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_format.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_format.h",
+      "sha256": "47a0760eb44930ecd09a2d49dc01e2cf2b0cb8c130a29bf3b297f9fe2e3c0e4c",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_survey.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_survey.c",
+      "sha256": "a82863d54cd96439879ae2fb12806c7b32bb241966e96c1892c96328f955cd19",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_survey.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_survey.h",
+      "sha256": "b7076571dfcc76a887bf74ffe1b85a2fe3bfc56b955754e91e8d7de9c65b4507",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_controls.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_controls.c",
+      "sha256": "24882cfdfc34dace7002b4b7b4027e4dc099d2af005966526274578ff5de3647",
+      "licence": "GPL-3.0-or-later"
+    },
+    {
+      "source": "ports/voice_pe/main/voice_pe_controls.h",
+      "destination": "firmware/boards/voice-pe/voice_pe_controls.h",
+      "sha256": "8dfc6e3d4c88a2e6dabc661b80db8940bdcd352af4e619bc5d0b05c85c0ee855",
+      "licence": "GPL-3.0-or-later"
+    }
+  ],
+  "hardware_accessed": false,
+  "adapted_files": [
+    {
+      "source": "firmware/components/board_audio/board_audio_voice_pe.c",
+      "destination": "firmware/components/board_audio/board_audio_voice_pe.c",
+      "reviewed_source_sha256": "d1bec29264e8be878fa48125465f2267914e2a67f19a66ae27a2347a23422f18",
+      "destination_sha256": "1c33f2bed28c04724c916b3640024f93216d7c63dea18c96554f0c1027989eb9",
+      "licence": "GPL-3.0-or-later",
+      "adapted": true
+    },
+    {
+      "source": "firmware/components/headless_io/headless_io_voice_pe.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_runtime.c",
+      "reviewed_source_sha256": "9ac2f91832d8b0983ce26956645495dc3d21284985f9aff0793cadf5923543d6",
+      "destination_sha256": "4f40f1ddb95e93d9fa6d29714009e9d304843f5cfa837c5e7ae8e9b6f6d69825",
+      "licence": "GPL-3.0-or-later",
+      "adapted": true
+    },
+    {
+      "source": "firmware/components/headless_io/voice_pe_leds.c",
+      "destination": "firmware/boards/voice-pe/voice_pe_leds.c",
+      "reviewed_source_sha256": "975e40ef69ac337bae5e812080b1211b4f2ea7cd39e6422aa3a9622e9e839f5f",
+      "destination_sha256": "11d9caba03d07ef8e61f29292fe49a03e256b0c7eaaaa428ee71e0262e2de2da",
+      "licence": "GPL-3.0-or-later",
+      "adapted": true
+    },
+    {
+      "source": "host/voice_pe_firmware.py",
+      "destination": "host/voice_pe_firmware.py",
+      "reviewed_source_sha256": "652ca16c491ea1fee7b2a8f0f3bcfb6301809abaf022f49c07ad76eaec597ef8",
+      "destination_sha256": "e7956f3be66c19f9a1a62c375869d9d1d2ca792c04afb3eed5664831e2c9b9d2",
+      "licence": "GPL-3.0-or-later",
+      "adapted": true
+    }
+  ]
+}

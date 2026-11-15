@@ -1,5 +1,11 @@
 # RNBO ESP32 Studio
 
+Voice PE patch builds now select native **48 kHz / 256** or **16 kHz / 256**.
+Use a genuine matching Max export and restart Studio after updating its source.
+Voice PE firmware installation currently uses the separate protected CLI, not
+the generic firmware dropdown/erase workflow. The [Voice PE guide](../../docs/voice-pe.md)
+explains XMOS matching, muted startup and the hardware-test kits.
+
 Start `./host/studio.sh` from the repository and open
 [localhost:8788](http://127.0.0.1:8788). The launcher uses the installed ESP-IDF
 Python environment when available. Install ESP-IDF 5.5, CMake, a C++17 compiler
@@ -42,7 +48,12 @@ compiler. USB/Wi-Fi pairing, network scanning, parameters, Pause/Resume, output
 volume and render-time/CPU readings remain available. See [Wi-Fi](../../docs/player-wifi.md),
 [physical pins](../../docs/physical-inputs.md), and [MIDI](../../docs/midi-inputs.md).
 
-The baseline wrapper uses Float32 audio and Float64 scheduler time. Set voices,
+The baseline wrapper uses Float32 audio and Float64 scheduler time. New builds
+automatically use Float32 storage for reviewed internal ordinary `delay~` rings;
+unsupported forms, comb/allpass, Gen and other buffers retain their native
+storage. Results show memory saved; the manifest/provenance records each fallback.
+See the [policy and pending hardware checks](../../docs/native-delay-storage.md).
+Set voices,
 Gen logic, delay sizes and parameter metadata in Max before export. The old
 JSON editor, importer, automatic/trial rewriting and graph regeneration are
 removed from Studio's supported workflow. Re-export after editing a patch.

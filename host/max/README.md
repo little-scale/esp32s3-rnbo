@@ -127,12 +127,23 @@ is subject to the separate player limits.
 
 ## Defaults and scope
 
+For Voice PE send `profile voice-pe-16000-256-v1` or
+`profile voice-pe-48000-256-v1` before `build`. The helper configures Max's real
+fixed-rate export and resets startup volume to zero. Use the updated helper
+scripts and restart Studio after updating its source. See the
+[Voice PE guide](../../docs/voice-pe.md) for the required XMOS pair and protected
+first install. `profile esp32s3-44100-256-v1` returns to XIAO/AMOLED export rate.
+
 Tested with **Max 9.1.4 / RNBO 1.4.4**, using `v8` and the bundled Node for Max.
 The helper needs no npm installation and uses no RNBO internal generator APIs.
 It targets Minimal C++, Copy Library, fixed 44100 Hz / 256 frames and the existing
 Float32 wrapper. Polyphony is **linked to the `rnbo~` object's `@polyphony`**;
 per-voice parameter exposure follows its corresponding attribute. Existing
 player restrictions, including MIDI output and external resources, still apply.
+New builds inherit Studio's automatic Float32 storage for reviewed internal
+ordinary `delay~` rings. Unrecognised forms and other buffers retain their
+exported storage. Delay capacity and scheduler precision are unchanged; see the
+[storage policy and pending hardware checks](../../docs/native-delay-storage.md).
 
 Optional messages to the helper: `startup_volume 50`, `arena 1` (1/2/4 MiB),
 and `studio_port 8788` for another localhost port. The default startup volume is

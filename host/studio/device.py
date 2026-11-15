@@ -29,6 +29,8 @@ if str(ROOT) not in sys.path:
 from host.clients.capture import BOARDS, CaptureError, decode_response, open_serial, validate_status
 from tools.run_hardware_test import artifacts, connect_restored_console
 from host.compiler.package import parse as parse_package
+from host.profiles import for_audio
+PLAYER_BOARDS=dict(BOARDS,**{'voice-pe':('Home Assistant Voice PE',2)})
 
 PRIVATE = ROOT / 'build/private/studio/uploads'
 ESP_VIDS = frozenset((0x303A, 0x2886))
@@ -275,9 +277,9 @@ class DeviceBridge:
     def _player_status(self, raw=None):
         if raw is None:
             raw, _ = self._exchange(('player-info',), 'runtime')
-        board = next((key for key, (label, _) in BOARDS.items() if raw.get('board') == label), None)
+        board = next((key for key, (label, _) in PLAYER_BOARDS.items() if raw.get('board') == label), None)
         if (raw.get('runtime') != 'rnbo-esp32s3-player' or type(raw.get('api_version')) is not int
-                or raw['api_version'] != 1 or board is None or raw.get('rate') != 44100
+                or raw['api_version'] != 1 or board is None or raw.get('rate') not in ((16000,48000) if board=='voice-pe' else (44100,))
                 or raw.get('block_frames') != 256 or not isinstance(raw.get('firmware_elf_sha256'), str)
                 or not HASH.fullmatch(raw['firmware_elf_sha256'])
                 or type(raw.get('generation')) is not int or raw['generation'] < 0
@@ -285,6 +287,11 @@ class DeviceBridge:
                 or type(raw.get('volume')) is not int or not 0 <= raw['volume'] <= 100
                 or any(type(raw.get(key)) is not bool for key in ('paused', 'panic', 'maintenance'))):
             raise DeviceError('Malformed or unsupported player status')
+        profile=for_audio(raw['rate'],raw['block_frames'])
+        if raw.get('profile',profile['id']) != profile['id']:
+            raise DeviceError('Player audio profile disagrees with reported rate')
+        if board=='voice-pe' and (raw.get('profile')!=profile['id'] or raw.get('output_rate')!=raw['rate']):
+            raise DeviceError('Voice PE must report its explicit matched native profile')
         if ((self._board is not None and board != self._board)
                 or (self._firmware is not None and raw['firmware_elf_sha256'] != self._firmware)):
             raise DeviceError('The connected player identity changed; reconnect')
@@ -653,6 +660,12 @@ class DeviceBridge:
                 raise DeviceError('Install the stable player before loading a package')
             log('Checking player status before package staging')
             before = self._player_status()
+            if (package['sample_rate'],package['block_frames'])!=(before['rate'],before['block_frames']):
+                raise DeviceError('Package and player audio rates differ; export/build the matching profile')
+            if package['metadata'].get('voice_pe_inputs') and (self._board!='voice-pe' or before.get('voice_pe_inputs_version')!=1):
+                raise DeviceError('Voice PE control package requires a ready Voice PE input backend')
+            if self._board=='voice-pe' and not before.get('clock_check',{}).get('passed'):
+                raise DeviceError('Voice PE external clocks are not qualified for its profile')
             if package['metadata'].get('midi_input_ports') and before.get('midi_input_version') != 1:
                 raise DeviceError('This MIDI-input package needs the updated MIDI player. Install it over USB first.')
             if package['metadata'].get('touchscreen_inputs'):
@@ -748,6 +761,8 @@ class DeviceBridge:
         bootloader/table/application offsets. Neither mode automatically retries
         writes or requires the old application to speak the RNBO protocol.
         """
+        if self._board=='voice-pe' or board=='voice-pe':
+            raise DeviceError('Voice PE requires its protected ESP-only installer; generic erase/install is not supported')
         if board not in FLASH_BYTES:
             raise ValueError('Select XIAO or AMOLED V2')
         if not callable(log):

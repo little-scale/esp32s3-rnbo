@@ -59,3 +59,9 @@ void player_screen_reset_gates(const player_screen_plan *plan,player_screen_stat
 /* Only accepted publications advance the sent state; retry a gated/failed send. */
 bool player_screen_publish(const player_screen_plan *plan,player_screen_state *state,
                            bool (*publish)(unsigned,float));
+
+/* Voice PE semantic sources: dial, button, microphone_mute. No raw pin access. */
+typedef struct { unsigned count,index[3]; } player_voice_plan;
+bool player_voice_plan_parse(const cJSON *metadata,bool voice_pe,unsigned parameter_count,
+                            const char *(*id_at)(void *,unsigned),void *context,
+                            player_voice_plan *plan,char *error,size_t capacity);

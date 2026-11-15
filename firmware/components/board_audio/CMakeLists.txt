@@ -1,4 +1,7 @@
-if("$ENV{RNBO_S3_BOARD}" STREQUAL "xiao")
+if("$ENV{RNBO_S3_BOARD}" STREQUAL "voice-pe")
+    idf_component_register(SRCS "board_audio_voice_pe.c" INCLUDE_DIRS "include" "../../../module-sdk/include"
+        REQUIRES voice-pe esp_driver_i2s esp_driver_gpio esp_psram esp_timer json)
+elseif("$ENV{RNBO_S3_BOARD}" STREQUAL "xiao")
     idf_component_register(SRCS "board_audio_i2s.c" INCLUDE_DIRS "include"
         REQUIRES esp_driver_i2s esp_driver_gpio esp_psram esp_hw_support)
 else()

@@ -28,6 +28,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from host.compiler import package as player_package
 from host import native_export
+from host.profiles import LEGACY, checked as checked_profile
 from host.studio import firmware
 from host.visual.layout import compile_layout
 from host.studio.trial import BLOCKS as TRIAL_BLOCKS, compare_audio as compare_trial_audio, device_check as trial_device_check
@@ -104,21 +105,25 @@ def build_settings(data):
     name = name.replace('\\', '/').rsplit('/', 1)[-1]
     title = re.sub(r'\.zip$', '', name, flags=re.I).strip()[:64] or 'RNBO Patch'
     board = data.get('board', 'xiao')
+    profile=checked_profile(data.get('profile',LEGACY))
+    if profile['sample_rate']!=44100 and 'board' not in data:
+        board='voice-pe'
+    checked_profile(profile['id'],board)
     role = data.get('role', 'main')
-    volume = data.get('initial_volume', 50)
+    volume = data.get('initial_volume', 0 if board=='voice-pe' else 50)
     arena = data.get('arena_bytes', 1048576)
     if any(key in data for key in ('voices', 'filter_delay_max_ms', 'float32_delays', 'numerical_profile')):
         raise ValueError('Set voices and delay sizes in Max. Native exports use the baseline Float32 wrapper; importer optimisation profiles are retired.')
     if role != 'main':
         raise ValueError('The player accepts one Main patch with its effects included')
-    if board not in ('xiao', 'amoled'):
+    if board not in ('xiao', 'amoled','voice-pe'):
         raise ValueError('Select XIAO or AMOLED V2')
     if type(volume) is not int or not 0 <= volume <= 100:
         raise ValueError('Startup volume must be 0–100%')
     if type(arena) is not int or arena not in (1048576, 2097152, 4194304):
         raise ValueError('Arena must be 1, 2 or 4 MiB')
     return dict(name=name, title=title, visual_patch=patch, export_files=files, class_name=class_name,
-                board=board, role=role, initial_volume=volume, arena_bytes=arena)
+                board=board, profile=profile['id'], sample_rate=profile['sample_rate'],role=role, initial_volume=volume, arena_bytes=arena)
 
 
 def first_install_requested(data):
@@ -411,9 +416,14 @@ class Studio:
             self.update(identity, state='building', stage='Preparing Max Minimal Export')
             command = [sys.executable, ROOT / 'host/compiler/prepare.py', '--export', directory / 'export',
                        '--out', directory / 'prepared', '--class-name', settings['class_name'], '--role', settings['role'],
-                       '--numerical-profile', 'float32-strict']
+                       '--numerical-profile', 'float32-strict', '--delay-storage', 'auto','--profile',settings['profile']]
             self.execute(identity, command)
             manifest = json.loads((directory / 'prepared/manifest.json').read_text())
+            delay_storage = manifest.get('delay_storage')
+            if delay_storage:
+                self.log(identity, f"Delay storage: {len(delay_storage.get('converted', []))} ordinary ring(s) use Float32; "
+                         f"{delay_storage.get('buffer_data_bytes_saved', 0)} buffer bytes saved. "
+                         f"{len(delay_storage.get('retained_float64', []))} other/unrecognised buffer(s) retain Float64.\n")
             trial = manifest.get('float32_trial')
             parameter_count = manifest.get('parameter_count')
             if type(parameter_count) is not int or not 0 <= parameter_count <= 32:
@@ -444,10 +454,12 @@ class Studio:
                                           settings['title'].encode('utf-8')[:63].decode('utf-8', 'ignore'), settings['initial_volume'], visual)
             parameters = [dict(index=p['index'], name=p.get('name', p['paramId']), min=p['minimum'], max=p['maximum'],
                                initial=p.get('initialValue', p['minimum'])) for p in description.get('parameters', [])]
-            result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=44100,
+            result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=settings['sample_rate'],profile=settings['profile'],
                           block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
                           physical_inputs=result.get('metadata', {}).get('physical_inputs'),
                           touchscreen_inputs=result.get('metadata', {}).get('touchscreen_inputs'),
+                          voice_pe_inputs=result.get('metadata', {}).get('voice_pe_inputs'),
+                          delay_storage=delay_storage,
                           float32_trial=trial, trial_comparison=comparison, trial_report_available=bool(trial),
                           preflight_scope='native default startup screen; not target allocation proof',
                           visual=package_preview(visual))
@@ -476,7 +488,8 @@ class Studio:
                 raise ValueError('Startup volume must be a whole percentage from 0 to 100')
             if volume != package['metadata']['initial_volume']:
                 package['metadata']['initial_volume'] = volume
-                raw = player_package.create(package['elf'], package['metadata'], package['role'], package['arena_bytes'])
+                raw = player_package.create(package['elf'], package['metadata'], package['role'], package['arena_bytes'],
+                                            sample_rate=package['sample_rate'],block_frames=package['block_frames'])
                 package['package_sha256'] = player_package.digest(raw)
         with self.lock:
             if self.stopping.is_set():
@@ -491,11 +504,12 @@ class Studio:
                 path.write_bytes(raw)
                 path.chmod(0o400)
                 result = dict(kind='package', origin='imported', title=package['metadata']['name'],
-                    role='main', sample_rate=44100, block_frames=256, arena_bytes=package['arena_bytes'],
+                    role='main', sample_rate=package['sample_rate'],block_frames=package['block_frames'],profile=package['profile'],arena_bytes=package['arena_bytes'],
                     initial_volume=package['metadata']['initial_volume'],
                     package_bytes=len(raw), package_sha256=package['package_sha256'], elf_sha256=package['elf_sha256'],
                     physical_inputs=package['metadata'].get('physical_inputs'),
                     touchscreen_inputs=package['metadata'].get('touchscreen_inputs'),
+                    voice_pe_inputs=package['metadata'].get('voice_pe_inputs'),
                     float32_trial=package['metadata'].get('float32_trial'), trial_report_available=False,
                     preflight_scope='Saved package validated; native startup screen not rerun',
                     visual=package_preview(package['metadata'].get('visual')))

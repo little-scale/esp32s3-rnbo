@@ -1,0 +1,133 @@
+{
+  "archived_generator_exports": "Unchanged for historical reproduction",
+  "automatic_scope": "fingerprint-checked fixed-size internal ordinary delay~ rings",
+  "capture": {
+    "bit_identical_to_offline_candidate": true,
+    "sha256": "6cb4c05545bcb5e361c1c272d44a2f7b32e4148cf532c270394bdc99d3226165",
+    "words": 1048576
+  },
+  "checks": {
+    "all_passed": true,
+    "automatic_policy": 7,
+    "capture_and_storage": 5,
+    "existing_admission": 17,
+    "legacy_float32": 8,
+    "legacy_pipeline": 5,
+    "studio_python": 138,
+    "studio_web_and_max_helpers": 54
+  },
+  "compiled_inputs_match_recorded_offline_candidate": true,
+  "date": "2026-11-13",
+  "fallback": "Retain native storage independently for unsupported forms and other buffer families; record reasons",
+  "format": "automatic-native-delay-storage-default-v1",
+  "hardware_executed": false,
+  "hardware_follow_up": "docs/native-delay-storage.md#hardware-follow-up--pending",
+  "host_render": {
+    "allocation_coverage": "RNBO platform hooks only",
+    "arena_used": 458848,
+    "block_frames": 256,
+    "blocks": 2048,
+    "errors": 0,
+    "evidence_kind": "host_render",
+    "invalid_samples": 0,
+    "late_platform_allocations": 0,
+    "max_process_us": 72.417,
+    "mean_process_us": 18.2676,
+    "peak": 1.25294244,
+    "platform_allocations": 4,
+    "rms": 0.117949769,
+    "sample_rate": 44100,
+    "seed": 12345,
+    "target_performance_qualified": false,
+    "warmup_blocks": 0
+  },
+  "package": {
+    "bytes": 97506,
+    "elf_sha256": "18e098dc6e2a87da42007487a53f630a172907539ab7761f30f5fb8873c79440",
+    "envelope": "rnbo-player-package-v3",
+    "round_trip_verified": true,
+    "sha256": "b95b8d40eae5b617d1051ccdfb6dc74318a66298ca69aa58a6ca1deb3f457b56",
+    "uploaded": false
+  },
+  "player_firmware_changed": false,
+  "policy": {
+    "buffer_data_bytes_saved": 131072,
+    "converted": [
+      {
+        "after_data_bytes": 131072,
+        "after_type": "Float32Buffer<float>",
+        "before_data_bytes": 262144,
+        "before_type": "Float64Buffer<double>",
+        "frames": 32768,
+        "name": "delaytilde_01_del",
+        "requested_samples": 22050
+      }
+    ],
+    "hardware_qualified": false,
+    "policy": "auto",
+    "retained_float64": [],
+    "scope": "reviewed internal ordinary delay~ rings",
+    "target_cpu_gain_measured": false
+  },
+  "prepared_files_sha256": {
+    "RNBO-runtime-LICENSE": "465adf12bb6233165dcca2288f1dda5b987c0bd75594960995ff88be6917dbf7",
+    "common/RNBO_Array.h": "7cc1d8edcf0f4c8c18d1f6f8b8315303a44e86175f2866abfc20f40ec041912e",
+    "common/RNBO_AudioSignal.h": "2e410fc0485d40e31fbc084ca8bd2c0f7511bd6983d34e3c6a5451c3a1642dc0",
+    "common/RNBO_BaseInterface.h": "4f91c595ef5a00a92fd7a757109fbb2fb5ed47232ea6ff3d04e61d75d13b7340",
+    "common/RNBO_CMath.h": "fad998c889c5cc900efe468ea450584995c912162dbc97d3447da26b157ed98a",
+    "common/RNBO_Common.h": "4049acda5af65570b2296607b61563a49fa98352f0aa201e539ba5e25cdbffaa",
+    "common/RNBO_CompilerMacros.h": "d9d2d6ffa2a89e441703e0a4395cd95485317d693fd36cb30e399d16a58ef561",
+    "common/RNBO_DataRef.h": "8cb2268c647a304d2b25db6db00ff1d5ce4200eff1859923ac0377c737adc684",
+    "common/RNBO_Debug.h": "fb14b712154976735f0adc9649f07dd7f7c84ab7c59ada68f1a2b7fc14d4c898",
+    "common/RNBO_EngineInterface.h": "2ec491911966b5839db5cce45f28557c8bf9ad8be39defaa3da68844c1c1f959",
+    "common/RNBO_EngineLink.h": "285c5d638b7db97ac6534a1471df2a3eba3d6d831af5df0a1c182a338feb1ba3",
+    "common/RNBO_EventTarget.h": "8e39d58d24f3df072f03b9d5367efc3fd9cbdd26e3bf304e9cb58a1176991bf9",
+    "common/RNBO_ExternalBase.h": "6d2d7dcadc239612581b8bd4de9ba6d539dcf9a880c6605a78813416dfa3750d",
+    "common/RNBO_ExternalPtr.h": "5e37b8e239a91c43a5b209b65493986f8e4c8ae2dceb8eee66fdf9f439c07297",
+    "common/RNBO_List.h": "41eca245020c654f68d2d5cb679e82c73ea53661c5c42e3da2a9bb6817713706",
+    "common/RNBO_ListHelpers.h": "5689b398c441dd57459226c561b91f1940d0f968067bb2cb1ce7cf53205b0016",
+    "common/RNBO_Logger.h": "f91cb21d83061f694ef1d5d53596d984a4794267f45b29a2303e3384ebcb4097",
+    "common/RNBO_LoggerImpl.h": "b1e6669ba7be67f19d76b68351578f2a5c6b3b5da2a2fc516ec51235f25642e9",
+    "common/RNBO_MIDIHelper.h": "95d68416b7bd0f2991116407ae078a8343f3812457b97131f63959a2fd1325f9",
+    "common/RNBO_Math.h": "4e58738560dbbd911db7508a8cad723ea2c56e7a81466d5f32294b1c8294e953",
+    "common/RNBO_MathFast.h": "f42b3ec2fce750bf9944f27e5d0ac2876018222356418cd293893c2b3934d02f",
+    "common/RNBO_MinimalEngine.h": "41dc877005dc978fdcba56816c80f0c2dbe4734306fb4090e7a3606fb3dd5759",
+    "common/RNBO_ParameterInterface.h": "c3b5048af1cb169475f38de8e773aeea0148db52de68cc43299f9fea5130a3ea",
+    "common/RNBO_PatcherEventTarget.h": "515f6e473ac07e764444aeaae67b4c94facb041bf2432809d68a32b81091b734",
+    "common/RNBO_PatcherFactory.h": "a0b507fa5fb31403bf0f54ed10450dcb97fd8132721bfd5771974b778fdf20fe",
+    "common/RNBO_PatcherInterface.h": "3cf8b08ecf559dc8e8a4317c5fefac71b2f5002af98f39333a059ec5389ec654",
+    "common/RNBO_PatcherInterfaceImpl.h": "5f23b6edca013c5fe06b621fc900161598874c98fb29482b2ade5e8dbc801016",
+    "common/RNBO_PatcherStateInterface.h": "8d2208f1bd8041b33d9c476bfc3b3a5e9bb304724617e757dbf99e2f71cf6c4f",
+    "common/RNBO_Platform.h": "92ff87bcfd6192a99a7dd6e6fd71c61bfa0bb9992fdca6d275ad6a4a0527a1c4",
+    "common/RNBO_ProbingInterface.h": "5df29990e5691665ab0d43b3c7d2f6b0592668b7fe4389ecab9e60fd02a0ec94",
+    "common/RNBO_ProcessInterface.h": "d36c74117cd50bbcd30daa156342c8d0a0476bfac935e605f351031be73f1008",
+    "common/RNBO_Std.h": "8740e7544a182de4f5f386a1fcd6d885fec50046414bc97c6a11861891c09d5f",
+    "common/RNBO_String.h": "751f0eed2e7336c7cb6179a6863b1bb5768f0a7dcd4dc5d80c40c90e705433bf",
+    "common/RNBO_TimeConverter.h": "55e03e9050810c04d6b84954cf2390e222ca055edc0f428b42d3554148985dc1",
+    "common/RNBO_Types.h": "b3a1a4566588a04c843138c2823b7e0645999a8cae2a7f8582f594fd1328fe1b",
+    "common/RNBO_UniquePtr.h": "d5a51649cf5b268f364215df374e4e132e339eb53412bbde781a34ffb45853b8",
+    "common/RNBO_Version.h": "73c10caaec39c540f867cf5376b0f3e53e464d3561be57d890841159ac36c8cf",
+    "description.json": "ec444718780d56c4f1271c3f51e5e50a80d1e27b36a49018e04c5e77608242b4",
+    "patch_config.h": "d30ddc260919efac08de2f5ef473cb2d5320159e2369b0c5c19904482c6dfe8f",
+    "rnbo_source.h": "b1f81ded0254c7f5636fb7216b270d2e36c3271a9b3b06f5efd711321dda115f"
+  },
+  "prepared_header_sha256": "b1f81ded0254c7f5636fb7216b270d2e36c3271a9b3b06f5efd711321dda115f",
+  "scope": "Studio and Max-submitted native builds; native CLI and Python preparation defaults",
+  "source_tree_sha256": "42bb609ea5553a7a4c81a8ec16f1f5930cc27c5c64e5e08f4b98114be6f8358e",
+  "target_cpu_saving_measured": false,
+  "target_module": {
+    "artifact": {
+      "bytes": 97020,
+      "sha256": "18e098dc6e2a87da42007487a53f630a172907539ab7761f30f5fb8873c79440"
+    },
+    "block_frames": 256,
+    "hardware_executed": false,
+    "imports": [],
+    "sample_rate": 44100
+  },
+  "tools_sha256": {
+    "host/compiler/float32_delays.py": "54afda4d9ab931db3d2ba1a7361a22bfaa7c38671ac68607db4ac6c21761c2c1",
+    "host/compiler/prepare.py": "cbfdc2697cd25b1371fbabf5b1c15d7379d12989ef520e23a228686766b8cf7d",
+    "host/studio/server.py": "d741ef537ff0a43aad1d6611fbfa58dff28f8233f75c47c73dbfd084d388b9fa"
+  }
+}

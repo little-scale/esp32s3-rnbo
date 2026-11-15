@@ -88,7 +88,7 @@ def inventory(directory: Path):
 def sources():
     paths=[ROOT/"module-sdk/include/rnbo_s3_module.h",ROOT/"module-sdk/include/rnbo_s3_midi.h",ROOT/"module-sdk/include/rnbo_s3_dynamic.h",
            ROOT/"host/compiler/build_module.py",ROOT/"host/compiler/build.py",
-           ROOT/"host/compiler/prepare.py",ROOT/"host/compiler/inspect_module.py",ROOT/"host/compiler/physical_inputs.py", ROOT/"host/compiler/touchscreen_inputs.py",ROOT/"host/compiler/float32_trial.py",
+           ROOT/"host/compiler/prepare.py",ROOT/"host/profiles.py",ROOT/"host/compiler/voice_pe_inputs.py",ROOT/"host/compiler/inspect_module.py",ROOT/"host/compiler/physical_inputs.py", ROOT/"host/compiler/touchscreen_inputs.py",ROOT/"host/compiler/float32_trial.py",
            ROOT/"loader-spike/dependencies.json"]
     for name in ("bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h"):
         helper=ROOT/"host/compiler"/name
@@ -127,6 +127,7 @@ def build_module(export: Path,build_dir: Path,idf: Path,dependencies: Path,*,max
              "-D",f"SDKCONFIG={build_dir/'sdkconfig'}","-D",f"SDKCONFIG_DEFAULTS={project/'sdkconfig.defaults'}",
              "-D",f"RNBO_S3_DEPENDENCIES_DIR={dependencies}","-D",f"RNBO_S3_EXPORT_DIR={export}",
              "-D",f"RNBO_S3_MAX_ARENA_BYTES={max_arena_bytes}",
+             "-D",f"RNBO_S3_SAMPLE_RATE={manifest['sample_rate']}",
              "-D","ELF_LOADER_KEEP_DEBUG_ELF=ON","elf"]
     with (build_dir/"build.log").open("w") as log:
         process=subprocess.Popen(command,cwd=project,env=environment,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
@@ -160,7 +161,7 @@ def build_module(export: Path,build_dir: Path,idf: Path,dependencies: Path,*,max
             "elf_compatibility_normalization":normalization,
             "prepared_export":{"manifest":manifest,"provenance":provenance},"prepared_snapshot":prepared_snapshot,
             "dynamic_abi":{"major":1,"minor":0,"entry":"app_main argc1 request pointer in argv[0]","explicit_result":True},
-            "sample_rate":44100,"block_frames":256,"role":manifest["role"],
+            "sample_rate":manifest['sample_rate'],"block_frames":256,"role":manifest["role"],
             "state_policy":{"caller_owned":True,"alignment":16,"minimum_arena_bytes":4096,"maximum_arena_bytes":max_arena_bytes,
                             "context_bytes":"reported by allocation-free DESCRIBE","minimum_arena_is_structural_not_measured":True},
             "allocation_accounting":{"rnbo_platform":"base statistics hook counters","cpp_and_total":"dynamic statistics extension",

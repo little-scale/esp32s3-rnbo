@@ -5,7 +5,9 @@
 extern "C" {
 #endif
 
+#ifndef RNBO_S3_SAMPLE_RATE
 #define RNBO_S3_SAMPLE_RATE 44100u
+#endif
 #define RNBO_S3_BLOCK_FRAMES 256u
 typedef struct {
     float current, target, step;

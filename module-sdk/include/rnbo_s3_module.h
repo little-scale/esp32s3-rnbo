@@ -10,7 +10,12 @@ extern "C" {
  * check struct_bytes before reading any fields added in a minor version. */
 #define RNBO_S3_ABI_MAJOR 1u
 #define RNBO_S3_ABI_MINOR 0u
+#ifndef RNBO_S3_SAMPLE_RATE
 #define RNBO_S3_SAMPLE_RATE 44100u
+#endif
+#if RNBO_S3_SAMPLE_RATE != 44100 && RNBO_S3_SAMPLE_RATE != 48000 && RNBO_S3_SAMPLE_RATE != 16000
+#error Unsupported RNBO sample rate
+#endif
 #define RNBO_S3_BLOCK_FRAMES 256u
 #define RNBO_S3_MAX_PARAMETERS 128u
 enum { RNBO_S3_MAIN = 1, RNBO_S3_FX = 2 };

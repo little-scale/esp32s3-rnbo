@@ -1,5 +1,32 @@
 # Implementation status — native export migration
 
+**16 November 2026 — Voice PE hardware-test preparation:** Two explicit native
+profiles now propagate through Max export settings, host preparation/rendering,
+Xtensa modules, package headers, player admission and rate-correct telemetry.
+The port reuses the donor's safe GPIO/clock/codec/I²S backend, adds semantic
+dial/button/microphone-mute bindings (envelope v4), board status ring, muted
+startup, replacement fades/drain, protected ESP-only installation and bounded
+digital capture. Genuine Max exports are built at both rates. Hardware audio,
+clocks, controls, persistence, loaded Wi-Fi and CPU qualification are pending;
+programmable LED output remains unavailable. See the [guide](voice-pe.md) and
+[readiness receipt](../evidence/voice-pe-readiness.json).
+
+**13 November 2026 — automatic native delay storage:** Future Studio/Max builds
+and default CLI preparation now use Float32 storage for reviewed internal
+ordinary `delay~` rings. Unsupported forms and other buffer families retain
+native storage, with conversions, fallback reasons and memory savings recorded
+in build provenance. Delay sizes, algorithms and scheduler precision are
+unchanged. Existing packages/firmware are unchanged; hardware timing and audio
+checks remain pending. See the [policy](native-delay-storage.md).
+
+**13 November 2026 — native delay storage research:** A separate computer-only
+SawSAHArpy trial changes its reviewed internal delay ring from Double to Float32
+storage, saving 128 KiB while preserving its capacity and generated algorithms.
+Host numerical comparisons and ESP32-S3 cross-builds are recorded separately
+from pending hardware timing/listening checks. Studio defaults and installed
+firmware were unchanged during that trial; the later default change is recorded
+above. See the [investigation and hardware follow-up](native-delay-storage.md).
+
 **7 November 2026 — AMOLED patch-area parameters:** Inline
 `@meta "{'esp32':{'type':'touchscreen','axis':'x'}}"` (also `y` and `pressed`)
 now binds parameters to the patch drawing rectangle only. Buttons, output volume

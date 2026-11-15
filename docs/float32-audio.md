@@ -2,6 +2,10 @@
 
 > **Historical importer-route research.** The supported workflow now uses [Max Minimal C++ Export](native-export.md) only. Results and optimisation settings below describe their recorded builds; they do not establish native-export qualification. The testing goal is paused. Old commands are archival.
 
+New native builds now separately apply the bounded [ordinary delay storage
+policy](native-delay-storage.md). It does not enable the historical comb/allpass
+or audio-kernel profiles described below.
+
 The default remains `float32-strict`. These options change audio precision and
 are recorded independently from the delay-range cap and runtime correctness
 fixes. Original generated files remain in `originals/`.

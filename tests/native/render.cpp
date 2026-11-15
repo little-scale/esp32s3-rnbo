@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
     int status=0;
     for(unsigned block=0;block<blocks;++block) {
         if(m->role==RNBO_S3_FX)for(unsigned i=0;i<256;++i) {
-            double t=static_cast<double>(block*256u+i)/44100.0;
+            double t=static_cast<double>(block*256u+i)/double(RNBO_S3_SAMPLE_RATE);
             input_left[i]=0.2f*std::sin(2*3.141592653589793*440*t);
             input_right[i]=0.2f*std::sin(2*3.141592653589793*660*t);
         }
@@ -94,8 +94,8 @@ int main(int argc, char **argv) {
     if(std::fclose(f))status=1;
     if(floats && std::fclose(floats))status=1;
     rnbo_s3_stats stats{};stats.struct_bytes=sizeof(stats);m->statistics(ctx,&stats);
-    std::printf("{\"evidence_kind\":\"host_render\",\"sample_rate\":44100,\"block_frames\":256,\"blocks\":%llu,\"warmup_blocks\":%u,\"seed\":%u,\"peak\":%.9g,\"rms\":%.9g,\"mean_process_us\":%.4f,\"max_process_us\":%.4f,\"platform_allocations\":%llu,\"late_platform_allocations\":%llu,\"arena_used\":%u,\"errors\":%llu,\"invalid_samples\":%llu,\"allocation_coverage\":\"RNBO platform hooks only\",\"target_performance_qualified\":false}\n",
-        static_cast<unsigned long long>(stats.blocks),stats.warmup_blocks,seed,peak,std::sqrt(squares/(blocks*512.0)),total_us/blocks,max_us,
+    std::printf("{\"evidence_kind\":\"host_render\",\"sample_rate\":%u,\"block_frames\":256,\"blocks\":%llu,\"warmup_blocks\":%u,\"seed\":%u,\"peak\":%.9g,\"rms\":%.9g,\"mean_process_us\":%.4f,\"max_process_us\":%.4f,\"platform_allocations\":%llu,\"late_platform_allocations\":%llu,\"arena_used\":%u,\"errors\":%llu,\"invalid_samples\":%llu,\"allocation_coverage\":\"RNBO platform hooks only\",\"target_performance_qualified\":false}\n",
+        RNBO_S3_SAMPLE_RATE,static_cast<unsigned long long>(stats.blocks),stats.warmup_blocks,seed,peak,std::sqrt(squares/(blocks*512.0)),total_us/blocks,max_us,
         static_cast<unsigned long long>(stats.platform_allocations),static_cast<unsigned long long>(stats.late_platform_allocations),stats.arena_used,
         static_cast<unsigned long long>(stats.errors),static_cast<unsigned long long>(stats.invalid_samples));
     m->destroy(ctx);return status;

@@ -84,7 +84,7 @@ static inline int mbedtls_sha256(const uint8_t *p,size_t n,uint8_t out[32],int i
 }
 
 
-def package(metadata=None, *, role=1, arena=1048576, elf=None, metadata_bytes=None, version=1):
+def package(metadata=None, *, role=1, arena=1048576, elf=None, metadata_bytes=None, version=1, rate=44100):
     if metadata is None:
         metadata = {'name': 'Portable patch', 'source_sha256': 'a' * 64, 'initial_volume': 50}
     if metadata_bytes is None:
@@ -92,7 +92,7 @@ def package(metadata=None, *, role=1, arena=1048576, elf=None, metadata_bytes=No
     # Envelope-only fixture. It is deliberately not an executable module.
     if elf is None:
         elf = b'\x7fELF\x01\x01\x01' + bytes(9) + b'not-executable-test-payload'
-    header = struct.pack('<8s9I32s32s20s', b'RNBOS3P1', 128, version, 1, role, 44100,
+    header = struct.pack('<8s9I32s32s20s', b'RNBOS3P1', 128, version, 1, role, rate,
                          256, arena, len(metadata_bytes), len(elf), hashlib.sha256(elf).digest(),
                          hashlib.sha256(metadata_bytes).digest(), bytes(20))
     assert len(header) == 128
@@ -121,9 +121,10 @@ class PlayerStoreTests(unittest.TestCase):
             p.write_text(text)
         cls.executable = cls.directory / 'test-player-store'
         command = [compiler, '-std=c11', '-D_POSIX_C_SOURCE=200809L', '-O2', '-Wall', '-Wextra', '-Werror',
+                   f'-DRNBO_S3_SAMPLE_RATE={getattr(cls,"sample_rate",44100)}u',
                    '-Wno-deprecated-declarations', '-fsanitize=undefined', '-fno-sanitize-recover=all',
                    '-Dfsync=player_test_fsync', f'-DPLAYER_STORE_PATH="{cls.storage}"',
-                   '-I', str(includes), '-I', str(COMPONENT / 'include'), '-I', str(cjson),
+                   '-I', str(includes), '-I', str(ROOT/'module-sdk/include'), '-I', str(COMPONENT / 'include'), '-I', str(cjson),
                    str(COMPONENT / 'player_store.c'), str(ROOT / 'tests/player/host_store_test.c'),
                    str(cjson / 'cJSON.c'), '-o', str(cls.executable), '-lm']
         if sys.platform != 'darwin':

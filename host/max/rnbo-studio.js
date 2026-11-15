@@ -7,6 +7,7 @@ inlets = 2;
 outlets = 4;
 var nodeReady = false, current = null, configDict = null, timeoutTask = null, exportPoll = null;
 var lastStudioURL = '', initialVolume = 50, arenaBytes = 1048576, lastBuildReady = false;
+var audioProfile='esp32s3-44100-256-v1';
 var wanted = typeof jsarguments !== 'undefined' && jsarguments[1] && String(jsarguments[1]) !== '#1' ? String(jsarguments[1]) : '';
 
 function helperPatcher() {
@@ -91,7 +92,7 @@ function startBuild(selection) {
         current={id:id,target:target,phase:'preparing',drawing:JSON.stringify(drawing),sawActive:false,upload:selection};
         timeoutTask=new Task(function(){fail('Export timed out. Check the dump-outlet connection and Max Console.');},this);
         timeoutTask.schedule(120000);
-        outlet(0,'prepare',JSON.stringify({requestId:id,name:title,visual_patch:drawing,initial_volume:selection?.volume??initialVolume,arena_bytes:arenaBytes,exposevoiceparams:!!Number(target.getattr('exposevoiceparams'))}));
+        outlet(0,'prepare',JSON.stringify({requestId:id,name:title,visual_patch:drawing,initial_volume:selection?.volume??initialVolume,arena_bytes:arenaBytes,profile:audioProfile,exposevoiceparams:!!Number(target.getattr('exposevoiceparams'))}));
         status('preparing',title);
     }catch(error){fail(error.message||error);}
 }
@@ -192,6 +193,13 @@ function startup_volume(value) {
     if(current)return status('error','Wait for the current build');
     if(!Number.isInteger(value)||value<0||value>100)return status('error','Startup volume must be 0–100');
     initialVolume=value;
+}
+function profile(value) {
+    if(current){status('error','Wait for the current build/upload');return;}
+    if(['esp32s3-44100-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'].indexOf(String(value))<0){status('error','Choose a supported explicit audio profile');return;}
+    audioProfile=String(value);lastBuildReady=false;
+    if(audioProfile.indexOf('voice-pe-')===0)initialVolume=0;
+    status('profile',audioProfile);
 }
 function arena(value) {
     if(current)return status('error','Wait for the current build');

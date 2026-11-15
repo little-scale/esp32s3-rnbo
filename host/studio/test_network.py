@@ -270,7 +270,7 @@ class BridgeTests(unittest.TestCase):
         self.assertIs(n.NetworkBridge.upload_package, n.DeviceBridge.upload_package)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'test.rnbopkg'; path.write_bytes(bytes(range(256)) * 9)
-            package = dict(role='main', arena_bytes=4096,
+            package = dict(role='main', sample_rate=44100,block_frames=256,arena_bytes=4096,
                 package_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
                 metadata=dict(source_sha256='b' * 64, initial_volume=25))
             with patch.dict(n.DeviceBridge.upload_package.__globals__, parse_package=lambda _: package):
@@ -290,7 +290,7 @@ class BridgeTests(unittest.TestCase):
         peer=self.peers[0]
         with tempfile.TemporaryDirectory() as directory:
             path=Path(directory)/'patch.rnbopkg';path.write_bytes(bytes(range(256))*9)
-            package=dict(role='main',arena_bytes=4096,package_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+            package=dict(role='main',sample_rate=44100,block_frames=256,arena_bytes=4096,package_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
                 metadata=dict(source_sha256='b'*64,initial_volume=25))
             with patch.dict(n.DeviceBridge.upload_package.__globals__,parse_package=lambda _:package), \
                  patch.object(self.bridge,'_socket_factory',side_effect=AssertionError('Upload must keep the authenticated connection')):

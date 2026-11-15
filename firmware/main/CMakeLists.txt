@@ -1,5 +1,5 @@
 set(app_requires board_audio pcm_output audio_lifecycle esp_timer esp_psram esp_app_format spi_flash)
-if(NOT "$ENV{RNBO_S3_BOARD}" STREQUAL "xiao")
+if("$ENV{RNBO_S3_BOARD}" STREQUAL "amoled")
     list(APPEND app_requires board_display pcm_capture)
 endif()
 if(NOT "$ENV{RNBO_S3_EXPORT_DIR}" STREQUAL "")

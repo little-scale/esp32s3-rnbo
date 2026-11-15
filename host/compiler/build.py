@@ -52,7 +52,7 @@ def build(export: Path, build_dir: Path, cmake: str = "cmake") -> Path:
                          root / "firmware/components/pcm_output/pcm_output.c",
                          root / "firmware/components/pcm_output/include/pcm_output.h",
                          root / "tests/native/render.cpp"]
-    compiler_tool_files = [root / "host/compiler/build.py", root / "host/compiler/prepare.py",
+    compiler_tool_files = [root / "host/compiler/build.py", root / "host/compiler/prepare.py", root / "host/profiles.py", root / "host/compiler/voice_pe_inputs.py",
                            root / "host/compiler/bounded_filters.py", root / "host/compiler/float32_delays.py",
                            root / "host/compiler/float32_audio.py", root / "host/compiler/float32_trial.py", root / "host/compiler/omit_mtof_table.py",
                            root / "host/compiler/int32_wrap.py", root / "host/compiler/hoist_cycles.py",
@@ -69,7 +69,8 @@ def build(export: Path, build_dir: Path, cmake: str = "cmake") -> Path:
     integration_hashes = snapshot_files(root, integration_files)
     compiler_tool_hashes = snapshot_files(root, compiler_tool_files)
     build_dir = build_dir.resolve()
-    subprocess.run([cmake, "-S", str(root), "-B", str(build_dir), f"-DRNBO_S3_EXPORT_DIR={export}"], check=True)
+    subprocess.run([cmake, "-S", str(root), "-B", str(build_dir), f"-DRNBO_S3_EXPORT_DIR={export}",
+                    f"-DRNBO_S3_SAMPLE_RATE={manifest['sample_rate']}"], check=True)
     subprocess.run([cmake, "--build", str(build_dir), "--target", "rnbo_render", "--parallel"], check=True)
     if verify_prepared(export)[2] != prepared_snapshot:
         raise ExportError("Prepared source/metadata changed during compilation; discard this artifact")

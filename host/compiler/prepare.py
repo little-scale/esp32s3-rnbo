@@ -18,6 +18,9 @@ import re
 import shutil
 import struct
 import tempfile
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from host.profiles import LEGACY, PROFILES, checked as checked_profile
 
 SUPPORTED_VERSION = "1.4.4"
 MAX_SOURCE_BYTES = 16 * 1024 * 1024
@@ -384,7 +387,20 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
             float32_pink_output: bool = False, correct_finite_wrap: bool = False,
             exact_audio_delay44100: bool = False, hoist_filter_durations: bool = False,
             hoist_train_reciprocal: bool = False, bounded_line_ramps: bool = False,
-            float32_onepole_clamp: bool = False, stable_onepole: bool = False, gen_abs_intrinsic: bool = False) -> dict:
+            float32_onepole_clamp: bool = False, stable_onepole: bool = False, gen_abs_intrinsic: bool = False,
+            delay_storage_policy: str = "auto", profile: str = LEGACY) -> dict:
+    try:
+        audio_profile = checked_profile(profile)
+    except ValueError as exc:
+        raise ExportError(str(exc)) from exc
+    rate = audio_profile['sample_rate']
+    if rate != 44100 and (numerical_profile != 'float32-strict' or filter_delay_max_ms is not None or
+            float32_delay_storage or omit_unused_mtof_table or hoist_cycle_conversions or compact_average_history or
+            float32_pink_output or correct_finite_wrap or exact_audio_delay44100 or hoist_filter_durations or
+            hoist_train_reciprocal or bounded_line_ramps or float32_onepole_clamp or stable_onepole or gen_abs_intrinsic):
+        raise ExportError('Voice PE profiles require baseline arithmetic; historical rate-specific transforms are not qualified')
+    if delay_storage_policy not in ("auto", "float64"):
+        raise ExportError("delay-storage must be auto or float64")
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", class_name):
         raise ExportError("class-name must be a plain C++ identifier")
     if role not in ("main", "fx"):
@@ -558,18 +574,24 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     # generator. Merely specifying a rate/vector on this CLI is insufficient.
     for pattern in (r"RNBO_ASSERT\(\s*n\s*==\s*256\s*\)",
                     r"RNBO_ASSERT\(\s*maxBlockSize\s*==\s*256\s*\)",
-                    r"RNBO_ASSERT\(\s*sampleRate\s*==\s*44100\s*\)"):
-        if not re.search(pattern, source):
-            raise ExportError("Export must declare the fixed 44100 Hz / 256-frame Minimal profile")
+                    rf"RNBO_ASSERT\(\s*sampleRate\s*==\s*{rate}\s*\)"):
+        if not re.search(pattern, cpp_code_mask(source)):
+            raise ExportError(f"Export must declare the fixed {rate} Hz / 256-frame Minimal profile; re-export in Max, do not retag code")
     description = read_json(files["description.json"], "description.json")
     params = validate_description(description, role, midi_output_policy)
     from physical_inputs import extract as extract_physical_inputs
     from touchscreen_inputs import extract as extract_touchscreen_inputs
+    from voice_pe_inputs import extract as extract_voice_pe_inputs
     try:
         physical_inputs = extract_physical_inputs(params)
         touchscreen_inputs = extract_touchscreen_inputs(params)
-        if physical_inputs and touchscreen_inputs:
-            raise ValueError("XIAO pin bindings and AMOLED touchscreen bindings cannot share a package")
+        voice_pe_inputs = extract_voice_pe_inputs(params)
+        if sum(bool(p) for p in (physical_inputs,touchscreen_inputs,voice_pe_inputs))>1:
+            raise ValueError("Board-specific input plans cannot share a package")
+        if voice_pe_inputs and rate not in (16000,48000):
+            raise ValueError('Voice PE inputs require a Voice PE audio profile')
+        if rate!=44100 and (physical_inputs or touchscreen_inputs):
+            raise ValueError('Legacy board controls cannot use Voice PE profiles')
     except ValueError as exc:
         raise ExportError(str(exc)) from exc
     raw_hashes = {name: digest(data) for name, data in sorted(files.items())}
@@ -649,6 +671,19 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         except ValueError as exc:
             raise ExportError(str(exc)) from exc
         changes.append(delay_change)
+    delay_storage = None
+    if not float32_delay_storage and "generator.json" not in files:
+        if delay_storage_policy == "auto":
+            from float32_delays import automatic_float32_delays
+            files["rnbo_source.h"], delay_audit = automatic_float32_delays(files["rnbo_source.h"], code_mask=cpp_code_mask)
+            changes.append(delay_audit)
+            delay_storage = {key: delay_audit[key] for key in (
+                "policy", "scope", "converted", "retained_float64", "buffer_data_bytes_saved",
+                "hardware_qualified", "target_cpu_gain_measured")}
+        else:
+            delay_storage = {"policy": "float64", "scope": "retain native generated storage", "converted": [],
+                             "buffer_data_bytes_saved": 0, "hardware_qualified": False,
+                             "target_cpu_gain_measured": False}
     if numerical_profile in ("float32-cycle-v2", "float32-audio-v1", "float32-audio-v2", "float32-audio-v3", "float32-auto-v1"):
         from float32_audio import float32_audio
         try:
@@ -699,7 +734,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               for p in params]
     manifest = {"format": "rnbo-esp32s3-prepared-export", "format_version": 1,
                 "rnbo_version": SUPPORTED_VERSION, "class_name": class_name,
-                "sample_rate": 44100, "block_frames": 256, "role": role,
+                "sample_rate": rate, "block_frames": 256, "role": role,
                 "audio_inputs": description["numInputChannels"], "audio_outputs": 2,
                 "midi_output_ports": description["numMidiOutputPorts"], "midi_output_policy": midi_output_policy,
                 "voices": voices, "voice_topology": "manual-export-unspecified" if voices is None else ("polyphonic-export" if voices > 1 else "single-export"),
@@ -709,12 +744,18 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
                 "source_tree_sha256": digest(canonical(raw_hashes)),
                 "editable_source_sha256": digest(files["source.rnbopat"]) if "source.rnbopat" in files else None,
                 "adaptations": [change["name"] for change in changes]}
+    # Archived importer qualification fixtures pin the complete manifest shape.
+    # Preserve that record; supported native exports carry explicit profiles.
+    if 'generator.json' not in files or profile != LEGACY:
+        manifest['profile'] = profile
     if description["numMidiInputPorts"]:
         manifest["midi_input_ports"] = description["numMidiInputPorts"]
     if physical_inputs is not None:
         manifest["physical_inputs"] = physical_inputs
     if touchscreen_inputs is not None:
         manifest["touchscreen_inputs"] = touchscreen_inputs
+    if voice_pe_inputs is not None:
+        manifest['voice_pe_inputs']=voice_pe_inputs
     if numerical_profile == "float32-trial-v1":
         manifest["float32_trial"] = dict(version=1,profile=numerical_profile,qualification="unverified",
             audit_sha256=digest(files["float32-trial-audit.json"]),trial_method_count=trial_change["trial_method_count"],
@@ -731,6 +772,10 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
         manifest["filter_delay_max_ms"] = filter_delay_max_ms
     if float32_delay_storage:
         manifest["float32_delay_storage"] = True
+    if delay_storage is not None:
+        manifest["delay_storage"] = delay_storage
+        if delay_storage["converted"]:
+            manifest["float32_delay_storage"] = True
     if apply_fixes:
         manifest["defined_int32_wrap"] = True
     if hoist_cycle_conversions:
@@ -772,7 +817,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
               f"#define RNBO_S3_PATCH_CLASS {class_name}\n"
               f"#define RNBO_S3_PATCH_ROLE {1 if role == 'main' else 2}\n"
               f"#define RNBO_S3_PATCH_DISCARD_MIDI_OUTPUT {1 if midi_output_policy == 'discard' else 0}\n"
-              "#define RNBO_S3_PATCH_RATE 44100\n#define RNBO_S3_PATCH_BLOCK 256\n")
+              f"#define RNBO_S3_PATCH_RATE {rate}\n#define RNBO_S3_PATCH_BLOCK 256\n")
     if description["numMidiInputPorts"]:
         config += f"#define RNBO_S3_PATCH_MIDI_INPUT_PORTS {description['numMidiInputPorts']}\n"
     if gen_abs_intrinsic:
@@ -964,7 +1009,7 @@ def prepare(export_dir: Path, output_dir: Path, class_name: str, role: str,
     provenance = {"format_version": 1, "adapter": "rnbo-s3-minimal-static-v1",
                   "preparer_sha256": digest(Path(__file__).read_bytes()),
                   "compiler_helpers_sha256": {name: digest(Path(__file__).with_name(name).read_bytes())
-                                              for name in ("physical_inputs.py", "touchscreen_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
+                                              for name in ("physical_inputs.py", "touchscreen_inputs.py", "voice_pe_inputs.py", "float32_trial.py", "bounded_filters.py", "float32_delays.py", "float32_audio.py", "omit_mtof_table.py", "int32_wrap.py", "hoist_cycles.py", "compact_average.py", "pink_output.py", "wrap_finite.py", "wrap_finite.h", "scalar_powers.py", "gen_feedback.py", "gen_abs_intrinsic.py", "exact_delay44100.py", "exact_delay44100.h", "hoist_filter_durations.py", "hoist_train_reciprocal.py", "bounded_line_ramps.py", "onepole_clamp.py", "stable_onepole.py", "onepole_graphs.py", "regenerated_export.py", "onepole_stable.h")},
                   "export_helpers_sha256": export_helpers,
                   "raw_files_sha256": raw_hashes, "prepared_files_sha256": prepared_hashes,
                   "adaptations": changes, "manifest_sha256": digest(canonical(manifest)),
@@ -998,6 +1043,7 @@ def main() -> None:
     parser.add_argument("--export", required=True, type=Path, dest="export_dir")
     parser.add_argument("--out", required=True, type=Path, dest="output_dir")
     parser.add_argument("--class-name", required=True)
+    parser.add_argument('--profile',choices=tuple(PROFILES),default=LEGACY)
     parser.add_argument("--role", choices=("main", "fx"), default="main")
     parser.add_argument("--midi-output", choices=("reject", "discard"), default="reject",
                         help="Explicitly discard declared MIDI output; transmitting MIDI is unimplemented")
@@ -1007,6 +1053,8 @@ def main() -> None:
     parser.add_argument("--filter-delay-max-ms",type=float,
                         help="Explicit comb/allpass delay input maximum0..1000ms; retains Float64 storage and original conversion")
     parser.add_argument("--float32-delays", action="store_true", help="Explicitly convert reviewed internal comb/allpass/delay rings to float32 storage")
+    parser.add_argument("--delay-storage", choices=("auto", "float64"), default="auto",
+                        help="Native default: Float32 for reviewed internal ordinary delay rings; retain other forms. float64 keeps native storage for comparison")
     parser.add_argument("--omit-unused-mtof-table", action="store_true",
                         help="Omit reviewed unread mtof lookup payload; requires opaque C ABI, changes internal resource/notification semantics")
     parser.add_argument("--hoist-cycle-conversions", action="store_true",
@@ -1037,6 +1085,7 @@ def main() -> None:
                            apply_fixes=not args.no_runtime_fixes, midi_output_policy=args.midi_output,
                            numerical_profile=args.numerical_profile,filter_delay_max_ms=args.filter_delay_max_ms,
                            float32_delay_storage=args.float32_delays,omit_unused_mtof_table=args.omit_unused_mtof_table,
+                           delay_storage_policy=args.delay_storage,profile=args.profile,
                            hoist_cycle_conversions=args.hoist_cycle_conversions,compact_average_history=args.compact_average_history,
                            float32_pink_output=args.float32_pink_output,correct_finite_wrap=args.correct_finite_wrap,
                            exact_audio_delay44100=args.exact_audio_delay44100,hoist_filter_durations=args.hoist_filter_durations,

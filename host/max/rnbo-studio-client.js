@@ -23,13 +23,17 @@ function settings(value) {
   if (![1048576,2097152,4194304].includes(arena)) throw Error('Arena must be 1, 2 or 4 MiB');
   const exposevoiceparams=value.exposevoiceparams ?? false;
   if(typeof exposevoiceparams!=='boolean')throw Error('Voice-parameter setting must be boolean');
-  return {requestId, name, visual_patch, initial_volume:volume, arena_bytes:arena, exposevoiceparams};
+  const profile=value.profile??'esp32s3-44100-256-v1';
+  if(!['esp32s3-44100-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'].includes(profile))throw Error('Choose a supported audio profile');
+  return {requestId, name, visual_patch, initial_volume:volume, arena_bytes:arena, exposevoiceparams,profile};
 }
 
-function exportConfig(directory) {
+function exportConfig(directory, profile='esp32s3-44100-256-v1') {
+  const rate={'esp32s3-44100-256-v1':44100,'voice-pe-16000-256-v1':16000,'voice-pe-48000-256-v1':48000}[profile];
+  if(!rate)throw Error('Invalid audio profile');
   return {output_path:path.join(directory,'export'), export_name:'rnbo_source', minimal_export:true,
     copy_library:true, copy_dependencies:false, write_binary_file:false, classname:'rnbomatic',
-    fixedblocksize:256, fixedsamplerate:44100, polyphony:'linked', exposevoiceparams:false,
+    fixedblocksize:256, fixedsamplerate:rate, polyphony:'linked', exposevoiceparams:false,
     openexportdirectory:false, postexportcommand:'', license:true, presets:false, staterestore:false,
     probing:false, uimessages:false, language:0, debugbuild:false, midi:true};
 }
@@ -38,7 +42,7 @@ async function prepare(value, cache = os.tmpdir()) {
   const checked = settings(value);
   const directory = await fs.mkdtemp(path.join(cache,'rnbo-studio-max-'));
   await fs.chmod(directory,0o700);
-  const config = exportConfig(directory);
+  const config = exportConfig(directory,checked.profile);
   config.exposevoiceparams=checked.exposevoiceparams;
   await fs.writeFile(path.join(directory,'drawing.json'),JSON.stringify(checked.visual_patch,null,2),{mode:0o600});
   await fs.writeFile(path.join(directory,'export-config.json'),JSON.stringify(config,null,2),{mode:0o600});
@@ -96,7 +100,7 @@ async function submit(context,port=8788,call=request) {
   const status=await call(port,'/api/status');
   if(typeof status.csrf!=='string'||!status.csrf) throw Error('Studio did not provide a session token');
   const response=await call(port,'/api/build',{name:context.name,visual_patch:context.visual_patch,export_files,
-    initial_volume:context.initial_volume,arena_bytes:context.arena_bytes},status.csrf);
+    initial_volume:context.initial_volume,arena_bytes:context.arena_bytes,profile:context.profile},status.csrf);
   const job=response.job;
   if(!job||!/^[0-9a-f]{32}$/.test(job.id)) throw Error('Studio did not return a build identity');
   return {job,url:`http://127.0.0.1:${port}/?job=${job.id}`};

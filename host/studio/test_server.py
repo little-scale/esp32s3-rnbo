@@ -30,7 +30,7 @@ from test_native_export import payload
 class SettingsTests(unittest.TestCase):
     def valid(self):
         return payload()
-    def test_defaults_are_explicit_and_preserve_storage(self):
+    def test_defaults_are_explicit(self):
         value = s.build_settings(self.valid())
         self.assertEqual(value['initial_volume'],50)
         self.assertEqual(value['class_name'],'rnbomatic')
@@ -90,7 +90,9 @@ class SettingsTests(unittest.TestCase):
             commands.append([str(x) for x in command])
             if str(command[1]).endswith('prepare.py'):
                 prepared=Path(command[command.index('--out')+1]);prepared.mkdir()
-                (prepared/'manifest.json').write_text(json.dumps({'parameter_count':0}))
+                (prepared/'manifest.json').write_text(json.dumps({'parameter_count':0,'delay_storage':{
+                    'policy':'auto','converted':[{'name':'delaytilde_01_del'}],
+                    'retained_float64':[],'buffer_data_bytes_saved':131072}}))
                 (prepared/'description.json').write_text(json.dumps({'parameters':[]}))
             if str(command[0]).endswith('rnbo_render'):
                 return json.dumps({'errors':0,'invalid_samples':0,'late_platform_allocations':0})
@@ -107,6 +109,9 @@ class SettingsTests(unittest.TestCase):
         self.assertTrue(any('build_module.py' in ' '.join(c) and '--max-arena-bytes' in c for c in commands))
         self.assertFalse(any('build_firmware.py' in ' '.join(c) or c[0]=='node' for c in commands))
         self.assertEqual(commands[0][commands[0].index('--numerical-profile')+1],'float32-strict')
+        self.assertEqual(commands[0][commands[0].index('--delay-storage')+1],'auto')
+        self.assertEqual(result['result']['delay_storage']['buffer_data_bytes_saved'],131072)
+        self.assertIn('131072 buffer bytes saved',result['log'])
         self.assertFalse(studio.worker.locked())
 
     def test_player_install_is_explicit_separate_firmware_action(self):
@@ -122,6 +127,17 @@ class SettingsTests(unittest.TestCase):
         self.assertEqual(bridge.calls[-1][1],{'expected_kind':'player'})
 
 class SavedPackageTests(unittest.TestCase):
+    def test_voice_saved_package_volume_edit_preserves_rate_and_profile(self):
+        raw=self.package();parsed=s.player_package.parse(raw)
+        metadata=dict(parsed['metadata'],audio_profile='voice-pe-16000-256-v1')
+        raw=s.player_package.create(parsed['elf'],metadata,'main',4096,sample_rate=16000)
+        studio=s.Studio(bridge=FakeBridge())
+        with tempfile.TemporaryDirectory() as temp,patch.object(s,'PRIVATE',Path(temp)):
+            job=studio.import_package({'name':'voice.rnbopkg','package_base64':base64.b64encode(raw).decode(),'initial_volume':0})
+            checked=s.player_package.parse(studio.artifact(job['id']).read_bytes())
+            self.assertEqual(checked['sample_rate'],16000)
+            self.assertEqual(checked['metadata']['initial_volume'],0)
+            self.assertEqual(job['result']['profile'],'voice-pe-16000-256-v1')
     @staticmethod
     def package(visual=None):
         spec = importlib.util.spec_from_file_location('saved_package_elf', s.ROOT / 'tests/dynamic/test_inspect_module.py')

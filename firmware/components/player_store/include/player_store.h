@@ -32,6 +32,7 @@ typedef struct {
     const uint8_t *elf;
     size_t elf_bytes;
     uint32_t role;
+    uint32_t sample_rate, block_frames;
     uint32_t arena_bytes;
     uint32_t initial_volume;
     char name[64];

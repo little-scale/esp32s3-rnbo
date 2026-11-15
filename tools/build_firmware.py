@@ -42,7 +42,7 @@ def verify_prepared(path: Path) -> dict:
     return {"manifest":manifest,"provenance":provenance}
 
 def source_inventory() -> dict[str,str]:
-    files = [ROOT/"tools/build_firmware.py"]
+    files = [ROOT/"tools/build_firmware.py", ROOT/"host/profiles.py"]
     files += [p for p in (ROOT/"firmware").rglob("*") if p.is_file()]
     files += [p for p in (ROOT/"module-sdk").rglob("*") if p.is_file()]
     files += [p for p in (ROOT/"runtime").rglob("*") if p.is_file()]
@@ -86,7 +86,7 @@ def prepare_components(source: Path, destination: Path) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("board", choices=("xiao", "amoled"))
+    parser.add_argument("board", choices=("xiao", "amoled", "voice-pe"))
     parser.add_argument("--idf-path", type=Path, default=Path(os.environ.get("IDF_PATH", str(Path.home()/"esp/esp-idf"))))
     parser.add_argument("--components-from", type=Path)
     parser.add_argument("--export-dir", type=Path, help="Validated prepared Main export from host/compiler/prepare.py")
@@ -98,7 +98,14 @@ def main() -> int:
     parser.add_argument('--initial-volume',type=int,default=None,
                         help='Startup volume percent (0..100; default XIAO50, AMOLED100)')
     parser.add_argument("--clean", action="store_true", help="Remove only this board's generated build/config")
+    parser.add_argument('--profile', choices=('esp32s3-44100-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'))
     args = parser.parse_args()
+    sys.path.insert(0,str(ROOT))
+    from host.profiles import checked as checked_profile, LEGACY
+    if args.board=='voice-pe' and (not args.player or not args.profile):
+        parser.error('Voice PE requires --player and an explicit --profile; XMOS must match')
+    profile=checked_profile(args.profile or LEGACY,args.board)
+    rate=profile['sample_rate']
     if args.player and args.export_dir:
         parser.error('--player and --export-dir are mutually exclusive')
     if args.usb_midi_host and (not args.player or args.board!='xiao' or not args.variant):
@@ -111,7 +118,7 @@ def main() -> int:
         parser.error('--arena-bytes must be between 4096 and 4194304')
     if not 0<=args.initial_volume<=100:
         parser.error('--initial-volume must be between 0 and 100')
-    build = ROOT/"build"/(f"firmware-{args.board}"+("-player" if args.player else "-rnbo" if args.export_dir else "")+(f"-{args.variant}" if args.variant else ""))
+    build = ROOT/"build"/(f"firmware-{args.board}"+("-player" if args.player else "-rnbo" if args.export_dir else "")+(f"-{args.variant}" if args.variant else "")+(f"-{rate}" if args.board=="voice-pe" else ""))
     if args.clean and build.exists():
         shutil.rmtree(build)
     build.mkdir(parents=True, exist_ok=True)
@@ -134,6 +141,7 @@ def main() -> int:
                    '-D',f'RNBO_S3_PLAYER={"ON" if args.player else "OFF"}',
                    '-D',f'RNBO_S3_ARENA_BYTES={args.arena_bytes}',
                    '-D',f'RNBO_S3_INITIAL_VOLUME={args.initial_volume}',
+                   '-D',f'RNBO_S3_SAMPLE_RATE={rate}',
                    "-D", f"SDKCONFIG={build/'sdkconfig'}", "-D",
                    f"SDKCONFIG_DEFAULTS={ROOT/'firmware'/f'sdkconfig.{args.board}.defaults'}"]
     if args.player:
@@ -223,10 +231,10 @@ def main() -> int:
     component_names = description.get("build_components", [])
     if args.board == "xiao" and any(any(key in name for key in ("lvgl", "waveshare", "codec", "lcd_touch")) for name in component_names):
         raise ValueError("Display/codec dependency leaked into XIAO build")
-    report = {"board":args.board, "variant":args.variant,"sample_rate":44100, "block_frames":256,
+    report = {"board":args.board, "variant":args.variant,"sample_rate":rate, "profile":profile['id'], "block_frames":256,
               'initial_volume_percent':args.initial_volume,
-              "signal_format":"planar-float32", "sink_channels":2 if args.board=="xiao" else 1,
-              "sink_format":"signed-16bit-Philips-I2S", "default_source":"dynamic-rnbo-player" if args.player else "static-rnbo" if prepared else "engine-neutral-stereo-tone",
+              "signal_format":"planar-float32", "sink_channels":1 if args.board=="amoled" else 2,
+              "sink_format":"S16-app/stereo-S32-Philips-I2S-slave" if args.board=="voice-pe" else "signed-16bit-Philips-I2S", "default_source":"dynamic-rnbo-player" if args.player else "static-rnbo" if prepared else "engine-neutral-stereo-tone",
               "idf_version":json.loads((build/"config.env").read_text()).get("IDF_VERSION"),
               "idf_git_revision":description.get("git_revision"), "components":component_names,
               "sdkconfig_sha256":hashlib.sha256(config.encode()).hexdigest(),
@@ -270,6 +278,10 @@ def main() -> int:
     for file in [build/description["app_elf"], build/description["app_bin"], build/"partition_table/partition-table.bin"]:
         report["artifacts"][str(file.relative_to(ROOT))] = {"bytes":file.stat().st_size, "sha256":hashlib.sha256(file.read_bytes()).hexdigest()}
     (build/"build-report.json").write_text(json.dumps(report, indent=2)+"\n")
+    if args.board=="voice-pe":
+        print("Voice PE: use only the protected installer. Never use idf.py flash or generic first-install/erase; XMOS maintenance is separate.")
+        report["installation_policy"]="protected-voice-pe-only"
+        (build/"build-report.json").write_text(json.dumps(report,indent=2)+"\n")
     print(f"Build verified: {build/'build-report.json'}")
     return 0
 

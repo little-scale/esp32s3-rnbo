@@ -2,11 +2,15 @@
 /* Stable Main player. Native images are trusted; installation is detached. */
 #include "board_audio.h"
 #include "pcm_output.h"
+#include "pcm_transition.h"
 #include "allocation_watch.h"
 #include "player_loader.h"
 #include "player_store.h"
 #include "player_inputs.h"
 #include "player_midi.h"
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+#include "voice_pe_runtime.h"
+#endif
 #include "cJSON.h"
 #include "esp_app_desc.h"
 #include "esp_heap_caps.h"
@@ -27,7 +31,7 @@
 #endif
 #include <stdlib.h>
 #include <string.h>
-#ifndef CONFIG_RNBO_S3_HEADLESS
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
 #include "board_display.h"
 #include "patch_layout.h"
 #endif
@@ -44,6 +48,7 @@ typedef struct {
     rnbo_s3_parameter_info parameters[PLAYER_MAX_PARAMETERS];
     player_input_plan inputs;
     player_screen_plan screen;
+    player_voice_plan voice;
 } player_slot;
 typedef struct {
     unsigned kind,index,generation;
@@ -60,6 +65,7 @@ typedef struct {
 } player_stats;
 static _Atomic(player_slot *) active;
 static atomic_bool paused=true,maintenance=false,parked=false,park_failed=false,audio_ready=false;
+static atomic_bool peak_reset_requested=false;
 static atomic_uint generation=1,volume=50,queue_errors=0,parameter_count=0;
 static atomic_uint maintenance_epoch=0,acknowledged_epoch=0;
 static atomic_uint actual_bits[PLAYER_MAX_PARAMETERS],normalized_bits[PLAYER_MAX_PARAMETERS];
@@ -77,7 +83,7 @@ static unsigned guard_generation;
 static nvs_handle_t guard_handle;
 static char blocked_package[65],boot_error[192];
 static const char *TAG="rnbo_player";
-#ifndef CONFIG_RNBO_S3_HEADLESS
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
 static atomic_bool display_enabled=false;
 static atomic_uint display_input_epoch;
 #endif
@@ -159,7 +165,7 @@ static bool post_volume(unsigned value)
 {if(value>100)return false;atomic_store(&volume,value);return true;}
 static void invalidate_display_inputs(void)
 {
-#ifndef CONFIG_RNBO_S3_HEADLESS
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
     atomic_fetch_add(&display_input_epoch,1);
 #endif
 }
@@ -184,7 +190,17 @@ static void physical_publish(unsigned index,float normalized)
     unsigned bits;memcpy(&bits,&normalized,sizeof bits);
     atomic_store_explicit(&physical_pending[index],bits,memory_order_release);
 }
-#ifndef CONFIG_RNBO_S3_HEADLESS
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+static bool voice_publish(unsigned source,float value)
+{
+    player_slot *s=atomic_load(&active);
+    if(!s || source>=3 || s->voice.index[source]==UINT32_MAX)return true;
+    player_event e={.kind=RNBO_S3_PARAMETER_NORMALIZED,.index=s->voice.index[source],
+                    .value=value,.generation=atomic_load(&generation)};
+    return queue_event(&e);
+}
+#endif
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
 static uint32_t read_display_input_epoch(void){return atomic_load(&display_input_epoch);}
 static bool post_parameter(unsigned i,float n)
 {
@@ -212,24 +228,51 @@ static void audio_task(void *unused)
     float left[256],right[256];float *outputs[2]={left,right};
     int16_t pcm[256*BOARD_AUDIO_CHANNELS];pcm_output sink;pcm_output_init(&sink);
     player_stats stats={0},baseline={0};unsigned observed_generation=0;
+    pcm_transition transition;pcm_transition_begin(&transition,RNBO_S3_SAMPLE_RATE,1);
     if(board_audio_start_dma()!=ESP_OK){atomic_store(&park_failed,true);vTaskDelete(NULL);return;}
     allocation_watch_start(ALLOCATION_WATCH_AUDIO);
     atomic_store_explicit(&audio_ready,true,memory_order_release);
     for(;;) {
         unsigned request=atomic_load_explicit(&maintenance_epoch,memory_order_acquire);
         if(request&1u) {
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+            /* Render the outgoing graph once while it is still exclusively
+             * owned here. The control task cannot destroy it until ACK. */
+            player_slot *outgoing=atomic_load(&active);
+            bool audible=outgoing&&!atomic_load(&paused)&&!stats.fault;
+            memset(left,0,sizeof left);memset(right,0,sizeof right);
+            if(audible){
+                if(outgoing->image.module.process(outgoing->image.context,NULL,outputs,256,outgoing->image.position)!=RNBO_S3_OK){stats.fault=true;audible=false;}
+                else outgoing->image.position+=256;
+            }
+            if(!pcm_output_render(&sink,left,right,pcm,256,BOARD_AUDIO_CHANNELS,atomic_load(&volume),.5f,!audible))stats.fault=true;
+            pcm_transition_begin(&transition,RNBO_S3_SAMPLE_RATE,0);
+            pcm_transition_apply(&transition,pcm,256,BOARD_AUDIO_CHANNELS);
+            bool drained=true;size_t consumed;
+            if(board_audio_write(pcm,256,&consumed)!=ESP_OK||consumed!=sizeof pcm)drained=false;
+            memset(pcm,0,sizeof pcm);
+            /* Six 128-frame buffers retain at most 768 frames. Four further
+             * blocks drain the faded block plus a full-block FIFO margin. */
+            for(unsigned i=0;i<4&&drained;++i)
+                if(board_audio_write(pcm,256,&consumed)!=ESP_OK||consumed!=sizeof pcm)drained=false;
+#endif
             allocation_watch_stop();
             esp_err_t stopped=board_audio_stop_dma();
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+            if(!drained)stopped=ESP_FAIL;
+#endif
             atomic_store(&park_failed,stopped!=ESP_OK);
             atomic_store_explicit(&parked,true,memory_order_release);
             atomic_store_explicit(&acknowledged_epoch,request,memory_order_release);
             while(atomic_load_explicit(&maintenance_epoch,memory_order_acquire)==request)vTaskDelay(pdMS_TO_TICKS(1));
             if(stopped==ESP_OK && board_audio_start_dma()!=ESP_OK){stats.fault=true;atomic_store(&park_failed,true);request_pause();}
+            pcm_transition_begin(&transition,RNBO_S3_SAMPLE_RATE,1);
             allocation_watch_start(ALLOCATION_WATCH_AUDIO);
             atomic_store_explicit(&parked,false,memory_order_release);
             atomic_store_explicit(&acknowledged_epoch,atomic_load(&maintenance_epoch),memory_order_release);
         } else atomic_store_explicit(&acknowledged_epoch,request,memory_order_release);
         int64_t began=esp_timer_get_time();
+        if(atomic_exchange(&peak_reset_requested,false))stats.peak_us=0;
         unsigned now_generation=atomic_load(&generation);
         if(now_generation!=observed_generation) {
             baseline=stats;baseline.dma_errors=board_audio_dma_errors();
@@ -295,6 +338,9 @@ static void audio_task(void *unused)
             if(midi_changed)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
         } else {memset(left,0,sizeof left);memset(right,0,sizeof right);}
         if(!pcm_output_render(&sink,left,right,pcm,256,BOARD_AUDIO_CHANNELS,atomic_load(&volume),0.5f,!play||stats.fault))stats.fault=true;
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+        pcm_transition_apply(&transition,pcm,256,BOARD_AUDIO_CHANNELS);
+#endif
         stats.nonfinite=sink.nonfinite;stats.clipped=sink.clipped;
         if(stats.nonfinite>baseline.nonfinite)stats.fault=true;
         unsigned peak=0;for(unsigned i=0;i<256*BOARD_AUDIO_CHANNELS;++i){unsigned a=pcm[i]<0?-(int)pcm[i]:pcm[i];if(a>peak)peak=a;}
@@ -302,9 +348,14 @@ static void audio_task(void *unused)
         stats.render_us=(uint32_t)(esp_timer_get_time()-began);
         if(stats.render_us>stats.peak_us)stats.peak_us=stats.render_us;
         stats.busy_us+=stats.render_us;++stats.blocks;
-        if((uint64_t)stats.render_us*44100u>256u*1000000u)++stats.overruns;
+        if((uint64_t)stats.render_us*RNBO_S3_SAMPLE_RATE>256u*1000000u)++stats.overruns;
         size_t written=0;
-        if(board_audio_write(pcm,256,&written)!=ESP_OK || written!=sizeof pcm)++stats.write_errors;
+        if(board_audio_write(pcm,256,&written)!=ESP_OK || written!=sizeof pcm){
+            ++stats.write_errors;
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+            stats.fault=true;(void)board_audio_mute();vTaskDelay(pdMS_TO_TICKS(1));
+#endif
+        }
         stats.frames+=256;stats.dma_errors=board_audio_dma_errors();stats.queue_errors=atomic_load(&queue_errors);
         stats.heap=allocation_watch_snapshot(ALLOCATION_WATCH_AUDIO);
         stats.since=(player_errors){.overruns=stats.overruns-baseline.overruns,.nonfinite=stats.nonfinite-baseline.nonfinite,
@@ -367,7 +418,11 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
     player_slot *s=heap_caps_calloc(1,sizeof *s,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
     if(!s){snprintf(error,size,"Insufficient player metadata memory");return NULL;}
     if(!player_package_parse(bytes,length,&s->package,error,size))goto fail;
+    if(s->package.sample_rate!=RNBO_S3_SAMPLE_RATE || s->package.block_frames!=RNBO_S3_BLOCK_FRAMES){snprintf(error,size,"Package and player audio profile disagree");goto fail;}
     if(s->package.role!=PLAYER_ROLE_MAIN){snprintf(error,size,"Only one Main patch is supported");goto fail;}
+#ifndef CONFIG_RNBO_S3_VOICE_PE
+    if(cJSON_GetObjectItemCaseSensitive(s->package.metadata_json,"voice_pe_inputs")){snprintf(error,size,"Voice PE controls require a Voice PE player");goto fail;}
+#endif
     if(blocked_package[0]&&!strcmp(blocked_package,s->package.package_sha256)){snprintf(error,size,"Package previously failed native startup; rebuild it before retrying");goto fail;}
     if(!guard_write(s->package.package_sha256)){snprintf(error,size,"Cannot save native startup recovery guard");goto fail;}
     allocation_watch_start(ALLOCATION_WATCH_PREPARE);
@@ -378,6 +433,13 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
         s->parameters[i].struct_bytes=sizeof s->parameters[i];
         if(s->image.module.parameter_info(s->image.context,i,&s->parameters[i])!=RNBO_S3_OK){snprintf(error,size,"Cannot copy parameter schema");goto fail;}
     }
+    if(!player_voice_plan_parse(s->package.metadata_json,
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+        true,
+#else
+        false,
+#endif
+        s->image.parameter_count,input_parameter_id,s,&s->voice,error,size))goto fail;
 #ifdef CONFIG_RNBO_S3_HEADLESS
     if(!player_inputs_plan_parse(s->package.metadata_json,true,CONFIG_RNBO_S3_I2S_BCLK,CONFIG_RNBO_S3_I2S_WS,CONFIG_RNBO_S3_I2S_DOUT,
                                 s->image.parameter_count,input_parameter_id,s,&s->inputs,error,size))goto fail;
@@ -385,7 +447,7 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
     if(!player_inputs_plan_parse(s->package.metadata_json,false,-1,-1,-1,
                                 s->image.parameter_count,input_parameter_id,s,&s->inputs,error,size))goto fail;
 #endif
-#ifdef CONFIG_RNBO_S3_HEADLESS
+#if defined(CONFIG_RNBO_S3_HEADLESS) || defined(CONFIG_RNBO_S3_VOICE_PE)
     if(!player_screen_plan_parse(s->package.metadata_json,false,s->image.parameter_count,input_parameter_id,s,&s->screen,error,size))goto fail;
 #else
     if(!player_screen_plan_parse(s->package.metadata_json,true,s->image.parameter_count,input_parameter_id,s,&s->screen,error,size))goto fail;
@@ -393,6 +455,17 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
     for(unsigned i=0;i<s->inputs.count;++i)if(player_midi_uart_enabled()&&s->inputs.bindings[i].gpio==44) {
         snprintf(error,size,"D7/GPIO44 is reserved by enabled UART MIDI");goto fail;
     }
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    if(s->voice.count){
+        if(!voice_pe_runtime_ready()){snprintf(error,size,"Voice PE physical input backend is not ready");goto fail;}
+        float values[3];voice_pe_runtime_values(values);
+        for(unsigned i=0;i<3;++i)if(s->voice.index[i]!=UINT32_MAX){
+            rnbo_s3_event e={.struct_bytes=sizeof e,.kind=RNBO_S3_PARAMETER_NORMALIZED,
+                            .parameter_index=s->voice.index[i],.value=values[i]};
+            if(s->image.module.event(s->image.context,&e)!=RNBO_S3_OK){snprintf(error,size,"Cannot initialize Voice PE parameter snapshot");goto fail;}
+        }
+    }
+#endif
     /* Detached finite/CPU screen; an actual system deadline remains a hardware
      * observation. The screen advances the candidate by sixteen callbacks. */
     float left[256],right[256];float *outputs[2]={left,right};
@@ -404,7 +477,7 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
         s->image.position+=256;
         if(player_image_statistics(&s->image,error,size)!=ESP_OK)goto fail;
         for(unsigned i=0;i<256;++i)if(!isfinite(left[i])||!isfinite(right[i])){snprintf(error,size,"Candidate produced a nonfinite sample");goto fail;}
-        if(elapsed>5224){snprintf(error,size,"Candidate uses %lldus per callback; player screen reserves time for the audio sink",(long long)elapsed);goto fail;}
+        if(elapsed>(RNBO_S3_SAMPLE_RATE==44100?5224:(int64_t)(256000000ULL/RNBO_S3_SAMPLE_RATE*9/10))){snprintf(error,size,"Candidate uses %lldus per callback; player screen reserves time for the audio sink",(long long)elapsed);goto fail;}
     }
     /* Parsed JSON is separately owned. No source payload address is retained. */
     s->package.payload=s->package.metadata=s->package.elf=NULL;
@@ -415,7 +488,8 @@ fail:
 static void activate(player_slot *s,bool autostart)
 {
     guard_start_position=s?s->image.position:0;
-#ifndef CONFIG_RNBO_S3_HEADLESS
+
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
     atomic_store(&display_enabled,false);
 #endif
     atomic_store(&parameter_count,0);
@@ -429,7 +503,7 @@ static void activate(player_slot *s,bool autostart)
     memset(&midi_notes,0,sizeof midi_notes);midi_recovery=0;
     player_midi_set_route(guard_generation,s&&(s->image.module.flags&RNBO_S3_SHORT_MIDI_INPUT));
     if(s&&autostart){atomic_store(&volume,s->package.initial_volume);atomic_store(&paused,false);}
-#ifndef CONFIG_RNBO_S3_HEADLESS
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
     display_slot(s);
 #endif
 }
@@ -466,12 +540,25 @@ static void player_info(void)
     for(unsigned i=0;i<32;++i){firmware[2*i]=hex[app->app_elf_sha256[i]>>4];firmware[2*i+1]=hex[app->app_elf_sha256[i]&15];}firmware[64]=0;
     cJSON *o=cJSON_CreateObject();if(!o){error_reply("Cannot allocate player status",true);return;}
     cJSON_AddStringToObject(o,"runtime","rnbo-esp32s3-player");add_number(o,"api_version",1);cJSON_AddStringToObject(o,"board",BOARD_MODEL);
-    add_number(o,"physical_inputs_version",1);
-#ifndef CONFIG_RNBO_S3_HEADLESS
+    add_number(o,"physical_inputs_version",
+#ifdef CONFIG_RNBO_S3_HEADLESS
+        1
+#else
+        0
+#endif
+    );
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    cJSON_AddStringToObject(o,"profile",RNBO_S3_SAMPLE_RATE==16000?"voice-pe-16000-256-v1":"voice-pe-48000-256-v1");
+    add_number(o,"output_rate",RNBO_S3_SAMPLE_RATE);board_audio_add_status(o);
+    voice_pe_runtime_status(o);
+#else
+    cJSON_AddStringToObject(o,"profile","esp32s3-44100-256-v1");
+#endif
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
     add_number(o,"touchscreen_inputs_version",1);
 #endif
     add_number(o,"midi_input_version",1);player_midi_add_status(o);
-    cJSON_AddStringToObject(o,"firmware_elf_sha256",firmware);add_number(o,"rate",44100);add_number(o,"block_frames",256);add_number(o,"channels",BOARD_AUDIO_CHANNELS);
+    cJSON_AddStringToObject(o,"firmware_elf_sha256",firmware);add_number(o,"rate",RNBO_S3_SAMPLE_RATE);add_number(o,"block_frames",256);add_number(o,"channels",BOARD_AUDIO_CHANNELS);
     add_number(o,"generation",atomic_load(&generation));cJSON_AddBoolToObject(o,"paused",atomic_load(&paused));cJSON_AddBoolToObject(o,"panic",atomic_load(&paused)||!s);
     cJSON_AddBoolToObject(o,"maintenance",atomic_load(&maintenance));add_number(o,"volume",atomic_load(&volume));
     cJSON_AddBoolToObject(o,"boot_verified",!boot_guard_pending);cJSON_AddBoolToObject(o,"storage_ready",store_ready);
@@ -480,6 +567,9 @@ static void player_info(void)
     player_network_add_status(o);
 #endif
     add_number(o,"frames",stats.frames);add_number(o,"blocks",stats.blocks);add_number(o,"render_us",stats.render_us);add_number(o,"peak_us",stats.peak_us);
+    add_number(o,"peak_reset_version",1);
+    add_number(o,"average_render_us",stats.blocks?(double)stats.busy_us/(double)stats.blocks:0);
+    add_number(o,"average_cpu_percent",stats.blocks?(double)stats.busy_us/(double)stats.blocks*RNBO_S3_SAMPLE_RATE/2560000.0:0);
     add_number(o,"output_peak_q15",stats.output_peak);cJSON_AddStringToObject(o,"output_meter_scope","final PCM after volume and saturation");
     bool current=stats.generation==atomic_load(&generation);
     add_number(o,"telemetry_generation",stats.generation);add_number(o,"render_busy_total_us",stats.busy_us);
@@ -493,6 +583,12 @@ static void player_info(void)
     add_number(history,"queue_errors",atomic_load(&queue_errors));
     add_number(history,"audio_heap_allocations",stats.heap.allocations);add_number(history,"audio_heap_frees",stats.heap.frees);
     add_number(o,"internal_free_bytes",heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));add_number(o,"psram_free_bytes",heap_caps_get_free_size(MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT));add_number(o,"uptime_us",esp_timer_get_time());
+    add_number(o,"internal_largest_block_bytes",heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
+    add_number(o,"psram_largest_block_bytes",heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT));
+    add_number(o,"render_cpu_percent",stats.render_us*(double)RNBO_S3_SAMPLE_RATE/2560000.0);
+    add_number(o,"peak_cpu_percent",stats.peak_us*(double)RNBO_S3_SAMPLE_RATE/2560000.0);
+    add_number(o,"audio_stack_high_water_bytes",audio_handle?uxTaskGetStackHighWaterMark(audio_handle):0);
+    add_number(o,"control_stack_high_water_bytes",control_handle?uxTaskGetStackHighWaterMark(control_handle):0);
     if(!s)cJSON_AddNullToObject(o,"main");
     else {
         cJSON *m=cJSON_AddObjectToObject(o,"main");cJSON_AddStringToObject(m,"name",s->package.name);cJSON_AddStringToObject(m,"package_sha256",s->package.package_sha256);
@@ -580,7 +676,24 @@ static void command(char *line)
     if(!strcmp(line,"player-abort")){discard_incoming();reply_line("{\"upload\":\"aborted\"}");return;}
     if(!strcmp(line,"player-commit")){if(!incoming.bytes)error_reply("No incoming package",true);else commit_incoming();return;}
     if(!strcmp(line,"player-pause")){request_pause();reply_line("{\"paused\":true}");return;}
+    if(!strcmp(line,"player-reset-peaks")){
+        if(!atomic_load(&audio_ready)||atomic_load(&park_failed)){error_reply("Audio owner unavailable",true);return;}
+        atomic_store(&peak_reset_requested,true);reply_line("{\"peak_reset_requested\":true}");return;
+    }
     if(!strcmp(line,"player-resume")){if(!can_resume()){error_reply("Load a healthy Main patch, finish installation, or restart a failed audio driver",true);return;}request_resume();reply_line("{\"paused\":false}");return;}
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    {
+        unsigned id,offset,count;char cap_tail,capture_reply[2304];unsigned char data[10];const char *op=NULL;size_t bytes=0;
+        if(!strcmp(line,"player-capture-info"))op="CAPINFO";
+        else if(sscanf(line,"player-capture-begin %u %c",&count,&cap_tail)==1){
+            op="CAPBEGIN";bytes=4;for(unsigned i=0;i<4;++i)data[i]=(unsigned char)(count>>(8*i));
+        } else if(sscanf(line,"player-capture-read %u %u %u %c",&id,&offset,&count,&cap_tail)==3 && count<=1024){
+            op="CAPREAD";bytes=10;for(unsigned i=0;i<4;++i){data[i]=(unsigned char)(id>>(8*i));data[i+4]=(unsigned char)(offset>>(8*i));}
+            data[8]=(unsigned char)count;data[9]=(unsigned char)(count>>8);
+        }
+        if(op){if(board_audio_capture_command(op,data,bytes,capture_reply,sizeof capture_reply))reply_line(capture_reply);else error_reply("Capture request rejected or not complete",true);return;}
+    }
+#endif
     unsigned role,total,value,gen,index;float normalized;char hash[65],tail;
     char midi_hex[257];
     bool loopback=!strncmp(line,"player-midi-loopback ",21);
@@ -634,6 +747,18 @@ static void control_task(void *unused)
     for(;;) {
         /* This owner also installs packages. Input drivers cannot run during
          * flash maintenance/rebinding, and the audio owner only sees mailboxes. */
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+        board_audio_maintenance();
+        static unsigned voice_generation;
+        unsigned observed=atomic_load(&generation);
+        voice_pe_runtime_poll(observed!=voice_generation,atomic_load(&paused),atomic_load(&park_failed),voice_publish);
+        voice_generation=observed;
+        static bool codec_started;
+        if(!codec_started && atomic_load(&audio_ready) && !atomic_load(&park_failed)){
+            if(board_audio_resume()==ESP_OK)codec_started=true;
+            else {request_pause();atomic_store(&park_failed,true);}
+        }
+#endif
         if(!atomic_load(&maintenance)){int64_t now=esp_timer_get_time();player_inputs_poll(now,physical_publish);player_midi_poll(now);}
         if(incoming.bytes&&esp_timer_get_time()-incoming.touched>30000000)discard_incoming();
 #ifdef RNBO_S3_WIFI
@@ -704,7 +829,11 @@ static void restore_boot(void)
 void app_main(void)
 {
     setvbuf(stdin,NULL,_IONBF,0);setvbuf(stdout,NULL,_IONBF,0);
-    ESP_LOGI(TAG,"Stable Main player v1; fixed44100/256, trusted zero-import native packages");
+    ESP_LOGI(TAG,"Stable Main player v1; %u/256, trusted zero-import native packages",RNBO_S3_SAMPLE_RATE);
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    esp_err_t early=board_audio_early_init();
+    if(early!=ESP_OK){ESP_LOGE(TAG,"Safe GPIO initialization failed");return;}
+#endif
     char error[192];store_ready=player_store_init(error,sizeof error);
     if(!store_ready)snprintf(boot_error,sizeof boot_error,"%s",error);
     if(store_ready&&!guard_init()){store_ready=false;snprintf(boot_error,sizeof boot_error,"Player recovery metadata unavailable");}
@@ -718,22 +847,34 @@ void app_main(void)
     events=xQueueCreate(EVENT_COUNT,sizeof(player_event));telemetry=xQueueCreate(1,sizeof(player_stats));
     StackType_t *audio_stack=heap_caps_malloc(AUDIO_STACK,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT),*control_stack=heap_caps_malloc(CONTROL_STACK,MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT);
     if(!events||!telemetry||!audio_stack||!control_stack){ESP_LOGE(TAG,"Player task allocation failed");return;}
-    ESP_ERROR_CHECK(board_audio_init(44100));
-#ifndef CONFIG_RNBO_S3_HEADLESS
+    esp_err_t audio_error=board_audio_init(RNBO_S3_SAMPLE_RATE);
+    if(audio_error!=ESP_OK){
+        snprintf(boot_error,sizeof boot_error,"Audio startup refused: %s; clock/profile/codec check required",esp_err_to_name(audio_error));
+        atomic_store(&park_failed,true);atomic_store(&paused,true);
+    }
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    esp_err_t controls=voice_pe_runtime_init();
+    if(controls!=ESP_OK)ESP_LOGW(TAG,"Voice PE controls/ring: %s",esp_err_to_name(controls));
+#endif
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
     board_display_actions actions={.panic=request_pause,.resume=request_resume,.volume=post_volume,.parameter=post_parameter,.parameter_value=read_display_parameter,.input_epoch=read_display_input_epoch,.initial_volume=50,.source_label="RNBO Player"};
     ESP_ERROR_CHECK(board_display_start(&actions));
 #endif
-    if(store_ready)restore_boot();
+    if(store_ready && audio_error==ESP_OK)restore_boot();
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+    /* Commissioning boots always paused. A user must explicitly Resume. */
+    request_pause();
+#endif
 #ifdef RNBO_S3_WIFI
     /* Startup may initialise radio/NVS before DMA exists. Later settings changes park DMA. */
     player_network_init();
 #endif
     if(!player_usb_midi_start(error,sizeof error))ESP_LOGW(TAG,"USB MIDI host: %s",error);
-    audio_handle=xTaskCreateStaticPinnedToCore(audio_task,"rnbo_player_audio",AUDIO_STACK,NULL,20,audio_stack,&audio_tcb,1);
+    if(audio_error==ESP_OK)audio_handle=xTaskCreateStaticPinnedToCore(audio_task,"rnbo_player_audio",AUDIO_STACK,NULL,20,audio_stack,&audio_tcb,1);
     control_handle=xTaskCreateStaticPinnedToCore(control_task,"rnbo_player_usb",CONTROL_STACK,NULL,5,control_stack,&control_tcb,0);
-    if(!audio_handle||!control_handle){ESP_LOGE(TAG,"Cannot start player tasks");return;}
+    if((audio_error==ESP_OK&&!audio_handle)||!control_handle){ESP_LOGE(TAG,"Cannot start player tasks");return;}
     for(;;) {
-#ifndef CONFIG_RNBO_S3_HEADLESS
+#if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
         player_stats stats={0};xQueuePeek(telemetry,&stats,0);
         board_display_update(atomic_load(&paused)||!atomic_load(&active),stats.fault,atomic_load(&volume),stats.render_us,stats.peak_us,stats.output_peak);
 #endif

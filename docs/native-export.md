@@ -12,7 +12,7 @@ Use the RNBO export sidebar, choose the **C++ Source Code** target and configure
 | --- | --- |
 | Minimal Export | On |
 | Copy Library | On; include the complete matching `common/` directory |
-| Fixed Sample Rate | 44100 |
+| Fixed Sample Rate | 44100 for XIAO/AMOLED; explicit [Voice PE profiles](voice-pe.md) use 48000 or 16000 |
 | Fixed Vector Size | 256 |
 | Main audio channels | 0 inputs, 2 outputs |
 | Exported class | Any ordinary C++ identifier; Studio detects it |
@@ -55,9 +55,18 @@ modules remain useful for qualification but are not a separate player patch slot
 MIDI output rejects by default; the low-level preparer has an explicit discard
 policy when deliberately required.
 
-Audio uses `RNBO_USE_FLOAT32`; explicit double storage and scheduler time can
-remain Float64. Studio uses `float32-strict` and existing recorded compatibility
-fixes. Previous Auto/Trial/kernel rewrites, comb caps and source regeneration are
+Audio uses `RNBO_USE_FLOAT32`; scheduler time stays Float64. New Studio builds,
+including builds submitted from Max, automatically convert reviewed internal
+ordinary `delay~` rings to Float32 storage. Unrecognised forms and other buffer
+families retain their native storage. The manifest/provenance records conversions,
+fallback reasons and bytes saved; Studio shows the memory saving in build results.
+Delay capacity and interpolation algorithms are unchanged. This default follows
+the computer-side [storage trial](native-delay-storage.md); target timing and
+audio checks remain pending. Low-level preparation accepts
+`--delay-storage float64` for a native-storage comparison build.
+
+Studio otherwise uses `float32-strict` and existing recorded compatibility fixes.
+Previous Auto/Trial/kernel rewrites, comb caps and source regeneration are
 historical research options, not current Studio modes. Their measured benefits
 must be requalified on native exports before reintroduction. A patch that needed
 Auto/Trial to meet its deadline may be too slow when rebuilt with the baseline;

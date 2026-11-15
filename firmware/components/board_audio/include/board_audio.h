@@ -7,7 +7,16 @@
 #include "sdkconfig.h"
 #define BOARD_CAPTURE_CHUNK_BYTES 1024u
 
-#ifdef CONFIG_RNBO_S3_HEADLESS
+#ifdef CONFIG_RNBO_S3_VOICE_PE
+#define BOARD_AUDIO_CHANNELS 2
+#define BOARD_MODEL "Home Assistant Voice PE"
+typedef struct cJSON cJSON;
+esp_err_t board_audio_early_init(void);
+void board_audio_maintenance(void);
+void board_audio_add_status(cJSON *parent);
+int board_audio_capture_command(const char *,const unsigned char *,size_t,char *,size_t);
+void board_audio_activity(bool active);
+#elif defined(CONFIG_RNBO_S3_HEADLESS)
 #define BOARD_AUDIO_CHANNELS 2
 #define BOARD_MODEL "XIAO ESP32-S3"
 int board_audio_capture_command(const char *,const unsigned char *,size_t,char *,size_t);
