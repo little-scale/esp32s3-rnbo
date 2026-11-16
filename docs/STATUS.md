@@ -12,6 +12,9 @@ binary identities. Replacement testing exposed SPIFFS collection limits; reservi
 inactive-file space and raising the collection budget resolved the reproduced
 failure. Seventeen consecutive loads pass without retries on the final native-16
 player, followed by all LED-format and Pause/Resume checks without retries.
+Studio Wi-Fi upload passes, and the user subsequently confirms that patch-driven
+RGB control is working well on the native-16 board. Native-48 hardware and
+long-duration qualification remain pending.
 
 **16 November 2026 — Voice PE USB stress and Wi-Fi:** Twelve alternating
 replacements, 288 synthetic parameter updates and twelve Pause/Resume pairs

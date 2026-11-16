@@ -5,6 +5,13 @@ at the matching native Voice PE rate. The connected test unit uses 16 kHz.
 The player needs `led_output_version:1`; LED packages use envelope v5 and a
 sized ABI 1.1 extension. Ordinary packages keep their original ABI 1.0 prefix.
 
+**Hardware status — 16 November 2026:** The user confirms that RGB control from
+the RNBO patch is working well on the native 16 kHz Voice PE. Shared, indexed and
+full-frame messages, invalid-message rejection, Pause/Resume and Studio Wi-Fi
+upload also pass the recorded device checks. The final player passed seventeen
+consecutive package loads without retries. Native 48 kHz hardware checks and
+long-duration testing remain pending.
+
 ## Message formats
 
 | List | Operation | Example |
