@@ -106,6 +106,8 @@ def main() -> int:
         parser.error('Voice PE requires --player and an explicit --profile; XMOS must match')
     profile=checked_profile(args.profile or LEGACY,args.board)
     rate=profile['sample_rate']
+    if args.board=='xiao' and rate==16000 and (not args.player or not args.variant):
+        parser.error('XIAO 16 kHz requires --player and an isolated --variant')
     if args.player and args.export_dir:
         parser.error('--player and --export-dir are mutually exclusive')
     if args.usb_midi_host and (not args.player or args.board!='xiao' or not args.variant):
@@ -238,7 +240,7 @@ def main() -> int:
     report = {"board":args.board, "variant":args.variant,"sample_rate":rate, "profile":profile['id'], "block_frames":256,
               'initial_volume_percent':args.initial_volume,
               "signal_format":"planar-float32", "sink_channels":1 if args.board=="amoled" else 2,
-              "sink_format":"S16-app/stereo-S32-Philips-I2S-slave" if args.board=="voice-pe" else "signed-16bit-Philips-I2S", "default_source":"dynamic-rnbo-player" if args.player else "static-rnbo" if prepared else "engine-neutral-stereo-tone",
+              "sink_format":"S16-app/stereo-S32-Philips-I2S-slave" if args.board=="voice-pe" else "S16-app/stereo-32bit-slot-Philips-I2S-master" if rate==16000 else "signed-16bit-Philips-I2S", "default_source":"dynamic-rnbo-player" if args.player else "static-rnbo" if prepared else "engine-neutral-stereo-tone",
               "idf_version":json.loads((build/"config.env").read_text()).get("IDF_VERSION"),
               "idf_git_revision":description.get("git_revision"), "components":component_names,
               "sdkconfig_sha256":hashlib.sha256(config.encode()).hexdigest(),

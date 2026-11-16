@@ -279,7 +279,7 @@ class DeviceBridge:
             raw, _ = self._exchange(('player-info',), 'runtime')
         board = next((key for key, (label, _) in PLAYER_BOARDS.items() if raw.get('board') == label), None)
         if (raw.get('runtime') != 'rnbo-esp32s3-player' or type(raw.get('api_version')) is not int
-                or raw['api_version'] != 1 or board is None or raw.get('rate') not in ((16000,48000) if board=='voice-pe' else (44100,))
+                or raw['api_version'] != 1 or board is None or raw.get('rate') not in ((16000,48000) if board=='voice-pe' else (16000,44100) if board=='xiao' else (44100,))
                 or raw.get('block_frames') != 256 or not isinstance(raw.get('firmware_elf_sha256'), str)
                 or not HASH.fullmatch(raw['firmware_elf_sha256'])
                 or type(raw.get('generation')) is not int or raw['generation'] < 0

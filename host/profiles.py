@@ -4,7 +4,7 @@ LEGACY = 'esp32s3-44100-256-v1'
 PROFILES = {
     LEGACY: dict(sample_rate=44100, block_frames=256, boards=('xiao','amoled')),
     'voice-pe-48000-256-v1': dict(sample_rate=48000, block_frames=256, boards=('voice-pe',)),
-    'voice-pe-16000-256-v1': dict(sample_rate=16000, block_frames=256, boards=('voice-pe',)),
+    'voice-pe-16000-256-v1': dict(sample_rate=16000, block_frames=256, boards=('voice-pe','xiao')),
 }
 
 def checked(identity=LEGACY, board=None):

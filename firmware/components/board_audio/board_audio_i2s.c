@@ -16,13 +16,14 @@ static unsigned capture_requested;
 static uint32_t capture_id;
 static int16_t *capture;
 static uint32_t sample_rate;
-enum { CAPTURE_FRAMES=44100,LED_GPIO=21 };
+enum { CAPTURE_FRAMES=RNBO_S3_SAMPLE_RATE,LED_GPIO=21 };
 static const char *TAG="board_audio";
 static bool IRAM_ATTR dma_error(i2s_chan_handle_t h,i2s_event_data_t *event,void *ctx)
 {(void)h;(void)event;(void)ctx;atomic_fetch_add(&dma_errors,1);return false;}
 esp_err_t board_audio_init(uint32_t rate)
 {
     if(tx)return ESP_ERR_INVALID_STATE;
+    if(rate!=RNBO_S3_SAMPLE_RATE)return ESP_ERR_INVALID_ARG;
     if(CONFIG_RNBO_S3_I2S_BCLK==CONFIG_RNBO_S3_I2S_WS || CONFIG_RNBO_S3_I2S_BCLK==CONFIG_RNBO_S3_I2S_DOUT || CONFIG_RNBO_S3_I2S_WS==CONFIG_RNBO_S3_I2S_DOUT)return ESP_ERR_INVALID_ARG;
     capture=heap_caps_malloc(CAPTURE_FRAMES*2*sizeof(int16_t),MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);
     if(!capture)return ESP_ERR_NO_MEM;
@@ -36,6 +37,9 @@ esp_err_t board_audio_init(uint32_t rate)
         .slot_cfg=I2S_STD_PHILIP_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT,I2S_SLOT_MODE_STEREO),
         .gpio_cfg={.mclk=I2S_GPIO_UNUSED,.bclk=CONFIG_RNBO_S3_I2S_BCLK,.ws=CONFIG_RNBO_S3_I2S_WS,.dout=CONFIG_RNBO_S3_I2S_DOUT,.din=I2S_GPIO_UNUSED}
     };
+    /* PCM5102A BCK-derived PLL requires 64 fs at 16 kHz (TI Table 11).
+     * Hardware pads int16 DMA samples into 32-bit Philips slots. */
+    if(rate==16000){standard.slot_cfg.slot_bit_width=I2S_SLOT_BIT_WIDTH_32BIT;standard.slot_cfg.ws_width=32;}
     ESP_RETURN_ON_ERROR(i2s_channel_init_std_mode(tx,&standard),TAG,"I2S format");
     i2s_event_callbacks_t callbacks={.on_send_q_ovf=dma_error};
     ESP_RETURN_ON_ERROR(i2s_channel_register_event_callback(tx,&callbacks,NULL),TAG,"I2S events");

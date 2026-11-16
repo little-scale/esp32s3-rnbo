@@ -33,6 +33,12 @@ touch controls and ES8311 mono output. Install the player once; replacing a
 package saves the new Main patch for reboot without reflashing the application.
 All effects belong inside Main.
 
+An experimental [XIAO native 16 kHz player](docs/xiao-qualification.md#native-16-khz-pcm5102a--dual-runtime-experiment--17-november-2026)
+is also available for PCM5102A. Both SynthDef and RNBO passed clean listening
+on XIAO-3eeb84 at 44.1 and 16 kHz, at 20% volume. The separate two-app pairing
+tools preserve settings/storage and block automatic routing during mixed-rate
+updates. Standard XIAO/AMOLED builds remain 44.1 kHz.
+
 **Voice PE port:** explicit native 48 kHz / 256 and native 16 kHz / 256 profiles,
 XMOS-clocked codec/audio backend, semantic controls and a protected installer
 are implemented. Initial native-16 speaker, controls, digital capture, idle CPU,

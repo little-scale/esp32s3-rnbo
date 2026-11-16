@@ -608,12 +608,16 @@ static void player_info(void)
         atomic_load(&paused_boot_completed)==atomic_load(&generation));
     voice_pe_runtime_status(o);
 #else
-    cJSON_AddStringToObject(o,"profile","esp32s3-44100-256-v1");
+    cJSON_AddStringToObject(o,"profile",RNBO_S3_SAMPLE_RATE==16000?"voice-pe-16000-256-v1":"esp32s3-44100-256-v1");
+    add_number(o,"output_rate",RNBO_S3_SAMPLE_RATE);
 #endif
 #if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
     add_number(o,"touchscreen_inputs_version",1);
 #endif
     add_number(o,"midi_input_version",1);player_midi_add_status(o);
+#define RNBO_RATE_STRING_IMPL(x) #x
+#define RNBO_RATE_STRING(x) RNBO_RATE_STRING_IMPL(x)
+    cJSON_AddStringToObject(o,"native_rate_marker","S3_NATIVE_RATE=" RNBO_RATE_STRING(RNBO_S3_SAMPLE_RATE));
     cJSON_AddStringToObject(o,"firmware_elf_sha256",firmware);add_number(o,"rate",RNBO_S3_SAMPLE_RATE);add_number(o,"block_frames",256);add_number(o,"channels",BOARD_AUDIO_CHANNELS);
     add_number(o,"generation",atomic_load(&generation));cJSON_AddBoolToObject(o,"paused",atomic_load(&paused));cJSON_AddBoolToObject(o,"panic",atomic_load(&paused)||!s);
     cJSON_AddBoolToObject(o,"maintenance",atomic_load(&maintenance));add_number(o,"volume",atomic_load(&volume));
@@ -739,7 +743,7 @@ static void command(char *line)
         atomic_store(&peak_reset_requested,true);reply_line("{\"peak_reset_requested\":true}");return;
     }
     if(!strcmp(line,"player-resume")){if(!can_resume()){error_reply("Load a healthy Main patch, finish installation, or restart a failed audio driver",true);return;}request_resume();reply_line("{\"paused\":false}");return;}
-#ifdef CONFIG_RNBO_S3_VOICE_PE
+#if defined(CONFIG_RNBO_S3_VOICE_PE) || defined(CONFIG_RNBO_S3_HEADLESS)
     {
         unsigned id,offset,count;char cap_tail,capture_reply[2304];unsigned char data[10];const char *op=NULL;size_t bytes=0;
         if(!strcmp(line,"player-capture-info"))op="CAPINFO";

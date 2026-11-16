@@ -530,3 +530,55 @@ Those facts do not establish within-block host-event accuracy. A timed-event
 interface or a separately admitted scheduled-kernel route is required before
 such tests can qualify sample-offset controls; splitting this ABI into one-frame
 calls would be rejected rather than prove sample accuracy. Further parameter modes and a timed-event extension remain pending work within the goal.
+
+
+## Native 16 kHz PCM5102A / dual-runtime experiment — 17 November 2026
+
+An isolated player build now supports native 16 kHz on XIAO:
+
+```sh
+python3 tools/build_firmware.py xiao --player --variant dual-native16 \
+  --profile voice-pe-16000-256-v1
+```
+
+The historical profile name is the shared 16 kHz/256-frame package ABI; it now
+admits XIAO as well as Voice PE. The XIAO board still uses its own GPIO/audio
+backend and does not expose Voice PE controls. Packages must be compiled for the
+actual rate; relabeling a 44.1 kHz package is rejected. A distinct `--variant` is
+required so the existing 44.1 kHz player build remains available.
+
+Both DSP and I²S master run at 16 kHz. PCM5102A's three-wire PLL requires 64 fs
+at 16 kHz (TI Table 11), so the sink uses 32-bit slots with 16-bit PCM DMA data:
+1.024 MHz BCLK, 16 kHz LRCK, no MCLK. Float32 arithmetic and 256-frame RNBO
+callbacks remain; the callback interval is 16 ms. DMA remains 6 × 128 frames
+(48 ms capacity, not measured total latency). PCM capture is limited to one
+second and the player capture commands are now available on headless players.
+
+Rate markers in application images allow the companion SynthDef project's
+pairing tools to check the real rate against build metadata. A pair can be
+updated from 44.1 to 16 kHz one application at a time with backups and protected
+region verification. During a mixed-rate intermediate state, automatic upload
+routing is blocked until both installed app rates match. No repartitioning or
+formatting is used for a rate change.
+
+Computer checks exercise the actual I²S adapter with fake IDF I/O at both rates,
+including clock fields, 16-bit sample buffers, partial/error writes, capture
+bounds and stale capture IDs. The explicit audio-profile/package matrix also
+passes. Physical 16 kHz controls, Wi-Fi under load and NS4168 output still need
+separate qualification. Hardware listening and handoff results are recorded by
+the companion SynthDef project; see its `docs/DUAL_RUNTIME.md`.
+
+
+Hardware checkpoint: XIAO-3eeb84 with PCM5102A booted SynthDef and RNBO at
+44.1 kHz, then both at native 16 kHz after guarded app updates. The user confirmed
+all four listening cases clean at 20%. RNBO's 16k capture measured 440 Hz with
+identical stereo channels; nonfinite, write, DMA, module, heap and deadline-overrun
+counters were zero in the short tone test. Automatic S→R upload at 44.1k and R→S
+at 16k passed. The companion Studio connected and inspected the completed native16
+pair. Original SynthDef Main graph/source/metadata were restored exactly; the
+unit was left in SynthDef 16k, FX bypassed, with saved 20% volume. The 8 MiB backup
+and protected-region comparisons were verified. Physical cold power-cycle,
+external clock measurement, stress/load and all-object qualification are pending.
+The 44.1k listening image preceded the additional headless capture-command
+exposure; those commands were exercised on hardware at 16k. Evidence:
+https://github.com/little-scale/esp32s3-synthdef/blob/main/evidence/xiao-dual-rate-hardware-20261117.json

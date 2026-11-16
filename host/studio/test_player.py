@@ -74,6 +74,16 @@ class PlayerTests(unittest.TestCase):
     def upload(self):
         with patch.object(d,'parse_package',return_value=self.package):
             return self.bridge.upload_package(self.path,'/dev/test-esp',lambda text:None,expected_sha256=self.package['package_sha256'])
+    def test_xiao_native16_rejects_wrong_rate_then_loads_matching_package(self):
+        self.player.rate=16000
+        with self.assertRaisesRegex(d.DeviceError,'rates differ'):self.upload()
+        self.assertFalse(any(c.startswith('player-begin') for c in self.player.commands))
+        self.package['sample_rate']=16000
+        self.package['metadata']['audio_profile']='voice-pe-16000-256-v1'
+        result=self.upload()
+        self.assertEqual(result['device']['rate'],16000)
+        self.assertTrue(any(c.startswith('player-begin') for c in self.player.commands))
+
     def test_voice_pe_wrong_rate_and_unqualified_clocks_never_stage_package(self):
         self.player.board='Home Assistant Voice PE';self.player.rate=16000
         with self.assertRaisesRegex(d.DeviceError,'rates differ'):self.upload()
