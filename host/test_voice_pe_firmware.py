@@ -75,6 +75,14 @@ class VoiceFirmwareTests(unittest.TestCase):
         before=bytes(chip.memory[:0x10000]);self.run_install(chip)
         self.assertEqual(chip.writes,[0x10000]);self.assertEqual(chip.memory[:0x10000],before)
 
+    def test_dual_app_device_cannot_overwrite_synthdef_from_legacy_updater(self):
+        chip=Chip();rnbo=app('rnbo_s3_voice-pe')
+        chip.memory[0x7d0000:0x7d0000+len(rnbo)]=rnbo
+        before=bytes(chip.memory)
+        with self.assertRaisesRegex(ValueError,'Dual apps detected'):self.run_install(chip)
+        self.assertEqual(chip.writes,[]);self.assertEqual(chip.memory,before)
+        self.assertFalse((self.root/'private').exists())
+
     def test_project_update_writes_only_app_preserving_storage_and_ota(self):
         chip=Chip();before=bytes(chip.memory);result=self.run_install(chip)
         self.assertEqual(chip.writes,[0x10000]);self.assertEqual(result['installation'],'application update')

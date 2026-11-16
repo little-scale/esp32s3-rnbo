@@ -222,3 +222,47 @@ codec readbacks, observation duration and user listening result separately.
 The two-rate software build is ready for these checks. The first-session record
 identifies the individual native-16 checks completed so far; it is not a blanket
 pass for this checklist or for native 48 kHz.
+
+## Dual-app update protection
+
+A deliberately paired Voice PE can keep SynthDef in app0 and RNBO in app1.
+The legacy RNBO app0 updater refuses that arrangement before any backup/write,
+so it cannot replace the SynthDef companion application. Use the dual-app
+installer (`host/voice_pe_apps.py` in the SynthDef companion project) for RNBO
+app1 installation/updates and application selection. Both images must match the
+installed XMOS clock rate. USB boot selection and automatic payload routing
+are separate features; this guard alone does not enable either.
+
+The companion project now also supplies an experimental `host/dual_upload.sh`
+USB entrypoint for validated SynthDef source/SCgf or RNBO packages. Both installed
+apps must use its read-only `@RT1 HELLO` identification protocol. The player now
+reports engine/model/native rate/busy without changing playback. Muted automatic
+Main uploads now pass in both directions on native-16k
+VoicePE-0697d4, with same-engine uptime preservation and busy/exclusive-USB
+refusal. The original programs, paused RNBO state, FX bypass/settings and 36%
+SynthDef volume were restored, followed by a verified software restart. XMOS
+was not changed. Existing RNBO Studio/Max entrypoints do not automatically
+switch to the SynthDef app; native-48k and XIAO/AMOLED hardware remain pending.
+
+XIAO and AMOLED V2 pairing/migration/update tools are also prepared in the
+SynthDef companion (`host/dual_apps.sh`). Their simulated flash tests and both
+board builds pass; physical partition migration is pending. The split preserves
+the existing filesystem/settings geometry and checks compatible SPIFFS formats.
+Use paired update tools after commissioning: a first-install/erase operation
+would destroy the pair. Voice PE still uses its existing app0/app1 layout and
+requires matching XMOS/native-rate images. See the companion's
+[dual-runtime guide](https://github.com/little-scale/esp32s3-synthdef/blob/main/docs/DUAL_RUNTIME.md)
+for commands and qualification boundaries.
+
+The companion SynthDef Studio now has a **Runtimes** tab for identity-bound,
+single-use reviewed Main uploads, with progress recoverable after browser reload.
+Its existing SC `.sendESP32` / `.playESP32` Main path can also select SynthDef for
+the explicitly inspected paired USB node while RNBO is running. A native-16k
+hardware check discovered RNBO, refused control-only switching, then completed a
+quiet SC definition deployment in 65.9 seconds; autonomous Function playback and
+parameter readback passed afterward. The user's original setup and 36% SynthDef
+volume were restored. This is a host-side integration, not a new XMOS/player
+image, and does not add automatic routing to this project's Max/RNBO frontend.
+Wi-Fi handoff, other-board hardware checks and quiet boot before the incoming
+Main is installed remain pending. The target app follows its normal startup
+behavior; no seamless or audible cross-engine transition qualification is made.

@@ -142,6 +142,11 @@ def install(chip,esptool,table,app,table_path,app_path,backup_root,mac):
                 raise ValueError('Future RNBO storage is not wholly erased; preserve/recover this device before migration.')
         span=FLASH_BYTES
     else:
+        # A deliberately paired device keeps SynthDef in app0 and RNBO in app1.
+        # This legacy app0 updater must never overwrite the companion runtime.
+        if (project_name(prefix)=='waveshare_synthdef' and
+                project_name(chip.read_flash(0x7d0000,256))=='rnbo_s3_voice-pe'):
+            raise ValueError('Dual apps detected: RNBO is in app1. Use the dual-app installer to update RNBO; app0 SynthDef was not changed.')
         if project_name(prefix) not in ('waveshare_synthdef','rnbo_s3_voice-pe') or active_slot(chip.read_flash(0x9000,8192))!=0:
             raise ValueError('Expected the Voice PE application in app0; recover the device before updating.')
         old_length=image_length(chip,APP_OFFSET,APP_BYTES)

@@ -710,6 +710,8 @@ static void wifi_command(char *line)
 #endif
 static void command(char *line)
 {
+    /* Read-only shared USB probe; framed so SynthDef cannot treat its bytes as notes. */
+    if(command_source==0&&!strcmp(line,"@RT1 HELLO")){reply_format("@RT1 {\"version\":1,\"engine\":\"rnbo\",\"model\":\"%s\",\"rate\":%u,\"busy\":%s}\n",BOARD_MODEL,RNBO_S3_SAMPLE_RATE,(incoming.bytes||atomic_load(&maintenance)||atomic_load(&park_failed))?"true":"false");return;}
     if(!strcmp(line,"player-info")){player_info();return;}
     if(!strcmp(line,"player-midi-config off")||!strcmp(line,"player-midi-config uart")) {
         if(incoming.bytes){error_reply("Finish the current package upload before changing MIDI",true);return;}
