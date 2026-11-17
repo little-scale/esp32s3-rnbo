@@ -1,0 +1,139 @@
+{
+  "format": "rnbo-xiao-studio-dual-boot-readiness-v1",
+  "date": "2026-11-17",
+  "base_commit": "4905433",
+  "board": "xiao",
+  "rnbo_rates": [
+    44100,
+    16000
+  ],
+  "rnbo_block_frames": 256,
+  "synthdef_block_frames": 64,
+  "scope": "Existing commissioned USB pairs. No initial partition migration, rate conversion or Wi-Fi engine switching.",
+  "companion": {
+    "repository": "little-scale/esp32s3-synthdef",
+    "commit": "3d5f4346d7ca6b0f6e0e4936f6e5866fce0b47c6",
+    "files_sha256": {
+      "host/dual_apps.py": "3ac2e199efd8167bc61b1f73f2d446b27d7282fe0daf9faf95741e89de2e7819",
+      "host/dual_upload.py": "851b9a72b911c225192dad3cc1975cd66abd88b27b3c09819d6c64e28fb58836",
+      "host/runtime_routing.py": "cfd378a89ec814d6ca56eff7b88046dc40afc9add9991bb2adcc36b0a40c5082"
+    }
+  },
+  "sources_sha256": {
+    "host/studio/server.py": "7162b320236da327674753482390a3020090b565083a432d01bb7574ef3c41a4",
+    "host/studio/dual_runtime.py": "bd71dbd11c264bba4661731ed640fa9ddb0449e860900718a516f564ab22171d",
+    "host/studio/paired_helper.py": "5d720c22ea57718fee9c0464672a3a70a7eb0347ff0a8008a3302dd6d38afda1",
+    "host/studio/web/app.js": "0cbd5e7cee85e57113c32879f48c8c788bc7eed182c1aabd3c740b377fa82f81",
+    "host/studio/web/index.html": "4aefb2d1ce0d2525a12cc65800c74c9ecd1ad346970677003c66c499de5829dc",
+    "host/studio/web/style.css": "d26cf3732df4dc569122a0dbcbbf79c284cb5ef6b0a21eae27559673a393519b",
+    "host/studio/firmware.py": "e75f7909f30d14798d64ff622ad67d897b63ba96cb8b7c5e6afc30dae316144e"
+  },
+  "tests": [
+    {
+      "suite": "studio",
+      "count": 161,
+      "result": "pass",
+      "command": "python3 -m unittest discover -s host/studio",
+      "log_sha256": "9100df1f4d028dbe0674bea0d3f4fa77bfe7ab335cddf10f340bfb6eea0ec44a"
+    },
+    {
+      "suite": "web",
+      "count": 45,
+      "result": "pass",
+      "command": "node --test host/studio/test_web.mjs",
+      "log_sha256": "0a5f7d846babf67bb433fe447b4dd3a36980f3f6b70b914c43bde6955014f2f3"
+    },
+    {
+      "suite": "native16",
+      "count": 1,
+      "result": "pass",
+      "command": "python3 tools/test_xiao_native16.py",
+      "log_sha256": "fe2c9a61eb942cf15285a69f6de3d10db32905bb8342b6e1b60703c47bbf6516"
+    }
+  ],
+  "build_reviews": [
+    {
+      "rate": 44100,
+      "block_frames": 256,
+      "local_review": {
+        "available": true,
+        "rate": 44100,
+        "application_bytes": 977024,
+        "app_sha256": "e0989a8cc10d6a71773890a10cdc3256a31a8a30f52340d889fd5efac7015e83"
+      },
+      "build_report": "build/firmware-xiao-player/build-report.json",
+      "report_sha256": "ac2587cce39045bdea8478ce064794f1eba67e103aa7c7ead1c0ad42e0ebebbb",
+      "application_sha256": "e0989a8cc10d6a71773890a10cdc3256a31a8a30f52340d889fd5efac7015e83"
+    },
+    {
+      "rate": 16000,
+      "block_frames": 256,
+      "local_review": {
+        "available": true,
+        "rate": 16000,
+        "application_bytes": 977280,
+        "app_sha256": "7b6314f891592b1cb531f623c3fc220754e94a8d0791a18f7c8d02232599cfd4"
+      },
+      "build_report": "build/firmware-xiao-player-dual-native16/build-report.json",
+      "report_sha256": "a512a747746a04798b308573fdf90bcbe7e278877372a64bfaa5389f55295296",
+      "application_sha256": "7b6314f891592b1cb531f623c3fc220754e94a8d0791a18f7c8d02232599cfd4"
+    }
+  ],
+  "genuine_max_export_build": {
+    "board": "xiao",
+    "sample_rate": 16000,
+    "profile": "voice-pe-16000-256-v1",
+    "block_frames": 256,
+    "initial_volume": 0,
+    "package_bytes": 47632,
+    "package_sha256": "83f8a3621006d69c6cbd700927e147977b15270fc7117be4d3cfcd82398a7e54",
+    "elf_sha256": "64e6e3e401cba733ba1e7035235e5326993893dd9cf840f032c67254977fda86",
+    "preflight_sha256": "4e1ade6f3c855471ad5356412ed6e8027eb7b9461c5919f3ae7975edd4321c8f",
+    "native_preflight": {
+      "evidence_kind": "host_render",
+      "sample_rate": 16000,
+      "block_frames": 256,
+      "blocks": 4,
+      "warmup_blocks": 4,
+      "seed": 305419896,
+      "peak": 0.200000003,
+      "rms": 0.141096854,
+      "mean_process_us": 6.9477,
+      "max_process_us": 7.875,
+      "platform_allocations": 1,
+      "late_platform_allocations": 0,
+      "arena_used": 65544,
+      "errors": 0,
+      "invalid_samples": 0,
+      "allocation_coverage": "RNBO platform hooks only",
+      "target_performance_qualified": false
+    },
+    "uploaded": false
+  },
+  "hardware": {
+    "read_only_probe_attempted": true,
+    "outcome": "Refused: no verified commissioning inventory for the connected XIAO. Earlier attempt received no runtime response.",
+    "firmware_written": false,
+    "boot_selection_changed": false,
+    "package_uploaded": false,
+    "physical_dual_actions_qualified": false
+  },
+  "browser": {
+    "preview": "evidence/xiao-dual-boot-studio.jpg",
+    "preview_sha256": "c2528c11c13767c84209aa2e6f5808a3a98a7b361311434b2f1bc180387258a0",
+    "scope": "Actual Studio UI with real local 44.1k build review; no live pair was admitted",
+    "left_open": true
+  },
+  "busy_state": {
+    "observed": true,
+    "cleared_by_graceful_restart": true,
+    "subsequent_review_and_rejected_probe_left_worker_idle": true,
+    "root_cause_proven": false
+  },
+  "pending": [
+    "Commission/verify this physical XIAO through the guarded companion tools, or connect an existing recorded pair",
+    "Qualify Studio switching both directions at each rate, with same-engine no-reboot checks",
+    "Qualify RNBO-only update with backups, protected regions and boot-selection restoration",
+    "Qualify Main handoff, controls, wrong-rate refusal and restoration on device"
+  ]
+}

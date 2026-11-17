@@ -82,6 +82,7 @@ function mockDocument() {
     if (value) element.value = value[1];
   }
   ids.get('arena').value = '1';
+  ids.get('dual-rate').value = '16000';
   const document = {
     getElementById: id => ids.get(id),
     createElement: tag => new Element(tag),
@@ -117,6 +118,11 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
     };
     else if (path === '/api/devices') data = {devices: backend.devices};
     else if (path === '/api/device') data = snapshot();
+    else if (path.startsWith('/api/dual/options?')) data = backend.dualOptions || {available:true,rate:Number(path.split('=')[1]),application_bytes:977280,app_sha256:'a'.repeat(64)};
+    else if (path === '/api/dual/inspect') data = backend.dualInspectError ? {error:backend.dualInspectError}
+      : {inspection:'paired-review',port:body.port,device_id:'001122334455',engine:'synthdef',rate:backend.dualRate||16000,ready:true};
+    else if (path === '/api/dual/action') data = {job:{id:'paired-job',state:backend.dualActionError?'failed':'done',
+      error:backend.dualActionError,result:{kind:'dual-runtime',engine:body.action==='synthdef'?'synthdef':'rnbo',rate:body.rate}}};
     else if (path === '/api/wifi') data = {wifi:backend.wifi,paired:backend.paired};
     else if (path === '/api/wifi/scan') data=backend.wifiScanHandler ? await backend.wifiScanHandler(body) : {networks:backend.networks};
     else if (path === '/api/wifi/setup') {
@@ -888,4 +894,60 @@ test('remote page link uses only a capable player current IPv4 destination and c
   app.backend.device.wifi.ip='javascript:alert(1)';await app.runInterval(1800);
   assert.equal(app.get('remote-player').hidden,true);assert.equal(app.get('remote-player-link').href,'');
   app.backend.device=null;await app.runInterval(1800);assert.equal(app.get('remote-player').hidden,true);
+});
+
+test('XIAO native16 selection sends the shared ABI with explicit XIAO board and keeps 50 percent startup',async()=>{
+  const app=await openStudio();await app.readyArtifact();
+  app.get('audio-profile').value='xiao-16000';await app.get('audio-profile').fire('change');
+  assert.equal(app.get('upload').disabled,true);assert.equal(app.get('initial-volume').value,'50');
+  assert.match(app.get('profile-help').textContent,/No XMOS/);
+  await app.get('compile').fire('click');
+  const body=app.calls.filter(c=>c.path==='/api/build').at(-1).body;
+  assert.equal(body.profile,'voice-pe-16000-256-v1');assert.equal(body.board,'xiao');assert.equal(body.initial_volume,50);
+});
+
+test('paired workflow requires explicit inspection and uses only paired endpoints',async()=>{
+  const app=await openStudio();await app.get('task-dual').fire('click');await settle();
+  assert.equal(app.get('dual-panel').hidden,false);assert.equal(app.get('firmware-panel').hidden,true);
+  assert.equal(app.get('firmware-erase-label').hidden,true);assert.equal(app.get('dual-rnbo').disabled,true);
+  await app.get('dual-inspect').fire('click');
+  assert.equal(app.get('dual-board-id').value,'001122334455');assert.equal(app.get('dual-rnbo').disabled,false);
+  await app.get('dual-rnbo').fire('click');
+  const action=app.calls.find(c=>c.path==='/api/dual/action');
+  assert.deepEqual(action.body,{action:'rnbo',inspection:'paired-review',port:'test-port',rate:16000});
+  assert.equal(app.calls.filter(c=>c.path==='/api/firmware/upload'||c.path==='/api/install-player').length,0);
+  assert.equal(app.get('dual-rnbo').disabled,true);assert.match(app.get('dual-status').textContent,/Inspect again/);
+});
+
+test('paired updates pin the reviewed image; target change invalidates inspection; wrong-rate packages stay blocked',async()=>{
+  const app=await openStudio();await app.readyArtifact();await app.get('task-dual').fire('click');await settle();
+  await app.get('dual-inspect').fire('click');assert.equal(app.get('dual-upload').disabled,true);
+  await app.get('dual-update').fire('click');
+  assert.equal(app.calls.find(c=>c.path==='/api/dual/action').body.app_sha256,'a'.repeat(64));
+  await app.get('dual-inspect').fire('click');await app.get('port').fire('change');
+  assert.equal(app.get('dual-update').disabled,true);assert.equal(app.get('dual-board-id').value,'');
+});
+
+test('matching native16 package can use paired upload and failures require a fresh inspection',async()=>{
+  const app=await openStudio();app.backend.result.sample_rate=16000;app.backend.result.profile='voice-pe-16000-256-v1';
+  await app.readyArtifact();await app.get('task-dual').fire('click');await settle();await app.get('dual-inspect').fire('click');
+  assert.equal(app.get('dual-upload').disabled,false);app.backend.dualActionError='Pair rate differs';
+  await app.get('dual-upload').fire('click');
+  assert.equal(app.calls.find(c=>c.path==='/api/dual/action').body.job_id,'build1');
+  assert.match(app.get('dual-status').textContent,/Pair rate differs/);assert.equal(app.get('dual-upload').disabled,true);
+});
+
+test('XIAO 44.1k dual profile sends 44100 ABI and paired inspection selects the real rate',async()=>{
+  const app=await openStudio();await app.readyArtifact();app.backend.dualRate=44100;
+  app.get('audio-profile').value='xiao-44100';await app.get('audio-profile').fire('change');
+  await app.get('compile').fire('click');await app.runTimer(850);
+  const body=app.calls.filter(c=>c.path==='/api/build').at(-1).body;
+  assert.equal(body.profile,'esp32s3-44100-256-v1');assert.equal(body.board,'xiao');
+  assert.match(app.get('profile-help').textContent,/44100 Hz.*256/);
+  await app.get('task-dual').fire('click');await settle();await app.get('dual-inspect').fire('click');
+  assert.equal(app.get('dual-rate').value,'44100');assert.equal(app.get('dual-upload').disabled,false);
+  assert.match(app.get('dual-build').textContent,/44,100/);
+  await app.get('dual-upload').fire('click');
+  assert.equal(app.calls.find(c=>c.path==='/api/dual/action').body.rate,44100);
+  assert.match(app.get('dual-status').textContent,/44,100/);
 });

@@ -11,8 +11,8 @@ live parameters, volume, pause and device measurements:
 ./host/studio.sh
 ```
 
-In Max, choose the C++ source target, **Minimal Export**, **Copy Library**, fixed
-**44,100 Hz / 256 frames**, and stereo outputs with no audio inputs for a Main
+In Max, choose the C++ source target, **Minimal Export**, **Copy Library**, the
+selected fixed rate (**44,100 Hz normally**) / **256 frames**, and stereo outputs with no audio inputs for a Main
 package. Currently the adapter qualifies **RNBO 1.4.4**. Open the complete export
 folder or ZIP in Studio. An optional matching `.rnbopat` supplies the drawing;
 it is never translated into audio code. The [Max build helper](host/max/README.md)
@@ -38,6 +38,9 @@ is also available for PCM5102A. Both SynthDef and RNBO passed clean listening
 on XIAO-3eeb84 at 44.1 and 16 kHz, at 20% volume. The separate two-app pairing
 tools preserve settings/storage and block automatic routing during mixed-rate
 updates. Standard XIAO/AMOLED builds remain 44.1 kHz.
+Studio's **SC / RNBO** section now supports existing XIAO pairs at both
+**44.1 kHz / 256** and **16 kHz / 256**, including inspection, switching, guarded
+RNBO updates and Main loading. See the [paired Studio guide](docs/xiao-dual-boot-studio.md).
 
 **Voice PE port:** explicit native 48 kHz / 256 and native 16 kHz / 256 profiles,
 XMOS-clocked codec/audio backend, semantic controls and a protected installer

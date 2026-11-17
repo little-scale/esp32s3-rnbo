@@ -12,7 +12,7 @@ Use the RNBO export sidebar, choose the **C++ Source Code** target and configure
 | --- | --- |
 | Minimal Export | On |
 | Copy Library | On; include the complete matching `common/` directory |
-| Fixed Sample Rate | 44100 for XIAO/AMOLED; explicit [Voice PE profiles](voice-pe.md) use 48000 or 16000 |
+| Fixed Sample Rate | 44100 for XIAO/AMOLED; [XIAO dual boot](xiao-dual-boot-studio.md) supports native 16000; explicit [Voice PE profiles](voice-pe.md) use 48000 or 16000 |
 | Fixed Vector Size | 256 |
 | Main audio channels | 0 inputs, 2 outputs |
 | Exported class | Any ordinary C++ identifier; Studio detects it |

@@ -7,9 +7,10 @@
 .firmware-uploader{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}.firmware-uploader h3{margin:0 0 8px}.firmware-uploader input[type=file]{display:none}.firmware-uploader #firmware-status{overflow-wrap:anywhere;white-space:pre-wrap}
 .firmware-consent{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.5;margin:12px 0;padding:10px;background:#fff2e8;border-radius:6px}.firmware-consent[hidden]{display:none}.firmware-consent input{width:18px;height:18px;flex:0 0 18px;margin:2px 0}
 
-.instrument-tasks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:4px;border-radius:9px;background:#edf1f6}
+.instrument-tasks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:4px;border-radius:9px;background:#edf1f6}
 .instrument-tasks button{min-height:40px;padding:7px 5px;border-color:transparent;background:transparent;font-size:12px}
 .instrument-tasks button[aria-pressed=true]{background:#fff;border-color:#bdcce1;color:#174da6;box-shadow:0 1px 2px #23375216}
+#dual-build{overflow-wrap:anywhere}
 .device .panel-heading{margin-bottom:15px}
 .device #task-description{margin:9px 0 12px}
 .device .boot-help{margin:10px 0 14px;padding-top:0;border:0}
@@ -29,3 +30,9 @@
 .firmware-uploader #install-player{margin-top:10px}
 @media(min-width:1101px){main{grid-template-columns:minmax(0,1fr) minmax(370px,410px)}}
 @media(max-width:360px){.instrument-tasks button{font-size:11px}}
+
+/* Keep profile guidance readable rather than placing prose in settings columns. */
+.build-settings{grid-template-columns:minmax(0,1fr) 130px}
+#dual-panel label{display:block;margin-top:12px}
+#dual-board-id{display:block;width:100%;min-width:0;margin-top:7px;padding:10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font-size:12px}
+@media(max-width:420px){.build-settings{grid-template-columns:1fr}}

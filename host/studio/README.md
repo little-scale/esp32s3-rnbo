@@ -1,5 +1,12 @@
 # RNBO ESP32 Studio
 
+For an existing 44.1k or native-16k XIAO SC/RNBO pair, choose **XIAO + SC dual boot** in
+Audio profile and **SC / RNBO** in the Instrument column. That section inspects,
+switches, updates the RNBO slot and loads a matching Main through the companion's
+guarded pairing tools. See [XIAO dual boot](../../docs/xiao-dual-boot-studio.md).
+Initial commissioning/rate migration stays in the companion tools; do not use
+the factory installer on a pair.
+
 Voice PE patch builds now select native **48 kHz / 256** or **16 kHz / 256**.
 Use a genuine matching Max export and restart Studio after updating its source.
 Voice PE firmware installation currently uses the separate protected CLI, not

@@ -1,5 +1,13 @@
 # Implementation status — native export migration
 
+**17 November 2026 — XIAO dual boot in Studio:** Explicit XIAO
+44.1 and 16 kHz / 256-frame build selections and **SC / RNBO** Instrument section now expose live
+inspection, guarded runtime selection, RNBO-only slot updates and validated
+Main package handoff. The companion pairing tools and inventory are reused;
+initial pairing and rate migration are not exposed. Computer checks pass;
+physical qualification of this new Studio workflow is pending. See the
+[guide](xiao-dual-boot-studio.md).
+
 **17 November 2026 — OSC and board parameter page:** The shared player now
 receives Pi-style parameter messages on UDP 1234 and serves a small page on
 HTTP 80, with blue sliders, number inputs and enum choices. Sender pacing,

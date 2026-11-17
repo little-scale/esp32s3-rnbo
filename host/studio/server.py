@@ -153,6 +153,8 @@ class Studio:
         self.components = Path(components).expanduser().resolve() if components else None
         self.jobs = {}
         self.firmwares = {}
+        from host.studio.dual_runtime import PairedXiao
+        self.paired_xiao = PairedXiao(self.bridge)
         self.lock = threading.RLock()
         self.worker = threading.Lock()
         self.job_thread = None
@@ -454,7 +456,7 @@ class Studio:
                                           settings['title'].encode('utf-8')[:63].decode('utf-8', 'ignore'), settings['initial_volume'], visual)
             parameters = [dict(index=p['index'], name=p.get('name', p['paramId']), min=p['minimum'], max=p['maximum'],
                                initial=p.get('initialValue', p['minimum'])) for p in description.get('parameters', [])]
-            result.update(kind='package', title=settings['title'], parameters=parameters, sample_rate=settings['sample_rate'],profile=settings['profile'],
+            result.update(kind='package', title=settings['title'], board=settings['board'], parameters=parameters, sample_rate=settings['sample_rate'],profile=settings['profile'],
                           block_frames=256, package_bytes=result['bytes'], package_sha256=result['sha256'],
                           physical_inputs=result.get('metadata', {}).get('physical_inputs'),
                           touchscreen_inputs=result.get('metadata', {}).get('touchscreen_inputs'),
@@ -632,6 +634,70 @@ class Studio:
                 return public
             finally:
                 self.worker.release()
+
+    def inspect_dual(self, data):
+        if set(data) != {'port'} or not isinstance(data['port'], str):
+            raise ValueError('Choose one USB device to inspect')
+        with self.lock:
+            if self.stopping.is_set() or not self.worker.acquire(blocking=False):
+                raise ValueError('Studio is busy; wait before inspecting the pair')
+        try:
+            return self.paired_xiao.inspect(data['port'])
+        finally:
+            self.worker.release()
+
+    def start_dual(self, data):
+        action = data.get('action')
+        allowed = {'inspection', 'port', 'action', 'rate'}
+        if action == 'update': allowed.add('app_sha256')
+        if action == 'upload': allowed.add('job_id')
+        if (action not in ('rnbo','synthdef','update','upload') or set(data) != allowed
+                or type(data.get('rate')) is not int or data['rate'] not in (16000,44100)
+                or not all(isinstance(data.get(k), str) and 0 < len(data[k]) <= 256
+                           for k in ('inspection','port'))):
+            raise ValueError('Inspect one XIAO pair and choose a supported action')
+        values = {}
+        if action == 'update':
+            options = self.paired_xiao.options(data['rate'])
+            if not options.get('available'):
+                raise ValueError(options.get('reason', 'Build the matching pair first'))
+            if data['app_sha256'] != options['app_sha256']:
+                raise ValueError('The reviewed RNBO build changed; refresh before updating')
+            values['app_sha256'] = data['app_sha256']
+        elif action == 'upload':
+            package = self.artifact(data['job_id'])
+            parsed = player_package.parse(package.read_bytes())
+            if parsed['sample_rate'] != data['rate'] or parsed['block_frames'] != 256:
+                raise ValueError('Compile a genuine package at the selected pair rate / 256 frames before selecting RNBO')
+            if any(k in parsed['metadata'] for k in ('voice_pe_inputs','voice_pe_leds','touchscreen_inputs')):
+                raise ValueError('This package requires a different board; no runtime switch attempted')
+            values.update(package=str(package), package_sha256=parsed['package_sha256'])
+        with self.lock:
+            if self.stopping.is_set() or not self.worker.acquire(blocking=False):
+                raise ValueError('Studio is busy; wait before changing the pair')
+            identity = uuid.uuid4().hex
+            stage = {'rnbo':'Selecting RNBO', 'synthdef':'Selecting SuperCollider',
+                     'update':'Updating the RNBO slot with protected-region verification',
+                     'upload':'Selecting RNBO and loading the Main package'}[action]
+            self.jobs[identity] = dict(id=identity, state='uploading', stage=stage, log=stage+'\n',
+                error=None, result=dict(kind='dual-runtime', action=action), _build=None, _settings={'board':'xiao'})
+            self.job_thread = threading.Thread(target=self.run_dual,
+                args=(identity, data, values), daemon=True)
+            self.job_thread.start()
+        return self.job(identity)
+
+    def run_dual(self, identity, data, values):
+        try:
+            if self.network_bridge: self.network_bridge.disconnect()
+            self.active_bridge = self.bridge
+            result = self.paired_xiao.perform(data['inspection'], data['port'], data['action'], rate=data['rate'], **values)
+            self.update(identity, state='done', stage='Paired operation verified',
+                        result=dict(kind='dual-runtime', action=data['action'], **result))
+        except Exception as error:
+            self.log(identity, str(error)+'\n')
+            self.update(identity, state='failed', stage='Paired operation stopped; inspect before retrying', error=str(error))
+        finally:
+            self.worker.release()
 
     def select_current_firmware(self, data):
         if (set(data) != {'id', 'sha256'} or type(data.get('id')) is not str
@@ -828,6 +894,7 @@ class Handler(BaseHTTPRequestHandler):
             elif url.path == '/api/device': self.send(200, studio.device_snapshot())
             elif url.path == '/api/wifi': self.send(200, studio.wifi_status())
             elif url.path == '/api/firmware/options': self.send(200, {'firmwares':firmware.current_options()})
+            elif url.path == '/api/dual/options': self.send(200, self.server.studio.paired_xiao.options(int(query.get('rate',['16000'])[0])))
             elif url.path == '/api/job': self.send(200, {'job':studio.job(query.get('id', [''])[0])})
             elif url.path == '/api/trial-report': self.send(200, studio.trial_report(query.get('id', [''])[0]))
             elif url.path == '/api/example': self.send(200, {'guidance':native_export.GUIDANCE})
@@ -860,6 +927,8 @@ class Handler(BaseHTTPRequestHandler):
             elif self.path == '/api/firmware/import': self.send(200, {'firmware':studio.import_firmware(data)})
             elif self.path == '/api/firmware/select': self.send(200, {'firmware':studio.select_current_firmware(data)})
             elif self.path == '/api/firmware/upload': self.send(202, {'job':studio.start_firmware_upload(data)})
+            elif self.path == '/api/dual/inspect': self.send(200, studio.inspect_dual(data))
+            elif self.path == '/api/dual/action': self.send(202, {'job':studio.start_dual(data)})
             elif self.path == '/api/upload': self.send(202, {'job':studio.start_upload(data)})
             elif self.path == '/api/connect': self.send(200, studio.connect_usb(data.get('port')))
             elif self.path == '/api/wifi/scan': self.send(200, studio.scan_wifi())

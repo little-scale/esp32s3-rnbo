@@ -129,7 +129,9 @@ Physical XIAO first install and DAC/listening confirmation remain pending. See t
 The current XIAO/AMOLED selector uses the normal `build/firmware-<board>-player`
 builds, including OSC input and the lightweight board parameter page when rebuilt
 from current sources. Generated ZIPs still require explicit USB installation.
-For a commissioned SynthDef/RNBO pair, use the companion project's paired updater
-and exact board/rate image instead of a factory/erase installation. In particular,
+For a commissioned XIAO SynthDef/RNBO pair, Studio's [SC / RNBO section](xiao-dual-boot-studio.md)
+uses the companion guarded updater at 16 or 44.1 kHz. Other paired boards use
+the companion tools directly, with the exact board/rate image instead of a
+factory/erase installation. In particular,
 AMOLED's smaller paired application slot is close to capacity; retain the updater's
 exact-size/provenance checks. See the [OSC/web guide](osc-parameters.md).

@@ -8,7 +8,7 @@
     artifact: null, firmware: null, firmwareOptions: [], currentFirmware: null, catalogueLoading: false,
     job: null, jobRevision: -1, operation: null, linkedJob: null,
     loadFailure: null, loadingTransport: 'usb',
-    instrumentTask: 'play',
+    instrumentTask: 'play', dualInspection: null, dualBuild: null,
     connecting: false, connectedPort: '', connectedTransport: 'usb', connectedDeviceId: '',
     device: null, deviceError: '', parameters: [], parameterKey: '',
     portSerials: new Map(), portsInitialized: false,
@@ -25,6 +25,7 @@
   const busy = () => Boolean(state.operation || state.connecting || state.refreshing || state.serverBusy);
   const playing = () => state.instrumentTask === 'play';
   const transport = () => playing() && $('transport').value === 'wifi' ? 'wifi' : 'usb';
+  const dualMode = () => state.instrumentTask === 'dual';
   const firstInstall = () => state.instrumentTask === 'first-install';
   const installOptions = () => firstInstall() ? {mode:'first-install',erase_confirmed:$('firmware-erase').checked} : {};
   const selectedConnection = () => Boolean(state.device) && transport() === state.connectedTransport
@@ -105,8 +106,8 @@
     $('firmware-file').disabled = playing() || working;
     $('firmware-choice').disabled = playing() || !state.reachable || !state.csrf || working || state.catalogueLoading;
     $('refresh-firmware').disabled = $('firmware-choice').disabled;
-    $('flash-firmware').disabled = playing() || Boolean(flashBlock);
-    $('install-player').disabled = playing() || Boolean(buildBlock);
+    $('flash-firmware').disabled = playing() || dualMode() || Boolean(flashBlock);
+    $('install-player').disabled = playing() || dualMode() || Boolean(buildBlock);
     $('flash-firmware').textContent = first ? 'Erase & install player' : 'Update player firmware';
     $('install-player').textContent = first ? 'Build, erase & install player' : 'Build & update player';
     $('firmware-note').textContent = first
@@ -114,6 +115,60 @@
       : 'For a board with the RNBO player layout. Studio backs up and replaces the application, keeping saved patches and Wi-Fi settings.';
     $('firmware-next').textContent = flashBlock || `Ready to ${first ? 'erase and install' : 'update'} the ${boards[item.board]} player on ${$('port').value}.`;
     $('build-player-next').textContent = buildBlock || `Ready to build for ${boards[board]} and flash ${$('port').value}.`;
+  }
+
+  function updateDualControls(working, artifact) {
+    const allowed = dualMode() && state.reachable && state.csrf && !working && Boolean($('port').value);
+    const inspected = allowed && state.dualInspection?.port === $('port').value && state.dualInspection?.rate === Number($('dual-rate').value);
+    $('dual-inspect').disabled = !allowed;
+    $('dual-review').disabled = working || !state.csrf;
+    $('dual-rnbo').disabled = !inspected; $('dual-synthdef').disabled = !inspected;
+    $('dual-rate').disabled = working;
+    $('dual-update').disabled = !inspected || !state.dualBuild?.available || state.dualBuild.rate !== Number($('dual-rate').value);
+    const matching = artifact && state.artifact.result.sample_rate === Number($('dual-rate').value) && state.artifact.result.block_frames === 256;
+    $('dual-upload').disabled = !inspected || !matching;
+    $('dual-package').textContent = artifact
+      ? `${state.artifact.result.title || 'Main'} · ${number(state.artifact.result.sample_rate)} Hz${matching ? ' · ready for this pair' : ' · needs a build matching the selected pair rate / 256 frames'}`
+      : 'Compile or open a genuine package at the selected pair rate / 256 frames.';
+  }
+  async function refreshDualBuild() {
+    if (busy()) return;
+    try {
+      state.operation='dual-review'; updateButtons();
+      const result=await api('/api/dual/options?rate='+$('dual-rate').value); state.dualBuild=result;
+      $('dual-build').textContent=result.available
+        ? `Current RNBO · ${number(result.rate)} Hz / 256 · ${bytes(result.application_bytes)} · SHA256 ${result.app_sha256}`
+        : result.reason || 'Build the matching pair first.';
+    } catch(error) {state.dualBuild=null; $('dual-build').textContent=error.message;}
+    finally {state.operation=null; updateButtons();}
+  }
+  async function inspectDual() {
+    if ($('dual-inspect').disabled) return;
+    state.dualInspection=null;
+    $('dual-board-id').value='';
+    try {
+      state.operation='dual-inspect'; cancelQueuedControls(); updateButtons();
+      $('dual-status').textContent='Reading the running engine and pairing inventory…';
+      const result=await api('/api/dual/inspect',{port:$('port').value});
+      state.dualInspection=result; $('dual-board-id').value=result.device_id;
+      $('dual-rate').value=String(result.rate); state.dualBuild=null;
+      renderDevice({device:null,parameters:[]});
+      $('dual-status').textContent=`${result.engine==='rnbo'?'RNBO':'SuperCollider'} · ${number(result.rate)} Hz · verified pair. Inspection did not restart the board.`;
+    } catch(error) {$('dual-status').textContent=error.message;}
+    finally {state.operation=null; updateButtons();}
+    if(state.dualInspection) await refreshDualBuild();
+  }
+  async function pairedAction(action) {
+    const button=$('dual-'+action);
+    if(button.disabled || !state.dualInspection) return;
+    try {
+      const data={action,inspection:state.dualInspection.inspection,port:$('port').value,rate:state.dualInspection.rate};
+      if(action==='update')data.app_sha256=state.dualBuild.app_sha256;
+      if(action==='upload')data.job_id=state.artifact.id;
+      state.operation='dual'; cancelQueuedControls(); updateButtons(); $('build-output').open=true;
+      const response=await api('/api/dual/action',data);
+      await handleJob(response.job);
+    } catch(error) {state.operation=null; state.dualInspection=null; $('dual-status').textContent=error.message; updateButtons();}
   }
 
   function updateButtons() {
@@ -125,22 +180,24 @@
     const selectedConnected = selectedConnection();
     const hasTarget = usb ? Boolean($('port').value) : Boolean($('wifi-device').value);
     const isPlayer = state.device && state.device.runtime === 'rnbo-esp32s3-player';
-    for (const task of ['play', 'first-install', 'update']) {
+    for (const task of ['play', 'first-install', 'update', 'dual']) {
       const button = $('task-' + task);
       button.setAttribute('aria-pressed', String(state.instrumentTask === task));
       button.disabled = working;
     }
     $('task-description').textContent = play
       ? 'Use a board that already runs the RNBO player. Choose First install for a new board or one running other firmware.'
+      : dualMode() ? 'Inspect, switch or update an existing XIAO SC/RNBO pair at 16 or 44.1 kHz. Initial pairing stays in the guarded companion tools.'
       : firstInstall()
         ? 'Set up a new board or replace other firmware. Select the USB device to flash. No player connection is needed.'
         : 'Replace the firmware on an existing RNBO player. Select the USB device to flash. No player connection is needed.';
     $('transport-choice').hidden = !play;
     $('player-connect').hidden = !play;
     $('patch-load-panel').hidden = !play;
-    $('firmware-panel').hidden = play;
+    $('firmware-panel').hidden = play || dualMode();
+    $('dual-panel').hidden = !dualMode();
     $('connection').hidden = !play;
-    $('boot-help').hidden = play;
+    $('boot-help').hidden = play || dualMode();
     $('usb-target-label').textContent = play ? 'USB device' : '1. Choose the USB device';
     $('connect-recovery').hidden = !play || !usb || !hasTarget || !state.deviceError;
     $('runtime-controls').hidden = !play || !selectedConnected;
@@ -170,6 +227,7 @@
     $('wifi-scan').setAttribute('aria-busy', String(state.operation === 'wifi-scan'));
     $('wifi-forget').disabled = !setup || !state.wifi.configured;
     updateFirmwareControls(working);
+    updateDualControls(working, availableArtifact);
     $('compile').disabled = !state.reachable || !state.csrf || !state.valid || working || missingTools().length > 0;
     $('open-package').disabled = !state.reachable || !state.csrf || working;
     $('connect').disabled = !play || !state.csrf || !hasTarget || working || serialMissing;
@@ -548,7 +606,8 @@
 
   function buildOptions() {
     return {...state.exportPayload, name:state.name, visual_patch:state.patch, role:'main',
-      profile:$('audio-profile').value || 'esp32s3-44100-256-v1',
+      ...($('audio-profile').value.startsWith('xiao-') ? {profile:$('audio-profile').value==='xiao-16000'?'voice-pe-16000-256-v1':'esp32s3-44100-256-v1',board:'xiao'}
+        : {profile:$('audio-profile').value || 'esp32s3-44100-256-v1'}),
       initial_volume:Number($('initial-volume').value), arena_bytes:Number($('arena').value) * 1048576};
   }
 
@@ -556,7 +615,7 @@
     $('result-title').textContent = result.title || 'Package ready';
     const bindings = result.physical_inputs?.bindings || [];
     const voiceBindings = result.voice_pe_inputs?.bindings || [];
-    const facts = [result.profile?.startsWith('voice-pe-') ? 'Main package · Voice PE' : bindings.length ? 'Main package · XIAO physical inputs' : 'Main package · XIAO / AMOLED', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
+    const facts = [result.board === 'xiao' ? 'Main package · XIAO' : result.profile === 'voice-pe-16000-256-v1' && !result.board ? 'Main package · XIAO / Voice PE · native 16 kHz' : result.profile?.startsWith('voice-pe-') ? 'Main package · Voice PE' : bindings.length ? 'Main package · XIAO physical inputs' : 'Main package · XIAO / AMOLED', finite(result.package_bytes) ? bytes(result.package_bytes) : null,
       finite(result.sample_rate) ? `${number(result.sample_rate)} Hz` : null,
       finite(result.block_frames) ? `${result.block_frames} frames` : null,
       Array.isArray(result.parameters) ? `${result.parameters.length} parameters` : null].filter(Boolean);
@@ -591,6 +650,7 @@
     $('compile-status').textContent = state.operation === 'upload' ? 'Compiled package · load in progress' : label.charAt(0).toUpperCase() + label.slice(1);
     if (state.operation === 'upload') $('upload-status').textContent = `Uploading · ${label}`;
     if (state.operation === 'firmware' || state.operation === 'install') $('firmware-status').textContent = label;
+    if (state.operation === 'dual') $('dual-status').textContent = label;
     const log = Array.isArray(job.log) ? job.log.join('\n') : String(job.log || '');
     const output = $('build-log'), follow = output.scrollHeight - output.clientHeight - output.scrollTop < 55;
     output.textContent = log || `${label}…`;
@@ -646,6 +706,14 @@
       }
     } else {
       message(`The server returned an unknown job state: ${job.state}`);
+    }
+    if (operation === 'dual') {
+      state.dualInspection = null;
+      $('dual-status').textContent = job.state === 'done'
+        ? `${job.result?.engine === 'rnbo' ? 'RNBO' : 'SuperCollider'} · ${number(job.result?.rate)} Hz · verified. Inspect again before the next paired action.`
+        : job.error || 'Operation stopped. Inspect before retrying.';
+      await refreshDevices();
+      renderDevice({device:null,parameters:[]});
     }
     if (operation === 'upload' || operation === 'install' || operation === 'firmware') {
       await refreshDevices();
@@ -1064,6 +1132,10 @@
   }
   $('compile').addEventListener('click', compile);
   $('audio-profile').addEventListener('change',()=>{
+    $('profile-help').textContent = $('audio-profile').value === 'xiao-16000'
+      ? 'XIAO uses its own I²S DAC at native 16 kHz / 256 frames (16 ms per block). No XMOS step. Export at exactly 16 kHz in Max; selecting this does not change installed firmware.'
+      : $('audio-profile').value === 'xiao-44100' ? 'XIAO SC/RNBO pair at 44.1 kHz. Export at exactly 44100 Hz / 256 frames (5.80 ms per block). Selecting this does not change installed firmware.'
+      : 'Voice PE needs matching XMOS clocks and its protected installer. Selecting a profile does not change the board or convert a mismatched export.';
     if($('audio-profile').value.startsWith('voice-pe-')){
       $('initial-volume').value='0';$('initial-volume-value').textContent='0%';
     }
@@ -1109,14 +1181,23 @@
   for (const id of ['transport', 'port', 'wifi-device']) $(id).addEventListener('change', () => {
     $('firmware-erase').checked = false;
     cancelQueuedControls(); clearNetworks(); $('wifi-scan-status').textContent = '';
+    if (id === 'port') {state.dualInspection=null; $('dual-board-id').value=''; $('dual-status').textContent='Inspect the selected XIAO before using paired actions.';}
     if (id === 'transport') $('wifi-password').value = '';
     if (id === 'wifi-device') $('wifi-ip').value = '';
     delete $('upload-status').dataset.completed;
     renderDevice({device: state.device, parameters: state.parameters});
   });
-  for (const task of ['play', 'first-install', 'update']) $('task-' + task).addEventListener('click', () => {
+  for (const task of ['play', 'first-install', 'update', 'dual']) $('task-' + task).addEventListener('click', () => {
     if (busy() || state.instrumentTask === task) return;
     state.instrumentTask = task;
+    if (task === 'dual') {
+      if (!state.dualInspection) {
+        const artifactRate=state.artifact?.revision===state.revision ? state.artifact.result.sample_rate : null;
+        $('dual-rate').value=String([16000,44100].includes(artifactRate) ? artifactRate
+          : $('audio-profile').value==='xiao-16000' ? 16000 : 44100);
+      }
+      refreshDualBuild();
+    }
     $('firmware-erase').checked = false;
     $('wifi-password').value = '';
     cancelQueuedControls();
@@ -1145,6 +1226,10 @@
       $('copy-id-status').textContent = 'Press ⌘C on Mac or Ctrl+C to copy the selected ID.';
     }
   });
+  $('dual-rate').addEventListener('change',()=>{state.dualInspection=null; $('dual-status').textContent='Rate review changed. Inspect the board again; its installed rate has not changed.'; refreshDualBuild();});
+  $('dual-review').addEventListener('click',refreshDualBuild);
+  $('dual-inspect').addEventListener('click',inspectDual);
+  for(const action of ['rnbo','synthdef','update','upload']) $('dual-'+action).addEventListener('click',()=>pairedAction(action));
   $('connect').addEventListener('click', connect);
   $('volume').addEventListener('input', () => {
     $('volume-value').textContent = `${$('volume').value}%`;

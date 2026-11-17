@@ -169,6 +169,8 @@ def create(build, board):
     report = checked['report']
     if report.get('player') is not True or report.get('player_api_version') != 1:
         raise ValueError('Build a supported RNBO player before bundling firmware')
+    if report.get('sample_rate') != 44100:
+        raise ValueError('The generic firmware ZIP is 44.1 kHz only; use the guarded dual-boot updater for native-16k XIAO')
     if report.get('integration_files_sha256') != source_inventory():
         raise ValueError('Player build is older than the current sources; rebuild the player before making its firmware ZIP')
     if 'player_network' not in report.get('components', []):

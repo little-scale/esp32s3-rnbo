@@ -27,11 +27,11 @@
       <p id="source-state" class="hint" role="status">In Max: C++ export → Minimal Export, Copy Library, the selected fixed rate / 256 frames. RNBO 1.4.4 is currently qualified.</p>
       <div class="section-rule"></div>
       <div class="build-settings">
-        <label>Audio profile<select id="audio-profile"><option value="esp32s3-44100-256-v1">XIAO / AMOLED · 44.1 kHz / 256</option><option value="voice-pe-48000-256-v1">Voice PE · native 48 kHz / 256</option><option value="voice-pe-16000-256-v1">Voice PE · native 16 kHz / 256</option></select></label>
-        <p class="hint">Voice PE needs matching XMOS clocks and its protected installer. Selecting a profile does not change the board or convert a mismatched export. Native 16 kHz requires the separate XMOS image.</p>
-        <p class="hint">Set voices and delay sizes in Max before exporting. Supported delay buffers use Float32 automatically to reduce memory use. Other buffer forms keep their exported storage; scheduler time stays Float64.</p>
+        <label>Audio profile<select id="audio-profile"><option value="esp32s3-44100-256-v1">XIAO / AMOLED · 44.1 kHz / 256</option><option value="xiao-44100">XIAO + SC dual boot · 44.1 kHz / 256</option><option value="xiao-16000">XIAO + SC dual boot · native 16 kHz / 256</option><option value="voice-pe-48000-256-v1">Voice PE · native 48 kHz / 256</option><option value="voice-pe-16000-256-v1">Voice PE · native 16 kHz / 256</option></select></label>
         <label>Arena reserve<select id="arena"><option value="1">1 MiB</option><option value="2">2 MiB</option><option value="4">4 MiB</option></select></label>
       </div>
+        <p id="profile-help" class="hint">Voice PE needs matching XMOS clocks and its protected installer. Selecting a profile does not change the board or convert a mismatched export. Native 16 kHz requires the separate XMOS image.</p>
+        <p class="hint">Set voices and delay sizes in Max before exporting. Supported delay buffers use Float32 automatically to reduce memory use. Other buffer forms keep their exported storage; scheduler time stays Float64.</p>
       <div class="initial-volume"><label for="initial-volume">Startup volume</label><input id="initial-volume" type="range" min="0" max="100" value="50" step="1"><output id="initial-volume-value" for="initial-volume">50%</output></div>
 
       <div class="compile-bar"><button id="compile" class="primary" type="button" disabled>Compile export</button><span id="compile-status" role="status">Connecting to local tools…</span></div>
@@ -53,6 +53,7 @@
         <button id="task-play" type="button" aria-pressed="true">Load &amp; play</button>
         <button id="task-first-install" type="button" aria-pressed="false">First install</button>
         <button id="task-update" type="button" aria-pressed="false">Update player</button>
+        <button id="task-dual" type="button" aria-pressed="false">SC / RNBO</button>
       </div>
       <p id="task-description" class="hint">Use a board that already runs the RNBO player. Choose First install for a new board or one running other firmware.</p>
       <div id="transport-choice">
@@ -83,6 +84,24 @@
         <p id="remote-player" class="hint" hidden><a id="remote-player-link" target="_blank" rel="noopener noreferrer">Open board parameter page</a><br><span id="remote-osc-address"></span></p>
         <p id="connect-recovery" class="hint" hidden>Connect USB looks for a running RNBO player. For a new board or one running other firmware, choose <strong>First install</strong> above.</p>
       </div>
+      <section id="dual-panel" class="firmware-uploader" aria-labelledby="dual-title" hidden>
+        <h3 id="dual-title">XIAO · SC/RNBO dual boot</h3>
+        <p class="hint">Use an already commissioned SC/RNBO pair with both apps at the same native rate, 16 or 44.1 kHz. This keeps both engines, their saved programs and Wi-Fi settings. Close the SynthDef Studio USB connection first.</p>
+        <button id="dual-inspect" class="secondary wide" type="button" disabled>Inspect selected XIAO</button>
+        <p id="dual-status" class="hint" role="status">Inspection identifies the running engine without restarting it.</p>
+        <label for="dual-board-id">Board ID</label><input id="dual-board-id" type="text" readonly spellcheck="false" placeholder="Inspect the selected board">
+        <div class="wifi-actions"><button id="dual-rnbo" class="quiet" type="button" disabled>Start RNBO</button><button id="dual-synthdef" class="quiet" type="button" disabled>Start SuperCollider</button></div>
+        <p class="hint">Switching restarts the board and briefly interrupts audio. Each engine retains its own saved output setting. Already running the requested engine? No restart is needed.</p>
+        <label for="dual-rate">Paired firmware / package rate</label><select id="dual-rate"><option value="16000">16 kHz · RNBO 256 frames</option><option value="44100">44.1 kHz · RNBO 256 frames</option></select>
+        <p class="hint">Inspection selects the installed rate. Changing this review does not change the board’s rate; both installed apps and the Main package must match.</p>
+        <h3>RNBO player update</h3><p id="dual-build" class="hint" role="status">Checking the matching local build…</p>
+        <button id="dual-review" class="quiet" type="button">Refresh build review</button>
+        <button id="dual-update" class="secondary wide" type="button" disabled>Update RNBO slot</button>
+        <p class="hint">Updates only RNBO, with backups and readback checks. It restores the previous engine selection. Initial pairing and changing the pair’s sample rate use the companion guarded commissioning tools; do not use First install on a pair.</p>
+        <h3>Load this Main package</h3><p id="dual-package" class="hint">Compile or open a genuine package at the pair’s rate / 256 frames.</p>
+        <button id="dual-upload" class="primary wide" type="button" disabled>Start RNBO &amp; load package</button>
+        <p class="hint">USB only. The package is checked before any runtime switch. Once RNBO is selected, use Load &amp; play to connect for live controls or Wi-Fi setup.</p>
+      </section>
       <section id="firmware-panel" class="firmware-uploader" aria-labelledby="firmware-title" hidden>
         <h3 id="firmware-title">2. Choose player firmware</h3>
         <label class="sr-only" for="firmware-choice">Current player firmware</label>

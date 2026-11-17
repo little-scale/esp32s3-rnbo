@@ -22,7 +22,8 @@ Metadata requires `name` (1..63 UTF-8 bytes), `source_sha256` (64 lowercase hex)
 Unrecognized metadata fields can be ignored; invalid required fields reject.
 Package SHA256 identifies the entire exact header+payload. Modules have zero
 undefined imports, ABI1, a fixed 256-frame vector and a matching explicit rate
-(44100 for XIAO/AMOLED, 16000 or 48000 for Voice PE), with the existing single-instance wrapper.
+(44100 for XIAO/AMOLED, explicit native 16000 for XIAO dual boot, and 16000 or
+48000 for Voice PE), with the existing single-instance wrapper.
 Each active image has its own state, arena, context and sample position.
 
 MIDI-input packages add optional `midi_input_ports:1` metadata and module flag
