@@ -111,6 +111,9 @@ shows each canonical OSC address as selectable text.
 Its Pi-style light theme uses a white background, blue filled slider tracks and
 ring handles, black labels and muted grey min/max values. A two-column layout
 collapses to one column on narrow screens; styling and layout run in the browser.
+The header shows only “RNBO parameter controls” and the IP/OSC port. Routine
+live counters and explanatory footer text are omitted; connection, pause and
+maintenance messages appear when needed.
 
 The browser fetches metadata once per patch generation, polls small cached state
 responses at **5 Hz**, and sends at most eight updates per **20 ms** request.
