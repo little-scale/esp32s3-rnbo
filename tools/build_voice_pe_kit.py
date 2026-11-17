@@ -24,6 +24,7 @@ def build(rate,out_root):
                      *[ROOT/'host/max'/name for name in ('voice-pe-controls.maxpat','rnbo.studio.maxpat','rnbo-studio.js','rnbo-studio-client.js')]]
     led_package=ROOT/f'build/private/voice-pe-led/led-{rate}.rnbopkg'
     identity_inputs += [ROOT/'docs/voice-pe-leds.md',ROOT/'host/max/voice-pe-led.maxpat']
+    identity_inputs.append(ROOT/'docs/osc-parameters.md')
     if led_package.is_file():identity_inputs.append(led_package)
     identity=hashlib.sha256(''.join(digest(p) for p in identity_inputs).encode()).hexdigest()
     folder=out_root/f'voice-pe-{rate}-hardware-test-{plan["app_sha256"][:10]}-{identity[:6]}'
@@ -38,6 +39,7 @@ def build(rate,out_root):
         'VOICE-PE.md':ROOT/'docs/voice-pe.md',
         'GPL-3.0.txt':ROOT/'LICENSES/Voice-PE-GPL-3.0.txt',
         'LED-RING.md':ROOT/'docs/voice-pe-leds.md',
+        'OSC-PARAMETERS.md':ROOT/'docs/osc-parameters.md',
         'max/voice-pe-led.maxpat':ROOT/'host/max/voice-pe-led.maxpat',
     }
     if led_package.is_file():sources['led.rnbopkg']=led_package
@@ -69,6 +71,8 @@ For controls: hold the centre button to gate audio; dial changes frequency;
 microphone-mute is read separately. Ordinary patches keep the board-owned ring.
 The LED example uses outport led_rgb; see LED-RING.md. If included, led.rnbopkg
 is silent and its test parameter selects shared/indexed/full-frame updates.
+For Wi-Fi parameter control, see OSC-PARAMETERS.md: OSC UDP1234 and a small
+board-hosted page on HTTP80, separate from Studio's authenticated upload service.
 Saved packages restore paused. See VOICE-PE.md for the complete hardware checklist.
 '''
     (folder/'README.txt').write_text(readme)

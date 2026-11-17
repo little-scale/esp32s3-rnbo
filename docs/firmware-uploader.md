@@ -123,3 +123,13 @@ and application readbacks matched; the expected player booted with advancing
 audio frames and clean runtime counters. The new player has no Main patch loaded.
 Physical XIAO first install and DAC/listening confirmation remain pending. See the
 [hardware receipt](../evidence/studio-firmware-uploader.json).
+
+### Installing the OSC/browser-capable player
+
+The current XIAO/AMOLED selector uses the normal `build/firmware-<board>-player`
+builds, including OSC input and the lightweight board parameter page when rebuilt
+from current sources. Generated ZIPs still require explicit USB installation.
+For a commissioned SynthDef/RNBO pair, use the companion project's paired updater
+and exact board/rate image instead of a factory/erase installation. In particular,
+AMOLED's smaller paired application slot is close to capacity; retain the updater's
+exact-size/provenance checks. See the [OSC/web guide](osc-parameters.md).

@@ -216,3 +216,21 @@ or reloading the patch. Acknowledgement means requested, not an immediately
 zero telemetry sample. `average_render_us` / `average_cpu_percent` describe the
 whole observed session, including paused vectors; current/peak retain their
 existing meanings. The device advertises `peak_reset_version:1`.
+
+## OSC and board-hosted parameter controls
+
+The optional `remote_parameters` native-export metadata retains enum labels,
+visibility and a single input alias per parameter. It changes neither DSP code nor
+the audio envelope version; older packages fall back to numeric parameter IDs.
+The player validates explicit metadata against the actual module schema before
+activation. Status adds `remote_control` version 1 with listener/start flags,
+ports and input/delivery/drop counters.
+
+When provisioned Wi-Fi is online, UDP 1234 accepts the reduced Pi-compatible
+`/rnbo/inst/0/params/<id>` and `/normalized` input namespace. HTTP 80 serves the
+small controller and `/api/schema`, `/api/values`, `/api/parameter`. HTTP/OSC use
+trusted-LAN access separately from the authenticated TCP 8789 service. Browser
+writes require the current generation and a per-start page token; queued events
+are also invalidated on Pause/maintenance/network loss. Queue admission does not
+prove audio-owner application. Exact types, limits, old-package fallbacks and
+pending hardware measurements are in the [control guide](osc-parameters.md).

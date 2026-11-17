@@ -46,6 +46,7 @@ function mockDocument() {
     }
     setAttribute(key, value) { this.attributes.set(key, String(value)); }
     getAttribute(key) { return this.attributes.get(key) ?? null; }
+    removeAttribute(key) { this.attributes.delete(key); if (key === 'href') this.href = ''; }
     toggleAttribute(key, value) { if (value) this.attributes.set(key, ''); else this.attributes.delete(key); }
     addEventListener(name, callback) {
       if (!this.events.has(name)) this.events.set(name, []);
@@ -874,4 +875,17 @@ test('unavailable current builds cannot be selected and custom ZIPs remain suppo
   app.get('firmware-file').files=[{name:'player.zip',size:1,arrayBuffer:async()=>new Uint8Array([1]).buffer}];
   await app.get('firmware-file').fire('change');
   assert.equal(app.get('firmware-choice').value,'');assert.equal(app.get('flash-firmware').disabled,false);
+});
+
+test('remote page link uses only a capable player current IPv4 destination and clears on disconnect', async () => {
+  const app=await openStudio();
+  assert.equal(app.get('remote-player').hidden,true);
+  app.backend.device={board:'xiao',generation:1,paused:false,wifi:{connected:true,ip:'192.168.0.101'},remote_control:{version:1,web_started:true,web_port:80,osc_port:1234}};
+  await app.runInterval(1800);
+  assert.equal(app.get('remote-player').hidden,false);
+  assert.equal(app.get('remote-player-link').href,'http://192.168.0.101/');
+  assert.match(app.get('remote-osc-address').textContent,/192\.168\.0\.101:1234/);
+  app.backend.device.wifi.ip='javascript:alert(1)';await app.runInterval(1800);
+  assert.equal(app.get('remote-player').hidden,true);assert.equal(app.get('remote-player-link').href,'');
+  app.backend.device=null;await app.runInterval(1800);assert.equal(app.get('remote-player').hidden,true);
 });

@@ -30,6 +30,14 @@ int main(){
     assert(f.rejected==rejected+3);
     f=set(7);for(unsigned i=0;i<12;++i)assert(f.rgb[i*3]==0&&f.rgb[i*3+1]==.5f&&f.rgb[i*3+2]==1);
     for(unsigned i=0;i<1000;++i)set((float)(i%10));
+    /* Same scalar ABI used by the OSC adapter: native setters constrain
+     * actual values and native normalization supplies the authored steps. */
+    set(1.4f);float actual=0,normalized=0;
+    assert(m.parameter_value(context,0,&actual,&normalized)==0 && actual==1);
+    rnbo_s3_event normalized_event{sizeof normalized_event,RNBO_S3_PARAMETER_NORMALIZED,0,.25f,0,0,{0},0};
+    assert(m.event(context,&normalized_event)==0);render();
+    assert(m.parameter_value(context,0,&actual,&normalized)==0 && actual==2);
+    assert(normalized>0.222f&&normalized<0.223f);
     rnbo_s3_stats stats{};stats.struct_bytes=sizeof stats;assert(m.statistics(context,&stats)==0);
     rnbo_s3_dynamic_stats extra{};extra.struct_bytes=sizeof extra;assert(info.statistics(context,&extra)==0);
     assert(!stats.errors&&!stats.invalid_samples&&!stats.late_platform_allocations&&!extra.total_late_allocations&&!extra.bootstrap_allocation_attempts);

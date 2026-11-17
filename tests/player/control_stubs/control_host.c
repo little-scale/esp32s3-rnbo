@@ -33,6 +33,10 @@ static const char *usb_program;
 static size_t usb_cursor;
 static int64_t now;
 static bool audio_stepping,control_stepping,dma_running;
+static bool remote_audio_stepping;
+static remote_batch remote_fixtures[3];
+static unsigned remote_next,remote_event_calls,remote_delivered_count,remote_discarded_count;
+static float remote_actual;
 static player_stats published;
 static player_slot *old_slot,*new_slot;
 static jmp_buf task_exit;
@@ -99,6 +103,7 @@ int xQueueReset(QueueHandle_t queue){(void)queue;return pdTRUE;}
 int xQueuePeek(QueueHandle_t queue,void *value,unsigned wait){(void)queue;(void)wait;memcpy(value,&published,sizeof published);return pdTRUE;}
 int xQueueOverwrite(QueueHandle_t queue,const void *value) {
     (void)queue;memcpy(&published,value,sizeof published);
+    if(remote_audio_stepping){++received_blocks;longjmp(task_exit,1);}
     if(audio_stepping) {
         ++received_blocks;
         if(received_blocks==1) {
@@ -162,6 +167,18 @@ void player_store_free(void *p){free(p);}
  * a delivered abandoned slot remains held until the owner completion call.
  */
 esp_err_t player_network_init(void){return ESP_OK;}
+void player_remote_bind(const remote_route *r,const char *name){(void)r;(void)name;}
+void player_remote_gate(bool playing,bool maintenance){(void)playing;(void)maintenance;}
+void player_remote_set_reader(player_remote_read_fn reader){(void)reader;}
+void player_remote_add_status(cJSON *parent){(void)parent;}
+bool player_remote_receive(remote_batch *batch,unsigned budget){
+    if(!remote_audio_stepping||remote_next==3||!remote_fixtures[remote_next].count||remote_fixtures[remote_next].count>budget)return false;
+    *batch=remote_fixtures[remote_next++];return true;
+}
+void player_remote_delivered(unsigned count,bool discarded){if(discarded)remote_discarded_count+=count;else remote_delivered_count+=count;}
+bool player_remote_refresh_requested(void){return false;}
+int board_audio_capture_command(const char *op,const uint8_t *bytes,size_t n,char *reply,size_t size)
+{(void)op;(void)bytes;(void)n;(void)reply;(void)size;return false;}
 bool player_network_start_saved(char *error,size_t size)
 {(void)error;(void)size;must_park();assert(!boot_guard_pending);++net_start_calls;return true;}
 bool player_network_configure(const uint8_t *ssid,size_t ns,const uint8_t *password,size_t np,
@@ -216,6 +233,8 @@ bool player_network_respond(const char *json)
 static void *json_allocate(size_t bytes){return json_oom?NULL:malloc(bytes);}
 
 static void reset_test(void) {
+    remote_audio_stepping=false;remote_next=remote_event_calls=remote_delivered_count=remote_discarded_count=0;
+    remote_actual=0;memset(remote_fixtures,0,sizeof remote_fixtures);
     discard_incoming();memset(&published,0,sizeof published);clear_reply();
     loader_calls=stage_calls=commit_calls=unloads=guard_clears=delay_calls=received_blocks=0;
     failed_boundary=FAIL_NONE;mode=ACK_NORMAL;now=0;audio_stepping=control_stepping=false;dma_running=true;
@@ -360,13 +379,38 @@ static void test_usb_line_defers_network_and_timeout_unblocks(void)
     }
     puts("USB split-line deferral and bounded partial timeout PASS");
 }
+static int remote_test_event(void *context,const rnbo_s3_event *event){
+    (void)context;assert(remote_audio_stepping&&event->parameter_index==0);
+    ++remote_event_calls;remote_actual=event->value;return RNBO_S3_OK;
+}
+static int remote_test_value(void *context,uint32_t index,float *actual,float *normalized){
+    (void)context;assert(index==0);*actual=*normalized=remote_actual;return RNBO_S3_OK;
+}
+static void test_remote_audio_generation_pause_and_budget(void){
+    for(unsigned is_paused=0;is_paused<2;++is_paused){
+        reset_test();old_slot->image.parameter_count=1;old_slot->image.module.event=remote_test_event;
+        old_slot->image.module.parameter_value=remote_test_value;atomic_store(&parameter_count,1);
+        remote_fixtures[0]=(remote_batch){.generation=999,.count=1,.updates={{.index=0,.kind=RNBO_S3_PARAMETER_ACTUAL,.value=.9f}}};
+        remote_fixtures[1]=(remote_batch){.generation=1,.count=2,.updates={{.index=0,.kind=RNBO_S3_PARAMETER_ACTUAL,.value=.2f},{.index=0,.kind=RNBO_S3_PARAMETER_NORMALIZED,.value=.4f}}};
+        remote_fixtures[2]=(remote_batch){.generation=1,.count=8};
+        atomic_store(&paused,is_paused!=0);remote_audio_stepping=true;
+        if(!setjmp(task_exit))audio_task(NULL);
+        remote_audio_stepping=false;
+        assert(remote_next==2&&remote_event_calls==(is_paused?0u:2u));
+        assert(remote_delivered_count==(is_paused?0u:2u)&&remote_discarded_count==(is_paused?3u:1u));
+        assert(!published.fault&&!published.module_errors&&!atomic_load(&queue_errors));
+        if(!is_paused)assert(remote_actual==.4f);
+        dispose_test();
+    }
+    puts("remote audio-owner delivery, stale generation, Pause and whole-batch budget PASS");
+}
 int main(int argc,char **argv) {
     assert(argc==2);FILE *f=fopen(argv[1],"rb");assert(f);assert(!fseek(f,0,SEEK_END));long n=ftell(f);rewind(f);
     uint8_t *bytes=malloc((size_t)n);assert(bytes&&fread(bytes,1,(size_t)n,f)==(size_t)n);fclose(f);
     test_ownership(bytes,(size_t)n);test_incoming(bytes,(size_t)n);test_transactions(bytes,(size_t)n);
     cJSON_Hooks hooks={.malloc_fn=json_allocate,.free_fn=free};cJSON_InitHooks(&hooks);
     test_guard();test_generation_reset();test_network_owner_completion();test_wifi_guard_blocks_early_settings_and_scan();
-    test_usb_line_defers_network_and_timeout_unblocks();cJSON_InitHooks(NULL);free(bytes);
+    test_usb_line_defers_network_and_timeout_unblocks();test_remote_audio_generation_pause_and_budget();cJSON_InitHooks(NULL);free(bytes);
     puts("player control: ownership, transactions, candidate guard, lifetime counters PASS");return 0;
 }
 

@@ -20,7 +20,7 @@ LIMITS = {'firmware.json': 16384, 'application.bin': APP_CAPACITY, 'partition-ta
 REQUIRED = {'firmware.json', 'application.bin', 'partition-table.bin'}
 HASH = re.compile(r'[0-9a-f]{64}')
 ROOT = Path(__file__).resolve().parents[2]
-CURRENT_BUILDS = {board: ROOT / 'build' / ('firmware-' + board + '-player-player-v1') for board in FLASH_BYTES}
+CURRENT_BUILDS = {board: ROOT / 'build' / ('firmware-' + board + '-player') for board in FLASH_BYTES}
 BOARD_NAMES = {'xiao': 'XIAO ESP32-S3', 'amoled': 'Waveshare AMOLED 1.8 V2'}
 
 

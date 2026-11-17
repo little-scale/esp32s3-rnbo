@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 #include "player_network.h"
+#include "player_remote.h"
 #include "player_network_protocol.h"
 #include "player_network_scan.h"
 #include "player_network_handoff.h"
@@ -150,6 +151,7 @@ static void drain_wifi_events(void)
             }
         }
     }
+    player_remote_network(connected);
     unlock();
 }
 
@@ -318,6 +320,9 @@ static esp_err_t ensure_driver(void)
 static esp_err_t apply_credentials(void)
 {
     esp_err_t result=ensure_driver();if(result!=ESP_OK)return result;
+    esp_err_t remote=player_remote_start(device_id);
+    if(remote!=ESP_OK)ESP_LOGW("player_net","Remote parameter service: %s",esp_err_to_name(remote));
+    player_remote_network(false);
     wifi_config_t config={0};
     lock();memcpy(config.sta.ssid,credentials+8,credentials[5]);memcpy(config.sta.password,credentials+40,credentials[6]);
     retry_delay_ms=1000;retry_at=esp_timer_get_time();unlock();
@@ -374,6 +379,7 @@ bool player_network_configure(const uint8_t *ssid,size_t ns,const uint8_t *passw
     if(!persist(raw,error,capacity)){wipe(raw,sizeof(raw));return false;}
     lock();abandon_locked();memcpy(credentials,raw,sizeof(raw));++credential_epoch;
     configured=true;connected=false;ip_v4=0;last_error[0]=0;retry_notice=false;unlock();wipe(raw,sizeof(raw));
+    player_remote_network(false);
     if(apply_credentials()!=ESP_OK){status_error("Wi-Fi settings saved, but Wi-Fi could not start");return failure(error,capacity,"Wi-Fi settings saved, but Wi-Fi could not start");}
     return true;
 }
@@ -385,6 +391,7 @@ bool player_network_forget(char *error,size_t capacity)
     lock();configured=false;connected=false;station_started=false;++credential_epoch;
     ip_v4=0;last_error[0]=0;retry_notice=false;wipe(credentials,sizeof(credentials));abandon_locked();
     bool stop=driver_initialized;driver_initialized=false;unlock();
+    player_remote_network(false);
     if(stop){(void)esp_wifi_disconnect();(void)esp_wifi_stop();(void)esp_wifi_deinit();}
     return true;
 }

@@ -885,6 +885,17 @@
     state.device = response.device || null;
     if (Array.isArray(response.parameters)) state.parameters = response.parameters;
     const device = state.device;
+    const remote = device?.remote_control;
+    const remoteIp = device?.wifi?.connected ? device.wifi.ip : '';
+    const remoteLive = remote?.version === 1 && remote?.web_started && /^\d{1,3}(\.\d{1,3}){3}$/.test(remoteIp)
+      && remoteIp.split('.').every(part => Number(part) <= 255) && remote?.web_port === 80;
+    $('remote-player').hidden = !remoteLive;
+    $('remote-player-link').removeAttribute('href');
+    $('remote-osc-address').textContent = '';
+    if (remoteLive) {
+      $('remote-player-link').href = `http://${remoteIp}/`;
+      $('remote-osc-address').textContent = `OSC: ${remoteIp}:${remote.osc_port} · /rnbo/inst/0/params/<id>`;
+    }
     const midi = device?.midi;
     if (midi) {
       if (!$('midi-mode').dataset.dirty) $('midi-mode').value = midi.uart_enabled ? 'uart' : 'off';

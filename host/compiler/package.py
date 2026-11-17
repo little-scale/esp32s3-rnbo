@@ -55,6 +55,9 @@ def digest(raw):
 def metadata_checked(value):
     if type(value) is not dict:
         raise ValueError('Package metadata must be an object')
+    if 'remote_parameters' in value:
+        from remote_parameters import checked_plan as checked_remote_plan
+        checked_remote_plan(value['remote_parameters'])
     name, source, volume = (value.get(key) for key in ('name', 'source_sha256', 'initial_volume'))
     if (not isinstance(name, str) or not 1 <= len(name.encode('utf-8')) <= 63 or '\0' in name
             or not isinstance(source, str) or not HASH.fullmatch(source)
@@ -175,6 +178,9 @@ def build(build_dir, output, name, initial_volume=50, visual=None):
             or manifest['audio_inputs'] != (0 if role == 'main' else 2) or manifest.get('audio_outputs') != 2):
         raise ValueError('Module dimensions do not match the requested player role')
     metadata = dict(name=name, source_sha256=manifest['source_tree_sha256'], initial_volume=initial_volume)
+    if 'remote_parameters' in manifest:
+        from remote_parameters import checked_plan as checked_remote_plan
+        metadata['remote_parameters'] = checked_remote_plan(manifest['remote_parameters'])
     if report['sample_rate']!=44100:
         metadata['audio_profile']=audio_profile['id']
     if manifest.get('midi_input_ports'):

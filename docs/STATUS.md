@@ -1,5 +1,16 @@
 # Implementation status — native export migration
 
+**17 November 2026 — OSC and board parameter page:** The shared player now
+receives Pi-style parameter messages on UDP 1234 and serves a small page on
+HTTP 80, with blue sliders, number inputs and enum choices. Sender pacing,
+generation/epoch checks and a fixed eight-update audio-block budget keep the
+delivery bounded. Optional native-export metadata retains enum labels, visibility
+and input aliases. Five cross-builds and computer checks pass; no board was flashed
+for this feature. CPU/RAM, stack margins and two-node operation still need hardware
+qualification. The AMOLED paired slot has very little headroom, so admission must
+check the exact build. See the [guide](osc-parameters.md) and
+[readiness record](../evidence/osc-web-readiness.json).
+
 **16 November 2026 — patch-authored Voice PE LEDs:** `outport led_rgb` now
 accepts shared RGB3, indexed RGB4 (0–11, others retained) and full RGB36 frames.
 LED packages require envelope v5 and an audited optional ABI 1.1 tail; ordinary

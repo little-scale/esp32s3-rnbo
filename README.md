@@ -51,6 +51,13 @@ Voice PE patches can drive the ring with **`outport led_rgb`**: shared RGB,
 `index r g b` (LED0–11), or all36 RGB values. See the
 [LED example and guide](docs/voice-pe-leds.md).
 
+Updated players also support [OSC parameter input and a small browser parameter
+page](docs/osc-parameters.md): Pi-style OSC on UDP 1234, and sliders/number inputs
+at `http://<board-ip>/`. The page uses sender-side pacing and cached state; network
+work stays outside DSP. Computer checks and five firmware builds pass; hardware
+overhead and multi-node checks are pending. Studio links to the board page when
+the connected player's Wi-Fi is online.
+
 AMOLED instruments can bind patch-area X/Y and pressed state directly to RNBO
 parameters using inline `@meta`. See the [touchscreen guide](docs/touchscreen-inputs.md).
 

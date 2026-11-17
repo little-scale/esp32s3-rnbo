@@ -1,0 +1,189 @@
+{
+  "format": "rnbo-osc-web-readiness-v1",
+  "date": "2026-11-17",
+  "base_commit": "65dba0a099d875c5bf08bbd0b7ae2fec7c30202c",
+  "hardware_executed": false,
+  "ports": {
+    "osc_udp": 1234,
+    "parameter_http": 80,
+    "existing_authenticated_studio_tcp": 8789
+  },
+  "limits": {
+    "parameters": 128,
+    "osc_datagram_bytes": 1024,
+    "http_write_bytes": 2048,
+    "updates_per_batch": 8,
+    "queued_batches": 8,
+    "updates_per_audio_block": 8
+  },
+  "resources": {
+    "measured": false,
+    "configured_osc_stack_bytes": 4096,
+    "configured_http_stack_bytes": 12288,
+    "queue_payload_bytes": 864,
+    "compressed_page_flash_bytes": 3251,
+    "note": "Not a measured total heap or CPU cost; network buffers, metadata and temporary HTTP allocations are additional."
+  },
+  "browser": {
+    "style": "Pi-style white, blue #258de8, black labels, grey #929ba5 range text",
+    "sender_interval_ms": 20,
+    "state_poll_interval_ms": 200,
+    "hidden_tab_stops": true,
+    "page_sha256": "54bf327c47a1a6350e91d121757e5a7de6255219cb53f6d51159623db46daba3",
+    "preview": "evidence/osc-web-preview.jpg",
+    "preview_sha256": "e8344abd6b0af5701978c22ebd7bb4e9930a312437a514ad6f5ba221a528420e",
+    "preview_scope": "Actual HTML with simulated values; not an ESP32 connection"
+  },
+  "builds": [
+    {
+      "report": "build/firmware-xiao-player/build-report.json",
+      "report_sha256": "60a905996236c5092687d6ef058bb8f32de44a84f33b3798cdf028c27aa41c77",
+      "board": "xiao",
+      "profile": "esp32s3-44100-256-v1",
+      "source_current": true,
+      "app": "build/firmware-xiao-player/rnbo_s3_xiao.bin",
+      "app_bytes": 977248,
+      "app_sha256": "979c571503fa3236fb1255cf76665327b17617a8040b20fc55dde982a59fc75a",
+      "paired_slot_capacity_bytes": 1310720,
+      "paired_slot_spare_bytes": 333472
+    },
+    {
+      "report": "build/firmware-xiao-player-dual-native16/build-report.json",
+      "report_sha256": "947cbe2c92a59e028ae665553269899fb542a036eda35a7ce832ade203f70444",
+      "board": "xiao",
+      "profile": "voice-pe-16000-256-v1",
+      "source_current": true,
+      "app": "build/firmware-xiao-player-dual-native16/rnbo_s3_xiao.bin",
+      "app_bytes": 977504,
+      "app_sha256": "a4488802596f73edb853a2d62b3d60ad40bde0b717a65bafc68aac8162e3ed96",
+      "paired_slot_capacity_bytes": 1310720,
+      "paired_slot_spare_bytes": 333216
+    },
+    {
+      "report": "build/firmware-amoled-player/build-report.json",
+      "report_sha256": "254a65748b3cbd2621511ba30e40272ce01d09a8a6771212ce58c2be44a2e149",
+      "board": "amoled",
+      "profile": "esp32s3-44100-256-v1",
+      "source_current": true,
+      "app": "build/firmware-amoled-player/rnbo_s3_amoled.bin",
+      "app_bytes": 1307360,
+      "app_sha256": "2d276d3438dc6fb5f94e0474cdc92b5eacc16b2f9b7377156bae07532967d143",
+      "paired_slot_capacity_bytes": 1310720,
+      "paired_slot_spare_bytes": 3360
+    },
+    {
+      "report": "build/firmware-voice-pe-player-16000/build-report.json",
+      "report_sha256": "25152bc77ade59d6b2626334713d45452ce1dba89b9755e2861f9d795ebfc0a5",
+      "board": "voice-pe",
+      "profile": "voice-pe-16000-256-v1",
+      "source_current": true,
+      "app": "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.bin",
+      "app_bytes": 1025072,
+      "app_sha256": "fffbe2bf9d42437183590c454639dc0353e8e13be982fa2cf28fcac7a2167507"
+    },
+    {
+      "report": "build/firmware-voice-pe-player-48000/build-report.json",
+      "report_sha256": "0ca02e5aa103b3c6778b2e9c0fac26d4d41942a7446dff20d1fdb7b6804cd3b5",
+      "board": "voice-pe",
+      "profile": "voice-pe-48000-256-v1",
+      "source_current": true,
+      "app": "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.bin",
+      "app_bytes": 1025072,
+      "app_sha256": "a000329086f7ad24e221e090bd9a280d3853e0dedcc52d42f495db782948aee8"
+    }
+  ],
+  "tests": [
+    {
+      "suite": "compiler",
+      "tests": 552,
+      "result": "pass",
+      "command": "python3 -m unittest discover -s host/compiler",
+      "scope": "Native compiler, package and metadata regressions",
+      "log_sha256": "6434bc1bb0a3421ad613c3c285e20483b63742873326a059a0326c950ef43a43"
+    },
+    {
+      "suite": "studio",
+      "tests": 143,
+      "result": "pass",
+      "command": "python3 -m unittest discover -s host/studio",
+      "scope": "Studio server, firmware catalog and transport regressions",
+      "log_sha256": "53e246f2149cdb4e72fb7d1594e3c44d40e418d0d2c06418a09b1d22ab21e543"
+    },
+    {
+      "suite": "core",
+      "tests": 3,
+      "result": "pass",
+      "command": "python3 tools/test_player_remote.py",
+      "scope": "Actual C parser/metadata and HTTP handlers with simulated FreeRTOS/HTTP/socket APIs; 30000 malformed packet corpus; undefined/bounds sanitizers; embedded asset roundtrip",
+      "log_sha256": "6159b1b6ad9d7988b9986880e31884ea144a794bfa1f4b0ed34bec7e69d6b45c"
+    },
+    {
+      "suite": "web",
+      "tests": 44,
+      "result": "pass",
+      "command": "node --test host/studio/test_web.mjs tests/remote/web_test.mjs",
+      "scope": "Studio UI and real parameter-page JavaScript with simulated DOM/backend",
+      "log_sha256": "2f4eda16db450ad4d30edd8237a7ff7f5a5fdf0a11c0dcc82a3d462aa2c895ca"
+    },
+    {
+      "suite": "network",
+      "tests": 10,
+      "result": "pass",
+      "scope": "Network helper, mailbox and protocol checks",
+      "log_sha256": "024cce9f958a8e49456cdb40f6c36980df09aad933ab1cacc987a588d57a86d5"
+    },
+    {
+      "suite": "player",
+      "tests": 1,
+      "result": "pass",
+      "command": "python3 tests/player/test_player_control.py",
+      "scope": "Audio owner queue and stale-generation delivery integration",
+      "log_sha256": "72f3b7895f1f2f0ea4471f3a12b22756d7988db0e242c584ec9e827bb9061ec2"
+    },
+    {
+      "suite": "native-wrapper",
+      "tests": 1,
+      "result": "pass",
+      "scope": "Genuine native export stepped actual/normalized setters and allocation checks",
+      "log_sha256": "7a572ab9a3ede23ac2c77158aaccab7bb886e416c2bfdb4c1468663f76968dda"
+    }
+  ],
+  "firmware_bundles": [
+    {
+      "board": "xiao",
+      "path": "build/dist/xiao-player-firmware.zip",
+      "bytes": 657129,
+      "sha256": "4a5fda332545a73c7a390c7a171dd5a52281e612c69f8c43aa02d6ca37154580"
+    },
+    {
+      "board": "amoled",
+      "path": "build/dist/amoled-player-firmware.zip",
+      "bytes": 882071,
+      "sha256": "5a8b26055e1d4cb7b28684c6557510f5ee148a7be2755243d6e2063fce813e83"
+    }
+  ],
+  "voice_pe_test_kits": [
+    {
+      "directory": "build/dist/voice-pe-16000-hardware-test-fffbe2bf9d-f14abb",
+      "zip": "build/dist/voice-pe-16000-hardware-test-fffbe2bf9d-f14abb.zip",
+      "zip_sha256": "dea314e8ed6f94d5c265e26688bde89aa35a139c118721b6c426815e09f6a31a",
+      "zip_bytes": 825159,
+      "profile": "voice-pe-16000-256-v1"
+    },
+    {
+      "directory": "build/dist/voice-pe-48000-hardware-test-a000329086-b32c10",
+      "zip": "build/dist/voice-pe-48000-hardware-test-a000329086-b32c10.zip",
+      "zip_sha256": "2aab37370fcf1d268376f66f209e8d7208ea55c7f5a9239f20dc6f48ea3c3840",
+      "zip_bytes": 825168,
+      "profile": "voice-pe-48000-256-v1"
+    }
+  ],
+  "pending": [
+    "Install via the appropriate ordinary/protected/paired workflow, preserving commissioned runtime and patch",
+    "Measure internal heap, PSRAM peaks and stack margins at idle, page load and reconnect",
+    "Measure CPU overhead and parameter latency at supported native rates",
+    "Check paced and burst traffic, replacement, Pause/Resume and link loss on device",
+    "Control two independent nodes by separate destination IPs",
+    "Listen and confirm live hardware controls coexist"
+  ]
+}

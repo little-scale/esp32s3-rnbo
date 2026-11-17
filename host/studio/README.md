@@ -68,3 +68,10 @@ under ignored `build/private/studio`; do not share that directory.
 Voice PE `outport led_rgb` packages use envelope v5 and require
 `led_output_version:1`. Studio rejects an older player before staging them.
 The [LED example and guide](../../docs/voice-pe-leds.md) cover all three formats.
+
+The updated player's `remote_control` capability exposes a separate lightweight
+parameter page at its Wi-Fi IP (HTTP 80), plus Pi-style OSC input on UDP 1234.
+Studio shows **Open board parameter page** and the OSC destination. This works
+alongside Studio's existing authenticated TCP session; the page is not hosted by
+the computer. Controls are trusted-LAN parameter access, not authenticated package
+uploads. See [OSC/web controls and hardware follow-up](../../docs/osc-parameters.md).

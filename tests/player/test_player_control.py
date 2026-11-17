@@ -83,6 +83,7 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
                    '-I',str(ROOT/'firmware/components/player_loader/include'),
                    '-I',str(ROOT/'firmware/components/player_store/include'),
                    '-I',str(ROOT/'firmware/components/player_network/include'),
+                   '-I',str(ROOT/'firmware/components/player_remote/include'),
                    '-I',str(ROOT/'firmware/components/player_inputs/include'),
                    '-I',str(ROOT/'firmware/components/player_midi/include'),
                    '-I',str(ROOT/'firmware/components/board_audio/include'),
@@ -98,6 +99,7 @@ esp_err_t nvs_set_str(nvs_handle_t,const char *,const char *);
                         str(ROOT/'firmware/components/player_inputs/player_inputs_core.c'),
                         str(ROOT/'firmware/components/player_inputs/player_touchscreen.c'),
                         str(ROOT/'firmware/components/player_inputs/player_voice_pe.c'),
+                        str(ROOT/'firmware/components/player_remote/player_remote_core.c'),
                         str(ROOT/'firmware/components/player_midi/midi_core.c'),str(cjson/'cJSON.c'),'-o',str(out/'control'),'-lm']]
             if sys.platform != 'darwin': commands[-1].append('-lcrypto')
             for command in commands:

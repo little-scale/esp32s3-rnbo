@@ -6,6 +6,7 @@
 #include "allocation_watch.h"
 #include "player_loader.h"
 #include "player_store.h"
+#include "player_remote.h"
 #include "player_inputs.h"
 #include "player_midi.h"
 #ifdef CONFIG_RNBO_S3_VOICE_PE
@@ -50,6 +51,7 @@ typedef struct {
     player_input_plan inputs;
     player_screen_plan screen;
     player_voice_plan voice;
+    bool remote_compatible;
 } player_slot;
 typedef struct {
     unsigned kind,index,generation;
@@ -175,7 +177,7 @@ static void invalidate_display_inputs(void)
     atomic_fetch_add(&display_input_epoch,1);
 #endif
 }
-static void request_pause(void){atomic_store(&paused,true);invalidate_display_inputs();player_midi_set_playing(false);}
+static void request_pause(void){atomic_store(&paused,true);player_remote_gate(false,false);invalidate_display_inputs();player_midi_set_playing(false);}
 static bool can_resume(void)
 {
     if(!atomic_load(&active)||atomic_load(&park_failed)||atomic_load(&maintenance))return false;
@@ -234,6 +236,7 @@ static void audio_task(void *unused)
     float left[256],right[256];float *outputs[2]={left,right};
     int16_t pcm[256*BOARD_AUDIO_CHANNELS];pcm_output sink;pcm_output_init(&sink);
     player_stats stats={0},baseline={0};unsigned observed_generation=0;
+    unsigned remote_cursor=0,remote_remaining=0;
     pcm_transition transition;pcm_transition_begin(&transition,RNBO_S3_SAMPLE_RATE,1);
 #ifdef CONFIG_RNBO_S3_VOICE_PE
     player_boot_probe boot_probe={0};
@@ -285,6 +288,7 @@ static void audio_task(void *unused)
         if(atomic_exchange(&peak_reset_requested,false))stats.peak_us=0;
         unsigned now_generation=atomic_load(&generation);
         if(now_generation!=observed_generation) {
+            remote_remaining=remote_cursor=0;
             baseline=stats;baseline.dma_errors=board_audio_dma_errors();
             baseline.queue_errors=atomic_load(&queue_errors);
             baseline.heap=allocation_watch_snapshot(ALLOCATION_WATCH_AUDIO);
@@ -343,6 +347,21 @@ static void audio_task(void *unused)
             if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;break;}
             publish_parameter(s,index);
         }
+        remote_batch batch;
+        for(unsigned packet=0,updates=0;packet<8&&updates<8&&player_remote_receive(&batch,8-updates);++packet){
+            updates+=batch.count;
+            bool stale=!play||stats.fault||batch.generation!=now_generation;
+            unsigned applied=0;
+            if(!stale)for(unsigned i=0;i<batch.count;++i){
+                remote_update *u=&batch.updates[i];
+                rnbo_s3_event event={.struct_bytes=sizeof event,.kind=u->kind,.parameter_index=u->index,.value=u->value};
+                if(s->image.module.event(s->image.context,&event)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;break;}
+                publish_parameter(s,u->index);
+                ++applied;
+            }
+            player_remote_delivered(applied,false);
+            player_remote_delivered(batch.count-applied,true);
+        }
         if((play||silent_boot_probe) && !stats.fault) {
             if(s->image.module.process(s->image.context,NULL,outputs,256,s->image.position)!=RNBO_S3_OK){++stats.module_errors;stats.fault=true;}
             else s->image.position+=256;
@@ -352,6 +371,8 @@ static void audio_task(void *unused)
             stats.late_allocations=(uint32_t)s->image.dynamic_stats.total_late_allocations;
             stats.position=s->image.position;
             if(midi_changed)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
+            if(player_remote_refresh_requested()&&!remote_remaining){remote_cursor=0;remote_remaining=s->image.parameter_count;}
+            for(unsigned i=0;i<8&&remote_remaining;++i,--remote_remaining)publish_parameter(s,remote_cursor++);
 #ifdef CONFIG_RNBO_S3_VOICE_PE
             /* An early explicit Resume may provide the same proof with live
              * callbacks. Consume those too, so a later Pause never primes
@@ -414,6 +435,7 @@ static bool begin_maintenance(char *error,size_t size)
 {
     if(!atomic_load(&audio_ready)||atomic_load(&park_failed)){snprintf(error,size,"Audio owner is not available for maintenance");return false;}
     atomic_store_explicit(&maintenance,true,memory_order_release);
+    player_remote_gate(false,true);
     invalidate_display_inputs();
     player_midi_set_playing(false);
     unsigned request=atomic_fetch_add_explicit(&maintenance_epoch,1,memory_order_acq_rel)+1;
@@ -482,6 +504,10 @@ static player_slot *load_slot(const uint8_t *bytes,size_t length,char *error,siz
         s->parameters[i].struct_bytes=sizeof s->parameters[i];
         if(s->image.module.parameter_info(s->image.context,i,&s->parameters[i])!=RNBO_S3_OK){snprintf(error,size,"Cannot copy parameter schema");goto fail;}
     }
+    const cJSON *remote_plan=cJSON_GetObjectItemCaseSensitive(s->package.metadata_json,"remote_parameters");
+    remote_route remote={.parameters=s->parameters,.count=s->image.parameter_count,.plan=remote_plan};
+    s->remote_compatible=remote_plan_valid(&remote);
+    if(remote_plan&&!s->remote_compatible){snprintf(error,size,"Invalid remote parameter schema");goto fail;}
     if(!player_voice_plan_parse(s->package.metadata_json,
 #ifdef CONFIG_RNBO_S3_VOICE_PE
         true,
@@ -536,6 +562,7 @@ fail:
 }
 static void activate(player_slot *s,bool autostart)
 {
+    player_remote_bind(NULL,NULL);
     guard_start_position=s?s->image.position:0;
 
 #if !defined(CONFIG_RNBO_S3_HEADLESS) && !defined(CONFIG_RNBO_S3_VOICE_PE)
@@ -552,6 +579,9 @@ static void activate(player_slot *s,bool autostart)
     if(s)for(unsigned i=0;i<s->image.parameter_count;++i)publish_parameter(s,i);
     atomic_store(&parameter_count,s?s->image.parameter_count:0);
     guard_generation=atomic_fetch_add(&generation,1)+1;
+    remote_route remote={.parameters=s?s->parameters:NULL,.count=s&&s->remote_compatible?s->image.parameter_count:0,
+        .generation=guard_generation,.plan=s?cJSON_GetObjectItemCaseSensitive(s->package.metadata_json,"remote_parameters"):NULL};
+    player_remote_bind(&remote,s?s->package.name:NULL);
     memset(&midi_notes,0,sizeof midi_notes);midi_recovery=0;
     player_midi_set_route(guard_generation,s&&(s->image.module.flags&RNBO_S3_SHORT_MIDI_INPUT));
     if(s&&autostart){atomic_store(&volume,s->package.initial_volume);atomic_store(&paused,false);}
@@ -592,6 +622,7 @@ static void player_info(void)
     for(unsigned i=0;i<32;++i){firmware[2*i]=hex[app->app_elf_sha256[i]>>4];firmware[2*i+1]=hex[app->app_elf_sha256[i]&15];}firmware[64]=0;
     cJSON *o=cJSON_CreateObject();if(!o){error_reply("Cannot allocate player status",true);return;}
     cJSON_AddStringToObject(o,"runtime","rnbo-esp32s3-player");add_number(o,"api_version",1);cJSON_AddStringToObject(o,"board",BOARD_MODEL);
+    player_remote_add_status(o);
     add_number(o,"physical_inputs_version",
 #ifdef CONFIG_RNBO_S3_HEADLESS
         1
@@ -809,6 +840,7 @@ static void control_task(void *unused)
     for(;;) {
         /* This owner also installs packages. Input drivers cannot run during
          * flash maintenance/rebinding, and the audio owner only sees mailboxes. */
+        player_remote_gate(!atomic_load(&paused)&&can_resume(),atomic_load(&maintenance));
 #ifdef CONFIG_RNBO_S3_VOICE_PE
         board_audio_maintenance();
         static unsigned voice_generation;
@@ -902,6 +934,7 @@ void app_main(void)
 {
     setvbuf(stdin,NULL,_IONBF,0);setvbuf(stdout,NULL,_IONBF,0);
     ESP_LOGI(TAG,"Stable Main player v1; %u/256, trusted zero-import native packages",RNBO_S3_SAMPLE_RATE);
+    player_remote_set_reader(read_parameter);
 #ifdef CONFIG_RNBO_S3_VOICE_PE
     esp_err_t early=board_audio_early_init();
     if(early!=ESP_OK){ESP_LOGE(TAG,"Safe GPIO initialization failed");return;}
