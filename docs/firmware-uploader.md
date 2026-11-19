@@ -126,6 +126,13 @@ Physical XIAO first install and DAC/listening confirmation remain pending. See t
 
 ### Installing the OSC/browser-capable player
 
+If installation reports **USB port in use**, disconnect the board in SynthDef
+Studio, Max or any serial monitor before retrying. Only one application can own
+its USB serial port. RNBO Studio releases its own USB session before flashing;
+it does not close other applications' connections automatically. A failure at
+the initial `flash_id` step happens before erase/write; the private receipt
+records whether any later write was attempted.
+
 The current XIAO/AMOLED selector uses the normal `build/firmware-<board>-player`
 builds, including OSC input and the lightweight board parameter page when rebuilt
 from current sources. Generated ZIPs still require explicit USB installation.

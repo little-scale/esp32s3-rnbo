@@ -124,6 +124,23 @@ def idf_python():
     return candidates[-1]
 
 
+def usb_tool_error(raw, logfile):
+    """Explain common tool failures without discarding the private full log."""
+    text = raw.decode('utf-8', 'replace').lower()
+    if any(marker in text for marker in ('could not exclusively lock port',
+                                         'resource temporarily unavailable', 'resource busy')):
+        reason = ('The USB port is in use by another application. Disconnect its USB session '
+                  'in SynthDef Studio, Max or the serial monitor before installing firmware.')
+    elif 'could not open' in text and 'no such file or directory' in text:
+        reason = ('The selected USB port is no longer available. Refresh the USB list '
+                  'and select the board again.')
+    elif 'could not open' in text and 'permission denied' in text:
+        reason = 'Access to the USB port was denied. Check the port permissions and other USB applications.'
+    else:
+        reason = 'The USB operation failed.'
+    return reason + ' Private upload log: ' + str(logfile)
+
+
 class DeviceBridge:
     CONNECTION_LABEL = 'USB device'
 
@@ -890,7 +907,7 @@ class DeviceBridge:
                 if len(raw) > MAX_TOOL_LOG:
                     raise DeviceError('The upload tool exceeded its output limit')
                 if completed.returncode:
-                    raise DeviceError('The USB operation failed; inspect the private upload log: ' + str(logfile))
+                    raise DeviceError(usb_tool_error(raw, logfile))
                 parse_identity(raw.decode('utf-8', 'replace'), flash_size=flash_size)
                 # A returned watchdog-reset command can precede USB disappearance.
                 # No command is sent in this settling interval; resolve again next.

@@ -228,6 +228,21 @@ class FactoryBridgeTests(unittest.TestCase):
                 import shutil
                 shutil.rmtree(self.directory)
 
+    def test_locked_usb_port_explains_the_conflict_without_erasing_or_writing(self):
+        self.setup_board()
+        calls=[]
+        def locked(command,**kwargs):
+            calls.append(command)
+            return subprocess.CompletedProcess(command,2,stdout=b'Could not open /dev/test-esp: Could not exclusively lock port: [Errno 35] Resource temporarily unavailable')
+        self.fixture.bridge._runner=locked
+        with self.assertRaisesRegex(RuntimeError,'in use by another application.*SynthDef Studio'):
+            self.flash()
+        receipt=self.fixture.receipt()
+        self.assertEqual(len(calls),1)
+        self.assertEqual([c['operation'] for c in receipt['commands']],['flash_id'])
+        self.assertFalse(receipt['erase_attempted'] or receipt['write_attempted'])
+        self.assertFalse(self.fixture.bridge._flashing.is_set())
+
     def test_failed_erase_and_bad_readback_are_not_retried(self):
         for failure in ('erase','readback'):
             with self.subTest(failure=failure):
