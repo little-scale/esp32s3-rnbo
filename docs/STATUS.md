@@ -1,10 +1,20 @@
 # Implementation status — native export migration
 
+**20 November 2026 — XIAO web-server fixes:** Saved patch/drawing JSON now uses
+PSRAM from initial startup, preserving internal RAM for Wi-Fi and the HTTP task.
+The memory fix starts both services on the connected native-16k XIAO with its
+saved patch and 3% volume retained. A subsequent browser test exposed an IPv4 vs
+IPv4-mapped IPv6 Host-check bug; that check is corrected with regression coverage.
+The user confirms live-page display and parameter control. USB readback records
+90 web updates accepted/delivered, no drops/rejections, about 100 KB free internal
+RAM, and zero lifetime audio errors/overruns/allocations. Other boards/rates and
+sustained traffic remain unqualified. See the [fix record](../evidence/xiao-web-server-fix.json).
+
 **20 November 2026 — OSC reception confirmed on XIAO:** The user confirms that
 the OSC receiver works as expected. The preceding device readback showed
 16 kHz / 256 frames and an active UDP 1234 listener. This is manual functional
-confirmation, not a traffic/performance qualification. The parameter HTTP server
-reported `ESP_ERR_HTTPD_TASK` and still needs a startup fix and hardware test.
+confirmation, not a traffic/performance qualification. The initial parameter
+HTTP startup failure and subsequent Host rejection are covered by the web-server fixes above; broader traffic tests remain pending.
 See the [OSC guide](osc-parameters.md).
 
 **20 November 2026 — explicit XIAO 16 kHz selection:** Max accepts

@@ -12,6 +12,11 @@ typedef void *TaskHandle_t;
 #define pdTRUE 1
 #define pdPASS 1
 #define pdMS_TO_TICKS(x) (x)
+#define MALLOC_CAP_INTERNAL 1
+#define MALLOC_CAP_8BIT 2
+size_t heap_caps_get_free_size(unsigned);
+size_t heap_caps_get_largest_free_block(unsigned);
+unsigned uxTaskGetStackHighWaterMark(TaskHandle_t);
 SemaphoreHandle_t xSemaphoreCreateMutex(void);
 int xSemaphoreTake(SemaphoreHandle_t,unsigned);
 int xSemaphoreGive(SemaphoreHandle_t);

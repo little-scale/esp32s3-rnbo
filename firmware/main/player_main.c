@@ -915,6 +915,12 @@ static void control_task(void *unused)
         if(used+1<LINE_BYTES)line[used++]=(char)c;else overflow=true;
     }
 }
+/* Package drawings/metadata and network JSON are control data, not DMA or
+ * real-time state. Small default mallocs otherwise consume internal RAM before
+ * Wi-Fi starts on a saved-patch boot. Install once, before parsing or tasks;
+ * never change cJSON's process-global hooks while another owner can use them. */
+static void *player_json_allocate(size_t bytes)
+{return heap_caps_malloc(bytes,MALLOC_CAP_SPIRAM|MALLOC_CAP_8BIT);}
 static void restore_boot(void)
 {
     for(unsigned previous=0;previous<2;++previous) {
@@ -932,6 +938,8 @@ static void restore_boot(void)
 }
 void app_main(void)
 {
+    cJSON_Hooks json_hooks={.malloc_fn=player_json_allocate,.free_fn=heap_caps_free};
+    cJSON_InitHooks(&json_hooks);
     setvbuf(stdin,NULL,_IONBF,0);setvbuf(stdout,NULL,_IONBF,0);
     ESP_LOGI(TAG,"Stable Main player v1; %u/256, trusted zero-import native packages",RNBO_S3_SAMPLE_RATE);
     player_remote_set_reader(read_parameter);

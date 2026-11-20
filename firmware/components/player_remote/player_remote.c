@@ -30,6 +30,9 @@ static char patch[64],identity[13],token[33];
 static atomic_bool online,playing,installing,refresh;
 static atomic_uint received,rejected,dropped,accepted,delivered,discarded;
 static atomic_int last_error;
+static atomic_int web_last_error;
+static atomic_uint web_start_attempts,web_start_internal_free,web_start_internal_largest;
+static atomic_uint web_stack_high_water;
 static atomic_uint input_epoch;
 static void lock(void){xSemaphoreTake(mutex,portMAX_DELAY);}
 static void unlock(void){xSemaphoreGive(mutex);}
@@ -100,14 +103,30 @@ static esp_err_t error(httpd_req_t *req,const char *status,const char *message)
 {httpd_resp_set_status(req,status);httpd_resp_set_type(req,"application/json");return httpd_resp_send(req,message,HTTPD_RESP_USE_STRLEN);}
 static bool same_host(httpd_req_t *req)
 {
-    char host[64],expected[48];struct sockaddr_in local={0};socklen_t n=sizeof local;
+    char host[64],expected[48];struct sockaddr_storage local={0};socklen_t n=sizeof local;
     if(httpd_req_get_hdr_value_str(req,"Host",host,sizeof host)!=ESP_OK||getsockname(httpd_req_to_sockfd(req),(struct sockaddr *)&local,&n))return false;
-    char ip[INET_ADDRSTRLEN];if(!inet_ntop(AF_INET,&local.sin_addr,ip,sizeof ip))return false;
+    /* IDF's dual-stack listener returns IPv4 clients as IPv4-mapped IPv6.
+     * Reading that sockaddr as sockaddr_in mistakes flowinfo for the IP. */
+    struct in_addr address;
+    if(local.ss_family==AF_INET&&n>=sizeof(struct sockaddr_in))
+        memcpy(&address,&((struct sockaddr_in *)&local)->sin_addr,sizeof address);
+#if LWIP_IPV6
+    else if(local.ss_family==AF_INET6&&n>=sizeof(struct sockaddr_in6)){
+        const uint8_t *bytes=((struct sockaddr_in6 *)&local)->sin6_addr.s6_addr;
+        static const uint8_t mapped[12]={0,0,0,0,0,0,0,0,0,0,255,255};
+        if(memcmp(bytes,mapped,sizeof mapped))return false;
+        memcpy(&address,bytes+12,sizeof address);
+    }
+#endif
+    else return false;
+    if(address.s_addr==htonl(INADDR_ANY))return false;
+    char ip[INET_ADDRSTRLEN];if(!inet_ntop(AF_INET,&address,ip,sizeof ip))return false;
     snprintf(expected,sizeof expected,"%s:%u",ip,WEB_PORT);
     return !strcmp(host,ip)||!strcmp(host,expected);
 }
 static bool http_ready(httpd_req_t *req)
 {
+    atomic_store(&web_stack_high_water,uxTaskGetStackHighWaterMark(NULL));
     httpd_resp_set_hdr(req,"Cache-Control","no-store");
     httpd_resp_set_hdr(req,"X-Content-Type-Options","nosniff");
     return same_host(req)&&atomic_load(&online);
@@ -226,7 +245,11 @@ esp_err_t player_remote_start(const char *id)
         httpd_config_t cfg=HTTPD_DEFAULT_CONFIG();cfg.stack_size=12288;cfg.task_priority=2;cfg.core_id=0;
         cfg.max_open_sockets=2;cfg.max_uri_handlers=4;cfg.max_resp_headers=6;cfg.backlog_conn=2;
         cfg.recv_wait_timeout=1;cfg.send_wait_timeout=1;cfg.lru_purge_enable=true;
-        esp_err_t result=httpd_start(&server,&cfg);if(result!=ESP_OK){atomic_store(&last_error,result);return result;}
+        atomic_fetch_add(&web_start_attempts,1);
+        atomic_store(&web_start_internal_free,heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
+        atomic_store(&web_start_internal_largest,heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
+        esp_err_t result=httpd_start(&server,&cfg);atomic_store(&web_last_error,result);
+        if(result!=ESP_OK){atomic_store(&last_error,result);return result;}
         const httpd_uri_t handlers[]={
             {.uri="/",.method=HTTP_GET,.handler=page}, {.uri="/api/schema",.method=HTTP_GET,.handler=schema},
             {.uri="/api/values",.method=HTTP_GET,.handler=values}, {.uri="/api/parameter",.method=HTTP_POST,.handler=update}};
@@ -244,4 +267,9 @@ void player_remote_add_status(cJSON *parent)
     cJSON_AddNumberToObject(o,"delivered",atomic_load(&delivered));cJSON_AddNumberToObject(o,"discarded",atomic_load(&discarded));
     cJSON_AddNumberToObject(o,"rejected",atomic_load(&rejected));cJSON_AddNumberToObject(o,"dropped",atomic_load(&dropped));
     cJSON_AddNumberToObject(o,"last_error",atomic_load(&last_error));
+    cJSON_AddNumberToObject(o,"web_last_error",atomic_load(&web_last_error));
+    cJSON_AddNumberToObject(o,"web_start_attempts",atomic_load(&web_start_attempts));
+    cJSON_AddNumberToObject(o,"web_start_internal_free_bytes",atomic_load(&web_start_internal_free));
+    cJSON_AddNumberToObject(o,"web_start_internal_largest_block_bytes",atomic_load(&web_start_internal_largest));
+    cJSON_AddNumberToObject(o,"web_stack_high_water_bytes",atomic_load(&web_stack_high_water));
 }

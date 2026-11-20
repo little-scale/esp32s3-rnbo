@@ -1,0 +1,226 @@
+{
+  "format": "rnbo-xiao-web-server-fix-v1",
+  "date": "2026-11-20",
+  "base_commit": "417a9f0",
+  "board": "xiao",
+  "sample_rate": 16000,
+  "block_frames": 256,
+  "firmware_elf_sha256": "c84752a933e82a8ef0286baf7842df340af68832297e3bcf464a4fae2c3b1268",
+  "fixes": [
+    "Initialize process-global cJSON PSRAM allocation hooks once before startup parsing/tasks; no internal-RAM fallback for control JSON",
+    "Validate IPv4 and IPv4-mapped IPv6 local socket addresses against the exact IPv4 Host, optionally port 80; reject native IPv6, other hosts/ports, truncated addresses and socket failures"
+  ],
+  "hardware": {
+    "application_only_update_verified": true,
+    "first_install": false,
+    "saved_package_sha256": "8be8e98b9d36fb1c6e4abed3cb0bb2f3d7f53aa9119d41de4554f7fb04438cd7",
+    "saved_package_retained": true,
+    "master_volume_percent": 3,
+    "remote_control": {
+      "version": 1,
+      "online": true,
+      "osc_started": true,
+      "web_started": true,
+      "osc_port": 1234,
+      "web_port": 80,
+      "packets": 0,
+      "accepted": 90,
+      "delivered": 90,
+      "discarded": 0,
+      "rejected": 0,
+      "dropped": 0,
+      "last_error": 0,
+      "web_last_error": 0,
+      "web_start_attempts": 1,
+      "web_start_internal_free_bytes": 120151,
+      "web_start_internal_largest_block_bytes": 63488,
+      "web_stack_high_water_bytes": 3744
+    },
+    "internal_free_bytes": 100095,
+    "internal_largest_block_bytes": 63488,
+    "psram_free_bytes": 6777032,
+    "uptime_us": 106129061,
+    "lifetime": {
+      "render_deadline_overruns": 0,
+      "nonfinite": 0,
+      "clipped": 0,
+      "write_errors": 0,
+      "dma_errors": 0,
+      "module_errors": 0,
+      "queue_errors": 0,
+      "audio_heap_allocations": 0,
+      "audio_heap_frees": 0
+    },
+    "browser_confirmation": {
+      "source": "User confirmation in chat after corrected player installation",
+      "page_display": true,
+      "parameter_write": true,
+      "parameter": "test",
+      "automated_browser_on_live_board": false
+    }
+  },
+  "diagnosis": {
+    "saved_metadata_bytes": 19615,
+    "saved_metadata_json_nodes": 2521,
+    "visual_json_nodes": 2516,
+    "old_memory_failure": "ESP_ERR_HTTPD_TASK; diagnostic reboot additionally reproduced ESP_ERR_NO_MEM in ets_timer_setfn during radio startup",
+    "old_early_internal_free_bytes": 56371,
+    "comparison_limit": "Early old reading precedes radio initialization; final/new readings are different lifecycle phases, not a controlled RAM-savings benchmark",
+    "host_failure": "User screenshot showed correct IPv4 URL rejected; IDF dual-stack server uses AF_INET6, reproduced by actual-handler tests with IPv4-mapped IPv6 sockaddr"
+  },
+  "tests": [
+    {
+      "suite": "actual C remote parser/handlers/lifecycle",
+      "count": 3,
+      "result": "pass",
+      "log_sha256": "dff2e1ea0721ec5177efda164b6107e94215252f81560aa8d1a17aa5ba6fd4ea"
+    },
+    {
+      "suite": "actual C package/store",
+      "count": 7,
+      "result": "pass",
+      "log_sha256": "26923fca2e22f224ddcc3f0501fd813887cd96205a17f722daec9d2ad72c616b"
+    },
+    {
+      "suite": "Studio Python",
+      "count": 167,
+      "result": "pass",
+      "log_sha256": "64ef8cd4089a77dbfc85a274c98db6d9bc81062e2d12c69785aa67acd420048f"
+    },
+    {
+      "suite": "Studio and parameter-page JavaScript",
+      "count": 50,
+      "result": "pass",
+      "log_sha256": "ad8ec982a962e78d2dc3fdd432900f50e5bcad64e0f44c9afdf460aa10c75a3b"
+    }
+  ],
+  "builds": [
+    {
+      "report": "build/firmware-xiao-player-dual-native16/build-report.json",
+      "report_sha256": "45c01aec20f2ee837b788a2443049ad0b4d8dcab4ba7fd16f1f133ea654709b8",
+      "board": "xiao",
+      "sample_rate": 16000,
+      "block_frames": 256,
+      "artifacts": {
+        "build/firmware-xiao-player-dual-native16/rnbo_s3_xiao.elf": {
+          "bytes": 11405256,
+          "sha256": "c84752a933e82a8ef0286baf7842df340af68832297e3bcf464a4fae2c3b1268"
+        },
+        "build/firmware-xiao-player-dual-native16/rnbo_s3_xiao.bin": {
+          "bytes": 977984,
+          "sha256": "c43efb78085cab27e9977d04291a1a8a2c15070875ed7b7e6252dbc219006611"
+        },
+        "build/firmware-xiao-player-dual-native16/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+        }
+      },
+      "sources_current": true,
+      "hardware_tested": true
+    },
+    {
+      "report": "build/firmware-xiao-player/build-report.json",
+      "report_sha256": "7f6dd0c7b0d963ef87ccf936df7714b2ff615e64a0194f5dbd3a7da78e100ab7",
+      "board": "xiao",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "artifacts": {
+        "build/firmware-xiao-player/rnbo_s3_xiao.elf": {
+          "bytes": 11404120,
+          "sha256": "079ae80015ed5e8b8fac696d72e61bdee994e034746f2fe3a865144c454a7f98"
+        },
+        "build/firmware-xiao-player/rnbo_s3_xiao.bin": {
+          "bytes": 977712,
+          "sha256": "c6219398956ba5349677e8e2f869a9888be74ec611e342189940fff641fd2571"
+        },
+        "build/firmware-xiao-player/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "77534a67bc8a38ec085b2bdfd1a3c6ba1c1569a74c70ac0e34b43e9896dcbb08"
+        }
+      },
+      "sources_current": true,
+      "hardware_tested": false
+    },
+    {
+      "report": "build/firmware-amoled-player/build-report.json",
+      "report_sha256": "45a82c71dde82df82d658a448ed3f4846b6402ac76c79ee38693ad825113e56d",
+      "board": "amoled",
+      "sample_rate": 44100,
+      "block_frames": 256,
+      "artifacts": {
+        "build/firmware-amoled-player/rnbo_s3_amoled.elf": {
+          "bytes": 15743452,
+          "sha256": "f5787686a83b85824fc0acc65aeaf023f67faa223d63473689b868bd9ff4b76f"
+        },
+        "build/firmware-amoled-player/rnbo_s3_amoled.bin": {
+          "bytes": 1307792,
+          "sha256": "86c16fe5936e8a7d388dec80d0a73414a09f2f9c8814766a6dad38d3565c07d4"
+        },
+        "build/firmware-amoled-player/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "3d6618f869e029b89931eedaa807f28e696aeb86aacb08ae8a418ca6c846fa7f"
+        }
+      },
+      "sources_current": true,
+      "hardware_tested": false
+    },
+    {
+      "report": "build/firmware-voice-pe-player-16000/build-report.json",
+      "report_sha256": "0fd2ab58919d44853f8b2730dc0e11b38ae7bf45a0fbcef0ba85634fae6240a0",
+      "board": "voice-pe",
+      "sample_rate": 16000,
+      "block_frames": 256,
+      "artifacts": {
+        "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.elf": {
+          "bytes": 12004200,
+          "sha256": "1995f9978ff0e64807a391d8e4aa431f7d69e99c3a2cb3843ccf76721fcd73f7"
+        },
+        "build/firmware-voice-pe-player-16000/rnbo_s3_voice-pe.bin": {
+          "bytes": 1025488,
+          "sha256": "78cb7a51c5ac14d1685f9db269af599e1de21474973c1477cb5529373a5730c7"
+        },
+        "build/firmware-voice-pe-player-16000/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "0d5d89ae855e72583296b72205054e80e81b694216c1e04b3a31cf6fdfdba782"
+        }
+      },
+      "sources_current": true,
+      "hardware_tested": false
+    },
+    {
+      "report": "build/firmware-voice-pe-player-48000/build-report.json",
+      "report_sha256": "3fcfce74792d9c45ab62a94277d042dda1b730e0ad2ecfd7790060871a1fb5d2",
+      "board": "voice-pe",
+      "sample_rate": 48000,
+      "block_frames": 256,
+      "artifacts": {
+        "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.elf": {
+          "bytes": 12004200,
+          "sha256": "7761a0a6b0b2a584591de9f1b36c704005ddc3b9428448388b84878e1a6832db"
+        },
+        "build/firmware-voice-pe-player-48000/rnbo_s3_voice-pe.bin": {
+          "bytes": 1025488,
+          "sha256": "0c090c6ec2d6c1d6bbe5d6f4499f6c20fdf61a596114c8b47b53882807b220f8"
+        },
+        "build/firmware-voice-pe-player-48000/partition_table/partition-table.bin": {
+          "bytes": 3072,
+          "sha256": "0d5d89ae855e72583296b72205054e80e81b694216c1e04b3a31cf6fdfdba782"
+        }
+      },
+      "sources_current": true,
+      "hardware_tested": false
+    }
+  ],
+  "private_evidence": {
+    "directory": "build/private/web-server-debug",
+    "diagnostic_uart_sha256": "857943e43866daf5c381e951e11f7de304c76fd8416e82a51c4665923e4af948",
+    "final_status_sha256": "f2281a68cd8b569ef77e1fa4c4a339f8a1b2761e495ab68dcb00dc3be9a7d9a0",
+    "update_receipt_sha256": "73cf39dfc616acb8ef13309def71e2adf385ab1f12e1336c8f72ed5d1144e5a8"
+  },
+  "limits": [
+    "No hardware qualification of other player boards/rates in this change",
+    "No controlled CPU-cost, peak-heap, maximum-parameter or sustained/burst-traffic qualification",
+    "No two-node test or cold battery power-cycle test",
+    "Live browser functional check is user-confirmed; USB counters independently show delivery"
+  ]
+}

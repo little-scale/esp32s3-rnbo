@@ -1,15 +1,28 @@
 # OSC and the lightweight board parameter page
 
 Implemented and computer-tested on the shared RNBO player on 17 November 2026.
-On **20 November 2026**, the user confirmed that OSC reception works as expected
-on the connected XIAO. The preceding device readback showed native **16 kHz /
-256 frames**, Wi-Fi connected and the OSC listener started on UDP 1234. This is
-a manual functional confirmation; parameter/type coverage and traffic rate were
-not recorded. **Hardware CPU/RAM, timing and multi-node qualification remain
-pending.** The same readback reported that the parameter web server had failed
-to start (`ESP_ERR_HTTPD_TASK`, 0xb008); the webpage is not hardware-qualified.
-The [original computer readiness record](../evidence/osc-web-readiness.json)
-describes the earlier software-only checks.
+On **20 November 2026**, the user confirmed OSC reception on the connected XIAO
+at **16 kHz / 256 frames**. Two web-server defects were then diagnosed:
+
+- Saved patch JSON (including the drawing) could exhaust internal RAM before
+  Wi-Fi and HTTP task startup. The player now initializes cJSON's PSRAM allocator
+  once, before parsing or starting tasks. JSON cannot spill into internal RAM;
+  task stacks, audio and DMA retain their existing placement.
+- ESP-IDF's dual-stack HTTP listener can report IPv4 clients as IPv4-mapped IPv6.
+  The Host check now decodes both socket forms before comparing the exact board
+  IPv4 address, optionally with port 80. Other hosts/ports and native IPv6 remain
+  rejected. Host validation and the page control token are still required.
+
+USB status confirms successful web/OSC startup with the saved patch and 3%
+master volume retained. The user confirms that the corrected page displays its
+sliders/number inputs and changes the `test` parameter. A subsequent USB readback
+shows **90 accepted and delivered web updates**, no rejected/dropped events,
+about **100 KB internal RAM free**, and **3,744 bytes HTTP stack high-water
+margin**, with zero lifetime audio error/overrun/allocation counters. This is a
+short functional check on one native-16k XIAO, not a complete CPU/RAM stress test.
+Other hardware/rates, timing, sustained traffic and multi-node qualification
+remain pending. See the [hardware fix record](../evidence/xiao-web-server-fix.json)
+and the [original computer readiness record](../evidence/osc-web-readiness.json).
 
 ## Connect
 
@@ -185,7 +198,11 @@ repartitioning or erosion of the paired installer's admission is performed here.
 
 `player-info.remote_control` reports version, online/start flags, ports, packet,
 accepted/delivered/discarded/rejected/dropped counters and the last socket/start
-error. The page uses `/api/schema`, `/api/values` and `/api/parameter`; its schema
+error. Web diagnostics additionally report `web_last_error`, startup attempts,
+internal free/largest-block bytes sampled immediately before HTTP startup, and
+HTTP task stack high-water bytes sampled on request entry (zero means no request
+has sampled it yet). These are diagnostics, not total service-memory measurements.
+The page uses `/api/schema`, `/api/values` and `/api/parameter`; its schema
 exposes IDs without expanding ordinary Studio status responses with all ID strings.
 
 ## Scope and remaining hardware checks
@@ -201,8 +218,9 @@ old-generation events are discarded.
 
 Computer checks exercise the actual C decoder/route validation and HTTP handlers,
 queue/epoch admission, malformed packet corpus, genuine native RNBO stepped
-parameter setters, page logic and Studio integration. Visual browser checking uses
-simulated parameter data, not a live ESP32. Hardware qualification must measure
+parameter setters, page logic and Studio integration. Automated visual checking
+uses simulated parameter data; the live XIAO result above is a separate
+user-confirmed hardware check. Hardware qualification must measure
 idle/enabled overhead, page-load RAM peaks, internal heap/stack margins, paced and
 burst traffic, all supported rates, replacement/reconnect under traffic and two
 independent nodes. Retain and restore the user's current paired runtime/program.
