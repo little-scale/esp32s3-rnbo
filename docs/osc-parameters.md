@@ -1,8 +1,15 @@
 # OSC and the lightweight board parameter page
 
-17 November 2026. Implemented and computer-tested on the shared RNBO player.
-**Hardware CPU/RAM, timing and multi-node qualification are pending.** This change
-has not been installed on a board. See the [readiness record](../evidence/osc-web-readiness.json).
+Implemented and computer-tested on the shared RNBO player on 17 November 2026.
+On **20 November 2026**, the user confirmed that OSC reception works as expected
+on the connected XIAO. The preceding device readback showed native **16 kHz /
+256 frames**, Wi-Fi connected and the OSC listener started on UDP 1234. This is
+a manual functional confirmation; parameter/type coverage and traffic rate were
+not recorded. **Hardware CPU/RAM, timing and multi-node qualification remain
+pending.** The same readback reported that the parameter web server had failed
+to start (`ESP_ERR_HTTPD_TASK`, 0xb008); the webpage is not hardware-qualified.
+The [original computer readiness record](../evidence/osc-web-readiness.json)
+describes the earlier software-only checks.
 
 ## Connect
 

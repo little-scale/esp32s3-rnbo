@@ -1,5 +1,12 @@
 # Implementation status — native export migration
 
+**20 November 2026 — OSC reception confirmed on XIAO:** The user confirms that
+the OSC receiver works as expected. The preceding device readback showed
+16 kHz / 256 frames and an active UDP 1234 listener. This is manual functional
+confirmation, not a traffic/performance qualification. The parameter HTTP server
+reported `ESP_ERR_HTTPD_TASK` and still needs a startup fix and hardware test.
+See the [OSC guide](osc-parameters.md).
+
 **20 November 2026 — explicit XIAO 16 kHz selection:** Max accepts
 `profile xiao-16000-256-v1`, and Studio offers **XIAO ESP32-S3 · 16 kHz / 256**.
 The Max export uses the genuine fixed 16000 Hz rate, submits XIAO explicitly and
