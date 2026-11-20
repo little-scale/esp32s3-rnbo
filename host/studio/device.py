@@ -979,6 +979,8 @@ class DeviceBridge:
                 receipt['startup_log_sha256'] = hashlib.sha256(boot).hexdigest()
                 receipt['startup_events'] = boot_events
                 device = result['device']
+                if is_player and checked['report'].get('sample_rate') is not None and device.get('rate')!=checked['report']['sample_rate']:
+                    raise DeviceError('The running player sample rate differs from the selected firmware')
                 first_frames = device.get('frames')
                 if type(first_frames) is not int or first_frames < 0:
                     raise DeviceError('The uploaded patch did not report a valid audio position')

@@ -21,6 +21,7 @@ REQUIRED = {'firmware.json', 'application.bin', 'partition-table.bin'}
 HASH = re.compile(r'[0-9a-f]{64}')
 ROOT = Path(__file__).resolve().parents[2]
 CURRENT_BUILDS = {board: ROOT / 'build' / ('firmware-' + board + '-player') for board in FLASH_BYTES}
+CURRENT_BUILDS['xiao-16000'] = ROOT / 'build/firmware-xiao-player-dual-native16'
 BOARD_NAMES = {'xiao': 'XIAO ESP32-S3', 'amoled': 'Waveshare AMOLED 1.8 V2'}
 
 
@@ -47,11 +48,14 @@ def metadata(raw):
         raise ValueError('Invalid firmware metadata') from error
     keys = {'format', 'player', 'board', 'sample_rate', 'block_frames', 'player_api_version',
             'usb_midi_host', 'firmware_elf_sha256', 'files'}
-    if (type(value) is not dict or set(value) != keys or value['format'] != FORMAT
+    if (type(value) is not dict or not keys <= set(value) <= keys | {'audio_profile'} or value['format'] != FORMAT
             or value['player'] is not True or type(value['board']) is not str or value['board'] not in FLASH_BYTES
             or type(value['usb_midi_host']) is not bool
             or any(type(value[k]) is not int or value[k] != n for k, n in
-                   [('sample_rate', 44100), ('block_frames', 256), ('player_api_version', 1)])
+                   [('block_frames', 256), ('player_api_version', 1)])
+            or type(value.get('sample_rate')) is not int or value['sample_rate'] not in (16000,44100)
+            or value['sample_rate']==16000 and (value['board']!='xiao' or value.get('audio_profile')!='voice-pe-16000-256-v1')
+            or 'audio_profile' in value and value['audio_profile'] != ('voice-pe-16000-256-v1' if value['sample_rate']==16000 else 'esp32s3-44100-256-v1')
             or not isinstance(value['firmware_elf_sha256'], str)
             or not HASH.fullmatch(value['firmware_elf_sha256'])
             or type(value['files']) is not dict
@@ -130,6 +134,15 @@ def check(files):
             raise ValueError('Firmware file hash or size differs: ' + name)
     if image_info(files['application.bin'], value['board'])['firmware_elf_sha256'] != value['firmware_elf_sha256']:
         raise ValueError('Firmware identity differs from its application descriptor')
+    # Historical images without a marker were 44.1k only. Native16 must prove
+    # its actual rate in the checked image, not merely in editable ZIP metadata.
+    app=files['application.bin']
+    markers=set(re.findall(rb'S3_NATIVE_RATE=([0-9]+)u?\x00',app))
+    if len(markers)>1 or b'S3_NATIVE_RATE=' in app and not markers:
+        raise ValueError('Invalid or conflicting firmware sample-rate marker')
+    rate=int(next(iter(markers))) if markers else 44100
+    if rate!=value['sample_rate']:
+        raise ValueError('Firmware sample rate differs from its application marker')
     partition_info(files['partition-table.bin'], value['board'])
     if 'bootloader.bin' in files:
         image_info(files['bootloader.bin'], value['board'], application=False)
@@ -169,8 +182,10 @@ def create(build, board):
     report = checked['report']
     if report.get('player') is not True or report.get('player_api_version') != 1:
         raise ValueError('Build a supported RNBO player before bundling firmware')
-    if report.get('sample_rate') != 44100:
-        raise ValueError('The generic firmware ZIP is 44.1 kHz only; use the guarded dual-boot updater for native-16k XIAO')
+    rate=report.get('sample_rate')
+    if (type(rate) is not int or rate not in ((16000,44100) if board=='xiao' else (44100,))
+            or rate==16000 and report.get('profile')!='voice-pe-16000-256-v1'):
+        raise ValueError('Build a matching, explicitly identified board/sample-rate profile')
     if report.get('integration_files_sha256') != source_inventory():
         raise ValueError('Player build is older than the current sources; rebuild the player before making its firmware ZIP')
     if 'player_network' not in report.get('components', []):
@@ -183,9 +198,10 @@ def create(build, board):
     if bootloader.is_symlink() or not bootloader.is_file() or not 0 < bootloader.stat().st_size <= 0x8000:
         raise ValueError('Missing or invalid player bootloader')
     files['bootloader.bin'] = bootloader.read_bytes()
-    value = dict(format=FORMAT, player=True, board=board, sample_rate=44100, block_frames=256,
+    value = dict(format=FORMAT, player=True, board=board, sample_rate=rate, block_frames=256,
         player_api_version=1, usb_midi_host=report.get('usb_midi_host', False), firmware_elf_sha256=checked['elf_sha256'],
         files={name: dict(bytes=len(data), sha256=digest(data)) for name, data in files.items()})
+    if rate==16000:value['audio_profile']='voice-pe-16000-256-v1'
     files['firmware.json'] = encoded(value)
     check(files)
     output = io.BytesIO()
@@ -199,29 +215,37 @@ def create(build, board):
     return output.getvalue()
 
 
-def current_bundle(board):
-    if type(board) is not str or board not in CURRENT_BUILDS:
+def current_bundle(identity):
+    if type(identity) is not str or identity not in CURRENT_BUILDS:
         raise ValueError('Choose a current XIAO or AMOLED player')
-    directory = CURRENT_BUILDS[board]
+    board='xiao' if identity=='xiao-16000' else identity
+    directory = CURRENT_BUILDS[identity]
     raw = create(directory, board)
     _, value = unpack(raw)
     if value['usb_midi_host']:
         raise ValueError('Rebuild the normal USB player; experimental USB-host firmware is not a current default')
     built = datetime.fromtimestamp((directory / 'build-report.json').stat().st_mtime, timezone.utc).isoformat()
-    row = dict(id=board, board=board, name=BOARD_NAMES[board], available=True,
+    expected_rate=16000 if identity=='xiao-16000' else 44100
+    if value['sample_rate']!=expected_rate:raise ValueError('Rebuild the current player at the rate named in its firmware choice')
+    features=['USB','Wi-Fi'] + (['Patch-area touch'] if board=='amoled' else [])
+    if 'player_remote' in json.loads((directory/'build-report.json').read_text()).get('components',[]):
+        features += ['OSC params','Web controls']
+    row = dict(id=identity, board=board, name=BOARD_NAMES[board]+(' · 16 kHz / 256' if expected_rate==16000 else ' · 44.1 kHz / 256'), available=True,
                sha256=digest(raw), firmware_elf_sha256=value['firmware_elf_sha256'],
-               built_at=built, features=['USB', 'Wi-Fi'] + (['Patch-area touch'] if board == 'amoled' else []), zip_bytes=len(raw))
+               sample_rate=expected_rate,block_frames=256,built_at=built, features=features,zip_bytes=len(raw))
     return raw, row
 
 
 def current_options():
     rows = []
-    for board in CURRENT_BUILDS:
+    for identity in CURRENT_BUILDS:
+        board='xiao' if identity=='xiao-16000' else identity
         try:
-            _, row = current_bundle(board)
+            _, row = current_bundle(identity)
         except (ValueError, OSError, RuntimeError, KeyError) as error:
             reason = str(error) if isinstance(error, (ValueError, RuntimeError)) else 'Build the current player on this computer first'
-            row = dict(id=board, board=board, name=BOARD_NAMES[board], available=False, reason=reason[:400])
+            rate=16000 if identity=='xiao-16000' else 44100
+            row = dict(id=identity, board=board, name=BOARD_NAMES[board]+(' · 16 kHz / 256' if rate==16000 else ' · 44.1 kHz / 256'),sample_rate=rate,block_frames=256,available=False, reason=reason[:400])
         rows.append(row)
     return rows
 

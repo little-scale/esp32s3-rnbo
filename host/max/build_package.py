@@ -36,6 +36,10 @@ the live embedded patch and compile it. Unsaved edits can be included.
 
 upload usb / upload wifi loads this helper's last successful build.
 build_upload usb / build_upload wifi builds and then loads on success.
+For XIAO native 16 kHz, send profile xiao-16000-256-v1 before building.
+This sets Max's real fixed export to 16000 Hz / 256 and selects XIAO in Studio.
+Use profile esp32s3-44100-256-v1 to return to 44.1 kHz / 256.
+The installed player must already run at the selected rate; this does not flash it.
 An optional USB port or paired Wi-Fi device ID selects one of several boards.
 Wi-Fi must be set up and paired in Studio first. Upload replaces the saved Main
 package; player installation remains a separate Studio operation.

@@ -127,6 +127,18 @@ is subject to the separate player limits.
 
 ## Defaults and scope
 
+For XIAO at native 16 kHz send **`profile xiao-16000-256-v1`** before
+`build` or `build_upload`. This configures Max's real fixed **16000 Hz / 256**
+export and tells Studio to build for XIAO. It works with a matching single-runtime
+or SC/RNBO paired XIAO player. Startup volume retains your current setting
+(50% initially); use `startup_volume` to change it. The example and both help
+patches include a clickable message for this profile.
+
+Studio calls the same selection **XIAO ESP32-S3 · 16 kHz / 256**. The resulting
+package retains the historical shared `voice-pe-16000-256-v1` ABI internally;
+this name does not select Voice PE hardware. Neither selection changes the
+board's installed rate, flashes firmware or resamples an incompatible export.
+
 For Voice PE send `profile voice-pe-16000-256-v1` or
 `profile voice-pe-48000-256-v1` before `build`. The helper configures Max's real
 fixed-rate export and resets startup volume to zero. Use the updated helper
@@ -136,7 +148,7 @@ first install. `profile esp32s3-44100-256-v1` returns to XIAO/AMOLED export rate
 
 Tested with **Max 9.1.4 / RNBO 1.4.4**, using `v8` and the bundled Node for Max.
 The helper needs no npm installation and uses no RNBO internal generator APIs.
-It targets Minimal C++, Copy Library, fixed 44100 Hz / 256 frames and the existing
+It targets Minimal C++, Copy Library, the selected fixed rate / 256 frames and the existing
 Float32 wrapper. Polyphony is **linked to the `rnbo~` object's `@polyphony`**;
 per-voice parameter exposure follows its corresponding attribute. Existing
 player restrictions, including MIDI output and external resources, still apply.

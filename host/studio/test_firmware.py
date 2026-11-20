@@ -14,7 +14,7 @@ import zipfile
 from host.studio import firmware as f
 
 
-def image(board='xiao', elf_hash='a' * 64):
+def image(board='xiao', elf_hash='a' * 64, rate=None):
     header = bytearray(24)
     header[0:2] = bytes([0xe9, 1])
     header[3] = (3 if board == 'xiao' else 4) << 4
@@ -25,6 +25,8 @@ def image(board='xiao', elf_hash='a' * 64):
     project = ('rnbo_s3_' + board).encode()
     data[48:48 + len(project)] = project
     data[144:176] = bytes.fromhex(elf_hash)
+    if rate is not None:
+        marker=f'S3_NATIVE_RATE={rate}u\0'.encode();data[180:180+len(marker)]=marker
     raw = header + struct.pack('<II', 0x3c000020, len(data)) + data
     checksum = 0xef
     for byte in data:
@@ -33,15 +35,17 @@ def image(board='xiao', elf_hash='a' * 64):
     return bytes(raw) + hashlib.sha256(raw).digest()
 
 
-def files(board='xiao', elf_hash='a' * 64, *, full=False):
+def files(board='xiao', elf_hash='a' * 64, *, full=False, rate=44100):
     partition = struct.pack('<HBBII16sI', 0x50aa, 0, 0, 0x10000, 0x300000, b'factory', 0) + b'\xff' * 32
-    value = {'application.bin': image(board, elf_hash), 'partition-table.bin': partition}
+    value = {'application.bin': image(board, elf_hash, rate if rate!=44100 else None), 'partition-table.bin': partition}
     if full:
         value['bootloader.bin'] = image(board, elf_hash)
     value['firmware.json'] = f.encoded(dict(format=f.FORMAT, player=True, board=board,
-        sample_rate=44100, block_frames=256, player_api_version=1, usb_midi_host=False,
+        sample_rate=rate, block_frames=256, player_api_version=1, usb_midi_host=False,
         firmware_elf_sha256=elf_hash,
         files={n:dict(bytes=len(b), sha256=f.digest(b)) for n, b in value.items()}))
+    if rate==16000:
+        meta=json.loads(value['firmware.json']);meta['audio_profile']='voice-pe-16000-256-v1';value['firmware.json']=f.encoded(meta)
     return value
 
 
@@ -81,7 +85,7 @@ class FirmwareTests(unittest.TestCase):
     def test_native16_build_cannot_be_mislabeled_as_generic_44100_firmware(self):
         report=dict(player=True,player_api_version=1,sample_rate=16000)
         with mock.patch('tools.run_hardware_test.artifacts',return_value={'report':report}):
-            with self.assertRaisesRegex(ValueError,'dual-boot'):
+            with self.assertRaisesRegex(ValueError,'explicitly identified'):
                 f.create(Path('/unused-build'),'xiao')
 
     def test_current_build_packages_all_images_and_is_reproducible(self):
@@ -175,3 +179,21 @@ class FirmwareTests(unittest.TestCase):
         md5=b'\xeb\xeb'+b'\xff'*14+hashlib.md5(raw).digest()
         f.partition_info(raw+md5,'xiao')
         with self.assertRaisesRegex(ValueError,'checksum'):f.partition_info(raw+md5[:-1]+b'X','xiao')
+
+
+class Native16FirmwareTests(unittest.TestCase):
+    def test_native16_bundle_requires_matching_marker_and_explicit_profile(self):
+        value=files(rate=16000,full=True)
+        self.assertEqual(f.unpack(zipped(value))[1]['sample_rate'],16000)
+        for change in ({'sample_rate':44100,'audio_profile':'esp32s3-44100-256-v1'}, {'audio_profile':'wrong'}, {'board':'amoled'}):
+            changed=dict(value);meta=json.loads(changed['firmware.json']);meta.update(change);changed['firmware.json']=f.encoded(meta)
+            with self.subTest(change=change),self.assertRaises(ValueError):f.unpack(zipped(changed))
+        changed=files();meta=json.loads(changed['firmware.json']);meta.update(sample_rate=16000,audio_profile='voice-pe-16000-256-v1');changed['firmware.json']=f.encoded(meta)
+        with self.assertRaisesRegex(ValueError,'marker'):f.unpack(zipped(changed))
+
+    def test_native16_catalogue_uses_xiao_board_and_actual_rate(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);(root/'build-report.json').write_text('{"components":["player_remote"]}')
+            with mock.patch.object(f,'CURRENT_BUILDS',{'xiao-16000':root}),mock.patch.object(f,'create',return_value=zipped(files(rate=16000,full=True))) as create:
+                raw,row=f.current_bundle('xiao-16000');create.assert_called_once_with(root,'xiao')
+                self.assertEqual(row['sample_rate'],16000);self.assertEqual(row['board'],'xiao');self.assertIn('OSC params',row['features'])

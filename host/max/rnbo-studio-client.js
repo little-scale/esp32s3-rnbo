@@ -24,12 +24,12 @@ function settings(value) {
   const exposevoiceparams=value.exposevoiceparams ?? false;
   if(typeof exposevoiceparams!=='boolean')throw Error('Voice-parameter setting must be boolean');
   const profile=value.profile??'esp32s3-44100-256-v1';
-  if(!['esp32s3-44100-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'].includes(profile))throw Error('Choose a supported audio profile');
+  if(!['esp32s3-44100-256-v1','xiao-16000-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'].includes(profile))throw Error('Choose a supported audio profile');
   return {requestId, name, visual_patch, initial_volume:volume, arena_bytes:arena, exposevoiceparams,profile};
 }
 
 function exportConfig(directory, profile='esp32s3-44100-256-v1') {
-  const rate={'esp32s3-44100-256-v1':44100,'voice-pe-16000-256-v1':16000,'voice-pe-48000-256-v1':48000}[profile];
+  const rate={'esp32s3-44100-256-v1':44100,'xiao-16000-256-v1':16000,'voice-pe-16000-256-v1':16000,'voice-pe-48000-256-v1':48000}[profile];
   if(!rate)throw Error('Invalid audio profile');
   return {output_path:path.join(directory,'export'), export_name:'rnbo_source', minimal_export:true,
     copy_library:true, copy_dependencies:false, write_binary_file:false, classname:'rnbomatic',
@@ -100,7 +100,8 @@ async function submit(context,port=8788,call=request) {
   const status=await call(port,'/api/status');
   if(typeof status.csrf!=='string'||!status.csrf) throw Error('Studio did not provide a session token');
   const response=await call(port,'/api/build',{name:context.name,visual_patch:context.visual_patch,export_files,
-    initial_volume:context.initial_volume,arena_bytes:context.arena_bytes,profile:context.profile},status.csrf);
+    initial_volume:context.initial_volume,arena_bytes:context.arena_bytes,profile:context.profile,
+    ...(context.profile==='xiao-16000-256-v1'?{board:'xiao'}:{})},status.csrf);
   const job=response.job;
   if(!job||!/^[0-9a-f]{32}$/.test(job.id)) throw Error('Studio did not return a build identity');
   return {job,url:`http://127.0.0.1:${port}/?job=${job.id}`};

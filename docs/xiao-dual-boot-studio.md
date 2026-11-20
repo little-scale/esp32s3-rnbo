@@ -19,13 +19,15 @@ the usual Float32 settings. Match Fixed Sample Rate and Studio Audio profile:
 | Installed pair | Max fixed sample rate | Studio Audio profile | RNBO block budget |
 | --- | --- | --- | --- |
 | 44.1 kHz | `44100` | XIAO + SC dual boot · 44.1 kHz / 256 | 5.805 ms |
-| Native 16 kHz | `16000` | XIAO + SC dual boot · native 16 kHz / 256 | 16 ms |
+| Native 16 kHz | `16000` | XIAO ESP32-S3 · 16 kHz / 256 | 16 ms |
 
 Then compile. This explicitly selects the XIAO backend and retains its normal headless startup
 volume, initially 50%. Set Startup volume before compiling as usual.
 
 For 16 kHz, the internal package ABI is still named `voice-pe-16000-256-v1` for historical
 compatibility. This does not select Voice PE hardware, its controls or XMOS.
+The Max-helper message is `profile xiao-16000-256-v1`; Studio accepts that
+selection name too and resolves it to XIAO plus the existing shared package ABI.
 XIAO uses the existing I²S DAC pins and native 16 kHz PCM5102A configuration.
 RNBO always uses 256-frame callbacks; SynthDef's blocks remain 64 frames
 (4 ms at 16 kHz, about 1.45 ms at 44.1 kHz). The 44.1 kHz package ABI remains
@@ -103,6 +105,6 @@ companion commissioning tools.** See its
 [dual-runtime guide](https://github.com/little-scale/esp32s3-synthdef/blob/main/docs/DUAL_RUNTIME.md#xiao-native-16-khz-pair).
 Studio's new section requires both installed apps to already match the selected
 16 or 44.1 kHz rate and never performs a table migration. Do not use the generic **First install** or
-factory-layout **Update player** paths on a commissioned pair. Generic Studio
-firmware ZIPs remain 44.1 kHz only and reject native-16k builds rather than
-mislabeling them. Use the paired section for this update.
+factory-layout **Update player** paths on a commissioned pair. The regular firmware menu also offers a native-16k XIAO player for ordinary
+single-runtime factory layouts. That choice does not commission or update a
+pair. Use the paired section for an existing SC/RNBO installation.

@@ -6,7 +6,7 @@
       100,
       80,
       850,
-      560
+      630
     ],
     "boxes": [
       {
@@ -1596,6 +1596,45 @@
             24
           ]
         }
+      },
+      {
+        "box": {
+          "id": "xiao-native16",
+          "maxclass": "message",
+          "text": "profile xiao-16000-256-v1",
+          "patching_rect": [
+            30,
+            485,
+            330,
+            24
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "standard-profile",
+          "maxclass": "message",
+          "text": "profile esp32s3-44100-256-v1",
+          "patching_rect": [
+            30,
+            525,
+            330,
+            24
+          ]
+        }
+      },
+      {
+        "box": {
+          "id": "profile-help",
+          "maxclass": "comment",
+          "text": "Choose XIAO 16 kHz before build, or return to 44.1 kHz. Both use 256 frames. The player firmware must run at the matching rate.",
+          "patching_rect": [
+            430,
+            485,
+            350,
+            75
+          ]
+        }
       }
     ],
     "lines": [
@@ -1663,6 +1702,30 @@
         "patchline": {
           "source": [
             "upload-example-3",
+            0
+          ],
+          "destination": [
+            "builder",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "xiao-native16",
+            0
+          ],
+          "destination": [
+            "builder",
+            0
+          ]
+        }
+      },
+      {
+        "patchline": {
+          "source": [
+            "standard-profile",
             0
           ],
           "destination": [

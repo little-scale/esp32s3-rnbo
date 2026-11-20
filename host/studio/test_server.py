@@ -36,6 +36,16 @@ class SettingsTests(unittest.TestCase):
         self.assertEqual(value['class_name'],'rnbomatic')
         self.assertNotIn('numerical_profile',value)
         self.assertEqual(value['title'],'example')
+
+    def test_named_xiao_native16_profile_resolves_board_without_changing_the_package_abi(self):
+        value=s.build_settings(dict(self.valid(),profile='xiao-16000-256-v1'))
+        self.assertEqual((value['board'],value['sample_rate'],value['profile'],value['initial_volume']),
+                         ('xiao',16000,'voice-pe-16000-256-v1',50))
+        for board in ('voice-pe','amoled',None):
+            with self.subTest(board=board),self.assertRaisesRegex(ValueError,'profile'):
+                s.build_settings(dict(self.valid(),profile='xiao-16000-256-v1',board=board))
+        voice=s.build_settings(dict(self.valid(),profile='voice-pe-16000-256-v1'))
+        self.assertEqual((voice['board'],voice['initial_volume']),('voice-pe',0))
     def test_invalid_inputs_cannot_become_tool_arguments(self):
         for key,values in {'patch':[[],{'patcher':None}], 'board':['; echo bad',None], 'voices':[True,3], 'initial_volume':[True,-1,101], 'arena_bytes':[True,4096], 'filter_delay_max_ms':[True,float('nan'),-1,0,1001], 'float32_delays':['yes',1], 'role':['fx',True], 'numerical_profile':['unknown',True], 'name':['',None]}.items():
             for value in values:

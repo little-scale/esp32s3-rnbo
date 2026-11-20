@@ -7,17 +7,18 @@ a patch package. Both firmware paths use the ESP32-S3 ROM bootloader over USB.
 
 ## Choose the current player
 
-Use **Current player firmware** to choose the XIAO ESP32-S3 or Waveshare AMOLED
-1.8 V2 player directly. Both normal options include USB and Wi-Fi; the current
+Use **Current player firmware** to choose **XIAO ESP32-S3 · 16 kHz / 256**,
+**XIAO ESP32-S3 · 44.1 kHz / 256**, or the Waveshare AMOLED
+1.8 V2 player directly. All include USB, Wi-Fi, OSC parameters and web controls; the current
 AMOLED player also includes patch-area touchscreen parameter bindings. Selection
 prepares a checked bundle and displays its build date and firmware identity;
 press the separate **Update player firmware** or **Erase & install player** button to flash it.
 
 “Current” means the normal `player-v1` build matching the sources in this local
 checkout, rather than a downloaded GitHub release. **Refresh** rechecks the
-fixed two board builds. Missing, changed or stale builds appear as **build
+three board/rate builds. Missing, changed or stale builds appear as **build
 required**, with a reason. You can use **Build player from source** to build and
-flash in one step. Experimental USB-host firmware is not a default option. **Open firmware ZIP** remains
+flash the default 44.1 kHz player in one step. Experimental USB-host firmware is not a default option. **Open firmware ZIP** remains
 available for supplied files.
 
 Listing and selection do not compile, connect to or flash a board. Selection
@@ -25,6 +26,14 @@ checks the displayed bundle's hash again and asks you to refresh if it changed.
 Refreshing to a different build clears any earlier current selection and erase
 acknowledgement. The existing USB identity, backup and readback checks still
 apply when you explicitly start installation.
+
+For an ordinary single-runtime XIAO already running RNBO, select **Update player →
+Current player firmware → XIAO ESP32-S3 · 16 kHz / 256**. Then click
+**Update player firmware**. This preserves the factory partition layout, Wi-Fi
+settings and stored files. Load a matching 16 kHz package afterwards; an old
+44.1 kHz package cannot run at the new rate. Selecting a patch audio profile alone
+does not flash firmware. For a commissioned SC/RNBO pair, use **SC / RNBO →
+Update RNBO slot** instead; the ordinary updater rejects paired layouts.
 
 ## First install or a unit running another project
 

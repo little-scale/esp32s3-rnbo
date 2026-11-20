@@ -38,6 +38,9 @@ is also available for PCM5102A. Both SynthDef and RNBO passed clean listening
 on XIAO-3eeb84 at 44.1 and 16 kHz, at 20% volume. The separate two-app pairing
 tools preserve settings/storage and block automatic routing during mixed-rate
 updates. Standard XIAO/AMOLED builds remain 44.1 kHz.
+Use `profile xiao-16000-256-v1` in the Max helper, or choose **XIAO ESP32-S3 ·
+16 kHz / 256** in Studio, to build matching native-16k packages. Reload an
+already open Max helper after updating its scripts.
 Studio's **SC / RNBO** section now supports existing XIAO pairs at both
 **44.1 kHz / 256** and **16 kHz / 256**, including inspection, switching, guarded
 RNBO updates and Main loading. See the [paired Studio guide](docs/xiao-dual-boot-studio.md).

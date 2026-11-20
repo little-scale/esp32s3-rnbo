@@ -196,7 +196,7 @@ function startup_volume(value) {
 }
 function profile(value) {
     if(current){status('error','Wait for the current build/upload');return;}
-    if(['esp32s3-44100-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'].indexOf(String(value))<0){status('error','Choose a supported explicit audio profile');return;}
+    if(['esp32s3-44100-256-v1','xiao-16000-256-v1','voice-pe-16000-256-v1','voice-pe-48000-256-v1'].indexOf(String(value))<0){status('error','Choose a supported explicit audio profile');return;}
     audioProfile=String(value);lastBuildReady=false;
     if(audioProfile.indexOf('voice-pe-')===0)initialVolume=0;
     status('profile',audioProfile);

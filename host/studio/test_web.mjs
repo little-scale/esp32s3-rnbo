@@ -148,7 +148,8 @@ async function openStudio({parameters = [], environment = {}, paired = [], linke
       : {firmware:{id:'f'.repeat(32),name:body.name,board:'xiao',application_bytes:123456,firmware_elf_sha256:'a'.repeat(64),usb_midi_host:false,first_install_available:backend.firmwareFull}};
     else if (path === '/api/firmware/options') data={firmwares:backend.firmwareOptions};
     else if (path === '/api/firmware/select') data=backend.firmwareSelectError ? {error:backend.firmwareSelectError}
-      : {firmware:{id:'e'.repeat(32),name:body.id+'-current-player.zip',board:body.id,application_bytes:123456,
+      : {firmware:{id:'e'.repeat(32),name:body.id+'-current-player.zip',board:backend.firmwareOptions.find(row=>row.id===body.id)?.board,
+          sample_rate:backend.firmwareOptions.find(row=>row.id===body.id)?.sample_rate ?? 44100,application_bytes:123456,
           firmware_elf_sha256:backend.firmwareOptions.find(row=>row.id===body.id)?.firmware_elf_sha256,usb_midi_host:false,first_install_available:true}};
     else if (path === '/api/firmware/upload') data = {job:{id:'firmware1',state:backend.firmwareUploadError?'failed':'done',
       stage:'Firmware verified',error:backend.firmwareUploadError,result:{kind:'player',board:'xiao'}}};
@@ -898,12 +899,12 @@ test('remote page link uses only a capable player current IPv4 destination and c
 
 test('XIAO native16 selection sends the shared ABI with explicit XIAO board and keeps 50 percent startup',async()=>{
   const app=await openStudio();await app.readyArtifact();
-  app.get('audio-profile').value='xiao-16000';await app.get('audio-profile').fire('change');
+  app.get('audio-profile').value='xiao-16000-256-v1';await app.get('audio-profile').fire('change');
   assert.equal(app.get('upload').disabled,true);assert.equal(app.get('initial-volume').value,'50');
   assert.match(app.get('profile-help').textContent,/No XMOS/);
   await app.get('compile').fire('click');
   const body=app.calls.filter(c=>c.path==='/api/build').at(-1).body;
-  assert.equal(body.profile,'voice-pe-16000-256-v1');assert.equal(body.board,'xiao');assert.equal(body.initial_volume,50);
+  assert.equal(body.profile,'xiao-16000-256-v1');assert.equal(body.board,'xiao');assert.equal(body.initial_volume,50);
 });
 
 test('paired workflow requires explicit inspection and uses only paired endpoints',async()=>{
@@ -950,4 +951,19 @@ test('XIAO 44.1k dual profile sends 44100 ABI and paired inspection selects the 
   await app.get('dual-upload').fire('click');
   assert.equal(app.calls.find(c=>c.path==='/api/dual/action').body.rate,44100);
   assert.match(app.get('dual-status').textContent,/44,100/);
+});
+
+
+test('native16 firmware choice stages XIAO at its actual rate without flashing',async()=>{
+  const app=await openStudio();
+  app.backend.firmwareOptions.push({id:'xiao-16000',board:'xiao',name:'XIAO ESP32-S3 · 16 kHz / 256',sample_rate:16000,available:true,sha256:'c'.repeat(64),firmware_elf_sha256:'d'.repeat(64),features:['USB','Wi-Fi','OSC params']});
+  await app.get('task-update').fire('click');
+  await app.get('refresh-firmware').fire('click');
+  app.get('firmware-choice').value='xiao-16000';await app.get('firmware-choice').fire('change');
+  assert.match(app.get('firmware-status').textContent,/XIAO.*16 kHz.*OSC params/s);
+  assert.equal(app.get('flash-firmware').disabled,false);
+  assert.equal(app.calls.some(c=>c.path==='/api/firmware/upload'),false);
+  app.backend.firmwareOptions[2].sample_rate=44100;
+  await app.get('refresh-firmware').fire('click');
+  assert.match(app.get('firmware-catalogue-status').textContent,/not accepted/);
 });

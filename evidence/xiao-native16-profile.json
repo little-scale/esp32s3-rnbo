@@ -1,0 +1,121 @@
+{
+  "format": "rnbo-xiao-native16-profile-v1",
+  "date": "2026-11-20",
+  "base_commit": "542f397",
+  "selection_profile": "xiao-16000-256-v1",
+  "studio_label": "XIAO ESP32-S3 \u00b7 16 kHz / 256",
+  "deployment_board": "xiao",
+  "package_abi_profile": "voice-pe-16000-256-v1",
+  "sample_rate": 16000,
+  "block_frames": 256,
+  "wire_abi_changed": false,
+  "firmware_changed": false,
+  "hardware_uploaded": false,
+  "tests": [
+    {
+      "suite": "studio",
+      "tests": 167,
+      "result": "pass",
+      "log_sha256": "94fd5b3f7ef009a3e5f6987ecf94d0a4a93aeea4349ac1328af9061eae4ea944"
+    },
+    {
+      "suite": "max_and_studio_js",
+      "tests": 66,
+      "result": "pass",
+      "log_sha256": "3427730f92613383627baf967518de4fb56490f1a9c2f436da00ff5ddd320782"
+    },
+    {
+      "suite": "max_bundle",
+      "tests": 2,
+      "result": "pass",
+      "log_sha256": "fefd166249373c22bb2d282e0ce97b29629bb483ebf37ff0769f08b9370f8b7d"
+    }
+  ],
+  "integration": {
+    "selection_profile": "xiao-16000-256-v1",
+    "board": "xiao",
+    "package_profile": "voice-pe-16000-256-v1",
+    "sample_rate": 16000,
+    "block_frames": 256,
+    "package_sha256": "90ded5e9bda078503e60e757b74ccbb678f937dac8bd49d2b0e8b22ad9264b5d",
+    "package_bytes": 47606,
+    "uploaded": false,
+    "scope": "Actual Node-for-Max submission through Studio using a previously genuine Max 16 kHz export; exporter settings checked separately; no live Max export or hardware upload in this check."
+  },
+  "export_settings": {
+    "export_name": "rnbo_source",
+    "minimal_export": true,
+    "copy_library": true,
+    "copy_dependencies": false,
+    "write_binary_file": false,
+    "classname": "rnbomatic",
+    "fixedblocksize": 256,
+    "fixedsamplerate": 16000,
+    "polyphony": "linked",
+    "exposevoiceparams": false,
+    "openexportdirectory": false,
+    "postexportcommand": "",
+    "license": true,
+    "presets": false,
+    "staterestore": false,
+    "probing": false,
+    "uimessages": false,
+    "language": 0,
+    "debugbuild": false,
+    "midi": true
+  },
+  "sources_sha256": {
+    "host/deployment_profiles.py": "505b40d7032059be77c250d5eadf247d87e585a32efd60eaeefd8ce237ac1702",
+    "host/max/rnbo-studio.js": "aed17a95a0d01030dee407c395d71e33d4abf17413266d577a68ff3622ac650e",
+    "host/max/rnbo-studio-client.js": "a9569242c87f8e4b0e2d8b19a5d6f6b2c1bc104abbc192f6b04a61c9141e2e46",
+    "host/max/embedded-sine.maxpat": "e862558f73c62c8af75649499688933796d043629720f164bda6da0d7d4e6ab5",
+    "host/studio/server.py": "e6e5e3c8bf3660718ec332d03755a154a761b398c0dbce3a5899419cb2273aef",
+    "host/studio/web/app.js": "09fdda24f3ad360ccc19678dc01c5cc89851235c0c43ae647f6f29da0faf0fe9",
+    "host/studio/web/index.html": "6fac6907f33b5c9dd127340a9175b78dd032bebdd635da60f6a44a1edc337145",
+    "host/studio/firmware.py": "84dd93ff6565ebe9b2156c52b43c8d8823921621f349900f8858019775f6cd96",
+    "host/studio/device.py": "bc3d1523c9c59adec2147b6935aaeea5303bf9e8616903182b6f8d2ec13166e1"
+  },
+  "max_library": {
+    "updated": true,
+    "location": "~/Documents/Max 9/Library/esp32s3-rnbo",
+    "backup": "build/private/max-library-backups/xiao-native16-20261120-57bbe800",
+    "files_sha256": {
+      "rnbo-studio.js": "aed17a95a0d01030dee407c395d71e33d4abf17413266d577a68ff3622ac650e",
+      "rnbo-studio-client.js": "a9569242c87f8e4b0e2d8b19a5d6f6b2c1bc104abbc192f6b04a61c9141e2e46",
+      "embedded-sine.maxpat": "e862558f73c62c8af75649499688933796d043629720f164bda6da0d7d4e6ab5",
+      "rnbo.studio.maxhelp": "279a726f0b93d4c17591fd64161b7e3dbba0edea27962177c30a2db8b8ed8fa1",
+      "rnbo.instrument.maxhelp": "ca4080528f8969d58e94b6656b96f1726ce8e67a9ff8b2cd1f5f86f11f2b17c9",
+      "readme.md": "8552d6e5cdbccfb7537a11946aa5a62eb846814c05a6e47601d27ab56620f931"
+    },
+    "running_instances_need_reopen": true
+  },
+  "max_zip": {
+    "path": "build/dist/esp32s3-rnbo-max.zip",
+    "sha256": "aed8b3e686f57699f6b4035aff67d2c497a090c365c07ad16d10f28818a4b80c",
+    "bytes": 31120
+  },
+  "browser": {
+    "preview": "evidence/xiao-native16-profile.jpg",
+    "sha256": "5ec29deeca66b16168b4f37c1512907a09ed82296745cbe3b68e1ab40a5f2923",
+    "selected_profile_verified": true,
+    "firmware_preview": "evidence/xiao-native16-firmware.jpg",
+    "firmware_preview_sha256": "7e54c0e9aaaedeb1f1f4b440971e4ed2b772010c023e6091a565f45511eb55cb"
+  },
+  "limits": [
+    "Matching 16 kHz player is required; available under Update player, but not flashed during this check",
+    "Max exporter configuration and V8 behavior are checked; the end-to-end Node/Studio build uses an existing genuine Max 16 kHz export, without a new live Max export or device upload"
+  ],
+  "firmware_catalogue": {
+    "id": "xiao-16000",
+    "board": "xiao",
+    "sample_rate": 16000,
+    "block_frames": 256,
+    "bundle_path": "build/dist/xiao-native16-player-firmware.zip",
+    "bundle_sha256": "f5abdd62fa0aa5873e273765fea8464184f81961f5aec3186296dd508d1dba94",
+    "actual_native_rate_marker_checked": true,
+    "selected_in_browser": true,
+    "flashed": false,
+    "simulated_installation_rate_verified": true,
+    "paired_layout_guards_retained": true
+  }
+}

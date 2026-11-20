@@ -36,6 +36,11 @@ class PackageTests(unittest.TestCase):
                                  'rnbo.instrument.maxpat')
                 help_patch = json.loads(archive.read(prefix + 'help/rnbo.studio.maxhelp'))
                 source = json.loads(archive.read(prefix + 'patchers/embedded-sine.maxpat'))
+                for kind in ('patchers/embedded-sine.maxpat','help/rnbo.studio.maxhelp','help/rnbo.instrument.maxhelp'):
+                    patch=json.loads(archive.read(prefix+kind))['patcher']
+                    box=next(row['box'] for row in patch['boxes'] if row['box']['id']=='xiao-native16')
+                    self.assertEqual(box['text'],'profile xiao-16000-256-v1')
+                    self.assertTrue(any(row['patchline']['source']==['xiao-native16',0] and row['patchline']['destination']==['builder',0] for row in patch['lines']))
                 graph = lambda doc: next(b['box']['patcher'] for b in doc['patcher']['boxes'] if b['box']['id'] == 'rnbo')
                 self.assertEqual(graph(help_patch), graph(source))
 

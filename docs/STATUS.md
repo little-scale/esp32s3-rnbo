@@ -1,5 +1,15 @@
 # Implementation status — native export migration
 
+**20 November 2026 — explicit XIAO 16 kHz selection:** Max accepts
+`profile xiao-16000-256-v1`, and Studio offers **XIAO ESP32-S3 · 16 kHz / 256**.
+The Max export uses the genuine fixed 16000 Hz rate, submits XIAO explicitly and
+retains the existing shared package ABI. Examples/help and the installed Library
+helper are updated. The regular firmware menu now also offers a checked native-16k XIAO player for
+single-runtime factory layouts. Selecting the patch profile does not install it;
+use **Update player** separately. Existing SC/RNBO pairs retain their guarded
+slot updater. No hardware flash was performed for this change.
+See the [profile verification record](../evidence/xiao-native16-profile.json).
+
 **17 November 2026 — XIAO dual boot in Studio:** Explicit XIAO
 44.1 and 16 kHz / 256-frame build selections and **SC / RNBO** Instrument section now expose live
 inspection, guarded runtime selection, RNBO-only slot updates and validated

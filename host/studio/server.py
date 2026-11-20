@@ -28,7 +28,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from host.compiler import package as player_package
 from host import native_export
-from host.profiles import LEGACY, checked as checked_profile
+from host.profiles import LEGACY
+from host.deployment_profiles import resolve as deployment_profile
 from host.studio import firmware
 from host.visual.layout import compile_layout
 from host.studio.trial import BLOCKS as TRIAL_BLOCKS, compare_audio as compare_trial_audio, device_check as trial_device_check
@@ -104,11 +105,8 @@ def build_settings(data):
         raise ValueError('Choose a short export name')
     name = name.replace('\\', '/').rsplit('/', 1)[-1]
     title = re.sub(r'\.zip$', '', name, flags=re.I).strip()[:64] or 'RNBO Patch'
-    board = data.get('board', 'xiao')
-    profile=checked_profile(data.get('profile',LEGACY))
-    if profile['sample_rate']!=44100 and 'board' not in data:
-        board='voice-pe'
-    checked_profile(profile['id'],board)
+    profile=deployment_profile(data.get('profile',LEGACY), **({'board':data['board']} if 'board' in data else {}))
+    board=profile['board']
     role = data.get('role', 'main')
     volume = data.get('initial_volume', 0 if board=='voice-pe' else 50)
     arena = data.get('arena_bytes', 1048576)
@@ -626,6 +624,7 @@ class Studio:
                 checked = firmware.stage(raw, directory)
                 value = checked['report']
                 public = dict(id=identity, name=Path(name.replace('\\', '/')).name, board=value['board'],
+                    sample_rate=value['sample_rate'],block_frames=value['block_frames'],
                     application_bytes=value['files']['application.bin']['bytes'],
                     firmware_elf_sha256=value['firmware_elf_sha256'], usb_midi_host=value['usb_midi_host'],
                     first_install_available=checked['bootloader'] is not None)

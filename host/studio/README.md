@@ -1,5 +1,10 @@
 # RNBO ESP32 Studio
 
+Select **XIAO ESP32-S3 · 16 kHz / 256** for native-16k XIAO patch builds.
+The equivalent Max-helper message is `profile xiao-16000-256-v1`.
+Both select XIAO explicitly and require a genuine 16000 Hz export and matching
+player firmware; the choice also works outside dual boot.
+
 For an existing 44.1k or native-16k XIAO SC/RNBO pair, choose **XIAO + SC dual boot** in
 Audio profile and **SC / RNBO** in the Instrument column. That section inspects,
 switches, updates the RNBO slot and loads a matching Main through the companion's
@@ -82,3 +87,5 @@ Studio shows **Open board parameter page** and the OSC destination. This works
 alongside Studio's existing authenticated TCP session; the page is not hosted by
 the computer. Controls are trusted-LAN parameter access, not authenticated package
 uploads. See [OSC/web controls and hardware follow-up](../../docs/osc-parameters.md).
+
+For a single-runtime XIAO, install the matching player using **Update player → Current player firmware → XIAO ESP32-S3 · 16 kHz / 256**. The patch profile alone does not change firmware. See [firmware selection](../../docs/firmware-uploader.md). Existing SC/RNBO pairs must use the paired updater.

@@ -115,6 +115,31 @@ test('Voice PE helper asks Max for genuine fixed-rate exports',()=>{
   assert.throws(()=>client.exportConfig('/tmp/voice','unknown'),/profile/);
 });
 
+test('named XIAO native16 profile configures genuine 16k/256 export and retains the headless volume',()=>{
+  const {context:c,sent}=runtime();c.node_ready();c.profile('xiao-16000-256-v1');c.build();
+  const req=JSON.parse(sent.find(x=>x[1]==='prepare')[2]);
+  assert.equal(req.profile,'xiao-16000-256-v1');assert.equal(req.initial_volume,50);
+  assert.equal(client.settings(req).profile,'xiao-16000-256-v1');
+  const config=client.exportConfig('/tmp/xiao',req.profile);
+  assert.equal(config.fixedsamplerate,16000);assert.equal(config.fixedblocksize,256);
+  assert.equal(config.minimal_export,true);assert.equal(config.copy_library,true);
+});
+
+test('XIAO native16 submission pins XIAO rather than falling back to Voice PE',async()=>{
+  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'rnbo-xiao-profile-'));
+  try{
+    const context=await client.prepare({requestId:'xiao16',name:'XIAO test',visual_patch:null,profile:'xiao-16000-256-v1'},temp);
+    await fs.mkdir(path.join(context.config.output_path,'common'),{recursive:true});
+    for(const f of ['rnbo_source.h','description.json','common/RNBO_Version.h'])await fs.writeFile(path.join(context.config.output_path,f),'fixture');
+    let body;
+    await client.submit(context,8788,async(port,url,data)=>{
+      if(url==='/api/status')return{csrf:'test-only'};
+      body=data;return{job:{id:'a'.repeat(32),state:'queued'}};
+    });
+    assert.equal(body.profile,'xiao-16000-256-v1');assert.equal(body.board,'xiao');assert.equal(body.initial_volume,50);
+  }finally{await fs.rm(temp,{recursive:true,force:true});}
+});
+
 test('Node does not release a pending export when a duplicate prepare arrives',async()=>{
   const handlers=new Map(),sent=[];client.attach({addHandler:(n,f)=>handlers.set(n,f),outlet:(...args)=>sent.push(args)});
   const value={requestId:'first',name:'Live',visual_patch:{patcher:{boxes:[],lines:[]}}};

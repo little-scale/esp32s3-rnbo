@@ -129,6 +129,25 @@ class FirmwareBridgeTests(unittest.TestCase):
         self.assertTrue(receipt['readback_verified'] and receipt['connected_identity_verified'])
         self.assertEqual(Path(receipt['backup']['path']).stat().st_size,0x300000)
 
+    def stage_native16(self):
+        value=files(elf_hash=self.fixture.elf_hash,rate=16000)
+        value['partition-table.bin']=self.fixture.table
+        meta=json.loads(value['firmware.json']);meta['files']['partition-table.bin']=dict(bytes=len(self.fixture.table),sha256=f.digest(self.fixture.table))
+        value['firmware.json']=f.encoded(meta)
+        self.directory=self.fixture.root/'build/native16-bundle'
+        self.checked=f.stage(zipped(value),self.directory)
+
+    def test_native16_update_verifies_rate_and_preserves_factory_layout(self):
+        self.stage_native16();self.fixture.device.rate=16000
+        result=self.flash()
+        self.assertEqual(result['device']['rate'],16000)
+        self.assertEqual(self.fixture.receipt()['application_write_offset'],0x10000)
+        self.assertNotIn('erase_flash',self.fixture.operations())
+
+    def test_native16_update_does_not_report_wrong_running_rate_as_success(self):
+        self.stage_native16()
+        with self.assertRaisesRegex(RuntimeError,'sample rate'):self.flash()
+
     def test_manifest_changed_after_selection_prevents_all_rom_access(self):
         path=self.directory/'firmware.json';path.chmod(0o600);path.write_bytes(path.read_bytes()+b'\n')
         with self.assertRaisesRegex(RuntimeError,'changed'):self.flash()

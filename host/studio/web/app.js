@@ -512,9 +512,11 @@
     if (!item || !/^[0-9a-f]{32}$/.test(item.id) || !Object.hasOwn(boards,item.board)
         || !/^[0-9a-f]{64}$/.test(item.firmware_elf_sha256)) throw new Error('The firmware file was not accepted.');
     state.firmware = item;
+    const rate = item.sample_rate ?? 44100;
+    if (![16000,44100].includes(rate) || rate===16000 && item.board!=='xiao') throw new Error('Unsupported firmware sample rate.');
     const details = current ? ` · build ${item.firmware_elf_sha256.slice(0,12)}` : ` · ${item.name}`;
     const features = current && Array.isArray(current.features) ? current.features.join(' + ') : 'USB + Wi-Fi';
-    $('firmware-status').textContent = `${boards[item.board]}${details}\n${item.first_install_available ? 'Full installer' : 'Update only'}${current ? ' · '+features : ''}${item.usb_midi_host ? ' · experimental USB MIDI host' : ''}`;
+    $('firmware-status').textContent = `${boards[item.board]} · ${rate===16000 ? '16' : '44.1'} kHz / 256${details}\n${item.first_install_available ? 'Full installer' : 'Update only'}${current ? ' · '+features : ''}${item.usb_midi_host ? ' · experimental USB MIDI host' : ''}`;
     const built = new Date(current?.built_at);
     $('firmware-status').title = `${item.name} · ${bytes(item.application_bytes)}${Number.isFinite(built.getTime()) ? ' · built '+built.toLocaleString() : ''}`;
   }
@@ -525,8 +527,9 @@
     try {
       const response = await api('/api/firmware/options');
       const rows = response.firmwares;
-      if (!Array.isArray(rows) || rows.length > 2 || new Set(rows.map(row=>row.id)).size !== rows.length
-          || rows.some(row=>!Object.hasOwn(boards,row.id) || row.board!==row.id || typeof row.available!=='boolean'
+      if (!Array.isArray(rows) || rows.length > 3 || new Set(rows.map(row=>row.id)).size !== rows.length
+          || rows.some(row=>!['xiao','amoled','xiao-16000'].includes(row.id) || row.board!==(row.id==='xiao-16000' ? 'xiao' : row.id)
+            || (row.sample_rate ?? 44100)!==(row.id==='xiao-16000' ? 16000 : 44100) || typeof row.available!=='boolean'
             || row.available && (!/^[0-9a-f]{64}$/.test(row.sha256) || !/^[0-9a-f]{64}$/.test(row.firmware_elf_sha256))))
         throw new Error('The current firmware list was not accepted.');
       state.firmwareOptions = rows;
@@ -534,15 +537,15 @@
         state.firmware = null; state.currentFirmware = null; $('firmware-erase').checked = false;
         $('firmware-status').textContent = 'Current firmware changed or needs rebuilding. Choose it again from the refreshed list.';
       }
-      const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Choose board model…';
+      const placeholder = document.createElement('option'); placeholder.value = ''; placeholder.textContent = 'Choose board model and sample rate…';
       $('firmware-choice').replaceChildren(placeholder, ...rows.map(row=>{
         const option = document.createElement('option'); option.value = row.id; option.disabled = !row.available;
-        option.textContent = boards[row.board] + (row.available ? '' : ' · build required');
+        option.textContent = (row.name || `${boards[row.board]} · ${row.sample_rate===16000 ? '16' : '44.1'} kHz / 256`) + (row.available ? '' : ' · build required');
         return option;
       }));
       $('firmware-choice').value = state.currentFirmware?.id || '';
       $('firmware-catalogue-status').textContent = [
-        rows.some(row=>row.available) ? 'Choose the exact board model or open a firmware ZIP.'
+        rows.some(row=>row.available) ? 'Choose the exact board model and sample rate, or open a firmware ZIP.'
           : 'No current player build is ready. Open a firmware ZIP or use Build player from source.',
         ...rows.filter(row=>!row.available).map(row=>`${boards[row.board]}: ${String(row.reason || 'Build required').slice(0,400)}`)
       ].join('\n');
@@ -562,7 +565,8 @@
       state.operation = 'firmware-open'; updateButtons(); message();
       $('firmware-status').textContent = 'Preparing the selected current firmware…';
       const response = await api('/api/firmware/select', {id:row.id,sha256:row.sha256});
-      if (response.firmware?.board!==row.board || response.firmware?.firmware_elf_sha256!==row.firmware_elf_sha256)
+      if (response.firmware?.board!==row.board || response.firmware?.firmware_elf_sha256!==row.firmware_elf_sha256
+          || (response.firmware?.sample_rate ?? 44100)!==(row.sample_rate ?? 44100))
         throw new Error('Selected firmware identity changed. Refresh the firmware list and choose it again.');
       showFirmware(response.firmware, row);
       state.currentFirmware = {id:row.id,sha256:row.sha256};
@@ -606,7 +610,7 @@
 
   function buildOptions() {
     return {...state.exportPayload, name:state.name, visual_patch:state.patch, role:'main',
-      ...($('audio-profile').value.startsWith('xiao-') ? {profile:$('audio-profile').value==='xiao-16000'?'voice-pe-16000-256-v1':'esp32s3-44100-256-v1',board:'xiao'}
+      ...($('audio-profile').value.startsWith('xiao-') ? {profile:$('audio-profile').value==='xiao-16000-256-v1'?'xiao-16000-256-v1':'esp32s3-44100-256-v1',board:'xiao'}
         : {profile:$('audio-profile').value || 'esp32s3-44100-256-v1'}),
       initial_volume:Number($('initial-volume').value), arena_bytes:Number($('arena').value) * 1048576};
   }
@@ -1132,7 +1136,7 @@
   }
   $('compile').addEventListener('click', compile);
   $('audio-profile').addEventListener('change',()=>{
-    $('profile-help').textContent = $('audio-profile').value === 'xiao-16000'
+    $('profile-help').textContent = $('audio-profile').value === 'xiao-16000-256-v1'
       ? 'XIAO uses its own I²S DAC at native 16 kHz / 256 frames (16 ms per block). No XMOS step. Export at exactly 16 kHz in Max; selecting this does not change installed firmware.'
       : $('audio-profile').value === 'xiao-44100' ? 'XIAO SC/RNBO pair at 44.1 kHz. Export at exactly 44100 Hz / 256 frames (5.80 ms per block). Selecting this does not change installed firmware.'
       : 'Voice PE needs matching XMOS clocks and its protected installer. Selecting a profile does not change the board or convert a mismatched export.';
@@ -1194,7 +1198,7 @@
       if (!state.dualInspection) {
         const artifactRate=state.artifact?.revision===state.revision ? state.artifact.result.sample_rate : null;
         $('dual-rate').value=String([16000,44100].includes(artifactRate) ? artifactRate
-          : $('audio-profile').value==='xiao-16000' ? 16000 : 44100);
+          : $('audio-profile').value==='xiao-16000-256-v1' ? 16000 : 44100);
       }
       refreshDualBuild();
     }
